@@ -329,7 +329,7 @@ class GoogleAdsMutator:
         campaign_id: int,
         new_budget_daily: float,
         current_budget_daily: float = None,
-        validate_only: bool = True,
+        validate_only: bool = False,
     ) -> dict:
         """
         Update a campaign's daily budget.
@@ -338,15 +338,18 @@ class GoogleAdsMutator:
             campaign_id: The campaign ID
             new_budget_daily: New daily budget in dollars (e.g., 500.0)
             current_budget_daily: Current budget for guardrail check (auto-fetched if None)
-            validate_only: If True, validates but doesn't apply
+            validate_only: If True, logs but doesn't apply (dry run)
         """
         # Fetch current budget if not provided
         if current_budget_daily is None:
-            campaigns = self.get_campaign_performance(days=7)
-            match = [c for c in campaigns if c["id"] == campaign_id]
-            if not match:
-                raise ValueError(f"Campaign {campaign_id} not found or not enabled")
-            current_budget_daily = match[0]["budget_daily"]
+            ga_service = self.client.get_service("GoogleAdsService")
+            q = f"""
+                SELECT campaign.id, campaign_budget.amount_micros
+                FROM campaign WHERE campaign.id = {campaign_id}
+            """
+            for row in ga_service.search(customer_id=self.customer_id, query=q):
+                current_budget_daily = row.campaign_budget.amount_micros / 1_000_000
+                break
 
         # Guardrail: 30% max change
         check_change_limit(current_budget_daily, new_budget_daily, "campaign_budget")
@@ -369,17 +372,6 @@ class GoogleAdsMutator:
         if not budget_resource:
             raise ValueError(f"Budget resource not found for campaign {campaign_id}")
 
-        # Build mutation
-        budget_service = self.client.get_service("CampaignBudgetService")
-        budget_operation = self.client.get_type("CampaignBudgetOperation")
-        budget = budget_operation.update
-        budget.resource_name = budget_resource
-        budget.amount_micros = new_budget_micros
-
-        field_mask = self.client.get_type("FieldMask")
-        field_mask.paths.append("amount_micros")
-        budget_operation.update_mask.CopyFrom(field_mask)
-
         details = {
             "campaign_id": campaign_id,
             "budget_resource": budget_resource,
@@ -390,17 +382,27 @@ class GoogleAdsMutator:
 
         self._log_change("update_campaign_budget", details, validate_only)
 
+        if validate_only:
+            return {"success": True, "validate_only": True, "details": details}
+
+        # Build and execute mutation
+        budget_service = self.client.get_service("CampaignBudgetService")
+        budget_operation = self.client.get_type("CampaignBudgetOperation")
+        budget = budget_operation.update
+        budget.resource_name = budget_resource
+        budget.amount_micros = new_budget_micros
+        budget_operation.update_mask.paths.append("amount_micros")
+
         response = budget_service.mutate_campaign_budgets(
             customer_id=self.customer_id,
             operations=[budget_operation],
-            validate_only=validate_only,
         )
 
         return {
             "success": True,
-            "validate_only": validate_only,
+            "validate_only": False,
             "details": details,
-            "response": str(response) if not validate_only else "validated",
+            "response": str(response),
         }
 
     def pause_keyword(
@@ -408,10 +410,19 @@ class GoogleAdsMutator:
         ad_group_id: int,
         criterion_id: int,
         keyword_text: str = "",
-        validate_only: bool = True,
+        validate_only: bool = False,
     ) -> dict:
         """Pause a keyword in an ad group."""
-        check_peak_season("keyword_pause")  # This is allowed during peak, just logging
+        details = {
+            "ad_group_id": ad_group_id,
+            "criterion_id": criterion_id,
+            "keyword": keyword_text,
+            "action": "PAUSE",
+        }
+        self._log_change("pause_keyword", details, validate_only)
+
+        if validate_only:
+            return {"success": True, "validate_only": True, "details": details}
 
         resource_name = self.client.get_service("AdGroupCriterionService").ad_group_criterion_path(
             self.customer_id, ad_group_id, criterion_id
@@ -421,36 +432,35 @@ class GoogleAdsMutator:
         criterion = operation.update
         criterion.resource_name = resource_name
         criterion.status = self.client.enums.AdGroupCriterionStatusEnum.PAUSED
-
-        field_mask = self.client.get_type("FieldMask")
-        field_mask.paths.append("status")
-        operation.update_mask.CopyFrom(field_mask)
-
-        details = {
-            "ad_group_id": ad_group_id,
-            "criterion_id": criterion_id,
-            "keyword": keyword_text,
-            "action": "PAUSE",
-        }
-        self._log_change("pause_keyword", details, validate_only)
+        operation.update_mask.paths.append("status")
 
         service = self.client.get_service("AdGroupCriterionService")
-        response = service.mutate_ad_group_criteria(
+        service.mutate_ad_group_criteria(
             customer_id=self.customer_id,
             operations=[operation],
-            validate_only=validate_only,
         )
 
-        return {"success": True, "validate_only": validate_only, "details": details}
+        return {"success": True, "validate_only": False, "details": details}
 
     def add_negative_keyword_to_campaign(
         self,
         campaign_id: int,
         keyword_text: str,
         match_type: str = "EXACT",
-        validate_only: bool = True,
+        validate_only: bool = False,
     ) -> dict:
         """Add a negative keyword to a specific campaign."""
+        details = {
+            "campaign_id": campaign_id,
+            "keyword": keyword_text,
+            "match_type": match_type,
+            "action": "ADD_NEGATIVE",
+        }
+        self._log_change("add_negative_keyword_campaign", details, validate_only)
+
+        if validate_only:
+            return {"success": True, "validate_only": True, "details": details}
+
         service = self.client.get_service("CampaignCriterionService")
         operation = self.client.get_type("CampaignCriterionOperation")
 
@@ -464,21 +474,12 @@ class GoogleAdsMutator:
             self.client.enums.KeywordMatchTypeEnum, match_type
         )
 
-        details = {
-            "campaign_id": campaign_id,
-            "keyword": keyword_text,
-            "match_type": match_type,
-            "action": "ADD_NEGATIVE",
-        }
-        self._log_change("add_negative_keyword_campaign", details, validate_only)
-
-        response = service.mutate_campaign_criteria(
+        service.mutate_campaign_criteria(
             customer_id=self.customer_id,
             operations=[operation],
-            validate_only=validate_only,
         )
 
-        return {"success": True, "validate_only": validate_only, "details": details}
+        return {"success": True, "validate_only": False, "details": details}
 
     def add_negative_keyword_account_level(
         self,
@@ -486,30 +487,57 @@ class GoogleAdsMutator:
         match_type: str = "EXACT",
         validate_only: bool = True,
     ) -> dict:
-        """Add a negative keyword at the account (customer) level."""
-        service = self.client.get_service("CustomerNegativeCriterionService")
-        operation = self.client.get_type("CustomerNegativeCriterionOperation")
+        """
+        Add a negative keyword across all enabled search/shopping campaigns.
+        CustomerNegativeCriterion doesn't support individual keywords, so we
+        add campaign-level negatives to every enabled campaign instead.
+        """
+        # Get all enabled campaign IDs
+        ga_service = self.client.get_service("GoogleAdsService")
+        query = """
+            SELECT campaign.id, campaign.name
+            FROM campaign
+            WHERE campaign.status = 'ENABLED'
+        """
+        response = ga_service.search(customer_id=self.customer_id, query=query)
+        campaign_ids = [row.campaign.id for row in response]
 
-        criterion = operation.create
-        criterion.keyword.text = keyword_text
-        criterion.keyword.match_type = getattr(
-            self.client.enums.KeywordMatchTypeEnum, match_type
-        )
+        if not campaign_ids:
+            raise ValueError("No enabled campaigns found")
+
+        # Add negative to each campaign
+        service = self.client.get_service("CampaignCriterionService")
+        operations = []
+        for cid in campaign_ids:
+            op = self.client.get_type("CampaignCriterionOperation")
+            criterion = op.create
+            criterion.campaign = self.client.get_service("CampaignService").campaign_path(
+                self.customer_id, cid
+            )
+            criterion.negative = True
+            criterion.keyword.text = keyword_text
+            criterion.keyword.match_type = getattr(
+                self.client.enums.KeywordMatchTypeEnum, match_type
+            )
+            operations.append(op)
 
         details = {
             "keyword": keyword_text,
             "match_type": match_type,
-            "action": "ADD_NEGATIVE_ACCOUNT",
+            "campaign_count": len(campaign_ids),
+            "action": "ADD_NEGATIVE_ALL_CAMPAIGNS",
         }
         self._log_change("add_negative_keyword_account", details, validate_only)
 
-        response = service.mutate_customer_negative_criteria(
+        if validate_only:
+            return {"success": True, "validate_only": True, "details": details}
+
+        service.mutate_campaign_criteria(
             customer_id=self.customer_id,
-            operations=[operation],
-            validate_only=validate_only,
+            operations=operations,
         )
 
-        return {"success": True, "validate_only": validate_only, "details": details}
+        return {"success": True, "validate_only": False, "details": details}
 
     def add_keyword_to_ad_group(
         self,
@@ -517,9 +545,20 @@ class GoogleAdsMutator:
         keyword_text: str,
         match_type: str = "PHRASE",
         cpc_bid_micros: int = None,
-        validate_only: bool = True,
+        validate_only: bool = False,
     ) -> dict:
         """Add a new keyword to an existing ad group."""
+        details = {
+            "ad_group_id": ad_group_id,
+            "keyword": keyword_text,
+            "match_type": match_type,
+            "action": "ADD_KEYWORD",
+        }
+        self._log_change("add_keyword", details, validate_only)
+
+        if validate_only:
+            return {"success": True, "validate_only": True, "details": details}
+
         service = self.client.get_service("AdGroupCriterionService")
         operation = self.client.get_type("AdGroupCriterionOperation")
 
@@ -536,30 +575,31 @@ class GoogleAdsMutator:
         if cpc_bid_micros:
             criterion.cpc_bid_micros = cpc_bid_micros
 
-        details = {
-            "ad_group_id": ad_group_id,
-            "keyword": keyword_text,
-            "match_type": match_type,
-            "action": "ADD_KEYWORD",
-        }
-        self._log_change("add_keyword", details, validate_only)
-
-        response = service.mutate_ad_group_criteria(
+        service.mutate_ad_group_criteria(
             customer_id=self.customer_id,
             operations=[operation],
-            validate_only=validate_only,
         )
 
-        return {"success": True, "validate_only": validate_only, "details": details}
+        return {"success": True, "validate_only": False, "details": details}
 
     def create_ad_group(
         self,
         campaign_id: int,
         ad_group_name: str,
-        validate_only: bool = True,
+        validate_only: bool = False,
     ) -> dict:
         """Create a new ad group in a campaign."""
         check_peak_season("campaign_restructure")
+
+        details = {
+            "campaign_id": campaign_id,
+            "ad_group_name": ad_group_name,
+            "action": "CREATE_AD_GROUP",
+        }
+        self._log_change("create_ad_group", details, validate_only)
+
+        if validate_only:
+            return {"success": True, "validate_only": True, "details": details}
 
         service = self.client.get_service("AdGroupService")
         operation = self.client.get_type("AdGroupOperation")
@@ -572,21 +612,13 @@ class GoogleAdsMutator:
         ad_group.status = self.client.enums.AdGroupStatusEnum.ENABLED
         ad_group.type_ = self.client.enums.AdGroupTypeEnum.SEARCH_STANDARD
 
-        details = {
-            "campaign_id": campaign_id,
-            "ad_group_name": ad_group_name,
-            "action": "CREATE_AD_GROUP",
-        }
-        self._log_change("create_ad_group", details, validate_only)
-
         response = service.mutate_ad_groups(
             customer_id=self.customer_id,
             operations=[operation],
-            validate_only=validate_only,
         )
 
-        result = {"success": True, "validate_only": validate_only, "details": details}
-        if not validate_only and response.results:
+        result = {"success": True, "validate_only": False, "details": details}
+        if response.results:
             result["ad_group_resource"] = response.results[0].resource_name
         return result
 
@@ -597,21 +629,24 @@ class GoogleAdsMutator:
         campaign_id: int,
         keywords: list,
         match_type: str = "EXACT",
-        validate_only: bool = True,
+        validate_only: bool = False,
     ) -> dict:
-        """
-        Add multiple negative keywords to a campaign in one API call.
-
-        Args:
-            campaign_id: Target campaign
-            keywords: List of keyword strings
-            match_type: EXACT, PHRASE, or BROAD
-            validate_only: Dry-run mode
-        """
+        """Add multiple negative keywords to a campaign in one API call."""
         if len(keywords) > MAX_NEGATIVES_ADDED_PER_CYCLE:
             raise GuardrailViolation(
                 f"Attempting to add {len(keywords)} negatives, max is {MAX_NEGATIVES_ADDED_PER_CYCLE} per cycle"
             )
+
+        details = {
+            "campaign_id": campaign_id,
+            "keywords": keywords,
+            "match_type": match_type,
+            "count": len(keywords),
+        }
+        self._log_change("batch_add_negatives", details, validate_only)
+
+        if validate_only:
+            return {"success": True, "validate_only": True, "details": details}
 
         service = self.client.get_service("CampaignCriterionService")
         operations = []
@@ -629,39 +664,32 @@ class GoogleAdsMutator:
             )
             operations.append(op)
 
-        details = {
-            "campaign_id": campaign_id,
-            "keywords": keywords,
-            "match_type": match_type,
-            "count": len(keywords),
-        }
-        self._log_change("batch_add_negatives", details, validate_only)
-
-        response = service.mutate_campaign_criteria(
+        service.mutate_campaign_criteria(
             customer_id=self.customer_id,
             operations=operations,
-            validate_only=validate_only,
-            partial_failure=True,
         )
 
-        return {"success": True, "validate_only": validate_only, "details": details}
+        return {"success": True, "validate_only": False, "details": details}
 
     def batch_pause_keywords(
         self,
         keyword_specs: list,
-        validate_only: bool = True,
+        validate_only: bool = False,
     ) -> dict:
-        """
-        Pause multiple keywords in one API call.
-
-        Args:
-            keyword_specs: List of dicts with {ad_group_id, criterion_id, keyword_text}
-            validate_only: Dry-run mode
-        """
+        """Pause multiple keywords in one API call."""
         if len(keyword_specs) > MAX_KEYWORDS_PAUSED_PER_CYCLE:
             raise GuardrailViolation(
                 f"Attempting to pause {len(keyword_specs)} keywords, max is {MAX_KEYWORDS_PAUSED_PER_CYCLE} per cycle"
             )
+
+        details = {
+            "keywords": [s.get("keyword_text", s["criterion_id"]) for s in keyword_specs],
+            "count": len(keyword_specs),
+        }
+        self._log_change("batch_pause_keywords", details, validate_only)
+
+        if validate_only:
+            return {"success": True, "validate_only": True, "details": details}
 
         service = self.client.get_service("AdGroupCriterionService")
         operations = []
@@ -673,26 +701,15 @@ class GoogleAdsMutator:
                 self.customer_id, spec["ad_group_id"], spec["criterion_id"]
             )
             criterion.status = self.client.enums.AdGroupCriterionStatusEnum.PAUSED
-
-            field_mask = self.client.get_type("FieldMask")
-            field_mask.paths.append("status")
-            op.update_mask.CopyFrom(field_mask)
+            op.update_mask.paths.append("status")
             operations.append(op)
 
-        details = {
-            "keywords": [s.get("keyword_text", s["criterion_id"]) for s in keyword_specs],
-            "count": len(keyword_specs),
-        }
-        self._log_change("batch_pause_keywords", details, validate_only)
-
-        response = service.mutate_ad_group_criteria(
+        service.mutate_ad_group_criteria(
             customer_id=self.customer_id,
             operations=operations,
-            validate_only=validate_only,
-            partial_failure=True,
         )
 
-        return {"success": True, "validate_only": validate_only, "details": details}
+        return {"success": True, "validate_only": False, "details": details}
 
     # ── ACCOUNT SNAPSHOT ─────────────────────────────────────────────────
 
