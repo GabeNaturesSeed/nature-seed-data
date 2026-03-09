@@ -1,0 +1,421 @@
+# Klaviyo Campaigns — Knowledge Base
+> Extracted: 2026-03-05T17:11:06.609810 | Total: 375 campaigns
+
+## Campaign Count by Status
+
+- **Cancelled**: 16
+- **Cancelled: Account Disabled**: 18
+- **Draft**: 35
+- **Scheduled**: 3
+- **Sending**: 2
+- **Sent**: 301
+
+---
+
+## Campaigns With Performance Data (Recent — 2024+)
+
+| Campaign | Date | Recipients | Open Rate | Click Rate | Revenue |
+|----------|------|-----------|-----------|------------|---------|
+
+---
+
+## All Campaigns by Year
+
+### 2026 — 62 campaigns (47 sent)
+
+- [Scheduled] **Email 1 (clone)** (2026-03-06) → T6TJd6
+- [Scheduled] **Email 1** (2026-03-06) → Ra4637
+- [Scheduled] **Email 1** (2026-03-06) → TJpLMz
+- [Cancelled] **Email 1** (2026-03-06) → T6TJd6
+- [Sending] **[Follow-up] Spring 2026 - Replacement Guide (Pasture)** (2026-03-05) → TF22xh
+- [Sending] **[Follow-up] Spring 2026 - Replacement Guide (Wildflower)** (2026-03-05) → UAA8fD
+- [Sent] **[Follow-up] Spring 2026 - Replacement Guide (Lawn)** (2026-03-04) → Xhy75B
+- [Sent] **[Follow-up] Spring 2026 - Replacement Guide (Clover)** (2026-03-04) → UhGs96
+- [Sent] **Spring 2026 - Replacement Guide (Clover)** (2026-03-02) → TeMDee, TrZtxC
+- [Sent] **Spring 2026 - Replacement Guide (Wildflower)** (2026-03-03) → TJpLMz, TeMDee
+- [Sent] **Spring 2026 - Replacement Guide (Pasture)** (2026-03-03) → T6TJd6, TeMDee
+- [Sent] **Spring 2026 - Replacement Guide (Lawn)** (2026-03-02) → Ra4637, TeMDee
+- [Sent] **Email 1 (clone)** (2026-02-23) → VtKptn, WdpJti
+- [Sent] **Email 1** (2026-02-27) → RAQTca, Ra4637, T6TJd6, T93fB3, TJpLMz, WdpJti, XJbjnv
+- [Draft] **Email 1** (2026-02-23) → RbGRqF
+- [Sent] **Email 1** (2026-02-24) → XTeFkg
+- [Sent] **Email 1** (2026-02-24) → XTeFkg
+- [Sent] **Email 3** (2026-02-23) → RyASXF, Sv5cSC
+- [Sent] **Email 4** (2026-02-23) → RyASXF, Sv5cSC
+- [Sent] **Email 4** (2026-02-23) → RyASXF, Sv5cSC, WjzuUj
+- [Sent] **Email 5** (2026-02-23) → RyASXF, Sv5cSC, WjzuUj
+- [Cancelled] **Email 1** (2026-02-24) → VtKptn, WdpJti
+- [Sent] **Email 1** (2026-02-23) → RAQTca, WdpJti
+- [Sent] **Email 1** (2026-02-23) → RAQTca, WdpJti
+- [Sent] **Email 1** (2026-02-23) → RAQTca, WdpJti
+- [Sent] **Email 3** (2026-02-18) → RyASXF, Sv5cSC
+- [Sent] **Email 3** (2026-02-18) → RyASXF, Sv5cSC, WjzuUj
+- [Sent] **Email 4** (2026-02-18) → RyASXF, Sv5cSC, WjzuUj
+- [Sent] **Email 1** (2026-02-16) → YrbZLj
+- [Sent] **Email 1 (clone)** (2026-02-20) → YsfKRz
+- [Sent] **Email 1** (2026-02-20) → YrbZLj
+- [Sent] **Email 1 (clone 4)** (2026-02-10) → RyASXF, Sv5cSC
+- [Sent] **Email 1 (clone 3)** (2026-02-10) → RyASXF, Sv5cSC
+- [Sent] **Email 1 (clone 2)** (2026-02-10) → RyASXF, Sv5cSC, WjzuUj
+- [Sent] **Email 1 (clone 2)** (2026-02-10) → RyASXF, Sv5cSC, WjzuUj
+- [Sent] **Email 1 (clone 4)** (2026-02-10) → RAQTca, T93fB3, WdpJti
+- [Sent] **Email 1 (clone 3)** (2026-02-10) → RAQTca, T93fB3, WdpJti
+- [Sent] **Email 1 (clone 2)** (2026-02-10) → RAQTca, T93fB3, WdpJti
+- [Sent] **Email 1 (clone 2)** (2026-02-10) → RAQTca, T93fB3, WdpJti
+- [Cancelled] **Email 1 (clone)** (2026-02-10) → RAQTca, T93fB3, WdpJti
+- [Cancelled] **Email 1** (2026-02-10) → RAQTca, T93fB3, WdpJti
+- [Cancelled] **Email 1 (clone 3)** (2026-02-10) → RyASXF, Sv5cSC
+- [Cancelled] **Email 1 (clone 2)** (2026-02-10) → RyASXF, Sv5cSC
+- [Cancelled] **Email 1 (clone)** (2026-02-10) → RyASXF, Sv5cSC, WjzuUj
+- [Cancelled] **Email 1 (clone)** (2026-02-10) → RyASXF, Sv5cSC, WjzuUj
+- [Cancelled] **Email 1** (2026-02-11) → RyASXF, Sv5cSC, WjzuUj
+- [Sent] **Email 1** (2026-02-04) → TJpLMz
+- [Sent] **Email 1** (2026-02-04) → Ra4637
+- [Sent] **Email 1** (2026-02-04) → T6TJd6
+- [Sent] **Email 1** (2026-02-02) → SZHzDJ
+- [Sent] **Educational 1 (clone)** (2026-01-30) → RyASXF, Sv5cSC
+- [Sent] **Educational 1** (2026-01-30) → RyASXF, Sv5cSC
+- [Sent] **Educational 1** (2026-01-30) → RyASXF, Sv5cSC
+- [Sent] **Educational 1** (2026-01-30) → RyASXF, Sv5cSC
+- [Sent] **Email 1 (clone)** (2026-01-26) → S6Jxd5
+- [Sent] **Email 1** (2026-01-26) → YrbZLj, YsfKRz
+- [Sent] **Email 1 (clone)** (2026-01-22) → XbwbGU
+- [Draft] **Email 1 (clone)** (2026-01-21)
+- [Sent] **Email 1** (2026-01-21) → Y2LpMM
+- [Cancelled] **Email 1** (2026-01-22) → XbwbGU
+- [Sent] **Lawn January** (2026-01-13) → RNkiLg, TF2SvZ
+- [Sent] **Email 1** (2026-01-07) → R2JDwR
+
+### 2025 — 110 campaigns (82 sent)
+
+- [Draft] **Message 1 #2** (2025-12-05) → SZHzDJ
+- [Sent] **Last Cyber Monday** (2025-12-05) → SZHzDJ
+- [Sent] **Message 3** (2025-12-01) → RHkJsn
+- [Sent] **Message 1** (2025-11-28) → RHkJsn
+- [Sent] **Message 5** (2025-12-01) → UU9dHP
+- [Sent] **Message 1** (2025-11-26) → TrZtxC
+- [Sent] **Message 1** (2025-11-26) → RjK2es
+- [Sent] **Lawn Purchasers** (2025-11-26) → RNkiLg
+- [Sent] **BF Day** (2025-11-28) → UU9dHP
+- [Sent] **BF Intro** (2025-11-24) → UU9dHP
+- [Sent] **Message 1 #1 #2** (2025-10-30) → TrZtxC
+- [Sent] **Message 1 #1 #1** (2025-10-30) → STt392
+- [Sent] **Message 1 #1** (2025-10-30) → R3WfED
+- [Sent] **Message 1** (2025-10-30) → RNkiLg
+- [Sent] **Message 1** (2025-10-15) → Xk88Hq
+- [Sent] **Email Primeday** (2025-10-08) → Xk88Hq
+- [Sent] **Message 1 #3 #3** (2025-10-03) → TrZtxC
+- [Sent] **Message 1 #3** (2025-09-30) → TrZtxC
+- [Sent] **Message 1 #3** (2025-09-29) → RjK2es
+- [Sent] **Message 1** (2025-09-29) → W68PXH
+- [Sent] **Message 1 #3 #3** (2025-09-29) → RNkiLg
+- [Sent] **Message 1 #3** (2025-09-26) → RNkiLg
+- [Sent] **Clover Email** (2025-09-24) → TrZtxC
+- [Sent] **Message 1** (2025-09-23) → TE5kGF
+- [Sent] **Message 1** (2025-09-23) → RjK2es
+- [Sent] **Message 1** (2025-09-23) → RNkiLg
+- [Sent] **Message 1** (2025-09-22) → R4heDK, RTjzWA, Taybgy, UgwfTJ, VihDbb, VwMBar, XtDvhT, Y7fxZp, Y86i2F, YhA4JU
+- [Sent] **Clone New Seed Announcement - Sep 9, 2025** (2025-09-25) → NLT2S2, SZHzDJ, Xk88Hq
+- [Sent] **Message 1** (2025-09-18) → XrcRHE
+- [Cancelled: Account Disabled] **New Seed Announcement - Sep 9, 2025** (2025-09-09) → NLT2S2, SZHzDJ, Xk88Hq
+- [Sent] **Labor Day Sale - Last Day** (2025-09-02) → HzC8DX, SZHzDJ, UU9dHP
+- [Cancelled: Account Disabled] **Labor Day Sale - 2 Days Left** (2025-09-01) → HzC8DX, SZHzDJ, UU9dHP
+- [Draft] **Labor Day Sale - 2 Days Left** (2025-09-01) → HzC8DX, NLT2S2, SZHzDJ, UU9dHP
+- [Sent] **Email Campaign - Aug 28, 2025, 1:17 PM** (2025-08-28) → R2JDwR
+- [Draft] **New Generation Product / SKU - Jul 6, 2025, 4:02 PM (clone)** (2025-08-19) → QRzqyJ
+- [Cancelled: Account Disabled] **Cold Email Campaign Email 2 - Cohort 12** (2025-09-04) → S9U3Lu
+- [Cancelled: Account Disabled] **Cold Email Campaign Email 2 - Cohort 11** (2025-09-03) → WrdBEK
+- [Cancelled: Account Disabled] **Cold Email Campaign Email 2 - Cohort 10** (2025-09-02) → XKse6j
+- [Cancelled: Account Disabled] **Cold Email Campaign Email 2 - Cohort 9** (2025-09-01) → WUcqz8
+- [Cancelled: Account Disabled] **Cold Email Campaign Email 2 - Cohort 8** (2025-08-28) → UUngdS
+- [Cancelled: Account Disabled] **Cold Email Campaign Email 2 - Cohort 7** (2025-08-27) → RN7xcy
+- [Cancelled: Account Disabled] **Cold Email Campaign Email 2 - Cohort 6** (2025-08-26) → UcmXeW
+- [Cancelled: Account Disabled] **Cold Email Campaign Email 2 - Cohort 5** (2025-08-25) → Y5mKu4
+- [Cancelled: Account Disabled] **Cold Email Campaign Email 2 - Cohort 4** (2025-08-21) → X8Trz7
+- [Sent] **Next Generation Lawn Seed Campaign - Lawn Audience** (2025-08-12) → Y8deuV
+- [Sent] **Next Generation Wildflower Seed Campaign - Wildflower Audience** (2025-08-12) → W68PXH
+- [Sent] **Next Generation Pasture Seed Campaign - Pasture Audience** (2025-08-12) → R3WfED
+- [Sent] **Cold Email Campaign Email 2 - Cohort 3** (2025-08-20) → W8Ympu
+- [Sent] **Cold Email Campaign Email 2 - Cohorts 1 & 2** (2025-08-19) → XB8dAm, YjB2Cb
+- [Cancelled: Account Disabled] **Cold Email Campaign Email 1 - Cohort 19** (2025-09-02) → QQxWg2
+- [Cancelled: Account Disabled] **Cold Email Campaign Email 1 - Cohort 18** (2025-09-01) → XcMqTP
+- [Cancelled: Account Disabled] **Cold Email Campaign Email 1 - Cohort 17** (2025-08-29) → Vz2N3L
+- [Cancelled: Account Disabled] **Cold Email Campaign Email 1 - Cohort 16** (2025-08-28) → THpqi4
+- [Cancelled: Account Disabled] **Cold Email Campaign Email 1 - Cohort 15** (2025-08-27) → VsBMzi
+- [Cancelled: Account Disabled] **Cold Email Campaign Email 1 - Cohort 14** (2025-08-26) → TW6Ffw
+- [Cancelled: Account Disabled] **Cold Email Campaign Email 1 - Cohort 13** (2025-08-25) → TkvnK4
+- [Sent] **Cold Email Campaign Email 1 - Cohort 12** (2025-08-20) → S9U3Lu
+- [Sent] **Cold Email Campaign Email 1 - Cohort 11** (2025-08-20) → WrdBEK
+- [Sent] **Cold Email Campaign Email 1 - Cohort 10** (2025-08-19) → XKse6j
+- [Sent] **Cold Email Campaign Email 1 - Cohort 9** (2025-08-18) → WUcqz8
+- [Sent] **Cold Email Campaign Email 1 - Cohort 8** (2025-08-14) → UUngdS
+- [Draft] **Cold Email Campaign Email 1 - Cohort 7** (2025-08-05) → RN7xcy
+- [Sent] **Cold Email Campaign Email 1 - Cohort 5** (2025-08-12) → Y5mKu4
+- [Sent] **Cold Email Campaign Email 1 - Cohort 4** (2025-08-07) → X8Trz7
+- [Draft] **Cold Email Campaign Email 1 - Cohort 3** (2025-08-05) → W8Ympu
+- [Sent] **Cold Email Campaign Email 1 - Cohort 6** (2025-08-11) → UcmXeW
+- [Sent] **[Follow-up] Cold Email Campaign Email 1 (clone)** (2025-08-05) → XB8dAm, YjB2Cb
+- [Cancelled] **[Follow-up] Cold Email Campaign Email 1** (2025-08-07) → Scb52k
+- [Sent] **[Follow-up] New Seeds Announcement - Full Database** (2025-08-07) → UxsJVY
+- [Sent] **New Seeds Announcement - Full Database** (2025-08-05) → NLT2S2, SZHzDJ
+- [Sent] **Cold Email Campaign Email 1** (2025-08-05) → QTBztw, RKkMjQ
+- [Sent] **Shop Customer Favorites - July 2025 so Far** (2025-07-14) → NLT2S2, R2JDwR, SZHzDJ
+- [Draft] **Wildflower - The Time To Plant is Now** (2025-07-08) → VdX94r
+- [Draft] **Introducing the New Generation of Seeds Adapted for Today** (2025-07-08) → NLT2S2, SZHzDJ
+- [Sent] **New Generation Product / SKU - Jul 6, 2025, 4:02 PM** (2025-08-19) → QRzqyJ
+- [Sent] **Shop Customer Favorites - June 2025** (2025-06-19) → NLT2S2, R2JDwR, SZHzDJ
+- [Sent] **[Follow-up] Memorial Day Sale - Start - Pasture Audience Only** (2025-05-26) → WXMxbv
+- [Sent] **[Follow-up] Memorial Day Sale - Start - EXCLUDE Pasture Audience** (2025-05-26) → SinFM5
+- [Sent] **Memorial Day Sale - Start - Pasture Audience Only** (2025-05-23) → WrVQ8t, Y2LpMM
+- [Sent] **Memorial Day Sale - Start - EXCLUDE Pasture Audience** (2025-05-23) → HzC8DX, NLT2S2, R2JDwR, SZHzDJ, UU9dHP
+- [Sent] **Shop Customer Favorites** (2025-05-16) → NLT2S2, R2JDwR, SZHzDJ
+- [Sent] **Email Campaign - May 13, 2025, 10:46 AM** (2025-05-13) → XMPnnH
+- [Sent] **National Wildflower Week** (2025-05-08) → HzC8DX, NLT2S2, R2JDwR, SZHzDJ, UU9dHP
+- [Sent] **Native Seed Promo + Education** (2025-04-30) → HzC8DX, NLT2S2, R2JDwR, SZHzDJ, UU9dHP
+- [Sent] **Earth Day Sale - Continues Now Thru Fri** (2025-04-24) → HzC8DX, NLT2S2, R2JDwR, SZHzDJ, UU9dHP
+- [Sent] **Earth Day Sale - Last Day To Save** (2025-04-25) → HzC8DX, NLT2S2, R2JDwR, SZHzDJ, UU9dHP
+- [Sent] **Earth Day Sale** (2025-04-22) → HzC8DX, NLT2S2, R2JDwR, SZHzDJ, UU9dHP
+- [Sent] **TWCA Certified Seed Blend** (2025-04-15) → RNkiLg, TF2SvZ
+- [Sent] **Pasture Sale - Last Day - 20% Off On-Site** (2025-03-30) → UdciNU
+- [Sent] **Pasture Sale - 20% Off On-Site** (2025-03-26) → UdciNU
+- [Sent] **VIP Pasture Sale - Final Hours - Mar 24, 2025** (2025-03-25) → Y2LpMM
+- [Sent] **VIP Pasture Sale - Mar 24, 2025** (2025-03-24) → Y2LpMM
+- [Sent] **St Patrick's Day Sale End - Mar 4, 2025, 3:05 PM (clone)** (2025-03-19) → NLT2S2, SZHzDJ
+- [Sent] **St Patrick's Day Sale Start - Mar 4, 2025, 3:05 PM** (2025-03-14) → NLT2S2, SZHzDJ
+- [Sent] **Spring Planting Guides - Mar 4, 2025, 11:14 AM** (2025-03-21) → NLT2S2, R2JDwR, USHtBE, UU9dHP
+- [Sent] **Last Day for Sale Extension - Feb 25, 2025, 10:46 AM (clone)** (2025-02-28) → NLT2S2, R2JDwR, USHtBE, UU9dHP
+- [Sent] **Sale Extension - Feb 25, 2025, 10:46 AM** (2025-02-25) → NLT2S2, R2JDwR, USHtBE, UU9dHP
+- [Sent] **President's Day Sale Start - Send to Unopens** (2025-02-20) → Rb4JuV
+- [Sent] **Turf Purchasers - Jimmy Feature - Feb 13, 2025, 11:39 AM** (2025-03-04) → RNkiLg
+- [Sent] **Valentine's Day Flash Sale** (2025-02-14) → NLT2S2, SZHzDJ, UU9dHP
+- [Sent] **President's Day Sale Last Day** (2025-02-24) → NLT2S2, UU9dHP, VhfZpi
+- [Sent] **President's Day Sale Start** (2025-02-17) → NLT2S2, UU9dHP, VhfZpi
+- [Draft] **Template Test** (2025-01-23) → JNTYgB
+- [Sent] **Top Products Highlight** (2025-04-03) → SZHzDJ
+- [Sent] **End Pasture Sale** (2025-02-06) → Y2LpMM
+- [Sent] **Pasture Sale Starts** (2025-01-28) → Y2LpMM
+- [Sent] **Sale - MLK Day Sale Ends Today** (2025-01-20) → NLT2S2, UU9dHP, VhfZpi
+- [Sent] **Sale - MLK Day Start** (2025-01-17) → NLT2S2, UU9dHP, VhfZpi
+- [Sent] **Shipment Delay - Inventory Count** (2025-01-09) → Y7bP52
+- [Draft] **Rejuvenate Your Pasture with Spring Overseeding** (2025-01-07) → Y2LpMM
+
+### 2024 — 78 campaigns (67 sent)
+
+- [Sent] **Stock Up and Take Advantage of Pricing** (2025-01-06) → NLT2S2, SZHzDJ, UU9dHP
+- [Sent] **Thank You Campaign** (2024-12-30) → NLT2S2, SZHzDJ, UU9dHP
+- [Sent] **Last Day for Holiday Shipping - Dec 17, 2024, 1:52 PM** (2024-12-18) → NLT2S2, R2JDwR, SZHzDJ, VhfZpi
+- [Sent] **Give the Gift of Seed + Last Day Shipping + Wildflower Sale** (2024-12-11) → NLT2S2, SZHzDJ, UU9dHP
+- [Sent] **BFCM Sale Ends Soon - Nov 21, 2024, 1:16 PM** (2024-12-03) → NLT2S2, UU9dHP, VhfZpi
+- [Sent] **BFCM Sale Continues - Nov 29, 2024, 12:41 PM (clone)** (2024-11-30) → NLT2S2, SZHzDJ, UU9dHP
+- [Sent] **BFCM Sale Continues - Nov 29, 2024, 12:41 PM** (2024-11-29) → NLT2S2, SZHzDJ, UU9dHP
+- [Sent] **BFCM Sale Starts - Nov 21, 2024, 1:16 PM** (2024-11-22) → NLT2S2, UU9dHP, VhfZpi
+- [Sent] **Regional - California Best-Sellers** (2024-11-21) → TTjMj8
+- [Sent] **Regional - California Seeding Guide - Nov 13, 2024, 1:35 PM** (2024-11-13) → TTjMj8
+- [Sent] **Last Day To Save 25% - Oct 31, 2024** (2024-10-31) → SZHzDJ
+- [Sent] **25% Off Sitewide Sale - Oct 28, 2024** (2024-10-28) → SZHzDJ
+- [Sent] **California Seed Sale Ends Today - CA audience** (2024-10-27) → TTjMj8
+- [Sent] **California Seed Sale Starts Now - All Other CA Audience** (2024-10-19) → TTjMj8
+- [Draft] **California Sale Email #2 - Sale Ends Soon** (2024-10-15) → T8Qrra
+- [Sent] **The California Seed Sale Starts Now - Wildflower** (2024-10-18) → T8Qrra
+- [Sent] **The California Seed Sale Starts Now - Lawn** (2024-10-18) → UhxweF, V5Pzt4
+- [Draft] **Regional Campaign - Heartland #3 - Native Seeds** (2024-10-11) → XGzhqj
+- [Draft] **Regional Campaign - Heartland #2 - Bestsellers** (2024-10-11) → XGzhqj
+- [Draft] **Regional Campaign - Heartland #1 - Heartland Collection** (2024-10-11) → XGzhqj
+- [Sent] **Regional Campaign - Texas #1 - Bestsellers** (2024-11-15) → VGBTaD
+- [Sent] **Regional Campaign - Texas #2 - Warm Season Grasses** (2024-11-18) → VGBTaD
+- [Draft] **Email Campaign - Oct 2, 2024, 2:14 PM** (2024-10-02)
+- [Sent] **Wildflower Sale - Follow up 9/30** (2024-10-01) → SZHzDJ
+- [Sent] **Wildflower Sale - 9/27-10/1** (2024-09-27) → SZHzDJ
+- [Sent] **Get Ready For Fall - Last Chance** (2024-09-23) → SZHzDJ
+- [Sent] **Get Ready For Fall - 9/16** (2024-09-16) → SZHzDJ
+- [Sent] **Labor Day extension - unengaged users** (2024-09-03) → SSPPJG
+- [Sent] **Labor Day Sale Reminder for 8/28 - Aug 27, 2024, 4:49 PM (clone)** (2024-09-02) → UU9dHP
+- [Sent] **Labor Day Sale Reminder for 8/28 - Aug 27, 2024, 4:49 PM** (2024-08-29) → UU9dHP
+- [Sent] **Labor Day Sale Start - Aug 26, 2024, 2:12 PM** (2024-08-26) → QTBztw, UU9dHP
+- [Sent] **Jimmy's Seed Sale Last Day - Aug 21, 2024, 5:40 PM (clone) (clone)** (2024-08-21) → WrjWF4
+- [Sent] **Pasture Sale - 15% Off** (2024-08-21) → Snn9Ci
+- [Sent] **Jimmy's Seed Sale Starts Now - Aug 18, 2024, 5:40 PM (clone)** (2024-08-19) → WrjWF4
+- [Cancelled] **Jimmy's Seed Sale Starts Now - Aug 18, 2024, 5:40 PM** (2024-08-19) → UU9dHP
+- [Sent] **Summer Clover Closeout Sale - final hours** (2024-08-18) → Wrnyf7
+- [Sent] **Summer Clover Closeout Sale** (2024-08-16) → UU9dHP
+- [Sent] **We're Sorry - Technical Difficulties** (2024-08-05) → UU9dHP
+- [Sent] **Flash Campaign - VIP $1000 segment** (2024-07-29) → TmRf5E
+- [Sent] **July Water-Wise Seed & Supply 15% Off - Last Chance** (2024-07-30) → UU9dHP
+- [Sent] **July Water-Wise Seed & Supply 15% Off - Follow Up** (2024-07-27) → UU9dHP
+- [Sent] **July Water-Wise Seed & Supply 15% Off** (2024-07-25) → UU9dHP
+- [Draft] **Reclaim Sequence - Profile Survey Fill - July, 2024** (2024-07-11) → QTBztw, UBWuhi
+- [Sent] **July 4th Sale - Last Chance (clone)** (2024-07-08) → SZHzDJ
+- [Sent] **July 4th Sale - Follow Up** (2024-07-06) → SZHzDJ
+- [Sent] **July Tip of the Month** (2024-07-09) → SZHzDJ
+- [Sent] **July 4th Sale** (2024-07-03) → SZHzDJ
+- [Sent] **June Lawn Ending Soon** (2024-06-22) → SZHzDJ
+- [Sent] **June Lawn Last Chance** (2024-06-24) → SZHzDJ
+- [Sent] **June Lawn Promo** (2024-06-20) → SZHzDJ
+- [Draft] **Lawn Seed - Time to Buy(draft)** (2024-06-17) → SZHzDJ
+- [Sent] **June Tip of the Month** (2024-06-11) → SZHzDJ
+- [Sent] **Clover Flash Sale - One Day Left** (2024-06-09) → SZHzDJ
+- [Sent] **Clover Flash Sale - Ends at Midnight** (2024-06-10) → QTBztw, SZHzDJ
+- [Draft] **Region Specific Emails - California #1 - California Collection - Jun 5, 2024, 3:23 PM** (2024-06-05) → QTBztw, XWxLax
+- [Sent] **Clover Flash Sale** (2024-06-06) → SZHzDJ
+- [Sent] **Memorial Day Sale - Last Chance** (2024-05-28) → SZHzDJ
+- [Cancelled] **Memorial Day Sale - Follow Up** (2024-05-28) → SZHzDJ
+- [Sent] **Memorial Day Sale** (2024-05-23) → SZHzDJ
+- [Sent] **Why Buy (Lawn)** (2024-05-16) → SZHzDJ
+- [Sent] **National Wildflower Week** (2024-05-07) → SZHzDJ
+- [Sent] **Last Chance Earth Day Sale** (2024-04-24) → SZHzDJ
+- [Sent] **Earth Day Seed Sale** (2024-04-18) → SZHzDJ
+- [Sent] **Soils Email** (2024-04-11) → SZHzDJ
+- [Sent] **Wildflower Flash Sale** (2024-03-29) → SZHzDJ
+- [Sent] **Last Chance Clover Sale** (2024-03-20) → SZHzDJ
+- [Sent] **Clover Sale** (2024-03-14) → SZHzDJ
+- [Sent] **Email Campaign - Mar 11, 2024, 5:39 PM** (2024-03-12) → Y7fxZp
+- [Sent] **TWCA Product Line** (2024-03-08) → SZHzDJ
+- [Sent] **Get Ready For Spring - 3/2** (2024-03-01) → SZHzDJ
+- [Sent] **Hedgerow Farms Field Day** (2024-02-22) → Y7fxZp
+- [Sent] **Pres Day Last Chance - Feb 21** (2024-02-21) → SZHzDJ
+- [Sent] **Pres Day Sale - Feb 15** (2024-02-15) → SZHzDJ
+- [Sent] **February Grass Wildflower - Jan 2024** (2024-02-01) → QTBztw, UE6bWF
+- [Draft] **Soil Prep -1/27** (2024-01-23) → SZHzDJ
+- [Sent] **Drone Seeding Demo - Tuesday January 30th - Reminder** (2024-01-26) → RTjzWA, VwMBar
+- [Sent] **Drone Seeding Demo - Tuesday January 30th** (2024-01-19) → RTjzWA, VwMBar
+- [Sent] **MLK Flash Sale - 1/11** (2024-01-12) → SZHzDJ
+
+### 2023 — 52 campaigns (36 sent)
+
+- [Sent] **Hedgerow Holiday Email 2023** (2023-12-19) → Y7fxZp
+- [Sent] **11/28 - Last Chance Black Friday** (2023-11-28) → SZHzDJ
+- [Draft] **A Lucky Charm for your lawn** (2023-11-23) → QTBztw
+- [Draft] **Give feedback to our wildflower seed specialists** (2023-11-23) → QTBztw
+- [Draft] **Help your fellow gardeners** (2023-11-23) → QTBztw
+- [Draft] **Discover the magic behind mycorrhizia** (2023-11-15) → QTBztw
+- [Draft] **Expert designers for your landscape** (2023-11-15) → QTBztw
+- [Draft] **Beautiful year round wildflower blooms** (2023-11-15) → QTBztw
+- [Draft] **Lawn - Clover** (2023-11-15) → QTBztw
+- [Sent] **11/9 - Flash Sale, Pacific Southwest Honey Bee Pasture Mix** (2023-11-10) → ScmLpP
+- [Sent] **11/22 - Black Friday Sale** (2023-11-22) → SZHzDJ
+- [Sent] **Testing Gmail Test Campaign - Oct 3 2023** (2023-10-03) → QTBztw
+- [Sent] **Flash Sale Ending Soon - Oct 1 2023** (2023-10-01) → NLT2S2
+- [Sent] **Flash Sale - Category Best Sellers - Sept 29 2023** (2023-09-30) → NLT2S2
+- [Sent] **Labor Day Last Chance** (2023-09-07) → SZHzDJ
+- [Sent] **Labor Day Sale** (2023-08-31) → SZHzDJ
+- [Sent] **Wildflower Blend Survey - 1 Year - Aug 29 2023** (2023-09-13) → W94E6p
+- [Sent] **Pasture Mix Sale Last Chance - Aug 26** (2023-08-26) → SZHzDJ
+- [Sent] **Pasture Mix Sale - Aug 19** (2023-08-19) → SZHzDJ
+- [Draft] **Lawn Seed Comparison** (2023-08-08) → QTBztw
+- [Sent] **TWCA Last Chance - Aug 5, 2023** (2023-08-05) → SZHzDJ
+- [Sent] **TWCA Sale - Jul 29 2023** (2023-07-29) → SZHzDJ
+- [Sent] **Pasture Persona - 3 Year Survey - Jul 20 2023** (2023-09-12) → XMKy74
+- [Draft] **Lawn Persona - Grass Seed FAQ - Jul 17 2023** (2023-07-19) → QTBztw
+- [Draft] **Lawn Purchaser - Post-Purchase - Overseed - Dark - Jul 17** (2023-07-19) → QTBztw
+- [Draft] **Lawn Purchaser - Post-Purchase - Overseed - Jul 17** (2023-07-19) → QTBztw
+- [Draft] **Pasture Persona - Post-Purchase - Overseed Cool-Season Pasture - Jul 17** (2023-07-19) → Ut82FY
+- [Draft] **Lawn Persona - Fertilizer Upsell - Dark - Jul 17, 2023** (2023-07-19) → RNkiLg
+- [Sent] **Lawn Persona - Fertilizer Upsell - Jul 17 2023** (2023-07-31) → RNkiLg
+- [Sent] **Native Application Workshop Follow Up** (2023-07-13) → QVjCXr
+- [Sent] **Independence Day Last Chance - 6/5** (2023-07-05) → SZHzDJ
+- [Sent] **Independence Day Sale - Jun 29** (2023-06-29) → SZHzDJ
+- [Sent] **Workshop Reminder** (2023-06-26) → RtU3Ji
+- [Sent] **Native Application Workshop Invite FINAL** (2023-06-23) → VihDbb
+- [Sent] **Last Chance Pollinator Sale - Jun 24** (2023-06-24) → SZHzDJ
+- [Sent] **Bring A Project To The Workshop EDIT** (2023-06-20) → RtU3Ji
+- [Sent] **Native Application Workshop Invite 3.0 FINAL** (2023-06-19) → VihDbb
+- [Cancelled] **Bring A Project To The Workshop** (2023-06-20) → RtU3Ji
+- [Sent] **Pollinator Week - Jun 16 2023 10:09 AM** (2023-06-17) → SZHzDJ
+- [Draft] **Hedgerow Newsletter TEST** (2023-06-09) → VihDbb
+- [Sent] **Native Application Workshop Invite 2.0** (2023-06-07) → VihDbb
+- [Sent] **Application Workshop Confirmation** (2023-06-07) → RtU3Ji
+- [Sent] **Native Application Workshop Invite** (2023-06-01) → VihDbb
+- [Sent] **Memorial Day Sale - May 25 2023 9:45 AM** (2023-05-26) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, RMgDTd, RW5h4D, Rmx87T, Sz6jFg, TJvaz8, V3n9va, VG8r23, VLdGEL, W9W6Ge, WcGwRU, XsPPK9
+- [Sent] **4/21 - Earth Day/Last Weekend of Spring Sale** (2023-04-21) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, RMgDTd, Rmx87T, V3n9va, VG8r23, VLdGEL, XsPPK9
+- [Sent] **4/14 - Spring Sale** (2023-04-14) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, RMgDTd, Rmx87T, V3n9va, VG8r23
+- [Sent] **3/31 - Fescue Sale** (2023-03-31) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, RMgDTd, Rmx87T, V3n9va, VG8r23
+- [Sent] **3/16 - Clover Sale** (2023-03-16) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, RMgDTd, Rmx87T, V3n9va, VG8r23
+- [Sent] **3/11 - Southern Spring Sale** (2023-03-11) → YkWhc7
+- [Sent] **3/3 - Annual Wildflower Mix** (2023-03-04) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, RMgDTd, Rmx87T, V3n9va, VG8r23
+- [Cancelled] **3/3 - Utility Mix** (2023-03-03) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, RMgDTd, Rmx87T, V3n9va, VG8r23
+- [Sent] **2/17 - President's Day Sale** (2023-02-17) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, VG8r23
+
+### 2022 — 24 campaigns (23 sent)
+
+- [Sent] **12/9 - Holiday Email** (2022-12-09) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **11/29- Last Chance Black Friday** (2022-11-29) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **11/23 - Black Friday Sale** (2022-11-23) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **11/11 - Perennial Rye Sale** (2022-11-11) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **10/21 - Microclover Follow Up** (2022-10-21) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **10/14 - Microclover Sale** (2022-10-14) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **9/2 - Fall Seed Sale Week 3** (2022-09-02) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **8/26 - Fall Seed Sale Week 2** (2022-08-26) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **8/19 - Fall Seed Sale** (2022-08-19) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **7/21 - Localscapes** (2022-07-22) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **7/1 - July 4th Sale** (2022-06-30) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Cancelled] **7/1 - July 4th Sale** (2022-06-30) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **6/7 Milkweed Sale** (2022-06-10) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **5/26 - Memorial Day Sale** (2022-05-27) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **5/13 - Perennial Ryegrass Last Weekend** (2022-05-13) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **5/6 - Perennial Ryegrass Sale** (2022-05-06) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **4/22 - Blue Ribbon Sale** (2022-04-22) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **3/30 - Last Day of Spring Seed Sale** (2022-03-30) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **3/25 - Spring Seed Sale Follow Up** (2022-03-25) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **3/17 - Spring Seed Sale** (2022-03-17) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **2/18 - President's Day Wildflower Sale** (2022-02-18) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **2/7 - Clover Sale Reminder** (2022-02-07) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **2/01 - Clover Sale** (2022-02-01) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **1/18 - New Year, New Wildflowers** (2022-01-18) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+
+### 2021 — 24 campaigns (24 sent)
+
+- [Sent] **12-22 - Christmas Email** (2021-12-23) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **11/30 - Last Chance 21% Off** (2021-11-30) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **11/24 - Thanksgiving Sale** (2021-11-24) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **11/9 End of Season Tips** (2021-11-09) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **10/19 Sainfoin Sale** (2021-10-19) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **10/5 Overstock Sale** (2021-10-05) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **9/21 Cover Crops** (2021-09-21) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **9/2 Last Chance** (2021-09-02) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **8/27 Food Plot Blends** (2021-08-27) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, VG8r23, WACUVQ
+- [Sent] **8/19 - Drought Recovery Sale** (2021-08-19) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **Globemallow Sale - 7/20** (2021-07-20) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **7/6 - Heat Wave** (2021-07-06) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **6/22 - Summer Wildflower Sale** (2021-06-22) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **6/8 - Wildfire Email** (2021-06-08) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **6/01 - Last Day Memorial Day Sale Reminder** (2021-06-01) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **5/25 - Memorial Day Sale** (2021-05-25) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **5/11 - Birds & Bees Sale** (2021-05-11) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **4/27 Mother's Day** (2021-04-27) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **4/13Backyard Chickens** (2021-04-13) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **3/30 Anniversary Sale** (2021-03-30) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **3/16 - St. Patty's Day** (2021-03-16) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **March 2 Email - Cottagecore** (2021-03-02) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **2/15 Restocking Email** (2021-02-16) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **Email Campaign 2021-01-07 17:54:33** (2021-01-08) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+
+### 2020 — 19 campaigns (18 sent)
+
+- [Sent] **End of Thanksgiving Sale** (2020-11-30) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **Email Campaign 2020-11-25 12:01:35** (2020-11-26) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **Fall Campaign** (2020-10-29) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **Success 2020** (2020-10-16) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **Horse Pasture Mix** (2020-09-30) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **Labor Day Sale Reminder** (2020-09-09) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2, Rdmgqp, SZM9US, UNd3rm, WACUVQ
+- [Sent] **Labor Day/ Cool Season Grasses** (2020-09-02) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2
+- [Sent] **Fall Grasses** (2020-08-21) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2
+- [Sent] **Fire-resistant Blends** (2020-07-31) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2
+- [Sent] **Fourth of July Sale** (2020-07-02) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2
+- [Sent] **Summer Penstemons** (2020-06-26) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2
+- [Sent] **Warm Season Grasses** (2020-06-11) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2
+- [Sent] **ATHOME Sale** (2020-05-29) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2
+- [Sent] **National Wildflower Week** (2020-05-11) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2
+- [Sent] **Earth Day April 2020** (2020-04-22) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2
+- [Sent] **March- Sales Annual Wildflower Blend** (2020-03-13) → HzC8DX, JNTYgB, NBQVJZ, NLT2S2
+- [Sent] **February Newsletter** (2020-02-28) → HzC8DX, JNTYgB, NBQVJZ
+- [Draft] **NA** (2020-02-28)
+- [Sent] **February Newsletter** (2020-02-28) → NLT2S2
+
+### 2019 — 6 campaigns (6 sent)
+
+- [Sent] **Labor Day Sale 2019** (2019-08-30) → NLT2S2, PJRMkW
+- [Sent] **The South** (2019-06-12) → JMR77g
+- [Sent] **Memorial Day Weekend Sale** (2019-05-22) → HzC8DX, NLT2S2
+- [Sent] **Win-Back Opportunity** (2019-05-06) → JNTYgB
+- [Sent] **Newsletter** (2019-04-30) → H2u6L8, HzC8DX, NLT2S2
+- [Sent] **Spring Launch** (2019-04-15) → HzC8DX

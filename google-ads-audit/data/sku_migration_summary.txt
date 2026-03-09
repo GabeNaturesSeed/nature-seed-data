@@ -1,0 +1,105 @@
+======================================================================
+SKU MIGRATION MAP — SUMMARY REPORT
+Nature's Seed — Google Ads → Merchant Center Mapping
+======================================================================
+
+OVERALL STATISTICS
+----------------------------------------
+Total unique old products:       6028
+Matched to live products:        3300  (54.7%)
+Unmatched (no live product):      2728  (45.3%)
+
+REVENUE COVERAGE
+----------------------------------------
+Total historical revenue:      $1,535,317.75
+Matched revenue:               $1,366,268.12  (89.0%)
+Unmatched revenue:             $  169,049.63  (11.0%)
+
+SPEND COVERAGE
+----------------------------------------
+Total historical spend:        $  434,136.33
+Matched spend:                 $  369,063.37  (85.0%)
+Unmatched spend:               $   65,072.96  (15.0%)
+
+TOP 100 PRODUCTS (BY REVENUE)
+----------------------------------------
+Top 100 total revenue:         $  684,301.93
+Top 100 matched:                   97 / 100
+Top 100 matched revenue:       $  674,258.94  (98.5%)
+
+MATCH METHOD BREAKDOWN
+----------------------------------------
+  replacement_map_title            4754 rows
+  replacement_map                  2484 rows
+  title                            1076 rows
+  direct_gla_id_match               814 rows
+  base_sku_match                    523 rows
+  exact_mpn_match                    19 rows
+  user_confirmed                      6 rows
+
+MATCH CONFIDENCE BREAKDOWN
+----------------------------------------
+  medium                           7504 rows
+  high                             1362 rows
+  low                               810 rows
+
+TOP 20 UNMATCHED PRODUCTS (BY REVENUE)
+----------------------------------------------------------------------
+Rank  Product ID                           Revenue       Spend  Title
+----------------------------------------------------------------------
+   1  pg-onvi                         $  3,684.09  $  236.29  Sainfoin Pasture Seed | Nature's Seed
+   2  gs1-445905                      $  3,361.94  $  630.93  Nature's Seed Lawn Fine Fescue Filler-Free Low-water 10 Lb o
+   3  gla_184689                      $  2,996.96  $  331.79  Indiangrass
+   4  gla_355976                      $  2,647.34  $  870.08  Native Tallgrass Mix
+   5  pb-swdh-2.5-a                   $  2,431.56  $  472.54  Southwest Desert Horse Forage Blend - Pasture Seed | Nature'
+   6  gla_184525                      $  2,415.57  $  464.96  Alfalfa Seeds
+   7  pg-brbi                         $  2,255.12  $  240.51  Meadow Brome
+   8  pb-pnwpb-2.5-a                  $  2,155.10  $   87.37  Pacific Northwest Poultry Forage Blend - Pasture Seed | Natu
+   9  pg-brin                         $  2,076.94  $  283.18  Smooth Brome
+  10  pg-sobi                         $  1,877.83  $  555.27  Grain Sorghum Pasture Seed | Nature's Seed
+  11  gla_183456                      $  1,811.99  $    3.79  Desert Senna
+  12  pb-ssh-2.5-a                    $  1,669.40  $  364.21  Southern Subtropics Horse Forage Blend - Pasture Seed | Natu
+  13  gla_355975                      $  1,586.96  $  569.29  Native Tallgrass Mix
+  14  w-spam                          $  1,579.56  $  238.07  Desert Globemallow
+  15  pg-peas-10-lb                   $  1,559.52  $  255.01  Field Pea - Pasture Seed | Nature's Seed
+  16  gs2_000008                      $  1,548.18  $   85.79  Nature's Seed Forage 25 Lb of Pasture Grass Seed for 25,000 
+  17  gla_184591                      $  1,446.81  $  188.57  Sainfoin
+  18  gla_185313                      $  1,383.78  $  382.90  Common Buckwheat
+  19  gs1_000010                      $  1,338.15  $  205.37  Nature's Seed Any Region Poultry Forage 5 Lb of Pasture Gras
+  20  gs3_000007                      $  1,334.32  $  821.52  Nature's Seed Forage 50 Lb of Pasture Grass Seed for 50,000 
+
+======================================================================
+TOP 30 MATCHED PRODUCTS (BY REVENUE)
+----------------------------------------------------------------------
+Rank  Old ID                          Revenue  Method                     New Product
+----------------------------------------------------------------------
+   1  s-trre                     $132,792.09  user_confirmed             gla_447280 (White Dutch Clover Seed - Low-Mow Lawn A)
+   2  s-micro                    $ 43,823.99  user_confirmed             gla_451060 (Microclover Lawn Seed - Self-Fertilizing)
+   3  gla_187069                 $ 18,924.46  replacement_map_title      gla_447331 (California Native Grass Seed Mix - Habit)
+   4  gla_401735                 $ 12,695.21  replacement_map_title      gla_445881 (Premium Lawn Seed Mix (Jimmy's Blue Ribb)
+   5  gla_406887                 $ 12,644.75  replacement_map_title      gla_446820 (Tall Fescue Pasture Seed - Deep-Rooted F)
+   6  pb-pnwec                   $ 12,550.27  replacement_map            gla_447444 (California Erosion Control Seed Mix - Na)
+   7  turf-ff                    $ 11,548.07  replacement_map            gla_445905 (Fine Fescue Lawn Seed Mix - Low-Maintena)
+   8  pb-pnwd                    $ 11,359.81  replacement_map_title      gla_445284 (Sheep Pasture Seed Mix - Cold Season, Hi)
+   9  pb-glh                     $  9,973.14  replacement_map            gla_445559 (Horse Pasture Seed Mix - Transitional Zo)
+  10  gla_186743                 $  9,790.41  replacement_map_title      gla_447444 (California Erosion Control Seed Mix - Na)
+  11  pb-gls                     $  9,626.54  replacement_map            gla_445286 (Sheep & Goat Pasture Seed Mix - High-Pro)
+  12  gla_184640                 $  8,641.93  title_similarity_0.90      gla_446613 (Buffalograss Pasture Seed - Native Droug)
+  13  gla_186145                 $  8,286.96  replacement_map_title      gla_446577 (California Wildflower Seed Mix - Native )
+  14  pb-sath                    $  7,942.39  replacement_map            gla_445281 (Horse Pasture Seed Mix - Cool-Adapted, N)
+  15  pb-pnwh                    $  7,676.74  replacement_map            gla_445861 (Horse Pasture Seed Mix - Cold Season Nor)
+  16  gla_184866                 $  7,550.56  replacement_map_title      gla_447444 (California Erosion Control Seed Mix - Na)
+  17  pb-gph                     $  7,171.94  replacement_map            gla_445559 (Horse Pasture Seed Mix - Transitional Zo)
+  18  gla_406919                 $  7,051.92  replacement_map_title      gla_447280 (White Dutch Clover Seed - Low-Mow Lawn A)
+  19  gla_186377                 $  6,783.26  replacement_map_title      gla_445905 (Fine Fescue Lawn Seed Mix - Low-Maintena)
+  20  pg-buda-1-lb               $  6,612.89  base_sku_match             gla_446613 (Buffalograss Pasture Seed - Native Droug)
+  21  turf-buda-5000-f           $  6,587.00  base_sku_match             gla_457050 (Sundancer Buffalograss Lawn Seed - Droug)
+  22  gla_445540                 $  6,405.81  direct_gla_id_match        gla_447323 (California Native Fine Fescue Lawn Seed )
+  23  gla_406921                 $  6,359.19  replacement_map_title      gla_447280 (White Dutch Clover Seed - Low-Mow Lawn A)
+  24  pg-mesa                    $  6,338.57  base_sku_match             gla_444944 (Alfalfa Pasture Seed - Premium Forage & )
+  25  gla_446575                 $  6,297.13  direct_gla_id_match        gla_446577 (California Wildflower Seed Mix - Native )
+  26  turf-nff-2000-f            $  6,293.51  base_sku_match             gla_447323 (California Native Fine Fescue Lawn Seed )
+  27  gla_183612                 $  6,172.50  replacement_map_title      gla_445559 (Horse Pasture Seed Mix - Transitional Zo)
+  28  pb-swdh                    $  6,134.72  replacement_map_title      gla_445285 (Sheep Pasture Seed Mix - Transitional Zo)
+  29  pg-pavi                    $  5,889.85  base_sku_match             gla_445499 (Switchgrass Seed - Perennial Pasture & H)
+  30  gla_406902                 $  5,777.19  replacement_map_title      gla_446798 (Bermudagrass Pasture Seed - Fast-Growing)

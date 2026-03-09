@@ -1,0 +1,463 @@
+================================================================================
+GOOGLE ADS AUDIT CROSS-REFERENCE: LIVE FEED vs HISTORICAL PERFORMANCE
+Generated: 2026-03-05
+================================================================================
+
+METHODOLOGY
+----------------------------------------
+Live products in Google Merchant Center feed: 278 unique IDs
+Live products in feed CSV (with titles): 280 rows
+Matching approach:
+  1. Exact Product Item ID match against live feed IDs
+  2. Title similarity (case-insensitive substring containment) for non-ID matches
+
+================================================================================
+A) AUDIT LIST SURVIVAL RATES
+================================================================================
+
+List                                          Original   Live      %  Hist Spend (Live)    Hist Rev (Live)
+---------------------------------------------------------------------------------------------------------
+Star Products (Top Performers)                      29      6  20.7% $        6,273.99 $       37,329.95
+High ROAS Underinvested (Hidden Gems)              542     51   9.4% $        6,530.97 $       57,784.25
+Forage/Animal Products                            1130    120  10.6% $       21,629.58 $       76,622.22
+Zero Conversion Products                          2825    141   5.0% $        3,743.32 $            0.66
+
+Match type breakdown:
+  Star Products (Top Performers): 3 by ID, 3 by title similarity
+  High ROAS Underinvested (Hidden Gems): 30 by ID, 21 by title similarity
+  Forage/Animal Products: 110 by ID, 10 by title similarity
+  Zero Conversion Products: 78 by ID, 63 by title similarity
+
+================================================================================
+B) STAR PRODUCTS DETAIL (Top Performers)
+================================================================================
+
+STILL LIVE: 6 of 29
+  [LIVE-title_contains] gla_184640
+    Title: Buffalograss
+    ROAS: 4.04, Revenue: $8641.93, Cost: $2139.38
+  [LIVE-id_exact] gla_445540
+    Title: California Native Fine Fescue Mix | Low Water, No-Mow Lawn Alter Native | 5 Lb 10,000 Sq Ft | Nature
+    ROAS: 5.51, Revenue: $6405.81, Cost: $1162.25
+  [LIVE-id_exact] gla_446575
+    Title: California Wildflower Seed Blend 5 Lb for 10,000 Sq Ft Mix Native to California | Nature's Seed
+    ROAS: 7.56, Revenue: $6297.13, Cost: $833.06
+  [LIVE-id_exact] gla_445869
+    Title: Poultry Forage Mix Omega-3 Rich Clover & Alfalfa Blend for Chickens & Ducks 5 Lb for 10,000 Sq Ft | 
+    ROAS: 6.23, Revenue: $5474.24, Cost: $879.05
+  [LIVE-title_contains] pg-phpr
+    Title: Timothy
+    ROAS: 10.06, Revenue: $5433.48, Cost: $539.94
+  [LIVE-title_contains] pg-buda
+    Title: Buffalograss Pasture Seed
+    ROAS: 7.05, Revenue: $5077.36, Cost: $720.31
+
+NO LONGER IN FEED: 23 of 29
+  [GONE] s-trre
+    Title: White Dutch Clover Lawn Seed - Bulk bags available - No added filler
+    ROAS: 8.81, Revenue: $132792.09, Cost: $15071.61
+  [GONE] s-micro
+    Title: Microclover Seed For Lawns - Bulk bags available - No added filler
+    ROAS: 7.61, Revenue: $43823.99, Cost: $5755.40
+  [GONE] pb-pnwec
+    Title: Pacific Northwest Erosion Control Mix Specialty Seed | Nature's Seed
+    ROAS: 5.96, Revenue: $12550.27, Cost: $2105.20
+  [GONE] turf-ff
+    Title: Fine Fescue Grass Seed Mix | Nature's Seed
+    ROAS: 7.73, Revenue: $11548.07, Cost: $1493.18
+  [GONE] pb-pnwd
+    Title: Pacific Northwest Dryland Pasture Mix Specialty Seed | Nature's Seed
+    ROAS: 7.31, Revenue: $11359.81, Cost: $1553.07
+  [GONE] pb-glh
+    Title: Great Lakes/New England Horse Forage Mix Pasture Seed | Nature's Seed
+    ROAS: 9.48, Revenue: $9973.14, Cost: $1052.16
+  [GONE] pb-gls
+    Title: Great Lakes/New England Sheep Forage Mix Pasture Seed | Nature's Seed
+    ROAS: 18.87, Revenue: $9626.54, Cost: $510.20
+  [GONE] pb-sath
+    Title: South-Atlantic Transitional Horse Forage Mix Pasture Seed | Nature's Seed
+    ROAS: 12.32, Revenue: $7942.39, Cost: $644.58
+  [GONE] pb-pnwh
+    Title: Pacific Northwest Horse Forage Mix
+    ROAS: 7.22, Revenue: $7676.74, Cost: $1063.70
+  [GONE] pb-gph
+    Title: Great Plains Horse Forage Mix Pasture Seed | Nature's Seed
+    ROAS: 9.16, Revenue: $7171.94, Cost: $782.69
+  [GONE] pg-buda-1-lb
+    Title: Buffalograss - Pasture Seed | Nature's Seed
+    ROAS: 4.18, Revenue: $6612.89, Cost: $1583.70
+  [GONE] turf-buda-5000-f
+    Title: Buffalograss Seed Blend - Grass Seed | Nature's Seed
+    ROAS: 72.97, Revenue: $6587.00, Cost: $90.27
+  [GONE] pg-mesa
+    Title: Alfalfa seeds - Bulk bags available - High quality alfalfa seed for pastures, forage, cover crops or
+    ROAS: 8.57, Revenue: $6338.57, Cost: $739.49
+  [GONE] turf-nff-2000-f
+    Title: Native Fine Fescue Mix - Grass Seed | Nature's Seed
+    ROAS: 17.44, Revenue: $6293.51, Cost: $360.90
+  [GONE] gla_183612
+    Title: Great Lakes/New England Horse Forage Mix
+    ROAS: 8.56, Revenue: $6172.50, Cost: $720.76
+  [GONE] pb-swdh
+    Title: Southwest Desert Horse Forage Mix Pasture Seed | Nature's Seed
+    ROAS: 5.92, Revenue: $6134.72, Cost: $1036.46
+  [GONE] pg-pavi
+    Title: Switchgrass Pasture Seed | Nature's Seed
+    ROAS: 5.85, Revenue: $5889.85, Cost: $1006.35
+  [GONE] gla_406902
+    Title: Buffalograss Seed Blend 1000 sq. ft.
+    ROAS: 4.09, Revenue: $5777.19, Cost: $1413.11
+  [GONE] pg-trre-50-lb
+    Title: White Clover - Pasture Seed | Nature's Seed
+    ROAS: 10.28, Revenue: $5498.26, Cost: $534.77
+  [GONE] gla_192010
+    Title: Northeast Seed Mix
+    ROAS: 4.94, Revenue: $5223.91, Cost: $1057.04
+  [GONE] gla_183934
+    Title: Southern Subtropics Sheep Forage Mix
+    ROAS: 16.65, Revenue: $5185.73, Cost: $311.51
+  [GONE] turf-jbr-1000-f
+    Title: Jimmy's Blue Ribbon Premium Grass Seed Mix - Grass Seed | Nature's Seed
+    ROAS: 8.00, Revenue: $5159.26, Cost: $644.89
+  [GONE] gla_184431
+    Title: Tortoise Forage Mix
+    ROAS: 4.79, Revenue: $5081.47, Cost: $1060.51
+
+================================================================================
+C) FORAGE/ANIMAL PRODUCTS - CATEGORY BREAKDOWN
+================================================================================
+
+Category                                                  Live   Gone  Total  % Live
+----------------------------------------------------------------------------------
+                                                             3     15     18   16.7%
+alfalfa seed                                                 0      1      1    0.0%
+alpaca/llama pastures                                        0     35     35    0.0%
+bison pastures                                               0     31     31    0.0%
+cattle pastures                                              0     72     72    0.0%
+cattle spinach                                               0      5      5    0.0%
+clover seeds                                                 9      0      9  100.0%
+fescue grass seed                                            1      4      5   20.0%
+florida tropics alpaca/llama forage blend                    0      3      3    0.0%
+florida tropics alpaca/llama forage mix                      0      1      1    0.0%
+florida tropics beef cattle forage blend                     0      3      3    0.0%
+florida tropics beef cattle forage mix                       0      1      1    0.0%
+florida tropics bison forage blend                           0      3      3    0.0%
+florida tropics bison forage mix                             0      1      1    0.0%
+florida tropics dairy cow forage blend                       0      3      3    0.0%
+florida tropics dairy cow forage mix                         0      1      1    0.0%
+florida tropics goat forage blend                            0      3      3    0.0%
+florida tropics goat forage mix                              0      1      1    0.0%
+florida tropics horse forage blend                           0      3      3    0.0%
+florida tropics horse forage mix                             0      1      1    0.0%
+florida tropics pig forage mix                               0      4      4    0.0%
+florida tropics poultry forage blend                         0      8      8    0.0%
+florida tropics poultry forage mix                           0      1      1    0.0%
+florida tropics sheep forage blend                           0      3      3    0.0%
+florida tropics sheep forage mix                             0      1      1    0.0%
+food plot mix wildlife attractor                            13      0     13  100.0%
+forage chicory                                               0      5      5    0.0%
+forage kochia                                                0      5      5    0.0%
+forage radish                                                0      5      5    0.0%
+goat pasture seed                                            0      2      2    0.0%
+goat pastures                                                0     34     34    0.0%
+grass seed by state                                          4      0      4  100.0%
+great lakes/new england alpaca/llama forage blend            0      3      3    0.0%
+great lakes/new england alpaca/llama forage mix              0      1      1    0.0%
+great lakes/new england beef cattle forage blend             0      3      3    0.0%
+great lakes/new england beef cattle forage mix               0      1      1    0.0%
+great lakes/new england bison forage blend                   0      3      3    0.0%
+great lakes/new england bison forage mix                     0      1      1    0.0%
+great lakes/new england dairy cow forage blend               0      3      3    0.0%
+great lakes/new england dairy cow forage mix                 0      1      1    0.0%
+great lakes/new england goat forage blend                    0      3      3    0.0%
+great lakes/new england goat forage mix                      0      1      1    0.0%
+great lakes/new england horse forage blend                   0      3      3    0.0%
+great lakes/new england horse forage mix                     0      1      1    0.0%
+great lakes/new england pig forage mix                       0      4      4    0.0%
+great lakes/new england poultry forage blend                 0      8      8    0.0%
+great lakes/new england poultry forage mix                   0      1      1    0.0%
+great lakes/new england sheep forage blend                   0      3      3    0.0%
+great lakes/new england sheep forage mix                     0      1      1    0.0%
+great plains alpaca/llama forage blend                       0      3      3    0.0%
+great plains alpaca/llama forage mix                         0      1      1    0.0%
+great plains beef cattle forage blend                        0      3      3    0.0%
+great plains beef cattle forage mix                          0      1      1    0.0%
+great plains bison forage blend                              0      3      3    0.0%
+great plains bison forage mix                                0      1      1    0.0%
+great plains dairy cow forage blend                          0      3      3    0.0%
+great plains dairy cow forage mix                            0      1      1    0.0%
+great plains goat forage blend                               0      3      3    0.0%
+great plains goat forage mix                                 0      1      1    0.0%
+great plains horse forage blend                              0      3      3    0.0%
+great plains horse forage mix                                0      1      1    0.0%
+great plains pig forage mix                                  0      4      4    0.0%
+great plains planting region                                 0      1      1    0.0%
+great plains poultry forage blend                            0      8      8    0.0%
+great plains poultry forage mix                              0      1      1    0.0%
+great plains sheep forage blend                              0      3      3    0.0%
+great plains sheep forage mix                                0      1      1    0.0%
+horse pasture seed                                           0      1      1    0.0%
+horse pastures                                               0     36     36    0.0%
+individual pasture species                                   1     14     15    6.7%
+individual species seeds                                     1      0      1  100.0%
+intermountain west alpaca/llama forage blend                 0      3      3    0.0%
+intermountain west alpaca/llama forage mix                   0      1      1    0.0%
+intermountain west beef cattle forage blend                  0      3      3    0.0%
+intermountain west beef cattle forage mix                    0      1      1    0.0%
+intermountain west bison forage blend                        0      3      3    0.0%
+intermountain west bison forage mix                          0      1      1    0.0%
+intermountain west dairy cow forage blend                    0      3      3    0.0%
+intermountain west dairy cow forage mix                      0      1      1    0.0%
+intermountain west goat forage blend                         0      3      3    0.0%
+intermountain west goat forage mix                           0      1      1    0.0%
+intermountain west horse forage blend                        0      3      3    0.0%
+intermountain west horse forage mix                          0      1      1    0.0%
+intermountain west pig forage mix                            0      4      4    0.0%
+intermountain west poultry forage blend                      0      8      8    0.0%
+intermountain west poultry forage mix                        0      1      1    0.0%
+intermountain west sheep forage blend                        0      3      3    0.0%
+intermountain west sheep forage mix                          0      1      1    0.0%
+lawn alternative/enhancer                                    3      3      6   50.0%
+lawn seed                                                    1      0      1  100.0%
+mid-west/mid-atlantic alpaca/llama forage blend              0      3      3    0.0%
+mid-west/mid-atlantic alpaca/llama forage mix                0      1      1    0.0%
+mid-west/mid-atlantic beef cattle forage blend               0      3      3    0.0%
+mid-west/mid-atlantic beef cattle forage mix                 0      1      1    0.0%
+mid-west/mid-atlantic bison forage blend                     0      3      3    0.0%
+mid-west/mid-atlantic bison forage mix                       0      1      1    0.0%
+mid-west/mid-atlantic dairy cow forage blend                 0      3      3    0.0%
+mid-west/mid-atlantic dairy cow forage mix                   0      1      1    0.0%
+mid-west/mid-atlantic goat forage blend                      0      3      3    0.0%
+mid-west/mid-atlantic goat forage mix                        0      1      1    0.0%
+mid-west/mid-atlantic horse forage blend                     0      3      3    0.0%
+mid-west/mid-atlantic horse forage mix                       0      1      1    0.0%
+mid-west/mid-atlantic pig forage mix                         0      4      4    0.0%
+mid-west/mid-atlantic poultry forage blend                   0      8      8    0.0%
+mid-west/mid-atlantic poultry forage mix                     0      1      1    0.0%
+mid-west/mid-atlantic sheep forage blend                     0      3      3    0.0%
+mid-west/mid-atlantic sheep forage mix                       0      1      1    0.0%
+new                                                          0      2      2    0.0%
+pacific northwest alpaca/llama forage blend                  0      3      3    0.0%
+pacific northwest alpaca/llama forage mix                    0      1      1    0.0%
+pacific northwest beef cattle forage blend                   0      3      3    0.0%
+pacific northwest beef cattle forage mix                     0      1      1    0.0%
+pacific northwest bison forage blend                         0      3      3    0.0%
+pacific northwest bison forage mix                           0      1      1    0.0%
+pacific northwest dairy cow forage blend                     0      3      3    0.0%
+pacific northwest dairy cow forage mix                       0      1      1    0.0%
+pacific northwest goat forage blend                          0      3      3    0.0%
+pacific northwest goat forage mix                            0      1      1    0.0%
+pacific northwest horse forage blend                         0      3      3    0.0%
+pacific northwest horse forage mix                           0      1      1    0.0%
+pacific northwest pig forage mix                             0      4      4    0.0%
+pacific northwest poultry forage blend                       0      8      8    0.0%
+pacific northwest poultry forage mix                         0      1      1    0.0%
+pacific northwest sheep forage blend                         0      3      3    0.0%
+pacific northwest sheep forage mix                           0      1      1    0.0%
+pacific southwest alpaca/llama forage blend                  0      3      3    0.0%
+pacific southwest alpaca/llama forage mix                    0      1      1    0.0%
+pacific southwest beef cattle forage blend                   0      3      3    0.0%
+pacific southwest beef cattle forage mix                     0      1      1    0.0%
+pacific southwest bison forage blend                         0      3      3    0.0%
+pacific southwest bison forage mix                           0      1      1    0.0%
+pacific southwest dairy cow forage blend                     0      3      3    0.0%
+pacific southwest dairy cow forage mix                       0      1      1    0.0%
+pacific southwest goat forage blend                          0      3      3    0.0%
+pacific southwest goat forage mix                            0      1      1    0.0%
+pacific southwest horse forage blend                         0      3      3    0.0%
+pacific southwest horse forage mix                           0      1      1    0.0%
+pacific southwest pig forage mix                             0      4      4    0.0%
+pacific southwest poultry forage blend                       0      8      8    0.0%
+pacific southwest poultry forage mix                         0      1      1    0.0%
+pacific southwest sheep forage blend                         0      3      3    0.0%
+pacific southwest sheep forage mix                           0      1      1    0.0%
+pasture seed                                                 0     10     10    0.0%
+pasture seed by region                                       0      6      6    0.0%
+pasture seed mix for cows and cattle                         0      1      1    0.0%
+pasture seeds mix                                           52     14     66   78.8%
+pig pastures                                                 0     35     35    0.0%
+poultry pastures                                             0     95     95    0.0%
+sale                                                         0     10     10    0.0%
+seed selector                                                0      1      1    0.0%
+sheep fescue grass                                           1      4      5   20.0%
+sheep pastures                                               0     35     35    0.0%
+single species pasture seeds                                31     11     42   73.8%
+south-atlantic transitional alpaca/llama forage blend        0      3      3    0.0%
+south-atlantic transitional alpaca/llama forage mix          0      1      1    0.0%
+south-atlantic transitional beef cattle forage blend         0      3      3    0.0%
+south-atlantic transitional beef cattle forage mix           0      1      1    0.0%
+south-atlantic transitional bison forage blend               0      3      3    0.0%
+south-atlantic transitional bison forage mix                 0      1      1    0.0%
+south-atlantic transitional dairy cow forage blend           0      3      3    0.0%
+south-atlantic transitional dairy cow forage mix             0      1      1    0.0%
+south-atlantic transitional goat forage blend                0      3      3    0.0%
+south-atlantic transitional goat forage mix                  0      1      1    0.0%
+south-atlantic transitional horse forage blend               0      3      3    0.0%
+south-atlantic transitional horse forage mix                 0      1      1    0.0%
+south-atlantic transitional pig forage mix                   0      4      4    0.0%
+south-atlantic transitional poultry forage blend             0      8      8    0.0%
+south-atlantic transitional poultry forage mix               0      1      1    0.0%
+south-atlantic transitional sheep forage blend               0      3      3    0.0%
+south-atlantic transitional sheep forage mix                 0      1      1    0.0%
+southern subtropics alpaca/llama forage blend                0      3      3    0.0%
+southern subtropics alpaca/llama forage mix                  0      1      1    0.0%
+southern subtropics beef cattle forage blend                 0      3      3    0.0%
+southern subtropics beef cattle forage mix                   0      1      1    0.0%
+southern subtropics bison forage blend                       0      3      3    0.0%
+southern subtropics bison forage mix                         0      1      1    0.0%
+southern subtropics dairy cow forage blend                   0      3      3    0.0%
+southern subtropics dairy cow forage mix                     0      1      1    0.0%
+southern subtropics goat forage blend                        0      3      3    0.0%
+southern subtropics goat forage mix                          0      1      1    0.0%
+southern subtropics horse forage blend                       0      3      3    0.0%
+southern subtropics horse forage mix                         0      1      1    0.0%
+southern subtropics pig forage mix                           0      4      4    0.0%
+southern subtropics poultry forage blend                     0      8      8    0.0%
+southern subtropics poultry forage mix                       0      1      1    0.0%
+southern subtropics sheep forage blend                       0      3      3    0.0%
+southern subtropics sheep forage mix                         0      1      1    0.0%
+southwest desert alpaca/llama forage blend                   0      3      3    0.0%
+southwest desert alpaca/llama forage mix                     0      1      1    0.0%
+southwest desert beef cattle forage blend                    0      3      3    0.0%
+southwest desert beef cattle forage mix                      0      1      1    0.0%
+southwest desert bison forage blend                          0      3      3    0.0%
+southwest desert bison forage mix                            0      1      1    0.0%
+southwest desert dairy cow forage blend                      0      3      3    0.0%
+southwest desert dairy cow forage mix                        0      1      1    0.0%
+southwest desert goat forage blend                           0      3      3    0.0%
+southwest desert goat forage mix                             0      1      1    0.0%
+southwest desert horse forage blend                          0      3      3    0.0%
+southwest desert horse forage mix                            0      1      1    0.0%
+southwest desert pig forage mix                              0      4      4    0.0%
+southwest desert poultry forage blend                        0      8      8    0.0%
+southwest desert poultry forage mix                          0      1      1    0.0%
+southwest desert sheep forage blend                          0      3      3    0.0%
+southwest desert sheep forage mix                            0      1      1    0.0%
+southwest semi-arid steppe alpaca/llama forage blend         0      3      3    0.0%
+southwest semi-arid steppe alpaca/llama forage mix           0      1      1    0.0%
+southwest semi-arid steppe beef cattle forage blend          0      3      3    0.0%
+southwest semi-arid steppe beef cattle forage mix            0      1      1    0.0%
+southwest semi-arid steppe bison forage blend                0      3      3    0.0%
+southwest semi-arid steppe bison forage mix                  0      1      1    0.0%
+southwest semi-arid steppe dairy cow forage blend            0      3      3    0.0%
+southwest semi-arid steppe dairy cow forage mix              0      1      1    0.0%
+southwest semi-arid steppe goat forage blend                 0      3      3    0.0%
+southwest semi-arid steppe goat forage mix                   0      1      1    0.0%
+southwest semi-arid steppe horse forage blend                0      3      3    0.0%
+southwest semi-arid steppe horse forage mix                  0      1      1    0.0%
+southwest semi-arid steppe pig forage mix                    0      4      4    0.0%
+southwest semi-arid steppe poultry forage blend              0      8      8    0.0%
+southwest semi-arid steppe poultry forage mix                0      1      1    0.0%
+southwest semi-arid steppe sheep forage blend                0      3      3    0.0%
+southwest semi-arid steppe sheep forage mix                  0      1      1    0.0%
+southwest transitional alpaca/llama forage blend             0      3      3    0.0%
+southwest transitional alpaca/llama forage mix               0      1      1    0.0%
+southwest transitional beef cattle forage blend              0      3      3    0.0%
+southwest transitional beef cattle forage mix                0      1      1    0.0%
+southwest transitional bison forage blend                    0      3      3    0.0%
+southwest transitional bison forage mix                      0      1      1    0.0%
+southwest transitional dairy cow forage blend                0      3      3    0.0%
+southwest transitional dairy cow forage mix                  0      1      1    0.0%
+southwest transitional goat forage blend                     0      3      3    0.0%
+southwest transitional goat forage mix                       0      1      1    0.0%
+southwest transitional horse forage blend                    0      3      3    0.0%
+southwest transitional horse forage mix                      0      1      1    0.0%
+southwest transitional pig forage mix                        0      4      4    0.0%
+southwest transitional planting region                       0      1      1    0.0%
+southwest transitional poultry forage blend                  0      8      8    0.0%
+southwest transitional poultry forage mix                    0      1      1    0.0%
+southwest transitional sheep forage blend                    0      3      3    0.0%
+southwest transitional sheep forage mix                      0      1      1    0.0%
+specialty seed by region                                     0      4      4    0.0%
+tortoise forage mix                                          0      6      6    0.0%
+tortoise forage mix (no bermudagrass)                        0      5      5    0.0%
+uncategorized                                                0      9      9    0.0%
+
+================================================================================
+D) ZERO CONVERSION PRODUCTS - EXCLUSION LIST
+================================================================================
+
+Original zero-conversion products: 2825
+Still live (should be excluded from campaigns): 141
+Already gone from feed: 2684
+Historical wasted spend on live zero-conv products: $3,743.32
+
+Top 20 live zero-conversion products by wasted spend:
+  1. gla_447346 - $134.72 spent, 85 clicks
+     Native Erosion Control Mix – Soil Stabilization for Arid Regions 10 Lb for 20,000 Sq Ft | 
+  2. gla_445279 - $119.92 spent, 39 clicks
+     Nature's Seed Any Region Pasture & Forage 50 Lb for 50,000 Sq Ft Mix Designed to attract B
+  3. gla_444937 - $105.5 spent, 52 clicks
+     Nature's Seed Pasture & Forage 5 Lb for 5,000 Sq Ft Blue Grama Filler-Free Curated Varieti
+  4. gla_452707 - $97.53 spent, 76 clicks
+     Pet and Children Bluegrass Blend – Sustainable Turf, Low Maintenance Lawn Seed 10 Lb for 2
+  5. gla_445854 - $97.02 spent, 87 clicks
+     Nature's Seed Lawn Bermudagrass Extremely Resistant blend 10 Lb of Grass Seed for 2,000 Sq
+  6. gla_459809 - $95.39 spent, 71 clicks
+     Nature's Seed Native Cabin Grass Seed Mix 25 lb Bag - Covers 50,000 sq ft - Pasture & Cabi
+  7. gla_446608 - $93.02 spent, 171 clicks
+     Kentucky Bluegrass (Poa pratensis) – Fine-Textured, High Traffic Pasture Grass 5 Lb for 5,
+  8. gla_447323 - $91.47 spent, 136 clicks
+     California Native Fine Fescue Mix | Low Water, No-Mow Lawn Alter Native | 25 Lb 50,000 Sq 
+  9. gla_444234 - $89.81 spent, 114 clicks
+     Nature's Seed Pasture & Forage 5 Lb for 5,000 Sq Ft Perennial Ryegrass Filler-Free Curated
+  10. gla_445858 - $85.8 spent, 39 clicks
+     Nature's Seed Any Region Pasture & Forage 25 Lb for 25,000 Sq Ft Mix Designed to attract B
+  11. gla_459584 - $85.25 spent, 81 clicks
+     Nature's Seed Upland Game Food Plot Seed Mix for Ducks & Quail - 50 lb Bag Covers 25,000 s
+  12. gla_445499 - $81.99 spent, 84 clicks
+     Nature's Seed Pasture & Forage 25 Lb for 25,000 Sq Ft Switchgrass Filler-Free Curated Vari
+  13. gla_446601 - $79.46 spent, 49 clicks
+     Nature's Seed Pasture & Forage 25 Lb for 25,000 Sq Ft Timothy Filler-Free Curated Varietie
+  14. gla_452708 - $78.77 spent, 34 clicks
+     Pet and Children Bluegrass Blend – Sustainable Turf, Low Maintenance Lawn Seed 25 Lb for 5
+  15. gla_455935 - $75.8 spent, 55 clicks
+     Nature's Seed Pasture Seed Mix 20 lb Bag - Covers 100,000 Sq Ft - Fast Growing Forage Blen
+  16. gla_446805 - $71.74 spent, 88 clicks
+     Nature's Seed Pasture & Forage 5 Lb for 5,000 Sq Ft Switchgrass Filler-Free Curated Variet
+  17. gla_451061 - $70.45 spent, 27 clicks
+     Microclover Seed (Trifolium) | Self-Fertilizing Lawn Alter Native | 2 Lb for 2,000 Sq Ft |
+  18. gla_446803 - $68.87 spent, 57 clicks
+     Blue Grama Grass Seed 100% Native, Drought-Tolerant Pasture Forage 25 Lb for 50,000 Sq Ft 
+  19. gla_185282 - $67.32 spent, 79 clicks
+     Wheat
+  20. gla_455518 - $66.98 spent, 41 clicks
+     Nature's Seed Full Potential Food Plot Seed Mix 20 lb Bag - Covers 2,000 Sq Ft - Deer & Wi
+
+================================================================================
+E) REVISED IMPACT ESTIMATES
+================================================================================
+
+Original audit recommendations were based on historical data that included products
+no longer in the live Google Merchant Center feed. Below are revised estimates.
+
+STAR PRODUCTS (Priority Bid Increases):
+  Original: 29 products, $367,749.79 historical revenue
+  Revised:  6 products, $37,329.95 historical revenue
+  Revenue coverage: 10.2% of original
+
+HIGH ROAS UNDERINVESTED (Hidden Gems - Increase Bids):
+  Original: 542 products, $426,819.63 historical revenue
+  Revised:  51 products, $57,784.25 historical revenue
+  Revenue coverage: 13.5% of original
+
+FORAGE/ANIMAL PRODUCTS (Dedicated Campaign):
+  Original: 1130 products, $452,921.57 historical revenue
+  Revised:  120 products, $76,622.22 historical revenue
+  Revenue coverage: 16.9% of original
+
+ZERO CONVERSION EXCLUSIONS (Waste Reduction):
+  Original: 2825 products, $33,315.04 historical wasted spend
+  Revised:  141 products, $3,743.32 historical wasted spend
+  Still-applicable waste: 11.2% of original
+
+================================================================================
+OUTPUT FILES GENERATED
+================================================================================
+
+REVISED_star_products_live.csv       - Star products still in live feed
+REVISED_high_roas_live.csv           - High ROAS products still in live feed
+REVISED_forage_live.csv              - Forage/animal products still in live feed
+REVISED_zero_conv_live.csv           - Zero-conversion products still in live feed
+REVISED_product_exclusion_ids.txt    - IDs only for campaign exclusion upload
+REVISED_summary.txt                  - This file
