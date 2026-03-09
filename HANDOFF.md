@@ -1,10 +1,54 @@
-# Nature's Seed — Session Handoff (March 5, 2026)
+# Nature's Seed — Session Handoff (March 9, 2026)
 
 > **Purpose**: This document captures the full context, history, and state of all work completed across multiple CLI sessions. Read this at the start of any new session to pick up where we left off.
 
 ---
 
 ## Active Projects & Status
+
+### 0. Daily Report Pipeline ✅ BUILT (March 9, 2026)
+**Directory**: `daily-report/`
+**GitHub Repo**: `GabeNaturesSeed/nature-seed-data`
+
+**What was done**:
+- Built complete daily P&L data pipeline pulling from 5 sources (WooCommerce, Walmart, Google Ads, Shippo, Google Sheets COGS)
+- Created Supabase schema with 6 tables + 2 views (`daily_summary`, `mtd_comparison`)
+- Backfilled all 365 days of 2025 data (sales + ad spend only, no COGS/Shippo for historical)
+- Set up GitHub Actions cron job (midnight MST / 7 AM UTC)
+- Pushed to GitHub, 14 secrets configured
+
+**Key Files**:
+| File | Purpose |
+|------|---------|
+| `daily-report/daily_pull.py` | Main orchestrator — pulls all 5 sources, writes to Supabase |
+| `daily-report/backfill_2025.py` | Lightweight backfill (sales + ads only) |
+| `daily-report/supabase_schema.sql` | All table DDL + views |
+| `daily-report/requirements.txt` | Python deps (requests, google-ads, google-auth) |
+| `.github/workflows/daily_report.yml` | GitHub Actions cron scheduler |
+
+**Technical lessons learned this session**:
+- Supabase `sb_secret_*` keys are opaque tokens, not JWTs — only use `apikey` header
+- PostgREST upsert needs `on_conflict` query param + `Prefer: resolution=merge-duplicates`
+- Shippo doesn't support date filtering — must paginate and filter locally
+- Shippo rate cost is on `/rates/{id}`, not on the transaction object
+- Deduplicate Shippo by tracking number (voided/recreated labels)
+- Google OAuth: single refresh token can cover 4 API scopes (Ads + GA4 + Merchant + Search Console)
+
+**Remaining**:
+- Connect Retool to Supabase (PostgreSQL: `db.zoeuacgxthkiemzyunsd.supabase.co`, port 6543, db `postgres`, user `postgres`)
+- Build Retool dashboard with MTD/YTD comparison queries
+- Add financial goals to `financial_goals` table
+- Future: Add Amazon channel when API access is obtained
+
+### 0b. Google API Connections Verified (March 9, 2026)
+**What was done**:
+- Verified Google Ads API connection (Python client library)
+- Verified Google Analytics GA4 (Property ID `294622924`)
+- Verified Google Merchant Center (ID `138935850`) — required enabling Content API in Cloud Console
+- Verified Google Search Console (`sc-domain:naturesseed.com` + `https://naturesseed.com/`)
+- Generated new 4-scope OAuth refresh token covering all Google APIs
+
+---
 
 ### 1. Google Ads 4-Year Audit ✅ COMPLETE
 **Directory**: `google-ads-audit/`
@@ -136,19 +180,30 @@
 | Walmart | OAuth 2.0 | Tokens expire in 15 minutes |
 | Fishbowl | HTTP API | Inventory source of truth |
 | Gmail | customercare@naturesseed.com | MCP server connected |
+| Supabase | `zoeuacgxthkiemzyunsd.supabase.co` | Daily report database, `sb_secret_*` API key |
+| Google Ads | Customer `599-287-9586` | Login CID `838-619-4588`, Python client |
+| GA4 | Property `294622924` | Shared OAuth token |
+| Merchant Center | ID `138935850` | Shared OAuth token |
+| Search Console | `sc-domain:naturesseed.com` | Shared OAuth token |
+| Shippo | REST API | Live key, deduplicate by tracking number |
+| Retool | API key available | Dashboard frontend (pending setup) |
+| GitHub Actions | `nature-seed-data` repo | Daily cron at midnight MST |
 
 ---
 
 ## Automation Gaps (Priority Queue)
 
-1. **WC → Walmart price sync** (HIGH)
-2. **Walmart orders → WC/Fishbowl** (MEDIUM)
-3. **Winback flow email 2** — 0% click rate (CRITICAL marketing fix)
-4. **Algolia clickAnalytics** — enable in theme JS (MEDIUM)
-5. **Algolia content sync** — WC descriptions empty in index (MEDIUM)
-6. **Google Ads Tier 2-4 items** — see `LIVE_IMPLEMENTATION_GUIDE.md`
-7. **Texas collection pricing review** — 11 of 21 variants below cost
-8. **Spring recovery follow-up** — reclassify 1,029 "product still exists" profiles
+1. **Retool dashboard setup** — Connect to Supabase, build MTD/YTD views (ACTIVE)
+2. **Financial goals data entry** — Populate `financial_goals` table for goal tracking
+3. **WC → Walmart price sync** (HIGH)
+4. **Walmart orders → WC/Fishbowl** (MEDIUM)
+5. **Winback flow email 2** — 0% click rate (CRITICAL marketing fix)
+6. **Algolia clickAnalytics** — enable in theme JS (MEDIUM)
+7. **Algolia content sync** — WC descriptions empty in index (MEDIUM)
+8. **Google Ads Tier 2-4 items** — see `LIVE_IMPLEMENTATION_GUIDE.md`
+9. **Texas collection pricing review** — 11 of 21 variants below cost
+10. **Spring recovery follow-up** — reclassify 1,029 "product still exists" profiles
+11. **Add Amazon channel** — when API access obtained
 
 ---
 

@@ -17,6 +17,12 @@ This is the central data hub for all Nature's Seed ecommerce operations. Any age
 | Walmart Marketplace | OAuth 2.0 REST API | `.claude/skills/walmart-api/` |
 | Fishbowl Inventory | HTTP API | `.claude/skills/fishbowl-inventory/` |
 | Gmail | MCP Server | `.claude/skills/gmail-communications/` |
+| Supabase | PostgREST API | `daily-report/` |
+| Google Ads | Python client library | `daily-report/daily_pull.py` |
+| Google Analytics (GA4) | REST API | Property ID `294622924` |
+| Google Merchant Center | Content API | Merchant ID `138935850` |
+| Google Search Console | REST API | `sc-domain:naturesseed.com` |
+| Shippo | REST API | `daily-report/daily_pull.py` |
 | Postman | MCP Server | Available via MCP tools |
 | Chrome Browser | MCP Server | Available via MCP tools |
 | Stripe | Via WooCommerce plugin | Documented in WC skill |
@@ -36,6 +42,8 @@ All API credentials are in `.env` in this directory. Never hardcode or expose th
 | `fishbowl-inventory` | Warehouse stock levels, SKU mapping, delivery times |
 | `gmail-communications` | Email search, reading, drafting |
 | `natures-seed-brand` | **Required before ANY customer-facing content** — brand voice, colors, copy patterns |
+| `algolia-search` | Product search optimization, synonyms, rules |
+| `klaviyo-email-design` | Email template HTML/design for Klaviyo |
 
 ## Rules
 
@@ -46,20 +54,65 @@ All API credentials are in `.env` in this directory. Never hardcode or expose th
 5. **Fishbowl is the inventory source of truth** — WooCommerce stock data may lag
 6. **Use `VLbLXB` as the conversion metric ID** in Klaviyo — it's the WooCommerce "Placed Order" metric
 7. **Always pass `model: "claude"` in Klaviyo MCP tool calls**
+8. **Supabase new API keys** — `sb_secret_*` keys are opaque tokens, NOT JWTs. Use only `apikey` header, never `Authorization: Bearer`
+9. **Supabase upsert** — Requires `on_conflict` query param + `Prefer: resolution=merge-duplicates` header. See `_UPSERT_KEYS` in `daily_pull.py`
+10. **Google OAuth multi-scope** — Single refresh token covers Ads, Analytics, Merchant Center, and Search Console. Don't create separate tokens per API
+11. **Shippo date filtering** — API doesn't support reliable date params. Must paginate all transactions and filter by `object_created` locally. Rate cost is on separate `/rates/{id}` endpoint
+12. **Shippo deduplication** — Always deduplicate by tracking number to handle voided/recreated labels
 
 ## Session Handoff
 
 **Read `HANDOFF.md` at the start of any new session.** It captures the full history, completed work, active state, and priority queue from prior sessions.
 
-## Active Work (as of March 5, 2026)
+## Active Work (as of March 9, 2026)
 
 | Project | Directory | Status |
 |---------|-----------|--------|
+| Daily Report Pipeline | `daily-report/` | ✅ Pipeline built, 2025 backfilled, GitHub Actions scheduled |
+| Retool Dashboard | Retool (external) | Pending — connect to Supabase, build MTD/YTD queries |
 | Google Ads 4-Year Audit | `google-ads-audit/` | ✅ Complete — scripts 09-13b built, LIVE audit done |
 | Texas Collection Feed | `google-ads-audit/texas_collection_feed.csv` | ✅ Complete — 21 rows ready to paste |
 | Spring 2026 Recovery | `spring-2026-recovery/` | Sent — follow-up in 2 weeks |
 | Walmart Optimization | `walmart-optimization/` | Sync done — SEO spreadsheet needs upload |
 | Algolia Optimization | `algolia-optimization/` | Config done — clickAnalytics pending |
+
+## Daily Report System
+
+**GitHub Repo**: `GabeNaturesSeed/nature-seed-data`
+**Database**: Supabase (`zoeuacgxthkiemzyunsd.supabase.co`)
+**Frontend**: Retool (free tier)
+**Schedule**: GitHub Actions cron at midnight MST (7 AM UTC)
+
+### Tables (in Supabase)
+| Table | Purpose |
+|-------|---------|
+| `daily_sales` | Revenue/orders by channel (WC, Walmart) — PK: `report_date, channel` |
+| `daily_ad_spend` | Ad spend by channel (Google Ads) — PK: `report_date, channel` |
+| `daily_shipping` | Shippo costs — PK: `report_date` |
+| `daily_cogs` | Cost of goods by channel — PK: `report_date, channel` |
+| `cogs_lookup` | SKU → unit cost from Google Sheet — PK: `sku` |
+| `financial_goals` | Monthly revenue targets — PK: `year, month` |
+
+### Views
+- `daily_summary` — Aggregated daily P&L with MER
+- `mtd_comparison` — Current month vs last year vs goal with YoY % change
+
+### Data Sources
+| Source | What | Script |
+|--------|------|--------|
+| WooCommerce | Orders (completed + processing) | `pull_woocommerce()` |
+| Walmart | Marketplace orders | `pull_walmart()` |
+| Google Ads | Ad spend, clicks, conversions | `pull_google_ads()` |
+| Shippo | Shipping costs (deduplicated) | `pull_shippo()` |
+| Google Sheets | COGS lookup table (276 SKUs) | `sync_cogs_from_sheet()` |
+
+### Key IDs
+| System | ID |
+|--------|----|
+| Google Ads Customer | `599-287-9586` (login: `838-619-4588`) |
+| GA4 Property | `294622924` |
+| Google Merchant Center | `138935850` |
+| COGS Google Sheet | `1nve5yRvw7fY0caVqZDHYDjhoQmj_a6S9PkC3BMKm1S4` |
 
 ## Related Projects
 

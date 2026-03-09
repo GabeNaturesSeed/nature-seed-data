@@ -36,6 +36,22 @@
 │  │    Gmail      │    │   Postman    │    │   GitHub             │  │
 │  │  (Comms)      │    │  (API Docs)  │    │   (Code)             │  │
 │  └──────────────┘    └──────────────┘    └──────────────────────┘  │
+│                                                                     │
+│  ┌──────────────┐    ┌──────────────┐    ┌──────────────────────┐  │
+│  │  Supabase     │    │  Google Ads  │    │   Shippo             │  │
+│  │  (Database)   │    │  + GA4 + GMC │    │   (Shipping)         │  │
+│  │               │    │  + Search    │    │                      │  │
+│  │ Daily Sales   │    │  Console     │    │ Label Costs          │  │
+│  │ Ad Spend      │    │              │    │ Tracking             │  │
+│  │ Shipping      │    │ Spend Data   │    │ Transactions         │  │
+│  │ COGS          │    │ Analytics    │    │                      │  │
+│  │ Goals         │    │ Products     │    │                      │  │
+│  └──────────────┘    └──────────────┘    └──────────────────────┘  │
+│                                                                     │
+│  ┌──────────────┐    ┌──────────────┐                               │
+│  │   Retool      │    │  Algolia     │                               │
+│  │  (Dashboard)  │    │  (Search)    │                               │
+│  └──────────────┘    └──────────────┘                               │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -60,6 +76,15 @@
 | Coupon/promo data | WooCommerce | `woocommerce-api` | REST API `/coupons` |
 | Sales reports | WooCommerce | `woocommerce-api` | `/reports/sales` |
 | Payment data | Stripe (via WC) | `woocommerce-api` | `/wc_stripe/account` |
+| Daily P&L / KPIs | Supabase | n/a | `daily_summary` view or `daily_sales` + `daily_ad_spend` tables |
+| MTD vs last year vs goal | Supabase | n/a | `mtd_comparison` view |
+| Ad spend (Google Ads) | Supabase or Google Ads | n/a | `daily_ad_spend` table or `pull_google_ads()` |
+| Shipping costs | Supabase or Shippo | n/a | `daily_shipping` table or `pull_shippo()` |
+| COGS by SKU | Supabase or Google Sheet | n/a | `cogs_lookup` table |
+| Revenue goals | Supabase | n/a | `financial_goals` table |
+| GA4 analytics | Google Analytics | n/a | Property `294622924` |
+| Search performance | Google Search Console | n/a | `sc-domain:naturesseed.com` |
+| Product feed data | Google Merchant Center | n/a | Merchant ID `138935850` |
 | Site pages/URLs | Crawl data | n/a | `naturesseed_pages.csv` in ClaudeProjectsLocal |
 | 404 redirects | Redirect data | n/a | `naturesseed_redirects.csv` in ClaudeProjectsLocal |
 | Brand guidelines | Brand skill | `natures-seed-brand` | `~/.claude/skills/natures-seed-brand/SKILL.md` |
@@ -88,13 +113,25 @@
 ## Environment Variables Available (.env)
 
 ```
-WALMART_CLIENT_ID     — Walmart OAuth client
-WALMART_CLIENT_SECRET — Walmart OAuth secret
-WC_BASE_URL           — WooCommerce REST API base
-WC_CK                 — WooCommerce consumer key
-WC_CS                 — WooCommerce consumer secret
-KLAVIYO_API           — Klaviyo private API key
-POSTMAN_API           — Postman API key
+WALMART_CLIENT_ID             — Walmart OAuth client
+WALMART_CLIENT_SECRET         — Walmart OAuth secret
+WC_BASE_URL                   — WooCommerce REST API base
+WC_CK                        — WooCommerce consumer key
+WC_CS                        — WooCommerce consumer secret
+KLAVIYO_API                   — Klaviyo private API key
+POSTMAN_API                   — Postman API key
+GOOGLE_ADS_DEVELOPER_TOKEN    — Google Ads API developer token
+GOOGLE_ADS_CLIENT_ID          — Google OAuth client ID (shared across all Google APIs)
+GOOGLE_ADS_CLIENT_SECRET      — Google OAuth client secret
+GOOGLE_ADS_REFRESH_TOKEN      — Multi-scope token (Ads + GA4 + Merchant + Search Console)
+GOOGLE_ADS_CUSTOMER_ID        — Google Ads customer ID (599-287-9586)
+GOOGLE_ADS_LOGIN_CUSTOMER_ID  — Google Ads MCC ID (838-619-4588)
+GOOGLE_ANALYTICS_PROPERTY_ID  — GA4 property (294622924)
+GOOGLE_MERCHANT_CENTER_ID     — Merchant Center (138935850)
+SHIPPO_API_KEY                — Shippo live API key
+SUPABASE_URL                  — Supabase project URL
+SUPABASE_SECRET_API_KEY       — Supabase secret key (sb_secret_* format)
+RETOOL_API                    — Retool API key
 ```
 
 ## MCP Servers Connected
@@ -179,4 +216,36 @@ Need to create content?
   ├── Email → Invoke natures-seed-brand skill FIRST, then Klaviyo MCP
   ├── Product copy → Invoke natures-seed-brand skill
   └── Any customer-facing → ALWAYS invoke natures-seed-brand skill
+
+Need reporting / KPI data?
+  ├── Daily P&L → Supabase `daily_summary` view
+  ├── MTD vs last year / goal → Supabase `mtd_comparison` view
+  ├── Ad spend trends → Supabase `daily_ad_spend` table
+  ├── Shipping costs → Supabase `daily_shipping` table
+  ├── COGS lookup → Supabase `cogs_lookup` table
+  └── Revenue goals → Supabase `financial_goals` table
+
+Need Google ecosystem data?
+  ├── Ad spend / clicks / ROAS → Google Ads API or Supabase (backfilled)
+  ├── Site traffic / pageviews → GA4 Property 294622924
+  ├── Product feed / shopping → Merchant Center 138935850
+  └── Search queries / rankings → Search Console sc-domain:naturesseed.com
+```
+
+## Supabase API Patterns
+
+**Auth**: Only `apikey` header needed (no `Authorization: Bearer`). Keys are `sb_secret_*` format (opaque, not JWT).
+
+**Upsert**:
+```python
+url = f"{SUPABASE_URL}/rest/v1/{table}?on_conflict={unique_cols}"
+headers = {"apikey": KEY, "Content-Type": "application/json", "Prefer": "resolution=merge-duplicates,return=minimal"}
+requests.post(url, headers=headers, json=rows)
+```
+
+**Query**:
+```python
+url = f"{SUPABASE_URL}/rest/v1/{table}?select=*&report_date=gte.2026-01-01&order=report_date.desc"
+headers = {"apikey": KEY}
+requests.get(url, headers=headers)
 ```
