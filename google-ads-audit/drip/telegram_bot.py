@@ -210,6 +210,129 @@ class TelegramBot:
 
         return self.send_message("\n".join(lines))
 
+    def send_keyword_opportunities(self, terms: list) -> dict:
+        """
+        Send keyword opportunities for interactive placement.
+        User replies with: keyword, campaign > ad_group, match_type
+        """
+        lines = [
+            "📋 <b>KEYWORD PLACEMENT</b>",
+            "━━━━━━━━━━━━━━━━━━━━━━━━\n",
+            "The following high-ROAS search terms can be added as keywords.",
+            "For each one you want to add, reply with:\n",
+            "<code>keyword, campaign &gt; ad_group, match_type</code>\n",
+            "Example:",
+            "<code>goat pasture seed mix, Search | Pasture | Exact &gt; Goats, phrase</code>\n",
+            "Terms available:\n",
+        ]
+
+        for i, t in enumerate(terms, 1):
+            rev = t.get("revenue", 0)
+            roas = t.get("roas", 0)
+            source = t.get("campaign", "Unknown")
+            lines.append(
+                f"  {i}. <b>{t['term']}</b> — ${rev:,.0f} rev, {roas}x ROAS"
+            )
+            lines.append(f"     Source: {source}")
+
+        lines.append(
+            "\n\nReply with placements (one per line), or <code>SKIP</code> to skip all."
+        )
+
+        return self.send_message("\n".join(lines))
+
+    @staticmethod
+    def parse_keyword_placements(text: str) -> list:
+        """
+        Parse keyword placement replies.
+        Format: keyword, campaign > ad_group, match_type
+
+        Returns list of dicts: {keyword, campaign_name, ad_group_name, match_type}
+        """
+        if text.strip().upper() == "SKIP":
+            return []
+
+        placements = []
+        errors = []
+
+        for line in text.strip().split("\n"):
+            line = line.strip()
+            if not line:
+                continue
+
+            # Split: keyword, campaign > ad_group, match_type
+            # First comma separates keyword from the rest
+            parts = line.split(",", 1)
+            if len(parts) < 2:
+                errors.append(f"Could not parse: {line}")
+                continue
+
+            keyword = parts[0].strip()
+            rest = parts[1].strip()
+
+            # Split on > to get campaign and ad_group+match
+            if ">" not in rest:
+                errors.append(f"Missing '>' separator: {line}")
+                continue
+
+            campaign_part, ag_match = rest.split(">", 1)
+            campaign_name = campaign_part.strip()
+
+            # Split ad_group and match_type by last comma
+            ag_match = ag_match.strip()
+            if "," in ag_match:
+                last_comma = ag_match.rfind(",")
+                ad_group_name = ag_match[:last_comma].strip()
+                match_type = ag_match[last_comma + 1:].strip().upper()
+            else:
+                ad_group_name = ag_match
+                match_type = "PHRASE"  # Default
+
+            # Normalize match type
+            match_type_map = {
+                "EXACT": "EXACT", "PHRASE": "PHRASE", "BROAD": "BROAD",
+                "E": "EXACT", "P": "PHRASE", "B": "BROAD",
+            }
+            match_type = match_type_map.get(match_type, "PHRASE")
+
+            placements.append({
+                "keyword": keyword,
+                "campaign_name": campaign_name,
+                "ad_group_name": ad_group_name,
+                "match_type": match_type,
+            })
+
+        return placements
+
+    def send_keyword_confirmation(self, placements: list) -> dict:
+        """Send confirmation of resolved keyword placements before execution."""
+        lines = [
+            "⚠️ <b>KEYWORD PLACEMENT CONFIRMATION</b>",
+            "━━━━━━━━━━━━━━━━━━━━━━━━\n",
+            "The following keywords will be added:\n",
+        ]
+
+        for p in placements:
+            lines.append(
+                f"  • <b>{p['keyword']}</b> ({p['match_type']})"
+            )
+            lines.append(
+                f"    → {p['campaign_name']} &gt; {p['ad_group_name']}"
+            )
+            if p.get("ad_group_id"):
+                lines.append(f"    ✅ Ad group found (ID: {p['ad_group_id']})")
+            elif p.get("create_ad_group"):
+                lines.append(f"    🆕 Ad group will be created")
+            if p.get("error"):
+                lines.append(f"    ❌ {p['error']}")
+
+        lines.append(
+            "\n\nReply <code>CONFIRM EXECUTE</code> to add these keywords."
+            "\nReply <code>CANCEL</code> to skip."
+        )
+
+        return self.send_message("\n".join(lines))
+
     def get_updates(self, offset: int = 0, timeout: int = 30) -> list:
         """Poll for new messages (long polling)."""
         result = self._api_call("getUpdates", {

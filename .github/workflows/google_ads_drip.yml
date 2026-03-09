@@ -4,12 +4,22 @@ on:
   schedule:
     # Monday and Thursday at 8:00 AM MST (3:00 PM UTC)
     - cron: '0 15 * * 1,4'
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Run mode'
+        required: true
+        default: 'full-cycle'
+        type: choice
+        options:
+          - full-cycle
+          - plan-only
 
 jobs:
-  generate-plan:
+  drip-cycle:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # 3 hours: enough for plan + wait for approval + execute
+    timeout-minutes: 180
 
     steps:
       - uses: actions/checkout@v4
@@ -38,74 +48,37 @@ jobs:
           SUPABASE_SECRET_API_KEY=${{ secrets.SUPABASE_SECRET_API_KEY }}
           ENVEOF
 
-      - name: Generate plan and send to Telegram
+      - name: Run drip cycle
         working-directory: google-ads-audit/drip
         run: |
-          # Generate the plan
-          python cycle_orchestrator.py plan
+          MODE="${{ github.event.inputs.mode || 'full-cycle' }}"
 
-          # Send to Telegram for review
-          python -c "
+          if [ "$MODE" = "plan-only" ]; then
+            python cycle_orchestrator.py plan
+            # Send plan to Telegram without polling
+            python -c "
           from telegram_bot import TelegramBot
           from pathlib import Path
           import glob
 
           bot = TelegramBot()
-
-          # Find latest plan summary
           summaries = sorted(glob.glob('plans/plan_*_summary.md'))
           if summaries:
               summary = Path(summaries[-1]).read_text()
               bot.send_plan(summary)
-              print(f'Plan sent to Telegram: {summaries[-1]}')
+              print(f'Plan sent: {summaries[-1]}')
           else:
               bot.send_message('⚠️ No plan generated. Check GitHub Actions logs.')
           "
+          else
+            # Full cycle: plan → Telegram → wait for approval → execute → report
+            python cycle_orchestrator.py cycle 120
+          fi
 
-      - name: Upload plan as artifact
+      - name: Upload artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: optimization-plan-${{ github.run_number }}
+          name: drip-cycle-${{ github.run_number }}
           path: google-ads-audit/drip/plans/
           retention-days: 30
-
-  # Execution is manual — triggered after Telegram approval
-  # Use workflow_dispatch with the plan file and approved actions
-  execute-approved:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.plan_file != ''
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: |
-          pip install google-ads google-auth google-api-python-client requests
-
-      - name: Create .env from secrets
-        run: |
-          cat > .env << 'ENVEOF'
-          GOOGLE_ADS_DEVELOPER_TOKEN=${{ secrets.GOOGLE_ADS_DEVELOPER_TOKEN }}
-          GOOGLE_ADS_CLIENT_ID=${{ secrets.GOOGLE_ADS_CLIENT_ID }}
-          GOOGLE_ADS_CLIENT_SECRET=${{ secrets.GOOGLE_ADS_CLIENT_SECRET }}
-          GOOGLE_ADS_REFRESH_TOKEN=${{ secrets.GOOGLE_ADS_REFRESH_TOKEN }}
-          GOOGLE_ADS_CUSTOMER_ID=${{ secrets.GOOGLE_ADS_CUSTOMER_ID }}
-          GOOGLE_ADS_LOGIN_CUSTOMER_ID=${{ secrets.GOOGLE_ADS_LOGIN_CUSTOMER_ID }}
-          GOOGLE_MERCHANT_CENTER_ID=${{ secrets.GOOGLE_MERCHANT_CENTER_ID }}
-          TELEGRAM_BOT_API=${{ secrets.TELEGRAM_BOT_API }}
-          TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}
-          SUPABASE_URL=${{ secrets.SUPABASE_URL }}
-          SUPABASE_SECRET_API_KEY=${{ secrets.SUPABASE_SECRET_API_KEY }}
-          ENVEOF
-
-      - name: Execute approved changes
-        working-directory: google-ads-audit/drip
-        run: |
-          python cycle_orchestrator.py execute \
-            "${{ github.event.inputs.plan_file }}" \
-            "${{ github.event.inputs.approved_actions }}"

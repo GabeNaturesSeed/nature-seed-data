@@ -711,6 +711,90 @@ class GoogleAdsMutator:
 
         return {"success": True, "validate_only": False, "details": details}
 
+    # ── LOOKUP OPERATIONS ────────────────────────────────────────────────
+
+    def get_ad_groups(self, campaign_id: int = None) -> list:
+        """Get all enabled ad groups, optionally filtered by campaign."""
+        ga_service = self.client.get_service("GoogleAdsService")
+        campaign_filter = f"AND campaign.id = {campaign_id}" if campaign_id else ""
+        query = f"""
+            SELECT
+                ad_group.id, ad_group.name,
+                campaign.id, campaign.name
+            FROM ad_group
+            WHERE ad_group.status = 'ENABLED'
+                AND campaign.status = 'ENABLED'
+                {campaign_filter}
+            ORDER BY campaign.name, ad_group.name
+        """
+        response = ga_service.search(customer_id=self.customer_id, query=query)
+        return [
+            {
+                "id": row.ad_group.id,
+                "name": row.ad_group.name,
+                "campaign_id": row.campaign.id,
+                "campaign_name": row.campaign.name,
+            }
+            for row in response
+        ]
+
+    def get_campaigns_map(self) -> dict:
+        """Return a name → ID mapping of enabled campaigns."""
+        ga_service = self.client.get_service("GoogleAdsService")
+        query = """
+            SELECT campaign.id, campaign.name
+            FROM campaign
+            WHERE campaign.status = 'ENABLED'
+        """
+        response = ga_service.search(customer_id=self.customer_id, query=query)
+        return {row.campaign.name: row.campaign.id for row in response}
+
+    def resolve_keyword_placement(self, campaign_name: str, ad_group_name: str) -> dict:
+        """
+        Resolve campaign + ad group names to IDs.
+        Returns {campaign_id, ad_group_id} or raises ValueError.
+        """
+        campaigns = self.get_campaigns_map()
+
+        # Fuzzy match campaign name (handle partial matches)
+        campaign_id = campaigns.get(campaign_name)
+        if not campaign_id:
+            # Try partial match
+            matches = [n for n in campaigns if campaign_name.lower() in n.lower()]
+            if len(matches) == 1:
+                campaign_name = matches[0]
+                campaign_id = campaigns[campaign_name]
+            elif len(matches) > 1:
+                raise ValueError(
+                    f"Ambiguous campaign '{campaign_name}'. Matches: {matches}"
+                )
+            else:
+                raise ValueError(
+                    f"Campaign '{campaign_name}' not found. Available: {list(campaigns.keys())}"
+                )
+
+        # Look up ad group
+        ad_groups = self.get_ad_groups(campaign_id=campaign_id)
+        ad_group_id = None
+        for ag in ad_groups:
+            if ag["name"].lower() == ad_group_name.lower():
+                ad_group_id = ag["id"]
+                break
+
+        if not ad_group_id:
+            available = [ag["name"] for ag in ad_groups]
+            raise ValueError(
+                f"Ad group '{ad_group_name}' not found in '{campaign_name}'. "
+                f"Available: {available or ['(no ad groups)']}"
+            )
+
+        return {
+            "campaign_id": campaign_id,
+            "campaign_name": campaign_name,
+            "ad_group_id": ad_group_id,
+            "ad_group_name": ad_group_name,
+        }
+
     # ── ACCOUNT SNAPSHOT ─────────────────────────────────────────────────
 
     def get_account_snapshot(self) -> dict:

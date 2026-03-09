@@ -497,9 +497,19 @@ def execute_plan(plan_path: str, approved_actions: list = None):
                 results.append({"action_index": i, "type": action["type"], "status": "success", "count": len(specs)})
 
             elif action["type"] == "keyword_opportunities":
-                # These require manual review — skip auto-execution
-                log.info("Keyword opportunities require manual ad group selection — skipping auto-execution")
+                # Skip — handled interactively via Telegram in run_full_cycle()
+                log.info("Keyword opportunities — handled separately via Telegram")
                 results.append({"action_index": i, "type": action["type"], "status": "manual_required"})
+
+            elif action["type"] == "add_keyword":
+                # Resolved keyword placement from interactive Telegram flow
+                result = mutator.add_keyword_to_ad_group(
+                    ad_group_id=action["ad_group_id"],
+                    keyword_text=action["keyword"],
+                    match_type=action["match_type"],
+                    validate_only=False,
+                )
+                results.append({"action_index": i, "type": action["type"], "status": "success", "result": result})
 
             else:
                 log.warning(f"Unknown action type: {action['type']}")
@@ -733,6 +743,115 @@ def update_approval_log(
 
 # ── Full Telegram Cycle ─────────────────────────────────────────────────────
 
+def handle_keyword_opportunities(bot, plan, mutator):
+    """
+    Interactive keyword placement via Telegram.
+
+    Sends keyword opportunities, waits for placement instructions,
+    resolves campaign/ad_group names to IDs, and returns add_keyword actions.
+
+    Returns:
+        list of resolved add_keyword action dicts, or empty list if skipped.
+    """
+    # Find keyword_opportunities action in the plan
+    kw_action = None
+    for action in plan["proposed_actions"]:
+        if action["type"] == "keyword_opportunities":
+            kw_action = action
+            break
+
+    if not kw_action:
+        return []
+
+    terms = kw_action.get("terms", [])
+    if not terms:
+        return []
+
+    # Send opportunities to Telegram
+    log.info("Sending keyword opportunities for placement...")
+    bot.send_keyword_opportunities(terms)
+
+    # Wait for reply
+    reply = bot.wait_for_reply(timeout_minutes=60)
+
+    if not reply or reply.strip().upper() == "SKIP":
+        log.info("Keyword placement skipped.")
+        bot.send_message("⏭️ Keyword placement skipped.")
+        return []
+
+    # Parse placements
+    placements = bot.parse_keyword_placements(reply)
+
+    if not placements:
+        bot.send_message("⚠️ No valid placements parsed. Skipping keywords.")
+        return []
+
+    # Resolve campaign/ad_group names to IDs
+    resolved = []
+    for p in placements:
+        try:
+            ids = mutator.resolve_keyword_placement(p["campaign_name"], p["ad_group_name"])
+            p.update(ids)
+            resolved.append(p)
+        except ValueError as e:
+            p["error"] = str(e)
+            resolved.append(p)
+            log.warning(f"Could not resolve placement: {e}")
+
+    # Check for errors
+    errors = [p for p in resolved if p.get("error")]
+    if errors:
+        error_lines = [f"⚠️ Some placements could not be resolved:\n"]
+        for p in errors:
+            error_lines.append(f"• {p['keyword']}: {p['error']}")
+        error_lines.append(f"\n✅ {len(resolved) - len(errors)} placements resolved OK.")
+        error_lines.append("Reply with corrected placements or <code>SKIP</code> to continue without them.")
+        bot.send_message("\n".join(error_lines))
+
+        # Wait for correction or skip
+        correction = bot.wait_for_reply(timeout_minutes=30)
+        if correction and correction.strip().upper() != "SKIP":
+            new_placements = bot.parse_keyword_placements(correction)
+            for p in new_placements:
+                try:
+                    ids = mutator.resolve_keyword_placement(p["campaign_name"], p["ad_group_name"])
+                    p.update(ids)
+                    resolved.append(p)
+                except ValueError as e:
+                    log.warning(f"Still could not resolve: {e}")
+
+    # Filter to only successfully resolved placements
+    valid = [p for p in resolved if not p.get("error")]
+
+    if not valid:
+        bot.send_message("No valid placements to add. Skipping keywords.")
+        return []
+
+    # Send confirmation
+    bot.send_keyword_confirmation(valid)
+
+    confirm = bot.wait_for_reply(timeout_minutes=30)
+
+    if not confirm or "CONFIRM EXECUTE" not in confirm.upper():
+        bot.send_message("❌ Keyword placement cancelled.")
+        return []
+
+    # Build add_keyword actions
+    actions = []
+    for p in valid:
+        actions.append({
+            "type": "add_keyword",
+            "keyword": p["keyword"],
+            "campaign_name": p["campaign_name"],
+            "campaign_id": p["campaign_id"],
+            "ad_group_name": p["ad_group_name"],
+            "ad_group_id": p["ad_group_id"],
+            "match_type": p["match_type"],
+        })
+
+    return actions
+
+
 def run_full_cycle(wait_minutes: int = 120):
     """
     Full cycle with Telegram integration and double confirmation.
@@ -741,24 +860,37 @@ def run_full_cycle(wait_minutes: int = 120):
         1. Generate plan
         2. Send to Telegram
         3. Wait for first approval
-        4. Send confirmation request (second approval)
-        5. Wait for CONFIRM EXECUTE
-        6. Execute approved actions
-        7. Send execution report
-        8. Update tracker + approval log
+        4. Handle keyword opportunities interactively
+        5. Send confirmation request (second approval)
+        6. Wait for CONFIRM EXECUTE
+        7. Execute approved actions + keyword placements
+        8. Send execution report
+        9. Update tracker + approval log
     """
     from telegram_bot import TelegramBot
+    from google_ads_mutator import GoogleAdsMutator
 
     # Step 1: Generate plan
     log.info("=" * 60)
     log.info("STARTING FULL CYCLE")
     log.info("=" * 60)
 
-    plan = generate_plan()
+    try:
+        plan = generate_plan()
+    except Exception as e:
+        log.error(f"Plan generation failed: {e}")
+        try:
+            bot = TelegramBot()
+            bot.send_message(f"❌ Plan generation failed:\n<code>{str(e)[:500]}</code>")
+        except Exception:
+            pass
+        raise
+
     plan_path = PLANS_DIR / f"plan_{datetime.now().strftime('%Y%m%d')}.json"
 
     # Step 2: Send to Telegram
     bot = TelegramBot()
+    mutator = GoogleAdsMutator()
 
     summary_path = PLANS_DIR / f"plan_{datetime.now().strftime('%Y%m%d')}_summary.md"
     summary = summary_path.read_text()
@@ -784,11 +916,22 @@ def run_full_cycle(wait_minutes: int = 120):
         bot.send_message("⏭️ All actions deferred to next cycle. Tracker updated.")
         return
 
-    # Step 4: Send second confirmation
+    # Step 4: Handle keyword opportunities interactively
+    keyword_actions = handle_keyword_opportunities(bot, plan, mutator)
+
+    if keyword_actions:
+        # Append resolved keyword actions to the plan
+        plan["proposed_actions"].extend(keyword_actions)
+        # Re-save plan with keyword actions included
+        with open(plan_path, "w") as f:
+            json.dump(plan, f, indent=2, default=str)
+        log.info(f"Added {len(keyword_actions)} keyword placements to plan")
+
+    # Step 5: Send second confirmation
     log.info("Sending second confirmation request...")
     bot.send_confirmation_request(plan, first_reply)
 
-    # Step 5: Wait for CONFIRM EXECUTE
+    # Step 6: Wait for CONFIRM EXECUTE
     log.info("Waiting for final confirmation...")
     second_reply = bot.wait_for_reply(timeout_minutes=30)
 
@@ -799,15 +942,20 @@ def run_full_cycle(wait_minutes: int = 120):
 
     second_confirmation_time = datetime.now().strftime("%H:%M")
 
-    # Step 6: Execute
+    # Step 7: Execute
     log.info("Executing approved actions...")
     results = execute_plan(str(plan_path), approved_indices)
 
-    # Step 7: Send execution report
+    # Step 8: Send execution report
     bot.send_execution_report(results, plan)
 
-    # Step 8: Update tracker + approval log
+    # Step 9: Update tracker + approval log
     update_tracker(str(plan_path), results)
+
+    deferred = []
+    for i, d in enumerate(plan.get("deferred_actions", []), len(plan["proposed_actions"]) + 1):
+        deferred.append({"index": i, "action": d["action"], "reason": d.get("reason", "Deferred")})
+
     update_approval_log(
         cycle_num=plan["cycle_number"],
         plan=plan,
@@ -816,8 +964,10 @@ def run_full_cycle(wait_minutes: int = 120):
         second_confirmation=second_reply,
         second_confirmation_time=second_confirmation_time,
         results=results,
+        deferred=deferred if deferred else None,
     )
 
+    bot.send_message("✅ Cycle complete! Tracker and approval log updated.")
     log.info("Cycle complete!")
 
 
