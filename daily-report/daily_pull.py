@@ -135,6 +135,24 @@ def supabase_query(table, params=None):
 # 1. WOOCOMMERCE ORDERS
 # ══════════════════════════════════════════════════════════════
 
+WC_HEADERS = {"User-Agent": "NaturesSeed-DailyReport/1.0"}
+
+
+def _wc_request_with_retry(url, params, max_retries=3):
+    """Make a WC API request with retry logic for transient errors (403/429/5xx)."""
+    for attempt in range(max_retries):
+        resp = requests.get(url, auth=WC_AUTH, params=params, headers=WC_HEADERS, timeout=60)
+        if resp.status_code == 200:
+            return resp
+        if resp.status_code in (403, 429, 500, 502, 503) and attempt < max_retries - 1:
+            wait = 5 * (attempt + 1)
+            print(f"    [RETRY] Got {resp.status_code}, waiting {wait}s (attempt {attempt + 1}/{max_retries})")
+            time.sleep(wait)
+            continue
+        resp.raise_for_status()
+    return resp
+
+
 def pull_woocommerce(report_date):
     """Pull WooCommerce completed/processing orders for a single date."""
     print(f"\n  [WooCommerce] Pulling orders for {report_date}...")
@@ -153,8 +171,7 @@ def pull_woocommerce(report_date):
                 "per_page": 100,
                 "page": page,
             }
-            resp = requests.get(f"{WC_BASE}/orders", auth=WC_AUTH, params=params, timeout=60)
-            resp.raise_for_status()
+            resp = _wc_request_with_retry(f"{WC_BASE}/orders", params)
             orders = resp.json()
             if not orders:
                 break
@@ -541,18 +558,51 @@ def pull_date(report_date):
     # Sync COGS first (needed for order COGS calculation)
     sync_cogs_from_sheet()
 
-    # Pull all sources
-    wc = pull_woocommerce(report_date)
-    wm = pull_walmart(report_date)
-    ads = pull_google_ads(report_date)
-    shipping = pull_shippo(report_date)
+    # Default empty results for each source
+    _empty_sales = lambda ch: {"report_date": str(report_date), "channel": ch, "revenue": 0, "orders": 0, "units": 0}
+    _empty_cogs = lambda ch: {"report_date": str(report_date), "channel": ch, "total_cogs": 0}
+    _empty_ads = {"report_date": str(report_date), "channel": "google_ads", "spend": 0, "clicks": 0, "conversions": 0, "impressions": 0}
+    _empty_shipping = {"report_date": str(report_date), "total_cost": 0, "shipment_count": 0}
+
+    errors = []
+
+    # Pull all sources — each is non-fatal so one failure doesn't kill the pipeline
+    try:
+        wc = pull_woocommerce(report_date)
+    except Exception as e:
+        print(f"    [ERR] WooCommerce failed: {e}")
+        errors.append(f"WooCommerce: {e}")
+        wc = {"sales": _empty_sales("woocommerce"), "cogs": _empty_cogs("woocommerce")}
+
+    try:
+        wm = pull_walmart(report_date)
+    except Exception as e:
+        print(f"    [ERR] Walmart failed: {e}")
+        errors.append(f"Walmart: {e}")
+        wm = {"sales": _empty_sales("walmart"), "cogs": _empty_cogs("walmart")}
+
+    try:
+        ads = pull_google_ads(report_date)
+    except Exception as e:
+        print(f"    [ERR] Google Ads failed: {e}")
+        errors.append(f"Google Ads: {e}")
+        ads = _empty_ads
+
+    try:
+        shipping = pull_shippo(report_date)
+    except Exception as e:
+        print(f"    [ERR] Shippo failed: {e}")
+        errors.append(f"Shippo: {e}")
+        shipping = _empty_shipping
 
     # Aggregate for console summary
     total_revenue = wc["sales"]["revenue"] + wm["sales"]["revenue"]
     total_orders = wc["sales"]["orders"] + wm["sales"]["orders"]
     total_cogs = wc["cogs"]["total_cogs"] + wm["cogs"]["total_cogs"]
-    net_revenue = total_revenue - total_cogs - shipping["total_cost"]
-    mer = round(total_revenue / ads["spend"], 2) if ads["spend"] > 0 else 0
+    total_shipping = shipping["total_cost"] if isinstance(shipping, dict) else shipping.get("total_cost", 0)
+    net_revenue = total_revenue - total_cogs - total_shipping
+    ad_spend = ads["spend"] if isinstance(ads, dict) else ads.get("spend", 0)
+    mer = round(total_revenue / ad_spend, 2) if ad_spend > 0 else 0
 
     print(f"\n{'='*60}")
     print(f"  SUMMARY: {report_date}")
@@ -561,19 +611,37 @@ def pull_date(report_date):
     print(f"    Walmart Revenue: ${wm['sales']['revenue']:>10,.2f}  ({wm['sales']['orders']} orders)")
     print(f"    Total Revenue:   ${total_revenue:>10,.2f}  ({total_orders} orders)")
     print(f"    COGS:            ${total_cogs:>10,.2f}")
-    print(f"    Shipping:        ${shipping['total_cost']:>10,.2f}  ({shipping['shipment_count']} shipments)")
+    print(f"    Shipping:        ${total_shipping:>10,.2f}  ({shipping.get('shipment_count', 0)} shipments)")
     print(f"    Net Revenue:     ${net_revenue:>10,.2f}")
-    print(f"    Ad Spend:        ${ads['spend']:>10,.2f}")
+    print(f"    Ad Spend:        ${ad_spend:>10,.2f}")
     print(f"    MER:             {mer:>10.2f}x")
 
-    # Write to Supabase
+    if errors:
+        print(f"\n  [WARN] {len(errors)} source(s) failed:")
+        for err in errors:
+            print(f"    - {err}")
+
+    # Write to Supabase — only write data from successful pulls
     if SUPABASE_URL and SUPABASE_KEY:
         print(f"\n  Writing to Supabase...")
-        supabase_upsert("daily_sales", [wc["sales"], wm["sales"]])
-        supabase_upsert("daily_cogs", [wc["cogs"], wm["cogs"]])
-        supabase_upsert("daily_ad_spend", [ads])
-        supabase_upsert("daily_shipping", [shipping])
-        print("  [OK] All data written to Supabase")
+        sales_rows = []
+        cogs_rows = []
+        if "WooCommerce" not in str(errors):
+            sales_rows.append(wc["sales"])
+            cogs_rows.append(wc["cogs"])
+        if "Walmart" not in str(errors):
+            sales_rows.append(wm["sales"])
+            cogs_rows.append(wm["cogs"])
+
+        if sales_rows:
+            supabase_upsert("daily_sales", sales_rows)
+        if cogs_rows:
+            supabase_upsert("daily_cogs", cogs_rows)
+        if "Google Ads" not in str(errors):
+            supabase_upsert("daily_ad_spend", [ads])
+        if "Shippo" not in str(errors):
+            supabase_upsert("daily_shipping", [shipping])
+        print("  [OK] Data written to Supabase (skipped failed sources)")
     else:
         print("\n  [SKIP] No Supabase credentials — data printed only")
 
@@ -582,10 +650,11 @@ def pull_date(report_date):
         "total_revenue": total_revenue,
         "total_orders": total_orders,
         "total_cogs": total_cogs,
-        "shipping_cost": shipping["total_cost"],
+        "shipping_cost": total_shipping,
         "net_revenue": net_revenue,
-        "ad_spend": ads["spend"],
+        "ad_spend": ad_spend,
         "mer": mer,
+        "errors": errors,
     }
 
 
