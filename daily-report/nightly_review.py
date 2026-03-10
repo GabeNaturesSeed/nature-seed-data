@@ -130,11 +130,20 @@ def _wc_request_with_retry(url, params, max_retries=3):
         resp = requests.get(url, auth=WC_AUTH, params=params, headers=WC_HEADERS, timeout=60)
         if resp.status_code == 200:
             return resp
-        if resp.status_code in (403, 429, 500, 502, 503) and attempt < max_retries - 1:
-            wait = 5 * (attempt + 1)
-            print(f"  [RETRY] Got {resp.status_code}, waiting {wait}s (attempt {attempt + 1}/{max_retries})")
-            time.sleep(wait)
-            continue
+        if resp.status_code in (403, 429, 500, 502, 503):
+            # Debug: log response details to diagnose what's blocking
+            print(f"  [DEBUG] Status: {resp.status_code}")
+            print(f"  [DEBUG] Server: {resp.headers.get('server', 'unknown')}")
+            print(f"  [DEBUG] CF-Ray: {resp.headers.get('cf-ray', 'none')}")
+            print(f"  [DEBUG] CF-Mitigated: {resp.headers.get('cf-mitigated', 'none')}")
+            print(f"  [DEBUG] Content-Type: {resp.headers.get('content-type', 'unknown')}")
+            body_preview = resp.text[:500].replace('\n', ' ').strip()
+            print(f"  [DEBUG] Body: {body_preview}")
+            if attempt < max_retries - 1:
+                wait = 5 * (attempt + 1)
+                print(f"  [RETRY] Waiting {wait}s (attempt {attempt + 1}/{max_retries})")
+                time.sleep(wait)
+                continue
         resp.raise_for_status()
     return resp
 
