@@ -60,6 +60,10 @@ WC_AUTH = (WC_CK, WC_CS)
 # Cloudflare Worker proxy (bypasses Bot Fight Mode for datacenter IPs)
 CF_WORKER_URL = env_vars.get("CF_WORKER_URL", "")
 CF_WORKER_SECRET = env_vars.get("CF_WORKER_SECRET", "")
+if CF_WORKER_URL:
+    print(f"[CONFIG] CF Worker proxy enabled: {CF_WORKER_URL[:40]}...")
+else:
+    print("[CONFIG] CF Worker proxy NOT configured — using direct WC API calls")
 
 # Google Ads
 GOOGLE_ADS_CONFIG = {
