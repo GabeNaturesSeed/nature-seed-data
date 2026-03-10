@@ -451,26 +451,48 @@ def main():
     print(f"Nightly Sales Review for {report_date}")
     print("=" * 50)
 
-    # Pull live data
+    errors = []
+
+    # Pull live data — each source is non-fatal
     print("Pulling WooCommerce orders...")
-    orders = pull_wc_orders(report_date)
-    print(f"  Found {len(orders)} orders")
+    try:
+        orders = pull_wc_orders(report_date)
+        print(f"  Found {len(orders)} orders")
+    except Exception as e:
+        print(f"  [ERR] WooCommerce failed: {e}")
+        errors.append("WooCommerce")
+        orders = []
 
     print("Pulling Google Ads metrics...")
-    ads = pull_google_ads_today(report_date)
-    print(f"  Spend: ${ads['spend']:,.2f}")
+    try:
+        ads = pull_google_ads_today(report_date)
+        print(f"  Spend: ${ads['spend']:,.2f}")
+    except Exception as e:
+        print(f"  [ERR] Google Ads failed: {e}")
+        errors.append("Google Ads")
+        ads = {"spend": 0, "clicks": 0, "conversions": 0, "conv_value": 0}
 
     print("Querying Supabase for MTD + last year...")
-    mtd_cy, mtd_ly, day_ly = query_supabase_mtd(report_date)
-    print(f"  MTD CY (thru yesterday): ${mtd_cy['revenue']:,.0f}")
-    print(f"  MTD LY: ${mtd_ly['revenue']:,.0f}")
-    print(f"  Same day LY: ${day_ly['revenue']:,.0f} ({day_ly['orders']} orders)")
+    try:
+        mtd_cy, mtd_ly, day_ly = query_supabase_mtd(report_date)
+        print(f"  MTD CY (thru yesterday): ${mtd_cy['revenue']:,.0f}")
+        print(f"  MTD LY: ${mtd_ly['revenue']:,.0f}")
+        print(f"  Same day LY: ${day_ly['revenue']:,.0f} ({day_ly['orders']} orders)")
+    except Exception as e:
+        print(f"  [ERR] Supabase failed: {e}")
+        errors.append("Supabase")
+        mtd_cy = {"revenue": 0, "orders": 0, "ad_spend": 0, "shipping": 0}
+        mtd_ly = {"revenue": 0, "orders": 0, "ad_spend": 0}
+        day_ly = {"revenue": 0, "orders": 0, "ad_spend": 0}
 
     # Analyze
     best_sellers, top_states = analyze_orders(orders)
 
     # Format
     message = format_review(report_date, orders, ads, mtd_cy, mtd_ly, day_ly, best_sellers, top_states)
+
+    if errors:
+        message += f"\n\n⚠️ <i>Data sources unavailable: {', '.join(errors)}</i>"
 
     # Print to console
     print("\n" + "=" * 50)
