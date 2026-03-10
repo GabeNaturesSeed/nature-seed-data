@@ -55,6 +55,10 @@ WC_CK = env_vars["WC_CK"]
 WC_CS = env_vars["WC_CS"]
 WC_AUTH = (WC_CK, WC_CS)
 
+# Cloudflare Worker proxy (bypasses Bot Fight Mode for datacenter IPs)
+CF_WORKER_URL = env_vars.get("CF_WORKER_URL", "")
+CF_WORKER_SECRET = env_vars.get("CF_WORKER_SECRET", "")
+
 # Walmart
 WM_CLIENT_ID = env_vars["WALMART_CLIENT_ID"]
 WM_CLIENT_SECRET = env_vars["WALMART_CLIENT_SECRET"]
@@ -139,9 +143,29 @@ WC_HEADERS = {"User-Agent": "NaturesSeed-DailyReport/1.0"}
 
 
 def _wc_request_with_retry(url, params, max_retries=3):
-    """Make a WC API request with retry logic for transient errors (403/429/5xx)."""
+    """Make a WC API request with retry logic for transient errors.
+
+    If CF_WORKER_URL is set, routes through the Cloudflare Worker proxy
+    to bypass Bot Fight Mode (which blocks datacenter IPs like GitHub Actions).
+    Falls back to direct WC API calls for local use.
+    """
     for attempt in range(max_retries):
-        resp = requests.get(url, auth=WC_AUTH, params=params, headers=WC_HEADERS, timeout=60)
+        if CF_WORKER_URL and CF_WORKER_SECRET:
+            # Route through Cloudflare Worker proxy
+            wc_path = url.replace(WC_BASE, "")
+            proxy_params = dict(params)
+            proxy_params["wc_path"] = wc_path
+            auth_str = base64.b64encode(f"{WC_CK}:{WC_CS}".encode()).decode()
+            headers = {
+                "X-Proxy-Secret": CF_WORKER_SECRET,
+                "Authorization": f"Basic {auth_str}",
+                "User-Agent": "NaturesSeed-DailyReport/1.0",
+            }
+            resp = requests.get(CF_WORKER_URL, params=proxy_params, headers=headers, timeout=60)
+        else:
+            # Direct WC API call (local dev)
+            resp = requests.get(url, auth=WC_AUTH, params=params, headers=WC_HEADERS, timeout=60)
+
         if resp.status_code == 200:
             return resp
         if resp.status_code in (403, 429, 500, 502, 503) and attempt < max_retries - 1:

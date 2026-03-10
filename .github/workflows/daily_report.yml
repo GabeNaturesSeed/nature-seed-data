@@ -38,6 +38,8 @@ jobs:
           SHIPPO_API_KEY=${{ secrets.SHIPPO_API_KEY }}
           SUPABASE_URL=${{ secrets.SUPABASE_URL }}
           SUPABASE_SECRET_API_KEY=${{ secrets.SUPABASE_SECRET_API_KEY }}
+          CF_WORKER_URL=${{ secrets.CF_WORKER_URL }}
+          CF_WORKER_SECRET=${{ secrets.CF_WORKER_SECRET }}
           ENVEOF
 
       - name: Pull yesterday's data
