@@ -1,4 +1,4 @@
-# Nature's Seed — Session Handoff (March 9, 2026)
+# Nature's Seed — Session Handoff (March 10, 2026)
 
 > **Purpose**: This document captures the full context, history, and state of all work completed across multiple CLI sessions. Read this at the start of any new session to pick up where we left off.
 
@@ -6,7 +6,7 @@
 
 ## Active Projects & Status
 
-### 0. Daily Report Pipeline ✅ BUILT (March 9, 2026)
+### 0. Daily Report Pipeline ✅ BUILT + CF PROXY DEPLOYED (March 10, 2026)
 **Directory**: `daily-report/`
 **GitHub Repo**: `GabeNaturesSeed/nature-seed-data`
 
@@ -15,24 +15,27 @@
 - Created Supabase schema with 6 tables + 2 views (`daily_summary`, `mtd_comparison`)
 - Backfilled all 365 days of 2025 data (sales + ad spend only, no COGS/Shippo for historical)
 - Set up GitHub Actions cron job (midnight MST / 7 AM UTC)
-- Pushed to GitHub, 14 secrets configured
+- Pushed to GitHub, 16 secrets configured (including CF_WORKER_URL, CF_WORKER_SECRET)
+- **Cloudflare Worker proxy deployed** to bypass Bot Fight Mode blocking WC API calls from GitHub Actions datacenter IPs
+
+**Cloudflare Worker Proxy** (March 10, 2026):
+- **Problem**: Cloudflare Bot Fight Mode serves JS challenges to datacenter IPs (GitHub Actions, AWS, etc.). Cannot be disabled (CFO policy). Cannot be bypassed with WAF custom rules on free plan.
+- **Solution**: Cloudflare Worker at `wc-api-proxy.skylar-d51.workers.dev` — runs inside CF's network, bypasses Bot Fight Mode. Validates `PROXY_SECRET` header, forwards to WC REST API with Basic Auth.
+- **Code**: `cloudflare-worker/wc-proxy.js`
+- **Env vars**: `CF_WORKER_URL` + `CF_WORKER_SECRET` — when set, both `daily_pull.py` and `nightly_review.py` route WC calls through the Worker. When unset, falls back to direct WC API calls (local dev).
+- **GitHub secrets**: Must be **Repository secrets** (not Environment secrets) — this distinction caused initial deployment failure.
 
 **Key Files**:
 | File | Purpose |
 |------|---------|
 | `daily-report/daily_pull.py` | Main orchestrator — pulls all 5 sources, writes to Supabase |
+| `daily-report/nightly_review.py` | Nightly Telegram summary (10 PM MST) |
 | `daily-report/backfill_2025.py` | Lightweight backfill (sales + ads only) |
 | `daily-report/supabase_schema.sql` | All table DDL + views |
 | `daily-report/requirements.txt` | Python deps (requests, google-ads, google-auth) |
-| `.github/workflows/daily_report.yml` | GitHub Actions cron scheduler |
-
-**Technical lessons learned this session**:
-- Supabase `sb_secret_*` keys are opaque tokens, not JWTs — only use `apikey` header
-- PostgREST upsert needs `on_conflict` query param + `Prefer: resolution=merge-duplicates`
-- Shippo doesn't support date filtering — must paginate and filter locally
-- Shippo rate cost is on `/rates/{id}`, not on the transaction object
-- Deduplicate Shippo by tracking number (voided/recreated labels)
-- Google OAuth: single refresh token can cover 4 API scopes (Ads + GA4 + Merchant + Search Console)
+| `cloudflare-worker/wc-proxy.js` | CF Worker proxy for WC API (bypasses Bot Fight Mode) |
+| `.github/workflows/daily_report.yml` | GitHub Actions cron — midnight MST |
+| `.github/workflows/nightly_review.yml` | GitHub Actions cron — 10 PM MST |
 
 **Remaining**:
 - Connect Retool to Supabase (PostgreSQL: `db.zoeuacgxthkiemzyunsd.supabase.co`, port 6543, db `postgres`, user `postgres`)
@@ -187,7 +190,74 @@
 | Search Console | `sc-domain:naturesseed.com` | Shared OAuth token |
 | Shippo | REST API | Live key, deduplicate by tracking number |
 | Retool | API key available | Dashboard frontend (pending setup) |
-| GitHub Actions | `nature-seed-data` repo | Daily cron at midnight MST |
+| Cloudflare Worker | `wc-api-proxy.skylar-d51.workers.dev` | WC API proxy, bypasses Bot Fight Mode |
+| GitHub Actions | `nature-seed-data` repo | Daily cron at midnight MST, nightly at 10 PM MST |
+
+---
+
+### 6. Google Ads Drip Automation ✅ BUILT (March 9, 2026)
+**Directory**: `google-ads-audit/drip/`
+
+**What was built**:
+- Complete drip optimization system: plan generation → Telegram approval → execution → tracking
+- Python mutator library (`google_ads_mutator.py`) with all Google Ads API v23 write operations
+- Telegram bot (`telegram_bot.py`) for plan delivery, double-confirmation flow, and interactive keyword placement
+- Cycle orchestrator (`cycle_orchestrator.py`) — full autonomous cycle with peak season guardrails
+- GitHub Actions workflow (`.github/workflows/google_ads_drip.yml`) — cron Mon/Thu at 8 AM MST
+- Interactive keyword placement: user replies with `keyword, campaign > ad_group, match_type` format
+
+**Key Files**:
+| File | Purpose |
+|------|---------|
+| `google-ads-audit/drip/google_ads_mutator.py` | All Google Ads API write ops (budgets, negatives, pauses, keyword adds) |
+| `google-ads-audit/drip/telegram_bot.py` | Telegram bot with HTML rendering, polling, keyword parsing |
+| `google-ads-audit/drip/cycle_orchestrator.py` | Plan generation, execution, tracker/approval log updates |
+| `google-ads-audit/drip/IMPLEMENTATION_TRACKER.md` | Optimization roadmap + change history |
+| `google-ads-audit/drip/APPROVAL_LOG.md` | Full audit trail of all approvals |
+| `google-ads-audit/drip/run_keyword_review.py` | One-off keyword review runner (retry logic, HTML-safe reports) |
+| `.github/workflows/google_ads_drip.yml` | GitHub Actions cron + manual dispatch |
+
+**Cycles Completed**:
+- **Cycle 1** (March 9): Brand budget $30→$39/day, 4 negatives added, 3 keywords paused, keyword opps deferred
+- **Cycle 1 Keyword Review** (March 9): 6/7 keywords added (3 brand, 3 search). `goat pasture seed mix` failed with persistent Google 500 error on Goats ad group — retry next cycle.
+
+**Technical lessons**:
+- Google Ads API v23: `client.get_type("FieldMask")` doesn't work — use `operation.update_mask.paths.append()`
+- v23 mutate methods don't accept `validate_only`/`partial_failure` kwargs — handle separately
+- `CustomerNegativeCriterion` doesn't support `keyword` field — use campaign-level negatives
+- Telegram HTML parse mode: must escape `<`, `>`, `&` before injecting `<b>` tags
+- Curly apostrophe (`'`) is invalid in Google Ads keywords — use straight quote (`'`)
+- Google API 500 errors on specific ad groups can be persistent — implement retry with backoff
+
+**Remaining**:
+- Retry `goat pasture seed mix` → Goats ad group next cycle
+- `pasture seed` not placed (user skipped it) — offer again next cycle
+- System runs autonomously on Mon/Thu cron schedule
+
+---
+
+### 7. Nightly Sales Review (Telegram) ✅ WORKING (March 10, 2026)
+**File**: `daily-report/nightly_review.py`
+**Workflow**: `.github/workflows/nightly_review.yml`
+
+**What it does** — Every night at 10 PM MST, sends a Telegram summary:
+- Today's revenue, orders, units, ad spend, MER, clicks, conversions
+- Top 5 best-selling products (by revenue)
+- Top 5 states (by revenue)
+- MTD revenue vs last year (YoY %)
+- Auto-generated commentary on performance
+
+**How it works**:
+- Pulls TODAY's orders live from WooCommerce via Cloudflare Worker proxy
+- Pulls TODAY's Google Ads metrics live
+- Queries Supabase `daily_summary` view for MTD through yesterday
+- Combines today + MTD for full picture
+
+**Secrets needed** (in addition to existing daily report secrets):
+- `TELEGRAM_BOT_API` — already set for drip automation
+- `TELEGRAM_CHAT_ID` — already set for drip automation
+- `CF_WORKER_URL` — Cloudflare Worker proxy URL
+- `CF_WORKER_SECRET` — Proxy authentication secret
 
 ---
 

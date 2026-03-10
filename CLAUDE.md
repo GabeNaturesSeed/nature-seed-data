@@ -13,6 +13,7 @@ This is the central data hub for all Nature's Seed ecommerce operations. Any age
 | System | Connection | Skill |
 |--------|-----------|-------|
 | WooCommerce (naturesseed.com) | REST API v3 + Store API v1 | `.claude/skills/woocommerce-api/` |
+| Cloudflare Worker (WC Proxy) | `wc-api-proxy.skylar-d51.workers.dev` | `cloudflare-worker/wc-proxy.js` |
 | Klaviyo | MCP Server (20+ tools) | `.claude/skills/klaviyo-api/` |
 | Walmart Marketplace | OAuth 2.0 REST API | `.claude/skills/walmart-api/` |
 | Fishbowl Inventory | HTTP API | `.claude/skills/fishbowl-inventory/` |
@@ -59,16 +60,22 @@ All API credentials are in `.env` in this directory. Never hardcode or expose th
 10. **Google OAuth multi-scope** — Single refresh token covers Ads, Analytics, Merchant Center, and Search Console. Don't create separate tokens per API
 11. **Shippo date filtering** — API doesn't support reliable date params. Must paginate all transactions and filter by `object_created` locally. Rate cost is on separate `/rates/{id}` endpoint
 12. **Shippo deduplication** — Always deduplicate by tracking number to handle voided/recreated labels
+13. **Cloudflare Bot Fight Mode** — Blocks all datacenter IPs (GitHub Actions, AWS, etc.) from calling WC API. Cannot be bypassed with WAF rules on free plan. Solution: route WC API calls through Cloudflare Worker proxy (`cloudflare-worker/wc-proxy.js`). Set `CF_WORKER_URL` and `CF_WORKER_SECRET` env vars to enable proxy mode. CFO does NOT allow disabling Bot Fight Mode.
+14. **GitHub Actions secrets** — Must be added as **Repository secrets** (not Environment secrets). Verify they appear under Settings → Secrets and variables → Actions → Repository secrets.
 
 ## Session Handoff
 
 **Read `HANDOFF.md` at the start of any new session.** It captures the full history, completed work, active state, and priority queue from prior sessions.
 
-## Active Work (as of March 9, 2026)
+## Active Work (as of March 10, 2026)
 
 | Project | Directory | Status |
 |---------|-----------|--------|
-| Daily Report Pipeline | `daily-report/` | ✅ Pipeline built, 2025 backfilled, GitHub Actions scheduled |
+| Daily Report Pipeline | `daily-report/` | ✅ Pipeline built, CF Worker proxy deployed, GitHub Actions working |
+| Nightly Sales Review | `daily-report/nightly_review.py` | ✅ Telegram bot sends daily summary at 10 PM MST |
+| Cloudflare Worker Proxy | `cloudflare-worker/` | ✅ Deployed — bypasses Bot Fight Mode for WC API |
+| Google Ads Drip Automation | `google-ads-audit/drip/` | ✅ Built — Mon/Thu cron, Telegram approval flow |
+| Product Card Injection | `search-console/` | ✅ 38 of 48 articles updated with product cards |
 | Retool Dashboard | Retool (external) | Pending — connect to Supabase, build MTD/YTD queries |
 | Google Ads 4-Year Audit | `google-ads-audit/` | ✅ Complete — scripts 09-13b built, LIVE audit done |
 | Texas Collection Feed | `google-ads-audit/texas_collection_feed.csv` | ✅ Complete — 21 rows ready to paste |
@@ -82,6 +89,7 @@ All API credentials are in `.env` in this directory. Never hardcode or expose th
 **Database**: Supabase (`zoeuacgxthkiemzyunsd.supabase.co`)
 **Frontend**: Retool (free tier)
 **Schedule**: GitHub Actions cron at midnight MST (7 AM UTC)
+**WC API Proxy**: Cloudflare Worker at `wc-api-proxy.skylar-d51.workers.dev` (bypasses Bot Fight Mode)
 
 ### Tables (in Supabase)
 | Table | Purpose |

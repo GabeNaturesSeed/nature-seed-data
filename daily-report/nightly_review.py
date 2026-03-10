@@ -3,19 +3,21 @@
 Nature's Seed — Nightly Sales Review (Telegram)
 Sent every night at 10 PM MST via GitHub Actions.
 
-Pulls TODAY's live data from WooCommerce + Google Ads,
-combines with Supabase MTD data (through yesterday),
-and sends a formatted summary to Telegram.
+Reports on YESTERDAY (last full day) so CY and LY MTD comparisons
+use the exact same date ranges — no partial-day skew.
+
+Pulls yesterday's WC orders (for best sellers/top states detail),
+Google Ads metrics, and Supabase MTD data (through yesterday).
 
 Includes:
-  - Today's revenue, orders, ad spend, MER
+  - Yesterday's revenue, orders, ad spend, MER
   - Best sellers (top 5 products by revenue)
   - Sales by state (top 5)
-  - MTD vs last year comparison
+  - MTD vs last year comparison (same date range)
   - Quick commentary
 
 Usage:
-  python3 nightly_review.py           # Today's review
+  python3 nightly_review.py           # Yesterday's review
   python3 nightly_review.py 2026-03-09  # Specific date
 """
 
@@ -233,22 +235,21 @@ def pull_google_ads_today(report_date):
 
 def query_supabase_mtd(report_date):
     """
-    Query Supabase for MTD data through yesterday.
-    Also pulls same period last year for comparison.
+    Query Supabase for MTD data through report_date (inclusive).
+    report_date is the last full day (yesterday).
+    Also pulls same period last year for apples-to-apples comparison.
     """
-    today = datetime.strptime(str(report_date), "%Y-%m-%d")
-    month_start = today.replace(day=1).strftime("%Y-%m-%d")
-    yesterday = (today - timedelta(days=1)).strftime("%Y-%m-%d")
+    rd = datetime.strptime(str(report_date), "%Y-%m-%d")
+    month_start = rd.replace(day=1).strftime("%Y-%m-%d")
 
-    # Current year MTD (through yesterday — today's data isn't in Supabase yet)
     url = f"{SUPABASE_URL}/rest/v1/daily_summary"
     headers = {"apikey": SUPABASE_KEY}
 
-    # MTD current year
+    # MTD current year (month start through report_date, inclusive)
     params = {
         "select": "report_date,total_revenue,total_orders,total_ad_spend,shipping_cost",
         "report_date": f"gte.{month_start}",
-        "and": f"(report_date.lte.{yesterday})",
+        "and": f"(report_date.lte.{report_date})",
     }
     resp = requests.get(url, headers=headers, params=params, timeout=30)
 
@@ -260,9 +261,9 @@ def query_supabase_mtd(report_date):
             mtd_cy["ad_spend"] += float(row.get("total_ad_spend") or 0)
             mtd_cy["shipping"] += float(row.get("shipping_cost") or 0)
 
-    # Last year same period
-    ly_start = (today.replace(year=today.year - 1, day=1)).strftime("%Y-%m-%d")
-    ly_end = (today.replace(year=today.year - 1)).strftime("%Y-%m-%d")
+    # Last year same period (same day-of-month range)
+    ly_start = rd.replace(year=rd.year - 1, day=1).strftime("%Y-%m-%d")
+    ly_end = rd.replace(year=rd.year - 1).strftime("%Y-%m-%d")
 
     params_ly = {
         "select": "report_date,total_revenue,total_orders,total_ad_spend",
@@ -279,7 +280,7 @@ def query_supabase_mtd(report_date):
             mtd_ly["ad_spend"] += float(row.get("total_ad_spend") or 0)
 
     # Same day last year
-    ly_same_day = today.replace(year=today.year - 1).strftime("%Y-%m-%d")
+    ly_same_day = rd.replace(year=rd.year - 1).strftime("%Y-%m-%d")
     params_day_ly = {
         "select": "report_date,total_revenue,total_orders,total_ad_spend",
         "report_date": f"eq.{ly_same_day}",
@@ -338,11 +339,9 @@ def generate_commentary(today_rev, today_orders, mtd_cy, mtd_ly, ads):
     if mtd_cy["orders"] > 0 and mtd_cy["revenue"] > 0:
         days_so_far = max(1, mtd_cy["orders"] // max(1, today_orders) if today_orders > 0 else 1)
 
-    # YoY comparison
+    # YoY comparison — MTD CY already includes report_date
     if mtd_ly["revenue"] > 0:
-        # MTD including today vs LY
-        total_mtd = mtd_cy["revenue"] + today_rev
-        yoy = ((total_mtd - mtd_ly["revenue"]) / mtd_ly["revenue"]) * 100
+        yoy = ((mtd_cy["revenue"] - mtd_ly["revenue"]) / mtd_ly["revenue"]) * 100
         if yoy > 10:
             lines.append(f"MTD revenue is up {yoy:.0f}% vs last year — strong momentum.")
         elif yoy > 0:
@@ -353,8 +352,8 @@ def generate_commentary(today_rev, today_orders, mtd_cy, mtd_ly, ads):
             lines.append(f"MTD revenue is down {abs(yoy):.0f}% vs last year — needs attention.")
 
     # MER commentary
-    total_spend = mtd_cy["ad_spend"] + ads["spend"]
-    total_rev = mtd_cy["revenue"] + today_rev
+    total_spend = mtd_cy["ad_spend"]
+    total_rev = mtd_cy["revenue"]
     if total_spend > 0:
         mer = total_rev / total_spend
         if mer > 5:
@@ -414,13 +413,13 @@ def format_review(report_date, orders, ads, mtd_cy, mtd_ly, day_ly, best_sellers
     lines.append(f"📊 <b>Daily Sales Review — {day_name}, {report_date}</b>")
     lines.append("━━━━━━━━━━━━━━━━━━━━━━━━\n")
 
-    # Today's numbers
-    lines.append("<b>Today</b>")
+    # Day's numbers
+    lines.append(f"<b>{day_name}</b>")
     lines.append(f"  💰 Revenue: <b>${today_rev:,.0f}</b>  ({today_orders} orders, {today_units} units)")
     lines.append(f"  📈 Ad Spend: ${ads['spend']:,.0f}  |  MER: {today_mer}x")
     lines.append(f"  🖱 Clicks: {ads['clicks']:,}  |  Conversions: {ads['conversions']:.0f}")
 
-    # Today vs last year same day
+    # Day vs last year same day
     if day_ly["revenue"] > 0:
         day_yoy = ((today_rev - day_ly["revenue"]) / day_ly["revenue"]) * 100
         arrow = "📈" if day_yoy >= 0 else "📉"
@@ -448,10 +447,11 @@ def format_review(report_date, orders, ads, mtd_cy, mtd_ly, day_ly, best_sellers
             lines.append(f"  📍 {state_name}: ${data['revenue']:,.0f} ({data['orders']} orders)")
         lines.append("")
 
-    # MTD comparison
-    mtd_rev_total = mtd_cy["revenue"] + today_rev
-    mtd_orders_total = mtd_cy["orders"] + today_orders
-    mtd_spend_total = mtd_cy["ad_spend"] + ads["spend"]
+    # MTD comparison — MTD CY already includes report_date from Supabase
+    # (report_date = yesterday, which was captured by midnight daily pull)
+    mtd_rev_total = mtd_cy["revenue"]
+    mtd_orders_total = mtd_cy["orders"]
+    mtd_spend_total = mtd_cy["ad_spend"]
     mtd_mer = round(mtd_rev_total / mtd_spend_total, 1) if mtd_spend_total > 0 else 0
 
     lines.append("━━━━━━━━━━━━━━━━━━━━━━━━")
@@ -480,15 +480,18 @@ def main():
     if len(sys.argv) > 1:
         report_date = sys.argv[1]
     else:
-        report_date = date.today().strftime("%Y-%m-%d")
+        # Always report on yesterday (last full day) so CY and LY compare
+        # the exact same date range. Sent at 10 PM MST = midnight EST,
+        # meaning the EST day is complete.
+        report_date = (date.today() - timedelta(days=1)).strftime("%Y-%m-%d")
 
-    print(f"Nightly Sales Review for {report_date}")
+    print(f"Nightly Sales Review for {report_date} (last full day)")
     print("=" * 50)
 
     errors = []
 
-    # Pull live data — each source is non-fatal
-    print("Pulling WooCommerce orders...")
+    # Pull WC orders for the report date (for best sellers / top states detail)
+    print(f"Pulling WooCommerce orders for {report_date}...")
     try:
         orders = pull_wc_orders(report_date)
         print(f"  Found {len(orders)} orders")
@@ -497,7 +500,8 @@ def main():
         errors.append("WooCommerce")
         orders = []
 
-    print("Pulling Google Ads metrics...")
+    # Pull Google Ads for the report date
+    print(f"Pulling Google Ads metrics for {report_date}...")
     try:
         ads = pull_google_ads_today(report_date)
         print(f"  Spend: ${ads['spend']:,.2f}")
@@ -509,8 +513,8 @@ def main():
     print("Querying Supabase for MTD + last year...")
     try:
         mtd_cy, mtd_ly, day_ly = query_supabase_mtd(report_date)
-        print(f"  MTD CY (thru yesterday): ${mtd_cy['revenue']:,.0f}")
-        print(f"  MTD LY: ${mtd_ly['revenue']:,.0f}")
+        print(f"  MTD CY (thru {report_date}): ${mtd_cy['revenue']:,.0f}")
+        print(f"  MTD LY (same period): ${mtd_ly['revenue']:,.0f}")
         print(f"  Same day LY: ${day_ly['revenue']:,.0f} ({day_ly['orders']} orders)")
     except Exception as e:
         print(f"  [ERR] Supabase failed: {e}")
