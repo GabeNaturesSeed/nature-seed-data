@@ -436,15 +436,10 @@ def generate_klaviyo():
     window_start = TODAY_STR
     window_end = str(TODAY + timedelta(days=90))
 
-    # Filter by send_time window only — channel filter not reliably supported
-    filter_str = (
-        f"greater-or-equal(send_time,{window_start}T00:00:00Z),"
-        f"less-or-equal(send_time,{window_end}T23:59:59Z)"
-    )
-
+    # No server-side date filter — Klaviyo 2024-07-15 doesn't support send_time filter
+    # Fetch all campaigns (sorted by name), filter client-side by send_time
     params = {
-        "filter": filter_str,
-        "sort": "send_time",
+        "sort": "-send_time",
         "page[size]": 50,
     }
 
@@ -459,9 +454,12 @@ def generate_klaviyo():
             timeout=30,
         )
         first_page = False
-        resp.raise_for_status()
+        if resp.status_code != 200:
+            print(f"  [WARN] Klaviyo campaigns returned {resp.status_code}: {resp.text[:200]}")
+            break
         data = resp.json()
 
+        stop_pagination = False
         for item in data.get("data", []):
             attrs = item.get("attributes", {})
             # Extract send time — try multiple paths
@@ -471,12 +469,15 @@ def generate_klaviyo():
                 or (attrs.get("send_strategy") or {}).get("options_static", {}).get("datetime")
                 or ""
             )
-            # Filter to 90-day window
+            # Client-side filter: only include campaigns in our 90-day window
             if send_time:
                 try:
                     st_date = send_time[:10]
+                    if st_date < window_start:
+                        stop_pagination = True  # sorted desc, so older = stop
+                        continue
                     if st_date > window_end:
-                        break
+                        continue
                 except Exception:
                     pass
 
@@ -518,13 +519,12 @@ def generate_klaviyo():
                 "segment_name": segment_name,
             })
 
-        # Pagination
+        # Pagination — stop if we passed our window or no more pages
         next_url = data.get("links", {}).get("next")
-        if next_url and next_url != url:
-            url = next_url
-            params = None  # next URL already has params
-        else:
+        if stop_pagination or not next_url or next_url == url:
             break
+        url = next_url
+        params = None  # next URL already has params
 
     result = {"as_of": TODAY_STR, "campaigns": campaigns}
     _write_json("klaviyo.json", result)
@@ -777,12 +777,23 @@ def generate_walmart():
             raise
 
         data = resp.json()
-        elements = data.get("list", {}).get("elements", {}).get("order", [])
-        if not elements:
+        list_obj = data.get("list") or {}
+        if not isinstance(list_obj, dict):
+            list_obj = {}
+        elements_obj = list_obj.get("elements") or {}
+        if not isinstance(elements_obj, dict):
+            elements_obj = {}
+        order_raw = elements_obj.get("order") or []
+        # Walmart sometimes returns a single order dict instead of a list
+        if isinstance(order_raw, dict):
+            order_raw = [order_raw]
+        if not order_raw:
             break
-        all_orders.extend(elements)
+        all_orders.extend(order_raw)
 
-        meta = data.get("list", {}).get("meta", {})
+        meta = list_obj.get("meta") or {}
+        if not isinstance(meta, dict):
+            meta = {}
         next_cursor = meta.get("nextCursor")
         if not next_cursor:
             break
@@ -798,12 +809,23 @@ def generate_walmart():
         order_date = (order.get("orderDate") or "")[:10]
         daily_map[order_date]["orders"] += 1
 
-        for line in order.get("orderLines", {}).get("orderLine", []):
+        order_lines_raw = (order.get("orderLines") or {}).get("orderLine", [])
+        if isinstance(order_lines_raw, dict):
+            order_lines_raw = [order_lines_raw]
+        for line in (order_lines_raw if isinstance(order_lines_raw, list) else []):
+            if not isinstance(line, dict):
+                continue
             item_name = (line.get("item") or {}).get("productName", "Unknown")
             sku = (line.get("item") or {}).get("sku", "")
-            qty = int((line.get("orderLineQuantity") or {}).get("amount", 0))
+            qty_obj = line.get("orderLineQuantity") or {}
+            qty = int(qty_obj.get("amount", 0)) if isinstance(qty_obj, dict) else 0
 
-            for charge in (line.get("charges") or {}).get("charge", []):
+            charges_raw = (line.get("charges") or {}).get("charge", [])
+            if isinstance(charges_raw, dict):
+                charges_raw = [charges_raw]
+            for charge in (charges_raw if isinstance(charges_raw, list) else []):
+                if not isinstance(charge, dict):
+                    continue
                 if charge.get("chargeType") == "PRODUCT":
                     amt = float((charge.get("chargeAmount") or {}).get("amount", 0))
                     daily_map[order_date]["revenue"] += amt
@@ -1146,6 +1168,7 @@ def main():
         ("Notes (Markdown)",      generate_notes),
     ]
 
+    import traceback
     results = {}
     for name, fn in sources:
         try:
@@ -1153,6 +1176,7 @@ def main():
             results[name] = "OK" if ok else "SKIPPED"
         except Exception as e:
             print(f"  [ERR] {name} failed: {e}")
+            traceback.print_exc()
             results[name] = f"FAILED: {e}"
 
     print("\n" + "=" * 60)
