@@ -1,43 +1,157 @@
 {
   "as_of": "2026-03-11",
   "mtd": {
-    "cy": {"revenue": 52300, "orders": 187, "ad_spend": 6800, "mer": 7.69, "cogs": 21400, "shipping": 2100, "net_revenue": 22000},
-    "ly": {"revenue": 44100, "orders": 158, "ad_spend": 5900},
-    "budget": {"revenue": 73600, "ad_spend": 9800},
+    "cy": {
+      "revenue": 121982.87,
+      "orders": 900,
+      "ad_spend": 24709.72,
+      "mer": 4.94,
+      "cogs": 40813.12,
+      "shipping": 26444.78,
+      "net_revenue": 54724.97
+    },
+    "ly": {
+      "revenue": 133652.4,
+      "orders": 727,
+      "ad_spend": 25801.49
+    },
+    "budget": {
+      "revenue": 433213.0,
+      "ad_spend": 72602.0
+    },
     "daily_cy": [
-      {"date": "2026-03-01", "revenue": 4200},
-      {"date": "2026-03-02", "revenue": 5100},
-      {"date": "2026-03-03", "revenue": 3800},
-      {"date": "2026-03-04", "revenue": 2900},
-      {"date": "2026-03-05", "revenue": 4600},
-      {"date": "2026-03-06", "revenue": 5200},
-      {"date": "2026-03-07", "revenue": 4700},
-      {"date": "2026-03-08", "revenue": 4100},
-      {"date": "2026-03-09", "revenue": 5800},
-      {"date": "2026-03-10", "revenue": 5100},
-      {"date": "2026-03-11", "revenue": 6800}
+      {
+        "date": "2026-03-01",
+        "revenue": 13153.02
+      },
+      {
+        "date": "2026-03-02",
+        "revenue": 11118.97
+      },
+      {
+        "date": "2026-03-03",
+        "revenue": 11076.55
+      },
+      {
+        "date": "2026-03-04",
+        "revenue": 13177.45
+      },
+      {
+        "date": "2026-03-05",
+        "revenue": 15275.25
+      },
+      {
+        "date": "2026-03-06",
+        "revenue": 11954.92
+      },
+      {
+        "date": "2026-03-07",
+        "revenue": 13567.65
+      },
+      {
+        "date": "2026-03-08",
+        "revenue": 17037.98
+      },
+      {
+        "date": "2026-03-09",
+        "revenue": 210.94
+      },
+      {
+        "date": "2026-03-10",
+        "revenue": 15410.14
+      }
     ],
     "daily_ly": [
-      {"date": "2025-03-01", "revenue": 3600},
-      {"date": "2025-03-02", "revenue": 4200},
-      {"date": "2025-03-03", "revenue": 3100},
-      {"date": "2025-03-04", "revenue": 2400},
-      {"date": "2025-03-05", "revenue": 3900},
-      {"date": "2025-03-06", "revenue": 4500},
-      {"date": "2025-03-07", "revenue": 4100},
-      {"date": "2025-03-08", "revenue": 3700},
-      {"date": "2025-03-09", "revenue": 5000},
-      {"date": "2025-03-10", "revenue": 4400},
-      {"date": "2025-03-11", "revenue": 5200}
+      {
+        "date": "2026-03-01",
+        "revenue": 12128.9
+      },
+      {
+        "date": "2026-03-02",
+        "revenue": 20947.71
+      },
+      {
+        "date": "2026-03-03",
+        "revenue": 11761.42
+      },
+      {
+        "date": "2026-03-04",
+        "revenue": 14548.81
+      },
+      {
+        "date": "2026-03-05",
+        "revenue": 10938.04
+      },
+      {
+        "date": "2026-03-06",
+        "revenue": 6802.4
+      },
+      {
+        "date": "2026-03-07",
+        "revenue": 15200.95
+      },
+      {
+        "date": "2026-03-08",
+        "revenue": 15277.6
+      },
+      {
+        "date": "2026-03-09",
+        "revenue": 11038.4
+      },
+      {
+        "date": "2026-03-10",
+        "revenue": 15008.17
+      }
     ]
   },
   "ytd": {
     "months": [
-      {"month": "2026-01", "revenue": 67900, "ly_revenue": 80000, "budget_revenue": 133800, "orders": 214, "ad_spend": 29600, "mer": 2.3, "cogs": 36253, "net_revenue": 2047},
-      {"month": "2026-02", "revenue": 88400, "ly_revenue": 72000, "budget_revenue": 96000, "orders": 298, "ad_spend": 18200, "mer": 4.86, "cogs": 41200, "net_revenue": 29000}
+      {
+        "month": "2026-01",
+        "revenue": 0,
+        "ly_revenue": 115411.46,
+        "budget_revenue": 133779.0,
+        "orders": 0,
+        "ad_spend": 0,
+        "mer": 0,
+        "cogs": 0,
+        "net_revenue": 0
+      },
+      {
+        "month": "2026-02",
+        "revenue": 0,
+        "ly_revenue": 275551.09,
+        "budget_revenue": 258517.0,
+        "orders": 0,
+        "ad_spend": 0,
+        "mer": 0,
+        "cogs": 0,
+        "net_revenue": 0
+      },
+      {
+        "month": "2026-03",
+        "revenue": 121982.87,
+        "ly_revenue": 133652.4,
+        "budget_revenue": 433213.0,
+        "orders": 900,
+        "ad_spend": 24709.72,
+        "mer": 4.94,
+        "cogs": 40813.12,
+        "net_revenue": 54724.97
+      }
     ],
-    "totals_cy": {"revenue": 156300, "orders": 512, "ad_spend": 47800, "cogs": 77453, "net_revenue": 31047},
-    "totals_ly": {"revenue": 152000},
-    "totals_budget": {"revenue": 229800}
+    "totals_cy": {
+      "revenue": 121982.87,
+      "orders": 900,
+      "ad_spend": 24709.72,
+      "cogs": 40813.12,
+      "net_revenue": 54724.97
+    },
+    "totals_ly": {
+      "revenue": 524614.95
+    },
+    "totals_budget": {
+      "revenue": 825509.0
+    }
   }
 }

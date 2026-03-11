@@ -1,16 +1,11 @@
 {
   "as_of": "2026-03-11",
-  "items": [
-    {"sku": "WB-TXNAT-5-LB", "name": "Texas Native Wildflower Mix 5 lb", "qty": 480, "daily_velocity": 4.2, "days_remaining": 114, "q1_need": 84, "q2_need": 382, "surplus_gap": 14, "status": "ok"},
-    {"sku": "WB-MEADOW-2-LB", "name": "Wildflower Meadow Mix 2 lb", "qty": 215, "daily_velocity": 3.1, "days_remaining": 69, "q1_need": 62, "q2_need": 282, "surplus_gap": -129, "status": "ok"},
-    {"sku": "WB-LAWNREP-3-LB", "name": "Lawn Repair Mix 3 lb", "qty": 88, "daily_velocity": 2.6, "days_remaining": 34, "q1_need": 52, "q2_need": 237, "surplus_gap": -201, "status": "yellow"},
-    {"sku": "WB-CLOVER-5-LB", "name": "Clover Cover Crop 5 lb", "qty": 142, "daily_velocity": 1.8, "days_remaining": 79, "q1_need": 36, "q2_need": 164, "surplus_gap": -58, "status": "ok"},
-    {"sku": "WB-NATGRASS-10-LB", "name": "Native Grass Blend 10 lb", "qty": 52, "daily_velocity": 3.4, "days_remaining": 15, "q1_need": 68, "q2_need": 309, "surplus_gap": -325, "status": "red"},
-    {"sku": "WB-PRARIE-1-LB", "name": "Prairie Mix 1 lb", "qty": 320, "daily_velocity": 1.2, "days_remaining": 267, "q1_need": 24, "q2_need": 109, "surplus_gap": 187, "status": "ok"},
-    {"sku": "WB-TXBLU-2-LB", "name": "Texas Bluebonnet Mix 2 lb", "qty": 41, "daily_velocity": 2.0, "days_remaining": 21, "q1_need": 40, "q2_need": 182, "surplus_gap": -181, "status": "red"},
-    {"sku": "WB-DROUGHTMIX-5-LB", "name": "Drought-Tolerant Mix 5 lb", "qty": 195, "daily_velocity": 2.9, "days_remaining": 67, "q1_need": 58, "q2_need": 264, "surplus_gap": -127, "status": "ok"},
-    {"sku": "WB-SHADE-3-LB", "name": "Shade Tolerant Grass 3 lb", "qty": 74, "daily_velocity": 1.4, "days_remaining": 53, "q1_need": 28, "q2_need": 127, "surplus_gap": -81, "status": "yellow"},
-    {"sku": "WB-EROSION-2-LB", "name": "Erosion Control Mix 2 lb", "qty": 380, "daily_velocity": 0.9, "days_remaining": 422, "q1_need": 18, "q2_need": 82, "surplus_gap": 280, "status": "ok"}
-  ],
-  "summary": {"total_skus": 10, "red_count": 2, "yellow_count": 2, "green_count": 6}
+  "items": [],
+  "summary": {
+    "total_skus": 0,
+    "red_count": 0,
+    "yellow_count": 0,
+    "green_count": 0
+  },
+  "warning": "Fishbowl login failed: 401 Client Error: Unauthorized for url: http://naturesseed.myfishbowl.com:3875/api/login"
 }
