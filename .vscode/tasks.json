@@ -1,0 +1,38 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Deploy Actuals",
+      "type": "shell",
+      "command": "cd \"${workspaceFolder}\" && git add 2026ECOMMBUDGET/ docs/notes.md && git diff --staged --quiet && echo 'Nothing to deploy.' || (git commit -m \"Update actuals/notes $(date '+%Y-%m-%d')\" && git push && echo '✅ Deployed. Dashboard will update within 2 minutes.')",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Dashboard Generator (local)",
+      "type": "shell",
+      "command": "cd \"${workspaceFolder}\" && python3 dashboard/generate_data.py",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Marketplace Bot (local)",
+      "type": "shell",
+      "command": "cd \"${workspaceFolder}\" && python3 marketplace-management/marketplace_bot.py",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

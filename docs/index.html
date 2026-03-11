@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nature's Seed — Operations Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-dark: #2d5a27;
+    --green-med: #4a8c3f;
+    --bg: #f5f5f0;
+    --card: #ffffff;
+    --text: #333333;
+    --border: #e8e8e0;
+    --red: #c0392b;
+    --yellow: #e67e22;
+    --gray: #888;
+  }
+
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── Auth Screen ───────────────────────────────── */
+  #auth-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: var(--bg);
+  }
+  .auth-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 48px 40px;
+    width: 360px;
+    text-align: center;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  }
+  .auth-card .logo { font-size: 2.4rem; margin-bottom: 8px; }
+  .auth-card h1 { font-size: 1.2rem; color: var(--green-dark); margin-bottom: 6px; }
+  .auth-card p { font-size: 0.85rem; color: var(--gray); margin-bottom: 28px; }
+  .auth-card input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .auth-card input:focus { border-color: var(--green-med); }
+  .auth-card button {
+    width: 100%;
+    padding: 12px;
+    background: var(--green-dark);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .auth-card button:hover { background: var(--green-med); }
+  .auth-error { color: var(--red); font-size: 0.85rem; margin-top: 10px; min-height: 20px; }
+
+  /* ── App Shell ────────────────────────────────── */
+  #app { display: none; }
+
+  header {
+    background: var(--green-dark);
+    color: #fff;
+    padding: 0 24px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .header-left { display: flex; align-items: center; gap: 10px; }
+  .header-left .logo { font-size: 1.4rem; }
+  .header-title { font-size: 1.05rem; font-weight: 600; }
+  .header-right { display: flex; align-items: center; gap: 16px; font-size: 0.8rem; opacity: 0.85; }
+  .header-right #last-updated { font-size: 0.78rem; }
+  .lock-link { color: #fff; text-decoration: none; font-size: 0.8rem; opacity: 0.7; cursor: pointer; }
+  .lock-link:hover { opacity: 1; }
+
+  /* ── Main Tabs ────────────────────────────────── */
+  .main-tabs {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    padding: 0 24px;
+    gap: 0;
+  }
+  .main-tab {
+    padding: 14px 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    color: var(--gray);
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .main-tab:hover { color: var(--text); }
+  .main-tab.active { color: var(--green-dark); border-bottom-color: var(--green-dark); font-weight: 600; }
+
+  /* ── Sub Tabs ─────────────────────────────────── */
+  .sub-tabs {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    display: none;
+    padding: 6px 24px 0;
+    gap: 4px;
+  }
+  .sub-tabs.visible { display: flex; }
+  .sub-tab {
+    padding: 7px 16px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 6px 6px 0 0;
+    color: var(--gray);
+    border: 1px solid transparent;
+    border-bottom: none;
+    transition: all 0.15s;
+    background: transparent;
+  }
+  .sub-tab:hover { color: var(--text); background: #ebebeb; }
+  .sub-tab.active {
+    color: var(--green-dark);
+    background: var(--card);
+    border-color: var(--border);
+    font-weight: 600;
+  }
+
+  /* ── Content Panels ───────────────────────────── */
+  .panel { display: none; padding: 24px; }
+  .panel.active { display: block; }
+
+  /* ── KPI Cards ────────────────────────────────── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .kpi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .kpi-label { font-size: 0.75rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .kpi-value { font-size: 1.55rem; font-weight: 700; color: var(--text); margin-bottom: 8px; line-height: 1; }
+  .kpi-meta { display: flex; flex-direction: column; gap: 3px; }
+  .kpi-badge {
+    font-size: 0.72rem;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-weight: 600;
+    display: inline-block;
+    width: fit-content;
+  }
+  .badge-green { background: #e8f5e4; color: #2d5a27; }
+  .badge-red { background: #fdecea; color: #c0392b; }
+  .badge-gray { background: #f0f0f0; color: #666; }
+  .badge-blue { background: #e8f0fe; color: #1a56db; }
+  .badge-yellow { background: #fef3e2; color: #b45309; }
+
+  /* ── Charts ───────────────────────────────────── */
+  .chart-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 800px) { .chart-row { grid-template-columns: 1fr; } }
+  .chart-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .chart-card h3 { font-size: 0.85rem; color: var(--gray); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .chart-wrap { position: relative; height: 220px; }
+  .projection-bar {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin-bottom: 20px;
+    font-size: 0.92rem;
+    color: var(--text);
+  }
+  .projection-bar strong { color: var(--green-dark); font-size: 1.1rem; }
+
+  /* ── Tables ───────────────────────────────────── */
+  .table-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .table-card h3 { font-size: 0.85rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.4px; padding: 14px 18px 0; }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--gray);
+    font-weight: 600;
+    padding: 10px 14px;
+    text-align: left;
+    background: #fafaf8;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    font-size: 0.85rem;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr.row-green td:first-child { border-left: 3px solid var(--green-med); }
+  tr.row-red td:first-child { border-left: 3px solid var(--red); }
+  .text-green { color: #2d6b24; font-weight: 600; }
+  .text-red { color: var(--red); font-weight: 600; }
+  .text-yellow { color: var(--yellow); font-weight: 600; }
+  .text-gray { color: var(--gray); }
+  .text-right { text-align: right; }
+
+  /* ── Section headings ─────────────────────────── */
+  .section-heading {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray);
+    font-weight: 600;
+    margin: 20px 0 10px;
+  }
+
+  /* ── Calendar ─────────────────────────────────── */
+  .cal-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .cal-controls button {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+  .cal-controls button:hover { background: var(--bg); }
+  .cal-controls .cal-title { font-size: 1rem; font-weight: 600; color: var(--green-dark); min-width: 160px; text-align: center; }
+  .cal-grid {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .cal-dow-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: #fafaf8;
+    border-bottom: 1px solid var(--border);
+  }
+  .cal-dow {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--gray);
+    font-weight: 600;
+    padding: 8px;
+    text-align: center;
+  }
+  .cal-weeks { }
+  .cal-week { display: grid; grid-template-columns: repeat(7, 1fr); border-bottom: 1px solid var(--border); }
+  .cal-week:last-child { border-bottom: none; }
+  .cal-day {
+    min-height: 90px;
+    padding: 8px;
+    border-right: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .cal-day:last-child { border-right: none; }
+  .cal-day.other-month { background: #fafaf8; }
+  .cal-day-num { font-size: 0.8rem; color: var(--gray); margin-bottom: 4px; font-weight: 500; }
+  .cal-day.today .cal-day-num {
+    background: var(--green-dark);
+    color: #fff;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+  .cal-pill {
+    font-size: 0.68rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-bottom: 3px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
+  }
+  .pill-draft { background: #e8e8e0; color: #555; }
+  .pill-scheduled { background: #dbeafe; color: #1e40af; }
+  .pill-sent { background: #dcfce7; color: #166534; }
+
+  /* ── Tooltip / Modal ──────────────────────────── */
+  #campaign-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+  }
+  #campaign-modal.open { display: flex; }
+  .modal-box {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 24px;
+    width: 400px;
+    max-width: 90vw;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    position: relative;
+  }
+  .modal-close {
+    position: absolute;
+    top: 12px; right: 16px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--gray);
+    background: none;
+    border: none;
+  }
+  .modal-box h3 { font-size: 1rem; margin-bottom: 14px; color: var(--green-dark); padding-right: 24px; }
+  .modal-row { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .modal-row:last-child { border-bottom: none; }
+  .modal-row .label { color: var(--gray); }
+
+  /* ── Health bars ──────────────────────────────── */
+  .health-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .health-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .health-label { font-size: 0.75rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
+  .health-value { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+  .health-bar-bg { background: #f0f0ed; border-radius: 4px; height: 6px; overflow: hidden; }
+  .health-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
+
+  /* ── Issues ───────────────────────────────────── */
+  .issue-card {
+    background: #fdecea;
+    border: 1px solid #f5c6c2;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    color: #7b2020;
+  }
+  .no-issues {
+    background: #e8f5e4;
+    border: 1px solid #b8ddb0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    color: #2d5a27;
+  }
+
+  /* ── Stock summary boxes ──────────────────────── */
+  .stock-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 700px) { .stock-summary { grid-template-columns: repeat(2, 1fr); } }
+  .stock-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+  }
+  .stock-box .sb-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.4px; color: var(--gray); margin-bottom: 4px; }
+  .stock-box .sb-value { font-size: 1.8rem; font-weight: 700; }
+
+  /* ── Search filter ────────────────────────────── */
+  .filter-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+    align-items: center;
+  }
+  .filter-bar input {
+    flex: 1;
+    max-width: 320px;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    font-size: 0.85rem;
+    outline: none;
+  }
+  .filter-bar input:focus { border-color: var(--green-med); }
+
+  /* ── Sortable table header ────────────────────── */
+  th.sortable { cursor: pointer; user-select: none; }
+  th.sortable:hover { background: #f0f0ec; }
+  th.sort-asc::after { content: ' ↑'; }
+  th.sort-desc::after { content: ' ↓'; }
+
+  /* ── Notes content ────────────────────────────── */
+  .notes-content {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px 28px;
+    line-height: 1.7;
+  }
+  .notes-content h1, .notes-content h2 { color: var(--green-dark); margin-bottom: 12px; margin-top: 20px; }
+  .notes-content h2:first-child { margin-top: 0; }
+  .notes-content p { margin-bottom: 12px; font-size: 0.9rem; }
+  .notes-content ul, .notes-content ol { margin: 10px 0 14px 24px; font-size: 0.9rem; }
+  .notes-hint {
+    margin-top: 16px;
+    font-size: 0.78rem;
+    color: var(--gray);
+    font-style: italic;
+    text-align: right;
+  }
+
+  /* ── Unavailable placeholder ──────────────────── */
+  .data-unavailable {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 32px;
+    text-align: center;
+    color: var(--gray);
+    font-size: 0.9rem;
+  }
+
+  /* ── YTD projection ───────────────────────────── */
+  .ytd-projection {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin-bottom: 20px;
+    font-size: 0.92rem;
+  }
+
+  /* ── Responsive ───────────────────────────────── */
+  @media (max-width: 600px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    header { padding: 0 14px; }
+    .main-tabs { padding: 0 12px; overflow-x: auto; }
+    .panel { padding: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── Auth Screen ─────────────────────────────────────────────── -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="logo">🌱</div>
+    <h1>Nature's Seed Operations</h1>
+    <p>Enter your dashboard password to continue</p>
+    <input type="password" id="pw-input" placeholder="Password" autocomplete="current-password" />
+    <button onclick="attemptLogin()">Access Dashboard</button>
+    <div class="auth-error" id="auth-error"></div>
+  </div>
+</div>
+
+<!-- ─── App Shell ───────────────────────────────────────────────── -->
+<div id="app">
+  <header>
+    <div class="header-left">
+      <span class="logo">🌱</span>
+      <span class="header-title">Nature's Seed — Operations Dashboard</span>
+    </div>
+    <div class="header-right">
+      <span id="last-updated">Loading…</span>
+      <a class="lock-link" onclick="lockDashboard()">🔒 Lock</a>
+    </div>
+  </header>
+
+  <!-- Main Tabs -->
+  <div class="main-tabs" id="main-tabs">
+    <div class="main-tab active" data-tab="reporting" onclick="switchMain('reporting', this)">Reporting</div>
+    <div class="main-tab" data-tab="content" onclick="switchMain('content', this)">Content Calendar</div>
+    <div class="main-tab" data-tab="marketplace" onclick="switchMain('marketplace', this)">Marketplace</div>
+    <div class="main-tab" data-tab="inventory" onclick="switchMain('inventory', this)">Inventory</div>
+  </div>
+
+  <!-- Sub Tabs -->
+  <div class="sub-tabs visible" id="sub-reporting">
+    <div class="sub-tab active" data-sub="mtd" onclick="switchSub('reporting','mtd',this)">MTD</div>
+    <div class="sub-tab" data-sub="ytd" onclick="switchSub('reporting','ytd',this)">YTD</div>
+    <div class="sub-tab" data-sub="notes" onclick="switchSub('reporting','notes',this)">Notes</div>
+  </div>
+  <div class="sub-tabs" id="sub-marketplace">
+    <div class="sub-tab active" data-sub="amazon" onclick="switchSub('marketplace','amazon',this)">Amazon</div>
+    <div class="sub-tab" data-sub="walmart" onclick="switchSub('marketplace','walmart',this)">Walmart</div>
+  </div>
+  <div class="sub-tabs" id="sub-inventory">
+    <div class="sub-tab active" data-sub="stock" onclick="switchSub('inventory','stock',this)">Current Stock</div>
+    <div class="sub-tab" data-sub="forecasting" onclick="switchSub('inventory','forecasting',this)">Forecasting</div>
+  </div>
+
+  <!-- Panels -->
+  <div id="panel-mtd" class="panel active"></div>
+  <div id="panel-ytd" class="panel"></div>
+  <div id="panel-notes" class="panel"></div>
+  <div id="panel-content" class="panel"></div>
+  <div id="panel-amazon" class="panel"></div>
+  <div id="panel-walmart" class="panel"></div>
+  <div id="panel-stock" class="panel"></div>
+  <div id="panel-forecasting" class="panel"></div>
+</div>
+
+<!-- Campaign modal -->
+<div id="campaign-modal" onclick="closeModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('campaign-modal').classList.remove('open')">×</button>
+    <h3 id="modal-name"></h3>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  CONSTANTS & HELPERS
+// ═══════════════════════════════════════════════════════
+const PASS_PLACEHOLDER = '__DASHBOARD_PASSWORD__';
+const AUTH_KEY = 'ns_auth';
+
+const fmt = n => n == null ? '—' : '$' + Number(n).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+const fmtInt = n => n == null ? '—' : Number(n).toLocaleString('en-US');
+const pct = n => n == null ? '—' : (n >= 0 ? '+' : '') + Number(n).toFixed(1) + '%';
+const safe = (n, fallback=0) => (n == null || isNaN(n)) ? fallback : n;
+
+function calcPct(a, b) {
+  if (!b) return null;
+  return (a - b) / b * 100;
+}
+
+function badgeClass(val, positive_is_good=true) {
+  if (val == null) return 'badge-gray';
+  if (positive_is_good) return val >= 0 ? 'badge-green' : 'badge-red';
+  return val <= 0 ? 'badge-green' : 'badge-red';
+}
+
+function daysInMonth(year, month) {
+  return new Date(year, month, 0).getDate();
+}
+
+// ═══════════════════════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════════════════════
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+async function attemptLogin() {
+  const pw = document.getElementById('pw-input').value;
+  const hash = await sha256(pw);
+  const expected = await sha256(PASS_PLACEHOLDER);
+  if (hash === expected) {
+    localStorage.setItem(AUTH_KEY, hash);
+    showApp();
+  } else {
+    document.getElementById('auth-error').textContent = 'Incorrect password. Try again.';
+  }
+}
+
+async function checkAuth() {
+  const stored = localStorage.getItem(AUTH_KEY);
+  if (!stored) return false;
+  const expected = await sha256(PASS_PLACEHOLDER);
+  return stored === expected;
+}
+
+function lockDashboard() {
+  localStorage.removeItem(AUTH_KEY);
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('pw-input').value = '';
+  document.getElementById('auth-error').textContent = '';
+}
+
+document.getElementById('pw-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') attemptLogin();
+});
+
+// ═══════════════════════════════════════════════════════
+//  TAB ROUTING
+// ═══════════════════════════════════════════════════════
+const mainPanelMap = {
+  reporting: ['mtd'],
+  content:   ['content'],
+  marketplace: ['amazon'],
+  inventory: ['stock'],
+};
+const subGroups = {
+  reporting: ['mtd','ytd','notes'],
+  marketplace: ['amazon','walmart'],
+  inventory: ['stock','forecasting'],
+};
+let activeMain = 'reporting';
+let activeSub = {reporting:'mtd', marketplace:'amazon', inventory:'stock'};
+
+function switchMain(name, el) {
+  document.querySelectorAll('.main-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  activeMain = name;
+
+  // hide all sub-tabs, show relevant
+  document.querySelectorAll('.sub-tabs').forEach(s=>s.classList.remove('visible'));
+  const subEl = document.getElementById('sub-'+name);
+  if (subEl) subEl.classList.add('visible');
+
+  // show correct panel
+  hideAllPanels();
+  if (name === 'content') {
+    showPanel('content');
+  } else {
+    const sub = activeSub[name] || mainPanelMap[name][0];
+    showPanel(sub);
+  }
+}
+
+function switchSub(group, sub, el) {
+  document.querySelectorAll(`#sub-${group} .sub-tab`).forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  activeSub[group] = sub;
+  hideAllPanels();
+  showPanel(sub);
+}
+
+function hideAllPanels() {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+}
+
+function showPanel(name) {
+  const el = document.getElementById('panel-'+name);
+  if (el) el.classList.add('active');
+  // destroy/recreate charts that need redrawing
+  redrawChartsForPanel(name);
+}
+
+// ═══════════════════════════════════════════════════════
+//  CHART REGISTRY
+// ═══════════════════════════════════════════════════════
+const chartRegistry = {};
+
+function destroyChart(id) {
+  if (chartRegistry[id]) {
+    chartRegistry[id].destroy();
+    delete chartRegistry[id];
+  }
+}
+
+function makeChart(id, config) {
+  destroyChart(id);
+  const canvas = document.getElementById(id);
+  if (!canvas) return null;
+  const chart = new Chart(canvas, config);
+  chartRegistry[id] = chart;
+  return chart;
+}
+
+const pendingRedraws = new Set();
+function redrawChartsForPanel(name) {
+  pendingRedraws.add(name);
+  if (window._appData) flushRedraws();
+}
+function flushRedraws() {
+  pendingRedraws.forEach(name => {
+    if (name === 'mtd') renderMtdCharts(window._appData.reporting);
+    if (name === 'ytd') renderYtdChart(window._appData.reporting);
+    if (name === 'amazon') renderAmazonChart(window._appData.amazon);
+    if (name === 'walmart') renderWalmartChart(window._appData.walmart);
+    pendingRedraws.delete(name);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  DATA LOADING
+// ═══════════════════════════════════════════════════════
+async function loadAllData() {
+  const files = ['reporting','budget','klaviyo','amazon','walmart','inventory','notes'];
+  const base = './data/';
+  const results = await Promise.allSettled(
+    files.map(f => fetch(base+f+'.json').then(r => { if(!r.ok) throw new Error(r.status); return r.json(); }))
+  );
+  const data = {};
+  files.forEach((f,i) => {
+    data[f] = results[i].status === 'fulfilled' ? results[i].value : null;
+  });
+  return data;
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER: MTD
+// ═══════════════════════════════════════════════════════
+function renderMtd(reporting) {
+  const el = document.getElementById('panel-mtd');
+  if (!reporting) { el.innerHTML = '<div class="data-unavailable">Reporting data unavailable</div>'; return; }
+  const mtd = reporting.mtd || {};
+  const cy = mtd.cy || {};
+  const ly = mtd.ly || {};
+  const budget = mtd.budget || {};
+
+  const kpis = [
+    { label:'Revenue', val:fmt(cy.revenue), lyPct:calcPct(cy.revenue,ly.revenue), budPct:calcPct(cy.revenue,budget.revenue) },
+    { label:'Orders', val:fmtInt(cy.orders), lyPct:calcPct(cy.orders,ly.orders), budPct:null },
+    { label:'Ad Spend', val:fmt(cy.ad_spend), lyPct:calcPct(cy.ad_spend,ly.ad_spend), budPct:calcPct(cy.ad_spend,budget.ad_spend), invert:true },
+    { label:'MER', val:(cy.mer != null ? cy.mer.toFixed(2)+'x' : '—'), lyPct:null, budPct:null },
+    { label:'COGS', val:fmt(cy.cogs), lyPct:null, budPct:null },
+    { label:'Net Revenue', val:fmt(cy.net_revenue), lyPct:null, budPct:null },
+  ];
+
+  let kpiHtml = '<div class="kpi-grid">';
+  kpis.forEach(k => {
+    let meta = '';
+    if (k.lyPct != null) {
+      const cls = badgeClass(k.lyPct, !k.invert);
+      meta += `<span class="kpi-badge ${cls}">vs LY ${pct(k.lyPct)}</span>`;
+    }
+    if (k.budPct != null) {
+      const cls = badgeClass(k.budPct, !k.invert);
+      meta += `<span class="kpi-badge ${cls}">vs Budget ${pct(k.budPct)}</span>`;
+    }
+    kpiHtml += `<div class="kpi-card">
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-value">${k.val}</div>
+      <div class="kpi-meta">${meta}</div>
+    </div>`;
+  });
+  kpiHtml += '</div>';
+
+  // Projection
+  const dailyCY = mtd.daily_cy || [];
+  const proj = linearProjection(dailyCY);
+  const projHtml = `<div class="projection-bar">Projected Month-End: <strong>${fmt(proj)}</strong> &nbsp;·&nbsp; based on current daily pace</div>`;
+
+  // Chart placeholders
+  const chartsHtml = `
+    <div class="chart-row">
+      <div class="chart-card"><h3>Daily Revenue</h3><div class="chart-wrap"><canvas id="chart-mtd-daily"></canvas></div></div>
+      <div class="chart-card"><h3>Cumulative MTD Revenue</h3><div class="chart-wrap"><canvas id="chart-mtd-cumulative"></canvas></div></div>
+    </div>`;
+
+  el.innerHTML = kpiHtml + projHtml + chartsHtml;
+  renderMtdCharts(reporting);
+}
+
+function linearProjection(dailyCY) {
+  if (!dailyCY || dailyCY.length < 2) return null;
+  const n = dailyCY.length;
+  // sum of revenues
+  const totalRev = dailyCY.reduce((s,d)=>s+safe(d.revenue),0);
+  const avgDaily = totalRev / n;
+  // get days in month from first date
+  const firstDate = new Date(dailyCY[0].date);
+  const dim = daysInMonth(firstDate.getFullYear(), firstDate.getMonth()+1);
+  return avgDaily * dim;
+}
+
+function renderMtdCharts(reporting) {
+  if (!reporting) return;
+  const mtd = reporting.mtd || {};
+  const dailyCY = mtd.daily_cy || [];
+  const dailyLY = mtd.daily_ly || [];
+  const budgetTotal = (mtd.budget || {}).revenue || 0;
+
+  // Build date labels from CY
+  const labels = dailyCY.map(d => {
+    const dt = new Date(d.date + 'T00:00:00');
+    return dt.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+  });
+
+  // Daily line chart
+  makeChart('chart-mtd-daily', {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'CY Revenue',
+          data: dailyCY.map(d => safe(d.revenue)),
+          borderColor: '#2d5a27',
+          backgroundColor: 'rgba(45,90,39,0.08)',
+          borderWidth: 2,
+          pointRadius: 2,
+          fill: true,
+          tension: 0.3,
+        },
+        {
+          label: 'LY Revenue',
+          data: (() => {
+            const lyMap = {};
+            dailyLY.forEach(d => {
+              const dt = new Date(d.date + 'T00:00:00');
+              // align by day-of-month
+              lyMap[dt.getDate()] = safe(d.revenue);
+            });
+            return dailyCY.map((d,i) => {
+              const dayNum = new Date(d.date + 'T00:00:00').getDate();
+              return lyMap[dayNum] ?? null;
+            });
+          })(),
+          borderColor: '#aaa',
+          borderDash: [5,4],
+          borderWidth: 1.5,
+          pointRadius: 1,
+          fill: false,
+          tension: 0.3,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { labels: { font: { size:11 } } } },
+      scales: {
+        x: { ticks: { font:{size:10}, maxRotation:45, autoSkip:true, maxTicksLimit:12 } },
+        y: { ticks: { font:{size:10}, callback: v => '$'+v.toLocaleString() } }
+      }
+    }
+  });
+
+  // Cumulative chart
+  const cyRevs = dailyCY.map(d => safe(d.revenue));
+  const cyCum = cumulative(cyRevs);
+
+  const lyRevMap = {};
+  dailyLY.forEach(d => {
+    const dt = new Date(d.date + 'T00:00:00');
+    lyRevMap[dt.getDate()] = safe(d.revenue);
+  });
+  const lyRevs = dailyCY.map(d => {
+    const dayNum = new Date(d.date + 'T00:00:00').getDate();
+    return lyRevMap[dayNum] ?? null;
+  });
+  const lyCum = cumulativeNullable(lyRevs);
+
+  // Budget pace: budget / days_in_month * day_index
+  const firstDate = dailyCY.length ? new Date(dailyCY[0].date + 'T00:00:00') : new Date();
+  const dim = daysInMonth(firstDate.getFullYear(), firstDate.getMonth()+1);
+  const budPace = dailyCY.map((_, i) => budgetTotal > 0 ? +(budgetTotal / dim * (i+1)).toFixed(2) : null);
+
+  makeChart('chart-mtd-cumulative', {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'CY Cumulative',
+          data: cyCum,
+          borderColor: '#2d5a27',
+          backgroundColor: 'rgba(45,90,39,0.07)',
+          borderWidth: 2,
+          pointRadius: 1,
+          fill: true,
+          tension: 0.2,
+        },
+        {
+          label: 'LY Cumulative',
+          data: lyCum,
+          borderColor: '#aaa',
+          borderDash: [5,4],
+          borderWidth: 1.5,
+          pointRadius: 1,
+          fill: false,
+          tension: 0.2,
+        },
+        {
+          label: 'Budget Pace',
+          data: budPace,
+          borderColor: '#e67e22',
+          borderDash: [2,3],
+          borderWidth: 1.5,
+          pointRadius: 0,
+          fill: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { labels: { font:{size:11} } } },
+      scales: {
+        x: { ticks: { font:{size:10}, maxRotation:45, autoSkip:true, maxTicksLimit:12 } },
+        y: { ticks: { font:{size:10}, callback: v => '$'+v.toLocaleString() } }
+      }
+    }
+  });
+}
+
+function cumulative(arr) {
+  let sum = 0;
+  return arr.map(v => { sum += v; return sum; });
+}
+function cumulativeNullable(arr) {
+  let sum = 0;
+  return arr.map(v => { if (v == null) return null; sum += v; return sum; });
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER: YTD
+// ═══════════════════════════════════════════════════════
+function renderYtd(reporting) {
+  const el = document.getElementById('panel-ytd');
+  if (!reporting) { el.innerHTML = '<div class="data-unavailable">Reporting data unavailable</div>'; return; }
+  const ytd = reporting.ytd || {};
+  const tcy = ytd.totals_cy || {};
+  const tly = ytd.totals_ly || {};
+  const tbud = ytd.totals_budget || {};
+  const months = ytd.months || [];
+
+  const kpis = [
+    { label:'YTD Revenue', val:fmt(tcy.revenue), lyPct:calcPct(tcy.revenue,tly.revenue), budPct:calcPct(tcy.revenue,tbud.revenue) },
+    { label:'YTD Orders', val:fmtInt(tcy.orders), lyPct:null, budPct:null },
+    { label:'YTD Ad Spend', val:fmt(tcy.ad_spend), lyPct:null, budPct:null },
+    { label:'YTD MER', val: tcy.ad_spend > 0 ? (tcy.revenue/tcy.ad_spend).toFixed(2)+'x' : '—', lyPct:null, budPct:null },
+  ];
+
+  let kpiHtml = '<div class="kpi-grid">';
+  kpis.forEach(k => {
+    let meta = '';
+    if (k.lyPct != null) meta += `<span class="kpi-badge ${badgeClass(k.lyPct)}">vs LY ${pct(k.lyPct)}</span>`;
+    if (k.budPct != null) meta += `<span class="kpi-badge ${badgeClass(k.budPct)}">vs Budget ${pct(k.budPct)}</span>`;
+    kpiHtml += `<div class="kpi-card"><div class="kpi-label">${k.label}</div><div class="kpi-value">${k.val}</div><div class="kpi-meta">${meta}</div></div>`;
+  });
+  kpiHtml += '</div>';
+
+  // Annualized projection
+  const monthsComplete = months.length;
+  const annualized = monthsComplete > 0 ? (safe(tcy.revenue) / monthsComplete * 12) : null;
+  const projHtml = annualized ? `<div class="ytd-projection">Projected Year-End Revenue: <strong style="color:var(--green-dark)">${fmt(annualized)}</strong> &nbsp;·&nbsp; annualized from ${monthsComplete} month${monthsComplete!==1?'s':''}</div>` : '';
+
+  // Bar chart placeholder
+  const chartHtml = `<div class="chart-card" style="margin-bottom:20px"><h3>Monthly Revenue</h3><div class="chart-wrap" style="height:260px"><canvas id="chart-ytd-monthly"></canvas></div></div>`;
+
+  // Table
+  let tableHtml = `<div class="table-card"><table>
+    <thead><tr>
+      <th>Month</th><th>Revenue</th><th>vs Budget</th><th>vs LY</th><th>Orders</th><th>Ad Spend</th><th>MER</th>
+    </tr></thead><tbody>`;
+  months.forEach(m => {
+    const vsB = calcPct(m.revenue, m.budget_revenue);
+    const vsLY = calcPct(m.revenue, m.ly_revenue);
+    const rowCls = (vsB != null && vsB >= 0) ? 'row-green' : 'row-red';
+    const monthLabel = new Date(m.month+'-02').toLocaleDateString('en-US',{year:'numeric',month:'short'});
+    tableHtml += `<tr class="${rowCls}">
+      <td>${monthLabel}</td>
+      <td>${fmt(m.revenue)}</td>
+      <td class="${vsB>=0?'text-green':'text-red'}">${pct(vsB)}</td>
+      <td class="${vsLY>=0?'text-green':'text-red'}">${pct(vsLY)}</td>
+      <td>${fmtInt(m.orders)}</td>
+      <td>${fmt(m.ad_spend)}</td>
+      <td>${m.mer != null ? m.mer.toFixed(2)+'x' : '—'}</td>
+    </tr>`;
+  });
+  tableHtml += '</tbody></table></div>';
+
+  el.innerHTML = kpiHtml + projHtml + chartHtml + tableHtml;
+  renderYtdChart(reporting);
+}
+
+function renderYtdChart(reporting) {
+  if (!reporting) return;
+  const months = (reporting.ytd || {}).months || [];
+  const labels = months.map(m => new Date(m.month+'-02').toLocaleDateString('en-US',{month:'short'}));
+
+  makeChart('chart-ytd-monthly', {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'CY Revenue',
+          data: months.map(m => safe(m.revenue)),
+          backgroundColor: 'rgba(45,90,39,0.75)',
+          borderColor: '#2d5a27',
+          borderWidth: 1,
+          borderRadius: 4,
+        },
+        {
+          label: 'LY Revenue',
+          data: months.map(m => safe(m.ly_revenue)),
+          backgroundColor: 'rgba(180,180,180,0.5)',
+          borderColor: '#aaa',
+          borderWidth: 1,
+          borderRadius: 4,
+        },
+        {
+          label: 'Budget',
+          data: months.map(m => safe(m.budget_revenue)),
+          backgroundColor: 'transparent',
+          borderColor: '#e67e22',
+          borderWidth: 2,
+          borderRadius: 4,
+          type: 'bar',
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { labels: { font:{size:11} } } },
+      scales: {
+        x: { ticks: { font:{size:10} } },
+        y: { ticks: { font:{size:10}, callback: v => '$'+v.toLocaleString() } }
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER: NOTES
+// ═══════════════════════════════════════════════════════
+function renderNotes(notes) {
+  const el = document.getElementById('panel-notes');
+  if (!notes) { el.innerHTML = '<div class="data-unavailable">Notes unavailable</div>'; return; }
+  el.innerHTML = `
+    <div class="notes-content">${notes.html || '<p>No notes yet.</p>'}</div>
+    <div class="notes-hint">Edit docs/notes.md and push to update</div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER: CONTENT CALENDAR
+// ═══════════════════════════════════════════════════════
+let calYear, calMonth;
+let _klaviyoCampaigns = [];
+
+function renderContentCalendar(klaviyo) {
+  _klaviyoCampaigns = (klaviyo || {}).campaigns || [];
+  const now = new Date();
+  calYear = now.getFullYear();
+  calMonth = now.getMonth(); // 0-indexed
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const el = document.getElementById('panel-content');
+  const monthName = new Date(calYear, calMonth, 1).toLocaleDateString('en-US',{year:'numeric',month:'long'});
+
+  let html = `<div class="cal-controls">
+    <button onclick="calNav(-1)">&#8592; Prev</button>
+    <span class="cal-title">${monthName}</span>
+    <button onclick="calNav(1)">Next &#8594;</button>
+  </div>`;
+
+  // Build 7-col grid
+  html += `<div class="cal-grid">
+    <div class="cal-dow-row">
+      <div class="cal-dow">Mon</div><div class="cal-dow">Tue</div><div class="cal-dow">Wed</div>
+      <div class="cal-dow">Thu</div><div class="cal-dow">Fri</div><div class="cal-dow">Sat</div><div class="cal-dow">Sun</div>
+    </div><div class="cal-weeks">`;
+
+  const today = new Date();
+  const firstDay = new Date(calYear, calMonth, 1);
+  // Monday-based: 0=Mon...6=Sun
+  let startDow = firstDay.getDay(); // 0=Sun...6=Sat
+  startDow = (startDow + 6) % 7; // convert to Mon=0
+
+  const totalDays = daysInMonth(calYear, calMonth+1);
+  const totalCells = Math.ceil((startDow + totalDays) / 7) * 7;
+
+  // Index campaigns by date string
+  const campByDate = {};
+  _klaviyoCampaigns.forEach(c => {
+    if (!c.send_time) return;
+    const dt = new Date(c.send_time);
+    if (dt.getFullYear() !== calYear || dt.getMonth() !== calMonth) return;
+    const key = dt.getDate();
+    if (!campByDate[key]) campByDate[key] = [];
+    campByDate[key].push(c);
+  });
+
+  let cells = [];
+  for (let i=0; i<totalCells; i++) {
+    const dayNum = i - startDow + 1;
+    cells.push(dayNum);
+  }
+
+  for (let row=0; row<cells.length/7; row++) {
+    html += '<div class="cal-week">';
+    for (let col=0; col<7; col++) {
+      const dayNum = cells[row*7+col];
+      const isCurrentMonth = dayNum >= 1 && dayNum <= totalDays;
+      const isToday = isCurrentMonth && today.getFullYear()===calYear && today.getMonth()===calMonth && today.getDate()===dayNum;
+      const otherClass = isCurrentMonth ? '' : 'other-month';
+      const todayClass = isToday ? 'today' : '';
+      html += `<div class="cal-day ${otherClass} ${todayClass}">`;
+      if (isCurrentMonth) {
+        html += `<div class="cal-day-num">${dayNum}</div>`;
+        const camps = campByDate[dayNum] || [];
+        camps.forEach(c => {
+          const st = (c.status||'draft').toLowerCase();
+          const pillCls = st === 'sent' ? 'pill-sent' : st === 'scheduled' ? 'pill-scheduled' : 'pill-draft';
+          const idx = _klaviyoCampaigns.indexOf(c);
+          const truncName = (c.name||'Campaign').length > 22 ? (c.name||'Campaign').substring(0,20)+'…' : (c.name||'Campaign');
+          html += `<span class="cal-pill ${pillCls}" onclick="showCampaignModal(${idx})" title="${escHtml(c.name||'')}">${escHtml(truncName)}</span>`;
+        });
+      }
+      html += '</div>';
+    }
+    html += '</div>';
+  }
+
+  // Check if any campaigns shown
+  const campCount = _klaviyoCampaigns.filter(c => {
+    if (!c.send_time) return false;
+    const dt = new Date(c.send_time);
+    return dt.getFullYear()===calYear && dt.getMonth()===calMonth;
+  }).length;
+
+  html += `</div></div>`; // end cal-weeks + cal-grid
+
+  if (campCount === 0) {
+    html += '<div style="text-align:center;color:var(--gray);padding:16px;font-size:0.85rem;">No campaigns scheduled this month</div>';
+  }
+
+  el.innerHTML = html;
+}
+
+function calNav(dir) {
+  calMonth += dir;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  renderCalendar();
+}
+
+function showCampaignModal(idx) {
+  const c = _klaviyoCampaigns[idx];
+  if (!c) return;
+  document.getElementById('modal-name').textContent = c.name || 'Campaign';
+  const st = c.status || 'draft';
+  const stBadge = st === 'sent' ? 'badge-green' : st === 'scheduled' ? 'badge-blue' : 'badge-gray';
+  const sendTime = c.send_time ? new Date(c.send_time).toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'}) : '—';
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-row"><span class="label">Status</span><span class="kpi-badge ${stBadge}">${st}</span></div>
+    <div class="modal-row"><span class="label">Subject</span><span>${escHtml(c.subject||'—')}</span></div>
+    <div class="modal-row"><span class="label">Segment</span><span>${escHtml(c.segment_name||'—')}</span></div>
+    <div class="modal-row"><span class="label">Send Time</span><span>${sendTime}</span></div>
+  `;
+  document.getElementById('campaign-modal').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('campaign-modal')) {
+    document.getElementById('campaign-modal').classList.remove('open');
+  }
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER: AMAZON
+// ═══════════════════════════════════════════════════════
+function renderAmazon(amazon) {
+  const el = document.getElementById('panel-amazon');
+  if (!amazon) { el.innerHTML = '<div class="data-unavailable">Amazon data unavailable</div>'; return; }
+
+  const l30 = amazon.last_30d || {};
+  const health = amazon.account_health || {};
+  const issues = amazon.issues || [];
+
+  const kpiHtml = `<div class="kpi-grid">
+    <div class="kpi-card"><div class="kpi-label">Revenue (30d)</div><div class="kpi-value">${fmt(l30.revenue)}</div></div>
+    <div class="kpi-card"><div class="kpi-label">Orders (30d)</div><div class="kpi-value">${fmtInt(l30.orders)}</div></div>
+    <div class="kpi-card"><div class="kpi-label">AOV</div><div class="kpi-value">${fmt(l30.aov)}</div></div>
+    <div class="kpi-card"><div class="kpi-label">Active Products</div><div class="kpi-value">${fmtInt(amazon.active_count)}</div></div>
+  </div>`;
+
+  // Account health
+  const metrics = [
+    { label:'Defect Rate', val:health.defect_rate, thresholds:[0.01,0.02] },
+    { label:'Cancellation Rate', val:health.cancellation_rate, thresholds:[0.01,0.02] },
+    { label:'Late Shipment Rate', val:health.late_shipment_rate, thresholds:[0.01,0.02] },
+  ];
+  const statusCls = (health.status||'').toLowerCase() === 'good' ? 'badge-green' : health.status === 'At Risk' ? 'badge-yellow' : 'badge-red';
+
+  let healthHtml = `<div class="section-heading">Account Health <span class="kpi-badge ${statusCls}" style="margin-left:8px">${health.status||'—'}</span></div>
+    <div class="health-grid">`;
+  metrics.forEach(m => {
+    const v = m.val;
+    const pctVal = v != null ? (v*100).toFixed(2)+'%' : '—';
+    let color = '#2d5a27';
+    let barPct = 0;
+    if (v != null) {
+      barPct = Math.min(v / (m.thresholds[1]*2) * 100, 100);
+      if (v > m.thresholds[1]) color = '#c0392b';
+      else if (v > m.thresholds[0]) color = '#e67e22';
+    }
+    healthHtml += `<div class="health-card">
+      <div class="health-label">${m.label}</div>
+      <div class="health-value" style="color:${color}">${pctVal}</div>
+      <div class="health-bar-bg"><div class="health-bar-fill" style="width:${barPct}%;background:${color}"></div></div>
+    </div>`;
+  });
+  healthHtml += '</div>';
+
+  // Chart
+  const chartHtml = `<div class="chart-card" style="margin-bottom:20px"><h3>30-Day Revenue</h3><div class="chart-wrap"><canvas id="chart-amazon-daily"></canvas></div></div>`;
+
+  // Top products
+  const topProds = amazon.top_products || [];
+  let tableHtml = '';
+  if (topProds.length) {
+    tableHtml = `<div class="table-card"><table>
+      <thead><tr><th>#</th><th>ASIN</th><th>Product</th><th class="text-right">Revenue</th><th class="text-right">Orders</th></tr></thead><tbody>`;
+    topProds.forEach((p,i) => {
+      tableHtml += `<tr><td>${i+1}</td><td><code>${p.asin||'—'}</code></td><td>${escHtml(p.title||'')}</td><td class="text-right">${fmt(p.revenue)}</td><td class="text-right">${fmtInt(p.orders)}</td></tr>`;
+    });
+    tableHtml += '</tbody></table></div>';
+  }
+
+  // Issues
+  let issueHtml = '';
+  if (issues.length) {
+    issueHtml = '<div class="section-heading">Issues</div>';
+    issues.forEach(issue => { issueHtml += `<div class="issue-card">${escHtml(issue)}</div>`; });
+  } else {
+    issueHtml = '<div class="no-issues">No active issues</div>';
+  }
+
+  el.innerHTML = `<div class="section-heading" style="font-size:1rem;text-transform:none;color:var(--text);font-weight:600;letter-spacing:0;margin-top:0;margin-bottom:16px">Amazon US — Last 30 Days</div>` + kpiHtml + healthHtml + chartHtml + tableHtml + issueHtml;
+  renderAmazonChart(amazon);
+}
+
+function renderAmazonChart(amazon) {
+  if (!amazon) return;
+  const daily = (amazon.daily || []).slice(-30);
+  const labels = daily.map(d => { const dt = new Date(d.date+'T00:00:00'); return dt.toLocaleDateString('en-US',{month:'short',day:'numeric'}); });
+  makeChart('chart-amazon-daily', {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Revenue',
+        data: daily.map(d => safe(d.revenue)),
+        borderColor: '#2d5a27',
+        backgroundColor: 'rgba(45,90,39,0.08)',
+        borderWidth: 2,
+        pointRadius: 2,
+        fill: true,
+        tension: 0.3,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { font:{size:10}, maxRotation:45, autoSkip:true, maxTicksLimit:10 } },
+        y: { ticks: { font:{size:10}, callback: v => '$'+v.toLocaleString() } }
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER: WALMART
+// ═══════════════════════════════════════════════════════
+function renderWalmart(walmart) {
+  const el = document.getElementById('panel-walmart');
+  if (!walmart) { el.innerHTML = '<div class="data-unavailable">Walmart data unavailable</div>'; return; }
+
+  const l30 = walmart.last_30d || {};
+  const issues = walmart.issues || [];
+
+  const kpiHtml = `<div class="kpi-grid">
+    <div class="kpi-card"><div class="kpi-label">Revenue (30d)</div><div class="kpi-value">${fmt(l30.revenue)}</div></div>
+    <div class="kpi-card"><div class="kpi-label">Orders (30d)</div><div class="kpi-value">${fmtInt(l30.orders)}</div></div>
+    <div class="kpi-card"><div class="kpi-label">AOV</div><div class="kpi-value">${fmt(l30.aov)}</div></div>
+    <div class="kpi-card"><div class="kpi-label">Active Listings</div><div class="kpi-value">${fmtInt(walmart.active_count)}</div></div>
+  </div>`;
+
+  // Chart
+  const chartHtml = `<div class="chart-card" style="margin-bottom:20px"><h3>30-Day Revenue</h3><div class="chart-wrap"><canvas id="chart-walmart-daily"></canvas></div></div>`;
+
+  // Top products
+  const topProds = walmart.top_products || [];
+  let tableHtml = '';
+  if (topProds.length) {
+    tableHtml = `<div class="table-card"><table>
+      <thead><tr><th>#</th><th>SKU</th><th>Product</th><th class="text-right">Revenue</th><th class="text-right">Orders</th></tr></thead><tbody>`;
+    topProds.forEach((p,i) => {
+      tableHtml += `<tr><td>${i+1}</td><td><code>${escHtml(p.sku||'—')}</code></td><td>${escHtml(p.title||'')}</td><td class="text-right">${fmt(p.revenue)}</td><td class="text-right">${fmtInt(p.orders)}</td></tr>`;
+    });
+    tableHtml += '</tbody></table></div>';
+  }
+
+  // Issues
+  let issueHtml = '';
+  if (issues.length) {
+    issueHtml = '<div class="section-heading">Issues</div>';
+    issues.forEach(issue => { issueHtml += `<div class="issue-card">${escHtml(issue)}</div>`; });
+  } else {
+    issueHtml = '<div class="no-issues">No active issues</div>';
+  }
+
+  el.innerHTML = `<div class="section-heading" style="font-size:1rem;text-transform:none;color:var(--text);font-weight:600;letter-spacing:0;margin-top:0;margin-bottom:16px">Walmart Marketplace — Last 30 Days</div>` + kpiHtml + chartHtml + tableHtml + issueHtml;
+  renderWalmartChart(walmart);
+}
+
+function renderWalmartChart(walmart) {
+  if (!walmart) return;
+  const daily = (walmart.daily || []).slice(-30);
+  const labels = daily.map(d => { const dt = new Date(d.date+'T00:00:00'); return dt.toLocaleDateString('en-US',{month:'short',day:'numeric'}); });
+  makeChart('chart-walmart-daily', {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Revenue',
+        data: daily.map(d => safe(d.revenue)),
+        borderColor: '#0071ce',
+        backgroundColor: 'rgba(0,113,206,0.07)',
+        borderWidth: 2,
+        pointRadius: 2,
+        fill: true,
+        tension: 0.3,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { font:{size:10}, maxRotation:45, autoSkip:true, maxTicksLimit:10 } },
+        y: { ticks: { font:{size:10}, callback: v => '$'+v.toLocaleString() } }
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER: INVENTORY — CURRENT STOCK
+// ═══════════════════════════════════════════════════════
+let _inventoryItems = [];
+let _stockSortCol = 'days_remaining';
+let _stockSortDir = 'asc';
+let _stockFilter = '';
+
+function renderStock(inventory) {
+  const el = document.getElementById('panel-stock');
+  if (!inventory) { el.innerHTML = '<div class="data-unavailable">Inventory data unavailable</div>'; return; }
+
+  _inventoryItems = (inventory.items || []).slice();
+  const summary = inventory.summary || {};
+
+  const summaryHtml = `<div class="stock-summary">
+    <div class="stock-box"><div class="sb-label">Total SKUs</div><div class="sb-value">${fmtInt(summary.total_skus)}</div></div>
+    <div class="stock-box"><div class="sb-label">Critical &lt;30d</div><div class="sb-value" style="color:var(--red)">${fmtInt(summary.red_count)}</div></div>
+    <div class="stock-box"><div class="sb-label">Low 30–60d</div><div class="sb-value" style="color:var(--yellow)">${fmtInt(summary.yellow_count)}</div></div>
+    <div class="stock-box"><div class="sb-label">OK &gt;60d</div><div class="sb-value" style="color:var(--green-dark)">${fmtInt(summary.green_count)}</div></div>
+  </div>`;
+
+  el.innerHTML = summaryHtml + `
+    <div class="filter-bar">
+      <input type="text" id="stock-filter" placeholder="Filter by SKU or product name…" oninput="applyStockFilter(this.value)" />
+    </div>
+    <div id="stock-table-wrap"></div>`;
+
+  renderStockTable();
+}
+
+function applyStockFilter(val) {
+  _stockFilter = val.toLowerCase();
+  renderStockTable();
+}
+
+function sortStock(col) {
+  if (_stockSortCol === col) {
+    _stockSortDir = _stockSortDir === 'asc' ? 'desc' : 'asc';
+  } else {
+    _stockSortCol = col;
+    _stockSortDir = 'asc';
+  }
+  renderStockTable();
+}
+
+function renderStockTable() {
+  const wrap = document.getElementById('stock-table-wrap');
+  if (!wrap) return;
+
+  let items = _inventoryItems;
+  if (_stockFilter) {
+    items = items.filter(it =>
+      (it.sku||'').toLowerCase().includes(_stockFilter) ||
+      (it.name||'').toLowerCase().includes(_stockFilter)
+    );
+  }
+
+  // Sort
+  items = [...items].sort((a,b) => {
+    let va = a[_stockSortCol], vb = b[_stockSortCol];
+    if (typeof va === 'string') va = va.toLowerCase();
+    if (typeof vb === 'string') vb = vb.toLowerCase();
+    if (va == null) va = _stockSortDir === 'asc' ? Infinity : -Infinity;
+    if (vb == null) vb = _stockSortDir === 'asc' ? Infinity : -Infinity;
+    if (va < vb) return _stockSortDir === 'asc' ? -1 : 1;
+    if (va > vb) return _stockSortDir === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  const sortClass = col => {
+    if (_stockSortCol !== col) return 'sortable';
+    return 'sortable sort-'+_stockSortDir;
+  };
+
+  let html = `<div class="table-card"><table>
+    <thead><tr>
+      <th class="${sortClass('sku')}" onclick="sortStock('sku')">SKU</th>
+      <th class="${sortClass('name')}" onclick="sortStock('name')">Product</th>
+      <th class="${sortClass('qty')}" onclick="sortStock('qty')">In Stock</th>
+      <th class="${sortClass('daily_velocity')}" onclick="sortStock('daily_velocity')">Daily Velocity</th>
+      <th class="${sortClass('days_remaining')}" onclick="sortStock('days_remaining')">Days Remaining</th>
+    </tr></thead><tbody>`;
+
+  if (items.length === 0) {
+    html += '<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:24px">No items match your filter</td></tr>';
+  } else {
+    items.forEach(it => {
+      const dr = it.days_remaining;
+      let drClass = 'text-green';
+      if (dr == null) drClass = 'text-gray';
+      else if (dr < 30) drClass = 'text-red';
+      else if (dr < 60) drClass = 'text-yellow';
+
+      html += `<tr>
+        <td><code>${escHtml(it.sku||'—')}</code></td>
+        <td>${escHtml(it.name||'—')}</td>
+        <td>${fmtInt(it.qty)}</td>
+        <td>${it.daily_velocity != null ? it.daily_velocity.toFixed(1)+'/day' : '—'}</td>
+        <td class="${drClass}">${dr != null ? dr+' days' : '—'}</td>
+      </tr>`;
+    });
+  }
+
+  html += '</tbody></table></div>';
+  wrap.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER: INVENTORY — FORECASTING
+// ═══════════════════════════════════════════════════════
+function renderForecasting(inventory) {
+  const el = document.getElementById('panel-forecasting');
+  if (!inventory) { el.innerHTML = '<div class="data-unavailable">Inventory data unavailable</div>'; return; }
+
+  const items = inventory.items || [];
+
+  let html = `<p style="font-size:0.85rem;color:var(--gray);margin-bottom:16px">Based on current 30-day sales velocity. Q1 = remaining days × velocity, Q2 = 91 days × velocity.</p>
+    <div class="table-card"><table>
+      <thead><tr>
+        <th>SKU</th><th>Product</th><th>Current Stock</th><th>Q1 Need</th><th>Q2 Need</th><th>Surplus / Gap</th>
+      </tr></thead><tbody>`;
+
+  if (items.length === 0) {
+    html += '<tr><td colspan="6" style="text-align:center;color:var(--gray);padding:24px">No inventory data</td></tr>';
+  } else {
+    items.forEach(it => {
+      const sg = it.surplus_gap;
+      const sgClass = sg == null ? 'text-gray' : sg >= 0 ? 'text-green' : 'text-red';
+      const sgLabel = sg == null ? '—' : sg >= 0 ? '+'+fmtInt(sg)+' surplus' : fmtInt(sg)+' gap';
+      html += `<tr>
+        <td><code>${escHtml(it.sku||'—')}</code></td>
+        <td>${escHtml(it.name||'—')}</td>
+        <td>${fmtInt(it.qty)}</td>
+        <td>${it.q1_need != null ? fmtInt(it.q1_need) : '—'}</td>
+        <td>${it.q2_need != null ? fmtInt(it.q2_need) : '—'}</td>
+        <td class="${sgClass}">${sgLabel}</td>
+      </tr>`;
+    });
+  }
+
+  html += '</tbody></table></div>';
+  el.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+//  UPDATE "LAST UPDATED" header
+// ═══════════════════════════════════════════════════════
+function updateLastUpdated(data) {
+  const sources = ['reporting','amazon','walmart','inventory','klaviyo'];
+  let latest = null;
+  sources.forEach(s => {
+    const d = data[s];
+    if (d && d.as_of) {
+      const dt = new Date(d.as_of);
+      if (!latest || dt > latest) latest = dt;
+    }
+  });
+  const el = document.getElementById('last-updated');
+  if (latest) {
+    el.textContent = 'Last updated: ' + latest.toLocaleDateString('en-US', {year:'numeric',month:'short',day:'numeric'});
+  } else {
+    el.textContent = '';
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  APP INIT
+// ═══════════════════════════════════════════════════════
+function showApp() {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  initApp();
+}
+
+async function initApp() {
+  const data = await loadAllData();
+  window._appData = data;
+
+  updateLastUpdated(data);
+
+  // Render all panels
+  renderMtd(data.reporting);
+  renderYtd(data.reporting);
+  renderNotes(data.notes);
+  renderContentCalendar(data.klaviyo);
+  renderAmazon(data.amazon);
+  renderWalmart(data.walmart);
+  renderStock(data.inventory);
+  renderForecasting(data.inventory);
+
+  // Charts for initially visible panel
+  flushRedraws();
+}
+
+// ═══════════════════════════════════════════════════════
+//  BOOTSTRAP
+// ═══════════════════════════════════════════════════════
+(async () => {
+  const authed = await checkAuth();
+  if (authed) {
+    showApp();
+  }
+  // else: auth-screen already visible (default)
+})();
+</script>
+</body>
+</html>

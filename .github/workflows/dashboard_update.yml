@@ -1,0 +1,64 @@
+name: Dashboard Data Update
+
+on:
+  schedule:
+    # Run at 8:00 AM UTC (1:00 AM MST) — after daily_pull finishes at 7 AM UTC
+    - cron: '0 8 * * *'
+  workflow_dispatch: # Allow manual trigger
+  push:
+    paths:
+      - '2026ECOMMBUDGET/**'
+      - 'docs/notes.md'
+
+jobs:
+  update-dashboard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Create .env from secrets
+        run: |
+          cat > .env << 'ENVEOF'
+          WC_BASE_URL=${{ secrets.WC_BASE_URL }}
+          WC_CK=${{ secrets.WC_CK }}
+          WC_CS=${{ secrets.WC_CS }}
+          WALMART_CLIENT_ID=${{ secrets.WALMART_CLIENT_ID }}
+          WALMART_CLIENT_SECRET=${{ secrets.WALMART_CLIENT_SECRET }}
+          KLAVIYO_API=${{ secrets.KLAVIYO_API }}
+          AMAZON_REFRESH_TOKEN=${{ secrets.AMAZON_REFRESH_TOKEN }}
+          AMAZON_CLIENT_ID=${{ secrets.AMAZON_CLIENT_ID }}
+          AMAZON_CLIENT_SECRET=${{ secrets.AMAZON_CLIENT_SECRET }}
+          SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_API_KEY=${{ secrets.SUPABASE_SECRET_API_KEY }}
+          ENVEOF
+
+      - name: Generate dashboard data
+        run: python dashboard/generate_data.py
+
+      - name: Inject password hash into dashboard
+        run: |
+          PASSWORD_HASH=$(python3 -c "
+          import hashlib
+          pw = '${{ secrets.DASHBOARD_PASSWORD }}'
+          print(hashlib.sha256(pw.encode()).hexdigest())
+          ")
+          sed -i "s/__DASHBOARD_PASSWORD__/$PASSWORD_HASH/g" docs/index.html
+
+      - name: Commit and push updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/data/ docs/index.html
+          git diff --staged --quiet || git commit -m "chore: update dashboard data $(date -u +%Y-%m-%d)"
+          git push
