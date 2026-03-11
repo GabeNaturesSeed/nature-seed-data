@@ -806,7 +806,14 @@ def generate_walmart():
     total_revenue = 0.0
 
     for order in all_orders:
-        order_date = (order.get("orderDate") or "")[:10]
+        order_date_raw = order.get("orderDate")
+        if isinstance(order_date_raw, int):
+            # Walmart returns orderDate as Unix timestamp in milliseconds
+            order_date = datetime.utcfromtimestamp(order_date_raw / 1000).strftime("%Y-%m-%d")
+        elif isinstance(order_date_raw, str):
+            order_date = order_date_raw[:10]
+        else:
+            order_date = TODAY_STR
         daily_map[order_date]["orders"] += 1
 
         order_lines_raw = (order.get("orderLines") or {}).get("orderLine", [])
@@ -912,11 +919,12 @@ def generate_inventory():
     print("\n[Fishbowl] Querying inventory...")
 
     # Step 1: Login to Fishbowl
+    # Login body requires appName + appId per API guide
     fb_token = None
     try:
         login_resp = requests.post(
             f"{FB_BASE}/api/login",
-            json={"username": FB_USER, "password": FB_PASS},
+            json={"appName": "Dashboard", "appId": 101, "username": FB_USER, "password": FB_PASS},
             timeout=15,
         )
         login_resp.raise_for_status()
@@ -928,7 +936,7 @@ def generate_inventory():
         )
         if not fb_token:
             raise ValueError(f"No token in response: {list(login_data.keys())}")
-        print(f"  Fishbowl login OK")
+        print("  Fishbowl login OK")
     except Exception as e:
         print(f"  [WARN] Fishbowl login failed: {e}")
         _write_json("inventory.json", {
@@ -939,36 +947,30 @@ def generate_inventory():
         })
         return False
 
-    # Step 2: Query inventory
+    # Step 2: Query inventory via GET /api/data-query with plain-text SQL body
+    # Per API guide: GET with body (unusual), Content-Type: text/plain, returns JSON array
     raw_inventory = []
     try:
-        query_resp = requests.post(
-            f"{FB_BASE}/api/query",
-            headers={"Authorization": f"Bearer {fb_token}", "Content-Type": "application/json"},
-            json={
-                "query": (
-                    "SELECT p.num AS sku, p.description AS name, SUM(q.qty) AS qty "
-                    "FROM qtyinventory q "
-                    "JOIN part p ON q.partid = p.id "
-                    "WHERE q.qty > 0 "
-                    "GROUP BY p.num, p.description "
-                    "ORDER BY p.num"
-                )
-            },
-            timeout=60,
+        import urllib.request as _urllib_req
+        sql = (
+            "SELECT p.num AS sku, p.description AS name, "
+            "qit.qtyonhand AS qty "
+            "FROM qtyinventorytotals qit "
+            "JOIN part p ON p.id = qit.partid "
+            "WHERE qit.qtyonhand > 0 AND p.activeFlag = 1 "
+            "ORDER BY p.num;"
         )
-        query_resp.raise_for_status()
-        resp_data = query_resp.json()
-        # Response may be list directly or nested
-        if isinstance(resp_data, list):
-            raw_inventory = resp_data
-        elif isinstance(resp_data, dict):
-            raw_inventory = (
-                resp_data.get("rows")
-                or resp_data.get("data")
-                or resp_data.get("results")
-                or []
-            )
+        req = _urllib_req.Request(
+            f"{FB_BASE}/api/data-query",
+            data=sql.encode("utf-8"),
+            method="GET",
+        )
+        req.add_header("Authorization", f"Bearer {fb_token}")
+        req.add_header("Content-Type", "text/plain")
+        with _urllib_req.urlopen(req, timeout=60) as resp:
+            raw_inventory = json.loads(resp.read().decode("utf-8"))
+        if not isinstance(raw_inventory, list):
+            raw_inventory = []
         print(f"  Fishbowl returned {len(raw_inventory)} SKUs")
     except Exception as e:
         print(f"  [WARN] Fishbowl query failed: {e}")
