@@ -250,13 +250,13 @@ def generate_reporting():
         """Fetch daily_summary rows between start and end (inclusive)."""
         url = f"{SUPABASE_URL}/rest/v1/daily_summary"
         headers = {"apikey": SUPABASE_KEY}
-        # PostgREST: multiple conditions on same column use ?report_date=gte.X&report_date=lte.Y
-        # but requests will de-dup. Use RPC-style filter string instead.
+        # PostgREST: pass duplicate param keys as list of tuples (requests supports this)
+        # Use select=* to avoid 400 from non-existent column names
         params = [
             ("report_date", f"gte.{start}"),
             ("report_date", f"lte.{end}"),
             ("order", "report_date.asc"),
-            ("select", "report_date,total_revenue,total_orders,total_ad_spend,total_cogs,total_shipping,net_revenue,mer"),
+            ("select", "*"),
         ]
         resp = requests.get(url, headers=headers, params=params, timeout=30)
         resp.raise_for_status()
@@ -267,14 +267,22 @@ def generate_reporting():
     ytd_cy_rows = fetch_date_range(ytd_start_cy, yesterday)
     ytd_ly_rows = fetch_date_range(ytd_start_ly, ytd_end_ly)
 
+    def _col(row, *keys):
+        """Try multiple column name variants, return first non-None value."""
+        for k in keys:
+            v = row.get(k)
+            if v is not None:
+                return v
+        return 0
+
     def sum_rows(rows):
         return {
-            "revenue": round(sum(float(r.get("total_revenue") or 0) for r in rows), 2),
-            "orders": sum(int(r.get("total_orders") or 0) for r in rows),
-            "ad_spend": round(sum(float(r.get("total_ad_spend") or 0) for r in rows), 2),
-            "cogs": round(sum(float(r.get("total_cogs") or 0) for r in rows), 2),
-            "shipping": round(sum(float(r.get("total_shipping") or 0) for r in rows), 2),
-            "net_revenue": round(sum(float(r.get("net_revenue") or 0) for r in rows), 2),
+            "revenue": round(sum(float(_col(r, "total_revenue", "revenue") or 0) for r in rows), 2),
+            "orders": sum(int(_col(r, "total_orders", "orders") or 0) for r in rows),
+            "ad_spend": round(sum(float(_col(r, "total_ad_spend", "ad_spend") or 0) for r in rows), 2),
+            "cogs": round(sum(float(_col(r, "total_cogs", "cogs") or 0) for r in rows), 2),
+            "shipping": round(sum(float(_col(r, "total_shipping", "shipping_cost") or 0) for r in rows), 2),
+            "net_revenue": round(sum(float(_col(r, "net_revenue") or 0) for r in rows), 2),
         }
 
     cy_totals = sum_rows(cy_rows)
@@ -309,18 +317,18 @@ def generate_reporting():
 
     for r in ytd_cy_rows:
         m = r["report_date"][:7]  # YYYY-MM
-        cy_by_month[m]["revenue"] += float(r.get("total_revenue") or 0)
-        cy_by_month[m]["orders"] += int(r.get("total_orders") or 0)
-        cy_by_month[m]["ad_spend"] += float(r.get("total_ad_spend") or 0)
-        cy_by_month[m]["cogs"] += float(r.get("total_cogs") or 0)
-        cy_by_month[m]["net_revenue"] += float(r.get("net_revenue") or 0)
+        cy_by_month[m]["revenue"] += float(_col(r, "total_revenue", "revenue") or 0)
+        cy_by_month[m]["orders"] += int(_col(r, "total_orders", "orders") or 0)
+        cy_by_month[m]["ad_spend"] += float(_col(r, "total_ad_spend", "ad_spend") or 0)
+        cy_by_month[m]["cogs"] += float(_col(r, "total_cogs", "cogs") or 0)
+        cy_by_month[m]["net_revenue"] += float(_col(r, "net_revenue") or 0)
 
     for r in ytd_ly_rows:
         # Map last-year month to this-year equivalent
         m_ly = r["report_date"][:7]
         year_ly, mon_ly = m_ly.split("-")
         m_cy = f"{int(year_ly)+1}-{mon_ly}"
-        ly_by_month[m_cy]["revenue"] += float(r.get("total_revenue") or 0)
+        ly_by_month[m_cy]["revenue"] += float(_col(r, "total_revenue", "revenue") or 0)
 
     # Build month list (all months in YTD that have data or budget)
     all_months = sorted(set(list(cy_by_month.keys()) + [k for k in budget if k <= cur_month_key]))
@@ -428,10 +436,8 @@ def generate_klaviyo():
     window_start = TODAY_STR
     window_end = str(TODAY + timedelta(days=90))
 
-    # Build filter: email channel + send_time in window
-    # Klaviyo filter syntax: equals(messages.channel,'email'),greater-or-equal(send_time,{date}T00:00:00Z)
+    # Filter by send_time window only — channel filter not reliably supported
     filter_str = (
-        f"equals(messages.channel,'email'),"
         f"greater-or-equal(send_time,{window_start}T00:00:00Z),"
         f"less-or-equal(send_time,{window_end}T23:59:59Z)"
     )
@@ -444,16 +450,15 @@ def generate_klaviyo():
 
     campaigns = []
     url = f"{base_url}/campaigns/"
+    first_page = True
     while url:
-        resp = requests.get(url, headers=headers, params=params if url.endswith("/") or "campaigns/" in url else None, timeout=30)
-        if resp.status_code == 400:
-            # Try without the lte filter (some API revisions don't support it)
-            filter_str2 = (
-                f"equals(messages.channel,'email'),"
-                f"greater-or-equal(send_time,{window_start}T00:00:00Z)"
-            )
-            params2 = {"filter": filter_str2, "sort": "send_time", "page[size]": 50}
-            resp = requests.get(f"{base_url}/campaigns/", headers=headers, params=params2, timeout=30)
+        resp = requests.get(
+            url,
+            headers=headers,
+            params=params if first_page else None,
+            timeout=30,
+        )
+        first_page = False
         resp.raise_for_status()
         data = resp.json()
 
@@ -832,11 +837,16 @@ def generate_walmart():
         )
         if items_resp.status_code == 200:
             items_data = items_resp.json()
-            active_count = (
-                items_data.get("ItemResponse", [{}])[0].get("totalElements")
-                or items_data.get("totalElements")
-                or items_data.get("list", {}).get("meta", {}).get("totalCount")
-            )
+            item_response = items_data.get("ItemResponse")
+            if isinstance(item_response, list) and item_response:
+                active_count = item_response[0].get("totalElements")
+            elif isinstance(item_response, int):
+                active_count = item_response
+            else:
+                active_count = (
+                    items_data.get("totalElements")
+                    or items_data.get("list", {}).get("meta", {}).get("totalCount")
+                )
     except Exception:
         pass
 
