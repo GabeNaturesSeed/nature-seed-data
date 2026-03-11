@@ -84,6 +84,12 @@ GOOGLE_ADS_CUSTOMER_ID = env_vars["GOOGLE_ADS_CUSTOMER_ID"].replace("-", "")
 # Shippo
 SHIPPO_API_KEY = env_vars.get("SHIPPO_API_KEY", "")
 
+# Amazon SP-API
+AMZ_CLIENT_ID = env_vars.get("AMAZON_CLIENT_ID", "")
+AMZ_CLIENT_SECRET = env_vars.get("AMAZON_CLIENT_SECRET", "")
+AMZ_REFRESH_TOKEN = env_vars.get("AMAZON_REFRESH_TOKEN", "")
+AMZ_MARKETPLACE_ID = "ATVPDKIKX0DER"  # US marketplace
+
 # Google Sheets COGS
 COGS_SHEET_ID = "1nve5yRvw7fY0caVqZDHYDjhoQmj_a6S9PkC3BMKm1S4"
 
@@ -362,7 +368,105 @@ def pull_walmart(report_date):
 
 
 # ══════════════════════════════════════════════════════════════
-# 3. GOOGLE ADS SPEND
+# 3. AMAZON ORDERS
+# ══════════════════════════════════════════════════════════════
+
+_amz_token_cache = {"token": None, "expires_at": None}
+
+
+def _amz_get_token():
+    """Exchange Amazon LWA refresh token for an access token (cached)."""
+    now = datetime.utcnow()
+    if _amz_token_cache["token"] and _amz_token_cache["expires_at"] and now < _amz_token_cache["expires_at"]:
+        return _amz_token_cache["token"]
+
+    resp = requests.post("https://api.amazon.com/auth/o2/token", data={
+        "grant_type": "refresh_token",
+        "refresh_token": AMZ_REFRESH_TOKEN,
+        "client_id": AMZ_CLIENT_ID,
+        "client_secret": AMZ_CLIENT_SECRET,
+    }, timeout=15)
+    resp.raise_for_status()
+    data = resp.json()
+
+    _amz_token_cache["token"] = data["access_token"]
+    expires_in = int(data.get("expires_in", 3600)) - 60
+    _amz_token_cache["expires_at"] = now + timedelta(seconds=expires_in)
+    return _amz_token_cache["token"]
+
+
+def pull_amazon(report_date):
+    """Pull Amazon orders for a single date via SP-API."""
+    print(f"\n  [Amazon] Pulling orders for {report_date}...")
+
+    if not AMZ_CLIENT_ID or not AMZ_REFRESH_TOKEN:
+        print("    [SKIP] Amazon credentials not configured")
+        return {
+            "sales": {"report_date": str(report_date), "channel": "amazon", "revenue": 0, "orders": 0, "units": 0},
+            "cogs": {"report_date": str(report_date), "channel": "amazon", "total_cogs": 0, "matched_units": 0, "unmatched_units": 0},
+        }
+
+    token = _amz_get_token()
+    headers = {"x-amz-access-token": token, "Content-Type": "application/json"}
+
+    all_orders = []
+    next_token = None
+
+    while True:
+        params = {
+            "MarketplaceIds": AMZ_MARKETPLACE_ID,
+            "CreatedAfter": f"{report_date}T00:00:00Z",
+            "CreatedBefore": f"{report_date}T23:59:59Z",
+        }
+        if next_token:
+            params["NextToken"] = next_token
+
+        resp = requests.get(
+            "https://sellingpartnerapi-na.amazon.com/orders/v0/orders",
+            headers=headers,
+            params=params,
+            timeout=30,
+        )
+        resp.raise_for_status()
+        payload = resp.json().get("payload", {})
+        all_orders.extend(payload.get("Orders", []))
+        next_token = payload.get("NextToken")
+        if not next_token:
+            break
+        time.sleep(0.5)  # SP-API rate: 0.5 req/sec
+
+    # Sum revenue from confirmed orders (OrderTotal is $0 for Pending)
+    revenue = 0.0
+    units = 0
+    for order in all_orders:
+        amt = float(order.get("OrderTotal", {}).get("Amount", 0))
+        revenue += amt
+        # NumberOfItemsShipped + NumberOfItemsUnshipped = total line items ordered
+        units += int(order.get("NumberOfItemsShipped", 0)) + int(order.get("NumberOfItemsUnshipped", 0))
+
+    order_count = len(all_orders)
+    print(f"    Orders: {order_count} | Revenue: ${revenue:,.2f} | Units: {units}")
+
+    return {
+        "sales": {
+            "report_date": str(report_date),
+            "channel": "amazon",
+            "revenue": round(revenue, 2),
+            "orders": order_count,
+            "units": units,
+        },
+        "cogs": {
+            "report_date": str(report_date),
+            "channel": "amazon",
+            "total_cogs": 0,
+            "matched_units": 0,
+            "unmatched_units": units,
+        },
+    }
+
+
+# ══════════════════════════════════════════════════════════════
+# 4. GOOGLE ADS SPEND
 # ══════════════════════════════════════════════════════════════
 
 def pull_google_ads(report_date):
@@ -610,6 +714,13 @@ def pull_date(report_date):
         wm = {"sales": _empty_sales("walmart"), "cogs": _empty_cogs("walmart")}
 
     try:
+        amz = pull_amazon(report_date)
+    except Exception as e:
+        print(f"    [ERR] Amazon failed: {e}")
+        errors.append(f"Amazon: {e}")
+        amz = {"sales": _empty_sales("amazon"), "cogs": _empty_cogs("amazon")}
+
+    try:
         ads = pull_google_ads(report_date)
     except Exception as e:
         print(f"    [ERR] Google Ads failed: {e}")
@@ -624,9 +735,9 @@ def pull_date(report_date):
         shipping = _empty_shipping
 
     # Aggregate for console summary
-    total_revenue = wc["sales"]["revenue"] + wm["sales"]["revenue"]
-    total_orders = wc["sales"]["orders"] + wm["sales"]["orders"]
-    total_cogs = wc["cogs"]["total_cogs"] + wm["cogs"]["total_cogs"]
+    total_revenue = wc["sales"]["revenue"] + wm["sales"]["revenue"] + amz["sales"]["revenue"]
+    total_orders = wc["sales"]["orders"] + wm["sales"]["orders"] + amz["sales"]["orders"]
+    total_cogs = wc["cogs"]["total_cogs"] + wm["cogs"]["total_cogs"] + amz["cogs"]["total_cogs"]
     total_shipping = shipping["total_cost"] if isinstance(shipping, dict) else shipping.get("total_cost", 0)
     net_revenue = total_revenue - total_cogs - total_shipping
     ad_spend = ads["spend"] if isinstance(ads, dict) else ads.get("spend", 0)
@@ -637,6 +748,7 @@ def pull_date(report_date):
     print(f"{'='*60}")
     print(f"    WC Revenue:      ${wc['sales']['revenue']:>10,.2f}  ({wc['sales']['orders']} orders)")
     print(f"    Walmart Revenue: ${wm['sales']['revenue']:>10,.2f}  ({wm['sales']['orders']} orders)")
+    print(f"    Amazon Revenue:  ${amz['sales']['revenue']:>10,.2f}  ({amz['sales']['orders']} orders)")
     print(f"    Total Revenue:   ${total_revenue:>10,.2f}  ({total_orders} orders)")
     print(f"    COGS:            ${total_cogs:>10,.2f}")
     print(f"    Shipping:        ${total_shipping:>10,.2f}  ({shipping.get('shipment_count', 0)} shipments)")
@@ -660,6 +772,9 @@ def pull_date(report_date):
         if "Walmart" not in str(errors):
             sales_rows.append(wm["sales"])
             cogs_rows.append(wm["cogs"])
+        if "Amazon" not in str(errors):
+            sales_rows.append(amz["sales"])
+            cogs_rows.append(amz["cogs"])
 
         if sales_rows:
             supabase_upsert("daily_sales", sales_rows)
