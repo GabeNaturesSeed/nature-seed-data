@@ -439,7 +439,7 @@ def generate_klaviyo():
     # No server-side date filter — Klaviyo 2024-07-15 doesn't support send_time filter
     # Fetch all campaigns (sorted by name), filter client-side by send_time
     params = {
-        "sort": "-send_time",
+        "sort": "-scheduled_at",
         "page[size]": 50,
     }
 
