@@ -2,8 +2,8 @@ name: Nightly Sales Review
 
 on:
   schedule:
-    # 10 PM MST = 5 AM UTC (next day)
-    - cron: '0 5 * * *'
+    # 8 AM MST = 3 PM UTC
+    - cron: '0 15 * * *'
   workflow_dispatch: # Allow manual trigger
 
 jobs:

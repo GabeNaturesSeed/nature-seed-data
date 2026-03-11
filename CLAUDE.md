@@ -72,7 +72,7 @@ All API credentials are in `.env` in this directory. Never hardcode or expose th
 | Project | Directory | Status |
 |---------|-----------|--------|
 | Daily Report Pipeline | `daily-report/` | ✅ Pipeline built, CF Worker proxy deployed, GitHub Actions working |
-| Nightly Sales Review | `daily-report/nightly_review.py` | ✅ Telegram bot sends daily summary at 10 PM MST |
+| Nightly Sales Review | `daily-report/nightly_review.py` | ✅ Telegram bot sends daily summary at 8 AM MST |
 | Cloudflare Worker Proxy | `cloudflare-worker/` | ✅ Deployed — bypasses Bot Fight Mode for WC API |
 | Google Ads Drip Automation | `google-ads-audit/drip/` | ✅ Built — Mon/Thu cron, Telegram approval flow |
 | Product Card Injection | `search-console/` | ✅ 38 of 48 articles updated with product cards |
