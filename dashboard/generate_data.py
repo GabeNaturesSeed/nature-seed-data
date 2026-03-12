@@ -436,24 +436,19 @@ def generate_klaviyo():
     window_start = TODAY_STR
     window_end = str(TODAY + timedelta(days=90))
 
-    # No server-side date filter — Klaviyo 2024-07-15 doesn't support send_time filter
-    # Fetch all campaigns (sorted by name), filter client-side by send_time
-    params = {
-        "sort": "-scheduled_at",
-        "page[size]": 50,
-    }
+    # Klaviyo 2024-07-15: channel filter required. No send_time filter — filter client-side.
+    # Note: pass params directly in URL — requests encodes brackets which Klaviyo rejects.
 
     campaigns = []
-    url = f"{base_url}/campaigns/"
-    first_page = True
+    url = None  # built below with requests to handle URL encoding
+    init_params = {"filter": "equals(messages.channel,'email')", "sort": "-scheduled_at"}
+    url = requests.Request("GET", f"{base_url}/campaigns/", params=init_params).prepare().url
     while url:
         resp = requests.get(
             url,
             headers=headers,
-            params=params if first_page else None,
             timeout=30,
         )
-        first_page = False
         if resp.status_code != 200:
             print(f"  [WARN] Klaviyo campaigns returned {resp.status_code}: {resp.text[:200]}")
             break
@@ -924,7 +919,7 @@ def generate_inventory():
     try:
         login_resp = requests.post(
             f"{FB_BASE}/api/login",
-            json={"appName": "Dashboard", "appId": 101, "username": FB_USER, "password": FB_PASS},
+            json={"appName": "Postman Testing", "appId": 101, "username": FB_USER, "password": FB_PASS},
             timeout=15,
         )
         login_resp.raise_for_status()
@@ -980,7 +975,16 @@ def generate_inventory():
             "summary": {"total_skus": 0, "red_count": 0, "yellow_count": 0, "green_count": 0},
             "warning": f"Fishbowl query failed: {e}",
         })
-        return False
+    finally:
+        # Always logout to free the session slot
+        if fb_token:
+            try:
+                requests.post(f"{FB_BASE}/api/logout",
+                    headers={"Authorization": f"Bearer {fb_token}"}, timeout=10)
+            except Exception:
+                pass
+        if not raw_inventory:
+            return False
 
     # Step 3: Load velocity from ABC analysis
     velocity_map = _load_abc_velocity()
