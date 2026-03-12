@@ -27,54 +27,8 @@
     min-height: 100vh;
   }
 
-  /* ── Auth Screen ───────────────────────────────── */
-  #auth-screen {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: var(--bg);
-  }
-  .auth-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 48px 40px;
-    width: 360px;
-    text-align: center;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-  }
-  .auth-card .logo { font-size: 2.4rem; margin-bottom: 8px; }
-  .auth-card h1 { font-size: 1.2rem; color: var(--green-dark); margin-bottom: 6px; }
-  .auth-card p { font-size: 0.85rem; color: var(--gray); margin-bottom: 28px; }
-  .auth-card input {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-size: 1rem;
-    margin-bottom: 12px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .auth-card input:focus { border-color: var(--green-med); }
-  .auth-card button {
-    width: 100%;
-    padding: 12px;
-    background: var(--green-dark);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .auth-card button:hover { background: var(--green-med); }
-  .auth-error { color: var(--red); font-size: 0.85rem; margin-top: 10px; min-height: 20px; }
-
   /* ── App Shell ────────────────────────────────── */
-  #app { display: none; }
+  #app { display: block; }
 
   header {
     background: var(--green-dark);
@@ -497,18 +451,6 @@
 </head>
 <body>
 
-<!-- ─── Auth Screen ─────────────────────────────────────────────── -->
-<div id="auth-screen">
-  <div class="auth-card">
-    <div class="logo">🌱</div>
-    <h1>Nature's Seed Operations</h1>
-    <p>Enter your dashboard password to continue</p>
-    <input type="password" id="pw-input" placeholder="Password" autocomplete="current-password" />
-    <button onclick="attemptLogin()">Access Dashboard</button>
-    <div class="auth-error" id="auth-error"></div>
-  </div>
-</div>
-
 <!-- ─── App Shell ───────────────────────────────────────────────── -->
 <div id="app">
   <header>
@@ -518,7 +460,6 @@
     </div>
     <div class="header-right">
       <span id="last-updated">Loading…</span>
-      <a class="lock-link" onclick="lockDashboard()">🔒 Lock</a>
     </div>
   </header>
 
@@ -569,9 +510,6 @@
 // ═══════════════════════════════════════════════════════
 //  CONSTANTS & HELPERS
 // ═══════════════════════════════════════════════════════
-const PASS_PLACEHOLDER = 'ef8bbb1e8752f8a23d85d1f3aadef555e94ee395c6b1cedb408e2e7e975c53af';
-const AUTH_KEY = 'ns_auth';
-
 const fmt = n => n == null ? '—' : '$' + Number(n).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
 const fmtInt = n => n == null ? '—' : Number(n).toLocaleString('en-US');
 const pct = n => n == null ? '—' : (n >= 0 ? '+' : '') + Number(n).toFixed(1) + '%';
@@ -591,45 +529,6 @@ function badgeClass(val, positive_is_good=true) {
 function daysInMonth(year, month) {
   return new Date(year, month, 0).getDate();
 }
-
-// ═══════════════════════════════════════════════════════
-//  AUTH
-// ═══════════════════════════════════════════════════════
-async function sha256(str) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-
-async function attemptLogin() {
-  const pw = document.getElementById('pw-input').value;
-  const hash = await sha256(pw);
-  const expected = await sha256(PASS_PLACEHOLDER);
-  if (hash === expected) {
-    localStorage.setItem(AUTH_KEY, hash);
-    showApp();
-  } else {
-    document.getElementById('auth-error').textContent = 'Incorrect password. Try again.';
-  }
-}
-
-async function checkAuth() {
-  const stored = localStorage.getItem(AUTH_KEY);
-  if (!stored) return false;
-  const expected = await sha256(PASS_PLACEHOLDER);
-  return stored === expected;
-}
-
-function lockDashboard() {
-  localStorage.removeItem(AUTH_KEY);
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('auth-screen').style.display = 'flex';
-  document.getElementById('pw-input').value = '';
-  document.getElementById('auth-error').textContent = '';
-}
-
-document.getElementById('pw-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') attemptLogin();
-});
 
 // ═══════════════════════════════════════════════════════
 //  TAB ROUTING
@@ -1550,12 +1449,6 @@ function updateLastUpdated(data) {
 // ═══════════════════════════════════════════════════════
 //  APP INIT
 // ═══════════════════════════════════════════════════════
-function showApp() {
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  initApp();
-}
-
 async function initApp() {
   const data = await loadAllData();
   window._appData = data;
@@ -1579,13 +1472,7 @@ async function initApp() {
 // ═══════════════════════════════════════════════════════
 //  BOOTSTRAP
 // ═══════════════════════════════════════════════════════
-(async () => {
-  const authed = await checkAuth();
-  if (authed) {
-    showApp();
-  }
-  // else: auth-screen already visible (default)
-})();
+initApp();
 </script>
 </body>
 </html>
