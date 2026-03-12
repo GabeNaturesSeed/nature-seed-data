@@ -1,0 +1,40 @@
+name: Impact Analysis (Before/After Changes)
+
+on:
+  workflow_dispatch:
+    inputs:
+      cutoff_date:
+        description: 'Cutoff date (changes went live). Default: 2026-02-26'
+        required: false
+        default: '2026-02-26'
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests google-analytics-data google-api-python-client google-auth
+
+      - name: Create .env from secrets
+        run: |
+          cat > .env << 'ENVEOF'
+          SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_API_KEY=${{ secrets.SUPABASE_SECRET_API_KEY }}
+          GOOGLE_ADS_CLIENT_ID=${{ secrets.GOOGLE_ADS_CLIENT_ID }}
+          GOOGLE_ADS_CLIENT_SECRET=${{ secrets.GOOGLE_ADS_CLIENT_SECRET }}
+          GOOGLE_ADS_REFRESH_TOKEN=${{ secrets.GOOGLE_ADS_REFRESH_TOKEN }}
+          GOOGLE_ANALYTICS_PROPERTY_ID=294622924
+          TELEGRAM_BOT_API=${{ secrets.TELEGRAM_BOT_API }}
+          TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}
+          ENVEOF
+
+      - name: Run impact analysis
+        run: python analysis/impact_analysis.py "${{ github.event.inputs.cutoff_date }}"
