@@ -677,6 +677,10 @@ function renderMtd(reporting) {
     { label:'Ad Spend', val:fmt(cy.ad_spend), lyPct:calcPct(cy.ad_spend,ly.ad_spend), budPct:calcPct(cy.ad_spend,budget.ad_spend), invert:true },
     { label:'MER', val:(cy.mer != null ? cy.mer.toFixed(2)+'x' : '—'), lyPct:null, budPct:null },
     { label:'COGS', val:fmt(cy.cogs), lyPct:null, budPct:null },
+    { label:'Gross Profit', val:fmt(cy.gross_profit), lyPct:null, budPct:null },
+    { label:'Gross Margin %', val:(cy.gross_margin_pct != null ? cy.gross_margin_pct.toFixed(1)+'%' : '—'), lyPct:null, budPct:null },
+    { label:'CM2', val:fmt(cy.cm2), lyPct:null, budPct:null },
+    { label:'CM2 %', val:(cy.cm2_pct != null ? cy.cm2_pct.toFixed(1)+'%' : '—'), lyPct:null, budPct:null },
     { label:'Net Revenue', val:fmt(cy.net_revenue), lyPct:null, budPct:null },
   ];
 
@@ -920,6 +924,10 @@ function renderYtd(reporting) {
     { label:'YTD Ad Spend', val:fmt(tcy.ad_spend), lyPct:null, budPct:null },
     { label:'YTD MER', val: tcy.ad_spend > 0 ? (tcy.revenue/tcy.ad_spend).toFixed(2)+'x' : '—', lyPct:null, budPct:null },
     { label:'YTD COGS', val:fmt(tcy.cogs), lyPct:null, budPct:null },
+    { label:'YTD Gross Profit', val:fmt(tcy.gross_profit), lyPct:null, budPct:null },
+    { label:'YTD Gross Margin %', val:(tcy.gross_margin_pct != null ? tcy.gross_margin_pct.toFixed(1)+'%' : '—'), lyPct:null, budPct:null },
+    { label:'YTD CM2', val:fmt(tcy.cm2), lyPct:null, budPct:null },
+    { label:'YTD CM2 %', val:(tcy.cm2_pct != null ? tcy.cm2_pct.toFixed(1)+'%' : '—'), lyPct:null, budPct:null },
     { label:'YTD Net Revenue', val:fmt(tcy.net_revenue), lyPct:null, budPct:null },
   ];
 
@@ -943,13 +951,16 @@ function renderYtd(reporting) {
   // Table
   let tableHtml = `<div class="table-card"><table>
     <thead><tr>
-      <th>Month</th><th>Revenue</th><th>vs Budget</th><th>vs LY</th><th>Orders</th><th>Ad Spend</th><th>MER</th>
+      <th>Month</th><th>Revenue</th><th>vs Budget</th><th>vs LY</th><th>Orders</th><th>Ad Spend</th><th>MER</th><th>Gross Margin</th><th>CM2 %</th>
     </tr></thead><tbody>`;
   months.forEach(m => {
     const vsB = calcPct(m.revenue, m.budget_revenue);
     const vsLY = calcPct(m.revenue, m.ly_revenue);
     const rowCls = (vsB != null && vsB >= 0) ? 'row-green' : 'row-red';
     const monthLabel = new Date(m.month+'-02').toLocaleDateString('en-US',{year:'numeric',month:'short'});
+    const gmPct = m.gross_margin_pct != null ? m.gross_margin_pct.toFixed(1)+'%' : '—';
+    const cm2Pct = m.cm2_pct != null ? m.cm2_pct.toFixed(1)+'%' : '—';
+    const cm2Cls = m.cm2_pct != null ? (m.cm2_pct >= 20 ? 'text-green' : m.cm2_pct >= 10 ? 'text-yellow' : 'text-red') : '';
     tableHtml += `<tr class="${rowCls}">
       <td>${monthLabel}</td>
       <td>${fmt(m.revenue)}</td>
@@ -958,6 +969,8 @@ function renderYtd(reporting) {
       <td>${fmtInt(m.orders)}</td>
       <td>${fmt(m.ad_spend)}</td>
       <td>${m.mer != null ? m.mer.toFixed(2)+'x' : '—'}</td>
+      <td>${gmPct}</td>
+      <td class="${cm2Cls}">${cm2Pct}</td>
     </tr>`;
   });
   tableHtml += '</tbody></table></div>';

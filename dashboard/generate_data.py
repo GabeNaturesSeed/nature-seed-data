@@ -297,16 +297,30 @@ def generate_reporting():
         return 0
 
     def sum_rows(rows):
+        rev = round(sum(float(_col(r, "total_revenue", "revenue") or 0) for r in rows), 2)
+        cogs = round(sum(float(_col(r, "total_cogs", "cogs") or 0) for r in rows), 2)
+        ad_spend = round(sum(float(_col(r, "total_ad_spend", "ad_spend") or 0) for r in rows), 2)
+        shipping = round(sum(float(_col(r, "total_shipping", "shipping_cost") or 0) for r in rows), 2)
+        platform_fees = round(sum(float(r.get("platform_fees") or 0) for r in rows), 2)
+        gross_profit = round(rev - cogs, 2)
+        cm1 = round(gross_profit - ad_spend, 2)
+        cm2 = round(cm1 - shipping - platform_fees, 2)
         return {
-            "revenue": round(sum(float(_col(r, "total_revenue", "revenue") or 0) for r in rows), 2),
+            "revenue": rev,
             "orders": sum(int(_col(r, "total_orders", "orders") or 0) for r in rows),
-            "ad_spend": round(sum(float(_col(r, "total_ad_spend", "ad_spend") or 0) for r in rows), 2),
-            "cogs": round(sum(float(_col(r, "total_cogs", "cogs") or 0) for r in rows), 2),
-            "shipping": round(sum(float(_col(r, "total_shipping", "shipping_cost") or 0) for r in rows), 2),
+            "ad_spend": ad_spend,
+            "cogs": cogs,
+            "shipping": shipping,
             "net_revenue": round(sum(float(_col(r, "net_revenue") or 0) for r in rows), 2),
             "wc_revenue": round(sum(float(r.get("wc_revenue") or 0) for r in rows), 2),
             "amazon_revenue": round(sum(float(r.get("amazon_revenue") or 0) for r in rows), 2),
             "walmart_revenue": round(sum(float(r.get("walmart_revenue") or 0) for r in rows), 2),
+            "platform_fees": platform_fees,
+            "gross_profit": gross_profit,
+            "gross_margin_pct": round(gross_profit / rev * 100, 1) if rev else None,
+            "cm1": cm1,
+            "cm2": cm2,
+            "cm2_pct": round(cm2 / rev * 100, 1) if rev else None,
         }
 
     cy_totals = sum_rows(cy_rows)
@@ -336,7 +350,7 @@ def generate_reporting():
 
     # YTD — aggregate by month
     from collections import defaultdict
-    cy_by_month = defaultdict(lambda: {"revenue": 0, "orders": 0, "ad_spend": 0, "cogs": 0, "net_revenue": 0})
+    cy_by_month = defaultdict(lambda: {"revenue": 0, "orders": 0, "ad_spend": 0, "cogs": 0, "shipping": 0, "platform_fees": 0, "net_revenue": 0})
     ly_by_month = defaultdict(lambda: {"revenue": 0})
 
     for r in ytd_cy_rows:
@@ -345,6 +359,8 @@ def generate_reporting():
         cy_by_month[m]["orders"] += int(_col(r, "total_orders", "orders") or 0)
         cy_by_month[m]["ad_spend"] += float(_col(r, "total_ad_spend", "ad_spend") or 0)
         cy_by_month[m]["cogs"] += float(_col(r, "total_cogs", "cogs") or 0)
+        cy_by_month[m]["shipping"] += float(_col(r, "total_shipping", "shipping_cost") or 0)
+        cy_by_month[m]["platform_fees"] += float(r.get("platform_fees") or 0)
         cy_by_month[m]["net_revenue"] += float(_col(r, "net_revenue") or 0)
 
     for r in ytd_ly_rows:
@@ -359,26 +375,44 @@ def generate_reporting():
     ytd_months = []
     for m in all_months:
         cy = cy_by_month.get(m, {})
+        rev = cy.get("revenue", 0)
         ad = cy.get("ad_spend", 0)
-        mer = round(cy.get("revenue", 0) / ad, 2) if ad else 0
+        cogs_m = cy.get("cogs", 0)
+        ship_m = cy.get("shipping", 0)
+        pfees_m = cy.get("platform_fees", 0)
+        gross_profit_m = rev - cogs_m
+        cm1_m = gross_profit_m - ad
+        cm2_m = cm1_m - ship_m - pfees_m
+        mer = round(rev / ad, 2) if ad else 0
         ytd_months.append({
             "month": m,
-            "revenue": round(cy.get("revenue", 0), 2),
+            "revenue": round(rev, 2),
             "ly_revenue": round(ly_by_month.get(m, {}).get("revenue", 0), 2),
             "budget_revenue": budget.get(m, {}).get("net_revenue", 0),
             "orders": cy.get("orders", 0),
             "ad_spend": round(ad, 2),
             "mer": mer,
-            "cogs": round(cy.get("cogs", 0), 2),
+            "cogs": round(cogs_m, 2),
             "net_revenue": round(cy.get("net_revenue", 0), 2),
+            "gross_profit": round(gross_profit_m, 2),
+            "gross_margin_pct": round(gross_profit_m / rev * 100, 1) if rev else None,
+            "cm2": round(cm2_m, 2),
+            "cm2_pct": round(cm2_m / rev * 100, 1) if rev else None,
         })
 
+    _ytd_rev = round(sum(m["revenue"] for m in ytd_months), 2)
+    _ytd_gp = round(sum(m["gross_profit"] for m in ytd_months), 2)
+    _ytd_cm2 = round(sum(m["cm2"] for m in ytd_months), 2)
     ytd_totals_cy = {
-        "revenue": round(sum(m["revenue"] for m in ytd_months), 2),
+        "revenue": _ytd_rev,
         "orders": sum(m["orders"] for m in ytd_months),
         "ad_spend": round(sum(m["ad_spend"] for m in ytd_months), 2),
         "cogs": round(sum(m["cogs"] for m in ytd_months), 2),
         "net_revenue": round(sum(m["net_revenue"] for m in ytd_months), 2),
+        "gross_profit": _ytd_gp,
+        "gross_margin_pct": round(_ytd_gp / _ytd_rev * 100, 1) if _ytd_rev else None,
+        "cm2": _ytd_cm2,
+        "cm2_pct": round(_ytd_cm2 / _ytd_rev * 100, 1) if _ytd_rev else None,
     }
     ytd_totals_ly = {"revenue": round(sum(m["ly_revenue"] for m in ytd_months), 2)}
     ytd_totals_budget = {"revenue": round(sum(m["budget_revenue"] for m in ytd_months), 2)}
@@ -404,6 +438,12 @@ def generate_reporting():
                 "wc_revenue": cy_totals["wc_revenue"],
                 "amazon_revenue": cy_totals["amazon_revenue"],
                 "walmart_revenue": cy_totals["walmart_revenue"],
+                "platform_fees": cy_totals["platform_fees"],
+                "gross_profit": cy_totals["gross_profit"],
+                "gross_margin_pct": cy_totals["gross_margin_pct"],
+                "cm1": cy_totals["cm1"],
+                "cm2": cy_totals["cm2"],
+                "cm2_pct": cy_totals["cm2_pct"],
                 "aov": aov,
                 "new_customers": new_customers_mtd,
                 "new_customer_cac": new_cac,
