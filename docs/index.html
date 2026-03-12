@@ -151,6 +151,26 @@
   }
   .chart-card h3 { font-size: 0.85rem; color: var(--gray); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.4px; }
   .chart-wrap { position: relative; height: 220px; }
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--gray);
+    margin: 20px 0 10px;
+  }
+  .placeholder-block {
+    background: var(--card);
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 32px 28px;
+    text-align: center;
+    margin-top: 8px;
+  }
+  .placeholder-block .placeholder-icon { font-size: 2.4rem; margin-bottom: 10px; }
+  .placeholder-block h3 { color: var(--green-dark); margin-bottom: 8px; }
+  .placeholder-block p { color: var(--gray); font-size: 0.9rem; margin-bottom: 16px; }
+
   .projection-bar {
     background: var(--card);
     border: 1px solid var(--border);
@@ -476,6 +496,7 @@
     <div class="sub-tab active" data-sub="mtd" onclick="switchSub('reporting','mtd',this)">MTD</div>
     <div class="sub-tab" data-sub="ytd" onclick="switchSub('reporting','ytd',this)">YTD</div>
     <div class="sub-tab" data-sub="notes" onclick="switchSub('reporting','notes',this)">Notes</div>
+    <div class="sub-tab" data-sub="site-health" onclick="switchSub('reporting','site-health',this)">Site Health</div>
   </div>
   <div class="sub-tabs" id="sub-marketplace">
     <div class="sub-tab active" data-sub="amazon" onclick="switchSub('marketplace','amazon',this)">Amazon</div>
@@ -490,6 +511,7 @@
   <div id="panel-mtd" class="panel active"></div>
   <div id="panel-ytd" class="panel"></div>
   <div id="panel-notes" class="panel"></div>
+  <div id="panel-site-health" class="panel"></div>
   <div id="panel-content" class="panel"></div>
   <div id="panel-amazon" class="panel"></div>
   <div id="panel-walmart" class="panel"></div>
@@ -540,7 +562,7 @@ const mainPanelMap = {
   inventory: ['stock'],
 };
 const subGroups = {
-  reporting: ['mtd','ytd','notes'],
+  reporting: ['mtd','ytd','notes','site-health'],
   marketplace: ['amazon','walmart'],
   inventory: ['stock','forecasting'],
 };
@@ -677,6 +699,41 @@ function renderMtd(reporting) {
   });
   kpiHtml += '</div>';
 
+  // Channel breakdown
+  const channelKpis = [
+    { label:'WooCommerce Revenue', val:fmt(cy.wc_revenue), pctOfTotal: cy.revenue ? Math.round((cy.wc_revenue||0)/cy.revenue*100)+'%' : '—' },
+    { label:'Amazon Revenue', val:fmt(cy.amazon_revenue), pctOfTotal: cy.revenue ? Math.round((cy.amazon_revenue||0)/cy.revenue*100)+'%' : '—' },
+    { label:'Walmart Revenue', val:fmt(cy.walmart_revenue), pctOfTotal: cy.revenue ? Math.round((cy.walmart_revenue||0)/cy.revenue*100)+'%' : '—' },
+  ];
+  let channelHtml = '<div class="section-label">Channel Breakdown</div><div class="kpi-grid">';
+  channelKpis.forEach(k => {
+    channelHtml += `<div class="kpi-card">
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-value">${k.val}</div>
+      <div class="kpi-meta"><span class="kpi-badge badge-gray">${k.pctOfTotal} of total</span></div>
+    </div>`;
+  });
+  channelHtml += '</div>';
+
+  // Customer metrics
+  const newCust = cy.new_customers != null ? fmtInt(cy.new_customers) : '—';
+  const aovVal = cy.aov != null ? fmt(cy.aov) : '—';
+  const cacVal = cy.new_customer_cac != null ? fmt(cy.new_customer_cac) : '—';
+  const custKpis = [
+    { label:'New Customers (MTD)', val:newCust, note:'WC registered customers' },
+    { label:'Avg Order Value', val:aovVal, note:'All channels' },
+    { label:'New Customer CAC', val:cacVal, note:'Ad Spend ÷ New Customers' },
+  ];
+  let custHtml = '<div class="section-label">Customer Metrics</div><div class="kpi-grid">';
+  custKpis.forEach(k => {
+    custHtml += `<div class="kpi-card">
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-value">${k.val}</div>
+      <div class="kpi-meta"><span class="kpi-badge badge-gray">${k.note}</span></div>
+    </div>`;
+  });
+  custHtml += '</div>';
+
   // Projection
   const dailyCY = mtd.daily_cy || [];
   const proj = linearProjection(dailyCY);
@@ -689,7 +746,7 @@ function renderMtd(reporting) {
       <div class="chart-card"><h3>Cumulative MTD Revenue</h3><div class="chart-wrap"><canvas id="chart-mtd-cumulative"></canvas></div></div>
     </div>`;
 
-  el.innerHTML = kpiHtml + projHtml + chartsHtml;
+  el.innerHTML = kpiHtml + channelHtml + custHtml + projHtml + chartsHtml;
   renderMtdCharts(reporting);
 }
 
@@ -862,6 +919,8 @@ function renderYtd(reporting) {
     { label:'YTD Orders', val:fmtInt(tcy.orders), lyPct:null, budPct:null },
     { label:'YTD Ad Spend', val:fmt(tcy.ad_spend), lyPct:null, budPct:null },
     { label:'YTD MER', val: tcy.ad_spend > 0 ? (tcy.revenue/tcy.ad_spend).toFixed(2)+'x' : '—', lyPct:null, budPct:null },
+    { label:'YTD COGS', val:fmt(tcy.cogs), lyPct:null, budPct:null },
+    { label:'YTD Net Revenue', val:fmt(tcy.net_revenue), lyPct:null, budPct:null },
   ];
 
   let kpiHtml = '<div class="kpi-grid">';
@@ -965,6 +1024,27 @@ function renderNotes(notes) {
   el.innerHTML = `
     <div class="notes-content">${notes.html || '<p>No notes yet.</p>'}</div>
     <div class="notes-hint">Edit docs/notes.md and push to update</div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER: SITE HEALTH
+// ═══════════════════════════════════════════════════════
+function renderSiteHealth() {
+  const el = document.getElementById('panel-site-health');
+  if (!el) return;
+  el.innerHTML = `
+    <div class="section-label">Site Health — Google Analytics 4</div>
+    <div class="placeholder-block">
+      <div class="placeholder-icon">📊</div>
+      <h3>GA4 Integration Pending</h3>
+      <p>Once connected, this tab will show:</p>
+      <div class="kpi-grid" style="opacity:0.45;pointer-events:none">
+        ${['Sessions','Bounce Rate','Avg Session Duration','Conversion Rate','Top Landing Pages','Organic vs Paid Traffic','New vs Returning Users','Revenue by Source/Medium'].map(m=>`
+        <div class="kpi-card"><div class="kpi-label">${m}</div><div class="kpi-value">—</div><div class="kpi-meta"></div></div>`).join('')}
+      </div>
+      <p style="margin-top:16px;font-size:0.85rem;color:var(--gray)">Property ID: 294622924 &nbsp;·&nbsp; Connect via Google Analytics Data API v1</p>
+    </div>
   `;
 }
 
@@ -1459,6 +1539,7 @@ async function initApp() {
   renderMtd(data.reporting);
   renderYtd(data.reporting);
   renderNotes(data.notes);
+  renderSiteHealth();
   renderContentCalendar(data.klaviyo);
   renderAmazon(data.amazon);
   renderWalmart(data.walmart);

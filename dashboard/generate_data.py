@@ -67,6 +67,13 @@ FB_BASE = "http://naturesseed.myfishbowl.com:3875"
 FB_USER = "gabe"
 FB_PASS = "#Numb3rs!"
 
+# WooCommerce (customer metrics via CF Worker proxy)
+WC_BASE = env_vars.get("WC_BASE_URL", "https://naturesseed.com/wp-json/wc/v3")
+WC_CK = env_vars.get("WC_CK", "")
+WC_CS = env_vars.get("WC_CS", "")
+CF_WORKER_URL = env_vars.get("CF_WORKER_URL", "")
+CF_WORKER_SECRET = env_vars.get("CF_WORKER_SECRET", "")
+
 TODAY = date.today()
 TODAY_STR = str(TODAY)
 
@@ -103,6 +110,20 @@ def _supabase_get(path, params=None):
     resp = requests.get(url, headers=headers, params=params or {}, timeout=30)
     resp.raise_for_status()
     return resp.json()
+
+
+def _wc_get(path, params=None):
+    """GET from WooCommerce REST API, routing through CF Worker if configured."""
+    import base64
+    if CF_WORKER_URL:
+        p = {"wc_path": path, **(params or {})}
+        auth_str = base64.b64encode(f"{WC_CK}:{WC_CS}".encode()).decode()
+        headers = {"X-Proxy-Secret": CF_WORKER_SECRET, "Authorization": f"Basic {auth_str}"}
+        resp = requests.get(CF_WORKER_URL, headers=headers, params=p, timeout=30)
+    else:
+        resp = requests.get(f"{WC_BASE}{path}", auth=(WC_CK, WC_CS), params=params or {}, timeout=30)
+    resp.raise_for_status()
+    return resp
 
 
 # ══════════════════════════════════════════════════════════════
@@ -283,6 +304,9 @@ def generate_reporting():
             "cogs": round(sum(float(_col(r, "total_cogs", "cogs") or 0) for r in rows), 2),
             "shipping": round(sum(float(_col(r, "total_shipping", "shipping_cost") or 0) for r in rows), 2),
             "net_revenue": round(sum(float(_col(r, "net_revenue") or 0) for r in rows), 2),
+            "wc_revenue": round(sum(float(r.get("wc_revenue") or 0) for r in rows), 2),
+            "amazon_revenue": round(sum(float(r.get("amazon_revenue") or 0) for r in rows), 2),
+            "walmart_revenue": round(sum(float(r.get("walmart_revenue") or 0) for r in rows), 2),
         }
 
     cy_totals = sum_rows(cy_rows)
@@ -359,6 +383,13 @@ def generate_reporting():
     ytd_totals_ly = {"revenue": round(sum(m["ly_revenue"] for m in ytd_months), 2)}
     ytd_totals_budget = {"revenue": round(sum(m["budget_revenue"] for m in ytd_months), 2)}
 
+    # WC /customers API doesn't support date range filtering — returns all customers regardless.
+    # Customer metrics (new customers, CAC) require daily_pull.py to store per-day customer counts.
+    # TODO: Add new_customer_count to daily_pull.py and store in Supabase daily_sales or new table.
+    new_customers_mtd = None
+    aov = round(cy_totals["revenue"] / cy_totals["orders"], 2) if cy_totals["orders"] else 0
+    new_cac = None
+
     result = {
         "as_of": TODAY_STR,
         "mtd": {
@@ -370,6 +401,12 @@ def generate_reporting():
                 "cogs": cy_totals["cogs"],
                 "shipping": cy_totals["shipping"],
                 "net_revenue": cy_totals["net_revenue"],
+                "wc_revenue": cy_totals["wc_revenue"],
+                "amazon_revenue": cy_totals["amazon_revenue"],
+                "walmart_revenue": cy_totals["walmart_revenue"],
+                "aov": aov,
+                "new_customers": new_customers_mtd,
+                "new_customer_cac": new_cac,
             },
             "ly": {
                 "revenue": ly_totals["revenue"],
@@ -519,7 +556,59 @@ def generate_klaviyo():
         if stop_pagination or not next_url or next_url == url:
             break
         url = next_url
-        params = None  # next URL already has params
+
+    # Also fetch Draft campaigns — they use options_static.datetime as the scheduled date
+    # (scheduled_at is null on drafts; date is stored in send_strategy.options_static.datetime)
+    draft_url = requests.Request("GET", f"{base_url}/campaigns/",
+        params={"filter": "equals(status,'Draft')", "sort": "name"}).prepare().url
+    while draft_url:
+        resp = requests.get(draft_url, headers=headers, timeout=30)
+        if resp.status_code != 200:
+            break
+        data = resp.json()
+        for item in data.get("data", []):
+            attrs = item.get("attributes", {})
+            send_time = (
+                (attrs.get("send_strategy") or {}).get("options_static", {}).get("datetime")
+                or attrs.get("scheduled_at")
+                or attrs.get("send_time")
+                or ""
+            )
+            if send_time:
+                try:
+                    st_date = send_time[:10]
+                    if st_date < window_start or st_date > window_end:
+                        continue
+                except Exception:
+                    pass
+            elif not send_time:
+                continue  # skip drafts with no date at all
+
+            subject = ""
+            messages = attrs.get("campaign-messages", {}).get("data", [])
+            if messages:
+                msg_attrs = messages[0].get("attributes", {})
+                subject = (
+                    msg_attrs.get("definition", {}).get("subject", "")
+                    or msg_attrs.get("subject", "")
+                    or ""
+                )
+
+            campaigns.append({
+                "id": item.get("id", ""),
+                "name": attrs.get("name", ""),
+                "send_time": send_time,
+                "status": "Draft",
+                "subject": subject,
+                "segment_name": "",
+            })
+        next_url = data.get("links", {}).get("next")
+        if not next_url or next_url == draft_url:
+            break
+        draft_url = next_url
+
+    # Sort all campaigns by send_time
+    campaigns.sort(key=lambda c: c.get("send_time") or "")
 
     result = {"as_of": TODAY_STR, "campaigns": campaigns}
     _write_json("klaviyo.json", result)

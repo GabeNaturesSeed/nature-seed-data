@@ -2,13 +2,19 @@
   "as_of": "2026-03-12",
   "mtd": {
     "cy": {
-      "revenue": 139143.03,
-      "orders": 1021,
-      "ad_spend": 27911.8,
-      "mer": 4.99,
-      "cogs": 46434.76,
-      "shipping": 34951.34,
-      "net_revenue": 57756.93
+      "revenue": 159540.39,
+      "orders": 1183,
+      "ad_spend": 27912.37,
+      "mer": 5.72,
+      "cogs": 52083.33,
+      "shipping": 34934.81,
+      "net_revenue": 72522.25,
+      "wc_revenue": 153805.27,
+      "amazon_revenue": 2192.93,
+      "walmart_revenue": 3542.19,
+      "aov": 134.86,
+      "new_customers": null,
+      "new_customer_cac": null
     },
     "ly": {
       "revenue": 150522.53,
@@ -26,15 +32,15 @@
       },
       {
         "date": "2026-03-02",
-        "revenue": 11118.97
+        "revenue": 11680.58
       },
       {
         "date": "2026-03-03",
-        "revenue": 11076.55
+        "revenue": 11366.97
       },
       {
         "date": "2026-03-04",
-        "revenue": 13177.45
+        "revenue": 13885.16
       },
       {
         "date": "2026-03-05",
@@ -54,7 +60,7 @@
       },
       {
         "date": "2026-03-09",
-        "revenue": 210.94
+        "revenue": 19048.56
       },
       {
         "date": "2026-03-10",
@@ -116,44 +122,44 @@
     "months": [
       {
         "month": "2026-01",
-        "revenue": 0,
+        "revenue": 83872.87,
         "ly_revenue": 115411.46,
         "budget_revenue": 133779.0,
-        "orders": 0,
-        "ad_spend": 0,
-        "mer": 0,
-        "cogs": 0,
-        "net_revenue": 0
+        "orders": 585,
+        "ad_spend": 14271.02,
+        "mer": 5.88,
+        "cogs": 23038.29,
+        "net_revenue": 41347.41
       },
       {
         "month": "2026-02",
-        "revenue": 0,
+        "revenue": 187594.46,
         "ly_revenue": 275551.09,
         "budget_revenue": 258517.0,
-        "orders": 0,
-        "ad_spend": 0,
-        "mer": 0,
-        "cogs": 0,
-        "net_revenue": 0
+        "orders": 1137,
+        "ad_spend": 45663.26,
+        "mer": 4.11,
+        "cogs": 64679.29,
+        "net_revenue": 40231.7
       },
       {
         "month": "2026-03",
-        "revenue": 139143.03,
+        "revenue": 159540.39,
         "ly_revenue": 150522.53,
         "budget_revenue": 433213.0,
-        "orders": 1021,
-        "ad_spend": 27911.8,
-        "mer": 4.99,
-        "cogs": 46434.76,
-        "net_revenue": 57756.93
+        "orders": 1183,
+        "ad_spend": 27912.37,
+        "mer": 5.72,
+        "cogs": 52083.33,
+        "net_revenue": 72522.25
       }
     ],
     "totals_cy": {
-      "revenue": 139143.03,
-      "orders": 1021,
-      "ad_spend": 27911.8,
-      "cogs": 46434.76,
-      "net_revenue": 57756.93
+      "revenue": 431007.72,
+      "orders": 2905,
+      "ad_spend": 87846.65,
+      "cogs": 139800.91,
+      "net_revenue": 154101.36
     },
     "totals_ly": {
       "revenue": 541485.08
