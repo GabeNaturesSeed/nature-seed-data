@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nature's Seed — SEO Article Studio</title>
+  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+  <style>
+    :root {
+      --ns-green: #2d5016;
+      --ns-green-light: #4a7c2e;
+      --ns-green-bg: #f0f9e8;
+      --ns-border: #e2e8f0;
+      --ns-text: #1a1a1a;
+      --ns-text-muted: #666;
+      --ns-bg: #f7f9f7;
+      --ns-white: #ffffff;
+      --ns-radius: 12px;
+      --ns-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--ns-bg); color: var(--ns-text); }
+
+    /* Header */
+    .header { background: var(--ns-green); color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .header h1 { font-size: 20px; font-weight: 700; }
+    .header-nav { display: flex; gap: 8px; }
+    .header-nav button { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s; }
+    .header-nav button:hover, .header-nav button.active { background: rgba(255,255,255,0.3); }
+
+    /* Layout */
+    .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+
+    /* Panels */
+    .panel { background: var(--ns-white); border: 1px solid var(--ns-border); border-radius: var(--ns-radius); padding: 24px; margin-bottom: 20px; box-shadow: var(--ns-shadow); }
+    .panel h2 { font-size: 18px; color: var(--ns-green); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .panel h3 { font-size: 15px; color: var(--ns-text); margin-bottom: 12px; }
+
+    /* Views */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* Research View */
+    .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+    .topic-card { border: 1px solid var(--ns-border); border-radius: 10px; padding: 16px; cursor: pointer; transition: all 0.2s; position: relative; }
+    .topic-card:hover { border-color: var(--ns-green-light); box-shadow: 0 2px 8px rgba(45,80,22,0.12); }
+    .topic-card.selected { border-color: var(--ns-green); background: var(--ns-green-bg); }
+    .topic-title { font-weight: 600; font-size: 15px; margin-bottom: 8px; }
+    .topic-meta { display: flex; gap: 12px; font-size: 13px; color: var(--ns-text-muted); flex-wrap: wrap; }
+    .topic-meta span { display: flex; align-items: center; gap: 4px; }
+    .score-badge { position: absolute; top: 12px; right: 12px; background: var(--ns-green); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 8px; border-radius: 12px; }
+    .intent-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+    .intent-high { background: #dcfce7; color: #166534; }
+    .intent-medium { background: #fef9c3; color: #854d0e; }
+    .intent-informational { background: #dbeafe; color: #1e40af; }
+    .vertical-tag { background: var(--ns-green-bg); color: var(--ns-green); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+
+    /* Editor View */
+    .editor-layout { display: grid; grid-template-columns: 1fr 340px; gap: 20px; }
+    @media (max-width: 900px) { .editor-layout { grid-template-columns: 1fr; } }
+    .editor-main { min-width: 0; }
+    .editor-sidebar { display: flex; flex-direction: column; gap: 16px; }
+    .field-group { margin-bottom: 16px; }
+    .field-group label { display: block; font-weight: 600; font-size: 13px; color: var(--ns-text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .field-group input, .field-group textarea, .field-group select { width: 100%; padding: 10px 12px; border: 1px solid var(--ns-border); border-radius: 8px; font-size: 14px; font-family: inherit; }
+    .field-group textarea { resize: vertical; min-height: 60px; }
+    .char-count { font-size: 12px; color: var(--ns-text-muted); text-align: right; margin-top: 4px; }
+    #quill-editor { min-height: 500px; font-size: 16px; line-height: 1.7; }
+    .ql-toolbar { border-radius: 8px 8px 0 0 !important; border-color: var(--ns-border) !important; }
+    .ql-container { border-radius: 0 0 8px 8px !important; border-color: var(--ns-border) !important; }
+
+    /* Sidebar panels */
+    .sidebar-panel { background: var(--ns-white); border: 1px solid var(--ns-border); border-radius: 10px; padding: 16px; }
+    .sidebar-panel h4 { font-size: 13px; text-transform: uppercase; color: var(--ns-text-muted); margin-bottom: 12px; letter-spacing: 0.5px; }
+
+    /* Media picker */
+    .media-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .media-item { border: 2px solid transparent; border-radius: 6px; overflow: hidden; cursor: pointer; aspect-ratio: 1; }
+    .media-item:hover { border-color: var(--ns-green-light); }
+    .media-item img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Interactive inserter */
+    .insert-btn { display: flex; align-items: center; gap: 8px; width: 100%; padding: 10px 12px; border: 1px solid var(--ns-border); border-radius: 8px; background: #fff; cursor: pointer; font-size: 13px; margin-bottom: 8px; transition: all 0.15s; }
+    .insert-btn:hover { border-color: var(--ns-green-light); background: var(--ns-green-bg); }
+    .insert-btn .icon { font-size: 18px; }
+
+    /* Buttons */
+    .btn { padding: 10px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-primary { background: var(--ns-green); color: #fff; }
+    .btn-primary:hover { background: var(--ns-green-light); }
+    .btn-secondary { background: var(--ns-white); color: var(--ns-green); border: 1px solid var(--ns-green); }
+    .btn-secondary:hover { background: var(--ns-green-bg); }
+    .btn-danger { background: #ef4444; color: #fff; }
+    .btn-sm { padding: 6px 12px; font-size: 13px; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    /* Drafts list */
+    .draft-row { display: flex; align-items: center; padding: 12px 16px; border: 1px solid var(--ns-border); border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: all 0.15s; }
+    .draft-row:hover { border-color: var(--ns-green-light); background: var(--ns-green-bg); }
+    .draft-title { flex: 1; font-weight: 600; font-size: 15px; }
+    .draft-status { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 12px; }
+    .status-draft { background: #fef3c7; color: #92400e; }
+    .status-published { background: #dcfce7; color: #166534; }
+
+    /* Loading */
+    .spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid var(--ns-border); border-top-color: var(--ns-green); border-radius: 50%; animation: spin 0.6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.85); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 999; }
+    .loading-overlay .spinner { width: 40px; height: 40px; }
+    .loading-overlay p { margin-top: 16px; font-size: 16px; color: var(--ns-text-muted); }
+    .hidden { display: none !important; }
+
+    /* Toast */
+    .toast { position: fixed; bottom: 24px; right: 24px; padding: 14px 24px; border-radius: 10px; color: #fff; font-weight: 500; z-index: 1000; transform: translateY(80px); opacity: 0; transition: all 0.3s; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast-success { background: var(--ns-green); }
+    .toast-error { background: #ef4444; }
+
+    /* Publish modal */
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 500; display: flex; align-items: center; justify-content: center; }
+    .modal { background: #fff; border-radius: 16px; padding: 32px; width: 90%; max-width: 520px; max-height: 80vh; overflow-y: auto; }
+    .modal h3 { font-size: 20px; margin-bottom: 20px; color: var(--ns-green); }
+
+    /* AI Refine */
+    .refine-box { margin-top: 12px; }
+    .refine-box textarea { width: 100%; min-height: 80px; padding: 10px; border: 1px solid var(--ns-border); border-radius: 8px; font-family: inherit; font-size: 14px; margin-bottom: 8px; }
+
+    /* Product search results */
+    .product-result { display: flex; align-items: center; gap: 12px; padding: 10px; border: 1px solid var(--ns-border); border-radius: 8px; margin-bottom: 8px; cursor: pointer; }
+    .product-result:hover { background: var(--ns-green-bg); }
+    .product-result img { width: 48px; height: 48px; object-fit: cover; border-radius: 6px; }
+    .product-result-info { flex: 1; }
+    .product-result-info .name { font-weight: 600; font-size: 14px; }
+    .product-result-info .price { color: var(--ns-green); font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <h1>Nature's Seed — SEO Article Studio</h1>
+  <div class="header-nav">
+    <button class="active" onclick="showView('research')">Research</button>
+    <button onclick="showView('editor')">Editor</button>
+    <button onclick="showView('drafts')">Drafts</button>
+  </div>
+</div>
+
+<!-- Loading Overlay -->
+<div id="loading" class="loading-overlay hidden">
+  <div class="spinner"></div>
+  <p id="loading-text">Analyzing keywords...</p>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<!-- ═══ RESEARCH VIEW ═══ -->
+<div id="view-research" class="view active">
+  <div class="container">
+    <div class="panel">
+      <h2>Keyword Research & Topic Discovery</h2>
+      <p style="color:var(--ns-text-muted);margin-bottom:16px;">Find high-intent keyword opportunities from Google Search Console data and Nature's Seed product catalog.</p>
+      <div class="btn-group" style="margin-bottom:20px;">
+        <button class="btn btn-primary" onclick="runResearch()">Run Keyword Research</button>
+        <select id="vertical-filter" onchange="filterTopics()" style="padding:10px;border:1px solid var(--ns-border);border-radius:8px;">
+          <option value="">All Verticals</option>
+          <option value="lawn">Lawn Seed</option>
+          <option value="pasture">Pasture Seed</option>
+          <option value="wildflower">Wildflower</option>
+          <option value="california">California</option>
+          <option value="clover">Clover</option>
+          <option value="food_plot">Food Plot</option>
+          <option value="cover_crop">Cover Crop</option>
+        </select>
+        <select id="intent-filter" onchange="filterTopics()" style="padding:10px;border:1px solid var(--ns-border);border-radius:8px;">
+          <option value="">All Intents</option>
+          <option value="high">High Intent (Commercial)</option>
+          <option value="medium">Medium Intent</option>
+          <option value="informational">Informational</option>
+        </select>
+      </div>
+      <div id="research-note" style="display:none;padding:12px;background:#fef3c7;border-radius:8px;margin-bottom:16px;font-size:14px;color:#92400e;"></div>
+      <div id="topic-grid" class="topic-grid"></div>
+      <div id="no-research" style="text-align:center;padding:60px 20px;color:var(--ns-text-muted);">
+        <p style="font-size:18px;margin-bottom:8px;">Click "Run Keyword Research" to discover article topics</p>
+        <p>Pulls live data from Google Search Console and analyzes content gaps</p>
+      </div>
+    </div>
+
+    <!-- Selected topic action bar -->
+    <div id="topic-action" class="panel hidden">
+      <h2>Selected Topic</h2>
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+        <span id="selected-topic-name" style="font-size:18px;font-weight:700;"></span>
+        <div class="btn-group">
+          <button class="btn btn-secondary" onclick="generateOutline()">Generate Outline</button>
+          <button class="btn btn-primary" onclick="generateDraft()">Generate Full Draft</button>
+        </div>
+      </div>
+      <div class="field-group" style="margin-top:16px;">
+        <label>Additional Keywords (comma-separated)</label>
+        <input type="text" id="extra-keywords" placeholder="e.g., best grass seed, cool season grass, shade tolerant"/>
+      </div>
+      <div class="field-group">
+        <label>Custom Instructions for AI Writer</label>
+        <textarea id="custom-instructions" placeholder="e.g., Focus on Zone 5-7, mention our Kentucky Bluegrass Blend specifically..."></textarea>
+      </div>
+      <div id="outline-preview" class="hidden" style="margin-top:16px;padding:20px;background:var(--ns-bg);border-radius:10px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ EDITOR VIEW ═══ -->
+<div id="view-editor" class="view">
+  <div class="container">
+    <div id="no-draft-msg" class="panel" style="text-align:center;padding:60px;">
+      <p style="font-size:18px;color:var(--ns-text-muted);">No article loaded. Generate a draft from Research or open one from Drafts.</p>
+    </div>
+    <div id="editor-content" class="hidden">
+      <div class="editor-layout">
+        <div class="editor-main">
+          <!-- Title & Meta -->
+          <div class="panel">
+            <div class="field-group">
+              <label>Title (H1)</label>
+              <input type="text" id="edit-title" placeholder="Article title..." oninput="updateCharCount('edit-title','title-chars',60)"/>
+              <div class="char-count"><span id="title-chars">0</span>/60 characters</div>
+            </div>
+            <div class="field-group">
+              <label>URL Slug</label>
+              <input type="text" id="edit-slug" placeholder="article-url-slug"/>
+            </div>
+            <div class="field-group">
+              <label>Meta Description</label>
+              <textarea id="edit-meta" placeholder="Meta description for search results..." oninput="updateCharCount('edit-meta','meta-chars',160)"></textarea>
+              <div class="char-count"><span id="meta-chars">0</span>/160 characters</div>
+            </div>
+            <div class="field-group">
+              <label>Primary Keyword</label>
+              <input type="text" id="edit-keyword" placeholder="main target keyword"/>
+            </div>
+          </div>
+
+          <!-- Rich Text Editor -->
+          <div class="panel">
+            <h2>Article Content</h2>
+            <div id="quill-editor"></div>
+          </div>
+
+          <!-- AI Refine -->
+          <div class="panel">
+            <h2>AI Refinement</h2>
+            <p style="color:var(--ns-text-muted);font-size:14px;margin-bottom:12px;">Ask Claude to improve specific aspects of the article.</p>
+            <div class="refine-box">
+              <textarea id="refine-feedback" placeholder="e.g., Make the introduction more compelling, add more internal links, expand the FAQ section..."></textarea>
+              <button class="btn btn-secondary" onclick="refineArticle()">Refine with AI</button>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="panel">
+            <div class="btn-group">
+              <button class="btn btn-primary" onclick="saveDraft()">Save Draft</button>
+              <button class="btn btn-secondary" onclick="showPublishModal()">Publish to WordPress</button>
+              <button class="btn btn-secondary" onclick="previewArticle()">Preview</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="editor-sidebar">
+          <!-- SEO Score -->
+          <div class="sidebar-panel">
+            <h4>SEO Checklist</h4>
+            <div id="seo-checklist"></div>
+          </div>
+
+          <!-- Media Search -->
+          <div class="sidebar-panel">
+            <h4>Image Library</h4>
+            <div style="display:flex;gap:8px;margin-bottom:12px;">
+              <input type="text" id="media-search" placeholder="Search by alt text..." style="flex:1;padding:8px;border:1px solid var(--ns-border);border-radius:6px;font-size:13px;" onkeydown="if(event.key==='Enter')searchMedia()"/>
+              <button class="btn btn-sm btn-primary" onclick="searchMedia()">Search</button>
+            </div>
+            <div id="media-grid" class="media-grid"></div>
+          </div>
+
+          <!-- Product Cards -->
+          <div class="sidebar-panel">
+            <h4>Insert Product Card</h4>
+            <div style="display:flex;gap:8px;margin-bottom:12px;">
+              <input type="text" id="product-search" placeholder="Search products..." style="flex:1;padding:8px;border:1px solid var(--ns-border);border-radius:6px;font-size:13px;" onkeydown="if(event.key==='Enter')searchProducts()"/>
+              <button class="btn btn-sm btn-primary" onclick="searchProducts()">Find</button>
+            </div>
+            <div id="product-results"></div>
+          </div>
+
+          <!-- Interactive Elements -->
+          <div class="sidebar-panel">
+            <h4>Interactive Elements</h4>
+            <button class="insert-btn" onclick="insertInteractive('calculator')"><span class="icon">&#x1F4CA;</span> Seeding Calculator</button>
+            <button class="insert-btn" onclick="insertInteractive('zone-map')"><span class="icon">&#x1F5FA;</span> Zone Finder</button>
+            <button class="insert-btn" onclick="insertInteractive('toc')"><span class="icon">&#x1F4D1;</span> Table of Contents</button>
+            <button class="insert-btn" onclick="insertInteractive('callout-tip')"><span class="icon">&#x1F4A1;</span> Pro Tip Box</button>
+            <button class="insert-btn" onclick="insertInteractive('callout-warning')"><span class="icon">&#x26A0;</span> Warning Box</button>
+            <button class="insert-btn" onclick="insertInteractive('callout-info')"><span class="icon">&#x2139;</span> Info Box</button>
+            <button class="insert-btn" onclick="insertInteractive('faq')"><span class="icon">&#x2753;</span> FAQ Section</button>
+          </div>
+
+          <!-- Article Info -->
+          <div class="sidebar-panel">
+            <h4>Article Info</h4>
+            <div id="article-info" style="font-size:13px;color:var(--ns-text-muted);">
+              <div>Draft ID: <span id="info-draft-id">—</span></div>
+              <div>Status: <span id="info-status">—</span></div>
+              <div>Created: <span id="info-created">—</span></div>
+              <div>Word Count: <span id="info-words">0</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DRAFTS VIEW ═══ -->
+<div id="view-drafts" class="view">
+  <div class="container">
+    <div class="panel">
+      <h2>Article Drafts</h2>
+      <div id="drafts-list"></div>
+      <div id="no-drafts" style="text-align:center;padding:40px;color:var(--ns-text-muted);">
+        <p>No drafts yet. Generate one from the Research tab.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PUBLISH MODAL ═══ -->
+<div id="publish-modal" class="modal-backdrop hidden" onclick="if(event.target===this)closePublishModal()">
+  <div class="modal">
+    <h3>Publish to WordPress</h3>
+    <div class="field-group">
+      <label>Post Status</label>
+      <select id="pub-status">
+        <option value="draft">Save as Draft in WordPress</option>
+        <option value="publish">Publish Live</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label>WordPress Categories (comma-separated IDs)</label>
+      <input type="text" id="pub-categories" placeholder="e.g., 15, 23"/>
+    </div>
+    <div class="field-group">
+      <label>Tags (comma-separated IDs)</label>
+      <input type="text" id="pub-tags" placeholder="e.g., 5, 12, 18"/>
+    </div>
+    <div class="field-group">
+      <label>Featured Image (Media ID)</label>
+      <input type="number" id="pub-featured" placeholder="WordPress media ID"/>
+    </div>
+    <div class="btn-group" style="margin-top:20px;">
+      <button class="btn btn-primary" onclick="publishArticle()">Publish</button>
+      <button class="btn btn-secondary" onclick="closePublishModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Quill.js -->
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+
+<script>
+// ── State ──
+let currentDraftId = null;
+let selectedTopic = null;
+let researchData = null;
+let quill = null;
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', () => {
+  quill = new Quill('#quill-editor', {
+    theme: 'snow',
+    modules: {
+      toolbar: [
+        [{ header: [1, 2, 3, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        ['link', 'image', 'blockquote', 'code-block'],
+        [{ align: [] }],
+        ['clean'],
+      ],
+    },
+    placeholder: 'Article content will appear here...',
+  });
+  quill.on('text-change', () => {
+    const text = quill.getText();
+    document.getElementById('info-words').textContent = text.trim().split(/\s+/).filter(w => w).length;
+    updateSeoChecklist();
+  });
+});
+
+// ── View Navigation ──
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  document.querySelectorAll('.header-nav button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  if (name === 'drafts') loadDraftsList();
+}
+
+// ── Loading & Toast ──
+function showLoading(msg) { document.getElementById('loading-text').textContent = msg; document.getElementById('loading').classList.remove('hidden'); }
+function hideLoading() { document.getElementById('loading').classList.add('hidden'); }
+function toast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast toast-' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Research ──
+async function runResearch() {
+  showLoading('Analyzing keywords from Google Search Console...');
+  try {
+    const res = await fetch('/api/research');
+    researchData = await res.json();
+    renderTopics(researchData.suggestions);
+    if (researchData.note) {
+      const noteEl = document.getElementById('research-note');
+      noteEl.textContent = researchData.note;
+      noteEl.style.display = 'block';
+    }
+    document.getElementById('no-research').style.display = 'none';
+    toast('Found ' + researchData.suggestions.length + ' topic opportunities');
+  } catch (e) {
+    toast('Research failed: ' + e.message, 'error');
+  }
+  hideLoading();
+}
+
+function renderTopics(topics) {
+  const grid = document.getElementById('topic-grid');
+  grid.innerHTML = topics.map((t, i) => `
+    <div class="topic-card ${selectedTopic && selectedTopic.topic === t.topic ? 'selected' : ''}" onclick="selectTopic(${i})">
+      <div class="score-badge">${t.opportunity_score}</div>
+      <div class="topic-title">${t.topic}</div>
+      <div class="topic-meta">
+        <span class="vertical-tag">${t.vertical}</span>
+        <span class="intent-badge intent-${t.intent}">${t.intent}</span>
+        ${t.impressions !== null ? `<span>Imp: ${t.impressions?.toLocaleString() || '—'}</span>` : ''}
+        ${t.position !== null ? `<span>Pos: ${t.position || '—'}</span>` : ''}
+        ${t.ctr !== null ? `<span>CTR: ${t.ctr || '—'}%</span>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterTopics() {
+  if (!researchData) return;
+  const vFilter = document.getElementById('vertical-filter').value;
+  const iFilter = document.getElementById('intent-filter').value;
+  let filtered = researchData.suggestions;
+  if (vFilter) filtered = filtered.filter(t => t.vertical === vFilter);
+  if (iFilter) filtered = filtered.filter(t => t.intent === iFilter);
+  renderTopics(filtered);
+}
+
+function selectTopic(index) {
+  const topics = document.querySelectorAll('.topic-card');
+  topics.forEach(t => t.classList.remove('selected'));
+  topics[index]?.classList.add('selected');
+
+  const filteredTopics = getFilteredTopics();
+  selectedTopic = filteredTopics[index];
+
+  document.getElementById('selected-topic-name').textContent = selectedTopic.topic;
+  document.getElementById('topic-action').classList.remove('hidden');
+  document.getElementById('outline-preview').classList.add('hidden');
+}
+
+function getFilteredTopics() {
+  if (!researchData) return [];
+  let filtered = researchData.suggestions;
+  const vFilter = document.getElementById('vertical-filter').value;
+  const iFilter = document.getElementById('intent-filter').value;
+  if (vFilter) filtered = filtered.filter(t => t.vertical === vFilter);
+  if (iFilter) filtered = filtered.filter(t => t.intent === iFilter);
+  return filtered;
+}
+
+// ── Outline ──
+async function generateOutline() {
+  if (!selectedTopic) return;
+  showLoading('Generating article outline...');
+  try {
+    const keywords = document.getElementById('extra-keywords').value.split(',').map(k => k.trim()).filter(Boolean);
+    const res = await fetch('/api/outline', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ topic: selectedTopic.topic, keywords }),
+    });
+    const outline = await res.json();
+    renderOutline(outline);
+    toast('Outline generated');
+  } catch (e) {
+    toast('Outline failed: ' + e.message, 'error');
+  }
+  hideLoading();
+}
+
+function renderOutline(outline) {
+  const el = document.getElementById('outline-preview');
+  el.classList.remove('hidden');
+  let html = `<h3 style="margin-bottom:12px;">${outline.title || 'Outline'}</h3>`;
+  if (outline.meta_description) html += `<p style="color:var(--ns-text-muted);font-style:italic;margin-bottom:16px;">${outline.meta_description}</p>`;
+  if (outline.sections) {
+    outline.sections.forEach(s => {
+      html += `<div style="margin-bottom:12px;padding:12px;background:#fff;border-radius:8px;">`;
+      html += `<strong>${s.heading}</strong>`;
+      if (s.subheadings?.length) html += '<ul>' + s.subheadings.map(sh => `<li>${sh}</li>`).join('') + '</ul>';
+      if (s.key_points?.length) html += '<ul style="color:var(--ns-text-muted);font-size:13px;">' + s.key_points.map(p => `<li>${p}</li>`).join('') + '</ul>';
+      html += '</div>';
+    });
+  }
+  if (outline.word_count_target) html += `<p style="margin-top:8px;font-size:13px;color:var(--ns-text-muted);">Target: ${outline.word_count_target} words</p>`;
+  el.innerHTML = html;
+}
+
+// ── Draft Generation ──
+async function generateDraft() {
+  if (!selectedTopic) return;
+  showLoading('Writing article draft with Claude AI... This may take 30-60 seconds.');
+  try {
+    const keywords = document.getElementById('extra-keywords').value.split(',').map(k => k.trim()).filter(Boolean);
+    const instructions = document.getElementById('custom-instructions').value;
+    const res = await fetch('/api/draft', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        topic: selectedTopic.topic,
+        keywords,
+        vertical: selectedTopic.vertical,
+        instructions,
+      }),
+    });
+    const draft = await res.json();
+    loadDraftIntoEditor(draft);
+    showView('editor');
+    document.querySelectorAll('.header-nav button')[1].classList.add('active');
+    document.querySelectorAll('.header-nav button')[0].classList.remove('active');
+    toast('Draft generated: ' + draft.title);
+  } catch (e) {
+    toast('Draft generation failed: ' + e.message, 'error');
+  }
+  hideLoading();
+}
+
+function loadDraftIntoEditor(draft) {
+  currentDraftId = draft.draft_id;
+  document.getElementById('no-draft-msg').classList.add('hidden');
+  document.getElementById('editor-content').classList.remove('hidden');
+
+  document.getElementById('edit-title').value = draft.title || '';
+  document.getElementById('edit-slug').value = draft.slug || '';
+  document.getElementById('edit-meta').value = draft.meta_description || '';
+  document.getElementById('edit-keyword').value = draft.primary_keyword || '';
+
+  // Set content in Quill
+  const content = draft.content || '';
+  if (content.startsWith('<') || content.includes('<p>')) {
+    quill.root.innerHTML = content;
+  } else {
+    quill.setText(content);
+  }
+
+  // Update info
+  document.getElementById('info-draft-id').textContent = draft.draft_id;
+  document.getElementById('info-status').textContent = draft.status || 'draft';
+  document.getElementById('info-created').textContent = draft.created_at ? new Date(draft.created_at).toLocaleString() : '—';
+
+  updateCharCount('edit-title', 'title-chars', 60);
+  updateCharCount('edit-meta', 'meta-chars', 160);
+  updateSeoChecklist();
+}
+
+// ── Editor Actions ──
+async function saveDraft() {
+  if (!currentDraftId) return;
+  try {
+    const res = await fetch('/api/draft/' + currentDraftId, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: document.getElementById('edit-title').value,
+        slug: document.getElementById('edit-slug').value,
+        meta_description: document.getElementById('edit-meta').value,
+        content: quill.root.innerHTML,
+      }),
+    });
+    await res.json();
+    toast('Draft saved');
+  } catch (e) {
+    toast('Save failed: ' + e.message, 'error');
+  }
+}
+
+async function refineArticle() {
+  if (!currentDraftId) return;
+  const feedback = document.getElementById('refine-feedback').value;
+  if (!feedback) { toast('Enter refinement instructions', 'error'); return; }
+  showLoading('Claude is refining the article...');
+  try {
+    const res = await fetch('/api/draft/' + currentDraftId + '/refine', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ feedback }),
+    });
+    const draft = await res.json();
+    if (draft.content) {
+      if (draft.content.startsWith('<') || draft.content.includes('<p>')) {
+        quill.root.innerHTML = draft.content;
+      } else {
+        quill.setText(draft.content);
+      }
+    }
+    if (draft.title) document.getElementById('edit-title').value = draft.title;
+    if (draft.meta_description) document.getElementById('edit-meta').value = draft.meta_description;
+    document.getElementById('refine-feedback').value = '';
+    toast('Article refined');
+  } catch (e) {
+    toast('Refinement failed: ' + e.message, 'error');
+  }
+  hideLoading();
+}
+
+function previewArticle() {
+  const title = document.getElementById('edit-title').value;
+  const content = quill.root.innerHTML;
+  const win = window.open('', '_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>${title}</title>
+    <style>body{max-width:800px;margin:40px auto;padding:0 20px;font-family:-apple-system,sans-serif;line-height:1.7;color:#1a1a1a;}
+    h1{color:#2d5016;} h2{color:#2d5016;margin-top:32px;} img{max-width:100%;border-radius:8px;}</style>
+    </head><body><h1>${title}</h1>${content}</body></html>`);
+  win.document.close();
+}
+
+// ── Media Search ──
+async function searchMedia() {
+  const q = document.getElementById('media-search').value;
+  if (!q) return;
+  try {
+    const res = await fetch('/api/media/search?q=' + encodeURIComponent(q));
+    const images = await res.json();
+    const grid = document.getElementById('media-grid');
+    if (images.length === 0) {
+      grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--ns-text-muted);font-size:13px;">No images found</p>';
+      return;
+    }
+    grid.innerHTML = images.map(img => `
+      <div class="media-item" onclick="insertImage('${img.medium || img.url}', '${(img.alt_text || img.title || '').replace(/'/g, "\\'")}')">
+        <img src="${img.thumbnail || img.url}" alt="${img.alt_text || ''}" title="${img.alt_text || img.title || ''}"/>
+      </div>
+    `).join('');
+  } catch (e) {
+    toast('Media search failed', 'error');
+  }
+}
+
+function insertImage(url, alt) {
+  const range = quill.getSelection(true);
+  quill.insertEmbed(range.index, 'image', url);
+  toast('Image inserted');
+}
+
+// ── Product Cards ──
+async function searchProducts() {
+  const q = document.getElementById('product-search').value;
+  if (!q) return;
+  try {
+    const res = await fetch('/api/products?search=' + encodeURIComponent(q));
+    const products = await res.json();
+    const container = document.getElementById('product-results');
+    if (products.length === 0) {
+      container.innerHTML = '<p style="text-align:center;color:var(--ns-text-muted);font-size:13px;">No products found</p>';
+      return;
+    }
+    container.innerHTML = products.map(p => `
+      <div class="product-result" onclick="insertProductCard('${p.slug}')">
+        ${p.image ? `<img src="${p.image}" alt="${p.name}"/>` : ''}
+        <div class="product-result-info">
+          <div class="name">${p.name}</div>
+          <div class="price">${p.price ? '$' + p.price : ''}</div>
+        </div>
+      </div>
+    `).join('');
+  } catch (e) {
+    toast('Product search failed', 'error');
+  }
+}
+
+async function insertProductCard(slug) {
+  try {
+    const res = await fetch('/api/interactive/product-card', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug }),
+    });
+    const data = await res.json();
+    if (data.html) {
+      const range = quill.getSelection(true);
+      quill.clipboard.dangerouslyPasteHTML(range.index, data.html);
+      toast('Product card inserted: ' + data.product_name);
+    }
+  } catch (e) {
+    toast('Failed to insert product card', 'error');
+  }
+}
+
+// ── Interactive Elements ──
+async function insertInteractive(type) {
+  let html = '';
+  try {
+    if (type === 'calculator') {
+      const res = await fetch('/api/interactive/calculator');
+      html = (await res.json()).html;
+    } else if (type === 'zone-map') {
+      const res = await fetch('/api/interactive/zone-map');
+      html = (await res.json()).html;
+    } else if (type === 'toc') {
+      // Extract H2s from current content
+      const headings = [];
+      quill.root.querySelectorAll('h2').forEach(h => headings.push(h.textContent));
+      if (headings.length === 0) { toast('Add H2 headings first', 'error'); return; }
+      const res = await fetch('/api/interactive/toc', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ headings }),
+      });
+      html = (await res.json()).html;
+    } else if (type.startsWith('callout-')) {
+      const boxType = type.replace('callout-', '');
+      const text = prompt('Enter the callout text:');
+      if (!text) return;
+      const res = await fetch('/api/interactive/callout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, type: boxType }),
+      });
+      html = (await res.json()).html;
+    } else if (type === 'faq') {
+      const faqCount = parseInt(prompt('How many FAQ items?', '3')) || 3;
+      const faqs = [];
+      for (let i = 0; i < faqCount; i++) {
+        const q = prompt(`FAQ ${i + 1} - Question:`);
+        if (!q) break;
+        const a = prompt(`FAQ ${i + 1} - Answer:`);
+        if (!a) break;
+        faqs.push({ question: q, answer: a });
+      }
+      if (faqs.length === 0) return;
+      const res = await fetch('/api/interactive/faq', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ faqs }),
+      });
+      html = (await res.json()).html;
+    }
+
+    if (html) {
+      const range = quill.getSelection(true);
+      quill.clipboard.dangerouslyPasteHTML(range.index, html);
+      toast(type + ' inserted');
+    }
+  } catch (e) {
+    toast('Failed to insert element', 'error');
+  }
+}
+
+// ── Publishing ──
+function showPublishModal() { document.getElementById('publish-modal').classList.remove('hidden'); }
+function closePublishModal() { document.getElementById('publish-modal').classList.add('hidden'); }
+
+async function publishArticle() {
+  if (!currentDraftId) return;
+  // Save latest content first
+  await saveDraft();
+
+  const status = document.getElementById('pub-status').value;
+  const categories = document.getElementById('pub-categories').value.split(',').map(Number).filter(Boolean);
+  const tags = document.getElementById('pub-tags').value.split(',').map(Number).filter(Boolean);
+  const featured = parseInt(document.getElementById('pub-featured').value) || undefined;
+
+  showLoading('Publishing to WordPress...');
+  closePublishModal();
+
+  try {
+    const res = await fetch('/api/publish/' + currentDraftId, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status, categories, tags, featured_media: featured }),
+    });
+    const result = await res.json();
+    if (result.success) {
+      document.getElementById('info-status').textContent = 'published';
+      toast('Published! Post ID: ' + result.post_id);
+      if (result.url) window.open(result.url, '_blank');
+    } else {
+      toast('Publish failed: ' + (result.error || 'Unknown error'), 'error');
+    }
+  } catch (e) {
+    toast('Publish failed: ' + e.message, 'error');
+  }
+  hideLoading();
+}
+
+// ── Drafts List ──
+async function loadDraftsList() {
+  try {
+    const res = await fetch('/api/drafts');
+    const drafts = await res.json();
+    const list = document.getElementById('drafts-list');
+    const noMsg = document.getElementById('no-drafts');
+
+    if (drafts.length === 0) { noMsg.style.display = 'block'; list.innerHTML = ''; return; }
+    noMsg.style.display = 'none';
+
+    list.innerHTML = drafts.map(d => `
+      <div class="draft-row" onclick="openDraft('${d.draft_id}')">
+        <div class="draft-title">${d.title || 'Untitled'}</div>
+        <span class="vertical-tag" style="margin-right:8px;">${d.vertical || '—'}</span>
+        <span class="draft-status status-${d.status}">${d.status}</span>
+      </div>
+    `).join('');
+  } catch (e) {
+    toast('Failed to load drafts', 'error');
+  }
+}
+
+async function openDraft(draftId) {
+  try {
+    const res = await fetch('/api/draft/' + draftId);
+    const draft = await res.json();
+    loadDraftIntoEditor(draft);
+    showView('editor');
+    document.querySelectorAll('.header-nav button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.header-nav button')[1].classList.add('active');
+  } catch (e) {
+    toast('Failed to open draft', 'error');
+  }
+}
+
+// ── SEO Checklist ──
+function updateSeoChecklist() {
+  const title = document.getElementById('edit-title').value;
+  const meta = document.getElementById('edit-meta').value;
+  const keyword = document.getElementById('edit-keyword').value.toLowerCase();
+  const content = quill?.getText()?.toLowerCase() || '';
+  const htmlContent = quill?.root?.innerHTML || '';
+
+  const checks = [
+    { label: 'Title length 50-60 chars', pass: title.length >= 50 && title.length <= 60 },
+    { label: 'Keyword in title', pass: keyword && title.toLowerCase().includes(keyword) },
+    { label: 'Meta description 150-160 chars', pass: meta.length >= 150 && meta.length <= 160 },
+    { label: 'Keyword in meta', pass: keyword && meta.toLowerCase().includes(keyword) },
+    { label: 'Keyword in first paragraph', pass: keyword && content.substring(0, 300).includes(keyword) },
+    { label: 'Content 1500+ words', pass: content.split(/\s+/).filter(w => w).length >= 1500 },
+    { label: 'Has H2 headings', pass: htmlContent.includes('<h2') },
+    { label: 'Has internal links', pass: htmlContent.includes('naturesseed.com') },
+    { label: 'Has images', pass: htmlContent.includes('<img') },
+    { label: 'Has FAQ section', pass: htmlContent.toLowerCase().includes('frequently asked') || htmlContent.includes('FAQPage') },
+  ];
+
+  const el = document.getElementById('seo-checklist');
+  el.innerHTML = checks.map(c => `
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px;border-bottom:1px solid #f0f0f0;">
+      <span style="color:${c.pass ? '#16a34a' : '#dc2626'};font-size:16px;">${c.pass ? '&#10003;' : '&#10007;'}</span>
+      <span style="color:${c.pass ? 'var(--ns-text)' : 'var(--ns-text-muted)'}">${c.label}</span>
+    </div>
+  `).join('');
+}
+
+// ── Helpers ──
+function updateCharCount(inputId, countId, max) {
+  const len = document.getElementById(inputId).value.length;
+  const el = document.getElementById(countId);
+  el.textContent = len;
+  el.style.color = len > max ? '#dc2626' : (len >= max * 0.8 ? '#f59e0b' : 'var(--ns-text-muted)');
+}
+</script>
+</body>
+</html>
