@@ -8,15 +8,23 @@
 
 ## Executive Summary
 
-Nature's Seed is significantly overpaying for Klaviyo. Based on account data analysis, **you can save $500–$800+/month** by:
+Nature's Seed is overpaying for Klaviyo features it barely uses. Based on full account audit via API:
 
-1. Suppressing inactive profiles to drop below a cheaper billing tier
-2. Dropping Customer Hub (barely used)
-3. Dropping or replacing SMS (309 messages in 9 months)
-4. Replacing paid features with automations we already built or can build
+**Your actual active email subscribers: 13,191** (segment UU9dHP)
+**Your actual SMS subscribers: 827** (segment USHtBE)
+**Suppressed/unsubscribed profiles: 80,000+** (legacy Magento + cold email imports)
 
-**Current estimated spend:** ~$1,500–$2,000+/month (Email + SMS + Customer Hub + add-ons)
-**Proposed spend:** ~$700–$1,000/month (Email-only, cleaned profile list)
+You're paying for the Email+SMS plan + Customer Hub + potentially Marketing Analytics — but only the core email marketing is actually driving revenue.
+
+**Recommended actions to save $300–$800+/month:**
+1. Drop Customer Hub (396 opens, 80 tickets in 3 months)
+2. Drop SMS (309 messages sent in 9 months)
+3. Drop any Marketing Analytics / CDP add-ons
+4. Ensure profile count stays at ~13k tier (already there if suppressions are up to date)
+5. Clean up 220 segments, 32 draft flows, 27 lists, dead integrations
+
+**Current estimated spend:** ~$500–$1,000+/month (Email+SMS ~13k profiles + Customer Hub + add-ons)
+**Proposed spend:** ~$150–$200/month (Email-only at 13k–15k profiles, no add-ons)
 
 ---
 
@@ -28,14 +36,20 @@ Nature's Seed is significantly overpaying for Klaviyo. Based on account data ana
 | Total Orders (12 months) | 10,644 |
 | Flow-Attributed Revenue | $94,776 (5.1%) |
 | Campaign/Direct Revenue | $1,777,804 (94.9%) |
-| Email Campaigns Created | 100+ |
+| **Active Email Subscribers** | **13,191** |
+| **Active SMS Subscribers** | **827** |
+| Suppressed/Unsubscribed Profiles | 80,000+ |
+| Total Profiles in Database | 50,000+ |
+| Email Campaigns (all-time) | 432 (308 sent, 89 draft, 34 cancelled) |
 | SMS Campaigns Sent | 69 |
-| Live Flows | 13 |
-| Draft Flows | 32 |
-| Segments | 10 |
-| Lists | 10 |
+| Live Flows | 14 |
+| Draft Flows | 31 |
+| Segments | **220** (many are one-off or legacy) |
+| Lists | **27** |
 | Forms | 8 (ALL in draft — none live!) |
 | Metrics/Integrations | 114 |
+| Total Emails Sent (12 months) | 1,426,234 |
+| Total SMS Sent (9 months) | 309 |
 
 ---
 
@@ -43,25 +57,41 @@ Nature's Seed is significantly overpaying for Klaviyo. Based on account data ana
 
 Klaviyo bills by **active profiles** — any profile that can receive email marketing.
 
-| Month | Unique Email Recipients |
-|-------|------------------------|
-| 2025-03 | 96,216 |
-| 2025-04 | 40,762 |
-| 2025-05 | 38,825 |
-| 2025-06 | 36,347 |
-| 2025-07 | 32,899 |
-| 2025-08 | 104,257 (peak — likely BF/CM prep blast) |
-| 2025-09 | 43,685 |
-| 2025-10 | 27,882 |
-| 2025-11 | 29,531 |
-| 2025-12 | 91,289 |
-| 2026-01 | 58,235 |
-| 2026-02 | 23,186 |
-| 2026-03 | 19,426 (month to date) |
+### Actual Subscriber Counts (from Klaviyo segments)
 
-**Peak active profiles:** ~104k → **Klaviyo Email plan at 100k = $1,380/mo**
+| Segment | Count |
+|---------|-------|
+| All Email Subscribers (UU9dHP) | **13,191** |
+| All SMS Subscribers (USHtBE) | **827** |
+| All Unsubscribers (VhfZpi) | **80,000+** |
 
-But recent months show only 19k–58k unique recipients. The account likely has **tens of thousands of dead/inactive profiles** still counting toward billing.
+Your billable active profiles are ~13k–14k. The 80k+ unsubscribed profiles are from legacy Magento and cold email imports — they don't count toward billing but clutter the database.
+
+### Subscription Activity (Last 12 Months)
+
+- New email subscribers: **19,854** (huge spike of 18,201 in Aug 2025 — cold email import)
+- Email unsubscribers: **5,767**
+- New SMS subscribers: **121**
+
+### Monthly Unique Email Recipients (shows actual reach)
+
+| Month | Unique Recipients | Emails Sent |
+|-------|-------------------|-------------|
+| 2025-03 | 96,216 | 272,468 |
+| 2025-04 | 40,762 | 197,575 |
+| 2025-05 | 38,825 | 115,198 |
+| 2025-06 | 36,347 | 37,487 |
+| 2025-07 | 32,899 | 33,943 |
+| 2025-08 | 104,257 | 139,239 |
+| 2025-09 | 43,685 | 152,955 |
+| 2025-10 | 27,882 | 56,426 |
+| 2025-11 | 29,531 | 51,226 |
+| 2025-12 | 91,289 | 113,105 |
+| 2026-01 | 58,235 | 115,728 |
+| 2026-02 | 23,186 | 84,445 |
+| 2026-03 | 19,426 | 56,439 |
+
+Note: The high unique recipient counts in some months (96k, 104k) suggest campaigns were sent to the full database including profiles that have since been suppressed. Current active base is ~13k.
 
 ### Pricing Tiers (Email-Only Plan)
 
@@ -183,13 +213,15 @@ These 4 flow types generate ~$80k/year and genuinely need Klaviyo's real-time be
 
 | Action | Estimated Monthly Savings |
 |--------|--------------------------|
-| **Suppress/delete inactive profiles** — Run sunset flow, then suppress all profiles with 0 opens in 12+ months | $200–$680/mo (drop from 100k to 25-50k tier) |
 | **Drop Customer Hub add-on** | $50–$100/mo |
-| **Drop SMS or switch to Email-only plan** | $15–$50/mo |
+| **Drop SMS — switch to Email-only plan** | $15–$50/mo |
+| **Drop Marketing Analytics add-on** (if active) | $100/mo |
+| **Verify profile count at 13k tier** — ensure suppressions are applied so you're on the $150/mo tier, not higher | $0–$250/mo (depends on current tier) |
 | **Remove Swell integration** | $0 (cleanup) |
 | **Remove Magento/Magento 2 integrations** | $0 (cleanup) |
+| **Delete 80k+ suppressed profiles** — they don't cost money but clutter everything | $0 (cleanup) |
 
-**Tier 1 Total: $265–$830/month savings**
+**Tier 1 Total: $165–$500/month savings**
 
 ### Tier 2: Medium-Term Optimization (next 30 days)
 
@@ -220,53 +252,68 @@ If you want to go further, the **core value Klaviyo provides** is:
 
 ---
 
-## 6. Profile Suppression Strategy
+## 6. Profile & Segment Hygiene
 
-This is the single biggest cost lever. Here's the plan:
+Your active profile count (13,191) is already reasonable — the 80k+ suppressed profiles are already excluded from billing. But there's significant cleanup needed:
 
-### Step 1: Identify suppressible profiles
+### Database Cleanup
+- **80,000+ suppressed profiles** — Consider permanently deleting profiles with no activity in 2+ years to clean up the database
+- **27 lists** — Many are legacy (Old Email List, ColdUSAfarms, Outlook Potential Buyers). Archive lists with no active use
+- **220 segments** — This is excessive. Many are one-off campaign segments that should be deleted:
+  - 19 cold email pasture cohorts from Aug 2025
+  - Product-specific segments used for single campaigns
+  - RFM segments that duplicate each other
+
+### Lists to Consider Archiving/Deleting
 ```
-Profiles that should be suppressed/removed:
-- Never opened an email (ever)
-- No opens in last 12 months
-- No purchases ever
-- Magento-only profiles with no WooCommerce activity
-- Bounced emails
-- Spam complaints
-- Old Email List (HzC8DX) — created 2019, likely full of dead emails
-- Outlook Potential Buyers (NBQVJZ) — prospecting list, double opt-in
-- ColdUSAfarms (RKkMjQ) — cold outreach list
+Low-value lists (likely adding to clutter):
+- HzC8DX — Old Email List (2019, double opt-in, legacy)
+- NBQVJZ — Outlook Potential Buyers (2019, prospecting)
+- RKkMjQ — ColdUSAfarms (2025, cold outreach)
+- WxRyT2 — Cold Email Pasture from Susan (2025, cold outreach)
+- Vtv9aD — Cold Leads Pasture Aug 2025
+- XxpxAd — Test Emails
 ```
 
-### Step 2: Run sunset flow first
-The existing Sunset Flow (UZf9UD) should be activated for all disengaged profiles. Give them 2 weeks to re-engage, then suppress.
-
-### Step 3: Suppress and track
-After suppression, your active profile count should drop from ~100k to **15k–30k** (your actual engaged audience), saving $400–$980/month on the Email plan alone.
+### Ongoing Hygiene
+- Run Sunset Flow (UZf9UD) quarterly on disengaged subscribers
+- Delete profiles that haven't opened in 12+ months AND never purchased
+- Keep profile count under 15k tier ($150/mo) to avoid tier jumps
 
 ---
 
 ## 7. Monthly Cost Projection
 
-### Current (estimated)
+### Current (estimated — verify in Klaviyo Settings → Billing)
 | Item | Cost |
 |------|------|
-| Klaviyo Email + SMS (~100k profiles) | $1,395 |
-| Customer Hub add-on | ~$100 |
+| Klaviyo Email + SMS (~13k profiles) | ~$200–$250 |
+| Customer Hub add-on | ~$50–$100 |
 | Marketing Analytics add-on (if active) | ~$100 |
-| **Total** | **~$1,595/mo ($19,140/year)** |
+| **Total** | **~$350–$450/mo ($4,200–$5,400/year)** |
+
+*Note: If your billing tier is higher than the 13k profile count suggests (e.g., due to how Klaviyo counts "active"), the savings could be much larger. Check your actual bill.*
 
 ### After Optimization
 | Item | Cost |
 |------|------|
-| Klaviyo Email-only (~25k profiles after cleanup) | $400 |
+| Klaviyo Email-only (~13k profiles) | $150 |
 | No SMS | $0 |
 | No Customer Hub | $0 |
-| **Total** | **~$400/mo ($4,800/year)** |
+| No Marketing Analytics | $0 |
+| **Total** | **~$150/mo ($1,800/year)** |
 
-### Savings: ~$1,195/month = $14,340/year
+### Savings: $200–$300/month = $2,400–$3,600/year (conservative)
 
-Even if you keep 50k profiles: **$720/mo = $8,640/year** (still saving $10,500/year).
+If your actual bill is higher due to legacy tier pricing or hidden add-ons, savings could be $500+/month.
+
+### Alternative: Leave Klaviyo entirely
+If you moved to **Brevo** (unlimited contacts, pay per email send):
+- 1.4M emails/year ÷ 12 = ~120k emails/month
+- Brevo Business plan: ~$65/mo for 120k emails
+- Savings vs optimized Klaviyo: ~$85/mo
+- **But you'd lose**: behavioral tracking, browse abandonment ($25k/yr revenue), checkout abandonment triggers
+- **Verdict: NOT worth leaving Klaviyo** — the $80k/yr in flow revenue easily justifies $150/mo
 
 ---
 
@@ -283,18 +330,36 @@ Even if you keep 50k profiles: **$720/mo = $8,640/year** (still saving $10,500/y
 
 ## 9. Action Checklist
 
-- [ ] Log into Klaviyo → Settings → Billing → Note exact current plan and add-ons
-- [ ] Create segment: "No opens in 12 months AND no purchases in 12 months"
-- [ ] Run Sunset Flow on that segment (2-week re-engagement window)
-- [ ] After 2 weeks: Suppress all non-responders
+### Week 1: Verify & Cut Add-Ons
+- [ ] Log into Klaviyo → Settings → Billing → **Screenshot exact current plan, add-ons, and monthly charge**
 - [ ] Remove Customer Hub add-on
+- [ ] Remove Marketing Analytics add-on (if active)
 - [ ] Switch from Email+SMS to Email-only plan
+- [ ] Verify active profile count shows ~13k (matches billing tier)
+
+### Week 2: Clean Up Integrations
 - [ ] Remove Swell integration (Settings → Integrations)
-- [ ] Remove Magento and Magento 2 integrations
-- [ ] Delete or archive unused draft flows (32 drafts, many duplicates)
-- [ ] Activate or delete draft forms (8 sitting unused)
-- [ ] Verify new billing tier reflects suppressed profile count
-- [ ] Set up quarterly profile hygiene review
+- [ ] Remove Magento integration
+- [ ] Remove Magento 2 integration
+- [ ] Remove Vibe integration (if not actively using CTV ads)
+
+### Week 3: Clean Up Flows, Segments, Lists
+- [ ] Delete or archive 31 draft flows (many are duplicates of live flows)
+- [ ] Consolidate duplicate live flows (3 cart abandonment, 2 welcome series)
+- [ ] Delete one-off campaign segments (cold email cohorts, etc.)
+- [ ] Archive unused lists (Old Email List, ColdUSAfarms, etc.)
+- [ ] Activate or delete 8 draft forms
+
+### Week 4: Ongoing Hygiene
+- [ ] Run Sunset Flow on disengaged subscribers (no opens in 6+ months)
+- [ ] Delete profiles with 0 activity in 2+ years
+- [ ] Set calendar reminder for quarterly profile cleanup
+- [ ] Verify new billing amount on next invoice
+
+### Future Consideration
+- [ ] Evaluate whether 220 segments can be reduced to ~50 well-maintained segments
+- [ ] Consider activating Welcome Pop-up forms (currently all drafts = missed signups)
+- [ ] Monitor if SMS is needed at all (827 subscribers, 309 sends in 9 months)
 
 ---
 
