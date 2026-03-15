@@ -1,6 +1,6 @@
 # Walmart Marketplace Analysis — Nature's Seed
 
-**Generated:** 2026-03-15 01:59
+**Generated:** 2026-03-15 02:00
 **Analysis Period:** Last 30 days (orders)
 
 ## Channel Health Score: 45/100 (Grade: C)
@@ -85,7 +85,7 @@
 | `CV-BGEC-50-LB-KIT` | Prairie Native Drought-Tolerant & Erosion Control Mix - 50 L | missing short description |
 | `CV-CHM-25-LB-KIT` | California Habitat Mix - 25 lb - Covers 50,000 Sq Ft | missing short description |
 | `CV-CHM-50-LB-KIT` | California Habitat Mix - 50 lb - Covers 100,000 Sq Ft | missing short description |
-| `CV-CNEC-25-LB-KIT` | California Native Erosion Control Mix - 25 Lbs - 40,000 Sq F | missing short description |
+| `CV-CNEC-25-LB-KIT` | California Native Erosion Control Mix - 25 Lbs - 40,000 Sq F | missing short description, SYSTEM_PROBLEM status (Walmart flagged) |
 | `CV-CNFW-20-LB-KIT` | California Native Fire-Resistant Seed Mix - 20 lb - Covers 4 | missing short description |
 | `CV-NEC-10-LB` | Dryland Revegetation & Erosion Control Seed Mix - 10 lb - Co | missing short description |
 | `CV-NEC-20-LB-KIT` | Dryland Revegetation & Erosion Control Seed Mix - 20 lb - Co | missing short description |
