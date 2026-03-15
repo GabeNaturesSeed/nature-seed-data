@@ -39,4 +39,17 @@ jobs:
           echo ".env created with $(wc -l < .env) lines"
 
       - name: Query change history
-        run: python google-ads-audit/query_change_history.py 2>&1
+        run: |
+          python google-ads-audit/query_change_history.py 2>&1 | tee /tmp/change_history_output.txt
+          echo "## Google Ads Change History Output" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat /tmp/change_history_output.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: change-history-output
+          path: /tmp/change_history_output.txt
+          retention-days: 7
