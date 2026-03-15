@@ -1,6 +1,9 @@
 name: Query Google Ads Change History
 
 on:
+  push:
+    branches:
+      - 'claude/investigate-ads-performance-*'
   workflow_dispatch:
 
 jobs:
