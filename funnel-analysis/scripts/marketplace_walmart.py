@@ -253,8 +253,28 @@ def pull_inventory_for_items(items):
 # 4. PULL WOOCOMMERCE PRICES (Store API — no auth needed)
 # ══════════════════════════════════════════════════════════════
 
-def pull_wc_prices():
-    """Pull WooCommerce product prices via Store API (public, no auth)."""
+def _wc_store_get(path, timeout=30):
+    """Make a GET request to WC Store API (public, no auth)."""
+    url = f"https://naturesseed.com/wp-json/wc/store/v1{path}"
+    req = urllib.request.Request(url, method="GET")
+    req.add_header("User-Agent", "NaturesSeed-MarketplaceAnalysis/1.0")
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return json.loads(resp.read().decode())
+    except urllib.error.HTTPError as e:
+        print(f"  [WC API ERROR] {e.code} on {path}")
+        return None
+    except Exception as e:
+        print(f"  [WC ERROR] {e}")
+        return None
+
+
+def pull_wc_prices(walmart_skus=None):
+    """Pull WooCommerce product prices via Store API (public, no auth).
+
+    Fetches all products, then fetches variation-level SKUs/prices for
+    variable products whose base SKU matches any Walmart base SKU pattern.
+    """
     print("\n" + "=" * 60)
     print("  STEP 4: Pulling WooCommerce prices for comparison")
     print("=" * 60)
@@ -263,20 +283,7 @@ def pull_wc_prices():
     page = 1
 
     while True:
-        url = f"https://naturesseed.com/wp-json/wc/store/v1/products?per_page=100&page={page}"
-        req = urllib.request.Request(url, method="GET")
-        req.add_header("User-Agent", "NaturesSeed-MarketplaceAnalysis/1.0")
-
-        try:
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                products = json.loads(resp.read().decode())
-        except urllib.error.HTTPError as e:
-            print(f"  [WC API ERROR] {e.code}: {e.read().decode()[:200]}")
-            break
-        except Exception as e:
-            print(f"  [WC ERROR] {e}")
-            break
-
+        products = _wc_store_get(f"/products?per_page=100&page={page}")
         if not products:
             break
 
@@ -289,25 +296,78 @@ def pull_wc_prices():
         page += 1
         time.sleep(0.3)
 
+    # Build set of Walmart base SKUs for matching
+    wm_base_skus = set()
+    if walmart_skus:
+        import re
+        for sku in walmart_skus:
+            s = sku.upper().strip()
+            s = re.sub(r"-KIT$", "", s)
+            s = re.sub(r"-[\d.]+-(?:LB|OZ|LBS)$", "", s)
+            wm_base_skus.add(s)
+
     # Build SKU -> price map
     wc_prices = {}
+
+    # First pass: simple products + base SKUs of variable products
+    variable_products = []
     for p in all_products:
         sku = p.get("sku", "")
         if not sku:
             continue
-        # Store API uses prices in cents (string)
+
         price_str = p.get("prices", {}).get("price", "0")
         try:
-            price = float(price_str) / 100  # Convert cents to dollars
+            price = float(price_str) / 100
         except (ValueError, TypeError):
             price = 0
+
         wc_prices[sku] = {
             "price": price,
             "name": p.get("name", ""),
             "stock_status": p.get("is_in_stock", None),
         }
 
-    print(f"  WC products with SKUs: {len(wc_prices)}")
+        # Track variable products that match Walmart base SKUs
+        if p.get("has_options") and p.get("variations"):
+            base = sku.upper().strip()
+            if not wm_base_skus or base in wm_base_skus:
+                variable_products.append(p)
+
+    print(f"  Base products with SKUs: {len(wc_prices)}")
+    print(f"  Variable products to expand: {len(variable_products)}")
+
+    # Second pass: fetch variation-level prices for matching products
+    variation_count = 0
+    for product in variable_products:
+        variations = product.get("variations", [])
+        for v in variations:
+            vid = v.get("id")
+            if not vid:
+                continue
+
+            vdata = _wc_store_get(f"/products/{vid}", timeout=15)
+            if vdata:
+                vsku = vdata.get("sku", "")
+                if vsku:
+                    vprice_str = vdata.get("prices", {}).get("price", "0")
+                    try:
+                        vprice = float(vprice_str) / 100
+                    except (ValueError, TypeError):
+                        vprice = 0
+                    wc_prices[vsku] = {
+                        "price": vprice,
+                        "name": vdata.get("name", product.get("name", "")),
+                        "stock_status": vdata.get("is_in_stock", None),
+                    }
+                    variation_count += 1
+
+            time.sleep(0.15)  # Rate limit
+
+        if variation_count % 30 == 0 and variation_count > 0:
+            print(f"  Fetched {variation_count} variations...")
+
+    print(f"  Total WC SKUs (incl. variations): {len(wc_prices)} ({variation_count} variations expanded)")
     return wc_prices
 
 
@@ -332,6 +392,59 @@ def pull_returns():
 
     print(f"  Returns retrieved: {len(returns)}")
     return returns
+
+
+# ══════════════════════════════════════════════════════════════
+# CACHED DATA LOADING (when API credentials unavailable)
+# ══════════════════════════════════════════════════════════════
+
+def load_items_from_cache():
+    """Load item data from cached inventory_sync_report.csv."""
+    print("\n" + "=" * 60)
+    print("  LOADING CACHED DATA (inventory_sync_report.csv)")
+    print("=" * 60)
+
+    if not CACHED_REPORT.exists():
+        print(f"  [ERROR] Cached report not found: {CACHED_REPORT}")
+        return []
+
+    import csv
+    items = []
+    with open(CACHED_REPORT) as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            items.append({
+                "sku": row["sku"],
+                "productName": row["product_name"],
+                "publishedStatus": row["published_status"],
+                "lifecycleStatus": "ACTIVE",  # Assume active if in the report
+                "price": {"amount": 0},  # Will be enriched from WC prices
+                "shortDescription": "",
+                # Inventory data from cache
+                "_fishbowl_qty": int(row["fishbowl_qty"]),
+                "_match_type": row["match_type"],
+                "_current_availability": row["current_availability"],
+            })
+
+    print(f"  Loaded {len(items)} items from cached report")
+    return items
+
+
+def build_inventory_from_cache(items):
+    """Build inventory data dict from cached items."""
+    inventory = {}
+    for item in items:
+        sku = item.get("sku", "")
+        if not sku:
+            continue
+        inventory[sku] = {
+            "quantity": item.get("_fishbowl_qty", 0),
+            "product_name": item.get("productName", "Unknown"),
+            "price": float(item.get("price", {}).get("amount", 0) or 0),
+            "published_status": item.get("publishedStatus", "UNKNOWN"),
+            "lifecycle_status": item.get("lifecycleStatus", "UNKNOWN"),
+        }
+    return inventory
 
 
 # ══════════════════════════════════════════════════════════════
@@ -950,22 +1063,38 @@ def main():
     print("  WALMART MARKETPLACE FUNNEL ANALYSIS")
     print("  Nature's Seed")
     print(f"  {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    print(f"  Mode: {'LIVE API' if LIVE_API else 'CACHED DATA + WC Store API'}")
     print("=" * 60)
 
-    # Step 1: Pull all items
-    items = pull_all_items()
+    if LIVE_API:
+        # Live API mode
+        items = pull_all_items()
+        orders = pull_orders_30d()
+        inventory_data = pull_inventory_for_items(items)
+        returns_data = pull_returns()
+    else:
+        # Cached data mode
+        items = load_items_from_cache()
+        orders = []  # No order data available without API
+        inventory_data = build_inventory_from_cache(items)
+        returns_data = []
 
-    # Step 2: Pull orders (30 days)
-    orders = pull_orders_30d()
+    # Always try WooCommerce Store API (public, no auth)
+    # Pass Walmart SKUs so we can expand matching variable products
+    walmart_skus = [item.get("sku", "") for item in items if item.get("sku")]
+    wc_prices = pull_wc_prices(walmart_skus=walmart_skus)
 
-    # Step 3: Check inventory for all items
-    inventory_data = pull_inventory_for_items(items)
-
-    # Step 4: Pull WooCommerce prices
-    wc_prices = pull_wc_prices()
-
-    # Step 5: Pull returns
-    returns_data = pull_returns()
+    # Enrich cached item prices from WC data where SKUs match
+    if not LIVE_API and wc_prices:
+        enriched = 0
+        for item in items:
+            sku = item.get("sku", "")
+            if sku in wc_prices:
+                item["price"] = {"amount": wc_prices[sku]["price"]}
+                if sku in inventory_data:
+                    inventory_data[sku]["price"] = wc_prices[sku]["price"]
+                enriched += 1
+        print(f"  Enriched {enriched} items with WC prices")
 
     # ── Run Analysis ──
     print("\n" + "=" * 60)
