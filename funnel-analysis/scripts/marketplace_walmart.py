@@ -419,7 +419,8 @@ def load_items_from_cache():
                 "publishedStatus": row["published_status"],
                 "lifecycleStatus": "ACTIVE",  # Assume active if in the report
                 "price": {"amount": 0},  # Will be enriched from WC prices
-                "shortDescription": "",
+                # Do NOT include shortDescription — cached data doesn't have it,
+                # and the content analysis checks for its presence before flagging
                 # Inventory data from cache
                 "_fishbowl_qty": int(row["fishbowl_qty"]),
                 "_match_type": row["match_type"],
