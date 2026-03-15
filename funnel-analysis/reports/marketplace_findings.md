@@ -1,12 +1,12 @@
 # Walmart Marketplace Analysis — Nature's Seed
 
-**Generated:** 2026-03-15 02:00
+**Generated:** 2026-03-15 02:03
 **Analysis Period:** Last 30 days (orders)
 
-## Channel Health Score: 45/100 (Grade: C)
+## Channel Health Score: 47/100 (Grade: C)
 
 - -13 pts: 79 unpublished listings (79 of 182 not visible to shoppers)
-- -10 pts: 182 items with content issues
+- -8 pts: 15 items with content issues
 - -30 pts: 59 out-of-stock items (32% of catalog)
 - -2 pts: 4 low-stock items (<5 units)
 - (order volume not scored — no API access)
@@ -59,7 +59,7 @@
 | Total Listings | 182 |
 | Published | 103 |
 | Unpublished | 79 |
-| Items with Content Issues | 182 |
+| Items with Content Issues | 15 |
 
 ### Lifecycle Status Breakdown
 
@@ -80,26 +80,21 @@
 
 | SKU | Product | Issues |
 |-----|---------|--------|
-| `CV-BGEC-10-LB` | Prairie Native Drought-Tolerant & Erosion Control Mix - 10 L | missing short description |
-| `CV-BGEC-20-LB-KIT` | Prairie Native Drought-Tolerant & Erosion Control Mix - 20 L | missing short description |
-| `CV-BGEC-50-LB-KIT` | Prairie Native Drought-Tolerant & Erosion Control Mix - 50 L | missing short description |
-| `CV-CHM-25-LB-KIT` | California Habitat Mix - 25 lb - Covers 50,000 Sq Ft | missing short description |
-| `CV-CHM-50-LB-KIT` | California Habitat Mix - 50 lb - Covers 100,000 Sq Ft | missing short description |
-| `CV-CNEC-25-LB-KIT` | California Native Erosion Control Mix - 25 Lbs - 40,000 Sq F | missing short description, SYSTEM_PROBLEM status (Walmart flagged) |
-| `CV-CNFW-20-LB-KIT` | California Native Fire-Resistant Seed Mix - 20 lb - Covers 4 | missing short description |
-| `CV-NEC-10-LB` | Dryland Revegetation & Erosion Control Seed Mix - 10 lb - Co | missing short description |
-| `CV-NEC-20-LB-KIT` | Dryland Revegetation & Erosion Control Seed Mix - 20 lb - Co | missing short description |
-| `CV-NEC-50-LB-KIT` | Dryland Revegetation & Erosion Control Seed Mix - 50 lb - Co | missing short description |
-| `PB-ALPACA-20-LB-KIT` | Llama & Alpaca Pasture Seed Mix - 20 lb - Covers 40,000 Sq F | missing short description |
-| `PB-ALPACA-50-LB-KIT` | Llama & Alpaca Pasture Seed Mix - 50 lb - Covers 100,000 Sq  | missing short description |
-| `PB-BIRD-10-LB` | Upland Game Mix - 10 Lbs - 5,000 Sq Ft | missing short description |
-| `PB-BIRD-20-LB-KIT` | Upland Game Mix - 20 Lbs - 10,000 Sq Ft | missing short description |
-| `PB-BIRD-50-LB-KIT` | Upland Game Mix - 50 Lbs - 25,000 Sq Ft | missing short description |
-| `PB-CABIN-25-LB-KIT` | Native Cabin Grass Seed Mix - 25 Lbs - 50,000 Sq Ft | missing short description |
-| `PB-CHIX-25-LB-KIT` | Chicken Forage Seed Mix - 25 lb - Covers 50,000 Sq Ft | missing short description |
-| `PB-CHIX-50-LB-KIT` | Chicken Forage Seed Mix - 50 lb - Covers 100,000 Sq Ft | missing short description |
-| `PB-CHSS-0.5-LB` | Chaparral Sage Scrub Mix - 0.5 lb - Covers 1,000 Sq Ft | missing short description |
-| `PB-CHSS-1-LB-KIT` | Chaparral Sage Scrub Mix - 1 lb - Covers 2,000 Sq Ft | missing short description |
+| `CV-CNEC-25-LB-KIT` | California Native Erosion Control Mix - 25 Lbs - 40,000 Sq F | SYSTEM_PROBLEM status (Walmart flagged) |
+| `PB-GOAT-N-10-LB` | Warm Season Goat Pasture & Forage Mix - 10 lb - Covers 20,00 | missing/zero price |
+| `PB-GOAT-N-20-LB-KIT` | Warm Season Goat Pasture & Forage Mix - 20 lb - Covers 40,00 | missing/zero price |
+| `PB-GOAT-SO-20-LB-KIT` | Cool Season Goat Pasture & Forage Mix - 20 lb - Covers 40,00 | missing/zero price |
+| `PB-GOAT-SO-50-LB-KIT` | Cool Season Goat Pasture & Forage Mix - 50 lb - Covers 100,0 | missing/zero price |
+| `PB-KRMU-20-LB-KIT` | Krunch N Munch Food Plot Mix - 20 lb - Covers 2,000 Sq Ft | SYSTEM_PROBLEM status (Walmart flagged) |
+| `PB-SGPR-5-LB` | Shortgrass Prairie Seed Mix - 5 lb - Covers 25,000 Sq Ft | missing/zero price |
+| `PB-SHPR-10-LB-KIT` | Sandhills Prairie Mix - 10 lb - Covers 50,000 Sq Ft | missing/zero price |
+| `PB-SHPR-5-LB` | Sandhills Prairie Mix - 5 lb - Covers 25,000 Sq Ft | missing/zero price |
+| `PB-TORT-10-LB-KIT` | Tortoise Forage & Habitat Mix - 10 lb - Covers 20,000 Sq Ft | missing/zero price |
+| `PB-TORT-4-LB-KIT` | Tortoise Forage & Habitat Mix - 4 lb - Covers 8,000 Sq Ft | missing/zero price |
+| `PG-CYDA-25-LB-KIT` | Bermudagrass - 25 lb - Covers 50,000 Sq Ft | missing/zero price |
+| `S-RICE-5-LB` | Rice Hulls - 5 Lbs - 2,000 Sq Ft | SYSTEM_PROBLEM status (Walmart flagged) |
+| `S-TACKI-50-LB` | M-Binder Tackifier-Soil Stabilizer - 50 Lbs | SYSTEM_PROBLEM status (Walmart flagged) |
+| `TURF-W-BLUE-BUNDLE-10-LB-KIT` | Premium Pet & Kid Friendly Bluegrass Bundle - 10 lb - Covers | SYSTEM_PROBLEM status (Walmart flagged) |
 
 ## Pricing Analysis (Walmart vs WooCommerce)
 
@@ -178,7 +173,7 @@ Use the existing `walmart_client.py` to build a cron job that syncs Fishbowl inv
 ### 4. Automate Price Sync (WooCommerce -> Walmart)
 **Impact: MEDIUM** — Manual price updates lead to discrepancies. Use `/v3/prices` PUT endpoint for real-time sync.
 
-### 5. Fix Content Issues on 182 Listings
+### 5. Fix Content Issues on 15 Listings
 **Impact: LOW-MEDIUM** — Missing descriptions reduce conversion rate and Walmart search ranking.
 
 ## Estimated Revenue Opportunity from Fixing Issues
