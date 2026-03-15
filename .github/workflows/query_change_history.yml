@@ -38,18 +38,24 @@ jobs:
           printf "GOOGLE_ADS_LOGIN_CUSTOMER_ID=%s\n" "$GADS_LOGIN_CUSTOMER_ID" >> .env
           echo ".env created with $(wc -l < .env) lines"
 
-      - name: Query change history
+      - name: Query change history and save results
         run: |
-          python google-ads-audit/query_change_history.py 2>&1 | tee /tmp/change_history_output.txt
-          echo "## Google Ads Change History Output" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          cat /tmp/change_history_output.txt >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
+          python google-ads-audit/query_change_history.py 2>&1 | tee google-ads-audit/change_history_output.txt
+          echo "Output saved ($(wc -l < google-ads-audit/change_history_output.txt) lines, $(wc -c < google-ads-audit/change_history_output.txt) bytes)"
 
-      - name: Upload output
+      - name: Commit results back to branch
+        if: always()
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add google-ads-audit/change_history_output.txt || true
+          git diff --cached --quiet || git commit -m "data: Google Ads change history output [skip ci]"
+          git push origin HEAD || echo "Push failed, results are in the artifact instead"
+
+      - name: Upload output artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: change-history-output
-          path: /tmp/change_history_output.txt
+          path: google-ads-audit/change_history_output.txt
           retention-days: 7
