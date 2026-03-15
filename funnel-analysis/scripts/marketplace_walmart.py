@@ -482,7 +482,7 @@ def analyze_listings(items):
         elif lifecycle == "RETIRED":
             results["retired"] += 1
 
-        # Check for missing content
+        # Check for missing content (only flag issues we can actually detect)
         name = item.get("productName", "")
         sku = item.get("sku", "")
         price = item.get("price", {}).get("amount", 0)
@@ -491,10 +491,15 @@ def analyze_listings(items):
         if not name or len(name) < 10:
             issues.append("short/missing title")
         if not price or float(price) <= 0:
-            issues.append("missing price")
-        # Check for short descriptions in available fields
-        if item.get("shortDescription", "") == "":
+            issues.append("missing/zero price")
+        # Only check shortDescription if the field was actually populated from API
+        # (cached data won't have this field, so skip to avoid false positives)
+        if "shortDescription" in item and item.get("shortDescription", "") == "":
             issues.append("missing short description")
+
+        # Flag SYSTEM_PROBLEM items
+        if pub == "SYSTEM_PROBLEM":
+            issues.append("SYSTEM_PROBLEM status (Walmart flagged)")
 
         if issues:
             results["missing_content"].append({
@@ -834,17 +839,20 @@ def generate_report(listing_analysis, order_analysis, inventory_analysis,
     # ── Revenue Summary ──
     lines.append(f"## Revenue Summary (Last 30 Days)")
     lines.append(f"")
-    lines.append(f"| Metric | Value |")
-    lines.append(f"|--------|-------|")
-    lines.append(f"| Total Orders | {order_analysis['total_orders']} |")
-    lines.append(f"| Total Revenue | ${order_analysis['total_revenue']:,.2f} |")
-    lines.append(f"| Total Units Sold | {order_analysis['total_units']} |")
-    lines.append(f"| Avg Order Value | ${order_analysis['avg_order_value']:,.2f} |")
-    lines.append(f"| Shipped Orders | {order_analysis['shipped_orders']} |")
-    lines.append(f"| Cancelled Orders | {order_analysis['cancelled_orders']} |")
     if order_analysis['total_orders'] > 0:
+        lines.append(f"| Metric | Value |")
+        lines.append(f"|--------|-------|")
+        lines.append(f"| Total Orders | {order_analysis['total_orders']} |")
+        lines.append(f"| Total Revenue | ${order_analysis['total_revenue']:,.2f} |")
+        lines.append(f"| Total Units Sold | {order_analysis['total_units']} |")
+        lines.append(f"| Avg Order Value | ${order_analysis['avg_order_value']:,.2f} |")
+        lines.append(f"| Shipped Orders | {order_analysis['shipped_orders']} |")
+        lines.append(f"| Cancelled Orders | {order_analysis['cancelled_orders']} |")
         cancel_rate = (order_analysis['cancelled_orders'] / order_analysis['total_orders']) * 100
         lines.append(f"| Cancellation Rate | {cancel_rate:.1f}% |")
+    else:
+        lines.append(f"*Order data not available. Run with Walmart API credentials (WALMART_CLIENT_ID, WALMART_CLIENT_SECRET) to pull live order data.*")
+        lines.append(f"*Supabase `daily_sales` table contains historical Walmart order data if credentials are configured.*")
     lines.append(f"")
 
     # ── Order Status Breakdown ──
@@ -932,23 +940,35 @@ def generate_report(listing_analysis, order_analysis, inventory_analysis,
         lines.append(f"")
 
     # ── Pricing Discrepancies ──
-    lines.append(f"## Pricing Discrepancies (Walmart vs WooCommerce)")
-    lines.append(f"")
-    lines.append(f"| Metric | Value |")
-    lines.append(f"|--------|-------|")
-    lines.append(f"| SKUs Matched Across Platforms | {price_analysis['matched_skus']} |")
-    lines.append(f"| Walmart-Only SKUs (no WC match) | {price_analysis['unmatched_walmart_skus']} |")
-    lines.append(f"| Price Discrepancies (>1%) | {len(price_analysis['discrepancies'])} |")
+    lines.append(f"## Pricing Analysis (Walmart vs WooCommerce)")
     lines.append(f"")
 
-    if price_analysis["discrepancies"]:
-        lines.append(f"### Price Differences (sorted by absolute difference)")
+    if price_analysis.get("has_walmart_prices"):
+        lines.append(f"| Metric | Value |")
+        lines.append(f"|--------|-------|")
+        lines.append(f"| SKUs Matched Across Platforms | {price_analysis['matched_skus']} |")
+        lines.append(f"| Walmart-Only SKUs (no WC match) | {price_analysis['unmatched_walmart_skus']} |")
+        lines.append(f"| Price Discrepancies (>1%) | {len(price_analysis['discrepancies'])} |")
         lines.append(f"")
-        lines.append(f"| SKU | Product | Walmart | WooCommerce | Diff | % Diff |")
-        lines.append(f"|-----|---------|---------|-------------|------|--------|")
-        for d in price_analysis["discrepancies"][:30]:
-            direction = "higher" if d["difference"] > 0 else "lower"
-            lines.append(f"| `{d['sku']}` | {d['name'][:30]} | ${d['walmart_price']:,.2f} | ${d['wc_price']:,.2f} | ${d['difference']:+,.2f} | {d['pct_diff']:+.1f}% ({direction}) |")
+
+        if price_analysis["discrepancies"]:
+            lines.append(f"### Price Differences (sorted by absolute difference)")
+            lines.append(f"")
+            lines.append(f"| SKU | Product | Walmart | WooCommerce | Diff | % Diff |")
+            lines.append(f"|-----|---------|---------|-------------|------|--------|")
+            for d in price_analysis["discrepancies"][:30]:
+                direction = "higher" if d["difference"] > 0 else "lower"
+                lines.append(f"| `{d['sku']}` | {d['name'][:30]} | ${d['walmart_price']:,.2f} | ${d['wc_price']:,.2f} | ${d['difference']:+,.2f} | {d['pct_diff']:+.1f}% ({direction}) |")
+            lines.append(f"")
+    else:
+        lines.append(f"*Note: Walmart API prices not available in cached mode. Price discrepancy analysis requires live API credentials.*")
+        lines.append(f"*Run with WALMART_CLIENT_ID and WALMART_CLIENT_SECRET to compare prices across channels.*")
+        lines.append(f"")
+        lines.append(f"| Metric | Value |")
+        lines.append(f"|--------|-------|")
+        lines.append(f"| Walmart SKUs matched to WC catalog | {price_analysis['matched_skus']} |")
+        lines.append(f"| Walmart SKUs NOT in WC catalog | {price_analysis['unmatched_walmart_skus']} |")
+        lines.append(f"| Total WC products | {price_analysis['total_wc_products']} |")
         lines.append(f"")
 
     # ── Inventory Management Gaps ──

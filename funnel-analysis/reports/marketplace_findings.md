@@ -1,35 +1,56 @@
 # Walmart Marketplace Analysis — Nature's Seed
 
-**Generated:** 2026-03-15 01:56
+**Generated:** 2026-03-15 01:59
 **Analysis Period:** Last 30 days (orders)
 
-## Channel Health Score: 35/100 (Grade: D)
+## Channel Health Score: 45/100 (Grade: C)
 
-- -13 pts: 79 unpublished listings
+- -13 pts: 79 unpublished listings (79 of 182 not visible to shoppers)
 - -10 pts: 182 items with content issues
-- -25 pts: 59 OOS items (32%)
-- -2 pts: 4 low-stock items
-- -15 pts: zero orders in 30 days
+- -30 pts: 59 out-of-stock items (32% of catalog)
+- -2 pts: 4 low-stock items (<5 units)
+- (order volume not scored — no API access)
 
 ## Revenue Summary (Last 30 Days)
 
-| Metric | Value |
-|--------|-------|
-| Total Orders | 0 |
-| Total Revenue | $0.00 |
-| Total Units Sold | 0 |
-| Avg Order Value | $0.00 |
-| Shipped Orders | 0 |
-| Cancelled Orders | 0 |
+*Order data not available. Run with Walmart API credentials (WALMART_CLIENT_ID, WALMART_CLIENT_SECRET) to pull live order data.*
+*Supabase `daily_sales` table contains historical Walmart order data if credentials are configured.*
 
 ## Revenue Lost from Out-of-Stock Items
 
+*Estimation method: price-based estimate (no order data)*
+
 | Metric | Value |
 |--------|-------|
-| Estimated Daily Loss | $0.00 |
-| **Estimated Monthly Loss** | **$0.00** |
+| Estimated Daily Loss | $716.06 |
+| **Estimated Monthly Loss** | **$21,481.74** |
 | OOS Items with Sales History | 0 |
-| OOS Items (estimated) | 0 |
+| OOS Items (estimated) | 29 |
+
+### Top OOS Items by Estimated Lost Revenue
+
+| SKU | Product | Price | Est. Monthly Loss | Notes |
+|-----|---------|-------|-------------------|-------|
+| `PB-PLPR-8-LBS` | Plains Prairie Mix - 8 lb - Covers  | $467.99 | $2,105.95 | estimated (0.15 units/day assumption) |
+| `PG-BUCK-50-LB-KIT` | Buckwheat Seed - 50 lb - Covers 100 | $349.99 | $1,574.95 | estimated (0.15 units/day assumption) |
+| `PG-POPR-50-LB-KIT` | Kentucky Bluegrass - 50 lb - Covers | $349.99 | $1,574.95 | estimated (0.15 units/day assumption) |
+| `W-ASFA-1-LB-KIT` | Narrowleaf Milkweed Seed - 1 lb - C | $315.89 | $1,421.50 | estimated (0.15 units/day assumption) |
+| `PG-DAGL-50-LB-KIT` | Orchardgrass Seed - 50 lb - Covers  | $299.99 | $1,349.95 | estimated (0.15 units/day assumption) |
+| `PG-TRRE-50-LB-KIT` | White Clover Seed - 50 lb - Covers  | $296.99 | $1,336.45 | estimated (0.15 units/day assumption) |
+| `PB-SHEP-SO-50-LB-KIT` | Warm Season Sheep Pasture Mix - 50  | $289.99 | $1,304.95 | estimated (0.15 units/day assumption) |
+| `PB-PLPR-4-LBS` | Plains Prairie Mix - 4 lb - Covers  | $259.99 | $1,169.95 | estimated (0.15 units/day assumption) |
+| `TURF-W-BLUE-BUNDLE` | Premium Pet & Kid Friendly Bluegras | $199.99 | $899.96 | estimated (0.15 units/day assumption) |
+| `PG-FEAR2-25-LB-KIT` | Tall Fescue Grass Seed - 25 lb - Co | $164.99 | $742.46 | estimated (0.15 units/day assumption) |
+| `PB-HRSE-SO-50-LB-KIT` | Warm Season Horse Pasture Mix - 50  | $159.99 | $719.96 | estimated (0.15 units/day assumption) |
+| `PB-SHEP-TR-50-LB-KIT` | Transitional Zone Sheep Pasture Mix | $159.99 | $719.96 | estimated (0.15 units/day assumption) |
+| `W-LUMI-1-LB-KIT` | Yellow Lupine Seed - 1 lb - Covers  | $99.99 | $599.94 | estimated (0.2 units/day assumption) |
+| `PB-SHEP-SO-20-LB-KIT` | Warm Season Sheep Pasture Mix - 20  | $119.99 | $539.96 | estimated (0.15 units/day assumption) |
+| `PG-SECE-25-LB-KIT` | Winter (Cereal) Rye Seed - 25 lb -  | $117.99 | $530.95 | estimated (0.15 units/day assumption) |
+| `PB-GOAT-TR-20-LB-KIT` | Transitional Zone Goat Pasture & Fo | $79.99 | $479.94 | estimated (0.2 units/day assumption) |
+| `S-DUTCH-10-LB-KIT` | White Dutch Clover Seed - 10 lb - C | $79.98 | $479.88 | estimated (0.2 units/day assumption) |
+| `PB-COW-NTR-20-LB-KIT` | Cool Season Cattle Pasture Seed Mix | $69.99 | $419.94 | estimated (0.2 units/day assumption) |
+| `PB-SHEP-SO-10-LB` | Warm Season Sheep Pasture Mix - 10  | $69.99 | $419.94 | estimated (0.2 units/day assumption) |
+| `PB-SHEP-TR-20-LB-KIT` | Transitional Zone Sheep Pasture Mix | $69.99 | $419.94 | estimated (0.2 units/day assumption) |
 
 ## Listing Quality Issues
 
@@ -80,13 +101,16 @@
 | `PB-CHSS-0.5-LB` | Chaparral Sage Scrub Mix - 0.5 lb - Covers 1,000 Sq Ft | missing short description |
 | `PB-CHSS-1-LB-KIT` | Chaparral Sage Scrub Mix - 1 lb - Covers 2,000 Sq Ft | missing short description |
 
-## Pricing Discrepancies (Walmart vs WooCommerce)
+## Pricing Analysis (Walmart vs WooCommerce)
+
+*Note: Walmart API prices not available in cached mode. Price discrepancy analysis requires live API credentials.*
+*Run with WALMART_CLIENT_ID and WALMART_CLIENT_SECRET to compare prices across channels.*
 
 | Metric | Value |
 |--------|-------|
-| SKUs Matched Across Platforms | 172 |
-| Walmart-Only SKUs (no WC match) | 10 |
-| Price Discrepancies (>1%) | 0 |
+| Walmart SKUs matched to WC catalog | 172 |
+| Walmart SKUs NOT in WC catalog | 10 |
+| Total WC products | 350 |
 
 ## Inventory Management Gaps
 
@@ -161,11 +185,11 @@ Use the existing `walmart_client.py` to build a cron job that syncs Fishbowl inv
 
 | Opportunity | Est. Monthly Revenue |
 |------------|---------------------|
-| Restock OOS items | $0.00 |
+| Restock OOS items | $21,481.74 |
 | Publish unpublished items | $0.00 |
 | Fix underpriced items (margin recovery) | $0.00 |
-| **Total Monthly Opportunity** | **$0.00** |
-| **Total Annual Opportunity** | **$0.00** |
+| **Total Monthly Opportunity** | **$21,481.74** |
+| **Total Annual Opportunity** | **$257,780.88** |
 
 ---
 *Report generated by marketplace_walmart.py*
