@@ -611,11 +611,16 @@ def analyze_inventory(inventory_data):
     return results
 
 
-def analyze_price_discrepancies(inventory_data, wc_prices):
-    """Compare Walmart vs WooCommerce prices."""
+def analyze_price_discrepancies(inventory_data, wc_prices, has_walmart_prices=True):
+    """Compare Walmart vs WooCommerce prices.
+
+    When has_walmart_prices=False (cached mode), Walmart prices were enriched from WC
+    so there's no meaningful comparison. Instead, report the WC price coverage.
+    """
     discrepancies = []
     matched = 0
     unmatched_wm = 0
+    wc_only_prices = []
 
     for sku, wm_info in inventory_data.items():
         wm_price = float(wm_info.get("price", 0) or 0)
@@ -623,7 +628,7 @@ def analyze_price_discrepancies(inventory_data, wc_prices):
             wc_price = wc_prices[sku]["price"]
             matched += 1
 
-            if wm_price > 0 and wc_price > 0:
+            if has_walmart_prices and wm_price > 0 and wc_price > 0:
                 diff = wm_price - wc_price
                 pct_diff = (diff / wc_price) * 100 if wc_price > 0 else 0
 
@@ -636,6 +641,14 @@ def analyze_price_discrepancies(inventory_data, wc_prices):
                         "difference": round(diff, 2),
                         "pct_diff": round(pct_diff, 1),
                     })
+
+            # In cached mode, track WC prices for reference
+            if not has_walmart_prices and wc_price > 0:
+                wc_only_prices.append({
+                    "sku": sku,
+                    "name": wm_info["product_name"][:50],
+                    "wc_price": wc_price,
+                })
         else:
             unmatched_wm += 1
 
@@ -647,52 +660,69 @@ def analyze_price_discrepancies(inventory_data, wc_prices):
         "unmatched_walmart_skus": unmatched_wm,
         "discrepancies": discrepancies,
         "total_wc_products": len(wc_prices),
+        "has_walmart_prices": has_walmart_prices,
+        "wc_only_prices": wc_only_prices,
     }
 
 
 def estimate_lost_revenue(order_analysis, inventory_analysis):
-    """Estimate revenue lost from OOS items based on order velocity."""
-    # Calculate average daily revenue per unit across all SKUs
+    """Estimate revenue lost from OOS items based on order velocity or price estimates.
+
+    When order data is available, uses actual sales velocity.
+    When only price data is available (cached mode), estimates based on
+    conservative sell-through assumptions:
+    - Published items with price > $100: 0.15 units/day
+    - Published items with price $50-$100: 0.2 units/day
+    - Published items with price < $50: 0.3 units/day
+    """
     total_days = 30
-    if order_analysis["total_orders"] == 0:
-        return {"estimated_daily_loss": 0, "estimated_monthly_loss": 0, "oos_items": []}
+    has_order_data = order_analysis["total_orders"] > 0
 
-    # Build velocity map from orders
+    # Build velocity map from orders if available
     sku_velocity = {}
-    for sku, info in order_analysis["top_skus"].items():
-        daily_units = info["units"] / total_days
-        daily_rev = info["revenue"] / total_days
-        sku_velocity[sku] = {"daily_units": daily_units, "daily_revenue": daily_rev}
+    if has_order_data:
+        for sku, info in order_analysis["top_skus"].items():
+            daily_units = info["units"] / total_days
+            daily_rev = info["revenue"] / total_days
+            sku_velocity[sku] = {"daily_units": daily_units, "daily_revenue": daily_rev}
 
-    # For OOS items that had sales, estimate lost revenue
     oos_with_history = []
     total_daily_loss = 0
 
     for oos_item in inventory_analysis["out_of_stock"]:
         sku = oos_item["sku"]
+        price = oos_item["price"]
+
         if sku in sku_velocity:
+            # Use actual velocity
             daily_loss = sku_velocity[sku]["daily_revenue"]
             total_daily_loss += daily_loss
             oos_with_history.append({
                 "sku": sku,
                 "name": oos_item["name"],
-                "price": oos_item["price"],
+                "price": price,
                 "est_daily_loss": round(daily_loss, 2),
                 "est_monthly_loss": round(daily_loss * 30, 2),
             })
-        else:
-            # No order history — estimate from price (assume 0.1 units/day for published items)
-            if oos_item.get("published") == "PUBLISHED" and oos_item["price"] > 0:
-                est_daily = oos_item["price"] * 0.1
-                total_daily_loss += est_daily
-                oos_with_history.append({
-                    "sku": sku,
-                    "name": oos_item["name"],
-                    "price": oos_item["price"],
-                    "est_daily_loss": round(est_daily, 2),
-                    "est_monthly_loss": round(est_daily * 30, 2),
-                    "note": "estimated (no order history)",
-                })
+        elif oos_item.get("published") == "PUBLISHED" and price > 0:
+            # Estimate from price with conservative velocity assumptions
+            if price >= 100:
+                daily_units = 0.15
+            elif price >= 50:
+                daily_units = 0.2
+            else:
+                daily_units = 0.3
+
+            est_daily = price * daily_units
+            total_daily_loss += est_daily
+            oos_with_history.append({
+                "sku": sku,
+                "name": oos_item["name"],
+                "price": price,
+                "est_daily_loss": round(est_daily, 2),
+                "est_monthly_loss": round(est_daily * 30, 2),
+                "note": f"estimated ({daily_units} units/day assumption)",
+            })
 
     oos_with_history.sort(key=lambda x: x["est_monthly_loss"], reverse=True)
 
@@ -700,11 +730,16 @@ def estimate_lost_revenue(order_analysis, inventory_analysis):
         "estimated_daily_loss": round(total_daily_loss, 2),
         "estimated_monthly_loss": round(total_daily_loss * 30, 2),
         "oos_items": oos_with_history,
+        "estimation_method": "order velocity" if has_order_data else "price-based estimate (no order data)",
     }
 
 
-def calculate_health_score(listing_analysis, order_analysis, inventory_analysis, price_analysis):
-    """Calculate a 0-100 Walmart channel health score."""
+def calculate_health_score(listing_analysis, order_analysis, inventory_analysis, price_analysis, live_api=True):
+    """Calculate a 0-100 Walmart channel health score.
+
+    When live_api=False, excludes order-based scoring (since we don't have order data)
+    and adjusts the weight distribution accordingly.
+    """
     score = 100
     reasons = []
 
@@ -715,7 +750,7 @@ def calculate_health_score(listing_analysis, order_analysis, inventory_analysis,
         score_deduction = 30 - listing_score
         if score_deduction > 0:
             score -= score_deduction
-            reasons.append(f"-{score_deduction:.0f} pts: {listing_analysis['unpublished']} unpublished listings")
+            reasons.append(f"-{score_deduction:.0f} pts: {listing_analysis['unpublished']} unpublished listings ({listing_analysis['unpublished']} of {listing_analysis['total_items']} not visible to shoppers)")
     else:
         score -= 30
         reasons.append("-30 pts: no items found")
@@ -726,33 +761,37 @@ def calculate_health_score(listing_analysis, order_analysis, inventory_analysis,
         score -= content_penalty
         reasons.append(f"-{content_penalty:.0f} pts: {len(listing_analysis['missing_content'])} items with content issues")
 
-    # Inventory health (25 points)
+    # Inventory health (30 points if no order data, 25 otherwise -- re-weighted)
+    inv_max = 30 if not live_api else 25
     if inventory_analysis["total_checked"] > 0:
         oos_rate = len(inventory_analysis["out_of_stock"]) / inventory_analysis["total_checked"]
-        inv_penalty = min(25, oos_rate * 100)
+        inv_penalty = min(inv_max, oos_rate * 100)
         if inv_penalty > 0:
             score -= inv_penalty
-            reasons.append(f"-{inv_penalty:.0f} pts: {len(inventory_analysis['out_of_stock'])} OOS items ({oos_rate*100:.0f}%)")
+            reasons.append(f"-{inv_penalty:.0f} pts: {len(inventory_analysis['out_of_stock'])} out-of-stock items ({oos_rate*100:.0f}% of catalog)")
 
     # Low stock warning (5 points)
     if inventory_analysis["low_stock"]:
         low_penalty = min(5, len(inventory_analysis["low_stock"]) * 0.5)
         score -= low_penalty
-        reasons.append(f"-{low_penalty:.0f} pts: {len(inventory_analysis['low_stock'])} low-stock items")
+        reasons.append(f"-{low_penalty:.0f} pts: {len(inventory_analysis['low_stock'])} low-stock items (<5 units)")
 
     # Price consistency (15 points)
     if price_analysis["discrepancies"]:
         price_penalty = min(15, len(price_analysis["discrepancies"]) * 0.5)
         score -= price_penalty
-        reasons.append(f"-{price_penalty:.0f} pts: {len(price_analysis['discrepancies'])} price discrepancies")
+        reasons.append(f"-{price_penalty:.0f} pts: {len(price_analysis['discrepancies'])} price discrepancies vs WooCommerce")
 
-    # Order volume health (15 points)
-    if order_analysis["total_orders"] == 0:
-        score -= 15
-        reasons.append("-15 pts: zero orders in 30 days")
-    elif order_analysis["total_orders"] < 10:
-        score -= 10
-        reasons.append(f"-10 pts: only {order_analysis['total_orders']} orders in 30 days")
+    # Order volume health (15 points — only scored with live API data)
+    if live_api:
+        if order_analysis["total_orders"] == 0:
+            score -= 15
+            reasons.append("-15 pts: zero orders in 30 days")
+        elif order_analysis["total_orders"] < 10:
+            score -= 10
+            reasons.append(f"-10 pts: only {order_analysis['total_orders']} orders in 30 days")
+    else:
+        reasons.append("(order volume not scored — no API access)")
 
     return max(0, min(100, round(score))), reasons
 
@@ -830,6 +869,9 @@ def generate_report(listing_analysis, order_analysis, inventory_analysis,
 
     # ── Revenue Lost from OOS ──
     lines.append(f"## Revenue Lost from Out-of-Stock Items")
+    lines.append(f"")
+    est_method = lost_revenue.get("estimation_method", "unknown")
+    lines.append(f"*Estimation method: {est_method}*")
     lines.append(f"")
     lines.append(f"| Metric | Value |")
     lines.append(f"|--------|-------|")
@@ -1110,14 +1152,14 @@ def main():
     inventory_analysis = analyze_inventory(inventory_data)
     print(f"  Inventory: {len(inventory_analysis['out_of_stock'])} OOS, {len(inventory_analysis['low_stock'])} low-stock")
 
-    price_analysis = analyze_price_discrepancies(inventory_data, wc_prices)
-    print(f"  Prices: {len(price_analysis['discrepancies'])} discrepancies across {price_analysis['matched_skus']} matched SKUs")
+    price_analysis = analyze_price_discrepancies(inventory_data, wc_prices, has_walmart_prices=LIVE_API)
+    print(f"  Prices: {price_analysis['matched_skus']} SKUs matched to WC" + (f", {len(price_analysis['discrepancies'])} discrepancies" if LIVE_API else " (Walmart prices not available in cached mode)"))
 
     lost_revenue = estimate_lost_revenue(order_analysis, inventory_analysis)
     print(f"  Lost revenue (est): ${lost_revenue['estimated_monthly_loss']:,.2f}/month from OOS")
 
     health_score, health_reasons = calculate_health_score(
-        listing_analysis, order_analysis, inventory_analysis, price_analysis
+        listing_analysis, order_analysis, inventory_analysis, price_analysis, live_api=LIVE_API
     )
     print(f"\n  HEALTH SCORE: {health_score}/100")
     for r in health_reasons:
