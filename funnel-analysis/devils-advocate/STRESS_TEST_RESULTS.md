@@ -44,14 +44,14 @@ Three systemic errors inflated the original estimate:
 | Flow revenue benchmark | 20-35% of email revenue | 10-18% (seasonal, low-frequency purchase business) |
 | Estimated gap | $240,000–$570,000 | $80,000–$150,000 |
 
-**Verdict: PARTIALLY DISPROVED — downgraded 60%**
+**Verdict: PARTIALLY DISPROVED — downgraded 60-75%**
 
-- "42 draft flows" is inflated — many are A/B test variants, deprecated versions, or duplicates of live flows. Real gap is 8-12 unique missing automations.
-- The 20-35% flow benchmark is for high-frequency businesses (fashion, beauty). For seasonal 1-2x/year seed purchases, campaigns SHOULD dominate. 10-18% flow contribution is more realistic.
-- Q1 2026 email revenue being -34% is partially explained by overall business being -18.4% YoY. Email-specific underperformance is ~15%, not 34%.
+- "42 draft flows" is inflated — actual count is 36, ~10 are brand-new (18 days old) from an active deployment pipeline, many are duplicates/deprecated versions. Unique missing categories: ~12-15.
+- **CRITICAL CORRECTION: The "8% flow revenue" figure is WRONG.** It used the wrong denominator ($3.66M total Klaviyo-tracked revenue instead of $726K email-attributed revenue). Actual flow revenue share is **22-26% of email revenue — WITHIN the 20-35% benchmark.** The $240-570K gap estimate COLLAPSES entirely.
+- Q1 2026 email revenue being -34% is partially explained by overall business being -18.4% YoY, plus the absence of a cold email program that inflated 2025 baseline. Email-specific underperformance is ~15%, not 34%.
 
 **DOUBLE DOWN ON (survived disproval):**
-- Welcome Series at 85 recipients is CONFIRMED BROKEN. No counter-argument held up. **Fix immediately.**
+- Welcome Series at 85 recipients is LOW but **may not be "broken"** — the upgraded flow is only 18 days old, and with only 154 new subscribers in all of Q1, 85 entering the flow is 55% capture. **The real problem is near-zero new subscriber acquisition, not a broken trigger.** Still needs investigation.
 - Cart abandonment trigger discrepancy (172 vs 2,805) is CONFIRMED. **Fix immediately.**
 - Post-purchase flow gap is REAL — zero live post-purchase automation for a business with 2,044 orders/month.
 - Win-back at 0% click on Email 2 is CONFIRMED BROKEN.
@@ -86,7 +86,8 @@ Three systemic errors inflated the original estimate:
 - The 270% benchmark is from fashion/electronics where social proof drives impulse purchases. Agricultural seed buyers are knowledgeable and buy based on species composition, zone compatibility, and coverage rates.
 - The business does $1.6M+ WITHOUT reviews. If reviews were worth $200-400K, the business would show more distress.
 - Seed reviews are inherently low-quality — results take months, are weather-dependent, and vary by region.
-- **DOUBLE DOWN ON:** Reviews still have real SEO value and trust-building for NEW customers (especially the Texas collection which targets less-expert homeowners). Worth pursuing at the $50-120K estimate.
+- **ADDITIONAL:** Shopper Approved reviews already exist OUTSIDE of WooCommerce. The "zero reviews" claim should be reframed as "reviews not displayed on product pages" — the reviews exist, they just aren't integrated with the WC review widget.
+- **DOUBLE DOWN ON:** Displaying existing Shopper Approved reviews on product pages has real SEO value and trust-building for NEW customers (especially the Texas collection which targets less-expert homeowners). Worth pursuing at the $50-120K estimate. Easier fix than collecting reviews from scratch.
 
 ---
 
@@ -97,12 +98,12 @@ Three systemic errors inflated the original estimate:
 | PayPal lift | 8-12% (older studies) | 3-6% (PayPal market share declining, Stripe may already support Apple/Google Pay) |
 | Estimated impact | $48,000–$128,000 | $25,000–$65,000 |
 
-**Verdict: PARTIALLY DISPROVED — downgraded 50%**
+**Verdict: LARGELY DISPROVED — downgraded 70%**
 
+- **FACTUAL ERROR FOUND:** The original analysis claimed "Stripe is the ONLY payment processor — no Apple Pay, no Google Pay." But Conversion Agent B's data shows **Apple Pay at 8.7% and Google Pay at 3.3% of orders**. The store already has 3 payment methods, not 1. The "Stripe-only" claim is FALSE.
 - PayPal's share of online payments has declined to ~10-12%. The 8-12% checkout lift figure is from 2018-2020 studies.
-- Stripe's Payment Element may already offer Apple Pay and Google Pay at checkout — the analysis didn't verify this.
 - For $154 AOV agricultural purchases, payment method is less of a barrier than for impulse/low-AOV purchases.
-- **DOUBLE DOWN ON:** Still the EASIEST fix (2-4 hours, zero downside). Even at $25K impact, ROI is infinite.
+- **Revised:** The only remaining opportunity is adding PayPal. Impact: **$15K-$35K/year** (not $48-128K). Still easy to do, but much lower priority than originally claimed.
 
 ---
 
@@ -116,9 +117,10 @@ Three systemic errors inflated the original estimate:
 
 **Verdict: PARTIALLY DISPROVED — downgraded 65%**
 
-- 2.3% failure rate is actually GOOD. Industry benchmark is 2-5%.
-- Most failed payments auto-retry or the customer re-enters their card. Only 30-40% are genuinely lost.
-- **REMOVE from top priority list.** This is not a real problem — it's normal business operations.
+- 2.3% failure rate is actually EXCELLENT. Industry average is 7.9%. Nature's Seed is top-tier.
+- Most failed payments auto-retry or the customer re-enters their card. 30-70% self-recover.
+- **Revised impact: $12K-$20K/year** of genuinely unrecoverable revenue.
+- **REMOVE from priority list entirely.** This is better-than-average performance, not a problem.
 
 ---
 
@@ -157,18 +159,18 @@ All double-counting removed. Proper benchmarks applied. Cost vs. revenue separat
 
 | # | Leak | Original | Stress-Tested | Confidence | Verdict |
 |---|------|----------|---------------|------------|---------|
-| 1 | Fix broken Welcome Series trigger | $30K-$50K | **$30K-$50K** | HIGH | **DOUBLED DOWN** — confirmed broken at 85 recipients |
+| 1 | Fix new subscriber acquisition (near-zero growth) | $30K-$50K | **$30K-$50K** | HIGH | **REFRAMED** — Welcome trigger may be OK (55% capture), but only 154 new subs in 2.5 months is the real crisis |
 | 2 | Fix cart abandonment trigger | $25K-$40K | **$25K-$40K** | HIGH | **DOUBLED DOWN** — 172 vs 2,805 confirmed |
 | 3 | Deploy post-purchase flow | Part of $294K | **$40K-$60K** | MEDIUM | **DOUBLED DOWN** — zero post-purchase automation confirmed |
 | 4 | Fix win-back flow (0% click) | $26K | **$20K-$35K** | HIGH | **DOUBLED DOWN** — broken confirmed |
-| 5 | Add PayPal + express checkout | $48K-$128K | **$25K-$65K** | MEDIUM | Downgraded but still high ROI for effort |
+| 5 | Add PayPal (Apple/Google Pay already active) | $48K-$128K | **$15K-$35K** | LOW-MEDIUM | **FACTUAL CORRECTION** — Apple Pay (8.7%) and Google Pay (3.3%) already active. Only PayPal missing |
 | 6 | Cross-category email suggestions | Part of $288-498K | **$50K-$120K** | MEDIUM | Reframed: lifecycle email, not cart cross-sell |
 | 7 | Product reviews (primarily SEO/trust) | $200K-$400K | **$50K-$120K** | LOW-MEDIUM | Downgraded — expert buyers less review-dependent |
 | 8 | Product descriptions (7 empty Texas products) | $15K | **$15K-$25K** | HIGH | Confirmed — no counter-argument |
 | 9 | Mobile sticky Add to Cart | $20K | **$15K-$25K** | MEDIUM | Confirmed |
 | 10 | Free shipping threshold display | $15K | **$10K-$20K** | MEDIUM | Confirmed |
 
-**Total Revenue Opportunities: $280K–$560K/year**
+**Total Revenue Opportunities: $270K–$470K/year** (revised with late DA corrections)
 
 ### Cost Reduction Opportunities (improve margin, not new revenue)
 
@@ -179,11 +181,20 @@ All double-counting removed. Proper benchmarks applied. Cost vs. revenue separat
 
 **Total Cost Savings: $137K–$214K/year**
 
-### REVISED TOTAL: $417K–$774K/year
+### REVISED TOTAL: $407K–$684K/year
 
-**Down from $1.5M–$2.1M (original was overstated ~2.5x)**
+**Down from $1.5M–$2.1M (original was overstated ~3x)**
 
-Still significant — represents 26-48% of current revenue. But the honest number is what matters.
+Still significant — represents 25-43% of current revenue. But the honest number is what matters.
+
+### Factual Errors Corrected by Late DA Agents:
+1. **"Stripe-only" is FALSE** — Apple Pay (8.7%) and Google Pay (3.3%) already active
+2. **"8% flow revenue" used wrong denominator** — actual is 22-26%, within benchmark
+3. **"Zero reviews" is misleading** — Shopper Approved reviews exist, just not displayed in WC
+4. **"No inventory sync script" is FALSE** — exists at `walmart-optimization/inventory_sync.py`
+5. **Amazon's 3% margin is miscalculated** — includes misattributed Google Ads spend. True margin ~15-25%
+6. **Failed payment rate of 2.3% is excellent** — industry avg is 7.9%, not 2-5% as originally benchmarked
+7. **Welcome Series "broken trigger"** — flow is only 18 days old; 85 of 154 new subs (55%) entered it. Low volume, not necessarily broken
 
 ---
 
@@ -193,14 +204,14 @@ These findings COULD NOT be disproven. Every counter-argument was WEAK. These ar
 
 ### Tier 1: Fix This Week (confirmed broken, zero counter-arguments)
 
-1. **Welcome Series trigger (85 recipients)** — BROKEN. No DA argument survived. Every new customer is missing onboarding emails. **Fix in 1 hour.**
-2. **Cart abandonment trigger (172 vs 2,805)** — BROKEN. "Added to Cart" trigger is malfunctioning. Checkout abandonment works. **Fix in 1 hour.**
-3. **Win-back Email 2 (0% click)** — DEAD. The 5-stage enhancement is built and ready in draft. **Swap in 2 hours.**
-4. **Post-purchase automation (zero live)** — CONFIRMED GAP. No DA argument that "seasonal businesses don't need post-purchase" held up. Even annual purchases benefit from thank-you → review request → usage tips. **Activate the draft flow in 2-4 hours.**
+1. **Cart abandonment trigger (172 vs 2,805)** — BROKEN. "Added to Cart" trigger is malfunctioning. Checkout abandonment works. **Fix in 1 hour.**
+2. **Win-back Email 2 (0% click)** — DEAD. The 5-stage enhancement is built and ready in draft. **Swap in 2 hours.**
+3. **Post-purchase automation (zero live)** — CONFIRMED GAP. No DA argument survived. **Activate the draft flow in 2-4 hours.**
+4. **New subscriber acquisition (154 in 2.5 months)** — The REAL email crisis. Welcome trigger may be fine (55% capture), but near-zero new subscribers is the upstream problem. **Investigate and fix signup forms/popups.**
 
 ### Tier 2: High Confidence, Do This Month
 
-5. **Add PayPal/express checkout** — Downgraded from $128K to $65K but still highest ROI per hour of effort. **2-4 hours.**
+5. **Add PayPal** (Apple/Google Pay already active) — Downgraded from $128K to $35K but still easy. **2-4 hours.**
 6. **Write Texas product descriptions** — No counter-argument. Empty descriptions are never OK. **4-6 hours.**
 7. **Deploy cross-category email flows** — The 25-45% cross-buy rate from existing data survived scrutiny. **8-16 hours.**
 8. **Mobile sticky Add to Cart** — Standard UX, no valid counter-argument. **2-4 hours.**

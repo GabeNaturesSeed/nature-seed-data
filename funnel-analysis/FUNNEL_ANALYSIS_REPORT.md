@@ -581,52 +581,55 @@ Nature's Seed is a seasonal business with peak revenue in Q1-Q2 (spring planting
 
 > Full stress test report: `funnel-analysis/devils-advocate/STRESS_TEST_RESULTS.md`
 
-### Original Total Was Overstated ~2.5x
+### Original Total Was Overstated ~3x
 
 | | Original | Stress-Tested | Why |
 |--|----------|---------------|-----|
-| **Total leakage** | $1.5M–$2.1M | **$417K–$774K** | Double-counting, wrong benchmarks, cost/revenue conflation |
+| **Total leakage** | $1.5M–$2.1M | **$407K–$684K** | Double-counting, wrong benchmarks, cost/revenue conflation, factual errors |
 
-Three systemic errors:
+Four systemic errors:
 1. **Double-counting:** Email gaps counted 3 ways ($412K + $294K + $240-570K = same problem). AOV decline + single-item orders overlap.
 2. **Wrong benchmarks:** 8-15% shipping benchmark is for lightweight goods, not 50 lb seed bags. 20-35% flow revenue benchmark is for high-frequency businesses, not 1-2x/year seasonal.
 3. **Cost ≠ Revenue:** Shipping excess is a margin problem, not a revenue leak. Can't add to missed sales.
+4. **Factual errors:** "Stripe-only" is false (Apple Pay 8.7%, Google Pay 3.3% already active). "8% flow revenue" used wrong denominator (actual: 22-26%). "Zero reviews" — Shopper Approved reviews exist externally. Walmart sync script already exists.
 
 ### Claim-by-Claim Verdicts
 
 | Claim | Original | Revised | Verdict |
 |-------|----------|---------|---------|
 | Shipping excess | $497K | **$120K–$180K** | PARTIALLY DISPROVED — correct benchmark for heavy seed is 18-22%, not 8-15% |
-| Email/retention gap | $240K–$570K | **$80K–$150K** | PARTIALLY DISPROVED — "42 draft flows" inflated (many are duplicates). Seasonal benchmark is 10-18%, not 20-35% |
+| Email/retention gap | $240K–$570K | **$80K–$150K** | PARTIALLY DISPROVED — "42 draft flows" inflated (actual: 36, many duplicates). Flow revenue is 22-26% (within benchmark), not 8% |
 | Single-item orders | $288K–$498K | **$50K–$120K** | PARTIALLY DISPROVED — seed IS inherently single-purpose. 60-75% single-item is normal for specialty |
-| Zero reviews | $200K–$400K | **$50K–$120K** | PARTIALLY DISPROVED — 270% lift benchmark doesn't apply to agricultural expert buyers |
+| Zero reviews | $200K–$400K | **$50K–$120K** | PARTIALLY DISPROVED — Shopper Approved reviews exist (not displayed in WC). 270% lift benchmark doesn't apply |
 | Walmart OOS | $258K | **$17K–$34K** | **DISPROVED** — mathematically impossible. $258K > 5x total annual Walmart revenue ($51K) |
-| Stripe-only checkout | $48K–$128K | **$25K–$65K** | PARTIALLY DISPROVED — PayPal share declining, Stripe may already support Apple/Google Pay |
-| Failed payments | $84K | **$25K–$34K** | PARTIALLY DISPROVED — 2.3% is BELOW industry benchmark (2-5%). 60-70% auto-recover |
+| "Stripe-only" checkout | $48K–$128K | **$15K–$35K** | **LARGELY DISPROVED** — Apple Pay (8.7%) and Google Pay (3.3%) already active. Only PayPal missing |
+| Failed payments | $84K | **$12K–$20K** | **DISPROVED** — 2.3% failure rate is EXCELLENT (industry avg 7.9%). 30-70% self-recover |
 | AOV decline | $83K | **Monitor** | PARTIALLY DISPROVED — orders UP 58% YoY. Catalog transition = structural, not decline |
 
 ### What SURVIVED (Double Down List)
 
-These findings withstood every counter-argument. **Zero valid rebuttals.** Fix these first:
+These findings withstood every counter-argument. Fix these first:
 
-**Tier 1 — Fix This Week (confirmed broken, no counter-arguments survived):**
-1. Welcome Series trigger — 85 recipients. BROKEN. (1 hour fix)
-2. Cart abandonment trigger — 172 vs 2,805 recipients. BROKEN. (1 hour fix)
-3. Win-back Email 2 — 0% click rate. DEAD. 5-stage replacement built and ready. (2 hour swap)
-4. Post-purchase automation — ZERO live flows. Confirmed gap. (2-4 hours to activate draft)
+**Tier 1 — Fix This Week (confirmed broken):**
+1. Cart abandonment trigger — 172 vs 2,805 recipients. BROKEN. (1 hour fix)
+2. Win-back Email 2 — 0% click rate. DEAD. 5-stage replacement built and ready. (2 hour swap)
+3. Post-purchase automation — ZERO live flows. Confirmed gap. (2-4 hours to activate draft)
+4. New subscriber acquisition — only 154 new subs in 2.5 months. The REAL email crisis. (investigate signup forms/popups)
 
 **Tier 2 — High Confidence, This Month:**
-5. Add PayPal/express checkout — still best ROI per hour. ($25-65K, 2-4 hours)
+5. Display Shopper Approved reviews on product pages — reviews exist, just not shown. (4-8 hours)
 6. Write Texas product descriptions — empty descriptions never OK. (4-6 hours)
 7. Cross-category lifecycle emails — 25-45% cross-buy rate survived scrutiny. (8-16 hours)
 8. Mobile sticky Add to Cart — standard UX, no counter-argument. (2-4 hours)
+9. Add PayPal — only missing payment method. ($15-35K, 2-4 hours)
 
 **Deprioritized (DA arguments succeeded):**
 - Walmart restocking — $258K claim was mathematically impossible. Real: $17-34K. Low priority.
-- Failed payment recovery — 2.3% is normal. Not a problem.
+- Failed payment recovery — 2.3% is EXCELLENT (industry avg 7.9%). Not a problem.
 - Cart-page cross-sell — Seed is single-purpose. Do cross-sell via email lifecycle, not cart.
-- Automated Walmart inventory sync — not justified at $4.2K/mo channel revenue.
+- Automated Walmart inventory sync — script already exists. Not a gap.
+- Amazon exit — 3% margin was miscalculated (included misattributed Google Ads spend). True margin ~15-25%.
 
 ---
 
-*Master Funnel Analysis Report generated by 11 parallel analysis agents + 5 devil's advocate stress-test agents on 2026-03-15. Stress-tested total: $417K–$774K annual opportunity (26-48% of current revenue). Three agents blocked on .env credentials should be re-run on the production machine to fill remaining blind spots.*
+*Master Funnel Analysis Report generated by 11 parallel analysis agents + 5 devil's advocate stress-test agents on 2026-03-15. Stress-tested total: $407K–$684K annual opportunity (25-43% of current revenue). Seven factual errors corrected by DA agents. Three agents blocked on .env credentials should be re-run on the production machine to fill remaining blind spots.*
