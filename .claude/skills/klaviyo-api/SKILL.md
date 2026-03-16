@@ -61,20 +61,70 @@ This project has Klaviyo MCP tools connected. **Always prefer MCP tools over raw
 | **RTjzWA** | Hedgerow - Counties and Municipalities | Double | Gov/institutional |
 | **RtU3Ji** | Application Workshop Confirmation | Double | Event signups |
 
-## Key Segments
+## Active Segments (Starred — Use These)
 
-| ID | Name | Purpose |
-|----|------|---------|
-| **RAQTca** | Champions (RFM) | Best customers - RFM based, starred |
-| **JNTYgB** | Win-Back Opportunities | Lapsed customers (Placed Order based) |
-| **QYWWV6** | BF/CM 2025 | Black Friday/Cyber Monday segment |
-| **R3WfED** | Pasture Purchasers - All-Time | Pasture persona |
-| **QPMErE** | Deer-Resistant Wildflower Mix | Product-specific |
-| **QRzqyJ** | Rocky Mountain Wildflower Mix | Product-specific |
-| **QSqEuY** | Tackifier Purchasers | Product-specific |
-| **R48Vnd** | California Native Wildflower Mix | Regional segment |
-| **R98FDu** | Perennial Ryegrass Blend | Product-specific |
-| **QQxWg2** | Cold Email Pasture - Aug 2025 | Outreach cohort |
+Only starred segments should be used for campaign targeting. Organized into three groups:
+
+### RFM Segments (Purchase Lifecycle)
+
+All RFM segments use **Placed Order** metric (`VLbLXB`) for recency/frequency. Condition groups are AND logic (all must match).
+
+| ID | Name | Filter Logic |
+|----|------|-------------|
+| **VtKptn** | Active Champions (RFM) | Ordered in last 60d AND (2+ orders all-time OR 2+ Placed Order via Magento 2 all-time) |
+| **RAQTca** | Champions (RFM) | 3+ orders all-time AND 1+ in last 365d AND 0 in last 60d |
+| **RbGRqF** | Active Customer (RFM) This Season | 1+ orders in last 120d AND 0 in last 60d |
+| **T93fB3** | New Customer (RFM) - First Order | Exactly 1 order all-time AND 1+ in last 90d |
+| **WdpJti** | Warm (RFM) | 0 orders in last 120d AND 1+ in last 365d |
+| **RyASXF** | At Risk (RFM) | 0 orders in last 365d AND 1+ in last 730d (2yr) |
+| **Sv5cSC** | Lapsed (RFM) | 0 orders in last 730d AND (1+ Placed Order all-time AND 1+ Magento 2 all-time) |
+| **WjzuUj** | Dormant (RFM) | 0 orders in last 1,460d (4yr) AND (1+ Placed Order all-time AND 1+ Magento 2 all-time) |
+
+**RFM Lifecycle Flow:** New → Active Champions → Champions → Active This Season → Warm → At Risk → Lapsed → Dormant
+
+### Engagement Segments (Email Activity)
+
+All engagement segments use **Opened Email** metric (`LBjRM6`).
+
+| ID | Name | Filter Logic |
+|----|------|-------------|
+| **VKVpf9** | E30D - Highly Engaged | Opened 1+ emails in last 30d |
+| **RbH7na** | E60D | Opened 1+ emails in last 60d |
+| **VduUfa** | E90D | Opened 1+ emails in last 90d |
+| **Y87Rfk** | NOT-E60D | Opened 0 emails in last 60d |
+| **VirYfN** | Not-E90D | Opened 0 emails in last 90d |
+| **VrqmRz** | NOT-E90D - Disengaged | Opened 0 emails in last 90d (duplicate of VirYfN) |
+
+**Usage:** Use E segments for inclusion, NOT-E segments for exclusion. Example: send campaign to "Pasture Purchasers" AND "E90D" to only reach engaged subscribers.
+
+### Category Purchaser Segments (Product Interest)
+
+These use **Ordered Product** metrics (`X3UByC` WooCommerce, `WpcPAe` WooCommerce, `PP4mdB` Magento) with category filters. Any matching metric = inclusion (OR logic within condition group).
+
+| ID | Name | Filter Logic |
+|----|------|-------------|
+| **Ra4637** | Lawn Purchasers All Time | Ordered Product where Categories contains "Lawn Seed" or "lawn" (all-time) |
+| **T6TJd6** | Pasture Purchasers All Time | Ordered Product where Categories contains "pasture" (all-time, checks WC + Magento) |
+| **TJpLMz** | Wildflower Purchasers All Time | Ordered Product where Categories contains "wildflower" (all-time) |
+| **XJbjnv** | Other Purchasers All Time | Ordered Product where Categories NOT pasture AND NOT lawn AND NOT wildflower (all-time) |
+
+### Regional Segments
+
+| ID | Name | Filter Logic |
+|----|------|-------------|
+| **XTeFkg** | California | Profile location region contains "California" |
+| **Vh7uqd** | Texas | Profile location region contains "Texas" |
+| **Tyumbj** | Florida | Profile location region contains "Florida" |
+
+### Spring 2026 Campaign Lists
+
+Composite segments combining purchase history + engagement + marketing consent.
+
+| ID | Name | Filter Logic |
+|----|------|-------------|
+| **YsfKRz** | 2026 - SPRING LIST - Lawn Purchasers Engaged | Ordered in last 365d (or Magento 2 in 720d) AND opened email in 120d AND ordered Lawn Seed in 720d AND email consent |
+| **YrbZLj** | 2026 - SPRING LIST - Pasture Purchasers Engaged | Same pattern, Pasture Seed category |
+| **S6Jxd5** | 2026 - SPRING LIST - Wildflower Purchasers | Same pattern, Wildflower category |
 
 ## Active Flows (Live)
 
@@ -173,6 +223,69 @@ All items status: Published, created January 28, 2026.
 - **Tracking**: Opens + Clicks enabled
 - **Sender**: customercare@naturesseed.com / "Nature's Seed"
 - **Audience**: Segment-based targeting with exclusions
+
+## Campaign Creation via REST API (Revision 2024-07-15)
+
+**CRITICAL**: Use revision `2024-07-15`. Other revisions use different field names and will fail.
+
+```python
+# Headers
+headers = {
+    "Authorization": f"Klaviyo-API-Key {api_key}",
+    "revision": "2024-07-15",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+# Campaign payload (working format)
+payload = {
+    "data": {
+        "type": "campaign",
+        "attributes": {
+            "name": "Campaign Name",
+            "audiences": {"included": ["segment_id"], "excluded": []},
+            "campaign-messages": {  # HYPHENATED, not camelCase
+                "data": [{
+                    "type": "campaign-message",
+                    "attributes": {
+                        "channel": "email",
+                        "content": {  # NOT "definition"
+                            "subject": "Subject Line",
+                            "preview_text": "Preview text",
+                            "from_email": "customercare@naturesseed.com",
+                            "from_label": "Nature's Seed",
+                        },
+                        "label": "Campaign Name",
+                    }
+                }]
+            },
+            "send_strategy": {
+                "method": "static",
+                "options_static": {
+                    "datetime": "2026-03-15T17:00:00+00:00",
+                    "is_local": False,
+                },
+            },
+        }
+    }
+}
+```
+
+### Template Assignment
+
+**REST API does NOT support template assignment in any revision.** Use MCP tool exclusively:
+```
+klaviyo_assign_template_to_campaign_message(
+    campaign_id="...",
+    message_id="...",
+    template_id="..."
+)
+```
+
+### Batch Workflow
+1. Create templates via REST API (fast)
+2. Create campaigns via REST API (fast)
+3. Assign templates via MCP tool (one at a time)
 
 ## Performance Benchmarks (From Audit)
 

@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Growth Gap Analysis — Nature's Seed</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8f9fa; color: #333; padding: 20px; }
+  .container { max-width: 1200px; margin: 0 auto; }
+  h1 { color: #2d5016; margin-bottom: 5px; font-size: 1.8em; }
+  .subtitle { color: #666; margin-bottom: 20px; }
+  .hero { background: linear-gradient(135deg, #2d5016, #4a7c28); color: white; padding: 30px; border-radius: 12px; margin-bottom: 25px; }
+  .hero h2 { font-size: 2.5em; margin-bottom: 5px; }
+  .hero .big-number { font-size: 3em; font-weight: bold; }
+  .hero .context { opacity: 0.85; margin-top: 8px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-bottom: 25px; }
+  .card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .card h3 { color: #2d5016; margin-bottom: 10px; font-size: 1.1em; }
+  .priority-high { border-left: 4px solid #e74c3c; }
+  .priority-medium { border-left: 4px solid #f39c12; }
+  .priority-low { border-left: 4px solid #27ae60; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.9em; }
+  th { background: #f0f4e8; text-align: left; padding: 10px 8px; border-bottom: 2px solid #ddd; }
+  td { padding: 8px; border-bottom: 1px solid #eee; }
+  tr:hover { background: #f9fdf5; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.8em; font-weight: 600; }
+  .tag-scale { background: #d4edda; color: #155724; }
+  .tag-fix { background: #f8d7da; color: #721c24; }
+  .tag-optimize { background: #fff3cd; color: #856404; }
+  .section { margin-bottom: 30px; }
+  .section h2 { color: #2d5016; border-bottom: 2px solid #4a7c28; padding-bottom: 8px; margin-bottom: 15px; }
+  .metric { text-align: center; }
+  .metric .value { font-size: 1.8em; font-weight: bold; color: #2d5016; }
+  .metric .label { font-size: 0.85em; color: #666; }
+  .up { color: #27ae60; }
+  .down { color: #e74c3c; }
+  .opp-card { background: white; border-radius: 10px; padding: 18px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; align-items: flex-start; gap: 15px; }
+  .opp-rank { font-size: 1.5em; font-weight: bold; color: #4a7c28; min-width: 35px; }
+  .opp-body { flex: 1; }
+  .opp-category { font-weight: 600; color: #2d5016; }
+  .opp-desc { margin: 5px 0; color: #555; }
+  .opp-meta { font-size: 0.85em; color: #888; }
+  .effort-low { color: #27ae60; }
+  .effort-medium { color: #f39c12; }
+  .effort-high { color: #e74c3c; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Growth Gap Analysis</h1>
+  <p class="subtitle">Nature's Seed — Feb 28 to Mar 12, 2026 | Generated Mar 12, 2026</p>
+
+  <div class="hero">
+    <h2>Estimated Opportunity</h2>
+    <div class="big-number">$244,559</div>
+    <div class="context">Total estimated additional monthly revenue across 11 identified growth gaps</div>
+  </div>
+
+  <!-- Top Priorities -->
+  <div class="section">
+    <h2>Prioritized Growth Opportunities</h2>
+
+    <div class="opp-card">
+      <div class="opp-rank">#1</div>
+      <div class="opp-body">
+        <div class="opp-category">Paid Search Scaling <span class="tag tag-scale">Paid Search</span></div>
+        <div class="opp-desc">Paid Search has 6.11% CR (highest channel) but only 2162 sessions. Doubling budget could add ~$21477/mo in revenue.</div>
+        <div class="opp-meta">Est. value: <strong>$42,954</strong> | Effort: <span class="effort-low">LOW</span></div>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-rank">#2</div>
+      <div class="opp-body">
+        <div class="opp-category">Email Marketing <span class="tag tag-optimize">Email</span></div>
+        <div class="opp-desc">Email has 4.58% CR but only 1026 sessions. More campaigns + flows could 3x email revenue from $7117.</div>
+        <div class="opp-meta">Est. value: <strong>$21,352</strong> | Effort: <span class="effort-medium">MEDIUM</span></div>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-rank">#3</div>
+      <div class="opp-body">
+        <div class="opp-category">Google Ads Scaling <span class="tag tag-scale">Google Ads</span></div>
+        <div class="opp-desc">5 campaigns with ROAS > 3x are budget-constrained. Current value: $110,330. Increasing budgets 50% could add ~$33,099.</div>
+        <div class="opp-meta">Est. value: <strong>$33,099</strong> | Effort: <span class="effort-low">LOW</span></div>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-rank">#4</div>
+      <div class="opp-body">
+        <div class="opp-category">Paid Social Fix <span class="tag tag-fix">Paid Social</span></div>
+        <div class="opp-desc">Paid Social CR is only 0.39% with 1033 sessions. Either fix targeting/creative or reallocate budget to Paid Search.</div>
+        <div class="opp-meta">Est. value: <strong>$5,165</strong> | Effort: <span class="effort-medium">MEDIUM</span></div>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-rank">#5</div>
+      <div class="opp-body">
+        <div class="opp-category">Channel Scaling <span class="tag tag-scale">Paid Search</span></div>
+        <div class="opp-desc">HIGH CR (6.1%) but low traffic (2162 sessions) — scale this channel</div>
+        <div class="opp-meta">Est. value: <strong>$42,937</strong> | Effort: <span class="effort-medium">MEDIUM</span></div>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-rank">#6</div>
+      <div class="opp-body">
+        <div class="opp-category">Channel Scaling <span class="tag tag-scale">Paid Search</span></div>
+        <div class="opp-desc">High rev/session ($9.93) — profitable to scale</div>
+        <div class="opp-meta">Est. value: <strong>$42,937</strong> | Effort: <span class="effort-medium">MEDIUM</span></div>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-rank">#7</div>
+      <div class="opp-body">
+        <div class="opp-category">SEO Quick Wins <span class="tag tag-optimize">Organic Search</span></div>
+        <div class="opp-desc">30 queries with high impressions but low CTR. Optimizing titles/meta could add ~3081 clicks/period.</div>
+        <div class="opp-meta">Est. value: <strong>$9,243</strong> | Effort: <span class="effort-medium">MEDIUM</span></div>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-rank">#8</div>
+      <div class="opp-body">
+        <div class="opp-category">Landing Page Optimization <span class="tag tag-optimize">All</span></div>
+        <div class="opp-desc">14 high-traffic pages with <1% CR or >50% bounce. Combined 7444 sessions/period — CRO could recover significant revenue.</div>
+        <div class="opp-meta">Est. value: <strong>$14,888</strong> | Effort: <span class="effort-high">HIGH</span></div>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-rank">#9</div>
+      <div class="opp-body">
+        <div class="opp-category">Walmart Marketplace <span class="tag tag-optimize">Walmart</span></div>
+        <div class="opp-desc">Walmart revenue grew to $3,542/period but is only 2.0% of total. Buy box optimization + listing quality could 3-5x this.</div>
+        <div class="opp-meta">Est. value: <strong>$14,169</strong> | Effort: <span class="effort-medium">MEDIUM</span></div>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-rank">#10</div>
+      <div class="opp-body">
+        <div class="opp-category">Channel Scaling <span class="tag tag-scale">Organic Shopping</span></div>
+        <div class="opp-desc">High rev/session ($8.55) — profitable to scale</div>
+        <div class="opp-meta">Est. value: <strong>$3,574</strong> | Effort: <span class="effort-medium">MEDIUM</span></div>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-rank">#11</div>
+      <div class="opp-body">
+        <div class="opp-category">Channel Scaling <span class="tag tag-scale">Email</span></div>
+        <div class="opp-desc">HIGH CR (4.6%) but low traffic (1026 sessions) — scale this channel</div>
+        <div class="opp-meta">Est. value: <strong>$14,241</strong> | Effort: <span class="effort-medium">MEDIUM</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section">
+    <h2>Channel Performance (Post-Theme Deploy)</h2>
+    <table>
+      <tr>
+        <th>Channel</th>
+        <th>Sessions</th>
+        <th>Revenue</th>
+        <th>CR%</th>
+        <th>Rev/Session</th>
+        <th>Bounce%</th>
+        <th>CR Change</th>
+        <th>Rev Change</th>
+      </tr>
+
+      <tr>
+        <td><strong>Cross-network</strong></td>
+        <td>14,320</td>
+        <td>$41,099</td>
+        <td>1.82%</td>
+        <td>$2.87</td>
+        <td>17.9%</td>
+        <td class="up">+1.07pp</td>
+        <td class="up">+168%</td>
+      </tr>
+
+      <tr>
+        <td><strong>Paid Shopping</strong></td>
+        <td>10,708</td>
+        <td>$34,807</td>
+        <td>2.69%</td>
+        <td>$3.25</td>
+        <td>9.0%</td>
+        <td class="up">+1.32pp</td>
+        <td class="up">+78%</td>
+      </tr>
+
+      <tr>
+        <td><strong>Direct</strong></td>
+        <td>12,122</td>
+        <td>$28,738</td>
+        <td>1.3%</td>
+        <td>$2.37</td>
+        <td>13.0%</td>
+        <td class="up">+0.86pp</td>
+        <td class="up">+34%</td>
+      </tr>
+
+      <tr>
+        <td><strong>Paid Search</strong></td>
+        <td>2,162</td>
+        <td>$21,477</td>
+        <td>6.11%</td>
+        <td>$9.93</td>
+        <td>10.2%</td>
+        <td class="up">+3.53pp</td>
+        <td class="up">+56%</td>
+      </tr>
+
+      <tr>
+        <td><strong>Organic Search</strong></td>
+        <td>9,330</td>
+        <td>$20,535</td>
+        <td>1.36%</td>
+        <td>$2.20</td>
+        <td>15.2%</td>
+        <td class="up">+0.57pp</td>
+        <td class="up">+59%</td>
+      </tr>
+
+      <tr>
+        <td><strong>Unassigned</strong></td>
+        <td>6,582</td>
+        <td>$20,316</td>
+        <td>1.81%</td>
+        <td>$3.09</td>
+        <td>72.0%</td>
+        <td class="down">-0.65pp</td>
+        <td class="up">+307%</td>
+      </tr>
+
+      <tr>
+        <td><strong>Email</strong></td>
+        <td>1,026</td>
+        <td>$7,117</td>
+        <td>4.58%</td>
+        <td>$6.94</td>
+        <td>7.1%</td>
+        <td class="up">+1.02pp</td>
+        <td class="up">+24%</td>
+      </tr>
+
+      <tr>
+        <td><strong>Referral</strong></td>
+        <td>984</td>
+        <td>$6,998</td>
+        <td>3.56%</td>
+        <td>$7.11</td>
+        <td>19.4%</td>
+        <td class="up">+1.08pp</td>
+        <td class="up">+17%</td>
+      </tr>
+
+      <tr>
+        <td><strong>Organic Shopping</strong></td>
+        <td>209</td>
+        <td>$1,788</td>
+        <td>3.83%</td>
+        <td>$8.55</td>
+        <td>9.6%</td>
+        <td class="up">+0.03pp</td>
+        <td class="up">+82%</td>
+      </tr>
+
+      <tr>
+        <td><strong>Paid Social</strong></td>
+        <td>1,033</td>
+        <td>$423</td>
+        <td>0.39%</td>
+        <td>$0.41</td>
+        <td>15.3%</td>
+        <td class="up">+0.22pp</td>
+        <td class="up">+147%</td>
+      </tr>
+
+      <tr>
+        <td><strong>Organic Social</strong></td>
+        <td>245</td>
+        <td>$381</td>
+        <td>1.63%</td>
+        <td>$1.56</td>
+        <td>20.8%</td>
+        <td class="up">+0.93pp</td>
+        <td class="up">+27%</td>
+      </tr>
+
+      <tr>
+        <td><strong>Paid Other</strong></td>
+        <td>29</td>
+        <td>$0</td>
+        <td>0.0%</td>
+        <td>$0.00</td>
+        <td>6.9%</td>
+        <td class="down">0.00pp</td>
+        <td class="down">0%</td>
+      </tr>
+
+      <tr>
+        <td><strong>Organic Video</strong></td>
+        <td>3</td>
+        <td>$0</td>
+        <td>0.0%</td>
+        <td>$0.00</td>
+        <td>33.3%</td>
+        <td class="down">0.00pp</td>
+        <td class="down">0%</td>
+      </tr>
+
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Device Performance</h2>
+    <table>
+      <tr><th>Device</th><th>Sessions</th><th>Revenue</th><th>CR%</th><th>Bounce%</th><th>Avg Duration</th></tr>
+
+      <tr>
+        <td><strong>Mobile</strong></td>
+        <td>34,941</td>
+        <td>$107,751</td>
+        <td>2.13%</td>
+        <td>6.7%</td>
+        <td>177s</td>
+      </tr>
+
+      <tr>
+        <td><strong>Desktop</strong></td>
+        <td>19,850</td>
+        <td>$76,501</td>
+        <td>2.27%</td>
+        <td>11.0%</td>
+        <td>196s</td>
+      </tr>
+
+      <tr>
+        <td><strong>Tablet</strong></td>
+        <td>648</td>
+        <td>$1,941</td>
+        <td>2.01%</td>
+        <td>6.0%</td>
+        <td>199s</td>
+      </tr>
+
+      <tr>
+        <td><strong>Smart Tv</strong></td>
+        <td>2</td>
+        <td>$0</td>
+        <td>0.0%</td>
+        <td>0.0%</td>
+        <td>0s</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Google Ads Campaigns (by Revenue)</h2>
+    <table>
+      <tr><th>Campaign</th><th>Type</th><th>Spend</th><th>Revenue</th><th>ROAS</th><th>Conv</th><th>CR%</th><th>Action</th></tr>
+
+      <tr>
+        <td>Shopping | Catch All.</td>
+        <td>SHOPPING</td>
+        <td>$15,681</td>
+        <td>$48,215</td>
+        <td><strong>3.07x</strong></td>
+        <td>412.0</td>
+        <td>3.44%</td>
+        <td><span class="tag tag-scale">SCALE</span></td>
+      </tr>
+
+      <tr>
+        <td>PMAX | Catch all</td>
+        <td>PERFORMANCE_MAX</td>
+        <td>$9,381</td>
+        <td>$33,420</td>
+        <td><strong>3.56x</strong></td>
+        <td>213.6</td>
+        <td>2.62%</td>
+        <td><span class="tag tag-scale">SCALE</span></td>
+      </tr>
+
+      <tr>
+        <td>Search | Brand | ROAS</td>
+        <td>SEARCH</td>
+        <td>$1,029</td>
+        <td>$12,975</td>
+        <td><strong>12.61x</strong></td>
+        <td>70.3</td>
+        <td>13.02%</td>
+        <td><span class="tag tag-scale">SCALE</span></td>
+      </tr>
+
+      <tr>
+        <td>PMAX - Search</td>
+        <td>PERFORMANCE_MAX</td>
+        <td>$3,298</td>
+        <td>$11,896</td>
+        <td><strong>3.61x</strong></td>
+        <td>69.3</td>
+        <td>1.72%</td>
+        <td><span class="tag tag-scale">SCALE</span></td>
+      </tr>
+
+      <tr>
+        <td>Search | Animal Seed (Broad) | ROAS</td>
+        <td>SEARCH</td>
+        <td>$1,829</td>
+        <td>$4,128</td>
+        <td><strong>2.26x</strong></td>
+        <td>34.0</td>
+        <td>5.38%</td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td>Search | Pasture | Exact</td>
+        <td>SEARCH</td>
+        <td>$1,056</td>
+        <td>$3,823</td>
+        <td><strong>3.62x</strong></td>
+        <td>38.9</td>
+        <td>5.29%</td>
+        <td><span class="tag tag-scale">SCALE</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>SEO Quick Wins — High Impression, Low CTR Queries</h2>
+    <p style="color:#666; margin-bottom:10px;">These queries have visibility but aren't getting clicks. Optimizing title tags and meta descriptions for these could capture significant traffic.</p>
+    <table>
+      <tr><th>Query</th><th>Impressions</th><th>Clicks</th><th>CTR%</th><th>Position</th><th>Potential Clicks</th><th>Priority</th></tr>
+
+      <tr>
+        <td>grass seed</td>
+        <td>28,207</td>
+        <td>141</td>
+        <td>0.5%</td>
+        <td>5.1</td>
+        <td>+1269</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>best grass seed</td>
+        <td>3,492</td>
+        <td>20</td>
+        <td>0.57%</td>
+        <td>7.1</td>
+        <td>+154</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>fescue grass seed</td>
+        <td>3,080</td>
+        <td>4</td>
+        <td>0.13%</td>
+        <td>1.6</td>
+        <td>+150</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>tall fescue grass seed</td>
+        <td>2,337</td>
+        <td>4</td>
+        <td>0.17%</td>
+        <td>3.6</td>
+        <td>+112</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>st augustine grass seed</td>
+        <td>2,085</td>
+        <td>5</td>
+        <td>0.24%</td>
+        <td>9.9</td>
+        <td>+99</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>grass seeds</td>
+        <td>1,931</td>
+        <td>5</td>
+        <td>0.26%</td>
+        <td>8.3</td>
+        <td>+91</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>bermuda grass seed</td>
+        <td>1,746</td>
+        <td>3</td>
+        <td>0.17%</td>
+        <td>2.0</td>
+        <td>+84</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>rye grass</td>
+        <td>1,891</td>
+        <td>13</td>
+        <td>0.69%</td>
+        <td>2.0</td>
+        <td>+81</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>lawn seed</td>
+        <td>1,727</td>
+        <td>5</td>
+        <td>0.29%</td>
+        <td>7.0</td>
+        <td>+81</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>kentucky bluegrass seed</td>
+        <td>1,623</td>
+        <td>10</td>
+        <td>0.62%</td>
+        <td>5.7</td>
+        <td>+71</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>clover seeds for lawn</td>
+        <td>1,544</td>
+        <td>7</td>
+        <td>0.45%</td>
+        <td>3.6</td>
+        <td>+70</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>best grass seed for michigan</td>
+        <td>1,432</td>
+        <td>5</td>
+        <td>0.35%</td>
+        <td>1.2</td>
+        <td>+66</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>best grass seed for indiana</td>
+        <td>1,432</td>
+        <td>7</td>
+        <td>0.49%</td>
+        <td>3.3</td>
+        <td>+64</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>best grass seed for ohio</td>
+        <td>1,441</td>
+        <td>10</td>
+        <td>0.69%</td>
+        <td>7.0</td>
+        <td>+62</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>best grass seed for montana</td>
+        <td>1,294</td>
+        <td>2</td>
+        <td>0.15%</td>
+        <td>1.2</td>
+        <td>+62</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>ryegrass</td>
+        <td>1,322</td>
+        <td>8</td>
+        <td>0.61%</td>
+        <td>1.6</td>
+        <td>+58</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>buffalo grass seed</td>
+        <td>1,347</td>
+        <td>17</td>
+        <td>1.26%</td>
+        <td>3.5</td>
+        <td>+50</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>fine fescue grass seed</td>
+        <td>1,158</td>
+        <td>8</td>
+        <td>0.69%</td>
+        <td>2.1</td>
+        <td>+49</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>fescue grass</td>
+        <td>1,076</td>
+        <td>5</td>
+        <td>0.46%</td>
+        <td>7.3</td>
+        <td>+48</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+
+      <tr>
+        <td>perennial ryegrass</td>
+        <td>976</td>
+        <td>6</td>
+        <td>0.61%</td>
+        <td>5.1</td>
+        <td>+42</td>
+        <td><span class="tag tag-fix">HIGH</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Top Landing Pages — Conversion & Bounce Analysis</h2>
+    <table>
+      <tr><th>Page</th><th>Sessions</th><th>Revenue</th><th>CR%</th><th>Bounce%</th></tr>
+
+      <tr>
+        <td>/</td>
+        <td>6,763</td>
+        <td>$43,127</td>
+        <td>3.42%</td>
+        <td>3.6%</td>
+      </tr>
+
+      <tr>
+        <td>(not set)</td>
+        <td>1,552</td>
+        <td>$0</td>
+        <td style="color:#e74c3c">0.0%</td>
+        <td style="color:#e74c3c">97.6%</td>
+      </tr>
+
+      <tr>
+        <td>/resources/gardening/improving-clay-soil-for-plant-growth/</td>
+        <td>1,007</td>
+        <td>$0</td>
+        <td style="color:#e74c3c">0.0%</td>
+        <td>4.2%</td>
+      </tr>
+
+      <tr>
+        <td>/products/clover-seed/white-dutch-clover/?variation_id=44728</td>
+        <td>916</td>
+        <td>$2,417</td>
+        <td>3.17%</td>
+        <td>4.1%</td>
+      </tr>
+
+      <tr>
+        <td>/products/grass-seed/</td>
+        <td>854</td>
+        <td>$2,156</td>
+        <td>1.64%</td>
+        <td>7.1%</td>
+      </tr>
+
+      <tr>
+        <td>/</td>
+        <td>845</td>
+        <td>$151</td>
+        <td style="color:#e74c3c">0.24%</td>
+        <td style="color:#e74c3c">100.0%</td>
+      </tr>
+
+      <tr>
+        <td>/products/pasture-seed/green-screen-food-plot-screen/?variat</td>
+        <td>837</td>
+        <td>$1,559</td>
+        <td>2.87%</td>
+        <td>6.5%</td>
+      </tr>
+
+      <tr>
+        <td>/products/pasture-seed/poultry-forage-mix/</td>
+        <td>785</td>
+        <td>$3,805</td>
+        <td>6.62%</td>
+        <td>3.8%</td>
+      </tr>
+
+      <tr>
+        <td>/products/grass-seed/twca-water-wise-shade-mix/?variation_id</td>
+        <td>777</td>
+        <td>$1,737</td>
+        <td>2.45%</td>
+        <td>4.5%</td>
+      </tr>
+
+      <tr>
+        <td>/resources/lawn-turf/overseeding-lawn-101/</td>
+        <td>672</td>
+        <td>$240</td>
+        <td style="color:#e74c3c">0.3%</td>
+        <td>3.9%</td>
+      </tr>
+
+      <tr>
+        <td>/products/pasture-seed/</td>
+        <td>486</td>
+        <td>$2,948</td>
+        <td>2.06%</td>
+        <td>7.0%</td>
+      </tr>
+
+      <tr>
+        <td>/resources/lawn-turf/teeny-tiny-clover-trend/</td>
+        <td>486</td>
+        <td>$45</td>
+        <td style="color:#e74c3c">0.21%</td>
+        <td>3.5%</td>
+      </tr>
+
+      <tr>
+        <td>/resources/lawn-turf/florida/</td>
+        <td>454</td>
+        <td>$0</td>
+        <td style="color:#e74c3c">0.0%</td>
+        <td>6.2%</td>
+      </tr>
+
+      <tr>
+        <td>/products/pasture-seed/horse-pastures-seed/</td>
+        <td>446</td>
+        <td>$3,182</td>
+        <td>2.69%</td>
+        <td>4.3%</td>
+      </tr>
+
+      <tr>
+        <td>/resources/lawn-turf/clover-seed-planting-instructions/</td>
+        <td>408</td>
+        <td>$297</td>
+        <td style="color:#e74c3c">0.49%</td>
+        <td>2.7%</td>
+      </tr>
+
+      <tr>
+        <td>/resources/wildlife-habitat-sustainability/ultimate-guide-to</td>
+        <td>408</td>
+        <td>$0</td>
+        <td style="color:#e74c3c">0.0%</td>
+        <td>1.5%</td>
+      </tr>
+
+      <tr>
+        <td>/products/grass-seed/twca-water-wise-sun-shade-mix/?variatio</td>
+        <td>389</td>
+        <td>$358</td>
+        <td>1.8%</td>
+        <td>4.1%</td>
+      </tr>
+
+      <tr>
+        <td>/products/grass-seed/sundancer-buffalograss-seed/?variation_</td>
+        <td>370</td>
+        <td>$2,023</td>
+        <td>1.08%</td>
+        <td>5.4%</td>
+      </tr>
+
+      <tr>
+        <td>/products/grass-seed/twca-water-wise-sun-shade-mix/?variatio</td>
+        <td>355</td>
+        <td>$866</td>
+        <td>1.13%</td>
+        <td>5.6%</td>
+      </tr>
+
+      <tr>
+        <td>/resources/news-and-misc/how-to-make-plantable-seed-paper/</td>
+        <td>323</td>
+        <td>$0</td>
+        <td style="color:#e74c3c">0.0%</td>
+        <td>7.1%</td>
+      </tr>
+    </table>
+  </div>
+
+  <div style="text-align:center; color:#999; margin-top:30px; padding:15px;">
+    Generated by Nature's Seed Data Orchestrator | Growth Gap Analysis v1.0
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AOV Strategy Plan — Nature's Seed 2026</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f4f8; color: #1a202c; font-size: 14px; }
+  .header { background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%); color: #fff; padding: 28px 36px; }
+  .header h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .header p { opacity: .75; font-size: 13px; }
+  .context-bar { background: #fff3cd; border-left: 4px solid #f59e0b; padding: 12px 36px; font-size: 13px; color: #92400e; }
+  .content { max-width: 1100px; margin: 0 auto; padding: 24px 36px; }
+  h2 { font-size: 16px; font-weight: 700; color: #1b4332; margin: 28px 0 12px; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; }
+  h3 { font-size: 14px; font-weight: 700; color: #2d6a4f; margin: 20px 0 8px; }
+  .tactic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .tactic-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px; position: relative; }
+  .tactic-card .priority { position: absolute; top: 12px; right: 12px; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: .5px; }
+  .p1 { background: #fee2e2; color: #991b1b; }
+  .p2 { background: #fef3c7; color: #92400e; }
+  .p3 { background: #e0f2fe; color: #075985; }
+  .tactic-card h4 { font-size: 13px; font-weight: 700; color: #1a202c; margin-bottom: 6px; padding-right: 60px; }
+  .tactic-card p { font-size: 12px; color: #555; line-height: 1.5; margin-bottom: 8px; }
+  .tactic-card .impact { font-size: 12px; font-weight: 600; color: #2d6a4f; }
+  .tactic-card .tool { font-size: 11px; color: #888; margin-top: 6px; background: #f8f9fa; padding: 4px 8px; border-radius: 4px; display: inline-block; }
+  table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin-bottom: 24px; }
+  th { background: #1b4332; color: #fff; padding: 10px 12px; font-size: 11px; text-align: left; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 9px 12px; font-size: 12px; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f8fafc; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 700; }
+  .badge-high { background: #dcfce7; color: #166534; }
+  .badge-med { background: #fef9c3; color: #854d0e; }
+  .badge-low { background: #f1f5f9; color: #475569; }
+  .impl-block { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+  .impl-block .step { display: flex; gap: 12px; margin-bottom: 14px; align-items: flex-start; }
+  .impl-block .step-num { background: #2d6a4f; color: #fff; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .impl-block .step-body { font-size: 12px; color: #374151; line-height: 1.6; }
+  .impl-block .step-body strong { color: #1a202c; }
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .kpi { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; text-align: center; }
+  .kpi .val { font-size: 24px; font-weight: 700; color: #1b4332; }
+  .kpi .label { font-size: 11px; color: #888; margin-top: 4px; }
+  .crosssell-table td:nth-child(3) { color: #2d6a4f; font-weight: 600; }
+  .note { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 12px; color: #1e40af; margin-bottom: 16px; }
+  .warn { background: #fff7ed; border-left: 4px solid #f97316; padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 12px; color: #9a3412; margin-bottom: 16px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>AOV Increase Strategy Plan — Nature's Seed 2026</h1>
+  <p>Maximizing average order value within the 0–125 lb free shipping window · Generated March 11, 2026</p>
+</div>
+
+<div class="context-bar">
+  ⚡ Shipping policy change context: Free shipping on ALL orders under 125 lbs. Orders above: $80 flat + $80 per 25 lbs. Goal: maximize revenue per order in the 20–124 lb free window. B2B (>125 lb) routes to sister company — excluded from tactics below.
+</div>
+
+<div class="content">
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="val">$67</div><div class="label">Jan Avg Order Value</div></div>
+    <div class="kpi"><div class="val">~$80</div><div class="label">MTD March Estimated AOV</div></div>
+    <div class="kpi"><div class="val">125 lb</div><div class="label">Free Shipping Ceiling</div></div>
+    <div class="kpi"><div class="val">$125–160</div><div class="label">Target AOV Range</div></div>
+  </div>
+
+  <h2>The Opportunity Map</h2>
+  <p style="font-size:13px;color:#555;margin-bottom:16px;line-height:1.6;">Most customers currently buy a single product in one size. The goal is to move them to either (a) a larger size of the same product, (b) a companion add-on that ships free alongside, or (c) a cross-category product relevant to their land use. None of these tactics require new product development — they all use existing SKUs.</p>
+
+  <h2>Tactic Overview</h2>
+  <div class="tactic-grid">
+
+    <div class="tactic-card">
+      <span class="priority p1">Priority 1</span>
+      <h4>🚢 Free Shipping Capacity Bar (Cart)</h4>
+      <p>Show customers how many lbs they're using of their free 125-lb shipping window. "You have X lbs in your cart — you can add up to Y more lbs for free." This is different from a dollar threshold bar — it uses lb weight as the lever since the policy is weight-based.</p>
+      <div class="impact">Expected AOV lift: +$18–35 per triggered order</div>
+      <div class="tool">WooCommerce: Custom notice widget or WPC Product Bundles + cart hook</div>
+    </div>
+
+    <div class="tactic-card">
+      <span class="priority p1">Priority 1</span>
+      <h4>🌱 Checkout Cross-Sell Add-Ons</h4>
+      <p>At cart/checkout, show 2–3 complementary lightweight add-ons based on what's in the cart. E.g., a lawn seed buyer sees "Add Micro Clover + Inoculant to complete your lawn." Each add-on adds 5–10 lbs at $40–75. Target: 25% attach rate.</p>
+      <div class="impact">Expected AOV lift: +$15–40 at 25% attach</div>
+      <div class="tool">WooCommerce: CartFlows upsell step, or WooCommerce Cart Add-ons plugin</div>
+    </div>
+
+    <div class="tactic-card">
+      <span class="priority p1">Priority 1</span>
+      <h4>📦 Size Tier Upgrade Nudge (Product Page)</h4>
+      <p>On every product page, show coverage area per size tier: "5 lb covers 500 sq ft • 10 lb covers 1,000 sq ft • 25 lb covers 2,500 sq ft." Add "Most customers choose 10 lb" social proof badge on the middle tier. Show savings per 1,000 sq ft to make larger size look like better value.</p>
+      <div class="impact">Expected AOV lift: +$20–50 per upgrade from 5→10 lb or 10→25 lb</div>
+      <div class="tool">WooCommerce: Variation swatches plugin with custom description per variation</div>
+    </div>
+
+    <div class="tactic-card">
+      <span class="priority p2">Priority 2</span>
+      <h4>🤝 "Complete Your Kit" Cart Bundle</h4>
+      <p>When a customer adds lawn seed to cart, show a cart notice: "Complete your lawn setup — add Tackifier + Fertilizer for $XX more (ships free)." Pre-built kit bundles at a slight discount vs. buying individually. No new product creation needed — just virtual bundle SKUs.</p>
+      <div class="impact">Expected AOV lift: +$40–80 per kit conversion at 15% attach</div>
+      <div class="tool">WooCommerce: WPC Frequently Bought Together, or Composite Products</div>
+    </div>
+
+    <div class="tactic-card">
+      <span class="priority p2">Priority 2</span>
+      <h4>🔄 "Frequently Bought Together" on Product Pages</h4>
+      <p>Amazon-style FBT section on every product page. Show 2–3 specific companion products with combined price and 1-click "Add All to Cart." Must be hand-curated per product category — automated recs will show irrelevant products.</p>
+      <div class="impact">Expected AOV lift: +$15–30 per conversion at 10–15% attach</div>
+      <div class="tool">WooCommerce: WPC Frequently Bought Together plugin (free tier works)</div>
+    </div>
+
+    <div class="tactic-card">
+      <span class="priority p2">Priority 2</span>
+      <h4>📐 Coverage Area Calculator (Product Page)</h4>
+      <p>Simple JS widget: "How much area do you need to cover?" → enter sq ft → auto-suggests the right size and quantity. Customers who use this calculator convert at higher rates AND buy larger sizes. Bonus: captures intent data.</p>
+      <div class="impact">Expected AOV lift: +$25–60 for undersized cart correction</div>
+      <div class="tool">Custom JS widget (simple HTML/CSS/JS, can inject via WooCommerce shortcode)</div>
+    </div>
+
+    <div class="tactic-card">
+      <span class="priority p3">Priority 3</span>
+      <h4>📧 Klaviyo Post-Purchase Upsell Sequence</h4>
+      <p>Timed email sequence triggered on purchase: Day 3 = application tips (educational, no pitch). Day 14 = "Any thin spots? Add X" (reorder + add-on). Day 45 = "Time to overseed?" (seasonal reorder). Day 90 = cross-category suggestion based on purchase type.</p>
+      <div class="impact">Expected additional revenue: $2–5 RPR on 2nd-purchase customers</div>
+      <div class="tool">Klaviyo flows — improve existing Upsell Flow (see flow assessment)</div>
+    </div>
+
+    <div class="tactic-card">
+      <span class="priority p3">Priority 3</span>
+      <h4>🎁 Loyalty Volume Reward (No Discount)</h4>
+      <p>Instead of discounting, offer a free add-on at a spend threshold. "Add Micro Clover ($44.99 value) FREE when you reach $150 in your cart." This raises AOV without margin erosion and ships within the free-shipping lb window.</p>
+      <div class="impact">Expected AOV lift: +$30–50 to reach threshold (no margin erosion)</div>
+      <div class="tool">WooCommerce: AutomateWoo free gift rule, or WooCommerce Gift With Purchase plugin</div>
+    </div>
+
+  </div>
+
+  <h2>Cross-Sell Add-On Map by Category</h2>
+  <p style="font-size:12px;color:#888;margin-bottom:12px;">These are the specific add-on pairings to implement in checkout cross-sells, FBT widgets, and the cart bundle notice. Use these exact SKU pairs.</p>
+
+  <table class="crosssell-table">
+    <thead>
+      <tr><th>Customer Buys</th><th>Primary Add-On (SKU)</th><th>Add-On Price</th><th>AOV Impact</th><th>Why It Works</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Any Lawn Seed</strong><br>(TURF- prefix)</td><td>Micro Clover (S-MICRO-1-LB)<br>or Dutch Clover (S-DUTCH-5-LB)</td><td>$44.99 / $44.99</td><td>+$45</td><td>Clover fills in bare spots, fixes nitrogen, increasingly popular as lawn supplement. Very easy upsell story.</td></tr>
+      <tr><td><strong>Any Lawn Seed</strong><br>(TURF- prefix)</td><td>Sustane Fertilizer (SUSTANE-4-6-4)</td><td>$119.99</td><td>+$120</td><td>"Your seed needs the right start." Fertilizer at planting increases germination success.</td></tr>
+      <tr><td><strong>Any Lawn Seed (premium)</strong><br>JBR, NFF, Western Blue</td><td>Tackifier (S-TACKI-50-LB)</td><td>$119.99</td><td>+$120</td><td>Hydroseed application aid. Premium lawn buyers are more likely to use tackifier for establishment.</td></tr>
+      <tr><td><strong>Clover-Based Products</strong><br>TURF-CLV, S-DUTCH, S-MICRO</td><td>Legume Inoculant (S-INNOC-5-LB)</td><td>$74.99</td><td>+$75</td><td>Inoculant is functionally required for optimal clover germination. Easy sell: "Always inoculate clover seed."</td></tr>
+      <tr><td><strong>Pasture Blends</strong><br>(PB- prefix)</td><td>Legume Inoculant (S-INNOC-5-LB)</td><td>$74.99</td><td>+$75</td><td>Same logic — legume content in pasture mixes benefits from inoculant. Very specific upsell.</td></tr>
+      <tr><td><strong>Horse Pasture</strong><br>PB-HRSE-N/SO/TR</td><td>Chicory Blend (PB-CHSS-1-LB-KIT)</td><td>$67.74</td><td>+$68</td><td>Chicory is a known horse forage supplement. Easy cross-sell to a horse owner already buying pasture seed.</td></tr>
+      <tr><td><strong>Wildflower Blends</strong><br>(WB- prefix)</td><td>Tackifier (S-TACKI-50-LB)<br><em>(for larger order customers)</em></td><td>$119.99</td><td>+$120</td><td>Wildflower seed needs good soil contact. Tackifier keeps seed in place during germination — especially relevant for slopes.</td></tr>
+      <tr><td><strong>Wildflower Blends (small)</strong><br>0.5 or 1 lb size</td><td>Companion Single Species<br>e.g., W-LUBI (Lupine) + WB-AN</td><td>$18–64</td><td>+$20–40</td><td>Wildflower enthusiasts are collectors. "Add more variety to your meadow" is an easy pitch. Show 2 complementary species.</td></tr>
+      <tr><td><strong>Cover Crop</strong><br>(CV- prefix)</td><td>Legume Inoculant (S-INNOC-5-LB)</td><td>$74.99</td><td>+$75</td><td>Most cover crop mixes contain legumes. Inoculant is a genuine agronomic need, not a manufactured upsell.</td></tr>
+      <tr><td><strong>Any Seed Product</strong><br>(site-wide)</td><td>Rice Hulls (S-RICE-5-LB)<br>or 10 LB Kit</td><td>$17.99 / $32.99</td><td>+$18–33</td><td>Universal germination aid / seed-starting mulch. Low-cost, low-weight, easy add-on story for any planting.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Free Shipping Capacity Bar — Implementation Spec</h2>
+  <div class="impl-block">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body"><strong>Trigger:</strong> Show in cart sidebar and cart page when cart weight is between 5 lbs and 110 lbs. Hide when cart is empty or over 115 lbs (close to limit).</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body"><strong>Message format:</strong> "You're shipping [X] lbs — you can add up to [125-X] more lbs for free! [Suggested add-on: Micro Clover adds just 1 lb for $44.99]"</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body"><strong>Visual:</strong> Green progress bar from 0 → 125 lbs. At 80–90% of limit, show orange warning: "You're close to the free shipping limit — add lightweight items only."</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body"><strong>Technical:</strong> WooCommerce provides cart weight via <code>WC()->cart->get_cart_contents_weight()</code>. Can be output via a small PHP snippet in <code>functions.php</code> or via a child theme cart hook. No plugin required.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body"><strong>Add-on suggestions in bar:</strong> Show product thumbnail + name + weight + price for 1 pre-selected add-on. Add-on should be the highest-margin, lowest-weight item appropriate for the cart contents (S-MICRO for lawn carts, S-INNOC for pasture/clover carts, S-RICE for wildflower carts).</div>
+    </div>
+  </div>
+
+  <h2>Size Tier Upgrade — Product Page Spec</h2>
+  <div class="impl-block">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body"><strong>Coverage table</strong> below variation selector: three columns — Size | Coverage Area | Price per 1,000 sq ft. Highlight the middle tier as "Best Value."</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body"><strong>Social proof badge:</strong> "🌱 Most customers choose [10 lb]" as a small label on the recommended size. This nudges fence-sitters to the higher size without a discount.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body"><strong>Savings callout:</strong> "Save $X.XX per 1,000 sq ft vs. the 5 lb bag" shown next to the 10 or 25 lb size. Makes the upgrade feel economically rational.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body"><strong>Coverage seeding rates:</strong> Use 5–7 lbs per 1,000 sq ft for lawn seed, 10–15 lbs per acre for pasture, 2–4 lbs per 1,000 sq ft for wildflower blends as baseline. These are standard industry rates.</div>
+    </div>
+  </div>
+
+  <h2>Implementation Priority & Estimated Timeline</h2>
+  <table>
+    <thead>
+      <tr><th>Tactic</th><th>Effort</th><th>AOV Impact</th><th>WooCommerce Approach</th><th>Priority</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Free Shipping Lb Bar</strong></td>
+        <td>2–3 hrs (PHP snippet)</td>
+        <td>+$18–35</td>
+        <td>Custom hook in functions.php + CSS</td>
+        <td><span class="badge badge-high">P1 — Do First</span></td>
+      </tr>
+      <tr>
+        <td><strong>Size Tier Nudge</strong></td>
+        <td>3–4 hrs per category</td>
+        <td>+$20–50</td>
+        <td>Product description custom HTML + variation descriptions</td>
+        <td><span class="badge badge-high">P1 — Do First</span></td>
+      </tr>
+      <tr>
+        <td><strong>Checkout Cross-Sells (top 5 pairs)</strong></td>
+        <td>2–3 hrs setup</td>
+        <td>+$15–40</td>
+        <td>WPC Frequently Bought Together (free plugin)</td>
+        <td><span class="badge badge-high">P1 — Do First</span></td>
+      </tr>
+      <tr>
+        <td><strong>Coverage Area Calculator</strong></td>
+        <td>4–6 hrs (custom JS)</td>
+        <td>+$25–60</td>
+        <td>Shortcode or Elementor HTML widget</td>
+        <td><span class="badge badge-med">P2</span></td>
+      </tr>
+      <tr>
+        <td><strong>"Complete Your Kit" Cart Bundle</strong></td>
+        <td>3–4 hrs setup</td>
+        <td>+$40–80</td>
+        <td>WPC Product Bundles or AutomateWoo</td>
+        <td><span class="badge badge-med">P2</span></td>
+      </tr>
+      <tr>
+        <td><strong>Klaviyo Upsell Flow Improvement</strong></td>
+        <td>2–3 hrs</td>
+        <td>+$2–5 RPR</td>
+        <td>Klaviyo flow edit — personalization by category</td>
+        <td><span class="badge badge-med">P2</span></td>
+      </tr>
+      <tr>
+        <td><strong>Loyalty Add-On Threshold Gift</strong></td>
+        <td>2 hrs setup</td>
+        <td>+$30–50</td>
+        <td>AutomateWoo or Gift With Purchase plugin</td>
+        <td><span class="badge badge-low">P3</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Category-Specific AOV Targets</h2>
+  <table>
+    <thead>
+      <tr><th>Category</th><th>Typical Current AOV</th><th>Target AOV</th><th>Key Lever</th><th>Ideal Add-On</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Lawn Seed (TURF-)</strong></td><td>~$55–80</td><td>$120–150</td><td>Fertilizer + Clover add-on</td><td>Sustane Fertilizer + S-MICRO</td></tr>
+      <tr><td><strong>Pasture Blends (PB-)</strong></td><td>~$40–70</td><td>$100–130</td><td>Inoculant + size upgrade</td><td>S-INNOC + 25–50 lb tier</td></tr>
+      <tr><td><strong>Native Grasses (PG-)</strong></td><td>~$35–100</td><td>$100–180</td><td>Companion species + tackifier</td><td>Complementary native grass species</td></tr>
+      <tr><td><strong>Wildflower Blends (WB-)</strong></td><td>~$30–60</td><td>$80–120</td><td>Companion species + larger size intro</td><td>2nd wildflower blend for extended bloom season</td></tr>
+      <tr><td><strong>Cover Crops (CV-)</strong></td><td>~$100–400</td><td>Hold or +inoculant</td><td>Inoculant</td><td>S-INNOC</td></tr>
+      <tr><td><strong>Planting Aids (S-, SUSTANE)</strong></td><td>~$20–155</td><td>+seed pairing</td><td>Show companion seed on every aid page</td><td>Relevant lawn/pasture seed</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warn">
+    <strong>Excluded from plan:</strong> Max-value size packs (per your direction — hold until margins are confirmed). B2B capture (routes to sister company per company policy — excluded entirely).
+  </div>
+
+  <div class="note">
+    <strong>Priority sequence:</strong> Start with the Free Shipping Lb Bar + Size Tier Nudge + top 5 cross-sell pairs. These three changes alone could lift AOV by $35–80 with under 10 hours of implementation work. Everything else is additive.
+  </div>
+
+</div>
+</body>
+</html>

@@ -7,7 +7,7 @@
 ## Active Projects & Status
 
 ### 0. Daily Report Pipeline ✅ BUILT + CF PROXY DEPLOYED (March 10, 2026)
-**Directory**: `daily-report/`
+**Directory**: `infrastructure/daily-report/`
 **GitHub Repo**: `GabeNaturesSeed/nature-seed-data`
 
 **What was done**:
@@ -21,19 +21,19 @@
 **Cloudflare Worker Proxy** (March 10, 2026):
 - **Problem**: Cloudflare Bot Fight Mode serves JS challenges to datacenter IPs (GitHub Actions, AWS, etc.). Cannot be disabled (CFO policy). Cannot be bypassed with WAF custom rules on free plan.
 - **Solution**: Cloudflare Worker at `wc-api-proxy.skylar-d51.workers.dev` — runs inside CF's network, bypasses Bot Fight Mode. Validates `PROXY_SECRET` header, forwards to WC REST API with Basic Auth.
-- **Code**: `cloudflare-worker/wc-proxy.js`
+- **Code**: `infrastructure/cloudflare-worker/wc-proxy.js`
 - **Env vars**: `CF_WORKER_URL` + `CF_WORKER_SECRET` — when set, both `daily_pull.py` and `nightly_review.py` route WC calls through the Worker. When unset, falls back to direct WC API calls (local dev).
 - **GitHub secrets**: Must be **Repository secrets** (not Environment secrets) — this distinction caused initial deployment failure.
 
 **Key Files**:
 | File | Purpose |
 |------|---------|
-| `daily-report/daily_pull.py` | Main orchestrator — pulls all 5 sources, writes to Supabase |
-| `daily-report/nightly_review.py` | Nightly Telegram summary (10 PM MST) |
-| `daily-report/backfill_2025.py` | Lightweight backfill (sales + ads only) |
-| `daily-report/supabase_schema.sql` | All table DDL + views |
-| `daily-report/requirements.txt` | Python deps (requests, google-ads, google-auth) |
-| `cloudflare-worker/wc-proxy.js` | CF Worker proxy for WC API (bypasses Bot Fight Mode) |
+| `infrastructure/daily-report/daily_pull.py` | Main orchestrator — pulls all 5 sources, writes to Supabase |
+| `infrastructure/daily-report/nightly_review.py` | Nightly Telegram summary (10 PM MST) |
+| `infrastructure/daily-report/backfill_2025.py` | Lightweight backfill (sales + ads only) |
+| `infrastructure/daily-report/supabase_schema.sql` | All table DDL + views |
+| `infrastructure/daily-report/requirements.txt` | Python deps (requests, google-ads, google-auth) |
+| `infrastructure/cloudflare-worker/wc-proxy.js` | CF Worker proxy for WC API (bypasses Bot Fight Mode) |
 | `.github/workflows/daily_report.yml` | GitHub Actions cron — midnight MST |
 | `.github/workflows/nightly_review.yml` | GitHub Actions cron — 10 PM MST |
 
@@ -53,8 +53,8 @@
 
 ---
 
-### 1. Google Ads 4-Year Audit ✅ COMPLETE
-**Directory**: `google-ads-audit/`
+### 1. Google Ads 4-Year Audit ✅ COMPLETE + ORDER ATTRIBUTION + SHOPPING BENCHMARKING
+**Directory**: `marketing/google-ads-audit/`
 
 **What was done**:
 - Built 8 data extraction scripts (01–08) that pull from the Google Ads UI console → output to Google Sheets
@@ -62,6 +62,23 @@
 - Produced `FULL_AUDIT_REPORT.md` (historical analysis) then pivoted to **LIVE-FIRST** framework
 - Produced `LIVE_STATE_AUDIT.md` — the corrected audit grounded only in currently ENABLED campaigns
 - Produced `LIVE_IMPLEMENTATION_GUIDE.md` — 4-tier action plan
+
+**Order Attribution Analysis (March 10, 2026)**:
+- Pulled 2,506 WC orders with full attribution metadata (GCLID, campaign ID, UTM, device)
+- Cross-referenced to Google Ads campaigns for new customer acquisition cost (nCAC)
+- Discovered PMax sub-campaign IDs not visible in API — grouped with parent PMax campaigns
+- 95% of Google Ads orders are guest checkouts → strong new customer signal
+- **Key files**: `order_attribution_90d.json`, `campaign_spend_90d.json`
+
+**Shopping Product Benchmarking (March 10, 2026)**:
+- Daily-normalized bottom 20 worst-performing products in Shopping | Catch All (campaign `22908379664`)
+- Waste score = 50% daily spend + 50% inverse ROAS, normalized per day on days with actual spend
+- **Top findings**:
+  - White Dutch Clover: $26/day spend, 2.11x ROAS (highest waste)
+  - Clover line collectively: $1,532 spent, ROAS 1.31-1.90x
+  - 4 products with zero conversions (Fire-Wise, Bluebonnet, Pasture 50lb, Milkweed)
+  - Dryland Pasture & Rocky Mountains Wildflower: worst CPAs ($75, $88)
+- **Key file**: `shopping_bottom20_daily.json`
 
 **Google Ads Scripts Created (ready to run in Google Ads UI)**:
 | Script | Purpose | Status |
@@ -78,6 +95,7 @@
 **Remaining Google Ads work (from LIVE_IMPLEMENTATION_GUIDE.md)**:
 - Tier 1: Run Script 09 (URL fixes), Run Script 13b (remaining keywords)
 - Tier 2: Fix Pasture Exact bidding strategy, audit conversion tracking, exclude zero-revenue Shopping products
+- Tier 2 NEW: Act on Shopping bottom 20 — pause/exclude zero-conversion products, review Clover line ROAS
 - Tier 3: Budget reallocation, California asset group, DSA campaign
 - Tier 4: Mobile bid adjustments, search term mining, merchant feed cleanup
 
@@ -88,7 +106,7 @@
 ---
 
 ### 2. Texas Collection — Google Merchant Center Feed ✅ COMPLETE
-**Files**: `google-ads-audit/generate_texas_feed.py` → `google-ads-audit/texas_collection_feed.csv`
+**Files**: `marketing/google-ads-audit/generate_texas_feed.py` → `marketing/google-ads-audit/texas_collection_feed.csv`
 
 **What was done**:
 - Analyzed full 280-product merchant feed (47 columns, all patterns documented)
@@ -118,7 +136,7 @@
 ---
 
 ### 3. Spring 2026 Recovery Campaign (Previous Sessions)
-**Directory**: `spring-2026-recovery/`
+**Directory**: `marketing/spring-2026-recovery/`
 
 - Dynamic email template: Klaviyo ID `XGwd4G`
 - Push script: `spring-2026-recovery/scripts/push_replacement_properties.py`
@@ -129,7 +147,7 @@
 ---
 
 ### 4. Walmart Optimization (Previous Sessions)
-**Directory**: `walmart-optimization/`
+**Directory**: `marketplaces/walmart-optimization/`
 
 - Inventory sync: `inventory_sync.py` (182/182 items synced)
 - SEO optimization: `seo_content_generator.py` + `generate_spreadsheet.py` (182 items)
@@ -138,7 +156,7 @@
 ---
 
 ### 5. Algolia Search Optimization (Previous Sessions)
-**Directory**: `algolia-optimization/`
+**Directory**: `seo/algolia-optimization/`
 
 - `optimize_search.py` — 57 synonyms, 7 rules, 11 searchable attributes configured
 - App ID: `CR7906DEBT`, main index: `wp_prod_posts_product`
@@ -196,7 +214,7 @@
 ---
 
 ### 6. Google Ads Drip Automation ✅ BUILT (March 9, 2026)
-**Directory**: `google-ads-audit/drip/`
+**Directory**: `marketing/google-ads-audit/drip/`
 
 **What was built**:
 - Complete drip optimization system: plan generation → Telegram approval → execution → tracking
@@ -209,12 +227,12 @@
 **Key Files**:
 | File | Purpose |
 |------|---------|
-| `google-ads-audit/drip/google_ads_mutator.py` | All Google Ads API write ops (budgets, negatives, pauses, keyword adds) |
-| `google-ads-audit/drip/telegram_bot.py` | Telegram bot with HTML rendering, polling, keyword parsing |
-| `google-ads-audit/drip/cycle_orchestrator.py` | Plan generation, execution, tracker/approval log updates |
-| `google-ads-audit/drip/IMPLEMENTATION_TRACKER.md` | Optimization roadmap + change history |
-| `google-ads-audit/drip/APPROVAL_LOG.md` | Full audit trail of all approvals |
-| `google-ads-audit/drip/run_keyword_review.py` | One-off keyword review runner (retry logic, HTML-safe reports) |
+| `marketing/google-ads-audit/drip/google_ads_mutator.py` | All Google Ads API write ops (budgets, negatives, pauses, keyword adds) |
+| `marketing/google-ads-audit/drip/telegram_bot.py` | Telegram bot with HTML rendering, polling, keyword parsing |
+| `marketing/google-ads-audit/drip/cycle_orchestrator.py` | Plan generation, execution, tracker/approval log updates |
+| `marketing/google-ads-audit/drip/IMPLEMENTATION_TRACKER.md` | Optimization roadmap + change history |
+| `marketing/google-ads-audit/drip/APPROVAL_LOG.md` | Full audit trail of all approvals |
+| `marketing/google-ads-audit/drip/run_keyword_review.py` | One-off keyword review runner (retry logic, HTML-safe reports) |
 | `.github/workflows/google_ads_drip.yml` | GitHub Actions cron + manual dispatch |
 
 **Cycles Completed**:
@@ -236,8 +254,87 @@
 
 ---
 
+### 9. Shopping Bottom-20 Product Improvements ✅ COMPLETE (March 11, 2026)
+**Scripts**: `store/product-updates/audit_bottom20_products.py`, `store/product-updates/update_product_descriptions.py`
+**Audit report**: `marketing/google-ads-audit/product_content_audit.json`
+
+**What was done**:
+- Audited all 17 parent products from the Shopping bottom-20 list for content gaps
+- Updated 15 products with missing `short_description`, `description`, and/or ACF fields
+- Added `product_content_2` ACF field for Dryland Pasture Mix and Sun & Shade Mix
+- Added 6 FAQ answers to Grass Seed for Shady Areas (444217)
+- Restocked all 20 variations to qty 40 (7 had negative stock)
+
+**Content updates by product**:
+| Product | Parent ID | Fixed |
+|---------|-----------|-------|
+| White Dutch Clover | 445312 | desc + short_desc |
+| CA Fire-Resistant Mix | 445160 | desc + short_desc |
+| Clover Lawn Alternative | 458434 | desc + short_desc |
+| Green Screen Food Plot | 455414 | desc + short_desc |
+| Sundancer Buffalograss | 456233 | desc + short_desc |
+| Dryland Pasture Mix | 458472 | desc + product_content_2 |
+| Texas Bluebonnet | 462219 | desc |
+| Chicken Forage Mix | 445163 | desc + short_desc |
+| California Poppy | 445350 | desc + short_desc |
+| Goat Pasture & Forage | 445267 | short_desc |
+| Narrowleaf Milkweed | 445347 | desc + short_desc |
+| Triblade Tall Fescue | 445117 | desc |
+| Sun and Shade Mix | 447115 | desc + product_content_2 |
+| Coastal CA Wildflower | 445349 | desc + short_desc |
+| Grass Seed Shady Areas | 444217 | 6 FAQ answers |
+
+**Still complete**: Rocky Mountain Wildflower (445310), Switchgrass (445325)
+
+**Remaining**: Shopper Approved → Google Merchant Center star ratings (see below)
+
+---
+
+### 10. Klaviyo Browse Abandonment Flow Improvement ✅ TEMPLATES CREATED (March 11, 2026)
+**Flow**: Browse Abandonment - Standard (`Xz9k4a`) — LIVE
+**Category-Aware Draft**: `V2q3uA` — still draft, needs UI work to activate
+
+**Audit findings**:
+- Only 4.4 entries/day (very low volume) — trigger filters may be too restrictive
+- Email 1 generates 89.5% of all flow revenue ($1,142/$1,277)
+- Subject lines are category-mismatched (everyone gets "pasture" first regardless of what they browsed)
+- Flow has never been updated since Jan 30, 2026
+
+**Templates created** (assign these to the 3 flow messages):
+| Template | ID | Klaviyo URL |
+|----------|-----|------------|
+| Email 1 — Product Reminder | `XAQtiJ` | klaviyo.com/email-editor/XAQtiJ/edit |
+| Email 2 — Social Proof | `UmGdL4` | klaviyo.com/email-editor/UmGdL4/edit |
+| Email 3 — Urgency + Seasonal | `Rt4ZAW` | klaviyo.com/email-editor/Rt4ZAW/edit |
+
+**Required UI actions for full improvement** (cannot do via API):
+1. Go to [flow editor](https://www.klaviyo.com/flow/Xz9k4a/edit) → click each email message → swap template to new IDs above
+2. Update subject lines to use dynamic tags:
+   - Email 1: `Still thinking about {{ event.ProductName }}?`
+   - Email 2: `{{ first_name|default:"Hey" }}, any questions about your seed?`
+   - Email 3: `Your planting window is closing, {{ first_name|default:"friend" }}`
+3. Review flow filters — remove overly restrictive conditions to increase entry volume (target: 30+/day)
+4. Check Smart Sending setting — reduce or disable if suppressing too many entries
+
+---
+
+### 8. Klaviyo Campaign Drafts ✅ COMPLETE (March 10, 2026)
+**File**: `marketing/klaviyo-audit/create_campaigns.py`
+**Results**: `campaign_creation_results.json`
+
+**What was done**:
+- Created 55 campaign drafts in Klaviyo for March–May 2026 email schedule
+- Each campaign: HTML template created via REST API → campaign created via REST API → template assigned via MCP tool
+- All campaigns target only starred segments (RFM, engagement, category purchaser segments)
+- Used API revision `2024-07-15` (hyphenated/snake_case field names)
+- Template assignment only works via MCP tool `klaviyo_assign_template_to_campaign_message` — REST API doesn't support it in any revision
+
+**Key learning**: Klaviyo API revision headers completely change the schema. `2024-10-15` = camelCase, `2024-07-15` = hyphenated/snake_case. The MCP tool abstracts this.
+
+---
+
 ### 7. Nightly Sales Review (Telegram) ✅ WORKING (March 10, 2026)
-**File**: `daily-report/nightly_review.py`
+**File**: `infrastructure/daily-report/nightly_review.py`
 **Workflow**: `.github/workflows/nightly_review.yml`
 
 **What it does** — Every night at 10 PM MST, sends a Telegram summary:
@@ -263,17 +360,79 @@
 
 ## Automation Gaps (Priority Queue)
 
-1. **Retool dashboard setup** — Connect to Supabase, build MTD/YTD views (ACTIVE)
-2. **Financial goals data entry** — Populate `financial_goals` table for goal tracking
-3. **WC → Walmart price sync** (HIGH)
-4. **Walmart orders → WC/Fishbowl** (MEDIUM)
-5. **Winback flow email 2** — 0% click rate (CRITICAL marketing fix)
-6. **Algolia clickAnalytics** — enable in theme JS (MEDIUM)
-7. **Algolia content sync** — WC descriptions empty in index (MEDIUM)
-8. **Google Ads Tier 2-4 items** — see `LIVE_IMPLEMENTATION_GUIDE.md`
-9. **Texas collection pricing review** — 11 of 21 variants below cost
-10. **Spring recovery follow-up** — reclassify 1,029 "product still exists" profiles
-11. **Add Amazon channel** — when API access obtained
+1. **Shopping product exclusions** — Act on bottom 20 waste analysis: pause zero-conversion products, review Clover line ROAS (HIGH) — content fixes ✅ done, stock restocked ✅ done
+2. **Retool dashboard setup** — Connect to Supabase, build MTD/YTD views (ACTIVE)
+3. **Financial goals data entry** — Populate `financial_goals` table for goal tracking
+4. **WC → Walmart price sync** (HIGH)
+5. **Walmart orders → WC/Fishbowl** (MEDIUM)
+6. **Winback flow email 2** — 0% click rate (CRITICAL marketing fix)
+7. **Algolia clickAnalytics** — enable in theme JS (MEDIUM)
+8. **Algolia content sync** — WC descriptions now populated for bottom-20 products (MEDIUM — re-sync Algolia)
+14. **Browse Abandonment flow** — Templates created (XAQtiJ, UmGdL4, Rt4ZAW), need UI actions: assign templates, update subject lines, review filters to increase 4.4/day volume
+15. **Shopper Approved → Merchant Center** — Product reviews not connecting; SA dashboard needs Google feed syndication enabled, GMC needs Product Ratings program opt-in
+9. **Google Ads Tier 2-4 items** — see `LIVE_IMPLEMENTATION_GUIDE.md`
+10. **Texas collection pricing review** — 11 of 21 variants below cost
+11. **Spring recovery follow-up** — reclassify 1,029 "product still exists" profiles
+12. **Klaviyo campaign template assignment** — 55 drafts created, verify all templates linked correctly
+13. **Add Amazon channel** — when API access obtained
+
+16. **Phase 3 keyword expansion** — Animal-specific ad groups (sheep, cattle, goat, deer/wildlife) need dedicated landing pages first. Build those, then create the ad groups.
+17. **Permalink Manager custom URL** — Set drought-tolerant category to `products/drought-tolerant-seed` in WP admin → Permalink Manager. Then update Google Ads keyword final URLs.
+
+---
+
+### 11. IS Increase — Impression Share Recovery ✅ IMPLEMENTED (March 12, 2026)
+**Directory**: `seo/is-increase/`
+
+**What was done**:
+- Full landing page audit identifying keyword-level Quality Score issues
+- Created "Drought-Tolerant Pasture Seed" WooCommerce category (ID: 6029, 45 products assigned by species analysis)
+- Created "Wildflower Seeds" ad group — moved 5 misplaced wildflower keywords from Pasture campaign
+- Paused 4 misplaced wildflower keywords dragging down QS
+- Created 9 intent-matched RSA ads (wildflower, horse, drought, regional)
+- Added 16 sitelinks + 16 callout extensions across all campaigns
+- Updated drought keyword final URLs to new category page
+- Updated Texas Native Prairie Mix → "Texas Native Pasture Prairie Mix" + livestock suitability ACF field
+- Updated horse/equine and texas keyword final URLs to matching landing pages
+
+**Key Files**:
+| File | Purpose |
+|------|---------|
+| `seo/is-increase/SITE_CHANGES.md` | Manual site-side instructions (RankMath SEO, permalink, UX improvements) |
+| `seo/is-increase/create_drought_category.py` | WC category creation + product assignment |
+| `seo/is-increase/update_drought_urls.py` | Google Ads keyword URL updates |
+| `seo/is-increase/keyword_coverage_audit.py` | Full product vs keyword gap analysis |
+| `seo/is-increase/keyword_expansion.py` | Phase 1+2 ad group creation |
+| `seo/is-increase/keyword_audit_data.json` | Raw audit data (112 products, 67 keywords) |
+| `reports/is_increase_rsas.py` | RSA ad creation (fixed character limits) |
+| `reports/is_increase_actions.py` | Initial bulk actions (ad groups, keywords, extensions) |
+| `reports/landing_page_audit.py` | Keyword-level QS breakdown report |
+| `reports/campaign_constraints.py` | IS constraint analysis per campaign |
+
+**Remaining**:
+- RankMath SEO for drought category (manual — WP admin)
+- Custom permalink via Permalink Manager (`products/drought-tolerant-seed`)
+- Horse pasture page UX improvements
+- Page speed optimization on landing pages
+- Phase 3: Animal-specific ad groups (needs landing pages first)
+
+### 12. Keyword Coverage Expansion — Phase 1+2 ✅ IMPLEMENTED (March 12, 2026)
+**Directory**: `seo/is-increase/`
+
+**What was done**:
+- Full keyword coverage audit: 112 published products vs 67 active keywords
+- Found 15 products with ZERO ad coverage, 21 categories with no keywords
+- Phase 1 (4 ad groups): Lawn Seed, Food Plot Seed, Clover Seed, Cover Crop Seed
+- Phase 2 (4 ad groups): California Wildflower, Lawn Alternatives, Sports Turf, Buffalograss
+- Each ad group includes BROAD match keywords + intent-matched RSA ad
+- Took keywords from 67 → ~130+ covering ~90% of catalog
+
+**Remaining (Phase 3 — needs landing pages first)**:
+- Sheep Pasture Seed ad group
+- Cattle Pasture Seed ad group
+- Goat Pasture Seed ad group
+- Deer/Wildlife ad group
+- Each needs a dedicated landing page before creating the ad group
 
 ---
 

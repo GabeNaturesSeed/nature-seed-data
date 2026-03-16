@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO Health Report — Nature's Seed | March 2026</title>
+<style>
+  :root {
+    --green-primary: #2d6a4f;
+    --green-dark: #1b4332;
+    --green-light: #40916c;
+    --cta-orange: #C96A2E;
+    --off-white: #f8f9fa;
+    --dark-text: #212529;
+    --border: #dee2e6;
+    --card-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    --sidebar-width: 260px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--off-white);
+    color: var(--dark-text);
+    line-height: 1.6;
+  }
+
+  /* Sidebar Navigation */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--green-dark);
+    color: #fff;
+    padding: 24px 0;
+    overflow-y: auto;
+    z-index: 100;
+  }
+
+  .sidebar-logo {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    margin-bottom: 12px;
+  }
+
+  .sidebar-logo h2 {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #b7e4c7;
+  }
+
+  .sidebar-logo p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 4px;
+  }
+
+  .sidebar nav a {
+    display: block;
+    padding: 10px 20px;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    font-size: 13px;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+  }
+
+  .sidebar nav a:hover,
+  .sidebar nav a.active {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    border-left-color: var(--cta-orange);
+  }
+
+  .sidebar nav .nav-group {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.4);
+    padding: 16px 20px 6px;
+  }
+
+  /* Main Content */
+  .main {
+    margin-left: var(--sidebar-width);
+    padding: 32px 40px 80px;
+    max-width: 1200px;
+  }
+
+  .page-header {
+    margin-bottom: 32px;
+  }
+
+  .page-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--green-dark);
+  }
+
+  .page-header .subtitle {
+    font-size: 14px;
+    color: #6c757d;
+    margin-top: 4px;
+  }
+
+  /* Dashboard Cards */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: var(--card-shadow);
+    border-top: 3px solid var(--green-primary);
+  }
+
+  .card.orange { border-top-color: var(--cta-orange); }
+
+  .card .card-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #6c757d;
+    margin-bottom: 6px;
+  }
+
+  .card .card-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--green-dark);
+  }
+
+  .card .card-delta {
+    font-size: 13px;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  .card .card-delta.up { color: #2d6a4f; }
+  .card .card-delta.down { color: #c0392b; }
+
+  /* Sections */
+  .section {
+    margin-bottom: 48px;
+    scroll-margin-top: 24px;
+  }
+
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-primary);
+    display: inline-block;
+  }
+
+  .section-desc {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 20px;
+  }
+
+  /* Tables */
+  .table-wrap {
+    overflow-x: auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 24px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead th {
+    background: var(--green-dark);
+    color: #fff;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  tbody tr:nth-child(even) { background: #f8faf9; }
+  tbody tr:hover { background: #edf5f0; }
+
+  .query-cell {
+    font-weight: 600;
+    color: var(--green-dark);
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Position Badges */
+  .pos-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    min-width: 52px;
+  }
+
+  .pos-top3 { background: #d4edda; color: #155724; }
+  .pos-page1 { background: #fff3cd; color: #856404; }
+  .pos-page2 { background: #ffe0cc; color: #7a3b10; }
+  .pos-deep { background: #f8d7da; color: #721c24; }
+
+  /* Status Labels */
+  .status {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .status-page1 { background: #d4edda; color: #155724; }
+  .status-page2 { background: #fff3cd; color: #856404; }
+  .status-weak { background: #ffe0cc; color: #7a3b10; }
+  .status-missing { background: #f8d7da; color: #721c24; }
+
+  /* Issue Cards */
+  .issue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .issue-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: var(--card-shadow);
+    border-left: 4px solid #c0392b;
+  }
+
+  .issue-card.warning { border-left-color: var(--cta-orange); }
+
+  .issue-card h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark-text);
+    margin-bottom: 8px;
+  }
+
+  .issue-card p, .issue-card ul {
+    font-size: 13px;
+    color: #495057;
+  }
+
+  .issue-card ul {
+    padding-left: 18px;
+    margin-top: 6px;
+  }
+
+  .issue-card ul li { margin-bottom: 4px; }
+
+  .issue-stat {
+    font-size: 24px;
+    font-weight: 800;
+    color: #c0392b;
+    margin-bottom: 4px;
+  }
+
+  .issue-card.warning .issue-stat { color: var(--cta-orange); }
+
+  /* Strategy Section */
+  .tier {
+    background: #fff;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 20px;
+    border-left: 4px solid var(--green-primary);
+  }
+
+  .tier.tier-1 { border-left-color: #c0392b; }
+  .tier.tier-2 { border-left-color: var(--cta-orange); }
+  .tier.tier-3 { border-left-color: #f1c40f; }
+  .tier.tier-4 { border-left-color: var(--green-primary); }
+
+  .tier-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .tier.tier-1 .tier-label { color: #c0392b; }
+  .tier.tier-2 .tier-label { color: var(--cta-orange); }
+  .tier.tier-3 .tier-label { color: #b8860b; }
+  .tier.tier-4 .tier-label { color: var(--green-primary); }
+
+  .tier h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+  }
+
+  .tier ol {
+    padding-left: 20px;
+  }
+
+  .tier ol li {
+    margin-bottom: 12px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .tier ol li strong {
+    color: var(--green-dark);
+  }
+
+  .tier ol li ul {
+    margin-top: 6px;
+    padding-left: 18px;
+    list-style: disc;
+  }
+
+  .tier ol li ul li {
+    margin-bottom: 4px;
+    font-size: 13px;
+    color: #495057;
+  }
+
+  /* Stars */
+  .stars { color: var(--cta-orange); letter-spacing: 1px; }
+
+  /* Branded Split */
+  .split-bar {
+    display: flex;
+    height: 28px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 12px;
+    margin-bottom: 6px;
+  }
+
+  .split-bar .branded {
+    background: var(--green-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .split-bar .non-branded {
+    background: var(--cta-orange);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .split-legend {
+    display: flex;
+    gap: 20px;
+    font-size: 12px;
+    color: #6c757d;
+  }
+
+  .split-legend span::before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+
+  .split-legend .legend-branded::before { background: var(--green-primary); }
+  .split-legend .legend-nonbranded::before { background: var(--cta-orange); }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 32px 0 16px;
+    font-size: 12px;
+    color: #adb5bd;
+    border-top: 1px solid var(--border);
+    margin-top: 48px;
+  }
+
+  /* Priority rank number */
+  .rank-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  /* Potential clicks highlight */
+  .potential {
+    font-weight: 700;
+    color: var(--green-primary);
+  }
+
+  /* Print */
+  @media print {
+    .sidebar { display: none; }
+    .main { margin-left: 0; padding: 20px; }
+    .card, .table-wrap, .tier, .issue-card { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h2>Nature's Seed</h2>
+    <p>SEO Health Report</p>
+  </div>
+  <nav>
+    <div class="nav-group">Overview</div>
+    <a href="#executive-summary">Executive Summary</a>
+    <a href="#branded-split">Branded vs Non-Branded</a>
+    <div class="nav-group">Data</div>
+    <a href="#top-queries">Top 30 Queries</a>
+    <a href="#quick-wins">Quick Win Opportunities</a>
+    <a href="#high-intent">High-Intent Keywords</a>
+    <div class="nav-group">Issues</div>
+    <a href="#critical-issues">Critical Issues</a>
+    <div class="nav-group">Strategy</div>
+    <a href="#ranking-strategy">The Ranking Strategy</a>
+    <a href="#priority-scorecard">Priority Scorecard</a>
+  </nav>
+</aside>
+
+<!-- Main Content -->
+<div class="main">
+
+  <div class="page-header">
+    <h1>SEO Health Report &amp; Ranking Strategy</h1>
+    <p class="subtitle">naturesseed.com &mdash; Generated on March 13, 2026 &nbsp;|&nbsp; 30-day window: Feb 11 &ndash; Mar 12, 2026</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: EXECUTIVE SUMMARY                                  -->
+  <!-- ============================================================ -->
+  <div class="section" id="executive-summary">
+    <h2 class="section-title">1. Executive Summary</h2>
+    <p class="section-desc">30-day performance snapshot compared to the prior 30-day period.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-label">Clicks (30d)</div>
+        <div class="card-value">12,571</div>
+        <div class="card-delta up">+117% MoM</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Impressions (30d)</div>
+        <div class="card-value">1.97M</div>
+        <div class="card-delta up">+83% MoM</div>
+      </div>
+      <div class="card orange">
+        <div class="card-label">Avg CTR</div>
+        <div class="card-value">0.64%</div>
+        <div class="card-delta up">+19% MoM</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Avg Position</div>
+        <div class="card-value">7.1</div>
+        <div class="card-delta up">Was 10.7 &mdash; improved 3.6 spots</div>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-label">Query+Page Combos (90d)</div>
+        <div class="card-value">110K</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Unique Queries (90d)</div>
+        <div class="card-value">55K</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Indexed Pages</div>
+        <div class="card-value">2,123</div>
+      </div>
+    </div>
+
+    <!-- Branded Split -->
+    <div id="branded-split" style="margin-top:24px">
+      <h3 style="font-size:15px;font-weight:700;color:var(--green-dark);margin-bottom:4px;">Branded vs Non-Branded Click Share</h3>
+      <div class="split-bar">
+        <div class="branded" style="width:11.9%">11.9%</div>
+        <div class="non-branded" style="width:88.1%">88.1%</div>
+      </div>
+      <div class="split-legend">
+        <span class="legend-branded">Branded &mdash; 733 clicks</span>
+        <span class="legend-nonbranded">Non-Branded &mdash; 5,415 clicks</span>
+      </div>
+      <p style="font-size:12px;color:#6c757d;margin-top:8px;">Non-branded dominance is healthy &mdash; most traffic comes from generic product/informational queries, indicating strong organic discoverability beyond brand awareness.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: TOP 30 QUERIES                                     -->
+  <!-- ============================================================ -->
+  <div class="section" id="top-queries">
+    <h2 class="section-title">2. Top 30 Queries</h2>
+    <p class="section-desc">Highest-click queries in the last 30 days.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Query</th>
+            <th style="text-align:right">Clicks</th>
+            <th style="text-align:right">Impressions</th>
+            <th style="text-align:right">CTR</th>
+            <th style="text-align:center">Position</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td class="query-cell">grass seed</td><td style="text-align:right">204</td><td style="text-align:right">61,946</td><td style="text-align:right">0.3%</td><td style="text-align:center"><span class="pos-badge pos-page1">7.1</span></td></tr>
+          <tr><td>2</td><td class="query-cell">how to make seed paper</td><td style="text-align:right">202</td><td style="text-align:right">2,663</td><td style="text-align:right">7.6%</td><td style="text-align:center"><span class="pos-badge pos-top3">3.1</span></td></tr>
+          <tr><td>3</td><td class="query-cell">nature's seed company</td><td style="text-align:right">151</td><td style="text-align:right">252</td><td style="text-align:right">59.9%</td><td style="text-align:center"><span class="pos-badge pos-top3">1.2</span></td></tr>
+          <tr><td>4</td><td class="query-cell">nature seed company</td><td style="text-align:right">123</td><td style="text-align:right">215</td><td style="text-align:right">57.2%</td><td style="text-align:center"><span class="pos-badge pos-top3">1.1</span></td></tr>
+          <tr><td>5</td><td class="query-cell">nature seeds</td><td style="text-align:right">110</td><td style="text-align:right">860</td><td style="text-align:right">12.8%</td><td style="text-align:center"><span class="pos-badge pos-page1">4.4</span></td></tr>
+          <tr><td>6</td><td class="query-cell">sheep fescue</td><td style="text-align:right">109</td><td style="text-align:right">2,058</td><td style="text-align:right">5.3%</td><td style="text-align:center"><span class="pos-badge pos-top3">2.9</span></td></tr>
+          <tr><td>7</td><td class="query-cell">natures seed</td><td style="text-align:right">106</td><td style="text-align:right">1,021</td><td style="text-align:right">10.4%</td><td style="text-align:center"><span class="pos-badge pos-top3">1.5</span></td></tr>
+          <tr><td>8</td><td class="query-cell">nature's seed</td><td style="text-align:right">77</td><td style="text-align:right">605</td><td style="text-align:right">12.7%</td><td style="text-align:center"><span class="pos-badge pos-top3">1.9</span></td></tr>
+          <tr><td>9</td><td class="query-cell">diy seed paper</td><td style="text-align:right">72</td><td style="text-align:right">842</td><td style="text-align:right">8.6%</td><td style="text-align:center"><span class="pos-badge pos-top3">2.8</span></td></tr>
+          <tr><td>10</td><td class="query-cell">kentucky bluegrass</td><td style="text-align:right">69</td><td style="text-align:right">7,222</td><td style="text-align:right">1.0%</td><td style="text-align:center"><span class="pos-badge pos-page1">4.4</span></td></tr>
+          <tr><td>11</td><td class="query-cell">perennial ryegrass</td><td style="text-align:right">66</td><td style="text-align:right">12,716</td><td style="text-align:right">0.5%</td><td style="text-align:center"><span class="pos-badge pos-top3">3.2</span></td></tr>
+          <tr><td>12</td><td class="query-cell">california native seeds</td><td style="text-align:right">62</td><td style="text-align:right">640</td><td style="text-align:right">9.7%</td><td style="text-align:center"><span class="pos-badge pos-page1">4.8</span></td></tr>
+          <tr><td>13</td><td class="query-cell">sheeps fescue</td><td style="text-align:right">54</td><td style="text-align:right">774</td><td style="text-align:right">7.0%</td><td style="text-align:center"><span class="pos-badge pos-top3">1.9</span></td></tr>
+          <tr><td>14</td><td class="query-cell">best grass seed</td><td style="text-align:right">44</td><td style="text-align:right">8,506</td><td style="text-align:right">0.5%</td><td style="text-align:center"><span class="pos-badge pos-page2">13.2</span></td></tr>
+          <tr><td>15</td><td class="query-cell">rye grass</td><td style="text-align:right">32</td><td style="text-align:right">9,017</td><td style="text-align:right">0.4%</td><td style="text-align:center"><span class="pos-badge pos-page1">4.0</span></td></tr>
+          <tr><td>16</td><td class="query-cell">ryegrass</td><td style="text-align:right">32</td><td style="text-align:right">7,153</td><td style="text-align:right">0.4%</td><td style="text-align:center"><span class="pos-badge pos-top3">2.7</span></td></tr>
+          <tr><td>17</td><td class="query-cell">goat pasture seed mix</td><td style="text-align:right">30</td><td style="text-align:right">418</td><td style="text-align:right">7.2%</td><td style="text-align:center"><span class="pos-badge pos-page1">4.7</span></td></tr>
+          <tr><td>18</td><td class="query-cell">plantable seed paper</td><td style="text-align:right">30</td><td style="text-align:right">2,693</td><td style="text-align:right">1.1%</td><td style="text-align:center"><span class="pos-badge pos-page1">8.7</span></td></tr>
+          <tr><td>19</td><td class="query-cell">st augustine grass seed</td><td style="text-align:right">28</td><td style="text-align:right">9,538</td><td style="text-align:right">0.3%</td><td style="text-align:center"><span class="pos-badge pos-page1">9.7</span></td></tr>
+          <tr><td>20</td><td class="query-cell">sainfoin</td><td style="text-align:right">27</td><td style="text-align:right">3,563</td><td style="text-align:right">0.8%</td><td style="text-align:center"><span class="pos-badge pos-page1">5.3</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: QUICK WIN OPPORTUNITIES                            -->
+  <!-- ============================================================ -->
+  <div class="section" id="quick-wins">
+    <h2 class="section-title">3. Quick Win Opportunities</h2>
+    <p class="section-desc">Queries ranked position 5&ndash;15 with 500+ impressions. Moving these into the top 3&ndash;5 could unlock significant click volume. The "Potential Clicks" column shows estimated traffic at a 5% CTR.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Query</th>
+            <th style="text-align:right">Impressions</th>
+            <th style="text-align:center">Current Pos</th>
+            <th style="text-align:right">CTR</th>
+            <th style="text-align:right">Potential Clicks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="query-cell">grass seed</td><td style="text-align:right">61,946</td><td style="text-align:center"><span class="pos-badge pos-page1">7.1</span></td><td style="text-align:right">0.3%</td><td style="text-align:right" class="potential">3,097</td></tr>
+          <tr><td class="query-cell">st augustine grass seed</td><td style="text-align:right">9,538</td><td style="text-align:center"><span class="pos-badge pos-page1">9.7</span></td><td style="text-align:right">0.3%</td><td style="text-align:right" class="potential">476</td></tr>
+          <tr><td class="query-cell">best grass seed</td><td style="text-align:right">8,506</td><td style="text-align:center"><span class="pos-badge pos-page2">13.2</span></td><td style="text-align:right">0.5%</td><td style="text-align:right" class="potential">425</td></tr>
+          <tr><td class="query-cell">what eats grass</td><td style="text-align:right">6,756</td><td style="text-align:center"><span class="pos-badge pos-page1">5.3</span></td><td style="text-align:right">0.1%</td><td style="text-align:right" class="potential">337</td></tr>
+          <tr><td class="query-cell">grass seeds</td><td style="text-align:right">6,021</td><td style="text-align:center"><span class="pos-badge pos-page2">13.2</span></td><td style="text-align:right">0.2%</td><td style="text-align:right" class="potential">301</td></tr>
+          <tr><td class="query-cell">kentucky bluegrass seed</td><td style="text-align:right">5,946</td><td style="text-align:center"><span class="pos-badge pos-page1">7.5</span></td><td style="text-align:right">0.3%</td><td style="text-align:right" class="potential">297</td></tr>
+          <tr><td class="query-cell">fescue grass seed</td><td style="text-align:right">5,408</td><td style="text-align:center"><span class="pos-badge pos-page1">6.1</span></td><td style="text-align:right">0.1%</td><td style="text-align:right" class="potential">270</td></tr>
+          <tr><td class="query-cell">how to reseed a lawn</td><td style="text-align:right">4,765</td><td style="text-align:center"><span class="pos-badge pos-page2">11.0</span></td><td style="text-align:right">0.0%</td><td style="text-align:right" class="potential">238</td></tr>
+          <tr><td class="query-cell">clover seeds</td><td style="text-align:right">3,609</td><td style="text-align:center"><span class="pos-badge pos-page2">10.5</span></td><td style="text-align:right">0.0%</td><td style="text-align:right" class="potential">180</td></tr>
+          <tr><td class="query-cell">sainfoin</td><td style="text-align:right">3,563</td><td style="text-align:center"><span class="pos-badge pos-page1">5.3</span></td><td style="text-align:right">0.8%</td><td style="text-align:right" class="potential">178</td></tr>
+          <tr><td class="query-cell">buffalo grass</td><td style="text-align:right">3,386</td><td style="text-align:center"><span class="pos-badge pos-page1">7.2</span></td><td style="text-align:right">0.6%</td><td style="text-align:right" class="potential">169</td></tr>
+          <tr><td class="query-cell">lawn seed</td><td style="text-align:right">3,273</td><td style="text-align:center"><span class="pos-badge pos-page2">11.7</span></td><td style="text-align:right">0.2%</td><td style="text-align:right" class="potential">163</td></tr>
+          <tr><td class="query-cell">clover lawn</td><td style="text-align:right">3,148</td><td style="text-align:center"><span class="pos-badge pos-page2">10.6</span></td><td style="text-align:right">0.1%</td><td style="text-align:right" class="potential">157</td></tr>
+          <tr><td class="query-cell">tall fescue grass seed</td><td style="text-align:right">3,129</td><td style="text-align:center"><span class="pos-badge pos-page1">5.8</span></td><td style="text-align:right">0.1%</td><td style="text-align:right" class="potential">156</td></tr>
+          <tr><td class="query-cell">perennial ryegrass seed</td><td style="text-align:right">2,703</td><td style="text-align:center"><span class="pos-badge pos-page2">10.9</span></td><td style="text-align:right">0.1%</td><td style="text-align:right" class="potential">135</td></tr>
+          <tr><td class="query-cell">buffalo grass seed</td><td style="text-align:right">2,615</td><td style="text-align:center"><span class="pos-badge pos-page1">8.6</span></td><td style="text-align:right">0.9%</td><td style="text-align:right" class="potential">130</td></tr>
+          <tr><td class="query-cell">high traffic grass seed</td><td style="text-align:right">2,547</td><td style="text-align:center"><span class="pos-badge pos-page1">6.0</span></td><td style="text-align:right">0.1%</td><td style="text-align:right" class="potential">127</td></tr>
+          <tr><td class="query-cell">alfalfa seeds</td><td style="text-align:right">2,505</td><td style="text-align:center"><span class="pos-badge pos-page2">11.6</span></td><td style="text-align:right">0.2%</td><td style="text-align:right" class="potential">125</td></tr>
+          <tr><td class="query-cell">wildflower seeds</td><td style="text-align:right">2,239</td><td style="text-align:center"><span class="pos-badge pos-page2">12.8</span></td><td style="text-align:right">0.3%</td><td style="text-align:right" class="potential">112</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:13px;color:#6c757d;"><strong>Combined potential:</strong> Moving all 19 quick-win queries to a 5% CTR would yield an estimated <strong>7,073 additional monthly clicks</strong> &mdash; a 56% increase over current totals.</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: CRITICAL ISSUES                                    -->
+  <!-- ============================================================ -->
+  <div class="section" id="critical-issues">
+    <h2 class="section-title">4. Critical Issues</h2>
+    <p class="section-desc">Technical and content problems that are actively suppressing rankings and wasting crawl budget.</p>
+
+    <div class="issue-grid">
+      <div class="issue-card">
+        <div class="issue-stat">1,079</div>
+        <h4>Keyword Cannibalization Cases</h4>
+        <p>Multiple pages competing for the same query, diluting authority. Top offenders:</p>
+        <ul>
+          <li><strong>"grass seed"</strong> &mdash; 100 pages competing (best pos 6.8 on /products/grass-seed/)</li>
+          <li><strong>"perennial ryegrass"</strong> &mdash; 126 pages competing (best pos 3.6)</li>
+          <li><strong>"kentucky bluegrass"</strong> &mdash; 101 pages competing (best pos 3.7)</li>
+          <li><strong>"best grass seed"</strong> &mdash; 55 pages competing</li>
+          <li><strong>"fescue grass seed"</strong> &mdash; 27 pages competing</li>
+        </ul>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-stat">741</div>
+        <h4>Junk URLs Eating Crawl Budget</h4>
+        <p>Indexed URLs that should not exist in search:</p>
+        <ul>
+          <li><strong>211</strong> fragment URLs (e.g., /resources/.../#anchor)</li>
+          <li><strong>402</strong> variation/parameter URLs</li>
+          <li><strong>128</strong> old /grass-seed/ URLs (should be /products/grass-seed/)</li>
+        </ul>
+      </div>
+
+      <div class="issue-card warning">
+        <div class="issue-stat">0.3%</div>
+        <h4>Low CTR Despite Good Rankings</h4>
+        <p>Top-10 queries with CTR below 3% &mdash; meta titles/descriptions need work:</p>
+        <ul>
+          <li><strong>"grass seed"</strong> &mdash; pos 7.1, 0.3% CTR (61K impressions wasted)</li>
+          <li><strong>"perennial ryegrass"</strong> &mdash; pos 3.2, 0.5% CTR</li>
+          <li><strong>"rye grass"</strong> &mdash; pos 4.0, 0.4% CTR</li>
+          <li><strong>"kentucky bluegrass"</strong> &mdash; pos 4.4, 1.0% CTR</li>
+          <li><strong>"fescue grass seed"</strong> &mdash; pos 6.1, 0.1% CTR</li>
+        </ul>
+      </div>
+
+      <div class="issue-card warning">
+        <div class="issue-stat">27.9%</div>
+        <h4>Product Page Click Share</h4>
+        <p>Content type imbalance &mdash; product pages only capture 27.9% of all organic clicks, while resource/blog pages capture 62.8%. Product pages should be converting traffic but are underperforming in search. This needs to be inverted for revenue impact.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: HIGH-INTENT KEYWORDS                               -->
+  <!-- ============================================================ -->
+  <div class="section" id="high-intent">
+    <h2 class="section-title">5. High-Intent Keywords &mdash; Current Standing</h2>
+    <p class="section-desc">Where we rank today for the keyword clusters that matter most to revenue.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Keyword Cluster</th>
+            <th>Best Query</th>
+            <th style="text-align:center">Position</th>
+            <th style="text-align:right">Impressions</th>
+            <th style="text-align:center">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Grass Seed (head)</strong></td><td class="query-cell">grass seed</td><td style="text-align:center"><span class="pos-badge pos-page1">7.1</span></td><td style="text-align:right">61,946</td><td style="text-align:center"><span class="status status-page1">PAGE 1</span></td></tr>
+          <tr><td><strong>Lawn Seed</strong></td><td class="query-cell">lawn seed</td><td style="text-align:center"><span class="pos-badge pos-page2">11.7</span></td><td style="text-align:right">3,273</td><td style="text-align:center"><span class="status status-page2">PAGE 2</span></td></tr>
+          <tr><td><strong>Pasture Seed</strong></td><td class="query-cell">pasture seed</td><td style="text-align:center"><span class="pos-badge pos-page2">11.6</span></td><td style="text-align:right">1,681</td><td style="text-align:center"><span class="status status-page2">PAGE 2</span></td></tr>
+          <tr><td><strong>Clover Seed</strong></td><td class="query-cell">clover seed</td><td style="text-align:center"><span class="pos-badge pos-page2">16.1</span></td><td style="text-align:right">3,226</td><td style="text-align:center"><span class="status status-page2">PAGE 2</span></td></tr>
+          <tr><td><strong>Clover for Lawn</strong></td><td class="query-cell">clover seeds for lawn</td><td style="text-align:center"><span class="pos-badge pos-top3">3.2</span></td><td style="text-align:right">5,459</td><td style="text-align:center"><span class="status status-page1">PAGE 1</span></td></tr>
+          <tr><td><strong>Wildflower Seeds</strong></td><td class="query-cell">wildflower seeds</td><td style="text-align:center"><span class="pos-badge pos-page2">12.8</span></td><td style="text-align:right">2,239</td><td style="text-align:center"><span class="status status-page2">PAGE 2</span></td></tr>
+          <tr><td><strong>Food Plot Seed</strong></td><td class="query-cell">food plot seed</td><td style="text-align:center"><span class="pos-badge pos-deep">78.1</span></td><td style="text-align:right">520</td><td style="text-align:center"><span class="status status-missing">NOT RANKING</span></td></tr>
+          <tr><td><strong>Cover Crop Seed</strong></td><td class="query-cell">cover crop seed</td><td style="text-align:center"><span class="pos-badge pos-page2">~16</span></td><td style="text-align:right">~268</td><td style="text-align:center"><span class="status status-weak">WEAK</span></td></tr>
+          <tr><td><strong>Buffalo Grass</strong></td><td class="query-cell">buffalo grass</td><td style="text-align:center"><span class="pos-badge pos-page1">7.2</span></td><td style="text-align:right">3,386</td><td style="text-align:center"><span class="status status-page1">PAGE 1</span></td></tr>
+          <tr><td><strong>Fescue Seed</strong></td><td class="query-cell">fescue grass seed</td><td style="text-align:center"><span class="pos-badge pos-page1">6.1</span></td><td style="text-align:right">5,408</td><td style="text-align:center"><span class="status status-page1">PAGE 1</span></td></tr>
+          <tr><td><strong>Kentucky Bluegrass Seed</strong></td><td class="query-cell">kentucky bluegrass seed</td><td style="text-align:center"><span class="pos-badge pos-page1">7.5</span></td><td style="text-align:right">5,946</td><td style="text-align:center"><span class="status status-page1">PAGE 1</span></td></tr>
+          <tr><td><strong>Perennial Ryegrass</strong></td><td class="query-cell">perennial ryegrass seed</td><td style="text-align:center"><span class="pos-badge pos-page2">10.9</span></td><td style="text-align:right">2,703</td><td style="text-align:center"><span class="status status-page2">PAGE 2</span></td></tr>
+          <tr><td><strong>Bermuda Grass Seed</strong></td><td class="query-cell">bermuda grass seed</td><td style="text-align:center"><span class="pos-badge pos-page1">4.8</span></td><td style="text-align:right">4,526</td><td style="text-align:center"><span class="status status-page1">PAGE 1</span></td></tr>
+          <tr><td><strong>St Augustine</strong></td><td class="query-cell">st augustine grass seed</td><td style="text-align:center"><span class="pos-badge pos-page1">9.7</span></td><td style="text-align:right">9,538</td><td style="text-align:center"><span class="status status-page1">PAGE 1</span></td></tr>
+          <tr><td><strong>California Native</strong></td><td class="query-cell">california native seeds</td><td style="text-align:center"><span class="pos-badge pos-page1">4.8</span></td><td style="text-align:right">640</td><td style="text-align:center"><span class="status status-page1">PAGE 1</span></td></tr>
+          <tr><td><strong>Horse Pasture</strong></td><td class="query-cell">horse pasture seed</td><td style="text-align:center"><span class="pos-badge pos-page2">~11</span></td><td style="text-align:right">~1,681</td><td style="text-align:center"><span class="status status-page2">PAGE 2</span></td></tr>
+          <tr><td><strong>High Traffic</strong></td><td class="query-cell">high traffic grass seed</td><td style="text-align:center"><span class="pos-badge pos-page1">6.0</span></td><td style="text-align:right">2,547</td><td style="text-align:center"><span class="status status-page1">PAGE 1</span></td></tr>
+          <tr><td><strong>Drought Tolerant</strong></td><td class="query-cell">drought tolerant grass</td><td style="text-align:center"><span class="pos-badge pos-page2">~16</span></td><td style="text-align:right">~268</td><td style="text-align:center"><span class="status status-weak">WEAK</span></td></tr>
+          <tr><td><strong>Sports Turf</strong></td><td class="query-cell">sports turf seed</td><td style="text-align:center"><span class="pos-badge pos-deep">23.8</span></td><td style="text-align:right">436</td><td style="text-align:center"><span class="status status-weak">WEAK</span></td></tr>
+          <tr><td><strong>Overseeding</strong></td><td class="query-cell">overseeding</td><td style="text-align:center"><span class="pos-badge pos-deep">72.7</span></td><td style="text-align:right">695</td><td style="text-align:center"><span class="status status-missing">NOT RANKING</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: THE RANKING STRATEGY                               -->
+  <!-- ============================================================ -->
+  <div class="section" id="ranking-strategy">
+    <h2 class="section-title">6. The Plan: From Page 2 to Position 1</h2>
+    <p class="section-desc">A four-tier roadmap prioritized by impact and effort. Execute top-down.</p>
+
+    <!-- TIER 1 -->
+    <div class="tier tier-1">
+      <div class="tier-label">Tier 1 &mdash; Immediate Impact (Next 2 Weeks)</div>
+      <h3>Fix Technical Issues + Improve Existing Rankings</h3>
+      <ol>
+        <li>
+          <strong>Fix crawl budget waste (741 junk URLs)</strong>
+          <ul>
+            <li>Submit removal requests in Google Search Console for 211 fragment URLs</li>
+            <li>Add <code>noindex, nofollow</code> meta tags to all variation/parameter pages (402 URLs)</li>
+            <li>Set up 301 redirects from 128 old <code>/grass-seed/</code> URLs to their <code>/products/grass-seed/</code> counterparts</li>
+            <li>Set canonical tags on all product variation URLs pointing to parent product page</li>
+            <li>This alone frees up crawl budget for the pages that matter</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Resolve top keyword cannibalization</strong>
+          <ul>
+            <li>For "grass seed" (100 competing pages): consolidate authority to <code>/products/grass-seed/</code></li>
+            <li>Add internal links from all resource articles to <code>/products/grass-seed/</code> with anchor text "grass seed"</li>
+            <li>Add <code>rel="canonical"</code> on blog posts that rank for "grass seed" variations, pointing to the category page</li>
+            <li>Repeat for "perennial ryegrass" (126 pages), "kentucky bluegrass" (101 pages), "fescue grass seed" (27 pages)</li>
+            <li>Each target page should be the single, undisputed authority for its keyword cluster</li>
+          </ul>
+        </li>
+        <li>
+          <strong>CTR optimization for top-ranking keywords</strong>
+          <ul>
+            <li>Update RankMath SEO titles and meta descriptions for all category pages and top resource articles</li>
+            <li><code>/products/grass-seed/</code>: "Premium Grass Seed | USDA-Tested, Free Shipping | Nature's Seed"</li>
+            <li><code>/products/clover-seed/</code>: "Clover Seed for Lawns &amp; Pastures | Ships Free | Nature's Seed"</li>
+            <li>Use benefit-driven titles: certifications, free shipping, fast delivery</li>
+            <li>Meta descriptions should include a call to action and differentiators</li>
+            <li>Target: double CTR on "grass seed" from 0.3% to 0.6% = +186 clicks/month</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+
+    <!-- TIER 2 -->
+    <div class="tier tier-2">
+      <div class="tier-label">Tier 2 &mdash; Category Page Authority (Weeks 2&ndash;4)</div>
+      <h3>Make Product Category Pages the Ranking Targets</h3>
+      <ol start="4">
+        <li>
+          <strong>Category page SEO optimization</strong>
+          <ul>
+            <li>We added 1,500+ word descriptions with FAQs to all 26 categories &mdash; now optimize the on-page SEO</li>
+            <li>Set primary focus keyword in RankMath for each category page</li>
+            <li>Craft unique meta titles (50&ndash;60 chars) and descriptions (150&ndash;160 chars) per category</li>
+            <li>Ensure canonical URL is correct and self-referencing for each category</li>
+            <li>Add FAQ schema markup to each category page (structured data already drafted in handoff)</li>
+            <li>Add Product category schema where applicable</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Internal linking overhaul</strong>
+          <ul>
+            <li>Every resource article must link to its corresponding product category page with exact-match or close-variant anchor text</li>
+            <li>Perennial ryegrass articles &rarr; <code>/products/grass-seed/</code> and individual product pages</li>
+            <li>Florida/state guides &rarr; <code>/products/grass-seed/northern-lawn/</code> or <code>/southern-lawn/</code></li>
+            <li>Horse/cattle/goat articles &rarr; <code>/products/pasture-seed/horse-pastures-seed/</code> etc.</li>
+            <li>Clover articles &rarr; <code>/products/clover-seed/</code></li>
+            <li>Product card injection project (38/48 done) is already building this &mdash; complete the remaining 10</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+
+    <!-- TIER 3 -->
+    <div class="tier tier-3">
+      <div class="tier-label">Tier 3 &mdash; Content Gap Fill (Weeks 4&ndash;8)</div>
+      <h3>Create Content for Keywords We Don't Rank For</h3>
+      <ol start="6">
+        <li>
+          <strong>New resource articles needed</strong>
+          <ul>
+            <li><strong>"how to reseed a lawn"</strong> &mdash; 4,765 impressions, pos 11, no dedicated article</li>
+            <li><strong>"food plot seed"</strong> content cluster &mdash; pos 78, we have products but zero content</li>
+            <li><strong>"cover crop"</strong> content cluster &mdash; very weak despite having products</li>
+            <li><strong>"overseeding"</strong> comprehensive guide &mdash; pos 72.7, huge demand, no dedicated content</li>
+            <li><strong>"wildflower seeds"</strong> comprehensive guide &mdash; pos 12.8, needs authority content</li>
+            <li><strong>"drought tolerant grass seed"</strong> guide &mdash; aligns with our drought collection</li>
+            <li><strong>"sports turf seed"</strong> guide &mdash; pos 23.8, we sell the product</li>
+            <li>State-specific lawn seed guides for high-demand states we are missing</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Product page content enrichment</strong>
+          <ul>
+            <li>Individual product pages need unique, keyword-rich descriptions (not just a variant of the short description)</li>
+            <li>Embed planting guides directly on the product page</li>
+            <li>Add customer Q&amp;A sections</li>
+            <li>Cross-link to related products and relevant resource articles</li>
+            <li>Goal: shift the 27.9% product page click share closer to 40%+</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+
+    <!-- TIER 4 -->
+    <div class="tier tier-4">
+      <div class="tier-label">Tier 4 &mdash; Authority Building (Ongoing)</div>
+      <h3>Domain Authority &amp; Topical Clusters</h3>
+      <ol start="8">
+        <li>
+          <strong>Build topical authority clusters</strong>
+          <ul>
+            <li><strong>Lawn Seed hub</strong> &rarr; Northern / Southern / Transitional &rarr; Species guides &rarr; State guides</li>
+            <li><strong>Pasture Seed hub</strong> &rarr; Animal-specific &rarr; Regional &rarr; Species guides</li>
+            <li>Each cluster internally linked with clear parent&ndash;child hierarchy</li>
+            <li>Hub pages link down to subtopics; subtopics link back up and across</li>
+            <li>This signals topical depth to Google and builds compound ranking power</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Technical SEO foundation</strong>
+          <ul>
+            <li>Sitemap audit &mdash; remove all junk URLs from XML sitemaps</li>
+            <li>robots.txt optimization &mdash; disallow crawl of parameter/fragment paths</li>
+            <li>Page speed improvements (especially mobile &mdash; LCP, CLS, INP)</li>
+            <li>Core Web Vitals monitoring via Search Console</li>
+            <li>HTTPS, mobile-first indexing, and structured data validation</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7: PRIORITY SCORECARD                                 -->
+  <!-- ============================================================ -->
+  <div class="section" id="priority-scorecard">
+    <h2 class="section-title">7. Priority Scorecard</h2>
+    <p class="section-desc">Each keyword cluster scored by search volume, ranking gap, revenue potential, and effort required. Higher star count = larger opportunity or challenge.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align:center">Priority</th>
+            <th>Keyword Cluster</th>
+            <th style="text-align:center">Volume</th>
+            <th style="text-align:center">Gap</th>
+            <th style="text-align:center">Revenue</th>
+            <th style="text-align:center">Effort</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align:center"><span class="rank-num">1</span></td>
+            <td><strong>Grass Seed</strong></td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="rank-num">2</span></td>
+            <td><strong>Clover Seed / Lawn</strong></td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="rank-num">3</span></td>
+            <td><strong>Fescue Seed</strong></td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="rank-num">4</span></td>
+            <td><strong>Kentucky Bluegrass</strong></td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="rank-num">5</span></td>
+            <td><strong>Pasture Seed</strong></td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="rank-num">6</span></td>
+            <td><strong>Wildflower Seeds</strong></td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="rank-num">7</span></td>
+            <td><strong>Bermuda Grass Seed</strong></td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="rank-num">8</span></td>
+            <td><strong>Buffalo Grass Seed</strong></td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="rank-num">9</span></td>
+            <td><strong>Food Plot Seed</strong></td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="rank-num">10</span></td>
+            <td><strong>Cover Crop Seed</strong></td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="rank-num">11</span></td>
+            <td><strong>Horse Pasture</strong></td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="rank-num">12</span></td>
+            <td><strong>Overseeding</strong></td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+            <td style="text-align:center" class="stars">&#9733;&#9733;&#9733;</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Generated by Nature's Seed Data Orchestrator &nbsp;|&nbsp; March 13, 2026
+  </div>
+
+</div><!-- /.main -->
+
+</body>
+</html>

@@ -19,7 +19,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install -r daily-report/requirements.txt
+        run: pip install -r infrastructure/daily-report/requirements.txt
 
       - name: Create .env from secrets
         run: |
@@ -46,4 +46,4 @@ jobs:
           ENVEOF
 
       - name: Pull yesterday's data
-        run: python daily-report/daily_pull.py
+        run: python infrastructure/daily-report/daily_pull.py

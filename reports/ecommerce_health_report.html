@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ecommerce Health Report — Nature's Seed — March 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          background: #f4f6f8; color: #1a1a1a; font-size: 13px; line-height: 1.5; }
+
+  /* ── Header ── */
+  .header { background: #1b4332; color: #fff; padding: 24px 36px; }
+  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+  .header .subtitle { font-size: 13px; color: #74c69d; margin-top: 4px; }
+
+  /* ── Sections ── */
+  .section { margin: 0 36px 32px; }
+  .section-title { font-size: 15px; font-weight: 700; color: #1b4332;
+                     border-left: 4px solid #2d6a4f; padding-left: 10px;
+                     margin-bottom: 16px; margin-top: 28px; }
+
+  /* ── Period tabs ── */
+  .period-tabs { display: flex; gap: 0; margin: 20px 36px 0; border-bottom: 2px solid #e2e8f0; }
+  .tab { padding: 10px 24px; cursor: pointer; font-size: 13px; font-weight: 600;
+           color: #6b7280; border-bottom: 3px solid transparent; margin-bottom: -2px;
+           transition: all .15s; }
+  .tab.active { color: #1b4332; border-bottom-color: #2d6a4f; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── KPI Grid ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 12px; margin-bottom: 8px; }
+  .kpi-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 16px; }
+  .kpi-label { font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase;
+                 letter-spacing: .5px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .kpi-note { font-size: 10px; color: #9ca3af; font-weight: 400; text-transform: none; letter-spacing: 0; }
+  .kpi-row-vals { display: flex; gap: 12px; margin-bottom: 8px; }
+  .kpi-yr { flex: 1; }
+  .kpi-yr-label { font-size: 10px; color: #9ca3af; display: block; margin-bottom: 2px; }
+  .kpi-yr-val { font-size: 16px; font-weight: 700; color: #374151; }
+  .kpi-yr-now .kpi-yr-val { color: #1b4332; font-size: 18px; }
+  .kpi-delta { font-size: 13px; font-weight: 700; }
+
+  /* ── Insight cards ── */
+  .insights { display: flex; flex-direction: column; gap: 12px; margin: 0 36px 28px; }
+  .insight-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
+                    padding: 16px 20px; display: flex; gap: 14px; align-items: flex-start; }
+  .insight-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .insight-title { font-size: 13px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
+  .insight-text { font-size: 12px; color: #555; line-height: 1.6; }
+
+  /* ── Charts ── */
+  .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+                  margin: 0 36px 28px; }
+  .chart-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px 20px; }
+  .chart-title { font-size: 12px; font-weight: 700; color: #374151;
+                   text-transform: uppercase; letter-spacing: .5px; margin-bottom: 12px; }
+  .chart-wrap { position: relative; height: 220px; }
+
+  /* ── Tables ── */
+  .table-wrap { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
+                  overflow: hidden; margin: 0 36px 28px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  thead tr { background: #f8fafc; border-bottom: 2px solid #e2e8f0; }
+  thead th { padding: 10px 12px; text-align: left; font-size: 10px; font-weight: 700;
+               color: #6b7280; text-transform: uppercase; letter-spacing: .5px; white-space: nowrap; }
+  thead th.num { text-align: right; }
+  tbody tr { border-bottom: 1px solid #f1f5f9; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #f8fafc; }
+  td { padding: 9px 12px; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; color: #374151; }
+  td.bold { font-weight: 700; }
+  td.month-label { font-weight: 600; color: #1a1a1a; }
+  td.pos { color: #2d6a4f; font-weight: 700; }
+  td.neg { color: #c0392b; font-weight: 700; }
+  td.delta { white-space: nowrap; }
+  .mtd-tag { display: inline-block; background: #dbeafe; color: #1d4ed8; font-size: 9px;
+               font-weight: 700; padding: 1px 5px; border-radius: 10px;
+               text-transform: uppercase; letter-spacing: .5px; margin-left: 4px; }
+  tr.row-2026 { background: #f0fdf4 !important; }
+  tr.row-2026:hover { background: #dcfce7 !important; }
+
+  /* ── Trend sparkline bar in table ── */
+  .spark-bar-wrap { display: flex; align-items: center; gap: 6px; }
+  .spark-bar { height: 8px; border-radius: 4px; background: #2d6a4f; }
+
+  /* ── Footer note ── */
+  .footer-note { margin: 0 36px 32px; font-size: 11px; color: #9ca3af; line-height: 1.6; }
+  .footer-note strong { color: #6b7280; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Ecommerce Health Report — Nature's Seed</h1>
+  <div class="subtitle">MTD &amp; YTD Performance vs Prior Year &nbsp;·&nbsp; As of March 10, 2026 &nbsp;·&nbsp; WooCommerce + Walmart + Google Ads</div>
+</div>
+
+<!-- ── Period tabs ──────────────────────────────────────────────── -->
+<div class="period-tabs">
+  <div class="tab active" onclick="showTab('mtd',this)">MTD (March 1–10)</div>
+  <div class="tab" onclick="showTab('ytd',this)">YTD (Jan 1–Mar 10)</div>
+  <div class="tab" onclick="showTab('monthly',this)">Monthly Breakdown</div>
+  <div class="tab" onclick="showTab('full',this)">Full History</div>
+</div>
+
+<!-- ── MTD Panel ──────────────────────────────────────────────────── -->
+<div id="tab-mtd" class="tab-panel active">
+  <div class="section-title" style="margin: 24px 36px 16px;">MTD Performance: March 1–10, 2026 vs 2025</div>
+  <div class='kpi-grid'>
+    <div class="kpi-card">
+      <div class="kpi-label">Total Revenue</div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">$133,652</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">$121,983</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#c0392b">
+        ▼ -8.7%
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">WooCommerce Rev</div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">$133,652</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">$118,497</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#c0392b">
+        ▼ -11.3%
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Walmart Rev<span class="kpi-note"> (new)</span></div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">$0</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">$3,486</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#6b7280">
+        → +0.0%
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Total Orders</div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">727</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">900</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#2d6a4f">
+        ▲ +23.8%
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Avg Order Value (WC)</div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">$184</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">$136</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#c0392b">
+        ▼ -26.0%
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Ad Spend</div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">$25,801</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">$24,710</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#2d6a4f">
+        ▼ -4.2%
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">MER</div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">5.18x</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">4.94x</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#c0392b">
+        ▼ -4.7%
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">ROAS (Google)</div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">2.80x</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">3.27x</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#2d6a4f">
+        ▲ +16.7%
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Conv. Volume</div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">479</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">603</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#2d6a4f">
+        ▲ +25.9%
+      </div>
+    </div></div>
+
+  <div class="section-title" style="margin: 24px 36px 16px;">MTD Highlights</div>
+  <div class="insights">
+    
+    <div class="insight-card">
+      <div class="insight-icon">⚡</div>
+      <div class="insight-body">
+        <div class="insight-title">Revenue down MTD, driven entirely by AOV compression</div>
+        <div class="insight-text">March 1-10 revenue is -8.7% YoY ($121,983 vs $133,652). Orders actually <strong>grew +24%</strong> (900 vs 727), but average order value fell <strong>-26% to $136</strong> from $184. Smaller basket size, not less traffic, is the story.</div>
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <div class="insight-icon">📊</div>
+      <div class="insight-body">
+        <div class="insight-title">Marketing efficiency held — MER flat YTD, ROAS improved</div>
+        <div class="insight-text">YTD MER is identical at 4.43x vs 4.43x — every dollar of ad spend produces the same total revenue return. ROAS improved from 2.42x to 3.09x, suggesting better conversion quality on Google. The spend reduction (-28%) explains most of the YTD revenue gap.</div>
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <div class="insight-icon">💡</div>
+      <div class="insight-body">
+        <div class="insight-title">YTD revenue decline correlates 1:1 with reduced ad spend</div>
+        <div class="insight-text">YTD revenue is -28.5% — and ad spend dropped -28.5%. January and February 2026 were run at significantly lower spend (Jan: $14,271 vs $44,151; Feb: $45,663 vs $48,374). This was a budget decision, not a market efficiency loss.</div>
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <div class="insight-icon">🛒</div>
+      <div class="insight-body">
+        <div class="insight-title">Walmart launched — new incremental revenue channel</div>
+        <div class="insight-text">$3,486 Walmart revenue in March MTD, adding 2.9% on top of WooCommerce. Zero Walmart revenue existed in 2025 — all incremental. Full-month March 2025 delivered $0 from Walmart.</div>
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <div class="insight-icon">🌱</div>
+      <div class="insight-body">
+        <div class="insight-title">Spring 2026 ramp looks solid — March daily rate on pace</div>
+        <div class="insight-text">Current March MTD daily rate: $12,198/day. March 2025 full-month average: $14,502/day. At current pace, March 2026 projects to ~$378,147 — vs actual $449,562 in March 2025. Spring acceleration is tracking similarly to last year.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── YTD Panel ──────────────────────────────────────────────────── -->
+<div id="tab-ytd" class="tab-panel">
+  <div class="section-title" style="margin: 24px 36px 16px;">YTD Performance: Jan 1–Mar 10, 2026 vs 2025</div>
+  <div class='kpi-grid'>
+    <div class="kpi-card">
+      <div class="kpi-label">Total Revenue</div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">$524,615</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">$375,354</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#c0392b">
+        ▼ -28.5%
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">WooCommerce Rev</div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">$524,615</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">$371,868</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#c0392b">
+        ▼ -29.1%
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Walmart Rev<span class="kpi-note"> (new)</span></div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">$0</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">$3,486</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#6b7280">
+        → +0.0%
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Total Orders</div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">2,883</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">2,300</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#c0392b">
+        ▼ -20.2%
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Avg Order Value (WC)</div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">$182</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">$164</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#c0392b">
+        ▼ -10.0%
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Ad Spend</div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">$118,326</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">$84,644</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#2d6a4f">
+        ▼ -28.5%
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">MER</div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">4.43x</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">4.43x</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#6b7280">
+        → +0.0%
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">ROAS (Google)</div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">2.42x</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">3.09x</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#2d6a4f">
+        ▲ +27.8%
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Conv. Volume</div>
+      <div class="kpi-row-vals">
+        <div class="kpi-yr">
+          <span class="kpi-yr-label">2025</span>
+          <span class="kpi-yr-val">1,733</span>
+        </div>
+        <div class="kpi-yr kpi-yr-now">
+          <span class="kpi-yr-label">2026</span>
+          <span class="kpi-yr-val">1,647</span>
+        </div>
+      </div>
+      <div class="kpi-delta" style="color:#c0392b">
+        ▼ -4.9%
+      </div>
+    </div></div>
+</div>
+
+<!-- ── Monthly Breakdown Panel ─────────────────────────────────────── -->
+<div id="tab-monthly" class="tab-panel">
+  <div class="section-title" style="margin: 24px 36px 16px;">Month-by-Month Comparison: 2025 vs 2026</div>
+
+  <div class="charts-row">
+    <div class="chart-card">
+      <div class="chart-title">Monthly Revenue — 2025 vs 2026</div>
+      <div class="chart-wrap"><canvas id="chartRev"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">MER — 2025 vs 2026</div>
+      <div class="chart-wrap"><canvas id="chartMer"></canvas></div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Month</th>
+        <th class="num">Rev 2025</th>
+        <th class="num">Rev 2026</th>
+        <th class="num">YoY Rev</th>
+        <th class="num">Orders 2025</th>
+        <th class="num">Orders 2026</th>
+        <th class="num">YoY Orders</th>
+        <th class="num">AOV 2025</th>
+        <th class="num">AOV 2026</th>
+        <th class="num">Spend 2025</th>
+        <th class="num">Spend 2026</th>
+        <th class="num">MER 2025</th>
+        <th class="num">MER 2026</th>
+        <th class="num">ROAS 2025</th>
+        <th class="num">ROAS 2026</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+          <td class="month-label">Jan </td>
+          <td class="num">$115,411</td>
+          <td class="num">$74,356</td>
+          <td class="num delta neg">-35.6%</td>
+          <td class="num">709</td>
+          <td class="num">410</td>
+          <td class="num delta neg">-42.2%</td>
+          <td class="num">$163</td>
+          <td class="num">$181</td>
+          <td class="num">$44,151</td>
+          <td class="num">$14,271</td>
+          <td class="num">2.61x</td>
+          <td class="num pos">5.21x</td>
+          <td class="num">1.80x</td>
+          <td class="num pos">3.66x</td>
+        </tr>
+
+        <tr>
+          <td class="month-label">Feb </td>
+          <td class="num">$275,551</td>
+          <td class="num">$179,016</td>
+          <td class="num delta neg">-35.0%</td>
+          <td class="num">1,447</td>
+          <td class="num">990</td>
+          <td class="num delta neg">-31.6%</td>
+          <td class="num">$190</td>
+          <td class="num">$181</td>
+          <td class="num">$48,374</td>
+          <td class="num">$45,663</td>
+          <td class="num">5.70x</td>
+          <td class="num neg">3.92x</td>
+          <td class="num">2.78x</td>
+          <td class="num pos">2.82x</td>
+        </tr>
+
+        <tr>
+          <td class="month-label">Mar <span class="mtd-tag">MTD</span></td>
+          <td class="num">$449,562</td>
+          <td class="num">$121,983</td>
+          <td class="num delta neg">-72.9%</td>
+          <td class="num">2,536</td>
+          <td class="num">900</td>
+          <td class="num delta neg">-64.5%</td>
+          <td class="num">$177</td>
+          <td class="num">$136</td>
+          <td class="num">$75,606</td>
+          <td class="num">$24,710</td>
+          <td class="num">5.95x</td>
+          <td class="num neg">4.94x</td>
+          <td class="num">2.97x</td>
+          <td class="num pos">3.27x</td>
+        </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="footer-note">
+    * March 2026 is MTD (10 days), compared against the same March 1-10 period in 2025 for fair comparison.<br>
+    March 2025 full month: <strong>$449,562</strong> revenue across 31 days.
+  </div>
+</div>
+
+<!-- ── Full History Panel ────────────────────────────────────────────── -->
+<div id="tab-full" class="tab-panel">
+  <div class="section-title" style="margin: 24px 36px 16px;">Full Monthly History — Jan 2025 to Mar 2026 MTD</div>
+  <div class="charts-row">
+    <div class="chart-card">
+      <div class="chart-title">Monthly Revenue (All Channels)</div>
+      <div class="chart-wrap"><canvas id="chartFull"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Ad Spend vs MER</div>
+      <div class="chart-wrap"><canvas id="chartSpend"></canvas></div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Month</th>
+        <th class="num">WC Revenue</th>
+        <th class="num">Walmart</th>
+        <th class="num">Total Rev</th>
+        <th class="num">Orders</th>
+        <th class="num">AOV</th>
+        <th class="num">Units</th>
+        <th class="num">Ad Spend</th>
+        <th class="num">MER</th>
+        <th class="num">ROAS</th>
+        <th class="num">Clicks</th>
+        <th class="num">Conversions</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr class="row-2025">
+          <td class="month-label">Jan 2025</td>
+          <td class="num">$115,411</td>
+          <td class="num">—</td>
+          <td class="num bold">$115,411</td>
+          <td class="num">709</td>
+          <td class="num">$163</td>
+          <td class="num">2,569</td>
+          <td class="num">$44,151</td>
+          <td class="num">2.61x</td>
+          <td class="num">1.80x</td>
+          <td class="num">44,454</td>
+          <td class="num">475</td>
+        </tr>
+
+        <tr class="row-2025">
+          <td class="month-label">Feb 2025</td>
+          <td class="num">$275,551</td>
+          <td class="num">—</td>
+          <td class="num bold">$275,551</td>
+          <td class="num">1,447</td>
+          <td class="num">$190</td>
+          <td class="num">3,736</td>
+          <td class="num">$48,374</td>
+          <td class="num">5.70x</td>
+          <td class="num">2.78x</td>
+          <td class="num">45,037</td>
+          <td class="num">778</td>
+        </tr>
+
+        <tr class="row-2025">
+          <td class="month-label">Mar 2025</td>
+          <td class="num">$449,562</td>
+          <td class="num">—</td>
+          <td class="num bold">$449,562</td>
+          <td class="num">2,536</td>
+          <td class="num">$177</td>
+          <td class="num">5,899</td>
+          <td class="num">$75,606</td>
+          <td class="num">5.95x</td>
+          <td class="num">2.97x</td>
+          <td class="num">59,872</td>
+          <td class="num">1,418</td>
+        </tr>
+
+        <tr class="row-2025">
+          <td class="month-label">Apr 2025</td>
+          <td class="num">$283,861</td>
+          <td class="num">—</td>
+          <td class="num bold">$283,861</td>
+          <td class="num">1,569</td>
+          <td class="num">$181</td>
+          <td class="num">3,676</td>
+          <td class="num">$44,733</td>
+          <td class="num">6.35x</td>
+          <td class="num">2.70x</td>
+          <td class="num">31,229</td>
+          <td class="num">727</td>
+        </tr>
+
+        <tr class="row-2025">
+          <td class="month-label">May 2025</td>
+          <td class="num">$173,031</td>
+          <td class="num">—</td>
+          <td class="num bold">$173,031</td>
+          <td class="num">1,102</td>
+          <td class="num">$157</td>
+          <td class="num">2,780</td>
+          <td class="num">$26,829</td>
+          <td class="num">6.45x</td>
+          <td class="num">3.06x</td>
+          <td class="num">20,081</td>
+          <td class="num">543</td>
+        </tr>
+
+        <tr class="row-2025">
+          <td class="month-label">Jun 2025</td>
+          <td class="num">$55,680</td>
+          <td class="num">—</td>
+          <td class="num bold">$55,680</td>
+          <td class="num">331</td>
+          <td class="num">$168</td>
+          <td class="num">785</td>
+          <td class="num">$6,581</td>
+          <td class="num">8.46x</td>
+          <td class="num">3.13x</td>
+          <td class="num">5,436</td>
+          <td class="num">138</td>
+        </tr>
+
+        <tr class="row-2025">
+          <td class="month-label">Jul 2025</td>
+          <td class="num">$40,763</td>
+          <td class="num">—</td>
+          <td class="num bold">$40,763</td>
+          <td class="num">230</td>
+          <td class="num">$177</td>
+          <td class="num">401</td>
+          <td class="num">$4,802</td>
+          <td class="num">8.49x</td>
+          <td class="num">3.15x</td>
+          <td class="num">4,084</td>
+          <td class="num">92</td>
+        </tr>
+
+        <tr class="row-2025">
+          <td class="month-label">Aug 2025</td>
+          <td class="num">$115,918</td>
+          <td class="num">—</td>
+          <td class="num bold">$115,918</td>
+          <td class="num">601</td>
+          <td class="num">$193</td>
+          <td class="num">968</td>
+          <td class="num">$13,152</td>
+          <td class="num">8.81x</td>
+          <td class="num">3.90x</td>
+          <td class="num">10,226</td>
+          <td class="num">578</td>
+        </tr>
+
+        <tr class="row-2025">
+          <td class="month-label">Sep 2025</td>
+          <td class="num">$216,677</td>
+          <td class="num">—</td>
+          <td class="num bold">$216,677</td>
+          <td class="num">1,059</td>
+          <td class="num">$205</td>
+          <td class="num">1,891</td>
+          <td class="num">$27,059</td>
+          <td class="num">8.01x</td>
+          <td class="num">3.76x</td>
+          <td class="num">18,283</td>
+          <td class="num">1,836</td>
+        </tr>
+
+        <tr class="row-2025">
+          <td class="month-label">Oct 2025</td>
+          <td class="num">$148,949</td>
+          <td class="num">—</td>
+          <td class="num bold">$148,949</td>
+          <td class="num">771</td>
+          <td class="num">$193</td>
+          <td class="num">1,368</td>
+          <td class="num">$22,968</td>
+          <td class="num">6.49x</td>
+          <td class="num">3.16x</td>
+          <td class="num">17,634</td>
+          <td class="num">1,355</td>
+        </tr>
+
+        <tr class="row-2025">
+          <td class="month-label">Nov 2025</td>
+          <td class="num">$63,855</td>
+          <td class="num">—</td>
+          <td class="num bold">$63,855</td>
+          <td class="num">310</td>
+          <td class="num">$206</td>
+          <td class="num">617</td>
+          <td class="num">$9,390</td>
+          <td class="num">6.80x</td>
+          <td class="num">2.51x</td>
+          <td class="num">7,865</td>
+          <td class="num">454</td>
+        </tr>
+
+        <tr class="row-2025">
+          <td class="month-label">Dec 2025</td>
+          <td class="num">$35,005</td>
+          <td class="num">—</td>
+          <td class="num bold">$35,005</td>
+          <td class="num">208</td>
+          <td class="num">$168</td>
+          <td class="num">434</td>
+          <td class="num">$6,610</td>
+          <td class="num">5.30x</td>
+          <td class="num">2.75x</td>
+          <td class="num">5,893</td>
+          <td class="num">104</td>
+        </tr>
+
+        <tr class="row-2026">
+          <td class="month-label">Jan 2026</td>
+          <td class="num">$74,356</td>
+          <td class="num">—</td>
+          <td class="num bold">$74,356</td>
+          <td class="num">410</td>
+          <td class="num">$181</td>
+          <td class="num">848</td>
+          <td class="num">$14,271</td>
+          <td class="num">5.21x</td>
+          <td class="num">3.66x</td>
+          <td class="num">12,769</td>
+          <td class="num">324</td>
+        </tr>
+
+        <tr class="row-2026">
+          <td class="month-label">Feb 2026</td>
+          <td class="num">$179,016</td>
+          <td class="num">—</td>
+          <td class="num bold">$179,016</td>
+          <td class="num">990</td>
+          <td class="num">$181</td>
+          <td class="num">1,912</td>
+          <td class="num">$45,663</td>
+          <td class="num">3.92x</td>
+          <td class="num">2.82x</td>
+          <td class="num">35,238</td>
+          <td class="num">719</td>
+        </tr>
+
+        <tr class="row-2026">
+          <td class="month-label">Mar 2026 (MTD)</td>
+          <td class="num">$118,497</td>
+          <td class="num">$3,486</td>
+          <td class="num bold">$121,983</td>
+          <td class="num">900</td>
+          <td class="num">$136</td>
+          <td class="num">1,404</td>
+          <td class="num">$24,710</td>
+          <td class="num">4.94x</td>
+          <td class="num">3.27x</td>
+          <td class="num">20,398</td>
+          <td class="num">603</td>
+        </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="footer-note">
+    2026 rows highlighted in green. March 2026 is MTD (10 days). Jan–Feb 2026 backfilled from WooCommerce + Google Ads APIs.
+  </div>
+</div>
+
+<script>
+// ── Tab switching ─────────────────────────────────────────────────────
+function showTab(id, el) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  el.classList.add('active');
+}
+
+// ── Chart.js charts ────────────────────────────────────────────────────
+const monthLabels = ["Jan 2025", "Feb 2025", "Mar 2025", "Apr 2025", "May 2025", "Jun 2025", "Jul 2025", "Aug 2025", "Sep 2025", "Oct 2025", "Nov 2025", "Dec 2025"];
+const monthLabels26 = ["Jan 2026", "Feb 2026", "Mar 2026 (MTD)"];
+const rev25 = [115411.0, 275551.0, 449562.0, 283861.0, 173031.0, 55680.0, 40763.0, 115918.0, 216677.0, 148949.0, 63855.0, 35005.0];
+const rev26 = [74356.0, 179016.0, 121983.0];
+const mer25 = [2.61, 5.7, 5.95, 6.35, 6.45, 8.46, 8.49, 8.81, 8.01, 6.49, 6.8, 5.3];
+const mer26 = [5.21, 3.92, 4.94];
+const spend25 = [44151.0, 48374.0, 75606.0, 44733.0, 26829.0, 6581.0, 4802.0, 13152.0, 27059.0, 22968.0, 9390.0, 6610.0];
+const spend26 = [14271.0, 45663.0, 24710.0];
+const allLabels = ["Jan 2025", "Feb 2025", "Mar 2025", "Apr 2025", "May 2025", "Jun 2025", "Jul 2025", "Aug 2025", "Sep 2025", "Oct 2025", "Nov 2025", "Dec 2025", "Jan 2026", "Feb 2026", "Mar 2026 (MTD)"];
+const allRev = [115411.0, 275551.0, 449562.0, 283861.0, 173031.0, 55680.0, 40763.0, 115918.0, 216677.0, 148949.0, 63855.0, 35005.0, 74356.0, 179016.0, 121983.0];
+const allSpend = [44151.0, 48374.0, 75606.0, 44733.0, 26829.0, 6581.0, 4802.0, 13152.0, 27059.0, 22968.0, 9390.0, 6610.0, 14271.0, 45663.0, 24710.0];
+const allMer = [2.61, 5.7, 5.95, 6.35, 6.45, 8.46, 8.49, 8.81, 8.01, 6.49, 6.8, 5.3, 5.21, 3.92, 4.94];
+const allColors = ["#d1d5db", "#d1d5db", "#d1d5db", "#d1d5db", "#d1d5db", "#d1d5db", "#d1d5db", "#d1d5db", "#d1d5db", "#d1d5db", "#d1d5db", "#d1d5db", "#2d6a4f", "#2d6a4f", "#2d6a4f"];
+
+const GREEN = '#2d6a4f'; const ORANGE = '#c96a2e'; const LGRAY = '#d1d5db';
+
+// Revenue comparison
+new Chart(document.getElementById('chartRev'), {
+  type: 'bar',
+  data: {
+    labels: monthLabels,
+    datasets: [
+      { label: '2025', data: rev25, backgroundColor: LGRAY },
+      { label: '2026', data: rev26.concat([null,null,null,null,null,null,null,null,null]).slice(0,12),
+         backgroundColor: GREEN },
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { font: { size: 11 } } } },
+    scales: {
+      y: { ticks: { callback: v => '$'+v.toLocaleString(), font: { size: 10 } }, grid: { color: '#f1f5f9' } },
+      x: { ticks: { font: { size: 9 } }, grid: { display: false } }
+    }
+  }
+});
+
+// MER comparison
+new Chart(document.getElementById('chartMer'), {
+  type: 'line',
+  data: {
+    labels: monthLabels,
+    datasets: [
+      { label: 'MER 2025', data: mer25, borderColor: LGRAY, backgroundColor: 'transparent',
+         tension: 0.3, borderWidth: 2 },
+      { label: 'MER 2026', data: mer26.concat([null,null,null,null,null,null,null,null,null]).slice(0,12),
+         borderColor: GREEN, backgroundColor: 'transparent', tension: 0.3, borderWidth: 2,
+         pointBackgroundColor: GREEN },
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { font: { size: 11 } } } },
+    scales: {
+      y: { ticks: { callback: v => v+'x', font: { size: 10 } }, grid: { color: '#f1f5f9' } },
+      x: { ticks: { font: { size: 9 } }, grid: { display: false } }
+    }
+  }
+});
+
+// Full revenue chart
+new Chart(document.getElementById('chartFull'), {
+  type: 'bar',
+  data: {
+    labels: allLabels,
+    datasets: [{
+      label: 'Total Revenue',
+      data: allRev,
+      backgroundColor: allColors,
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { ticks: { callback: v => '$'+v.toLocaleString(), font: { size: 10 } }, grid: { color: '#f1f5f9' } },
+      x: { ticks: { font: { size: 9 }, maxRotation: 45 }, grid: { display: false } }
+    }
+  }
+});
+
+// Spend vs MER
+new Chart(document.getElementById('chartSpend'), {
+  type: 'bar',
+  data: {
+    labels: allLabels,
+    datasets: [
+      { label: 'Ad Spend', data: allSpend, backgroundColor: ORANGE, yAxisID: 'y' },
+      { label: 'MER', data: allMer, type: 'line', borderColor: GREEN,
+         backgroundColor: 'transparent', yAxisID: 'y2', tension: 0.3, borderWidth: 2 },
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { font: { size: 11 } } } },
+    scales: {
+      y:  { ticks: { callback: v => '$'+v.toLocaleString(), font: { size: 10 } }, grid: { color: '#f1f5f9' } },
+      y2: { position: 'right', ticks: { callback: v => v+'x', font: { size: 10 } }, grid: { display: false } },
+      x:  { ticks: { font: { size: 9 }, maxRotation: 45 }, grid: { display: false } }
+    }
+  }
+});
+</script>
+</body>
+</html>

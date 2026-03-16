@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing Research Report — Nature's Seed — March 2026</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+         background: #f4f6f8; color: #1a1a1a; font-size: 13px; line-height: 1.5; }
+
+  /* ── Header ── */
+  .header { background: #1b4332; color: #fff; padding: 24px 36px; }
+  .header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
+  .header .subtitle { font-size: 13px; color: #74c69d; margin-top: 4px; }
+  .header-meta { font-size: 11px; color: #95d5b2; margin-top: 8px; display: flex; gap: 24px; flex-wrap: wrap; }
+  .header-meta span { display: flex; align-items: center; gap: 4px; }
+
+  /* ── Alert Banner ── */
+  .alert-banner { background: #7f1d1d; color: #fecaca; padding: 12px 36px;
+                  font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #991b1b; }
+  .alert-banner .alert-icon { font-size: 16px; }
+
+  /* ── Sections ── */
+  .section { margin: 0 36px 32px; }
+  .section-title { font-size: 15px; font-weight: 700; color: #1b4332;
+                   border-left: 4px solid #2d6a4f; padding-left: 10px;
+                   margin-bottom: 16px; margin-top: 28px; }
+
+  /* ── KPI Summary Cards ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+              gap: 12px; margin: 20px 36px 0; }
+  .kpi-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
+              padding: 16px 18px; }
+  .kpi-label { font-size: 10px; font-weight: 700; color: #6b7280; text-transform: uppercase;
+               letter-spacing: .5px; margin-bottom: 8px; }
+  .kpi-value { font-size: 26px; font-weight: 800; color: #1b4332; }
+  .kpi-sub { font-size: 11px; color: #6b7280; margin-top: 4px; }
+  .kpi-card.red { border-top: 3px solid #dc2626; }
+  .kpi-card.green { border-top: 3px solid #16a34a; }
+  .kpi-card.orange { border-top: 3px solid #ea580c; }
+  .kpi-card.blue { border-top: 3px solid #2563eb; }
+
+  /* ── Legend ── */
+  .legend { display: flex; gap: 20px; margin: 20px 36px 0; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: #374151; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+  .legend-dot.red { background: #fee2e2; border: 1px solid #fca5a5; }
+  .legend-dot.green { background: #dcfce7; border: 1px solid #86efac; }
+  .legend-dot.orange { background: #fff7ed; border: 1px solid #fdba74; }
+  .legend-dot.critical { background: #fecaca; border: 2px solid #dc2626; }
+
+  /* ── Tables ── */
+  .table-wrap { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
+                overflow: hidden; margin: 12px 36px 28px; }
+  .table-header { padding: 14px 16px 10px; border-bottom: 1px solid #e2e8f0;
+                  display: flex; align-items: center; justify-content: space-between; }
+  .table-header-title { font-size: 13px; font-weight: 700; color: #1b4332; }
+  .table-header-sub { font-size: 11px; color: #6b7280; }
+  .table-search { padding: 5px 10px; border: 1px solid #e2e8f0; border-radius: 4px;
+                  font-size: 12px; outline: none; width: 180px; }
+  .table-search:focus { border-color: #2d6a4f; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  thead tr { background: #f8fafc; border-bottom: 2px solid #e2e8f0; }
+  thead th { padding: 10px 10px; text-align: left; font-size: 10px; font-weight: 700;
+             color: #6b7280; text-transform: uppercase; letter-spacing: .5px; white-space: nowrap;
+             cursor: pointer; user-select: none; }
+  thead th.num { text-align: right; }
+  thead th:hover { color: #1b4332; }
+  thead th .sort-icon { margin-left: 4px; opacity: 0.4; }
+  thead th.sorted .sort-icon { opacity: 1; color: #1b4332; }
+  tbody tr { border-bottom: 1px solid #f1f5f9; }
+  tbody tr:last-child { border-bottom: none; }
+  td { padding: 8px 10px; vertical-align: middle; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.sku { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 11px; color: #374151; white-space: nowrap; }
+  td.product { font-weight: 600; color: #1a1a1a; max-width: 180px; }
+  td.verdict { font-weight: 700; white-space: nowrap; }
+  td.rec { max-width: 200px; line-height: 1.4; color: #374151; font-size: 11px; }
+
+  /* Row color coding */
+  tr.row-loss { background: #fecaca !important; }
+  tr.row-loss:hover { background: #fca5a5 !important; }
+  tr.row-red { background: #fee2e2; }
+  tr.row-red:hover { background: #fecaca; }
+  tr.row-green { background: #dcfce7; }
+  tr.row-green:hover { background: #bbf7d0; }
+  tr.row-orange { background: #fff7ed; }
+  tr.row-orange:hover { background: #ffedd5; }
+
+  /* Verdict badges */
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 10px;
+           font-weight: 700; text-transform: uppercase; letter-spacing: .3px; white-space: nowrap; }
+  .badge-raise { background: #dcfce7; color: #14532d; border: 1px solid #86efac; }
+  .badge-reduce { background: #fee2e2; color: #7f1d1d; border: 1px solid #fca5a5; }
+  .badge-hold { background: #f1f5f9; color: #374151; border: 1px solid #cbd5e1; }
+  .badge-critical { background: #dc2626; color: #fff; border: 1px solid #b91c1c; }
+  .badge-loss { background: #7f1d1d; color: #fecaca; border: 1px solid #991b1b; }
+  .badge-review { background: #fef3c7; color: #78350f; border: 1px solid #fcd34d; }
+
+  /* Priority table specific */
+  .priority-rank { font-size: 14px; font-weight: 800; color: #1b4332;
+                   background: #ecfdf5; border-radius: 50%; width: 26px; height: 26px;
+                   display: flex; align-items: center; justify-content: center; }
+  .price-arrow { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .price-old { text-decoration: line-through; color: #9ca3af; }
+  .price-new { font-weight: 700; color: #1b4332; }
+  .price-arrow-icon { color: #6b7280; }
+  .margin-impact { display: flex; flex-direction: column; gap: 1px; }
+  .margin-old { font-size: 10px; color: #9ca3af; }
+  .margin-new { font-size: 12px; font-weight: 700; }
+  .margin-new.up { color: #16a34a; }
+  .margin-new.down { color: #dc2626; }
+  .margin-new.ok { color: #2d6a4f; }
+
+  /* Section nav tabs */
+  .nav-tabs { display: flex; gap: 0; margin: 24px 36px 0; border-bottom: 2px solid #e2e8f0; flex-wrap: wrap; }
+  .nav-tab { padding: 10px 20px; cursor: pointer; font-size: 13px; font-weight: 600;
+             color: #6b7280; border-bottom: 3px solid transparent; margin-bottom: -2px;
+             transition: all .15s; white-space: nowrap; }
+  .nav-tab.active { color: #1b4332; border-bottom-color: #2d6a4f; }
+  .nav-panel { display: none; }
+  .nav-panel.active { display: block; }
+
+  /* Competitor sources box */
+  .sources-box { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
+                 padding: 16px 20px; margin: 12px 36px 28px; }
+  .sources-box h4 { font-size: 12px; font-weight: 700; color: #374151; margin-bottom: 8px;
+                    text-transform: uppercase; letter-spacing: .5px; }
+  .sources-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .source-tag { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px;
+               padding: 3px 10px; font-size: 11px; color: #374151; font-weight: 500; }
+
+  /* Footer */
+  .footer { margin: 40px 36px 20px; padding-top: 16px; border-top: 1px solid #e2e8f0;
+            font-size: 11px; color: #9ca3af; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  /* Notes callout */
+  .callout { border-radius: 6px; padding: 12px 16px; margin: 0 36px 16px;
+             font-size: 12px; line-height: 1.6; display: flex; gap: 10px; }
+  .callout.info { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+  .callout.warning { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+  .callout.danger { background: #fff1f2; border: 1px solid #fecdd3; color: #881337; }
+  .callout-icon { font-size: 16px; flex-shrink: 0; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .kpi-grid, .nav-tabs, .table-wrap, .section, .callout, .legend,
+    .sources-box, .footer, .alert-banner { margin-left: 12px; margin-right: 12px; }
+    .header { padding: 16px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<div class="header">
+  <h1>Pricing Research Report — Nature's Seed</h1>
+  <div class="subtitle">Competitive pricing analysis across all product categories with margin-safe recommendations</div>
+  <div class="header-meta">
+    <span>Generated: March 11, 2026</span>
+    <span>SKUs Analyzed: 225</span>
+    <span>Categories: 8</span>
+    <span>Competitor Sources: 8</span>
+  </div>
+</div>
+
+<!-- ── Alert Banner ── -->
+<div class="alert-banner">
+  <span class="alert-icon">&#9888;</span>
+  CRITICAL: 2 products are selling at a loss or near-zero margin — PB-DRY-50-LB (cost $102 vs price $91.78, -$10.22/unit) and PG-CYDA-25-LB (cost $137.50, selling $139.99, only $2.49 gross profit). Act immediately.
+</div>
+
+<!-- ── KPI Summary Cards ── -->
+<div class="kpi-grid">
+  <div class="kpi-card green">
+    <div class="kpi-label">Raise Price</div>
+    <div class="kpi-value">8</div>
+    <div class="kpi-sub">SKU groups underpriced vs market</div>
+  </div>
+  <div class="kpi-card red">
+    <div class="kpi-label">Reduce Price</div>
+    <div class="kpi-value">18</div>
+    <div class="kpi-sub">SKU groups overpriced vs competitors</div>
+  </div>
+  <div class="kpi-card orange">
+    <div class="kpi-label">Margin Risks</div>
+    <div class="kpi-value">6</div>
+    <div class="kpi-sub">Products at &lt;30% margin or loss</div>
+  </div>
+  <div class="kpi-card blue">
+    <div class="kpi-label">Hold / Review</div>
+    <div class="kpi-value">12</div>
+    <div class="kpi-sub">Competitive or pending composition review</div>
+  </div>
+  <div class="kpi-card red">
+    <div class="kpi-label">Selling at a Loss</div>
+    <div class="kpi-value">1</div>
+    <div class="kpi-sub">PB-DRY-50-LB: cost $102 vs $91.78</div>
+  </div>
+  <div class="kpi-card green">
+    <div class="kpi-label">Est. Revenue Opportunity</div>
+    <div class="kpi-value">High</div>
+    <div class="kpi-sub">Fixing top 10 actions improves margin &amp; conversion</div>
+  </div>
+</div>
+
+<!-- ── Legend ── -->
+<div class="legend" style="margin-top:20px;">
+  <div class="legend-item"><div class="legend-dot critical"></div> Selling at loss / &lt;30% margin — CRITICAL</div>
+  <div class="legend-item"><div class="legend-dot red"></div> Overpriced vs market — reduce for conversion</div>
+  <div class="legend-item"><div class="legend-dot green"></div> Underpriced vs market — raise for free margin</div>
+  <div class="legend-item"><div class="legend-dot orange"></div> Margin risk or review needed</div>
+</div>
+
+<!-- ── Nav Tabs ── -->
+<div class="nav-tabs">
+  <div class="nav-tab active" onclick="showPanel('priority')">Priority Actions</div>
+  <div class="nav-tab" onclick="showPanel('margin-risk')">Margin Risk Alerts</div>
+  <div class="nav-tab" onclick="showPanel('lawn-turf')">Lawn Turf</div>
+  <div class="nav-tab" onclick="showPanel('pasture')">Pasture Blends</div>
+  <div class="nav-tab" onclick="showPanel('native')">Native Grasses</div>
+  <div class="nav-tab" onclick="showPanel('cover')">Cover Crops</div>
+  <div class="nav-tab" onclick="showPanel('wildflower')">Wildflower Blends</div>
+  <div class="nav-tab" onclick="showPanel('single-species')">Single Species</div>
+  <div class="nav-tab" onclick="showPanel('specialty')">Specialty</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     PANEL: PRIORITY ACTIONS
+════════════════════════════════════════════════════ -->
+<div id="panel-priority" class="nav-panel active">
+
+  <div class="callout info" style="margin-top:16px;">
+    <span class="callout-icon">&#8505;</span>
+    <div>All recommended prices below maintain a minimum 30% gross margin. Margin calculations are based on unit cost data from Fishbowl/COGS lookup. The rule: <strong>never recommend a price that results in &lt;30% gross margin.</strong></div>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-header">
+      <div>
+        <div class="table-header-title">Top 10 Priority Actions</div>
+        <div class="table-header-sub">Sorted by impact — act on these first</div>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:40px;">#</th>
+          <th>SKU</th>
+          <th>Product</th>
+          <th>Action</th>
+          <th class="num">Current Price</th>
+          <th class="num">Recommended Price</th>
+          <th class="num">Cost</th>
+          <th class="num">Old Margin%</th>
+          <th class="num">New Margin%</th>
+          <th>Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-loss">
+          <td><div class="priority-rank">!</div></td>
+          <td class="sku">PB-DRY-50-LB</td>
+          <td class="product">Dry Pasture Blend 50lb</td>
+          <td><span class="badge badge-critical">LOSS — RAISE NOW</span></td>
+          <td class="num price-old">$91.78</td>
+          <td class="num price-new">$179.99</td>
+          <td class="num">$102.00</td>
+          <td class="num" style="color:#dc2626;font-weight:700;">-11.1%</td>
+          <td class="num" style="color:#16a34a;font-weight:700;">43.3%</td>
+          <td class="rec">Currently selling at a LOSS. Cost $102 vs price $91.78 = -$10.22 per unit. Raise to $179.99 immediately.</td>
+        </tr>
+        <tr class="row-loss">
+          <td><div class="priority-rank">!</div></td>
+          <td class="sku">PG-CYDA-25-LB-KIT</td>
+          <td class="product">Coastal Dropseed 25lb Kit</td>
+          <td><span class="badge badge-critical">CRITICAL — RAISE NOW</span></td>
+          <td class="num price-old">$139.99</td>
+          <td class="num price-new">$229.99</td>
+          <td class="num">$137.50</td>
+          <td class="num" style="color:#dc2626;font-weight:700;">1.8%</td>
+          <td class="num" style="color:#16a34a;font-weight:700;">40.2%</td>
+          <td class="rec">Only $2.49 gross profit on a $139.99 item. Cost $137.50/25lb. Minimum safe price: $229.99 for 40% margin.</td>
+        </tr>
+        <tr class="row-green">
+          <td><div class="priority-rank">1</div></td>
+          <td class="sku">PB-CHIX-5-LB</td>
+          <td class="product">Chicken Pasture Blend 5lb</td>
+          <td><span class="badge badge-raise">RAISE PRICE</span></td>
+          <td class="num price-old">$19.99</td>
+          <td class="num price-new">$34.99</td>
+          <td class="num">$8.90</td>
+          <td class="num" style="color:#6b7280;">55.4%</td>
+          <td class="num" style="color:#16a34a;font-weight:700;">74.6%</td>
+          <td class="rec">Hancock Happy Hen 5lb = $34.99 ($7/lb). NS at $4/lb is severely underpriced. Raise all CHIX variants proportionally.</td>
+        </tr>
+        <tr class="row-red">
+          <td><div class="priority-rank">2</div></td>
+          <td class="sku">TURF-W-RYE-5-LB</td>
+          <td class="product">Perennial Ryegrass 5lb</td>
+          <td><span class="badge badge-reduce">REDUCE PRICE</span></td>
+          <td class="num price-old">$49.99</td>
+          <td class="num price-new">$24.99</td>
+          <td class="num">$6.15</td>
+          <td class="num" style="color:#6b7280;">87.7%</td>
+          <td class="num" style="color:#16a34a;font-weight:700;">75.4%</td>
+          <td class="rec">Pennington K31 = $1.70/lb. NS at $10/lb is severely overpriced for commodity ryegrass. Reduce to $24.99 — still 75% margin.</td>
+        </tr>
+        <tr class="row-red">
+          <td><div class="priority-rank">3</div></td>
+          <td class="sku">TURF-W-BLUE-5-LB</td>
+          <td class="product">Kentucky Bluegrass 5lb</td>
+          <td><span class="badge badge-reduce">REDUCE PRICE</span></td>
+          <td class="num price-old">$84.99</td>
+          <td class="num price-new">$44.99</td>
+          <td class="num">$13.75</td>
+          <td class="num" style="color:#6b7280;">83.8%</td>
+          <td class="num" style="color:#16a34a;font-weight:700;">69.4%</td>
+          <td class="rec">Outsidepride Supreme KBG 25lb = $174.99 ($7/lb). NS at $17/lb is 2.4x market. KBG is highest-traffic lawn category — fix first.</td>
+        </tr>
+        <tr class="row-red">
+          <td><div class="priority-rank">4</div></td>
+          <td class="sku">TURF-JBR-5-LB</td>
+          <td class="product">JP Bluegrass Blend 5lb</td>
+          <td><span class="badge badge-reduce">REDUCE PRICE</span></td>
+          <td class="num price-old">$89.99</td>
+          <td class="num price-new">$49.99</td>
+          <td class="num">$10.90</td>
+          <td class="num" style="color:#6b7280;">87.9%</td>
+          <td class="num" style="color:#16a34a;font-weight:700;">78.2%</td>
+          <td class="rec">Premium KBG blend but market for premium KBG is $7-10/lb. NS at $18/lb is still far above market. Reduce to $49.99 (=$10/lb).</td>
+        </tr>
+        <tr class="row-green">
+          <td><div class="priority-rank">5</div></td>
+          <td class="sku">TURF-CLV-5-LB</td>
+          <td class="product">Clover Blend 5lb</td>
+          <td><span class="badge badge-raise">RAISE PRICE</span></td>
+          <td class="num price-old">$17.99</td>
+          <td class="num price-new">$24.99</td>
+          <td class="num">$7.14</td>
+          <td class="num" style="color:#6b7280;">60.3%</td>
+          <td class="num" style="color:#16a34a;font-weight:700;">71.4%</td>
+          <td class="rec">Dutch/clover market is $4.80–$5/lb. NS at $3.60/lb is below market. Raise to $24.99 ($5/lb) — still very competitive.</td>
+        </tr>
+        <tr class="row-red">
+          <td><div class="priority-rank">6</div></td>
+          <td class="sku">PG-BOGR-5-LB</td>
+          <td class="product">Blue Grama 5lb</td>
+          <td><span class="badge badge-reduce">REDUCE PRICE</span></td>
+          <td class="num price-old">$325.87</td>
+          <td class="num price-new">$129.99</td>
+          <td class="num">$55.40</td>
+          <td class="num" style="color:#6b7280;">83.0%</td>
+          <td class="num" style="color:#16a34a;font-weight:700;">57.4%</td>
+          <td class="rec">Market $15–20/lb for Blue Grama. NS at $65/lb is 3x even a healthy premium price. $129.99 (=$26/lb) maintains 57% margin and is competitive.</td>
+        </tr>
+        <tr class="row-red">
+          <td><div class="priority-rank">7</div></td>
+          <td class="sku">CV-NEC-10-LB</td>
+          <td class="product">Native Ecology Cover Crop 10lb</td>
+          <td><span class="badge badge-reduce">REDUCE PRICE</span></td>
+          <td class="num price-old">$99.99</td>
+          <td class="num price-new">$69.99</td>
+          <td class="num">$25.60</td>
+          <td class="num" style="color:#6b7280;">74.4%</td>
+          <td class="num" style="color:#16a34a;font-weight:700;">63.4%</td>
+          <td class="rec">Cover crop mixes market $4–5/lb. NS at $10/lb is 2x market. Reduce to $69.99 ($7/lb) — still 63% margin, more competitive.</td>
+        </tr>
+        <tr class="row-red">
+          <td><div class="priority-rank">8</div></td>
+          <td class="sku">S-MICRO-1-LB</td>
+          <td class="product">Micro Clover 1lb</td>
+          <td><span class="badge badge-reduce">REDUCE PRICE</span></td>
+          <td class="num price-old">$44.99</td>
+          <td class="num price-new">$34.99</td>
+          <td class="num">$14.57</td>
+          <td class="num" style="color:#6b7280;">67.6%</td>
+          <td class="num" style="color:#16a34a;font-weight:700;">58.4%</td>
+          <td class="rec">Outsidepride MiniClover 1lb = $34.99. NS at $44.99 is 28% above direct competitor. Reduce to match market.</td>
+        </tr>
+        <tr class="row-red">
+          <td><div class="priority-rank">9</div></td>
+          <td class="sku">WB-AN-0.5-LB</td>
+          <td class="product">Annual Wildflower Blend 0.5lb</td>
+          <td><span class="badge badge-reduce">REDUCE PRICE</span></td>
+          <td class="num price-old">$29.99</td>
+          <td class="num price-new">$14.99</td>
+          <td class="num">$5.46</td>
+          <td class="num" style="color:#6b7280;">81.8%</td>
+          <td class="num" style="color:#16a34a;font-weight:700;">63.6%</td>
+          <td class="rec">American Meadows 0.5lb equivalent ≈ $7.50–10. NS at $29.99 is 3–4x market. Reduce entire wildflower blend line proportionally.</td>
+        </tr>
+        <tr class="row-red">
+          <td><div class="priority-rank">10</div></td>
+          <td class="sku">CV-CHM-25-LB-KIT</td>
+          <td class="product">Chamomile Cover Crop 25lb Kit</td>
+          <td><span class="badge badge-reduce">REDUCE PRICE</span></td>
+          <td class="num price-old">$1,455.88</td>
+          <td class="num price-new">$599.99</td>
+          <td class="num">$268.50</td>
+          <td class="num" style="color:#6b7280;">81.6%</td>
+          <td class="num" style="color:#16a34a;font-weight:700;">55.2%</td>
+          <td class="rec">Specialty chamomile warrants premium, but $58/lb vs $10–15/lb market is a conversion killer even for specialty. Reduce to $599.99/25lb.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     PANEL: MARGIN RISK ALERTS
+════════════════════════════════════════════════════ -->
+<div id="panel-margin-risk" class="nav-panel">
+
+  <div class="callout danger" style="margin-top:16px;">
+    <span class="callout-icon">&#9888;</span>
+    <div>These products have gross margin below 30% or are selling at a loss. No pricing recommendation should ever result in &lt;30% gross margin. Review all price changes against cost before publishing.</div>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-header">
+      <div>
+        <div class="table-header-title">Margin Risk Alert Table</div>
+        <div class="table-header-sub">Products at risk — immediate action required</div>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>SKU</th>
+          <th>Product</th>
+          <th class="num">Unit Cost</th>
+          <th class="num">Current Price</th>
+          <th class="num">Gross Profit</th>
+          <th class="num">Margin %</th>
+          <th class="num">Min Safe Price<br><span style="font-weight:400;text-transform:none;">(30% margin)</span></th>
+          <th class="num">Recommended Price</th>
+          <th class="num">New Margin %</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-loss">
+          <td class="sku">PB-DRY-50-LB</td>
+          <td class="product">Dry Pasture Blend 50lb</td>
+          <td class="num">$102.00</td>
+          <td class="num">$91.78</td>
+          <td class="num" style="color:#dc2626;font-weight:700;">-$10.22</td>
+          <td class="num" style="color:#dc2626;font-weight:700;">-11.1%</td>
+          <td class="num">$145.72</td>
+          <td class="num" style="font-weight:700;color:#1b4332;">$179.99</td>
+          <td class="num" style="color:#16a34a;font-weight:700;">43.3%</td>
+          <td><span class="badge badge-loss">SELLING AT LOSS</span></td>
+        </tr>
+        <tr class="row-loss">
+          <td class="sku">PG-CYDA-25-LB-KIT</td>
+          <td class="product">Coastal Dropseed 25lb Kit</td>
+          <td class="num">$137.50</td>
+          <td class="num">$139.99</td>
+          <td class="num" style="color:#dc2626;font-weight:700;">$2.49</td>
+          <td class="num" style="color:#dc2626;font-weight:700;">1.8%</td>
+          <td class="num">$196.43</td>
+          <td class="num" style="font-weight:700;color:#1b4332;">$229.99</td>
+          <td class="num" style="color:#16a34a;font-weight:700;">40.2%</td>
+          <td><span class="badge badge-critical">CRITICAL — 1.8% MARGIN</span></td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PB-COW-SO-50-LB-KIT</td>
+          <td class="product">Sorghum-Sudan Cow Pasture 50lb</td>
+          <td class="num">$115.00</td>
+          <td class="num">$159.99</td>
+          <td class="num">$44.99</td>
+          <td class="num" style="color:#ea580c;font-weight:700;">28.1%</td>
+          <td class="num">$164.29</td>
+          <td class="num" style="font-weight:700;color:#1b4332;">$169.99</td>
+          <td class="num" style="color:#16a34a;font-weight:700;">32.4%</td>
+          <td><span class="badge badge-review">MARGIN RISK &lt;30%</span></td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">W-ENCA-0.25-LB</td>
+          <td class="product">Engelmann's Daisy 0.25lb</td>
+          <td class="num">$11.47</td>
+          <td class="num">$21.16</td>
+          <td class="num">$9.69</td>
+          <td class="num" style="color:#ea580c;font-weight:700;">45.8%</td>
+          <td class="num">$16.39</td>
+          <td class="num" style="font-weight:700;color:#1b4332;">$29.99</td>
+          <td class="num" style="color:#16a34a;font-weight:700;">61.7%</td>
+          <td><span class="badge badge-raise">UNDERPRICED — RAISE</span></td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">W-ESCA-1-LB-KIT</td>
+          <td class="product">California Poppy 1lb</td>
+          <td class="num">$12.14</td>
+          <td class="num">$27.89</td>
+          <td class="num">$15.75</td>
+          <td class="num" style="color:#ea580c;font-weight:700;">56.5%</td>
+          <td class="num">$17.34</td>
+          <td class="num" style="font-weight:700;color:#1b4332;">$27.89</td>
+          <td class="num" style="color:#2d6a4f;font-weight:700;">56.5%</td>
+          <td><span class="badge badge-hold">HOLD — MONITOR</span></td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PB-CLV-10-LB</td>
+          <td class="product">Clover Pasture Blend 10lb</td>
+          <td class="num">$25.39</td>
+          <td class="num">$47.99</td>
+          <td class="num">$22.60</td>
+          <td class="num" style="color:#ea580c;font-weight:700;">47.1%</td>
+          <td class="num">$36.27</td>
+          <td class="num" style="font-weight:700;color:#1b4332;">$47.99</td>
+          <td class="num" style="color:#2d6a4f;font-weight:700;">47.1%</td>
+          <td><span class="badge badge-hold">HOLD — MONITOR</span></td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">S-DUTCH-5-LB</td>
+          <td class="product">Dutch White Clover 5lb</td>
+          <td class="num">$21.50</td>
+          <td class="num">$44.99</td>
+          <td class="num">$23.49</td>
+          <td class="num" style="color:#ea580c;font-weight:700;">52.2%</td>
+          <td class="num">$30.71</td>
+          <td class="num" style="font-weight:700;color:#1b4332;">$39.99</td>
+          <td class="num" style="color:#ea580c;font-weight:700;">46.2%</td>
+          <td><span class="badge badge-review">BORDERLINE — $39.99 MAX</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-icon">&#9888;</span>
+    <div><strong>Rule:</strong> The minimum safe price for any product is <code>Unit Cost ÷ 0.70</code> (targets 30% gross margin floor). Never price below this threshold regardless of competitive pressure. If market price is below your 30% floor, that product needs a cost reduction or should be discontinued — not a price reduction.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     PANEL: LAWN TURF
+════════════════════════════════════════════════════ -->
+<div id="panel-lawn-turf" class="nav-panel">
+
+  <div class="callout info" style="margin-top:16px;">
+    <span class="callout-icon">&#8505;</span>
+    <div>Lawn turf is Nature's Seed's highest-traffic category. Many varieties are commodity-priced online. Premium and specialty blends (buffalograss, warm-season) can sustain higher prices with proper brand storytelling. Pure ryegrass and basic KBG are price-sensitive — reduce to drive conversion volume.</div>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-header">
+      <div>
+        <div class="table-header-title">Lawn Turf — Pricing Analysis</div>
+        <div class="table-header-sub">5lb base unit used for $/lb comparison where applicable</div>
+      </div>
+      <input type="text" class="table-search" placeholder="Filter rows..." onkeyup="filterTable(this, 'turf-table')">
+    </div>
+    <table id="turf-table">
+      <thead>
+        <tr>
+          <th onclick="sortTable('turf-table',0)">Parent SKU <span class="sort-icon">&#8597;</span></th>
+          <th onclick="sortTable('turf-table',1)">Product <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('turf-table',2)">NS $/lb <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('turf-table',3)">Unit Cost/lb <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('turf-table',4)">Margin% <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('turf-table',5)">Competitor $/lb <span class="sort-icon">&#8597;</span></th>
+          <th onclick="sortTable('turf-table',6)">Competitor</th>
+          <th onclick="sortTable('turf-table',7)">Verdict</th>
+          <th>Recommendation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-red">
+          <td class="sku">TURF-W-RYE</td>
+          <td class="product">Perennial Ryegrass</td>
+          <td class="num">$10.00</td>
+          <td class="num">$1.23</td>
+          <td class="num">87.7%</td>
+          <td class="num">$1.70</td>
+          <td>Pennington K31</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 5lb: $49.99 → <strong>$24.99</strong> (new margin 75.4%). Commodity grass — price is conversion killer.</td>
+        </tr>
+        <tr class="row-red">
+          <td class="sku">TURF-W-BLUE</td>
+          <td class="product">Kentucky Bluegrass</td>
+          <td class="num">$17.00</td>
+          <td class="num">$2.75</td>
+          <td class="num">83.8%</td>
+          <td class="num">$7.00</td>
+          <td>Outsidepride Supreme KBG</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 5lb: $84.99 → <strong>$44.99</strong> (=$9/lb, new margin 69.4%). KBG is highest-traffic — fix first.</td>
+        </tr>
+        <tr class="row-red">
+          <td class="sku">TURF-JBR</td>
+          <td class="product">JP Bluegrass Blend</td>
+          <td class="num">$18.00</td>
+          <td class="num">$2.18</td>
+          <td class="num">87.9%</td>
+          <td class="num">$7.00–10.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 5lb: $89.99 → <strong>$49.99</strong> (=$10/lb, new margin 78.2%). Premium KBG blend but still 7x commodity is too high.</td>
+        </tr>
+        <tr class="row-red">
+          <td class="sku">TURF-W-TALL</td>
+          <td class="product">Tall Fescue Blend</td>
+          <td class="num">$8.00</td>
+          <td class="num">$1.10</td>
+          <td class="num">86.3%</td>
+          <td class="num">$1.70–5.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 5lb: $39.99 → <strong>$29.99</strong> (new margin 81.7%). Turf-type tall fescue max market $3–5/lb.</td>
+        </tr>
+        <tr class="row-red">
+          <td class="sku">TURF-BERM</td>
+          <td class="product">Bermuda Grass</td>
+          <td class="num">$24.00</td>
+          <td class="num">$7.00</td>
+          <td class="num">70.8%</td>
+          <td class="num">$10.00</td>
+          <td>Outsidepride Oasis Bermuda</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 5lb: $119.99 → <strong>$59.99</strong> (=$12/lb, new margin 41.7%). Marginal but avoids loss. Verify this is hulled/coated vs commodity.</td>
+        </tr>
+        <tr class="row-green">
+          <td class="sku">TURF-CLV</td>
+          <td class="product">Clover Lawn Blend</td>
+          <td class="num">$3.60</td>
+          <td class="num">$1.43</td>
+          <td class="num">60.3%</td>
+          <td class="num">$4.80–5.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-raise">UNDERPRICED</span></td>
+          <td class="rec">Raise 5lb: $17.99 → <strong>$24.99</strong> (=$5/lb, new margin 71.4%). Below market — raise all kit sizes proportionally.</td>
+        </tr>
+        <tr class="row-green">
+          <td class="sku">TURF-BUDA</td>
+          <td class="product">Buffalograss Turf</td>
+          <td class="num">$39.00</td>
+          <td class="num">$9.63</td>
+          <td class="num">75.3%</td>
+          <td class="num">$45.00</td>
+          <td>Outsidepride Buffalograss</td>
+          <td class="verdict"><span class="badge badge-raise">UNDERPRICED</span></td>
+          <td class="rec">Raise 3lb: $116.99 → <strong>$149.99</strong> (=$50/lb, new margin 80.8%). You are BELOW market — raise all BUDA turf variants.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">TURF-NFF</td>
+          <td class="product">No-Fuss Fescue Blend</td>
+          <td class="num">$46.10</td>
+          <td class="num">$9.78</td>
+          <td class="num">78.8%</td>
+          <td class="num">Unknown</td>
+          <td>No clear comp</td>
+          <td class="verdict"><span class="badge badge-review">NEEDS REVIEW</span></td>
+          <td class="rec">$230/5lb is unusually high. If specialty variety: add product story and hold. If pricing error: reduce to max $129.99/5lb (62.4% margin).</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">TURF-MLB</td>
+          <td class="product">Mixed Lawn Blend</td>
+          <td class="num">$5.80</td>
+          <td class="num">$2.26</td>
+          <td class="num">61.1%</td>
+          <td class="num">$3.00–4.00</td>
+          <td>Commodity benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD / MINOR REDUCE</span></td>
+          <td class="rec">Custom blend defensible at slight premium. Optional 15% reduction if conversion data shows drop-off.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">TURF-WSHD</td>
+          <td class="product">Wildflower Shade Blend</td>
+          <td class="num">$8.00</td>
+          <td class="num">$1.49</td>
+          <td class="num">81.4%</td>
+          <td class="num">$3.00–5.00</td>
+          <td>Commodity benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD / MINOR REDUCE</span></td>
+          <td class="rec">Custom blend. Optional reduce 5lb: $39.99 → $29.99 (new margin 75.2%) to improve conversion.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">TURF-W-SS</td>
+          <td class="product">Sun &amp; Shade Mix</td>
+          <td class="num">$8.00</td>
+          <td class="num">$2.14</td>
+          <td class="num">73.3%</td>
+          <td class="num">$3.00–5.00</td>
+          <td>Commodity benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD / MINOR REDUCE</span></td>
+          <td class="rec">Custom blend. Minor 15–20% reduction optional for conversion. Minimum 30% margin maintained at $19.99/5lb.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">TURF-W-BR</td>
+          <td class="product">Bluegrass-Rye Blend</td>
+          <td class="num">$8.00</td>
+          <td class="num">$2.50</td>
+          <td class="num">68.8%</td>
+          <td class="num">$3.00–5.00</td>
+          <td>Commodity benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD / MINOR REDUCE</span></td>
+          <td class="rec">Custom blend with reasonable margin. Hold current price.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">TURF-FINE</td>
+          <td class="product">Fine Fescue Blend</td>
+          <td class="num">$8.00</td>
+          <td class="num">$2.13</td>
+          <td class="num">73.4%</td>
+          <td class="num">$3.00–5.00</td>
+          <td>Commodity benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD / MINOR REDUCE</span></td>
+          <td class="rec">Fine fescues warrant slight premium. Hold current price or minor reduction.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">TURF-HLB</td>
+          <td class="product">Heavy-Duty Lawn Blend</td>
+          <td class="num">$9.00</td>
+          <td class="num">$3.55</td>
+          <td class="num">60.6%</td>
+          <td class="num">$4.00–6.00</td>
+          <td>Commodity benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD / MINOR REDUCE</span></td>
+          <td class="rec">Specialty blend. Margin at 60% — hold. Minor reduction if conversion data shows issues.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     PANEL: PASTURE BLENDS
+════════════════════════════════════════════════════ -->
+<div id="panel-pasture" class="nav-panel">
+
+  <div class="callout info" style="margin-top:16px;">
+    <span class="callout-icon">&#8505;</span>
+    <div>Pasture blends are generally animal-specific (chicken, horse, goat, alpaca). Pricing should reflect the animal specialty and brand positioning. Most livestock-specific blends from competitors are $4–7/lb. NS is below market on chicken/game/bird varieties.</div>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-header">
+      <div>
+        <div class="table-header-title">Pasture Blends — Pricing Analysis</div>
+        <div class="table-header-sub">10lb base unit used for $/lb comparison where applicable</div>
+      </div>
+      <input type="text" class="table-search" placeholder="Filter rows..." onkeyup="filterTable(this, 'pasture-table')">
+    </div>
+    <table id="pasture-table">
+      <thead>
+        <tr>
+          <th onclick="sortTable('pasture-table',0)">Parent SKU <span class="sort-icon">&#8597;</span></th>
+          <th onclick="sortTable('pasture-table',1)">Product <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('pasture-table',2)">NS $/lb <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('pasture-table',3)">Unit Cost/lb <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('pasture-table',4)">Margin% <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('pasture-table',5)">Competitor $/lb <span class="sort-icon">&#8597;</span></th>
+          <th onclick="sortTable('pasture-table',6)">Competitor</th>
+          <th onclick="sortTable('pasture-table',7)">Verdict</th>
+          <th>Recommendation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-green">
+          <td class="sku">PB-CHIX</td>
+          <td class="product">Chicken Pasture Blend</td>
+          <td class="num">$4.00</td>
+          <td class="num">$1.78</td>
+          <td class="num">55.4%</td>
+          <td class="num">$7.00</td>
+          <td>Hancock Happy Hen</td>
+          <td class="verdict"><span class="badge badge-raise">UNDERPRICED</span></td>
+          <td class="rec">Raise 5lb: $19.99 → <strong>$34.99</strong> (new margin 74.6%). Market is $7/lb. Pure free money.</td>
+        </tr>
+        <tr class="row-green">
+          <td class="sku">PB-ALPACA</td>
+          <td class="product">Alpaca Pasture Blend</td>
+          <td class="num">$3.00</td>
+          <td class="num">$1.55</td>
+          <td class="num">48.3%</td>
+          <td class="num">$4.00–5.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-raise">UNDERPRICED</span></td>
+          <td class="rec">Raise 10lb: $29.99 → <strong>$39.99</strong> (new margin 61.2%). Market $4–5/lb, NS at $3/lb is below.</td>
+        </tr>
+        <tr class="row-green">
+          <td class="sku">PB-BIRD</td>
+          <td class="product">Bird Pasture Blend</td>
+          <td class="num">$2.50</td>
+          <td class="num">$1.01</td>
+          <td class="num">59.8%</td>
+          <td class="num">$4.00–5.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-raise">UNDERPRICED</span></td>
+          <td class="rec">Raise 10lb: $24.99 → <strong>$34.99</strong> (new margin 71.2%). Below market. Raise all BIRD variants.</td>
+        </tr>
+        <tr class="row-green">
+          <td class="sku">PB-GAME</td>
+          <td class="product">Game Bird Pasture Blend</td>
+          <td class="num">$3.00</td>
+          <td class="num">$1.01</td>
+          <td class="num">66.3%</td>
+          <td class="num">$4.00–5.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-raise">UNDERPRICED</span></td>
+          <td class="rec">Raise 10lb: $29.99 → <strong>$39.99</strong> (new margin 74.7%). Market $4–5/lb. Raise all GAME variants.</td>
+        </tr>
+        <tr class="row-green">
+          <td class="sku">PB-KRMU</td>
+          <td class="product">Kura/Meadow Mix Blend</td>
+          <td class="num">$3.00</td>
+          <td class="num">$0.73</td>
+          <td class="num">75.7%</td>
+          <td class="num">$4.00–6.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-raise">UNDERPRICED</span></td>
+          <td class="rec">If Kura clover based: raise 10lb → <strong>$59.99</strong> ($6/lb, margin 87.8%). Verify composition first. Minimum raise to $39.99.</td>
+        </tr>
+        <tr class="row-red">
+          <td class="sku">PB-FULL</td>
+          <td class="product">Full Season Pasture Blend</td>
+          <td class="num">$11.20</td>
+          <td class="num">$2.75</td>
+          <td class="num">75.5%</td>
+          <td class="num">$5.00–7.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 10lb: $111.99 → <strong>$79.99</strong> (=$8/lb, new margin 65.7%). $11/lb is 2x market for all-season pasture.</td>
+        </tr>
+        <tr class="row-loss">
+          <td class="sku">PB-DRY</td>
+          <td class="product">Dry Climate Pasture Blend</td>
+          <td class="num">$2.04</td>
+          <td class="num">$2.04</td>
+          <td class="num" style="color:#dc2626;font-weight:700;">-11.1% (50lb)</td>
+          <td class="num">$3.00–5.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-loss">SELLING AT LOSS</span></td>
+          <td class="rec"><strong>50lb: RAISE $91.78 → $179.99 immediately.</strong> 10lb at $50.99 (margin 60%) is acceptable. 20lb at $216.71 (margin 81%) is fine.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PB-CHSS</td>
+          <td class="product">Chicory-Clover Special Mix</td>
+          <td class="num">$75.28</td>
+          <td class="num">$18.90</td>
+          <td class="num">74.9%</td>
+          <td class="num">$10.00–15.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-review">REVIEW</span></td>
+          <td class="rec">At $75/lb vs $10–15/lb market. If specialty chicory forage: document story. Min safe price $21.99/0.5lb (57% margin). Current is defensible IF composition justifies.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PB-COW-NTR</td>
+          <td class="product">Cow — Native Blend</td>
+          <td class="num">$4.00</td>
+          <td class="num">$1.73</td>
+          <td class="num">56.7%</td>
+          <td class="num">$3.50–5.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive pricing. Hold current price.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PB-COW-SO</td>
+          <td class="product">Cow — Sorghum Sudan</td>
+          <td class="num">$4.00</td>
+          <td class="num">$2.30</td>
+          <td class="num">42.5%</td>
+          <td class="num">$3.50–5.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive. Note: 50lb kit at 28.1% margin is a risk — see margin risk table. Hold or minor raise on 50lb.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PB-GOAT-N</td>
+          <td class="product">Goat — Native Blend</td>
+          <td class="num">$5.00</td>
+          <td class="num">$2.19</td>
+          <td class="num">56.2%</td>
+          <td class="num">$4.00–6.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive. Hold all GOAT variants.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PB-HRSE-N</td>
+          <td class="product">Horse — Native Blend</td>
+          <td class="num">$3.00</td>
+          <td class="num">$1.18</td>
+          <td class="num">60.7%</td>
+          <td class="num">$3.00–5.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive. Hold all HRSE variants.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PB-SHEP-N</td>
+          <td class="product">Sheep — Native Blend</td>
+          <td class="num">$5.00</td>
+          <td class="num">$2.02</td>
+          <td class="num">59.6%</td>
+          <td class="num">$4.00–6.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive. Hold all SHEP variants.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PB-PIG</td>
+          <td class="product">Pig Pasture Blend</td>
+          <td class="num">$5.00</td>
+          <td class="num">$2.38</td>
+          <td class="num">52.4%</td>
+          <td class="num">$4.00–6.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PB-HONEY</td>
+          <td class="product">Honey Bee Blend</td>
+          <td class="num">$12.00</td>
+          <td class="num">$4.93</td>
+          <td class="num">58.9%</td>
+          <td class="num">$8.00–15.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Pollinator/honey blends command premium. Competitive. Hold.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     PANEL: NATIVE GRASSES
+════════════════════════════════════════════════════ -->
+<div id="panel-native" class="nav-panel">
+
+  <div class="callout warning" style="margin-top:16px;">
+    <span class="callout-icon">&#9888;</span>
+    <div>Native grass pricing is highly variable by species. Some species (Blue Grama, Sideoats) have active competitors. Others (Buffalograss) NS is BELOW market. PG-CYDA-25-LB is a critical margin failure — cost $137.50 for 25lb, currently priced at $139.99.</div>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-header">
+      <div>
+        <div class="table-header-title">Native Grasses — Pricing Analysis</div>
+        <div class="table-header-sub">5lb base unit used for $/lb comparison where applicable</div>
+      </div>
+      <input type="text" class="table-search" placeholder="Filter rows..." onkeyup="filterTable(this, 'native-table')">
+    </div>
+    <table id="native-table">
+      <thead>
+        <tr>
+          <th onclick="sortTable('native-table',0)">Parent SKU <span class="sort-icon">&#8597;</span></th>
+          <th onclick="sortTable('native-table',1)">Product <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('native-table',2)">NS $/lb <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('native-table',3)">Unit Cost/lb <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('native-table',4)">Margin% <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('native-table',5)">Competitor $/lb <span class="sort-icon">&#8597;</span></th>
+          <th onclick="sortTable('native-table',6)">Competitor</th>
+          <th onclick="sortTable('native-table',7)">Verdict</th>
+          <th>Recommendation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-loss">
+          <td class="sku">PG-CYDA</td>
+          <td class="product">Coastal Dropseed (Cynodon)</td>
+          <td class="num">$5.60</td>
+          <td class="num">$5.50</td>
+          <td class="num" style="color:#dc2626;font-weight:700;">1.8% (25lb)</td>
+          <td class="num">$8.00–12.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-critical">CRITICAL</span></td>
+          <td class="rec"><strong>25lb: RAISE $139.99 → $229.99 immediately</strong> (cost $137.50, only $2.49 profit currently). 5lb at $84.99 is acceptable (67.4% margin).</td>
+        </tr>
+        <tr class="row-red">
+          <td class="sku">PG-BOGR</td>
+          <td class="product">Blue Grama</td>
+          <td class="num">$65.17</td>
+          <td class="num">$11.08</td>
+          <td class="num">83.0%</td>
+          <td class="num">$15.00–20.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED 3x</span></td>
+          <td class="rec">Reduce 5lb: $325.87 → <strong>$129.99</strong> (new margin 57.4%). At $65/lb vs $15–20/lb market, conversion is nearly impossible.</td>
+        </tr>
+        <tr class="row-red">
+          <td class="sku">PG-PANO</td>
+          <td class="product">Switchgrass (Panicum)</td>
+          <td class="num">$20.00</td>
+          <td class="num">$5.50</td>
+          <td class="num">72.5%</td>
+          <td class="num">$5.00–12.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 5lb: $99.99 → <strong>$49.99</strong> (new margin 45%). At $49.99 margin is just above 30% floor. Monitor.</td>
+        </tr>
+        <tr class="row-red">
+          <td class="sku">PG-PAVI</td>
+          <td class="product">Pavonine Grass</td>
+          <td class="num">$17.00</td>
+          <td class="num">$2.35</td>
+          <td class="num">86.2%</td>
+          <td class="num">$5.00–12.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 5lb: $84.99 → <strong>$39.99</strong> (new margin 70.6%). Low cost base allows significant reduction.</td>
+        </tr>
+        <tr class="row-green">
+          <td class="sku">PG-BUDA</td>
+          <td class="product">Buffalograss (Native)</td>
+          <td class="num">$60.00</td>
+          <td class="num">$16.86</td>
+          <td class="num">71.9%</td>
+          <td class="num">$45.00+</td>
+          <td>Outsidepride Buffalograss</td>
+          <td class="verdict"><span class="badge badge-raise">UNDERPRICED</span></td>
+          <td class="rec">Reduce 5lb: $299.99 → <strong>$249.99</strong> (new margin 66.3%). Actually below Outsidepride. Can hold $299.99 or use as premium positioning.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PG-BUCK</td>
+          <td class="product">Buckwheat</td>
+          <td class="num">$8.00</td>
+          <td class="num">$0.35</td>
+          <td class="num">95.6%</td>
+          <td class="num">$3.00–6.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Very high margin. Competitive for specialty buckwheat. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PG-DAGL</td>
+          <td class="product">Dallisgrass</td>
+          <td class="num">$7.00</td>
+          <td class="num">$0.32</td>
+          <td class="num">95.4%</td>
+          <td class="num">$5.00–10.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Strong margin, competitive price. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PG-FEAR2</td>
+          <td class="product">Annual Ryegrass Blend 2</td>
+          <td class="num">$7.00</td>
+          <td class="num">$0.71</td>
+          <td class="num">89.8%</td>
+          <td class="num">$3.00–6.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Hold. Verify this is genuinely specialty and not commodity annual rye.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PG-LOPE</td>
+          <td class="product">Lovegrass (Purple)</td>
+          <td class="num">$7.00</td>
+          <td class="num">$0.91</td>
+          <td class="num">87.0%</td>
+          <td class="num">$5.00–12.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PG-MESA</td>
+          <td class="product">Sideoats Grama</td>
+          <td class="num">$8.00</td>
+          <td class="num">$1.99</td>
+          <td class="num">75.1%</td>
+          <td class="num">$6.00–12.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive for state grass of TX. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PG-PHPR</td>
+          <td class="product">Plains Prickly Pear Grass</td>
+          <td class="num">$7.00</td>
+          <td class="num">$1.49</td>
+          <td class="num">78.7%</td>
+          <td class="num">$5.00–10.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PG-POPR</td>
+          <td class="product">Plains Paspalum</td>
+          <td class="num">$8.00</td>
+          <td class="num">$1.64</td>
+          <td class="num">79.5%</td>
+          <td class="num">$5.00–10.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PG-SECE</td>
+          <td class="product">Sedge (Eastern)</td>
+          <td class="num">$5.00</td>
+          <td class="num">$0.31</td>
+          <td class="num">93.8%</td>
+          <td class="num">$4.00–8.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Strong margin. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PG-TRRE</td>
+          <td class="product">Annual Ryegrass / Range Rye</td>
+          <td class="num">$7.00</td>
+          <td class="num">$3.26</td>
+          <td class="num">53.4%</td>
+          <td class="num">$4.00</td>
+          <td>Commodity benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Note: 5lb cost $16.30 (=$3.26/lb), price $34.99. At $19.99 → only 18.4% margin (below floor). Do NOT reduce. Hold at $34.99 or raise to $39.99.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     PANEL: COVER CROPS
+════════════════════════════════════════════════════ -->
+<div id="panel-cover" class="nav-panel">
+
+  <div class="callout warning" style="margin-top:16px;">
+    <span class="callout-icon">&#9888;</span>
+    <div>Cover crop pricing is tricky — standard commodity cover crops ($1–5/lb) vs specialty ecology mixes ($15–30/lb). Do NOT compare CV-CNEC or CV-CNFW to commodity crimson clover. Their COGS are 5–10x higher, indicating specialty seed. Flag for composition review before any price changes.</div>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-header">
+      <div>
+        <div class="table-header-title">Cover Crops — Pricing Analysis</div>
+        <div class="table-header-sub">Specialty vs commodity status noted for each product</div>
+      </div>
+      <input type="text" class="table-search" placeholder="Filter rows..." onkeyup="filterTable(this, 'cover-table')">
+    </div>
+    <table id="cover-table">
+      <thead>
+        <tr>
+          <th onclick="sortTable('cover-table',0)">Parent SKU <span class="sort-icon">&#8597;</span></th>
+          <th onclick="sortTable('cover-table',1)">Product <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('cover-table',2)">NS $/lb <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('cover-table',3)">Unit Cost/lb <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('cover-table',4)">Margin% <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('cover-table',5)">Competitor $/lb <span class="sort-icon">&#8597;</span></th>
+          <th onclick="sortTable('cover-table',6)">Competitor</th>
+          <th onclick="sortTable('cover-table',7)">Verdict</th>
+          <th>Recommendation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-red">
+          <td class="sku">CV-NEC</td>
+          <td class="product">Native Ecology Cover Crop</td>
+          <td class="num">$10.00</td>
+          <td class="num">$2.56</td>
+          <td class="num">74.4%</td>
+          <td class="num">$4.00–5.00</td>
+          <td>Cover crop market</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 10lb: $99.99 → <strong>$69.99</strong> (=$7/lb, new margin 63.4%). Standard cover crop — 2x market is reducing conversion.</td>
+        </tr>
+        <tr class="row-red">
+          <td class="sku">CV-CHM</td>
+          <td class="product">Chamomile Cover Crop</td>
+          <td class="num">$58.24</td>
+          <td class="num">$10.74</td>
+          <td class="num">81.6%</td>
+          <td class="num">$10.00–15.00</td>
+          <td>Chamomile market</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 25lb: $1,455.88 → <strong>$599.99</strong> (new margin 55.2%). $58/lb vs $10–15/lb market even for specialty chamomile is extreme.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">CV-CNEC</td>
+          <td class="product">Crimson Clover Ecology Mix</td>
+          <td class="num">$41.18</td>
+          <td class="num">$14.95</td>
+          <td class="num">63.7%</td>
+          <td class="num">$3.00 (commodity)</td>
+          <td>Commodity crimson clover</td>
+          <td class="verdict"><span class="badge badge-review">HOLD — PENDING REVIEW</span></td>
+          <td class="rec">Do NOT compare to $3/lb commodity crimson clover. Cost $14.95/lb confirms specialty seed. HOLD until composition documented. If specialty: price is justified.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">CV-CNFW</td>
+          <td class="product">Crimson Clover Wildflower Mix</td>
+          <td class="num">$76.47</td>
+          <td class="num">$14.44</td>
+          <td class="num">81.1%</td>
+          <td class="num">$3.00 (commodity)</td>
+          <td>Commodity crimson clover</td>
+          <td class="verdict"><span class="badge badge-review">HOLD — PENDING REVIEW</span></td>
+          <td class="rec">Same as CNEC. Cost $14.44/lb = specialty. HOLD. Do not reduce based on commodity comps. Document composition first.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">CV-BGEC</td>
+          <td class="product">Buckwheat Ecology Cover Crop</td>
+          <td class="num">$20.00</td>
+          <td class="num">$5.85</td>
+          <td class="num">70.8%</td>
+          <td class="num">$12.00–20.00</td>
+          <td>Specialty cover crop market</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive for specialty ecology buckwheat mix. Hold current pricing.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     PANEL: WILDFLOWER BLENDS
+════════════════════════════════════════════════════ -->
+<div id="panel-wildflower" class="nav-panel">
+
+  <div class="callout danger" style="margin-top:16px;">
+    <span class="callout-icon">&#9888;</span>
+    <div>Wildflower blends are broadly 3–4x above American Meadows and Eden Brothers at the 0.5lb level. These are high-volume search categories. Overpricing here is likely costing significant conversion. All WB- blends should be repriced with careful margin checks — minimum 30% gross margin on each SKU.</div>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-header">
+      <div>
+        <div class="table-header-title">Wildflower Blends — Pricing Analysis</div>
+        <div class="table-header-sub">0.5lb base unit used for $/lb comparison</div>
+      </div>
+      <input type="text" class="table-search" placeholder="Filter rows..." onkeyup="filterTable(this, 'wildflower-table')">
+    </div>
+    <table id="wildflower-table">
+      <thead>
+        <tr>
+          <th onclick="sortTable('wildflower-table',0)">Parent SKU <span class="sort-icon">&#8597;</span></th>
+          <th onclick="sortTable('wildflower-table',1)">Product <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('wildflower-table',2)">NS $/lb <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('wildflower-table',3)">Unit Cost/lb <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('wildflower-table',4)">Margin% <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('wildflower-table',5)">Competitor $/lb <span class="sort-icon">&#8597;</span></th>
+          <th onclick="sortTable('wildflower-table',6)">Competitor</th>
+          <th onclick="sortTable('wildflower-table',7)">Verdict</th>
+          <th>Recommendation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-red">
+          <td class="sku">WB-AN</td>
+          <td class="product">Annual Wildflower Blend</td>
+          <td class="num">$59.98</td>
+          <td class="num">$10.92</td>
+          <td class="num">81.8%</td>
+          <td class="num">$15.00–20.00</td>
+          <td>American Meadows</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED 3–4x</span></td>
+          <td class="rec">Reduce 0.5lb: $29.99 → <strong>$14.99</strong> (new margin 63.6%). American Meadows 1lb ≈ $15–20. Scale all AN variants proportionally.</td>
+        </tr>
+        <tr class="row-red">
+          <td class="sku">WB-XCVP</td>
+          <td class="product">Xeriscape/Pollinator Blend</td>
+          <td class="num">$117.64</td>
+          <td class="num">$17.24</td>
+          <td class="num">85.3%</td>
+          <td class="num">$15.00–35.00</td>
+          <td>Pollinator mix market</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 0.5lb: $58.82 → <strong>$19.99</strong> (new margin 56.9%). Xeriscape pollinator market max $35/lb even premium. Current $117/lb is extreme.</td>
+        </tr>
+        <tr class="row-red">
+          <td class="sku">WB-CALN</td>
+          <td class="product">California Native Blend</td>
+          <td class="num">$82.32</td>
+          <td class="num">$17.10</td>
+          <td class="num">79.2%</td>
+          <td class="num">$20.00–40.00</td>
+          <td>Eden Brothers</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 0.5lb: $41.16 → <strong>$18.99</strong> (new margin 55.0%). California native market $20–40/lb. Current $82/lb is 2–4x.</td>
+        </tr>
+        <tr class="row-red">
+          <td class="sku">WB-CCN</td>
+          <td class="product">Cottage/Country Blend</td>
+          <td class="num">$75.26</td>
+          <td class="num">$15.14</td>
+          <td class="num">79.8%</td>
+          <td class="num">$15.00–25.00</td>
+          <td>American Meadows</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 0.5lb: $37.63 → <strong>$16.99</strong> (new margin 55.2%). Scale all CCN variants proportionally.</td>
+        </tr>
+        <tr class="row-red">
+          <td class="sku">WB-DR</td>
+          <td class="product">Drought-Resistant Blend</td>
+          <td class="num">$59.98</td>
+          <td class="num">$12.54</td>
+          <td class="num">79.1%</td>
+          <td class="num">$15.00–25.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 0.5lb: $29.99 → <strong>$14.99</strong> (new margin 58.5%). Market for drought mixes $15–25/lb.</td>
+        </tr>
+        <tr class="row-red">
+          <td class="sku">WB-RM</td>
+          <td class="product">Rocky Mountain Blend</td>
+          <td class="num">$59.98</td>
+          <td class="num">$14.20</td>
+          <td class="num">76.3%</td>
+          <td class="num">$15.00–25.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 0.5lb: $29.99 → <strong>$14.99</strong> (new margin 52.8%). Regional blend — market $15–25/lb.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">WB-SD</td>
+          <td class="product">Shade-Tolerant Blend</td>
+          <td class="num">$49.98</td>
+          <td class="num">$17.24</td>
+          <td class="num">65.5%</td>
+          <td class="num">$20.00–35.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD / MINOR REDUCE</span></td>
+          <td class="rec">Less egregious than other WB blends. Minor optional reduce to $16.99/0.5lb (=$34/lb, margin 43.1%) — but current $24.99 is defensible.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     PANEL: SINGLE SPECIES WILDFLOWERS
+════════════════════════════════════════════════════ -->
+<div id="panel-single-species" class="nav-panel">
+
+  <div class="callout info" style="margin-top:16px;">
+    <span class="callout-icon">&#8505;</span>
+    <div>Single-species wildflower seeds vary enormously by species rarity and collection method. Common species (California poppy, cosmos) have well-known market prices. Rare species (Siberian iris, Engelmann's daisy) can sustain premium pricing. Always verify against specialty seed supplier comps, not commodity bulk.</div>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-header">
+      <div>
+        <div class="table-header-title">Single Species Wildflowers — Pricing Analysis</div>
+        <div class="table-header-sub">0.25lb or 1lb base unit used for $/lb comparison</div>
+      </div>
+      <input type="text" class="table-search" placeholder="Filter rows..." onkeyup="filterTable(this, 'single-table')">
+    </div>
+    <table id="single-table">
+      <thead>
+        <tr>
+          <th onclick="sortTable('single-table',0)">Parent SKU <span class="sort-icon">&#8597;</span></th>
+          <th onclick="sortTable('single-table',1)">Product <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('single-table',2)">NS $/lb <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('single-table',3)">Unit Cost/lb <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('single-table',4)">Margin% <span class="sort-icon">&#8597;</span></th>
+          <th class="num" onclick="sortTable('single-table',5)">Competitor $/lb <span class="sort-icon">&#8597;</span></th>
+          <th onclick="sortTable('single-table',6)">Competitor</th>
+          <th onclick="sortTable('single-table',7)">Verdict</th>
+          <th>Recommendation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-green">
+          <td class="sku">W-ENCA</td>
+          <td class="product">Engelmann's Daisy</td>
+          <td class="num">$84.64</td>
+          <td class="num">$45.88</td>
+          <td class="num" style="color:#ea580c;font-weight:700;">45.8%</td>
+          <td class="num">$60.00–100.00</td>
+          <td>Specialty wildflower</td>
+          <td class="verdict"><span class="badge badge-raise">UNDERPRICED</span></td>
+          <td class="rec">Raise 0.25lb: $21.16 → <strong>$29.99</strong> (new margin 61.7%). Cost $11.47 = high-cost specialty. Current price gives only 45.8% margin — raise to improve.</td>
+        </tr>
+        <tr class="row-red">
+          <td class="sku">W-ERCO</td>
+          <td class="product">Erigeron / Prairie Fleabane</td>
+          <td class="num">$216.44</td>
+          <td class="num">$32.80</td>
+          <td class="num">84.8%</td>
+          <td class="num">$60.00–80.00</td>
+          <td>Specialty market</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 0.25lb: $54.11 → <strong>$24.99</strong> (new margin 67.2%). Market max for specialty wildflower $80/lb. NS at $216/lb is extreme.</td>
+        </tr>
+        <tr class="row-red">
+          <td class="sku">W-ASFA</td>
+          <td class="product">Aster / Prairie Aster</td>
+          <td class="num">$403.96</td>
+          <td class="num">$80.72</td>
+          <td class="num">80.0%</td>
+          <td class="num">$60.00–100.00</td>
+          <td>Specialty market</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 0.25lb: $100.99 → <strong>$39.99</strong> (new margin 49.5%). Market $15–25 for 1/4lb specialty. NS at $101 is 4x market.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">W-ESCA</td>
+          <td class="product">California Poppy</td>
+          <td class="num">$27.89</td>
+          <td class="num">$12.14</td>
+          <td class="num">56.5%</td>
+          <td class="num">$10.00</td>
+          <td>Eden Brothers</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Eden Brothers California Poppy ≈ $10/lb. NS at $27.89/lb is 2.8x — but at $22.99 margin = 47.2%, still above floor. Hold or minor reduce to $22.99.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">W-SIBE</td>
+          <td class="product">Siberian Iris</td>
+          <td class="num">$202.32</td>
+          <td class="num">$15.32</td>
+          <td class="num">92.4%</td>
+          <td class="num">$120.00–240.00</td>
+          <td>Specialty iris market</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">92.4% margin, market $30–60/0.25lb for iris seed. NS at $50.58/0.25lb is competitive. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">W-ACLA</td>
+          <td class="product">Achillea / Yarrow</td>
+          <td class="num">$70.56</td>
+          <td class="num">$11.78</td>
+          <td class="num">83.3%</td>
+          <td class="num">$40.00–80.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Strong margin. Yarrow specialty market at $40–80/lb. Competitive. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">W-DIAUA</td>
+          <td class="product">Dianthus</td>
+          <td class="num">$79.96</td>
+          <td class="num">$9.96</td>
+          <td class="num">87.5%</td>
+          <td class="num">$40.00–80.00</td>
+          <td>Specialty market</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Strong margin. Competitive for specialty Dianthus. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">W-LUBI</td>
+          <td class="product">Lupine / Blue Bonnet</td>
+          <td class="num">$75.24</td>
+          <td class="num">$15.32</td>
+          <td class="num">79.6%</td>
+          <td class="num">$40.00–80.00</td>
+          <td>Specialty market</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive for lupine specialty. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">W-LUSU</td>
+          <td class="product">Luzula / Sunflower Mix</td>
+          <td class="num">$61.12</td>
+          <td class="num">$12.57</td>
+          <td class="num">79.4%</td>
+          <td class="num">$30.00–60.00</td>
+          <td>Specialty market</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">W-LUMI</td>
+          <td class="product">Lupine / Milkweed Mix</td>
+          <td class="num">$117.64</td>
+          <td class="num">$27.78</td>
+          <td class="num">75.0%</td>
+          <td class="num">$60.00–120.00</td>
+          <td>Specialty market</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Milkweed/lupine specialty warrants high price. Competitive. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">W-NAPU</td>
+          <td class="product">Native Purple Coneflower</td>
+          <td class="num">$79.96</td>
+          <td class="num">$13.28</td>
+          <td class="num">83.4%</td>
+          <td class="num">$40.00–80.00</td>
+          <td>Specialty market</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive for Echinacea purpurea. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">W-SAAP</td>
+          <td class="product">Salvia / Prairie Sage</td>
+          <td class="num">$131.72</td>
+          <td class="num">$30.22</td>
+          <td class="num">77.1%</td>
+          <td class="num">$80.00–140.00</td>
+          <td>Specialty market</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive for native sage. Hold.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     PANEL: SPECIALTY
+════════════════════════════════════════════════════ -->
+<div id="panel-specialty" class="nav-panel">
+
+  <div class="callout info" style="margin-top:16px;">
+    <span class="callout-icon">&#8505;</span>
+    <div>Specialty products include micro clover, inoculants, fertilizers, and performance blends. Most are defensibly priced with known competitors.</div>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-header">
+      <div>
+        <div class="table-header-title">Specialty Products — Pricing Analysis</div>
+        <div class="table-header-sub">Includes inoculants, micro clover, fertilizers, performance mixes</div>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Parent SKU</th>
+          <th>Product</th>
+          <th class="num">NS $/lb</th>
+          <th class="num">Unit Cost/lb</th>
+          <th class="num">Margin%</th>
+          <th class="num">Competitor $/lb</th>
+          <th>Competitor</th>
+          <th>Verdict</th>
+          <th>Recommendation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-red">
+          <td class="sku">S-MICRO</td>
+          <td class="product">Micro Clover</td>
+          <td class="num">$44.99</td>
+          <td class="num">$14.57</td>
+          <td class="num">67.6%</td>
+          <td class="num">$34.99</td>
+          <td>Outsidepride MiniClover</td>
+          <td class="verdict"><span class="badge badge-reduce">OVERPRICED</span></td>
+          <td class="rec">Reduce 1lb: $44.99 → <strong>$34.99</strong> (new margin 58.4%). Direct competitor at $34.99. Match to compete.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">S-DUTCH</td>
+          <td class="product">Dutch White Clover</td>
+          <td class="num">$9.00</td>
+          <td class="num">$4.30</td>
+          <td class="num">52.2%</td>
+          <td class="num">$5.00–6.00</td>
+          <td>Outsidepride Dutch White</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Outsidepride 5lb ≈ $24–27. NS at $44.99 is 1.7x market. At $34.99 → 38.6% margin (borderline). Hold at $44.99 or minor reduce to max $39.99 (46.2% margin).</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">S-FEOV</td>
+          <td class="product">Fescue / Overseed Blend</td>
+          <td class="num">$8.00</td>
+          <td class="num">$2.99</td>
+          <td class="num">62.6%</td>
+          <td class="num">$4.00–6.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Good margin for specialty overseed. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">S-INNOC</td>
+          <td class="product">Inoculant (Rhizobium)</td>
+          <td class="num">$15.00</td>
+          <td class="num">$5.20</td>
+          <td class="num">65.3%</td>
+          <td class="num">$12.00–15.00</td>
+          <td>Johnny's Seeds</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive vs Johnny's at $12/lb. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">S-AGPA8</td>
+          <td class="product">Annual Pasture Blend A8</td>
+          <td class="num">$107.05</td>
+          <td class="num">$22.58</td>
+          <td class="num">78.9%</td>
+          <td class="num">$50.00–120.00</td>
+          <td>Specialty market</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">High-cost specialty annual pasture. Margin strong. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">S-RICE</td>
+          <td class="product">Rice Cover Crop</td>
+          <td class="num">$3.60</td>
+          <td class="num">$0.25</td>
+          <td class="num">93.0%</td>
+          <td class="num">$2.00–4.00</td>
+          <td>Commodity market</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Strong margin. Competitive price. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">S-TACKI</td>
+          <td class="product">Tackifier / Mulch</td>
+          <td class="num">$2.40</td>
+          <td class="num">$0.51</td>
+          <td class="num">78.8%</td>
+          <td class="num">$1.50–3.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive for specialty tackifier. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">SUSTANE-18-1-8</td>
+          <td class="product">Sustane Organic Fertilizer 18-1-8</td>
+          <td class="num">$8.61</td>
+          <td class="num">$3.06</td>
+          <td class="num">64.5%</td>
+          <td class="num">$6.00–10.00</td>
+          <td>Organic fertilizer market</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Competitive for OMRI-listed organic fertilizer. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">SUSTANE-4-6-4</td>
+          <td class="product">Sustane Organic Fertilizer 4-6-4</td>
+          <td class="num">$24.00</td>
+          <td class="num">$4.90</td>
+          <td class="num">79.6%</td>
+          <td class="num">$15.00–25.00</td>
+          <td>Organic fertilizer market</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Strong margin. Competitive. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PB-CABIN</td>
+          <td class="product">Cabin/Country Pasture Blend</td>
+          <td class="num">$8.80</td>
+          <td class="num">$3.50</td>
+          <td class="num">60.2%</td>
+          <td class="num">$4.00–7.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Specialty blend. Competitive. Hold.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PB-MUST</td>
+          <td class="product">Mustard Cover/Pasture</td>
+          <td class="num">$4.70</td>
+          <td class="num">$1.87</td>
+          <td class="num">60.2%</td>
+          <td class="num">$3.00–6.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Note: 20lb kit at $199.71 and 50lb kit at $169.75 — 50lb is cheaper than 20lb. Pricing error on kit sizes. Fix kit pricing logic immediately.</td>
+        </tr>
+        <tr class="row-orange">
+          <td class="sku">PB-SHADE</td>
+          <td class="product">Shade Pasture Blend</td>
+          <td class="num">$11.40</td>
+          <td class="num">$2.10</td>
+          <td class="num">81.6%</td>
+          <td class="num">$5.00–10.00</td>
+          <td>Market benchmark</td>
+          <td class="verdict"><span class="badge badge-hold">HOLD</span></td>
+          <td class="rec">Strong margin. Specialty shade blend. Hold.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pricing Logic Errors callout -->
+  <div class="callout danger">
+    <span class="callout-icon">&#9888;</span>
+    <div>
+      <strong>Kit Pricing Logic Error Detected — PB-MUST:</strong><br>
+      PB-MUST-20-LB-KIT = $199.71 but PB-MUST-50-LB-KIT = $169.75. The 50lb kit is priced LOWER than the 20lb kit. This will suppress 50lb sales and confuse customers. Fix pricing so larger kits always carry better value-per-pound.
+    </div>
+  </div>
+</div>
+
+<!-- ── Competitor Sources ── -->
+<div class="sources-box" style="margin-top:8px;">
+  <h4>Competitor Sources Referenced</h4>
+  <div class="sources-list">
+    <div class="source-tag">Outsidepride.com</div>
+    <div class="source-tag">American Meadows</div>
+    <div class="source-tag">Eden Brothers</div>
+    <div class="source-tag">Pennington Seed</div>
+    <div class="source-tag">Hancock Seed (Happy Hen)</div>
+    <div class="source-tag">Johnny's Selected Seeds</div>
+    <div class="source-tag">Prairie Moon Nursery</div>
+    <div class="source-tag">Ernst Conservation Seeds</div>
+  </div>
+</div>
+
+<!-- ── Footer ── -->
+<div class="footer">
+  <span>Nature's Seed Pricing Research — March 11, 2026</span>
+  <span>Margin floor: 30% gross. Never recommend below this threshold.</span>
+  <span>Source: Internal COGS + competitor web research, March 2026</span>
+</div>
+
+<script>
+// ── Tab navigation ──
+function showPanel(id) {
+  document.querySelectorAll('.nav-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ── Table sorting ──
+function sortTable(tableId, col) {
+  const table = document.getElementById(tableId);
+  if (!table) return;
+  const tbody = table.querySelector('tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  const th = table.querySelectorAll('thead th')[col];
+  const asc = th.dataset.sort !== 'asc';
+  table.querySelectorAll('thead th').forEach(h => {
+    h.classList.remove('sorted');
+    delete h.dataset.sort;
+    const icon = h.querySelector('.sort-icon');
+    if (icon) icon.textContent = '⇕';
+  });
+  th.classList.add('sorted');
+  th.dataset.sort = asc ? 'asc' : 'desc';
+  const icon = th.querySelector('.sort-icon');
+  if (icon) icon.textContent = asc ? '↑' : '↓';
+
+  rows.sort((a, b) => {
+    const aVal = a.querySelectorAll('td')[col]?.textContent.trim() || '';
+    const bVal = b.querySelectorAll('td')[col]?.textContent.trim() || '';
+    const aNum = parseFloat(aVal.replace(/[^0-9.\-]/g, ''));
+    const bNum = parseFloat(bVal.replace(/[^0-9.\-]/g, ''));
+    if (!isNaN(aNum) && !isNaN(bNum)) {
+      return asc ? aNum - bNum : bNum - aNum;
+    }
+    return asc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+  });
+  rows.forEach(r => tbody.appendChild(r));
+}
+
+// ── Table filtering ──
+function filterTable(input, tableId) {
+  const filter = input.value.toLowerCase();
+  const table = document.getElementById(tableId);
+  if (!table) return;
+  table.querySelectorAll('tbody tr').forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(filter) ? '' : 'none';
+  });
+}
+</script>
+
+</body>
+</html>

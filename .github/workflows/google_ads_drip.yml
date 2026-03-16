@@ -49,7 +49,7 @@ jobs:
           ENVEOF
 
       - name: Run drip cycle
-        working-directory: google-ads-audit/drip
+        working-directory: marketing/google-ads-audit/drip
         run: |
           MODE="${{ github.event.inputs.mode || 'full-cycle' }}"
 
@@ -80,5 +80,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: drip-cycle-${{ github.run_number }}
-          path: google-ads-audit/drip/plans/
+          path: marketing/google-ads-audit/drip/plans/
           retention-days: 30

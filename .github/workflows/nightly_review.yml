@@ -42,4 +42,4 @@ jobs:
           ENVEOF
 
       - name: Send nightly review
-        run: python daily-report/nightly_review.py
+        run: python infrastructure/daily-report/nightly_review.py

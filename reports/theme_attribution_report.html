@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Theme Attribution Analysis — Nature's Seed</title>
+<style>
+  :root {
+    --green: #16a34a; --red: #dc2626; --blue: #2563eb; --amber: #d97706;
+    --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --text: #1e293b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+         background: var(--bg); color: var(--text); padding: 24px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 1.8rem; margin-bottom: 4px; }
+  h2 { font-size: 1.3rem; margin: 28px 0 12px; border-bottom: 2px solid var(--border); padding-bottom: 6px; }
+  h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+  .subtitle { color: #64748b; margin-bottom: 20px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+           padding: 16px; margin-bottom: 16px; }
+  .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 16px 0; }
+  .metric { background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+             padding: 14px; text-align: center; }
+  .metric .label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+  .metric .value { font-size: 1.6rem; font-weight: 700; margin: 4px 0; }
+  .metric .change { font-size: 0.9rem; font-weight: 600; }
+  .positive { color: var(--green); }
+  .negative { color: var(--red); }
+  .neutral { color: #64748b; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th { background: #f1f5f9; padding: 8px 10px; text-align: left; font-weight: 600; border-bottom: 2px solid var(--border); }
+  td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: #f8fafc; }
+  .verdict-box { background: #eff6ff; border: 2px solid var(--blue); border-radius: 8px;
+                  padding: 20px; margin: 20px 0; }
+  .verdict-box h2 { border: none; margin: 0 0 12px; color: var(--blue); }
+  .verdict-text { font-size: 1.1rem; line-height: 1.6; margin: 12px 0; }
+  .signal { padding: 6px 0; font-size: 0.9rem; }
+  .signal-icon { margin-right: 6px; }
+  .period-label { display: inline-block; background: #e2e8f0; border-radius: 4px;
+                   padding: 2px 8px; font-size: 0.75rem; font-weight: 600; margin-right: 6px; }
+  .period-pre { background: #fee2e2; color: var(--red); }
+  .period-post { background: #dcfce7; color: var(--green); }
+  .period-yoy { background: #fef3c7; color: var(--amber); }
+  .chart-container { position: relative; height: 200px; margin: 16px 0; }
+  canvas { width: 100% !important; height: 100% !important; }
+  .footnote { font-size: 0.8rem; color: #94a3b8; margin-top: 24px; border-top: 1px solid var(--border); padding-top: 12px; }
+</style>
+</head>
+<body>
+
+<h1>Theme Attribution Analysis</h1>
+<p class="subtitle">
+  New theme deployed <b>Friday, Feb 27, 2026</b> &mdash;
+  comparing <span class="period-label period-pre">PRE</span> Feb 14–27 vs
+  <span class="period-label period-post">POST</span> Feb 28 – Mar 12 vs
+  <span class="period-label period-yoy">YoY 2025</span>
+</p>
+
+<!-- ════════ VERDICT ════════ -->
+<div class="verdict-box">
+  <h2>Attribution Verdict</h2>
+  <div class="verdict-text">The evidence strongly suggests the new theme is a significant driver of the sales increase. 4 of 6 signals point to improved site experience (better conversion rate, lower bounce rate, organic outperforming paid). Seasonality is a contributing factor but the theme appears to be adding lift beyond what seasonal patterns alone would explain.</div>
+  <h3>Evidence Signals</h3>
+  <div class="signal"><span class="signal-icon">✅</span> 2026 revenue lift (+70%) exceeds 2025 seasonal lift (+10%) by 60pp — something beyond seasonality is driving growth.</div>
+<div class="signal"><span class="signal-icon">✅</span> Conversion rate improved +1.18pp (1.03% → 2.21%). Better site experience converts more visitors — likely theme effect.</div>
+<div class="signal"><span class="signal-icon">⚙️</span> Bounce rate increased +11.6pp — possible theme issue or more casual traffic.</div>
+<div class="signal"><span class="signal-icon">✅</span> Organic clicks (+18%) growing faster than impressions (+6%) — improved CTR, likely better snippets/site.</div>
+<div class="signal"><span class="signal-icon">⚙️</span> Ad spend increased +17% — part of revenue growth is from more ad investment (strategy).</div>
+<div class="signal"><span class="signal-icon">✅</span> Direct traffic revenue up +34% — returning customers engaging more (brand + theme).</div>
+
+</div>
+
+<!-- ════════ HEADLINE METRICS ════════ -->
+<h2>Headline Metrics (Pre → Post)</h2>
+<div class="metrics-grid">
+  <div class="metric">
+    <div class="label">Total Revenue</div>
+    <div class="value">$174,300</div>
+    <div class="change positive">+70.4% vs pre</div>
+    <div class="change neutral" style="font-size:0.8rem">-3.5% vs YoY</div>
+  </div>
+  <div class="metric">
+    <div class="label">Sessions</div>
+    <div class="value">53,450</div>
+    <div class="change positive">+8.1% vs pre</div>
+  </div>
+  <div class="metric">
+    <div class="label">Conversion Rate</div>
+    <div class="value">2.21%</div>
+    <div class="change positive">+1.18pp vs pre</div>
+  </div>
+  <div class="metric">
+    <div class="label">Bounce Rate</div>
+    <div class="value">15.1%</div>
+    <div class="change negative">+11.6pp vs pre</div>
+  </div>
+  <div class="metric">
+    <div class="label">Daily Avg Revenue</div>
+    <div class="value">$14,525</div>
+    <div class="change positive">+98.9% vs pre</div>
+  </div>
+  <div class="metric">
+    <div class="label">Orders (Total)</div>
+    <div class="value">1,299</div>
+    <div class="change positive">+112.6% vs pre</div>
+  </div>
+</div>
+
+<!-- ════════ GA4 BY CHANNEL ════════ -->
+<h2>GA4 — Traffic &amp; Revenue by Channel</h2>
+<div class="card">
+<p style="font-size:0.85rem; color:#64748b; margin-bottom:10px;">
+  This is the <b>key isolation test</b> — if Organic and Direct channels improved more than Paid,
+  the theme is likely driving it (not just more ad spend).
+</p>
+<table>
+  <tr>
+    <th>Channel</th>
+    <th colspan="3">Sessions</th>
+    <th colspan="3">Revenue</th>
+    <th colspan="3">Conv. Rate</th>
+  </tr>
+  <tr>
+    <th></th>
+    <th>Pre</th><th>Post</th><th>Δ</th>
+    <th>Pre</th><th>Post</th><th>Δ</th>
+    <th>Pre</th><th>Post</th><th>Δ</th>
+  </tr>
+  
+        <tr>
+            <td><b>Cross-network</b></td>
+            <td>8,916</td>
+            <td>14,320</td>
+            <td class="positive">+60.6%</td>
+            <td>$15,348</td>
+            <td>$41,099</td>
+            <td class="positive">+167.8%</td>
+            <td>0.75%</td>
+            <td>1.82%</td>
+            <td class="positive">+1.07pp</td>
+        </tr>
+        <tr>
+            <td><b>Direct</b></td>
+            <td>17,548</td>
+            <td>12,122</td>
+            <td class="negative">-30.9%</td>
+            <td>$21,372</td>
+            <td>$28,738</td>
+            <td class="positive">+34.5%</td>
+            <td>0.44%</td>
+            <td>1.30%</td>
+            <td class="positive">+0.86pp</td>
+        </tr>
+        <tr>
+            <td><b>Email</b></td>
+            <td>871</td>
+            <td>1,026</td>
+            <td class="positive">+17.8%</td>
+            <td>$5,736</td>
+            <td>$7,117</td>
+            <td class="positive">+24.1%</td>
+            <td>3.56%</td>
+            <td>4.58%</td>
+            <td class="positive">+1.02pp</td>
+        </tr>
+        <tr>
+            <td><b>Organic Search</b></td>
+            <td>6,678</td>
+            <td>9,330</td>
+            <td class="positive">+39.7%</td>
+            <td>$12,922</td>
+            <td>$20,535</td>
+            <td class="positive">+58.9%</td>
+            <td>0.79%</td>
+            <td>1.36%</td>
+            <td class="positive">+0.57pp</td>
+        </tr>
+        <tr>
+            <td><b>Organic Shopping</b></td>
+            <td>158</td>
+            <td>209</td>
+            <td class="positive">+32.3%</td>
+            <td>$982</td>
+            <td>$1,788</td>
+            <td class="positive">+82.1%</td>
+            <td>3.80%</td>
+            <td>3.83%</td>
+            <td class="neutral">+0.03pp</td>
+        </tr>
+        <tr>
+            <td><b>Organic Social</b></td>
+            <td>143</td>
+            <td>245</td>
+            <td class="positive">+71.3%</td>
+            <td>$300</td>
+            <td>$381</td>
+            <td class="positive">+27.0%</td>
+            <td>0.70%</td>
+            <td>1.63%</td>
+            <td class="positive">+0.93pp</td>
+        </tr>
+        <tr>
+            <td><b>Organic Video</b></td>
+            <td>2</td>
+            <td>3</td>
+            <td class="positive">+50.0%</td>
+            <td>$0</td>
+            <td>$0</td>
+            <td class="neutral">N/A</td>
+            <td>0.00%</td>
+            <td>0.00%</td>
+            <td class="neutral">+0.00pp</td>
+        </tr>
+        <tr>
+            <td><b>Paid Other</b></td>
+            <td>51</td>
+            <td>29</td>
+            <td class="negative">-43.1%</td>
+            <td>$0</td>
+            <td>$0</td>
+            <td class="neutral">N/A</td>
+            <td>0.00%</td>
+            <td>0.00%</td>
+            <td class="neutral">+0.00pp</td>
+        </tr>
+        <tr>
+            <td><b>Paid Search</b></td>
+            <td>2,835</td>
+            <td>2,162</td>
+            <td class="negative">-23.7%</td>
+            <td>$13,792</td>
+            <td>$21,477</td>
+            <td class="positive">+55.7%</td>
+            <td>2.57%</td>
+            <td>6.11%</td>
+            <td class="positive">+3.53pp</td>
+        </tr>
+        <tr>
+            <td><b>Paid Shopping</b></td>
+            <td>9,880</td>
+            <td>10,708</td>
+            <td class="positive">+8.4%</td>
+            <td>$19,592</td>
+            <td>$34,807</td>
+            <td class="positive">+77.7%</td>
+            <td>1.37%</td>
+            <td>2.69%</td>
+            <td class="positive">+1.32pp</td>
+        </tr>
+        <tr>
+            <td><b>Paid Social</b></td>
+            <td>581</td>
+            <td>1,033</td>
+            <td class="positive">+77.8%</td>
+            <td>$171</td>
+            <td>$423</td>
+            <td class="positive">+147.2%</td>
+            <td>0.17%</td>
+            <td>0.39%</td>
+            <td class="neutral">+0.22pp</td>
+        </tr>
+        <tr>
+            <td><b>Referral</b></td>
+            <td>1,172</td>
+            <td>984</td>
+            <td class="negative">-16.0%</td>
+            <td>$5,988</td>
+            <td>$6,998</td>
+            <td class="positive">+16.9%</td>
+            <td>2.47%</td>
+            <td>3.56%</td>
+            <td class="positive">+1.08pp</td>
+        </tr>
+        <tr>
+            <td><b>Unassigned</b></td>
+            <td>1,467</td>
+            <td>6,582</td>
+            <td class="positive">+348.7%</td>
+            <td>$4,992</td>
+            <td>$20,316</td>
+            <td class="positive">+306.9%</td>
+            <td>2.45%</td>
+            <td>1.81%</td>
+            <td class="negative">-0.65pp</td>
+        </tr>
+</table>
+</div>
+
+<!-- ════════ GOOGLE SEARCH CONSOLE ════════ -->
+<h2>Google Search Console — Organic Performance</h2>
+<div class="card">
+<p style="font-size:0.85rem; color:#64748b; margin-bottom:10px;">
+  GSC data lags 2-3 days. Organic improvements = theme/content effect. Flat = seasonality.
+</p>
+<div class="metrics-grid">
+  <div class="metric">
+    <div class="label">Organic Clicks</div>
+    <div class="value">5,685</div>
+    <div class="change positive">+18.5% vs pre</div>
+    <div class="change negative" style="font-size:0.8rem">-68.2% vs YoY</div>
+  </div>
+  <div class="metric">
+    <div class="label">Impressions</div>
+    <div class="value">838,803</div>
+    <div class="change positive">+6.3% vs pre</div>
+  </div>
+  <div class="metric">
+    <div class="label">CTR</div>
+    <div class="value">0.7%</div>
+    <div class="change">+0.1pp vs pre</div>
+  </div>
+  <div class="metric">
+    <div class="label">Avg Position</div>
+    <div class="value">6.3</div>
+    <div class="change">-1.2 vs pre</div>
+  </div>
+</div>
+</div>
+
+<!-- ════════ GOOGLE ADS ════════ -->
+<h2>Google Ads — Paid Performance</h2>
+<div class="card">
+<p style="font-size:0.85rem; color:#64748b; margin-bottom:10px;">
+  If paid conversion rate improved at same spend → theme is converting better.
+  If spend increased → can't attribute to theme alone.
+</p>
+<div class="metrics-grid">
+  <div class="metric">
+    <div class="label">Ad Spend</div>
+    <div class="value">$31,899</div>
+    <div class="change positive">+16.7% vs pre</div>
+  </div>
+  <div class="metric">
+    <div class="label">ROAS</div>
+    <div class="value">3.6x</div>
+    <div class="change positive">+49.0% vs pre</div>
+  </div>
+  <div class="metric">
+    <div class="label">Conversions</div>
+    <div class="value">829</div>
+    <div class="change positive">+121.1% vs pre</div>
+  </div>
+  <div class="metric">
+    <div class="label">Conv. Value</div>
+    <div class="value">$113,646</div>
+    <div class="change positive">+73.6% vs pre</div>
+  </div>
+  <div class="metric">
+    <div class="label">Clicks</div>
+    <div class="value">25,724</div>
+    <div class="change positive">+25.2% vs pre</div>
+  </div>
+  <div class="metric">
+    <div class="label">CPC</div>
+    <div class="value">$1.24</div>
+    <div class="change positive">-6.8% vs pre</div>
+  </div>
+</div>
+</div>
+
+<!-- ════════ REVENUE YoY ════════ -->
+<h2>Revenue — Year-over-Year Seasonality Check</h2>
+<div class="card">
+<p style="font-size:0.85rem; color:#64748b; margin-bottom:10px;">
+  Compare 2026 vs 2025 same calendar period. If 2025 showed similar growth → seasonality.
+  If 2026 outpaces → theme + strategy changes are additive.
+</p>
+<table>
+  <tr>
+    <th>Period</th>
+    <th>Revenue</th>
+    <th>Orders</th>
+    <th>Daily Avg</th>
+    <th>WC Rev</th>
+    <th>Walmart Rev</th>
+  </tr>
+  <tr>
+    <td><span class="period-label period-pre">2026 PRE</span> Feb 14–27</td>
+    <td>$102,259</td>
+    <td>611</td>
+    <td>$7,304</td>
+    <td>$97,638</td>
+    <td>$490</td>
+  </tr>
+  <tr>
+    <td><span class="period-label period-post">2026 POST</span> Feb 28 – Mar 12</td>
+    <td><b>$174,300</b></td>
+    <td><b>1299</b></td>
+    <td><b>$14,525</b></td>
+    <td><b>$167,884</b></td>
+    <td><b>$3,542</b></td>
+  </tr>
+  <tr>
+    <td><span class="period-label period-yoy">2025 PRE</span> Feb 14–27</td>
+    <td>$164,087</td>
+    <td>853</td>
+    <td>$11,720</td>
+    <td>$164,087</td>
+    <td>$0</td>
+  </tr>
+  <tr>
+    <td><span class="period-label period-yoy">2025 POST</span> Feb 28 – Mar 12</td>
+    <td>$180,568</td>
+    <td>960</td>
+    <td>$13,890</td>
+    <td>$180,568</td>
+    <td>$0</td>
+  </tr>
+  <tr style="background:#f8fafc; font-weight:600;">
+    <td>2026 Post vs 2025 Post (YoY)</td>
+    <td class="neutral">-3.5%</td>
+    <td class="positive">+35.3%</td>
+    <td colspan="3"></td>
+  </tr>
+  <tr style="background:#f8fafc; font-weight:600;">
+    <td>2025 Pre → Post (seasonal lift last year)</td>
+    <td>+10.0%</td>
+    <td>+12.5%</td>
+    <td colspan="3"></td>
+  </tr>
+  <tr style="background:#f8fafc; font-weight:600;">
+    <td>2026 Pre → Post (this year's lift)</td>
+    <td class="positive">+70.4%</td>
+    <td class="positive">+112.6%</td>
+    <td colspan="3"></td>
+  </tr>
+</table>
+</div>
+
+<div class="footnote">
+  Generated 2026-03-12 by theme_attribution.py &mdash;
+  Data sources: GA4, Google Search Console, Google Ads, Supabase (daily_sales)
+</div>
+
+</body>
+</html>

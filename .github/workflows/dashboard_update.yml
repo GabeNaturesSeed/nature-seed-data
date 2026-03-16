@@ -7,7 +7,7 @@ on:
   workflow_dispatch: # Allow manual trigger
   push:
     paths:
-      - '2026ECOMMBUDGET/**'
+      - 'research/2026-budget/**'
       - 'docs/notes.md'
 
 jobs:
@@ -46,7 +46,7 @@ jobs:
           ENVEOF
 
       - name: Generate dashboard data
-        run: python dashboard/generate_data.py
+        run: python infrastructure/dashboard/generate_data.py
 
       - name: Commit and push updated data
         run: |
