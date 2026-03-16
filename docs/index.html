@@ -1602,13 +1602,20 @@ function renderMarketing(marketing) {
   });
   html += '</tbody></table></div>';
 
-  // ── 90-Day Daily Table ─────────────────────────
-  html += '<h3 style="margin:24px 0 12px;font-size:1rem;">Last 90 Days — Daily Breakdown</h3>';
-  html += '<div style="overflow-x:auto;max-height:600px;overflow-y:auto;"><table class="data-table"><thead style="position:sticky;top:0;background:var(--card);"><tr>';
+  // ── Spend/Revenue Table with Toggle ─────────────
+  const monthly = marketing.monthly_12m || [];
+
+  html += '<div style="display:flex;align-items:center;gap:16px;margin:24px 0 12px;">';
+  html += '<h3 style="font-size:1rem;margin:0;">Spend & Revenue Breakdown</h3>';
+  html += '<div style="display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;font-size:0.78rem;">';
+  html += '<button id="mkt-btn-daily" onclick="switchMktTable(\'daily\')" style="padding:5px 14px;border:none;cursor:pointer;background:var(--green-dark);color:#fff;font-weight:600;">Last 90 Days</button>';
+  html += '<button id="mkt-btn-monthly" onclick="switchMktTable(\'monthly\')" style="padding:5px 14px;border:none;cursor:pointer;background:var(--card);color:var(--text);">Last 12 Months</button>';
+  html += '</div></div>';
+
+  // Daily table
+  html += '<div id="mkt-table-daily" style="overflow-x:auto;max-height:600px;overflow-y:auto;"><table class="data-table"><thead style="position:sticky;top:0;background:var(--card);"><tr>';
   html += '<th>Date</th><th>Ad Spend</th><th>Google Ads</th><th>Channel Rev</th><th>WC Revenue</th><th>MER</th>';
   html += '</tr></thead><tbody>';
-
-  // Reverse so newest first
   const reversed = [...daily].reverse();
   reversed.forEach(row => {
     html += `<tr>
@@ -1621,9 +1628,56 @@ function renderMarketing(marketing) {
     </tr>`;
   });
   html += '</tbody></table></div>';
+
+  // Monthly table (hidden by default)
+  html += '<div id="mkt-table-monthly" style="display:none;overflow-x:auto;max-height:600px;overflow-y:auto;"><table class="data-table"><thead style="position:sticky;top:0;background:var(--card);"><tr>';
+  html += '<th>Month</th><th>Ad Spend</th><th>Google Ads</th><th>Channel Rev</th><th>WC Revenue</th><th>MER</th><th>Customers</th><th>New</th><th>CAC</th><th>nCAC</th>';
+  html += '</tr></thead><tbody>';
+  const revMonthly = [...monthly].reverse();
+  revMonthly.forEach(row => {
+    html += `<tr>
+      <td>${row.month}</td>
+      <td>${fmt(row.ad_spend)}</td>
+      <td>${fmt(row.ad_spend_google)}</td>
+      <td>${fmt(row.channel_revenue)}</td>
+      <td>${fmt(row.wc_revenue)}</td>
+      <td>${row.mer != null ? row.mer.toFixed(2) + 'x' : '—'}</td>
+      <td>${row.customers || 0}</td>
+      <td>${row.new_customers || 0}</td>
+      <td>${row.cac != null ? fmt(row.cac) : '—'}</td>
+      <td>${row.ncac != null ? fmt(row.ncac) : '—'}</td>
+    </tr>`;
+  });
+  html += '</tbody></table></div>';
   html += '</div>';
 
   el.innerHTML = html;
+}
+
+function switchMktTable(view) {
+  const dailyEl = document.getElementById('mkt-table-daily');
+  const monthlyEl = document.getElementById('mkt-table-monthly');
+  const btnDaily = document.getElementById('mkt-btn-daily');
+  const btnMonthly = document.getElementById('mkt-btn-monthly');
+  if (view === 'daily') {
+    dailyEl.style.display = '';
+    monthlyEl.style.display = 'none';
+    btnDaily.style.background = 'var(--green-dark)';
+    btnDaily.style.color = '#fff';
+    btnDaily.style.fontWeight = '600';
+    btnMonthly.style.background = 'var(--card)';
+    btnMonthly.style.color = 'var(--text)';
+    btnMonthly.style.fontWeight = 'normal';
+  } else {
+    dailyEl.style.display = 'none';
+    monthlyEl.style.display = '';
+    btnMonthly.style.background = 'var(--green-dark)';
+    btnMonthly.style.color = '#fff';
+    btnMonthly.style.fontWeight = '600';
+    btnDaily.style.background = 'var(--card)';
+    btnDaily.style.color = 'var(--text)';
+    btnDaily.style.fontWeight = 'normal';
+  }
 }
 
 // ═══════════════════════════════════════════════════════

@@ -1612,18 +1612,18 @@ def generate_marketing():
         "roas": roas,
     }]
 
-    # ── 7. 90-day daily table ────────────────────────────────
+    # ── 7. 90-day daily table + 12-month monthly table ───────
     print("  Building 90-day daily table...")
 
-    # Google Ads daily
+    # Google Ads daily (full 12 months for monthly aggregation)
     try:
-        ads_daily = _pull_google_ads_daily(str(period_90d_start), str(yesterday))
+        ads_daily = _pull_google_ads_daily(str(period_start), str(yesterday))
     except Exception as e:
         print(f"    [ERR] Google Ads daily failed: {e}")
         ads_daily = []
     ads_by_date = {r["date"]: r for r in ads_daily}
 
-    # WC daily revenue from Supabase
+    # WC daily revenue from Supabase (90 days for daily table)
     # Uses raw requests with list-of-tuples pattern for duplicate key support
     try:
         url = f"{SUPABASE_URL}/rest/v1/daily_sales"
@@ -1661,6 +1661,85 @@ def generate_marketing():
         })
         d += timedelta(days=1)
 
+    # ── 7b. 12-month monthly aggregation ─────────────────────
+    print("  Building 12-month monthly table...")
+
+    # Aggregate orders by month for revenue + customer counts
+    monthly_wc_rev = {}    # {YYYY-MM: revenue}
+    monthly_customers = {} # {YYYY-MM: set(customer_keys)}
+    monthly_new = {}       # {YYYY-MM: count}
+
+    for o in orders:
+        odate = o.get("date_created", "")[:7]  # YYYY-MM
+        if not odate:
+            continue
+        rev = float(o.get("total", 0))
+        monthly_wc_rev[odate] = monthly_wc_rev.get(odate, 0) + rev
+
+        cid = o.get("customer_id", 0)
+        if cid and cid != 0:
+            key = cid
+        else:
+            email = (o.get("billing", {}).get("email") or "").lower().strip()
+            key = f"guest_{email}" if email else None
+
+        if key:
+            monthly_customers.setdefault(odate, set()).add(key)
+
+    # Count new customers per month using customer_dates
+    for cid, created_str in customer_dates.items():
+        created_month = created_str[:7]  # YYYY-MM
+        if created_month:
+            monthly_new[created_month] = monthly_new.get(created_month, 0) + 1
+    # Add guest "new" customers to their earliest order month
+    for email, odates in guest_emails.items():
+        earliest = min(odates)[:7]
+        monthly_new[earliest] = monthly_new.get(earliest, 0) + 1
+
+    # Aggregate ads by month
+    monthly_ads = {}  # {YYYY-MM: {spend, conversions_value}}
+    for ad_row in ads_daily:
+        month = ad_row["date"][:7]
+        if month not in monthly_ads:
+            monthly_ads[month] = {"spend": 0, "conversions_value": 0}
+        monthly_ads[month]["spend"] += ad_row["spend"]
+        monthly_ads[month]["conversions_value"] += ad_row["conversions_value"]
+
+    # Build monthly rows
+    monthly_12m = []
+    d = period_start.replace(day=1)
+    end_month = yesterday.replace(day=1)
+    while d <= end_month:
+        month_key = d.strftime("%Y-%m")
+        wc_rev = round(monthly_wc_rev.get(month_key, 0), 2)
+        ads_m = monthly_ads.get(month_key, {})
+        spend = round(ads_m.get("spend", 0), 2)
+        conv_val = round(ads_m.get("conversions_value", 0), 2)
+        mer = round(wc_rev / spend, 2) if spend > 0 else None
+        custs = len(monthly_customers.get(month_key, set()))
+        new_c = monthly_new.get(month_key, 0)
+        m_cac = round(spend / custs, 2) if custs > 0 else None
+        m_ncac = round(spend / new_c, 2) if new_c > 0 else None
+
+        monthly_12m.append({
+            "month": month_key,
+            "ad_spend": spend,
+            "ad_spend_google": spend,
+            "channel_revenue": conv_val,
+            "wc_revenue": wc_rev,
+            "mer": mer,
+            "customers": custs,
+            "new_customers": new_c,
+            "cac": m_cac,
+            "ncac": m_ncac,
+        })
+
+        # Next month
+        if d.month == 12:
+            d = d.replace(year=d.year + 1, month=1)
+        else:
+            d = d.replace(month=d.month + 1)
+
     # ── 8. Write JSON ────────────────────────────────────────
     output = {
         "generated_at": TODAY_STR,
@@ -1676,6 +1755,7 @@ def generate_marketing():
         "widgets": widgets,
         "channels": channels,
         "daily_90d": daily_90d,
+        "monthly_12m": monthly_12m,
     }
 
     _write_json("marketing.json", output)
