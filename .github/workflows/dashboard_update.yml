@@ -51,6 +51,7 @@ jobs:
           GOOGLE_ADS_LOGIN_CUSTOMER_ID=${{ secrets.GOOGLE_ADS_LOGIN_CUSTOMER_ID }}
           SA_SITE_ID=${{ secrets.SA_SITE_ID }}
           SA_API_TOKEN=${{ secrets.SA_API_TOKEN }}
+          SHIPPO_API_KEY=${{ secrets.SHIPPO_API_KEY }}
           ENVEOF
 
       - name: Generate dashboard data

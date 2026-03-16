@@ -35,9 +35,27 @@ with open(os.path.join(PROJECT_DIR, '.env')) as f:
 SA_SITE_ID = env['SA_SITE_ID']
 SA_TOKEN = env['SA_API_TOKEN']
 WC_BASE = env.get('WC_BASE_URL', 'https://naturesseed.com/wp-json/wc/v3')
-WC_AUTH = (env['WC_CK'], env['WC_CS'])
+WC_CK = env['WC_CK']
+WC_CS = env['WC_CS']
+WC_AUTH = (WC_CK, WC_CS)
+CF_WORKER_URL = env.get('CF_WORKER_URL', '')
+CF_WORKER_SECRET = env.get('CF_WORKER_SECRET', '')
 
 SA_BASE = "https://api.shopperapproved.com"
+
+
+def _wc_get(path, params=None):
+    """GET from WooCommerce REST API, routing through CF Worker if configured."""
+    import base64
+    if CF_WORKER_URL:
+        p = {"wc_path": path, **(params or {})}
+        auth_str = base64.b64encode(f"{WC_CK}:{WC_CS}".encode()).decode()
+        headers = {"X-Proxy-Secret": CF_WORKER_SECRET, "Authorization": f"Basic {auth_str}"}
+        resp = requests.get(CF_WORKER_URL, headers=headers, params=p, timeout=30)
+    else:
+        resp = requests.get(f"{WC_BASE}{path}", auth=WC_AUTH, params=params or {}, timeout=30)
+    resp.raise_for_status()
+    return resp
 
 
 # ── WooCommerce: build product_id → URL+SKU map ────────────
@@ -52,9 +70,8 @@ def build_wc_product_map():
     products = {}  # sku → {url, name, skus[], gtins[]}
     page = 1
     while True:
-        r = requests.get(f"{WC_BASE}/products", auth=WC_AUTH,
-                         params={'status': 'publish', 'per_page': 100, 'page': page}, timeout=30)
-        r.raise_for_status()
+        # Include draft products too — many have SA reviews from before SKU consolidation
+        r = _wc_get("/products", params={'status': 'any', 'per_page': 100, 'page': page})
         items = r.json()
         if not items:
             break
@@ -83,10 +100,8 @@ def build_wc_product_map():
             if p['type'] == 'variable':
                 vpage = 1
                 while True:
-                    vr = requests.get(f"{WC_BASE}/products/{p['id']}/variations",
-                                      auth=WC_AUTH,
-                                      params={'per_page': 100, 'page': vpage}, timeout=30)
-                    vr.raise_for_status()
+                    vr = _wc_get(f"/products/{p['id']}/variations",
+                               params={'per_page': 100, 'page': vpage})
                     variations = vr.json()
                     if not variations:
                         break

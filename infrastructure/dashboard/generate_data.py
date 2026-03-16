@@ -89,6 +89,9 @@ GADS_LOGIN_CID = env_vars.get("GOOGLE_ADS_LOGIN_CUSTOMER_ID", "").replace("-", "
 GADS_CUSTOMER_ID = env_vars.get("GOOGLE_ADS_CUSTOMER_ID", "").replace("-", "")
 COGS_SHEET_ID = env_vars.get("COGS_SHEET_ID", "1nve5yRvw7fY0caVqZDHYDjhoQmj_a6S9PkC3BMKm1S4")
 
+# Shippo (shipping costs)
+SHIPPO_API_KEY = env_vars.get("SHIPPO_API_KEY", "")
+
 TODAY = date.today()
 TODAY_STR = str(TODAY)
 
@@ -317,6 +320,85 @@ def _calculate_cogs_from_orders(orders, cogs_cache):
             if sku in cogs_cache:
                 total_cogs += cogs_cache[sku] * qty
     return round(total_cogs, 2)
+
+
+def _pull_shippo_range(start_date, end_date):
+    """Pull Shippo shipping costs for a date range.
+
+    Paginates all transactions, filters by object_created date locally,
+    deduplicates by tracking number (voided+recreated labels), and fetches
+    rate costs via separate /rates/{id} calls.
+
+    Returns total cost as float.
+    """
+    if not SHIPPO_API_KEY:
+        print("    [SKIP] No SHIPPO_API_KEY configured")
+        return 0.0
+
+    headers = {"Authorization": f"ShippoToken {SHIPPO_API_KEY}"}
+    start_str = str(start_date)
+    end_str = str(end_date)
+
+    total_cost = 0.0
+    rate_cache = {}
+    seen_tracking = set()
+    shipment_count = 0
+    skipped_dupes = 0
+    pages_checked = 0
+
+    url = "https://api.goshippo.com/transactions/"
+    params = {"results": 200}
+    found_older = False
+
+    while url and not found_older:
+        resp = requests.get(url, headers=headers, params=params, timeout=30)
+        if resp.status_code != 200:
+            print(f"    [WARN] Shippo: {resp.status_code} {resp.text[:200]}")
+            break
+        data = resp.json()
+        pages_checked += 1
+
+        for txn in data.get("results", []):
+            txn_date = (txn.get("object_created") or "")[:10]
+
+            if txn_date < start_str:
+                found_older = True
+                break
+
+            if start_str <= txn_date <= end_str and txn.get("status") == "SUCCESS":
+                tracking = txn.get("tracking_number", "")
+                if tracking and tracking in seen_tracking:
+                    skipped_dupes += 1
+                    continue
+                if tracking:
+                    seen_tracking.add(tracking)
+
+                rate_id = txn.get("rate", "")
+                if rate_id and rate_id not in rate_cache:
+                    try:
+                        rate_resp = requests.get(
+                            f"https://api.goshippo.com/rates/{rate_id}",
+                            headers=headers, timeout=15
+                        )
+                        if rate_resp.status_code == 200:
+                            rate_cache[rate_id] = float(rate_resp.json().get("amount", 0))
+                        else:
+                            rate_cache[rate_id] = 0
+                    except Exception:
+                        rate_cache[rate_id] = 0
+                    time.sleep(0.1)
+
+                cost = rate_cache.get(rate_id, 0)
+                total_cost += cost
+                shipment_count += 1
+
+        url = data.get("next")
+        params = {}  # next URL includes params
+        time.sleep(0.3)
+
+    dupe_msg = f" (deduped {skipped_dupes})" if skipped_dupes else ""
+    print(f"    Shippo: {shipment_count} shipments | ${total_cost:,.2f} ({pages_checked} pages){dupe_msg}")
+    return round(total_cost, 2)
 
 
 # ══════════════════════════════════════════════════════════════
@@ -1558,23 +1640,10 @@ def generate_marketing():
     cogs_cache = _load_cogs_cache()
     total_cogs = _calculate_cogs_from_orders(orders, cogs_cache)
 
-    # Shipping: pull from Supabase (available data only)
-    # Uses raw requests with list-of-tuples pattern (same as fetch_date_range in generate_reporting)
-    print("  Pulling shipping costs from Supabase...")
-    try:
-        url = f"{SUPABASE_URL}/rest/v1/daily_shipping"
-        headers = {"apikey": SUPABASE_KEY}
-        params = [
-            ("report_date", f"gte.{period_start}"),
-            ("report_date", f"lte.{yesterday}"),
-            ("select", "total_cost"),
-        ]
-        resp = requests.get(url, headers=headers, params=params, timeout=30)
-        resp.raise_for_status()
-        shipping_rows = resp.json()
-        total_shipping = sum(float(r.get("total_cost", 0)) for r in shipping_rows)
-    except Exception:
-        total_shipping = 0.0
+    # Shipping: pull from Shippo API (full 12-month history)
+    # Paginates all transactions, deduplicates by tracking number, fetches rate costs
+    print("  Pulling shipping costs from Shippo API...")
+    total_shipping = _pull_shippo_range(period_start, yesterday)
 
     # ── 5. Compute widget metrics ────────────────────────────
     ltv = round(total_revenue / unique_customers, 2) if unique_customers else 0
