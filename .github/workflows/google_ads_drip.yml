@@ -1,10 +1,10 @@
 name: Google Ads Drip Optimization
 
 on:
-  schedule:
-    # Monday and Thursday at 8:00 AM MST (3:00 PM UTC)
-    - cron: '0 15 * * 1,4'
-  workflow_dispatch:
+  # schedule:
+  #   # Monday and Thursday at 8:00 AM MST (3:00 PM UTC)
+  #   - cron: '0 15 * * 1,4'
+  workflow_dispatch: # Manual trigger only — cron disabled 2026-03-16
     inputs:
       mode:
         description: 'Run mode'

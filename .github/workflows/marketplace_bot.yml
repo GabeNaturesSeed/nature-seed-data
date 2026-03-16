@@ -1,17 +1,17 @@
 name: Marketplace Management Bot
 
 on:
-  schedule:
-    # Tuesday at 2:00 PM MST (9:00 PM UTC)
-    - cron: '0 21 * * 2'
-    # Friday at 2:00 PM MST (9:00 PM UTC)
-    - cron: '0 21 * * 5'
-  workflow_dispatch: # Allow manual trigger
+  # schedule:
+  #   # Tuesday at 2:00 PM MST (9:00 PM UTC)
+  #   - cron: '0 21 * * 2'
+  #   # Friday at 2:00 PM MST (9:00 PM UTC)
+  #   - cron: '0 21 * * 5'
+  workflow_dispatch: # Manual trigger only — cron disabled 2026-03-16
 
 jobs:
   marketplace-bot:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 180
 
     steps:
       - uses: actions/checkout@v4
