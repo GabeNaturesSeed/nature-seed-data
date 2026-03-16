@@ -1,0 +1,755 @@
+{
+  "generated_at": "2026-03-16",
+  "period_start": "2025-03-16",
+  "period_end": "2026-03-15",
+  "total_customers": 9262,
+  "new_customers": 8725,
+  "returning_customers": 537,
+  "total_revenue": 1841713.19,
+  "total_ad_spend": 302045.94,
+  "total_cogs": 332133.35,
+  "total_shipping": 149399.81,
+  "widgets": {
+    "ltv_12m": 198.85,
+    "contribution_margin": 0.7385,
+    "cac": 32.61,
+    "max_cac_breakeven": 146.85,
+    "max_cac_20pct": 117.48,
+    "ncac": 34.62,
+    "payback_months": 2.0,
+    "ltv_cac_ratio": 6.1
+  },
+  "channels": [
+    {
+      "name": "Google Ads",
+      "cac": 32.61,
+      "ltv": 198.85,
+      "ncac": 34.62,
+      "payback_months": 2.0,
+      "revenue_contribution_pct": 51.5,
+      "roas": 3.14
+    }
+  ],
+  "daily_90d": [
+    {
+      "date": "2025-12-16",
+      "ad_spend": 184.76,
+      "ad_spend_google": 184.76,
+      "channel_revenue": 1083.37,
+      "wc_revenue": 1092.49,
+      "mer": 5.91
+    },
+    {
+      "date": "2025-12-17",
+      "ad_spend": 186.4,
+      "ad_spend_google": 186.4,
+      "channel_revenue": 0.0,
+      "wc_revenue": 273.3,
+      "mer": 1.47
+    },
+    {
+      "date": "2025-12-18",
+      "ad_spend": 197.81,
+      "ad_spend_google": 197.81,
+      "channel_revenue": 594.49,
+      "wc_revenue": 1467.66,
+      "mer": 7.42
+    },
+    {
+      "date": "2025-12-19",
+      "ad_spend": 210.2,
+      "ad_spend_google": 210.2,
+      "channel_revenue": 105.54,
+      "wc_revenue": 494.01,
+      "mer": 2.35
+    },
+    {
+      "date": "2025-12-20",
+      "ad_spend": 222.27,
+      "ad_spend_google": 222.27,
+      "channel_revenue": 85.57,
+      "wc_revenue": 485.66,
+      "mer": 2.19
+    },
+    {
+      "date": "2025-12-21",
+      "ad_spend": 200.59,
+      "ad_spend_google": 200.59,
+      "channel_revenue": 519.28,
+      "wc_revenue": 1284.21,
+      "mer": 6.4
+    },
+    {
+      "date": "2025-12-22",
+      "ad_spend": 212.82,
+      "ad_spend_google": 212.82,
+      "channel_revenue": 677.55,
+      "wc_revenue": 1277.41,
+      "mer": 6.0
+    },
+    {
+      "date": "2025-12-23",
+      "ad_spend": 203.31,
+      "ad_spend_google": 203.31,
+      "channel_revenue": 254.75,
+      "wc_revenue": 1257.38,
+      "mer": 6.18
+    },
+    {
+      "date": "2025-12-24",
+      "ad_spend": 171.54,
+      "ad_spend_google": 171.54,
+      "channel_revenue": 474.07,
+      "wc_revenue": 586.1,
+      "mer": 3.42
+    },
+    {
+      "date": "2025-12-25",
+      "ad_spend": 180.56,
+      "ad_spend_google": 180.56,
+      "channel_revenue": 736.91,
+      "wc_revenue": 332.17,
+      "mer": 1.84
+    },
+    {
+      "date": "2025-12-26",
+      "ad_spend": 223.9,
+      "ad_spend_google": 223.9,
+      "channel_revenue": 914.24,
+      "wc_revenue": 1431.93,
+      "mer": 6.4
+    },
+    {
+      "date": "2025-12-27",
+      "ad_spend": 207.08,
+      "ad_spend_google": 207.08,
+      "channel_revenue": 522.04,
+      "wc_revenue": 849.71,
+      "mer": 4.1
+    },
+    {
+      "date": "2025-12-28",
+      "ad_spend": 198.92,
+      "ad_spend_google": 198.92,
+      "channel_revenue": 839.74,
+      "wc_revenue": 1266.99,
+      "mer": 6.37
+    },
+    {
+      "date": "2025-12-29",
+      "ad_spend": 159.89,
+      "ad_spend_google": 159.89,
+      "channel_revenue": 1008.11,
+      "wc_revenue": 1945.44,
+      "mer": 12.17
+    },
+    {
+      "date": "2025-12-30",
+      "ad_spend": 215.39,
+      "ad_spend_google": 215.39,
+      "channel_revenue": 676.64,
+      "wc_revenue": 1901.36,
+      "mer": 8.83
+    },
+    {
+      "date": "2025-12-31",
+      "ad_spend": 169.59,
+      "ad_spend_google": 169.59,
+      "channel_revenue": 561.19,
+      "wc_revenue": 928.56,
+      "mer": 5.48
+    },
+    {
+      "date": "2026-01-01",
+      "ad_spend": 207.85,
+      "ad_spend_google": 207.85,
+      "channel_revenue": 1110.33,
+      "wc_revenue": 2970.57,
+      "mer": 14.29
+    },
+    {
+      "date": "2026-01-02",
+      "ad_spend": 193.02,
+      "ad_spend_google": 193.02,
+      "channel_revenue": 282.87,
+      "wc_revenue": 478.18,
+      "mer": 2.48
+    },
+    {
+      "date": "2026-01-03",
+      "ad_spend": 223.33,
+      "ad_spend_google": 223.33,
+      "channel_revenue": 1286.69,
+      "wc_revenue": 1433.36,
+      "mer": 6.42
+    },
+    {
+      "date": "2026-01-04",
+      "ad_spend": 208.06,
+      "ad_spend_google": 208.06,
+      "channel_revenue": 960.7,
+      "wc_revenue": 727.42,
+      "mer": 3.5
+    },
+    {
+      "date": "2026-01-05",
+      "ad_spend": 315.29,
+      "ad_spend_google": 315.29,
+      "channel_revenue": 137.46,
+      "wc_revenue": 516.53,
+      "mer": 1.64
+    },
+    {
+      "date": "2026-01-06",
+      "ad_spend": 358.58,
+      "ad_spend_google": 358.58,
+      "channel_revenue": 2118.59,
+      "wc_revenue": 2198.13,
+      "mer": 6.13
+    },
+    {
+      "date": "2026-01-07",
+      "ad_spend": 424.36,
+      "ad_spend_google": 424.36,
+      "channel_revenue": 724.9,
+      "wc_revenue": 2303.84,
+      "mer": 5.43
+    },
+    {
+      "date": "2026-01-08",
+      "ad_spend": 374.43,
+      "ad_spend_google": 374.43,
+      "channel_revenue": 391.65,
+      "wc_revenue": 2879.84,
+      "mer": 7.69
+    },
+    {
+      "date": "2026-01-09",
+      "ad_spend": 286.94,
+      "ad_spend_google": 286.94,
+      "channel_revenue": 482.99,
+      "wc_revenue": 677.21,
+      "mer": 2.36
+    },
+    {
+      "date": "2026-01-10",
+      "ad_spend": 369.36,
+      "ad_spend_google": 369.36,
+      "channel_revenue": 1731.47,
+      "wc_revenue": 2117.82,
+      "mer": 5.73
+    },
+    {
+      "date": "2026-01-11",
+      "ad_spend": 447.84,
+      "ad_spend_google": 447.84,
+      "channel_revenue": 1732.06,
+      "wc_revenue": 1559.7,
+      "mer": 3.48
+    },
+    {
+      "date": "2026-01-12",
+      "ad_spend": 333.52,
+      "ad_spend_google": 333.52,
+      "channel_revenue": 4912.18,
+      "wc_revenue": 1506.82,
+      "mer": 4.52
+    },
+    {
+      "date": "2026-01-13",
+      "ad_spend": 483.83,
+      "ad_spend_google": 483.83,
+      "channel_revenue": 1935.96,
+      "wc_revenue": 2656.73,
+      "mer": 5.49
+    },
+    {
+      "date": "2026-01-14",
+      "ad_spend": 453.68,
+      "ad_spend_google": 453.68,
+      "channel_revenue": 1316.79,
+      "wc_revenue": 3339.76,
+      "mer": 7.36
+    },
+    {
+      "date": "2026-01-15",
+      "ad_spend": 557.75,
+      "ad_spend_google": 557.75,
+      "channel_revenue": 1916.69,
+      "wc_revenue": 1613.54,
+      "mer": 2.89
+    },
+    {
+      "date": "2026-01-16",
+      "ad_spend": 463.96,
+      "ad_spend_google": 463.96,
+      "channel_revenue": 1699.81,
+      "wc_revenue": 1351.2,
+      "mer": 2.91
+    },
+    {
+      "date": "2026-01-17",
+      "ad_spend": 633.09,
+      "ad_spend_google": 633.09,
+      "channel_revenue": 2073.87,
+      "wc_revenue": 1119.19,
+      "mer": 1.77
+    },
+    {
+      "date": "2026-01-18",
+      "ad_spend": 653.21,
+      "ad_spend_google": 653.21,
+      "channel_revenue": 2011.45,
+      "wc_revenue": 4283.25,
+      "mer": 6.56
+    },
+    {
+      "date": "2026-01-19",
+      "ad_spend": 534.95,
+      "ad_spend_google": 534.95,
+      "channel_revenue": 2454.92,
+      "wc_revenue": 2109.98,
+      "mer": 3.94
+    },
+    {
+      "date": "2026-01-20",
+      "ad_spend": 411.08,
+      "ad_spend_google": 411.08,
+      "channel_revenue": 1303.45,
+      "wc_revenue": 1498.0,
+      "mer": 3.64
+    },
+    {
+      "date": "2026-01-21",
+      "ad_spend": 473.84,
+      "ad_spend_google": 473.84,
+      "channel_revenue": 3123.41,
+      "wc_revenue": 5498.54,
+      "mer": 11.6
+    },
+    {
+      "date": "2026-01-22",
+      "ad_spend": 538.28,
+      "ad_spend_google": 538.28,
+      "channel_revenue": 1948.2,
+      "wc_revenue": 3709.08,
+      "mer": 6.89
+    },
+    {
+      "date": "2026-01-23",
+      "ad_spend": 474.5,
+      "ad_spend_google": 474.5,
+      "channel_revenue": 324.71,
+      "wc_revenue": 2517.77,
+      "mer": 5.31
+    },
+    {
+      "date": "2026-01-24",
+      "ad_spend": 644.39,
+      "ad_spend_google": 644.39,
+      "channel_revenue": 2840.56,
+      "wc_revenue": 2842.41,
+      "mer": 4.41
+    },
+    {
+      "date": "2026-01-25",
+      "ad_spend": 661.97,
+      "ad_spend_google": 661.97,
+      "channel_revenue": 3719.04,
+      "wc_revenue": 4232.42,
+      "mer": 6.39
+    },
+    {
+      "date": "2026-01-26",
+      "ad_spend": 479.88,
+      "ad_spend_google": 479.88,
+      "channel_revenue": 1196.61,
+      "wc_revenue": 3206.35,
+      "mer": 6.68
+    },
+    {
+      "date": "2026-01-27",
+      "ad_spend": 477.34,
+      "ad_spend_google": 477.34,
+      "channel_revenue": 1138.73,
+      "wc_revenue": 1638.44,
+      "mer": 3.43
+    },
+    {
+      "date": "2026-01-28",
+      "ad_spend": 572.61,
+      "ad_spend_google": 572.61,
+      "channel_revenue": 498.8,
+      "wc_revenue": 1659.18,
+      "mer": 2.9
+    },
+    {
+      "date": "2026-01-29",
+      "ad_spend": 504.17,
+      "ad_spend_google": 504.17,
+      "channel_revenue": 1194.78,
+      "wc_revenue": 3567.62,
+      "mer": 7.08
+    },
+    {
+      "date": "2026-01-30",
+      "ad_spend": 697.77,
+      "ad_spend_google": 697.77,
+      "channel_revenue": 4160.99,
+      "wc_revenue": 4587.4,
+      "mer": 6.57
+    },
+    {
+      "date": "2026-01-31",
+      "ad_spend": 812.14,
+      "ad_spend_google": 812.14,
+      "channel_revenue": 1866.32,
+      "wc_revenue": 3555.42,
+      "mer": 4.38
+    },
+    {
+      "date": "2026-02-01",
+      "ad_spend": 964.01,
+      "ad_spend_google": 964.01,
+      "channel_revenue": 1506.07,
+      "wc_revenue": 4138.68,
+      "mer": 4.29
+    },
+    {
+      "date": "2026-02-02",
+      "ad_spend": 830.41,
+      "ad_spend_google": 830.41,
+      "channel_revenue": 6920.84,
+      "wc_revenue": 3370.63,
+      "mer": 4.06
+    },
+    {
+      "date": "2026-02-03",
+      "ad_spend": 1203.51,
+      "ad_spend_google": 1203.51,
+      "channel_revenue": 3665.22,
+      "wc_revenue": 2221.46,
+      "mer": 1.85
+    },
+    {
+      "date": "2026-02-04",
+      "ad_spend": 950.73,
+      "ad_spend_google": 950.73,
+      "channel_revenue": 1558.69,
+      "wc_revenue": 2709.03,
+      "mer": 2.85
+    },
+    {
+      "date": "2026-02-05",
+      "ad_spend": 1218.78,
+      "ad_spend_google": 1218.78,
+      "channel_revenue": 3989.23,
+      "wc_revenue": 5228.2,
+      "mer": 4.29
+    },
+    {
+      "date": "2026-02-06",
+      "ad_spend": 1003.59,
+      "ad_spend_google": 1003.59,
+      "channel_revenue": 2131.86,
+      "wc_revenue": 4102.89,
+      "mer": 4.09
+    },
+    {
+      "date": "2026-02-07",
+      "ad_spend": 1275.54,
+      "ad_spend_google": 1275.54,
+      "channel_revenue": 2002.54,
+      "wc_revenue": 2966.96,
+      "mer": 2.33
+    },
+    {
+      "date": "2026-02-08",
+      "ad_spend": 1561.91,
+      "ad_spend_google": 1561.91,
+      "channel_revenue": 4965.54,
+      "wc_revenue": 3684.65,
+      "mer": 2.36
+    },
+    {
+      "date": "2026-02-09",
+      "ad_spend": 1110.82,
+      "ad_spend_google": 1110.82,
+      "channel_revenue": 3992.75,
+      "wc_revenue": 4951.54,
+      "mer": 4.46
+    },
+    {
+      "date": "2026-02-10",
+      "ad_spend": 1505.3,
+      "ad_spend_google": 1505.3,
+      "channel_revenue": 4521.09,
+      "wc_revenue": 4426.01,
+      "mer": 2.94
+    },
+    {
+      "date": "2026-02-11",
+      "ad_spend": 1306.4,
+      "ad_spend_google": 1306.4,
+      "channel_revenue": 4837.53,
+      "wc_revenue": 12736.88,
+      "mer": 9.75
+    },
+    {
+      "date": "2026-02-12",
+      "ad_spend": 1582.6,
+      "ad_spend_google": 1582.6,
+      "channel_revenue": 5888.91,
+      "wc_revenue": 7279.0,
+      "mer": 4.6
+    },
+    {
+      "date": "2026-02-13",
+      "ad_spend": 1356.41,
+      "ad_spend_google": 1356.41,
+      "channel_revenue": 8559.39,
+      "wc_revenue": 9482.96,
+      "mer": 6.99
+    },
+    {
+      "date": "2026-02-14",
+      "ad_spend": 2425.38,
+      "ad_spend_google": 2425.38,
+      "channel_revenue": 5420.36,
+      "wc_revenue": 7875.74,
+      "mer": 3.25
+    },
+    {
+      "date": "2026-02-15",
+      "ad_spend": 2729.37,
+      "ad_spend_google": 2729.37,
+      "channel_revenue": 4931.43,
+      "wc_revenue": 5118.06,
+      "mer": 1.88
+    },
+    {
+      "date": "2026-02-16",
+      "ad_spend": 2208.01,
+      "ad_spend_google": 2208.01,
+      "channel_revenue": 5780.95,
+      "wc_revenue": 7400.65,
+      "mer": 3.35
+    },
+    {
+      "date": "2026-02-17",
+      "ad_spend": 1943.17,
+      "ad_spend_google": 1943.17,
+      "channel_revenue": 5079.85,
+      "wc_revenue": 11180.14,
+      "mer": 5.75
+    },
+    {
+      "date": "2026-02-18",
+      "ad_spend": 1672.26,
+      "ad_spend_google": 1672.26,
+      "channel_revenue": 9182.95,
+      "wc_revenue": 11457.52,
+      "mer": 6.85
+    },
+    {
+      "date": "2026-02-19",
+      "ad_spend": 1782.35,
+      "ad_spend_google": 1782.35,
+      "channel_revenue": 4614.36,
+      "wc_revenue": 5992.41,
+      "mer": 3.36
+    },
+    {
+      "date": "2026-02-20",
+      "ad_spend": 1636.02,
+      "ad_spend_google": 1636.02,
+      "channel_revenue": 2572.79,
+      "wc_revenue": 5643.77,
+      "mer": 3.45
+    },
+    {
+      "date": "2026-02-21",
+      "ad_spend": 2135.89,
+      "ad_spend_google": 2135.89,
+      "channel_revenue": 4000.51,
+      "wc_revenue": 6429.49,
+      "mer": 3.01
+    },
+    {
+      "date": "2026-02-22",
+      "ad_spend": 2052.39,
+      "ad_spend_google": 2052.39,
+      "channel_revenue": 4327.54,
+      "wc_revenue": 5576.75,
+      "mer": 2.72
+    },
+    {
+      "date": "2026-02-23",
+      "ad_spend": 1716.33,
+      "ad_spend_google": 1716.33,
+      "channel_revenue": 3777.01,
+      "wc_revenue": 3984.52,
+      "mer": 2.32
+    },
+    {
+      "date": "2026-02-24",
+      "ad_spend": 1735.32,
+      "ad_spend_google": 1735.32,
+      "channel_revenue": 3717.66,
+      "wc_revenue": 7417.53,
+      "mer": 4.27
+    },
+    {
+      "date": "2026-02-25",
+      "ad_spend": 1669.43,
+      "ad_spend_google": 1669.43,
+      "channel_revenue": 5306.9,
+      "wc_revenue": 8206.13,
+      "mer": 4.92
+    },
+    {
+      "date": "2026-02-26",
+      "ad_spend": 1743.12,
+      "ad_spend_google": 1743.12,
+      "channel_revenue": 3417.37,
+      "wc_revenue": 5857.15,
+      "mer": 3.36
+    },
+    {
+      "date": "2026-02-27",
+      "ad_spend": 1896.95,
+      "ad_spend_google": 1896.95,
+      "channel_revenue": 4858.93,
+      "wc_revenue": 5497.92,
+      "mer": 2.9
+    },
+    {
+      "date": "2026-02-28",
+      "ad_spend": 2447.26,
+      "ad_spend_google": 2447.26,
+      "channel_revenue": 10614.47,
+      "wc_revenue": 14079.2,
+      "mer": 5.75
+    },
+    {
+      "date": "2026-03-01",
+      "ad_spend": 2126.79,
+      "ad_spend_google": 2126.79,
+      "channel_revenue": 9847.89,
+      "wc_revenue": 13153.02,
+      "mer": 6.18
+    },
+    {
+      "date": "2026-03-02",
+      "ad_spend": 2069.41,
+      "ad_spend_google": 2069.41,
+      "channel_revenue": 8602.25,
+      "wc_revenue": 11065.99,
+      "mer": 5.35
+    },
+    {
+      "date": "2026-03-03",
+      "ad_spend": 2165.46,
+      "ad_spend_google": 2165.46,
+      "channel_revenue": 4651.33,
+      "wc_revenue": 10526.59,
+      "mer": 4.86
+    },
+    {
+      "date": "2026-03-04",
+      "ad_spend": 2608.65,
+      "ad_spend_google": 2608.65,
+      "channel_revenue": 9495.95,
+      "wc_revenue": 13177.45,
+      "mer": 5.05
+    },
+    {
+      "date": "2026-03-05",
+      "ad_spend": 2103.12,
+      "ad_spend_google": 2103.12,
+      "channel_revenue": 8649.2,
+      "wc_revenue": 14795.35,
+      "mer": 7.03
+    },
+    {
+      "date": "2026-03-06",
+      "ad_spend": 2523.29,
+      "ad_spend_google": 2523.29,
+      "channel_revenue": 8121.31,
+      "wc_revenue": 11936.93,
+      "mer": 4.73
+    },
+    {
+      "date": "2026-03-07",
+      "ad_spend": 2698.89,
+      "ad_spend_google": 2698.89,
+      "channel_revenue": 10430.36,
+      "wc_revenue": 13365.35,
+      "mer": 4.95
+    },
+    {
+      "date": "2026-03-08",
+      "ad_spend": 2609.65,
+      "ad_spend_google": 2609.65,
+      "channel_revenue": 13533.61,
+      "wc_revenue": 16523.02,
+      "mer": 6.33
+    },
+    {
+      "date": "2026-03-09",
+      "ad_spend": 2732.86,
+      "ad_spend_google": 2732.86,
+      "channel_revenue": 10536.79,
+      "wc_revenue": 18503.08,
+      "mer": 6.77
+    },
+    {
+      "date": "2026-03-10",
+      "ad_spend": 3078.5,
+      "ad_spend_google": 3078.5,
+      "channel_revenue": 10362.54,
+      "wc_revenue": 13952.95,
+      "mer": 4.53
+    },
+    {
+      "date": "2026-03-11",
+      "ad_spend": 3214.01,
+      "ad_spend_google": 3214.01,
+      "channel_revenue": 9799.02,
+      "wc_revenue": 16805.54,
+      "mer": 5.23
+    },
+    {
+      "date": "2026-03-12",
+      "ad_spend": 2993.86,
+      "ad_spend_google": 2993.86,
+      "channel_revenue": 8313.84,
+      "wc_revenue": 11926.66,
+      "mer": 3.98
+    },
+    {
+      "date": "2026-03-13",
+      "ad_spend": 3946.76,
+      "ad_spend_google": 3946.76,
+      "channel_revenue": 7328.58,
+      "wc_revenue": 14464.24,
+      "mer": 3.66
+    },
+    {
+      "date": "2026-03-14",
+      "ad_spend": 3804.72,
+      "ad_spend_google": 3804.72,
+      "channel_revenue": 9508.58,
+      "wc_revenue": 16174.41,
+      "mer": 4.25
+    },
+    {
+      "date": "2026-03-15",
+      "ad_spend": 3554.82,
+      "ad_spend_google": 3554.82,
+      "channel_revenue": 9107.84,
+      "wc_revenue": 13700.57,
+      "mer": 3.85
+    }
+  ]
+}
