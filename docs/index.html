@@ -489,6 +489,7 @@
     <div class="main-tab" data-tab="content" onclick="switchMain('content', this)">Content Calendar</div>
     <div class="main-tab" data-tab="marketplace" onclick="switchMain('marketplace', this)">Marketplace</div>
     <div class="main-tab" data-tab="inventory" onclick="switchMain('inventory', this)">Inventory</div>
+    <div class="main-tab" data-tab="marketing" onclick="switchMain('marketing', this)">Marketing</div>
   </div>
 
   <!-- Sub Tabs -->
@@ -517,6 +518,7 @@
   <div id="panel-walmart" class="panel"></div>
   <div id="panel-stock" class="panel"></div>
   <div id="panel-forecasting" class="panel"></div>
+  <div id="panel-marketing" class="panel"></div>
 </div>
 
 <!-- Campaign modal -->
@@ -560,6 +562,7 @@ const mainPanelMap = {
   content:   ['content'],
   marketplace: ['amazon'],
   inventory: ['stock'],
+  marketing: ['marketing'],
 };
 const subGroups = {
   reporting: ['mtd','ytd','notes','site-health'],
@@ -648,7 +651,7 @@ function flushRedraws() {
 //  DATA LOADING
 // ═══════════════════════════════════════════════════════
 async function loadAllData() {
-  const files = ['reporting','budget','klaviyo','amazon','walmart','inventory','notes'];
+  const files = ['reporting','budget','klaviyo','amazon','walmart','inventory','notes','marketing'];
   const base = './data/';
   const results = await Promise.allSettled(
     files.map(f => fetch(base+f+'.json').then(r => { if(!r.ok) throw new Error(r.status); return r.json(); }))
@@ -1540,6 +1543,90 @@ function updateLastUpdated(data) {
 }
 
 // ═══════════════════════════════════════════════════════
+//  RENDER: MARKETING
+// ═══════════════════════════════════════════════════════
+function renderMarketing(marketing) {
+  const el = document.getElementById('panel-marketing');
+  if (!marketing || marketing.error) {
+    el.innerHTML = '<div class="data-unavailable">Marketing data unavailable</div>';
+    return;
+  }
+
+  const w = marketing.widgets || {};
+  const channels = marketing.channels || [];
+  const daily = marketing.daily_90d || [];
+
+  // ── KPI Cards ──────────────────────────────────
+  const kpis = [
+    { label: '12-Month LTV', val: fmt(w.ltv_12m), sub: 'Avg customer value' },
+    { label: 'Contribution Margin', val: w.contribution_margin != null ? (w.contribution_margin * 100).toFixed(1) + '%' : '—', sub: 'After COGS + shipping' },
+    { label: 'Current CAC', val: fmt(w.cac), sub: `Break-even: ${fmt(w.max_cac_breakeven)} · 20% profit: ${fmt(w.max_cac_20pct)}` },
+    { label: 'Payback Time', val: w.payback_months != null ? w.payback_months.toFixed(1) + ' mo' : '—', sub: 'Months to recover CAC' },
+    { label: 'LTV:CAC', val: w.ltv_cac_ratio != null ? w.ltv_cac_ratio.toFixed(2) + 'x' : '—', sub: w.ltv_cac_ratio >= 3 ? 'Healthy' : w.ltv_cac_ratio >= 2 ? 'Marginal' : 'Needs improvement',
+      color: w.ltv_cac_ratio >= 3 ? 'var(--green-med)' : w.ltv_cac_ratio >= 2 ? 'var(--yellow)' : 'var(--red)' },
+    { label: 'nCAC', val: fmt(w.ncac), sub: 'New customers only' },
+  ];
+
+  let html = '<div style="padding:24px;">';
+  html += '<h2 style="margin-bottom:16px;font-size:1.2rem;">Marketing Channels Review</h2>';
+  html += `<div style="font-size:0.8rem;color:var(--gray);margin-bottom:16px;">Period: ${marketing.period_start} to ${marketing.period_end} · ${marketing.total_customers || 0} customers (${marketing.new_customers || 0} new, ${marketing.returning_customers || 0} returning)</div>`;
+
+  // KPI grid
+  html += '<div class="kpi-grid">';
+  kpis.forEach(k => {
+    const valStyle = k.color ? `color:${k.color}` : '';
+    html += `<div class="kpi-card">
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-value" style="${valStyle}">${k.val}</div>
+      <div class="kpi-meta" style="font-size:0.72rem;color:var(--gray);">${k.sub}</div>
+    </div>`;
+  });
+  html += '</div>';
+
+  // ── Channel Performance Table ──────────────────
+  html += '<h3 style="margin:24px 0 12px;font-size:1rem;">Channel Performance</h3>';
+  html += '<div style="font-size:0.72rem;color:var(--gray);margin-bottom:8px;">Note: Metrics are blended across all customers (no per-channel attribution yet)</div>';
+  html += '<div style="overflow-x:auto;"><table class="data-table"><thead><tr>';
+  html += '<th>Channel</th><th>CAC</th><th>LTV</th><th>nCAC</th><th>Payback</th><th>Rev Contribution</th><th>ROAS</th>';
+  html += '</tr></thead><tbody>';
+  channels.forEach(ch => {
+    html += `<tr>
+      <td><strong>${ch.name}</strong></td>
+      <td>${fmt(ch.cac)}</td>
+      <td>${fmt(ch.ltv)}</td>
+      <td>${fmt(ch.ncac)}</td>
+      <td>${ch.payback_months != null ? ch.payback_months.toFixed(1) + ' mo' : '—'}</td>
+      <td>${ch.revenue_contribution_pct != null ? ch.revenue_contribution_pct.toFixed(1) + '%' : '—'}</td>
+      <td>${ch.roas != null ? ch.roas.toFixed(2) + 'x' : '—'}</td>
+    </tr>`;
+  });
+  html += '</tbody></table></div>';
+
+  // ── 90-Day Daily Table ─────────────────────────
+  html += '<h3 style="margin:24px 0 12px;font-size:1rem;">Last 90 Days — Daily Breakdown</h3>';
+  html += '<div style="overflow-x:auto;max-height:600px;overflow-y:auto;"><table class="data-table"><thead style="position:sticky;top:0;background:var(--card);"><tr>';
+  html += '<th>Date</th><th>Ad Spend</th><th>Google Ads</th><th>Channel Rev</th><th>WC Revenue</th><th>MER</th>';
+  html += '</tr></thead><tbody>';
+
+  // Reverse so newest first
+  const reversed = [...daily].reverse();
+  reversed.forEach(row => {
+    html += `<tr>
+      <td>${row.date}</td>
+      <td>${fmt(row.ad_spend)}</td>
+      <td>${fmt(row.ad_spend_google)}</td>
+      <td>${fmt(row.channel_revenue)}</td>
+      <td>${fmt(row.wc_revenue)}</td>
+      <td>${row.mer != null ? row.mer.toFixed(2) + 'x' : '—'}</td>
+    </tr>`;
+  });
+  html += '</tbody></table></div>';
+  html += '</div>';
+
+  el.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
 //  APP INIT
 // ═══════════════════════════════════════════════════════
 async function initApp() {
@@ -1558,6 +1645,7 @@ async function initApp() {
   renderWalmart(data.walmart);
   renderStock(data.inventory);
   renderForecasting(data.inventory);
+  renderMarketing(data.marketing);
 
   // Charts for initially visible panel
   flushRedraws();
