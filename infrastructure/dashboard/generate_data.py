@@ -327,10 +327,12 @@ def _pull_shippo_range(start_date, end_date):
 
     Paginates all transactions, filters by object_created date locally,
     deduplicates by tracking number (voided+recreated labels), and fetches
-    rate costs via separate /rates/{id} calls.
+    rate costs in parallel batches via /rates/{id}.
 
     Returns total cost as float.
     """
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
     if not SHIPPO_API_KEY:
         print("    [SKIP] No SHIPPO_API_KEY configured")
         return 0.0
@@ -339,13 +341,14 @@ def _pull_shippo_range(start_date, end_date):
     start_str = str(start_date)
     end_str = str(end_date)
 
-    total_cost = 0.0
     rate_cache = {}
     seen_tracking = set()
-    shipment_count = 0
+    pending_rate_ids = set()  # collect rate IDs, fetch in bulk later
+    shipment_rates = []       # (tracking, rate_id) pairs
     skipped_dupes = 0
     pages_checked = 0
 
+    # Phase 1: paginate transactions, collect rate IDs (fast — no rate calls)
     url = "https://api.goshippo.com/transactions/"
     params = {"results": 200}
     found_older = False
@@ -374,30 +377,36 @@ def _pull_shippo_range(start_date, end_date):
                     seen_tracking.add(tracking)
 
                 rate_id = txn.get("rate", "")
-                if rate_id and rate_id not in rate_cache:
-                    try:
-                        rate_resp = requests.get(
-                            f"https://api.goshippo.com/rates/{rate_id}",
-                            headers=headers, timeout=15
-                        )
-                        if rate_resp.status_code == 200:
-                            rate_cache[rate_id] = float(rate_resp.json().get("amount", 0))
-                        else:
-                            rate_cache[rate_id] = 0
-                    except Exception:
-                        rate_cache[rate_id] = 0
-                    time.sleep(0.1)
-
-                cost = rate_cache.get(rate_id, 0)
-                total_cost += cost
-                shipment_count += 1
+                shipment_rates.append((tracking, rate_id))
+                if rate_id:
+                    pending_rate_ids.add(rate_id)
 
         url = data.get("next")
         params = {}  # next URL includes params
-        time.sleep(0.3)
+
+    print(f"    Shippo: {len(shipment_rates)} shipments, {len(pending_rate_ids)} unique rates to fetch ({pages_checked} pages)")
+
+    # Phase 2: fetch all unique rates in parallel (10 workers)
+    def _fetch_rate(rid):
+        try:
+            r = requests.get(f"https://api.goshippo.com/rates/{rid}", headers=headers, timeout=15)
+            if r.status_code == 200:
+                return rid, float(r.json().get("amount", 0))
+        except Exception:
+            pass
+        return rid, 0
+
+    with ThreadPoolExecutor(max_workers=10) as pool:
+        futures = {pool.submit(_fetch_rate, rid): rid for rid in pending_rate_ids}
+        for fut in as_completed(futures):
+            rid, amount = fut.result()
+            rate_cache[rid] = amount
+
+    # Phase 3: sum up costs
+    total_cost = sum(rate_cache.get(rid, 0) for _, rid in shipment_rates)
 
     dupe_msg = f" (deduped {skipped_dupes})" if skipped_dupes else ""
-    print(f"    Shippo: {shipment_count} shipments | ${total_cost:,.2f} ({pages_checked} pages){dupe_msg}")
+    print(f"    Shippo: ${total_cost:,.2f} total ({len(rate_cache)} rates fetched){dupe_msg}")
     return round(total_cost, 2)
 
 
