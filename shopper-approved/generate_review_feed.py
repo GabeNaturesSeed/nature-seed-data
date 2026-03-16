@@ -144,6 +144,12 @@ def extract_parent_sku(sa_product_id):
     # Strip patterns like -0.25-A, -0.5-A (old format)
     base = re.sub(r'-\d+(?:\.\d+)?-A$', '', base)
 
+    # Strip wildflower packet patterns: -5-P, -1-P, -50-P, -25-P
+    base = re.sub(r'-\d+(?:\.\d+)?-P$', '', base)
+
+    # Strip regional variant suffix: -N (Northern variant)
+    base = re.sub(r'-N$', '', base)
+
     return base
 
 
@@ -187,6 +193,81 @@ ALIASES = {
     'PB-SSAG': 'PB-GOAT-TR',     # old goat sub-blend (warm season)
     'PB-SWDG': 'PB-GOAT-TR',     # old goat sub-blend (warm season)
     'PB-SATH': 'PB-SHEP-TR',
+    # Horse sub-blends (PB/H/HB suffix = horse, by region → N/TR/SO)
+    'PB-PNWPB': 'PB-HRSE-N',   # Pacific NW horse blend
+    'PB-IWPB': 'PB-HRSE-N',    # Intermountain West horse blend
+    'PB-GLPB': 'PB-HRSE-N',    # Great Lakes horse blend
+    'PB-PNWH': 'PB-HRSE-N',    # Pacific NW horse
+    'PB-MWH': 'PB-HRSE-N',     # Midwest horse
+    'PB-IWH': 'PB-HRSE-N',     # Intermountain West horse
+    'PB-PNWHB': 'PB-HRSE-N',   # Pacific NW horse blend
+    'PB-IWHB': 'PB-HRSE-N',    # Intermountain West horse blend
+    'PB-MWHB': 'PB-HRSE-N',    # Midwest horse blend
+    'PB-SATPB': 'PB-HRSE-TR',  # South Atlantic horse blend
+    'PB-GPHB': 'PB-HRSE-TR',   # Great Plains horse blend
+    'PB-SWTH': 'PB-HRSE-TR',   # Southwest horse
+    'PB-GPH': 'PB-HRSE-TR',    # Great Plains horse
+    'PB-SWTPB': 'PB-HRSE-TR',  # Southwest horse blend
+    'PB-PSWH': 'PB-HRSE-SO',   # Pacific SW horse
+    'PB-SSH': 'PB-HRSE-SO',    # Southern States horse
+    'PB-SSAPB': 'PB-HRSE-SO',  # Southern States Atlantic horse blend
+    'PB-SSPB': 'PB-HRSE-SO',   # Southern States horse blend
+    'PB-SSAHB': 'PB-HRSE-SO',  # Southern States Atlantic horse blend
+    'PB-SWDPB': 'PB-HRSE-SO',  # Southwest Desert horse blend
+    'PB-SWDH': 'PB-HRSE-SO',   # Southwest Desert horse
+    'PB-SSAH': 'PB-HRSE-SO',   # Southern States Atlantic horse
+    'PB-PSWPB': 'PB-HRSE-SO',  # Pacific SW horse blend
+    'PB-FTPB': 'PB-HRSE-SO',   # Florida horse blend
+    'PB-FTH': 'PB-HRSE-SO',    # Florida horse
+    # Sheep sub-blends (S suffix)
+    'PB-GLS': 'PB-SHEP-N',     # Great Lakes sheep
+    'PB-PNWS': 'PB-SHEP-N',    # Pacific NW sheep
+    'PB-IWS': 'PB-SHEP-N',     # Intermountain West sheep
+    'PB-SATS': 'PB-SHEP-TR',   # South Atlantic sheep
+    'PB-GPS': 'PB-SHEP-TR',    # Great Plains sheep
+    'PB-SSD': 'PB-SHEP-SO',    # Southern States sheep (D=flock variant)
+    'PB-SSG': 'PB-SHEP-SO',    # Southern States sheep (variant)
+    # Alpaca sub-blends (AL suffix)
+    'PB-GLAL': 'PB-ALPACA',    # Great Lakes alpaca
+    'PB-SATAL': 'PB-ALPACA',   # South Atlantic alpaca
+    'PB-PSWAL': 'PB-ALPACA',   # Pacific SW alpaca
+    'PB-PNWAL': 'PB-ALPACA',   # Pacific NW alpaca
+    'PB-MWAL': 'PB-ALPACA',    # Midwest alpaca
+    'PB-GPAL': 'PB-ALPACA',    # Great Plains alpaca
+    'PB-FTAL': 'PB-ALPACA',    # Florida alpaca
+    # Cattle sub-blends (BC=Beef Cattle, DC=Dairy Cow)
+    'PB-PNWBC': 'PB-COW-NTR',  # Pacific NW beef cattle
+    'PB-IWBC': 'PB-COW-NTR',   # Intermountain West beef cattle
+    'PB-MWBC': 'PB-COW-NTR',   # Midwest beef cattle
+    'PB-GLBC': 'PB-COW-NTR',   # Great Lakes beef cattle
+    'PB-SSDC': 'PB-COW-SO',    # Southern States dairy cow
+    'PB-SATDC': 'PB-COW-NTR',  # South Atlantic dairy cow (transitional)
+    'PB-PSWBC': 'PB-COW-SO',   # Pacific SW beef cattle
+    # Deer/Game sub-blends (D suffix where context = deer)
+    'PB-SWDD': 'PB-GAME',      # Southwest Desert deer
+    'PB-IWD': 'PB-GAME',       # Intermountain West deer
+    'PB-PNWD': 'PB-GAME',      # Pacific NW deer
+    'PB-PNWDC': 'PB-GAME',     # Pacific NW deer/game (DC variant)
+    # General pasture sub-blends (P suffix → horse as closest match)
+    'PB-MWP': 'PB-HRSE-N',     # Midwest general pasture
+    'PB-GLP': 'PB-HRSE-N',     # Great Lakes general pasture
+    'PB-IWP': 'PB-HRSE-N',     # Intermountain West general pasture
+    'PB-WLWP': 'PB-GAME',      # Wildlife pasture → game plot
+    # Bermuda/grass blend sub-blends (BG suffix → regional horse)
+    'PB-MWBG': 'PB-HRSE-N',    # Midwest bermuda blend
+    'PB-PNWBG': 'PB-HRSE-N',   # Pacific NW bermuda blend
+    'PB-SWDBG': 'PB-HRSE-SO',  # Southwest Desert bermuda blend
+    'PB-IWBG': 'PB-HRSE-N',    # Intermountain West bermuda blend
+    'PB-GLBG': 'PB-HRSE-N',    # Great Lakes bermuda blend
+    # Erosion control / specialty (EC suffix → dry pasture as closest)
+    'PB-MWEC': 'PB-DRY',       # Midwest erosion control
+    'PB-SSEC': 'PB-DRY',       # Southern States erosion control
+    'PB-GLEC': 'PB-DRY',       # Great Lakes erosion control
+    # Tortoise (discontinued — keep mapped to draft for now)
+    'PB-TORT': 'PB-TORT',
+    # Misc
+    'PB-IWUG': 'PB-HRSE-N',    # Intermountain West utility grade
+    'PB-MWDC': 'PB-COW-NTR',   # Midwest dairy cow
     # Wildflower
     'WB-CA': 'WB-CALN',
     'WB-MW': 'WB-MW',
@@ -196,6 +277,17 @@ ALIASES = {
     'W-ASSY': 'W-ASTU',
     'W-BASA': 'W-BASA',
     'TURF-LOPE': 'PG-LOPE',
+    'TURF-PANO': 'PG-PANO',
+    'TURF-BUDA': 'PG-BUDA',
+    'TURF-ZOJA': 'PG-ZOJA',
+    'TURF-LM': 'TURF-LM',
+    'TURF-POPR': 'PG-POPR',
+    'S-TACKI': 'S-TACKI',
+    'S-RICE': 'S-RICE',
+    'S-FERUC': 'S-FERUC',
+    'LLWB-SW': 'WB-SW',
+    'SA-A': 'SA-A',       # Shopper Approved site review — no product
+    '2750AL-A': '2750AL',  # legacy format
 }
 
 
