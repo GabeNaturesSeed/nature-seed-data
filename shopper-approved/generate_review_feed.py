@@ -147,10 +147,63 @@ def extract_parent_sku(sa_product_id):
     return base
 
 
+# Consolidated product aliases: checked FIRST (before direct WC match)
+# so that reviews from old/split SKUs always point to the current live page.
+ALIASES = {
+    # Turf/lawn mixes: SA "TURF-X" → WC "TURF-W-X"
+    'TURF-BR': 'TURF-W-BR',
+    'TURF-TALL': 'TURF-W-TALL',
+    'TURF-BLUE': 'TURF-W-BLUE',
+    'TURF-NW': 'TURF-W-NWE',
+    'TURF-NEAST': 'TURF-W-NEAST',
+    'TURF-RYE': 'TURF-W-RYE',
+    'TURF-SS': 'TURF-W-SS',
+    'TURF-NE': 'TURF-W-NEAST',
+    'TURF-FF': 'TURF-FINE',
+    'TURF-NFF': 'TURF-NFF',
+    'TURF-FEAR2': 'TURF-FEAR2',
+    # Grass species: SA "S-X" or "TURF-X" → WC "PG-X"
+    'TURF-CYDA': 'PG-CYDA',
+    'S-TRRE': 'PG-TRRE',
+    'S-FERU': 'PG-FERU',
+    'S-FELO': 'PG-FELO',
+    # Pasture blends — consolidated pages
+    'PB-MWPB': 'PB-HRSE-N',
+    'PB-MWS': 'PB-SHEP-N',
+    'PB-PNWP': 'PB-HRSE-N',
+    'PB-GPPB': 'PB-GAME',
+    'PB-GLH': 'PB-GOAT-TR',      # old goat pasture → consolidated page
+    'PB-GLHB': 'PB-GOAT-TR',     # old goat horse blend → consolidated page
+    'PB-GOAT-SO': 'PB-GOAT-TR',  # warm season goat → consolidated page
+    'PB-GOAT-N': 'PB-GOAT-TR',   # cool season goat → consolidated page
+    'PB-GLG': 'PB-GOAT-TR',      # old goat sub-blend
+    'PB-GPG': 'PB-GOAT-TR',      # old goat sub-blend
+    'PB-IWG': 'PB-GOAT-TR',      # old goat sub-blend
+    'PB-MWG': 'PB-GOAT-TR',      # old goat sub-blend
+    'PB-PNWG': 'PB-GOAT-TR',     # old goat sub-blend
+    'PB-SWTG': 'PB-GOAT-TR',     # old goat sub-blend
+    'PB-PSWG': 'PB-GOAT-TR',     # old goat sub-blend (warm season)
+    'PB-SATG': 'PB-GOAT-TR',     # old goat sub-blend (warm season)
+    'PB-SSAG': 'PB-GOAT-TR',     # old goat sub-blend (warm season)
+    'PB-SWDG': 'PB-GOAT-TR',     # old goat sub-blend (warm season)
+    'PB-SATH': 'PB-SHEP-TR',
+    # Wildflower
+    'WB-CA': 'WB-CALN',
+    'WB-MW': 'WB-MW',
+    'WB-DR': 'WB-DR',
+    # Individual species / misc
+    'LLW-ESCA': 'W-ESCA',
+    'W-ASSY': 'W-ASTU',
+    'W-BASA': 'W-BASA',
+    'TURF-LOPE': 'PG-LOPE',
+}
+
+
 def match_sa_to_wc(sa_product_id, wc_map):
     """Match an SA product_id to WC product data.
 
-    Tries multiple strategies:
+    Priority order:
+    0. Aliases (consolidated products) — ALWAYS win over direct match
     1. Direct match (SA ID = WC parent SKU)
     2. Extract parent prefix from SA variation ID
     3. Case-insensitive match
@@ -159,12 +212,20 @@ def match_sa_to_wc(sa_product_id, wc_map):
     if not sa_product_id:
         return None
 
+    parent = extract_parent_sku(sa_product_id)
+
+    # 0. Alias check FIRST — consolidated products always take priority
+    for check in [sa_product_id, parent]:
+        if check and check in ALIASES:
+            target = ALIASES[check]
+            if target in wc_map:
+                return wc_map[target]
+
     # 1. Direct match
     if sa_product_id in wc_map:
         return wc_map[sa_product_id]
 
     # 2. Extract parent prefix
-    parent = extract_parent_sku(sa_product_id)
     if parent and parent in wc_map:
         return wc_map[parent]
 
@@ -180,48 +241,6 @@ def match_sa_to_wc(sa_product_id, wc_map):
     for sku, data in wc_map.items():
         if sa_product_id in data.get('skus', []):
             return data
-
-    # 5. Fuzzy: SA parent prefix matches start of a WC SKU
-    #    e.g., SA "TURF-BR" → WC "TURF-W-BR" (handle known aliases)
-    ALIASES = {
-        # Turf/lawn mixes: SA "TURF-X" → WC "TURF-W-X"
-        'TURF-BR': 'TURF-W-BR',
-        'TURF-TALL': 'TURF-W-TALL',
-        'TURF-BLUE': 'TURF-W-BLUE',
-        'TURF-NW': 'TURF-W-NWE',
-        'TURF-NEAST': 'TURF-W-NEAST',
-        'TURF-RYE': 'TURF-W-RYE',
-        'TURF-SS': 'TURF-W-SS',
-        'TURF-NE': 'TURF-W-NEAST',
-        'TURF-FF': 'TURF-FINE',
-        'TURF-NFF': 'TURF-NFF',
-        'TURF-FEAR2': 'TURF-FEAR2',
-        # Grass species: SA "S-X" or "TURF-X" → WC "PG-X"
-        'TURF-CYDA': 'PG-CYDA',
-        'S-TRRE': 'PG-TRRE',
-        'S-FERU': 'PG-FERU',
-        'S-FELO': 'PG-FELO',
-        # Pasture blends
-        'PB-MWPB': 'PB-HRSE-N',
-        'PB-MWS': 'PB-SHEP-N',
-        'PB-PNWP': 'PB-HRSE-N',
-        'PB-GPPB': 'PB-GAME',
-        'PB-GLH': 'PB-GOAT-TR',
-        'PB-SATH': 'PB-SHEP-TR',
-        # Wildflower
-        'WB-CA': 'WB-CALN',
-        'WB-MW': 'WB-MW',
-        'WB-DR': 'WB-DR',
-        # Individual species / misc
-        'LLW-ESCA': 'W-ESCA',
-        'W-ASSY': 'W-ASTU',
-        'W-BASA': 'W-BASA',
-        'TURF-LOPE': 'PG-LOPE',
-    }
-    check = parent or sa_product_id
-    alias = ALIASES.get(check)
-    if alias and alias in wc_map:
-        return wc_map[alias]
 
     return None
 
