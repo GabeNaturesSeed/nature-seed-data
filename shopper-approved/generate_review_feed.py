@@ -1,0 +1,456 @@
+#!/usr/bin/env python3
+"""
+Shopper Approved → Google Merchant Center Product Reviews Feed
+
+Pulls all product reviews from Shopper Approved API,
+matches them to WooCommerce products (for URLs and SKUs),
+and generates a Google Product Reviews XML feed (v2.4).
+
+Output: docs/reviews/product_reviews.xml (served via GitHub Pages)
+
+Usage:
+    python3 shopper-approved/generate_review_feed.py
+    python3 shopper-approved/generate_review_feed.py --dry-run   # prints stats, no file write
+"""
+import os, sys, time, json, re, html
+import requests
+from datetime import datetime, timezone
+from xml.etree.ElementTree import Element, SubElement, tostring
+from xml.dom.minidom import parseString
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
+DRY_RUN = '--dry-run' in sys.argv
+
+# ── Parse .env ──────────────────────────────────────────────
+env = {}
+with open(os.path.join(PROJECT_DIR, '.env')) as f:
+    for line in f:
+        line = line.strip()
+        if not line or line.startswith('#') or '=' not in line:
+            continue
+        k, v = line.split('=', 1)
+        env[k.strip()] = v.strip().strip("'\"")
+
+SA_SITE_ID = env['SA_SITE_ID']
+SA_TOKEN = env['SA_API_TOKEN']
+WC_BASE = env.get('WC_BASE_URL', 'https://naturesseed.com/wp-json/wc/v3')
+WC_AUTH = (env['WC_CK'], env['WC_CS'])
+
+SA_BASE = "https://api.shopperapproved.com"
+
+
+# ── WooCommerce: build product_id → URL+SKU map ────────────
+def build_wc_product_map():
+    """Build a map from SA product_id (parent SKU) to WC product URL and SKUs.
+
+    SA uses parent SKUs like 'S-DUTCH', 'PB-CHIX', 'TURF-W-TALL'.
+    WC has both simple products (SKU = parent) and variable products
+    (parent SKU on the product, variation SKUs like 'S-DUTCH-5-LB').
+    We index both simple and variable parent products by their SKU.
+    """
+    products = {}  # sku → {url, name, skus[], gtins[]}
+    page = 1
+    while True:
+        r = requests.get(f"{WC_BASE}/products", auth=WC_AUTH,
+                         params={'status': 'publish', 'per_page': 100, 'page': page}, timeout=30)
+        r.raise_for_status()
+        items = r.json()
+        if not items:
+            break
+        for p in items:
+            sku = p.get('sku', '')
+            if not sku:
+                continue
+
+            entry = {
+                'url': p.get('permalink', ''),
+                'name': p['name'],
+                'skus': [sku],
+                'gtins': [],
+            }
+
+            # Check for GTIN in meta
+            for m in p.get('meta_data', []):
+                if any(x in m['key'].lower() for x in ['gtin', 'upc', 'ean', 'barcode']):
+                    if m.get('value'):
+                        entry['gtins'].append(str(m['value']))
+
+            # Index by parent SKU (this catches both simple and variable products)
+            products[sku] = entry
+
+            # For variable products, also collect variation SKUs for reference
+            if p['type'] == 'variable':
+                vpage = 1
+                while True:
+                    vr = requests.get(f"{WC_BASE}/products/{p['id']}/variations",
+                                      auth=WC_AUTH,
+                                      params={'per_page': 100, 'page': vpage}, timeout=30)
+                    vr.raise_for_status()
+                    variations = vr.json()
+                    if not variations:
+                        break
+                    for v in variations:
+                        vsku = v.get('sku', '')
+                        if vsku:
+                            entry['skus'].append(vsku)
+                    vpage += 1
+                    time.sleep(0.3)
+
+        page += 1
+        print(f"  WC page {page-1}: {len(items)} products (map size: {len(products)})")
+        time.sleep(0.3)
+    return products
+
+
+def extract_parent_sku(sa_product_id):
+    """Extract the parent SKU prefix from an SA product ID.
+
+    SA uses variation-level IDs in multiple formats:
+      - Current: S-FEOV-10-LB, PG-TRRE-1-LB, WB-RM-1-LB-KIT
+      - Legacy:  S-TRRE-1000-F, S-MICRO-500-F, TURF-BR-2000-F
+      - Parent:  S-DUTCH, PB-CHIX, TURF-W-TALL (already parent SKU)
+
+    We strip the size/weight suffix to get the parent SKU.
+    """
+    pid = sa_product_id.strip()
+    if not pid:
+        return pid
+
+    # Strip known suffixes: -KIT at the end
+    base = re.sub(r'-KIT$', '', pid)
+
+    # Strip weight patterns: -10-LB, -0.5-LB, -25-LB, -1-LB
+    base = re.sub(r'-\d+(?:\.\d+)?-LB$', '', base)
+
+    # Strip legacy sqft patterns: -1000-F, -500-F, -2000-F, -5000-F
+    base = re.sub(r'-\d+-F$', '', base)
+
+    # Strip patterns like -0.25-A, -0.5-A (old format)
+    base = re.sub(r'-\d+(?:\.\d+)?-A$', '', base)
+
+    return base
+
+
+def match_sa_to_wc(sa_product_id, wc_map):
+    """Match an SA product_id to WC product data.
+
+    Tries multiple strategies:
+    1. Direct match (SA ID = WC parent SKU)
+    2. Extract parent prefix from SA variation ID
+    3. Case-insensitive match
+    4. Check if SA ID is a variation SKU within any WC product
+    """
+    if not sa_product_id:
+        return None
+
+    # 1. Direct match
+    if sa_product_id in wc_map:
+        return wc_map[sa_product_id]
+
+    # 2. Extract parent prefix
+    parent = extract_parent_sku(sa_product_id)
+    if parent and parent in wc_map:
+        return wc_map[parent]
+
+    # 3. Case-insensitive
+    sa_upper = sa_product_id.upper()
+    parent_upper = parent.upper() if parent else ''
+    for sku, data in wc_map.items():
+        sku_upper = sku.upper()
+        if sku_upper == sa_upper or sku_upper == parent_upper:
+            return data
+
+    # 4. Check if SA ID matches any variation SKU in WC
+    for sku, data in wc_map.items():
+        if sa_product_id in data.get('skus', []):
+            return data
+
+    # 5. Fuzzy: SA parent prefix matches start of a WC SKU
+    #    e.g., SA "TURF-BR" → WC "TURF-W-BR" (handle known aliases)
+    ALIASES = {
+        # Turf/lawn mixes: SA "TURF-X" → WC "TURF-W-X"
+        'TURF-BR': 'TURF-W-BR',
+        'TURF-TALL': 'TURF-W-TALL',
+        'TURF-BLUE': 'TURF-W-BLUE',
+        'TURF-NW': 'TURF-W-NWE',
+        'TURF-NEAST': 'TURF-W-NEAST',
+        'TURF-RYE': 'TURF-W-RYE',
+        'TURF-SS': 'TURF-W-SS',
+        'TURF-NE': 'TURF-W-NEAST',
+        'TURF-FF': 'TURF-FINE',
+        'TURF-NFF': 'TURF-NFF',
+        'TURF-FEAR2': 'TURF-FEAR2',
+        # Grass species: SA "S-X" or "TURF-X" → WC "PG-X"
+        'TURF-CYDA': 'PG-CYDA',
+        'S-TRRE': 'PG-TRRE',
+        'S-FERU': 'PG-FERU',
+        'S-FELO': 'PG-FELO',
+        # Pasture blends
+        'PB-MWPB': 'PB-HRSE-N',
+        'PB-MWS': 'PB-SHEP-N',
+        'PB-PNWP': 'PB-HRSE-N',
+        'PB-GPPB': 'PB-GAME',
+        'PB-GLH': 'PB-GOAT-TR',
+        'PB-SATH': 'PB-SHEP-TR',
+        # Wildflower
+        'WB-CA': 'WB-CALN',
+        'WB-MW': 'WB-MW',
+        'WB-DR': 'WB-DR',
+        # Individual species / misc
+        'LLW-ESCA': 'W-ESCA',
+        'W-ASSY': 'W-ASTU',
+        'W-BASA': 'W-BASA',
+        'TURF-LOPE': 'PG-LOPE',
+    }
+    check = parent or sa_product_id
+    alias = ALIASES.get(check)
+    if alias and alias in wc_map:
+        return wc_map[alias]
+
+    return None
+
+
+# ── Shopper Approved: pull all product reviews ──────────────
+def pull_all_reviews():
+    """Pull all product reviews from SA API, paginated."""
+    all_reviews = []
+    page = 0
+    limit = 100
+    while True:
+        r = requests.get(f"{SA_BASE}/products/reviews/{SA_SITE_ID}",
+                         params={
+                             'token': SA_TOKEN,
+                             'limit': limit,
+                             'page': page,
+                             'from': '2010-01-01',  # all time
+                             'xml': 'false',
+                         }, timeout=30)
+        r.raise_for_status()
+        data = r.json()
+
+        if not data:
+            break
+
+        for review_id, review in data.items():
+            if not isinstance(review, dict):
+                continue
+            # Only include public reviews
+            if not review.get('visible_to_public'):
+                continue
+            all_reviews.append(review)
+
+        print(f"  SA page {page}: {len(data)} reviews (total: {len(all_reviews)})")
+
+        if len(data) < limit:
+            break
+        page += 1
+        time.sleep(0.5)
+
+    return all_reviews
+
+
+# ── XML Feed Generation ────────────────────────────────────
+def clean_text(text):
+    """Clean review text for XML: decode HTML entities, strip tags."""
+    if not text:
+        return ""
+    # Decode HTML entities
+    text = html.unescape(text)
+    # Strip HTML tags
+    text = re.sub(r'<[^>]+>', '', text)
+    # Normalize whitespace
+    text = re.sub(r'\s+', ' ', text).strip()
+    return text
+
+
+def parse_review_date(date_str):
+    """Parse SA date format to ISO 8601."""
+    if not date_str:
+        return datetime.now(timezone.utc).isoformat()
+    try:
+        # "Wed, 11 Jun 2025 18:22:15 GMT"
+        dt = datetime.strptime(date_str, "%a, %d %b %Y %H:%M:%S %Z")
+        return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+    except ValueError:
+        return datetime.now(timezone.utc).isoformat()
+
+
+def generate_xml_feed(reviews, wc_map):
+    """Generate Google Product Reviews XML feed v2.4."""
+    feed = Element('feed')
+    # Version
+    version = SubElement(feed, 'version')
+    version.text = '2.4'
+
+    # Publisher
+    publisher = SubElement(feed, 'publisher')
+    pub_name = SubElement(publisher, 'name')
+    pub_name.text = "Nature's Seed"
+    pub_favicon = SubElement(publisher, 'favicon')
+    pub_favicon.text = "https://naturesseed.com/favicon.ico"
+
+    # Reviews container
+    reviews_el = SubElement(feed, 'reviews')
+
+    matched = 0
+    unmatched = 0
+    skipped_no_content = 0
+
+    for review in reviews:
+        product_id = review.get('product_id', '')
+        comments = clean_text(review.get('comments', ''))
+        rating = review.get('rating')
+
+        # Skip reviews with no content
+        if not comments or len(comments) < 10:
+            skipped_no_content += 1
+            continue
+
+        # Skip reviews with no product ID
+        if not product_id:
+            unmatched += 1
+            continue
+
+        # Match to WC product
+        wc_product = match_sa_to_wc(product_id, wc_map)
+        product_url = wc_product['url'] if wc_product else f"https://naturesseed.com/?s={product_id}"
+
+        if wc_product:
+            matched += 1
+        else:
+            unmatched += 1
+
+        # Build review element
+        review_el = SubElement(reviews_el, 'review')
+
+        # Review ID (required)
+        rid = SubElement(review_el, 'review_id')
+        rid.text = str(review.get('product_review_id', ''))
+
+        # Reviewer (required)
+        reviewer = SubElement(review_el, 'reviewer')
+        name = SubElement(reviewer, 'name')
+        display_name = review.get('display_name', 'Anonymous')
+        name.text = display_name if display_name else 'Anonymous'
+
+        # Timestamp (required)
+        timestamp = SubElement(review_el, 'review_timestamp')
+        timestamp.text = parse_review_date(review.get('review_date'))
+
+        # Title (optional)
+        heading = clean_text(review.get('heading', ''))
+        if heading:
+            title = SubElement(review_el, 'title')
+            title.text = heading
+
+        # Content (required)
+        content = SubElement(review_el, 'content')
+        content.text = comments
+
+        # Review URL (required)
+        review_url = SubElement(review_el, 'review_url')
+        review_url.set('type', 'singleton')
+        review_url.text = product_url
+
+        # Ratings (required)
+        ratings = SubElement(review_el, 'ratings')
+        overall = SubElement(ratings, 'overall')
+        overall.set('min', '1')
+        overall.set('max', '5')
+        overall.text = str(int(rating)) if rating == int(rating) else str(rating)
+
+        # Products (required)
+        products = SubElement(review_el, 'products')
+        product = SubElement(products, 'product')
+
+        # Product URL (always required)
+        prod_url = SubElement(product, 'product_url')
+        prod_url.text = product_url
+
+        # Product name
+        prod_name = SubElement(product, 'product_name')
+        prod_name.text = clean_text(review.get('product', product_id))
+
+        # SKUs
+        skus = SubElement(product, 'product_ids')
+        sku_el = SubElement(skus, 'skus')
+        sku_val = SubElement(sku_el, 'sku')
+        sku_val.text = product_id
+
+        # GTINs if available
+        if wc_product and wc_product.get('gtins'):
+            gtins_el = SubElement(skus, 'gtins')
+            for gtin in wc_product['gtins']:
+                gtin_val = SubElement(gtins_el, 'gtin')
+                gtin_val.text = gtin
+
+        # Is verified purchase
+        if review.get('verified'):
+            verified = SubElement(review_el, 'is_verified_purchase')
+            verified.text = 'true'
+
+    return feed, matched, unmatched, skipped_no_content
+
+
+def pretty_xml(element):
+    """Convert ElementTree element to pretty-printed XML string."""
+    rough = tostring(element, encoding='unicode')
+    # Add XML declaration
+    dom = parseString(rough)
+    pretty = dom.toprettyxml(indent="  ", encoding="UTF-8")
+    return pretty
+
+
+def main():
+    print("=" * 60)
+    print("SHOPPER APPROVED → GOOGLE PRODUCT REVIEWS FEED")
+    print("=" * 60)
+
+    # Step 1: Build WC product map
+    print("\n[1/4] Building WooCommerce product map...")
+    wc_map = build_wc_product_map()
+    print(f"  → {len(wc_map)} WC products indexed")
+
+    # Step 2: Pull all SA reviews
+    print("\n[2/4] Pulling Shopper Approved reviews...")
+    reviews = pull_all_reviews()
+    print(f"  → {len(reviews)} public reviews pulled")
+
+    # Step 3: Generate XML feed
+    print("\n[3/4] Generating Google Product Reviews XML feed...")
+    feed, matched, unmatched, skipped = generate_xml_feed(reviews, wc_map)
+    print(f"  Matched to WC products: {matched}")
+    print(f"  Unmatched (search URL):  {unmatched}")
+    print(f"  Skipped (no content):    {skipped}")
+    print(f"  Total reviews in feed:   {matched + unmatched}")
+
+    # Step 4: Write XML
+    if DRY_RUN:
+        print("\n*** DRY RUN — no file written ***")
+        xml_bytes = pretty_xml(feed)
+        print(f"  XML size: {len(xml_bytes):,} bytes")
+        # Show first 2000 chars
+        print(xml_bytes.decode('utf-8')[:2000])
+        return
+
+    output_dir = os.path.join(PROJECT_DIR, 'docs', 'reviews')
+    os.makedirs(output_dir, exist_ok=True)
+    output_path = os.path.join(output_dir, 'product_reviews.xml')
+
+    xml_bytes = pretty_xml(feed)
+    with open(output_path, 'wb') as f:
+        f.write(xml_bytes)
+
+    print(f"\n[4/4] Written to: {output_path}")
+    print(f"  File size: {len(xml_bytes):,} bytes")
+    print(f"  URL (GitHub Pages): https://gabenaturesseed.github.io/nature-seed-data/reviews/product_reviews.xml")
+
+    print(f"\n{'=' * 60}")
+    print("DONE — Submit this URL in Google Merchant Center:")
+    print("  Merchant Center → Growth → Product Reviews → Manage feeds")
+    print(f"{'=' * 60}")
+
+
+if __name__ == "__main__":
+    main()

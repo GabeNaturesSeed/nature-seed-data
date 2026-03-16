@@ -152,14 +152,24 @@ def main():
     # Data starts at row 6 (rows 1-5 are headers)
     DATA_START_ROW = 6
 
+    # SKUs to exclude — wrong spec product type for seed template
+    # Rice Hulls are "Plant Germination Trays & Kits" / "Grains", need their own template
+    SKIP_SKUS = {"S-RICE-25-LB-ADDON", "S-RICE-10-LB-KIT"}
+
     # Fill in items
     filled = 0
     skipped = 0
+    row_offset = 0
 
     for idx, item in enumerate(seo_items):
-        row = DATA_START_ROW + idx
         sku = item["sku"]
 
+        if sku in SKIP_SKUS:
+            skipped += 1
+            print(f"  SKIP: {sku} (incompatible specProductType for seed template)")
+            continue
+
+        row = DATA_START_ROW + filled
         # Get Walmart item data — use Walmart's productType, not SEO generator's
         wm_item = wm_lookup.get(sku, {})
         wm_product_type = wm_item.get("productType", "")
