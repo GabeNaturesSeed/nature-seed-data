@@ -41,6 +41,9 @@ from google.ads.googleads.client import GoogleAdsClient
 # ══════════════════════════════════════════════════════════════
 
 env_path = Path(__file__).resolve().parent.parent / ".env"
+if not env_path.exists():
+    # GitHub Actions writes .env to repo root, not infrastructure/
+    env_path = Path(__file__).resolve().parent.parent.parent / ".env"
 env_vars = {}
 with open(env_path) as f:
     for line in f:
