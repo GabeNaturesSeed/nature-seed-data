@@ -96,22 +96,6 @@ def build_wc_product_map():
             # Index by parent SKU (this catches both simple and variable products)
             products[sku] = entry
 
-            # For variable products, also collect variation SKUs for reference
-            if p['type'] == 'variable':
-                vpage = 1
-                while True:
-                    vr = _wc_get(f"/products/{p['id']}/variations",
-                               params={'per_page': 100, 'page': vpage})
-                    variations = vr.json()
-                    if not variations:
-                        break
-                    for v in variations:
-                        vsku = v.get('sku', '')
-                        if vsku:
-                            entry['skus'].append(vsku)
-                    vpage += 1
-                    time.sleep(0.3)
-
         page += 1
         print(f"  WC page {page-1}: {len(items)} products (map size: {len(products)})")
         time.sleep(0.3)
