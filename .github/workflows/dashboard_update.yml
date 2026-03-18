@@ -52,6 +52,7 @@ jobs:
           SA_SITE_ID=${{ secrets.SA_SITE_ID }}
           SA_API_TOKEN=${{ secrets.SA_API_TOKEN }}
           SHIPPO_API_KEY=${{ secrets.SHIPPO_API_KEY }}
+          VIBE_CO_API=${{ secrets.VIBE_CO_API }}
           ENVEOF
 
       - name: Refresh ABC velocity analysis (14-day sales)

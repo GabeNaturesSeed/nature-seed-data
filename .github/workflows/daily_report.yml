@@ -43,6 +43,7 @@ jobs:
           AMAZON_REFRESH_TOKEN=${{ secrets.AMAZON_REFRESH_TOKEN }}
           AMAZON_CLIENT_ID=${{ secrets.AMAZON_CLIENT_ID }}
           AMAZON_CLIENT_SECRET=${{ secrets.AMAZON_CLIENT_SECRET }}
+          VIBE_CO_API=${{ secrets.VIBE_CO_API }}
           ENVEOF
 
       - name: Pull yesterday's data

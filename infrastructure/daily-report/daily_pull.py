@@ -7,8 +7,9 @@ Sources:
   1. WooCommerce — orders & revenue
   2. Walmart — orders & revenue
   3. Google Ads — ad spend
-  4. Shippo — shipping costs
-  5. Google Sheets — COGS lookup (synced periodically)
+  4. Vibe.co — CTV/streaming TV ad spend
+  5. Shippo — shipping costs
+  6. Google Sheets — COGS lookup (synced periodically)
 
 Usage:
   python3 daily_pull.py              # Pull yesterday's data
@@ -92,6 +93,11 @@ AMZ_CLIENT_ID = env_vars.get("AMAZON_CLIENT_ID", "")
 AMZ_CLIENT_SECRET = env_vars.get("AMAZON_CLIENT_SECRET", "")
 AMZ_REFRESH_TOKEN = env_vars.get("AMAZON_REFRESH_TOKEN", "")
 AMZ_MARKETPLACE_ID = "ATVPDKIKX0DER"  # US marketplace
+
+# Vibe.co (CTV/Streaming TV ads)
+VIBE_API_KEY = env_vars.get("VIBE_CO_API", "")
+VIBE_ADVERTISER_ID = "f979e743-8df2-4c93-8926-338f55933bf6"
+VIBE_BASE = "https://clear-platform.vibe.co/rest/reporting/v1"
 
 # Google Sheets COGS
 COGS_SHEET_ID = "1nve5yRvw7fY0caVqZDHYDjhoQmj_a6S9PkC3BMKm1S4"
@@ -518,7 +524,82 @@ def pull_google_ads(report_date):
 
 
 # ══════════════════════════════════════════════════════════════
-# 4. SHIPPO SHIPPING COSTS
+# 4b. VIBE.CO AD SPEND (CTV / Streaming TV)
+# ══════════════════════════════════════════════════════════════
+
+def pull_vibe(report_date):
+    """Pull Vibe.co CTV ad spend for a single date.
+
+    Vibe API is async: create report → poll status → download JSON.
+    end_date is exclusive, so we use report_date + 1 day.
+    """
+    print(f"\n  [Vibe.co] Pulling CTV spend for {report_date}...")
+
+    if not VIBE_API_KEY:
+        print("    [SKIP] No VIBE_CO_API configured")
+        return {"report_date": str(report_date), "channel": "vibe_co", "spend": 0, "impressions": 0, "clicks": 0, "conversions": 0}
+
+    headers = {"X-API-KEY": VIBE_API_KEY, "Content-Type": "application/json"}
+    end_date = str(date.fromisoformat(str(report_date)) + timedelta(days=1))
+
+    # Step 1: Create async report
+    payload = {
+        "advertiser_id": VIBE_ADVERTISER_ID,
+        "start_date": str(report_date),
+        "end_date": end_date,
+        "metrics": ["spend", "impressions"],
+        "dimensions": ["campaign_name"],
+        "granularity": "day",
+        "format": "json",
+        "timezone": "America/Denver",
+        "filters": [],
+    }
+
+    resp = requests.post(f"{VIBE_BASE}/create_async_report", json=payload, headers=headers, timeout=30)
+    resp.raise_for_status()
+    report_id = resp.json()["report_id"]
+
+    # Step 2: Poll for completion (max 60s)
+    for _ in range(12):
+        time.sleep(5)
+        status_resp = requests.get(
+            f"{VIBE_BASE}/get_report_status",
+            params={"report_id": report_id},
+            headers={"X-API-KEY": VIBE_API_KEY},
+            timeout=15,
+        )
+        status_resp.raise_for_status()
+        status_data = status_resp.json()
+        if status_data["status"] == "DONE":
+            break
+        if status_data["status"] == "error":
+            print(f"    [ERR] Vibe report failed: {status_data}")
+            return {"report_date": str(report_date), "channel": "vibe_co", "spend": 0, "impressions": 0, "clicks": 0, "conversions": 0}
+    else:
+        print("    [ERR] Vibe report timed out after 60s")
+        return {"report_date": str(report_date), "channel": "vibe_co", "spend": 0, "impressions": 0, "clicks": 0, "conversions": 0}
+
+    # Step 3: Download report
+    download_url = status_data["download_url"]
+    data = requests.get(download_url, timeout=30).json()
+
+    spend = sum(row.get("spend", 0) for row in data)
+    impressions = sum(int(row.get("impressions", 0)) for row in data)
+
+    print(f"    Spend: ${spend:,.2f} | Impressions: {impressions:,} | Campaigns: {len(data)}")
+
+    return {
+        "report_date": str(report_date),
+        "channel": "vibe_co",
+        "spend": round(spend, 2),
+        "impressions": impressions,
+        "clicks": 0,  # CTV has no clicks
+        "conversions": 0,
+    }
+
+
+# ══════════════════════════════════════════════════════════════
+# 5. SHIPPO SHIPPING COSTS
 # ══════════════════════════════════════════════════════════════
 
 def pull_shippo(report_date):
@@ -731,6 +812,13 @@ def pull_date(report_date):
         ads = _empty_ads
 
     try:
+        vibe = pull_vibe(report_date)
+    except Exception as e:
+        print(f"    [ERR] Vibe.co failed: {e}")
+        errors.append(f"Vibe.co: {e}")
+        vibe = {"report_date": str(report_date), "channel": "vibe_co", "spend": 0, "impressions": 0, "clicks": 0, "conversions": 0}
+
+    try:
         shipping = pull_shippo(report_date)
     except Exception as e:
         print(f"    [ERR] Shippo failed: {e}")
@@ -743,7 +831,9 @@ def pull_date(report_date):
     total_cogs = wc["cogs"]["total_cogs"] + wm["cogs"]["total_cogs"] + amz["cogs"]["total_cogs"]
     total_shipping = shipping["total_cost"] if isinstance(shipping, dict) else shipping.get("total_cost", 0)
     net_revenue = total_revenue - total_cogs - total_shipping
-    ad_spend = ads["spend"] if isinstance(ads, dict) else ads.get("spend", 0)
+    google_spend = ads["spend"] if isinstance(ads, dict) else ads.get("spend", 0)
+    vibe_spend = vibe.get("spend", 0)
+    ad_spend = google_spend + vibe_spend
     mer = round(total_revenue / ad_spend, 2) if ad_spend > 0 else 0
 
     print(f"\n{'='*60}")
@@ -756,7 +846,9 @@ def pull_date(report_date):
     print(f"    COGS:            ${total_cogs:>10,.2f}")
     print(f"    Shipping:        ${total_shipping:>10,.2f}  ({shipping.get('shipment_count', 0)} shipments)")
     print(f"    Net Revenue:     ${net_revenue:>10,.2f}")
-    print(f"    Ad Spend:        ${ad_spend:>10,.2f}")
+    print(f"    Google Ads:      ${google_spend:>10,.2f}")
+    print(f"    Vibe.co CTV:     ${vibe_spend:>10,.2f}")
+    print(f"    Total Ad Spend:  ${ad_spend:>10,.2f}")
     print(f"    MER:             {mer:>10.2f}x")
 
     if errors:
@@ -785,6 +877,8 @@ def pull_date(report_date):
             supabase_upsert("daily_cogs", cogs_rows)
         if "Google Ads" not in str(errors):
             supabase_upsert("daily_ad_spend", [ads])
+        if "Vibe.co" not in str(errors):
+            supabase_upsert("daily_ad_spend", [vibe])
         if "Shippo" not in str(errors):
             supabase_upsert("daily_shipping", [shipping])
         print("  [OK] Data written to Supabase (skipped failed sources)")
