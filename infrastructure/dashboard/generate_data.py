@@ -701,12 +701,31 @@ def generate_reporting():
     ytd_totals_ly = {"revenue": round(sum(m["ly_revenue"] for m in ytd_months), 2)}
     ytd_totals_budget = {"revenue": round(sum(m["budget_revenue"] for m in ytd_months), 2)}
 
-    # WC /customers API doesn't support date range filtering — returns all customers regardless.
-    # Customer metrics (new customers, CAC) require daily_pull.py to store per-day customer counts.
-    # TODO: Add new_customer_count to daily_pull.py and store in Supabase daily_sales or new table.
-    new_customers_mtd = None
+    # Pull MTD WC orders to count new vs returning customers
+    print("  Pulling MTD WC orders for new customer count...")
+    try:
+        mtd_orders = _pull_wc_orders_range(str(mtd_start_cy), str(mtd_end_cy))
+        mtd_cids = {}
+        mtd_guest_emails = {}
+        for o in mtd_orders:
+            cid = o.get("customer_id", 0)
+            if cid and cid != 0:
+                mtd_cids.setdefault(cid, True)
+            else:
+                email = (o.get("billing", {}).get("email") or "").lower().strip()
+                if email:
+                    mtd_guest_emails.setdefault(email, True)
+        cust_dates = _pull_wc_customers_batch(list(mtd_cids.keys()))
+        mtd_start_str = str(mtd_start_cy)
+        new_customers_mtd = sum(1 for cid in mtd_cids if (cust_dates.get(cid, "")[:10] >= mtd_start_str))
+        new_customers_mtd += len(mtd_guest_emails)  # guests treated as new
+        print(f"    MTD customers: {len(mtd_cids) + len(mtd_guest_emails)} unique ({new_customers_mtd} new)")
+    except Exception as e:
+        print(f"    [WARN] MTD new customer count failed: {e}")
+        new_customers_mtd = None
+
     aov = round(cy_totals["revenue"] / cy_totals["orders"], 2) if cy_totals["orders"] else 0
-    new_cac = None
+    new_cac = round(cy_totals["ad_spend"] / new_customers_mtd, 2) if new_customers_mtd else None
 
     result = {
         "as_of": TODAY_STR,
