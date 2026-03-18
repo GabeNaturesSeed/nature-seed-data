@@ -496,6 +496,7 @@
   <div class="sub-tabs visible" id="sub-reporting">
     <div class="sub-tab active" data-sub="mtd" onclick="switchSub('reporting','mtd',this)">MTD</div>
     <div class="sub-tab" data-sub="ytd" onclick="switchSub('reporting','ytd',this)">YTD</div>
+    <div class="sub-tab" data-sub="pnl" onclick="switchSub('reporting','pnl',this)">P&L</div>
     <div class="sub-tab" data-sub="notes" onclick="switchSub('reporting','notes',this)">Notes</div>
     <div class="sub-tab" data-sub="site-health" onclick="switchSub('reporting','site-health',this)">Site Health</div>
   </div>
@@ -511,6 +512,7 @@
   <!-- Panels -->
   <div id="panel-mtd" class="panel active"></div>
   <div id="panel-ytd" class="panel"></div>
+  <div id="panel-pnl" class="panel"></div>
   <div id="panel-notes" class="panel"></div>
   <div id="panel-site-health" class="panel"></div>
   <div id="panel-content" class="panel"></div>
@@ -1026,6 +1028,194 @@ function renderYtdChart(reporting) {
       scales: {
         x: { ticks: { font:{size:10} } },
         y: { ticks: { font:{size:10}, callback: v => '$'+v.toLocaleString() } }
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER: P&L
+// ═══════════════════════════════════════════════════════
+function renderPnl(reporting) {
+  const el = document.getElementById('panel-pnl');
+  if (!reporting || !reporting.pnl) { el.innerHTML = '<div class="data-unavailable">P&L data unavailable</div>'; return; }
+  const pnl = reporting.pnl;
+  const months = pnl.months || [];
+  const ytd = pnl.ytd || {};
+  if (!months.length) { el.innerHTML = '<div class="data-unavailable">No P&L data yet</div>'; return; }
+
+  // Month labels for table headers
+  const mLabels = months.map(m => new Date(m.month+'-02').toLocaleDateString('en-US',{month:'short'}));
+
+  // Helper: format row value
+  const fmtPnl = v => v == null ? '—' : (v < 0 ? '-$'+Math.abs(v).toLocaleString(undefined,{minimumFractionDigits:0,maximumFractionDigits:0}) : '$'+v.toLocaleString(undefined,{minimumFractionDigits:0,maximumFractionDigits:0}));
+  const fmtPct = v => v != null ? v.toFixed(1)+'%' : '—';
+  const varCls = (act,bud) => { if(!bud) return ''; return act >= bud ? 'text-green' : 'text-red'; };
+  const varInvCls = (act,bud) => { if(!bud) return ''; return act <= bud ? 'text-green' : 'text-red'; }; // lower is better for costs
+
+  // P&L line item definitions: [label, key, type, indent, isCost]
+  const lines = [
+    ['Revenue', 'revenue', 'money', 0, false],
+    ['Cost of Goods Sold', 'cogs', 'money', 0, true],
+    ['Shipping (Freight)', 'cogs_freight', 'money', 1, true],
+    ['Gross Profit', 'gross_profit', 'money', 0, false, true],
+    ['Gross Margin %', 'gross_margin_pct', 'pct', 0, false],
+    ['', null, 'spacer', 0],
+    ['OPERATING EXPENSES', null, 'header', 0],
+    ['Production / Warehouse', 'production_warehouse', 'money', 1, true],
+    ['Advertising', 'advertising', 'money', 1, true],
+    ['Marketing', 'marketing', 'money', 1, true],
+    ['S/M/A Salaries', 'sma_salaries', 'money', 1, true],
+    ['Development', 'development', 'money', 1, true],
+    ['Total Sales/Mktg/Adv', 'total_sma', 'money', 0, true, true],
+    ['G&A Salaries', 'ga_salaries', 'money', 1, true],
+    ['Professional Fees', 'professional_fees', 'money', 1, true],
+    ['Insurance', 'insurance', 'money', 1, true],
+    ['T&E', 'travel_entertainment', 'money', 1, true],
+    ['Utilities & Supplies', 'utilities_supplies', 'money', 1, true],
+    ['Corporate Allocation', 'corporate_allocation', 'money', 1, true],
+    ['Other G&A', 'ga_other', 'money', 1, true],
+    ['Total G&A', 'total_ga', 'money', 0, true, true],
+    ['', null, 'spacer', 0],
+    ['Total Operating Costs', 'total_opex', 'money', 0, true, true],
+    ['', null, 'spacer', 0],
+    ['Net Income', 'net_income', 'money', 0, false, true],
+    ['Depreciation', 'depreciation', 'money', 1, true],
+    ['EBITDA', 'ebitda', 'money', 0, false, true],
+  ];
+
+  // KPI cards
+  const kpis = [
+    { label:'YTD Revenue', val:fmtPnl(ytd.revenue), cls:'' },
+    { label:'YTD Gross Profit', val:fmtPnl(ytd.gross_profit), cls: ytd.gross_profit >= 0 ? 'text-green' : 'text-red' },
+    { label:'YTD Net Income', val:fmtPnl(ytd.net_income), cls: ytd.net_income >= 0 ? 'text-green' : 'text-red' },
+    { label:'YTD EBITDA', val:fmtPnl(ytd.ebitda), cls: ytd.ebitda >= 0 ? 'text-green' : 'text-red' },
+    { label:'YTD Ad Spend', val:fmtPnl(ytd.advertising), cls:'' },
+    { label:'Gross Margin', val:fmtPct(ytd.gross_margin_pct), cls:'' },
+  ];
+
+  let kpiHtml = '<div class="kpi-grid">';
+  kpis.forEach(k => {
+    kpiHtml += `<div class="kpi-card"><div class="kpi-label">${k.label}</div><div class="kpi-value ${k.cls}">${k.val}</div></div>`;
+  });
+  kpiHtml += '</div>';
+
+  // Chart
+  const chartHtml = `<div class="chart-card" style="margin-bottom:20px"><h3>Monthly P&L</h3><div class="chart-wrap" style="height:280px"><canvas id="chart-pnl-monthly"></canvas></div></div>`;
+
+  // Table
+  let tableHtml = `<div class="table-card" style="overflow-x:auto"><table style="min-width:700px">
+    <thead><tr><th style="text-align:left;min-width:180px">Line Item</th>`;
+  mLabels.forEach(l => { tableHtml += `<th style="text-align:right">${l}</th>`; });
+  tableHtml += `<th style="text-align:right;font-weight:700;border-left:2px solid var(--green-dark)">YTD</th>`;
+  tableHtml += `<th style="text-align:right;color:#888">Budget YTD</th>`;
+  tableHtml += `<th style="text-align:right">Var</th>`;
+  tableHtml += '</tr></thead><tbody>';
+
+  lines.forEach(line => {
+    const [label, key, type, indent, isCost, isBold] = line;
+    if (type === 'spacer') { tableHtml += '<tr style="height:8px"><td colspan="'+(mLabels.length+4)+'"></td></tr>'; return; }
+    if (type === 'header') { tableHtml += `<tr><td colspan="${mLabels.length+4}" style="font-weight:700;padding-top:12px;font-size:0.85rem;color:var(--green-dark)">${label}</td></tr>`; return; }
+
+    const bold = isBold ? 'font-weight:700;' : '';
+    const pad = indent ? 'padding-left:20px;' : '';
+    const budKey = 'budget_' + key;
+
+    tableHtml += `<tr style="${bold}">`;
+    tableHtml += `<td style="${pad}${bold}">${label}</td>`;
+
+    months.forEach(m => {
+      const v = m[key];
+      if (type === 'pct') {
+        tableHtml += `<td style="text-align:right;${bold}">${fmtPct(v)}</td>`;
+      } else {
+        const cls = (key === 'net_income' || key === 'ebitda' || key === 'gross_profit') ? (v >= 0 ? 'text-green' : 'text-red') : '';
+        tableHtml += `<td style="text-align:right;${bold}" class="${cls}">${fmtPnl(v)}</td>`;
+      }
+    });
+
+    // YTD column
+    const ytdVal = ytd[key];
+    if (type === 'pct') {
+      tableHtml += `<td style="text-align:right;border-left:2px solid var(--green-dark);${bold}">${fmtPct(ytdVal)}</td>`;
+      tableHtml += '<td style="text-align:right;color:#888">—</td><td>—</td>';
+    } else {
+      const ytdCls = (key === 'net_income' || key === 'ebitda' || key === 'gross_profit') ? (ytdVal >= 0 ? 'text-green' : 'text-red') : '';
+      tableHtml += `<td style="text-align:right;border-left:2px solid var(--green-dark);${bold}" class="${ytdCls}">${fmtPnl(ytdVal)}</td>`;
+      const budVal = ytd[budKey];
+      tableHtml += `<td style="text-align:right;color:#888">${budVal ? fmtPnl(budVal) : '—'}</td>`;
+      if (budVal) {
+        const variance = ytdVal - budVal;
+        // For costs, under budget is good (negative variance = green)
+        const vCls = isCost ? (variance <= 0 ? 'text-green' : 'text-red') : (variance >= 0 ? 'text-green' : 'text-red');
+        tableHtml += `<td style="text-align:right" class="${vCls}">${variance >= 0 ? '+' : ''}${fmtPnl(variance)}</td>`;
+      } else {
+        tableHtml += '<td>—</td>';
+      }
+    }
+    tableHtml += '</tr>';
+  });
+
+  tableHtml += '</tbody></table></div>';
+
+  el.innerHTML = kpiHtml + chartHtml + tableHtml;
+  renderPnlChart(reporting);
+}
+
+function renderPnlChart(reporting) {
+  if (!reporting || !reporting.pnl) return;
+  const months = reporting.pnl.months || [];
+  const labels = months.map(m => new Date(m.month+'-02').toLocaleDateString('en-US',{month:'short'}));
+
+  makeChart('chart-pnl-monthly', {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Revenue',
+          data: months.map(m => safe(m.revenue)),
+          backgroundColor: 'rgba(45,90,39,0.75)',
+          borderColor: '#2d5a27',
+          borderWidth: 1,
+          borderRadius: 4,
+        },
+        {
+          label: 'Gross Profit',
+          data: months.map(m => safe(m.gross_profit)),
+          backgroundColor: 'rgba(76,175,80,0.6)',
+          borderColor: '#4caf50',
+          borderWidth: 1,
+          borderRadius: 4,
+        },
+        {
+          label: 'Net Income',
+          data: months.map(m => m.net_income),
+          backgroundColor: months.map(m => m.net_income >= 0 ? 'rgba(76,175,80,0.5)' : 'rgba(244,67,54,0.5)'),
+          borderColor: months.map(m => m.net_income >= 0 ? '#4caf50' : '#f44336'),
+          borderWidth: 1,
+          borderRadius: 4,
+        },
+        {
+          label: 'EBITDA',
+          type: 'line',
+          data: months.map(m => m.ebitda),
+          borderColor: '#e67e22',
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          pointRadius: 4,
+          pointBackgroundColor: '#e67e22',
+          tension: 0.3,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { labels: { font:{size:11} } } },
+      scales: {
+        x: { ticks: { font:{size:10} } },
+        y: { ticks: { font:{size:10}, callback: v => (v<0?'-$':'$')+Math.abs(v).toLocaleString() } }
       }
     }
   });
@@ -1692,6 +1882,7 @@ async function initApp() {
   // Render all panels
   renderMtd(data.reporting);
   renderYtd(data.reporting);
+  renderPnl(data.reporting);
   renderNotes(data.notes);
   renderSiteHealth();
   renderContentCalendar(data.klaviyo);

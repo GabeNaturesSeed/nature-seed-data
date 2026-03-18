@@ -454,6 +454,112 @@ def _load_budget_csv():
     return budget
 
 
+def _load_budget_csv_full():
+    """Parse ALL line items from 2026 budget CSV for P&L view.
+    Returns dict: { "2026-01": { "seed_revenue": ..., "freight_revenue": ..., ... } }
+    """
+    budget_path = ROOT / "research" / "2026-budget" / "Budget 2026 - Sheet1.csv"
+    if not budget_path.exists():
+        return {}
+
+    months = [f"2026-{m:02d}" for m in range(1, 13)]
+
+    # We need to handle duplicate labels (e.g. "Seed" appears under Revenue and COGS,
+    # "Salaries & Wages" appears under S/M/A and G&A). Use section tracking.
+    result = {m: {} for m in months}
+    section = ""
+
+    # Map (section, label) → output key
+    key_map = {
+        # Revenue
+        ("revenue", "Seed"): "seed_revenue",
+        ("revenue", "Other"): "other_revenue",
+        ("revenue", "Freight"): "freight_revenue",
+        ("revenue", "Discounts & Allowances"): "discounts",
+        ("revenue", "Net Revenue"): "net_revenue",
+        # COGS
+        ("cogs", "Seed"): "cogs_seed",
+        ("cogs", "Other"): "cogs_other",
+        ("cogs", "Inventory Adjustment"): "cogs_inventory_adj",
+        ("cogs", "Freight"): "cogs_freight",
+        ("cogs", "Total Cost Of Goods"): "total_cogs",
+        # Margin
+        ("cogs", "Gross Margin"): "gross_margin",
+        ("cogs", "Gross Margin %"): "gross_margin_pct",
+        # Production/Warehouse
+        ("prod", "Warehouse"): "warehouse",
+        ("prod", "Farm"): "farm",
+        ("prod", "Collections"): "collections",
+        ("prod", "Total Production/Warehouse"): "total_production",
+        # Sales/Marketing/Advertising
+        ("sma", "Salaries & Wages"): "sma_salaries",
+        ("sma", "Marketing"): "marketing",
+        ("sma", "Advertising"): "advertising",
+        ("sma", "Development"): "development",
+        ("sma", "Total Sales/Marketing/Advertising"): "total_sma",
+        # G&A
+        ("ga", "Salaries & Wages"): "ga_salaries",
+        ("ga", "Professional Fees"): "professional_fees",
+        ("ga", "Insurance"): "insurance",
+        ("ga", "T&E"): "travel_entertainment",
+        ("ga", "Utilities & Supplies"): "utilities_supplies",
+        ("ga", "Corporate Allocation"): "corporate_allocation",
+        ("ga", "Other"): "ga_other",
+        ("ga", "Total General & Admin"): "total_ga",
+        # Bottom line
+        ("bottom", "Total Operating Costs"): "total_opex",
+        ("bottom", "OPEX %"): "opex_pct",
+        ("bottom", "Management Fee"): "management_fee",
+        ("bottom", "Other Income & Expense"): "other_income_expense",
+        ("bottom", "Net Income"): "net_income",
+        ("bottom", "EBITDA"): "ebitda",
+        ("bottom", "EBITDA %"): "ebitda_pct",
+        ("bottom", "Interest"): "interest",
+        ("bottom", "Tax"): "tax",
+        ("bottom", "Depreciation"): "depreciation",
+        ("bottom", "Amortization"): "amortization",
+    }
+
+    with open(budget_path, newline="", encoding="utf-8-sig") as f:
+        reader = csv.reader(f)
+        for row in reader:
+            if not row:
+                continue
+            label = row[0].strip()
+
+            # Track sections by all-caps header rows
+            if label == "REVENUE":
+                section = "revenue"; continue
+            elif label == "COST OF GOODS":
+                section = "cogs"; continue
+            elif label == "PRODUCTION/WAREHOUSE":
+                section = "prod"; continue
+            elif label == "SALES/MARKETING/ADVERTISING":
+                section = "sma"; continue
+            elif label == "GENERAL & ADMIN":
+                section = "ga"; continue
+            elif label == "Total Operating Costs":
+                # This row belongs to bottom, but parse it first
+                pass
+
+            # Gross Margin sits between COGS and PROD sections
+            if label in ("Gross Margin", "Gross Margin %"):
+                section = "cogs"
+            # Everything after Total Operating Costs is bottom
+            if label in ("Total Operating Costs", "OPEX %", "Management Fee",
+                         "Other Income & Expense", "Net Income", "Interest",
+                         "Tax", "Depreciation", "Amortization", "EBITDA", "EBITDA %"):
+                section = "bottom"
+
+            key = key_map.get((section, label))
+            if key:
+                for i, month in enumerate(months):
+                    val = row[i + 1] if i + 1 < len(row) else "0"
+                    result[month][key] = _parse_dollar(val)
+
+    return result
+
+
 def _load_actuals_csv():
     """
     Parse any *Actuals*.csv files from 2026ECOMMBUDGET/.
@@ -767,8 +873,160 @@ def generate_reporting():
             "totals_budget": ytd_totals_budget,
         },
     }
+    # ── P&L: merge actuals with budget fixed costs ────────
+    print("  Building P&L from actuals + budget fixed costs...")
+    budget_full = _load_budget_csv_full()
+    pnl_months = []
+    for m_data in ytd_months:
+        mk = m_data["month"]  # e.g. "2026-01"
+        bud = budget_full.get(mk, {})
+
+        # Actuals: revenue, COGS, ad spend, shipping come from Supabase
+        act_revenue = m_data.get("revenue", 0)
+        act_cogs = m_data.get("cogs", 0) if m_data.get("cogs", 0) else 0
+        act_ad_spend = m_data.get("ad_spend", 0)
+        act_shipping = m_data.get("shipping", 0) if m_data.get("shipping") else 0
+        act_gross_profit = act_revenue - act_cogs
+
+        # Fixed costs from budget (these don't change with actual performance)
+        warehouse = bud.get("warehouse", 0)
+        farm = bud.get("farm", 0)
+        collections = bud.get("collections", 0)
+        total_production = bud.get("total_production", warehouse + farm + collections)
+        sma_salaries = bud.get("sma_salaries", 0)
+        marketing = bud.get("marketing", 0)
+        development = bud.get("development", 0)
+        ga_salaries = bud.get("ga_salaries", 0)
+        professional_fees = bud.get("professional_fees", 0)
+        insurance = bud.get("insurance", 0)
+        travel_entertainment = bud.get("travel_entertainment", 0)
+        utilities_supplies = bud.get("utilities_supplies", 0)
+        corporate_allocation = bud.get("corporate_allocation", 0)
+        ga_other = bud.get("ga_other", 0)
+        total_ga = bud.get("total_ga", ga_salaries + professional_fees + insurance + travel_entertainment + utilities_supplies + corporate_allocation + ga_other)
+
+        # Computed P&L
+        total_sma = sma_salaries + marketing + act_ad_spend + development
+        total_opex = total_production + total_sma + total_ga
+        net_income = act_gross_profit - total_opex
+
+        # Budget comparisons
+        bud_revenue = bud.get("net_revenue", 0)
+        bud_gross = bud.get("gross_margin", 0)
+        bud_opex = bud.get("total_opex", 0)
+        bud_net_income = bud.get("net_income", 0)
+        bud_ebitda = bud.get("ebitda", 0)
+
+        depreciation = bud.get("depreciation", 0)
+        amortization = bud.get("amortization", 0)
+        interest = bud.get("interest", 0)
+        tax = bud.get("tax", 0)
+        ebitda = net_income + depreciation + amortization + interest + tax
+
+        pnl_months.append({
+            "month": mk,
+            # Revenue
+            "revenue": round(act_revenue, 2),
+            "budget_revenue": round(bud_revenue, 2),
+            # COGS
+            "cogs": round(act_cogs, 2),
+            "budget_cogs": round(bud.get("total_cogs", 0), 2),
+            "cogs_freight": round(act_shipping, 2),
+            # Gross Profit
+            "gross_profit": round(act_gross_profit, 2),
+            "budget_gross_profit": round(bud_gross, 2),
+            "gross_margin_pct": round(act_gross_profit / act_revenue * 100, 1) if act_revenue else 0,
+            # Operating Expenses
+            "production_warehouse": round(total_production, 2),
+            "warehouse": round(warehouse, 2),
+            "advertising": round(act_ad_spend, 2),
+            "budget_advertising": round(bud.get("advertising", 0), 2),
+            "marketing": round(marketing, 2),
+            "sma_salaries": round(sma_salaries, 2),
+            "development": round(development, 2),
+            "total_sma": round(total_sma, 2),
+            "ga_salaries": round(ga_salaries, 2),
+            "professional_fees": round(professional_fees, 2),
+            "insurance": round(insurance, 2),
+            "travel_entertainment": round(travel_entertainment, 2),
+            "utilities_supplies": round(utilities_supplies, 2),
+            "corporate_allocation": round(corporate_allocation, 2),
+            "ga_other": round(ga_other, 2),
+            "total_ga": round(total_ga, 2),
+            "total_opex": round(total_opex, 2),
+            "budget_opex": round(bud_opex, 2),
+            # Net Income
+            "net_income": round(net_income, 2),
+            "budget_net_income": round(bud_net_income, 2),
+            # EBITDA
+            "depreciation": round(depreciation, 2),
+            "ebitda": round(ebitda, 2),
+            "budget_ebitda": round(bud_ebitda, 2),
+        })
+
+    # YTD totals for P&L
+    def _pnl_sum(key):
+        return round(sum(m.get(key, 0) for m in pnl_months), 2)
+
+    pnl_ytd = {k: _pnl_sum(k) for k in [
+        "revenue", "budget_revenue", "cogs", "budget_cogs", "cogs_freight",
+        "gross_profit", "budget_gross_profit",
+        "production_warehouse", "warehouse", "advertising", "budget_advertising",
+        "marketing", "sma_salaries", "development", "total_sma",
+        "ga_salaries", "professional_fees", "insurance", "travel_entertainment",
+        "utilities_supplies", "corporate_allocation", "ga_other", "total_ga",
+        "total_opex", "budget_opex", "net_income", "budget_net_income",
+        "depreciation", "ebitda", "budget_ebitda",
+    ]}
+    pnl_ytd["gross_margin_pct"] = round(pnl_ytd["gross_profit"] / pnl_ytd["revenue"] * 100, 1) if pnl_ytd["revenue"] else 0
+
+    result = {
+        "as_of": TODAY_STR,
+        "mtd": {
+            "cy": {
+                "revenue": cy_totals["revenue"],
+                "orders": cy_totals["orders"],
+                "ad_spend": cy_totals["ad_spend"],
+                "mer": cy_totals["mer"],
+                "cogs": cy_totals["cogs"],
+                "shipping": cy_totals["shipping"],
+                "net_revenue": cy_totals["net_revenue"],
+                "wc_revenue": cy_totals["wc_revenue"],
+                "amazon_revenue": cy_totals["amazon_revenue"],
+                "walmart_revenue": cy_totals["walmart_revenue"],
+                "platform_fees": cy_totals["platform_fees"],
+                "gross_profit": cy_totals["gross_profit"],
+                "gross_margin_pct": cy_totals["gross_margin_pct"],
+                "cm1": cy_totals["cm1"],
+                "cm2": cy_totals["cm2"],
+                "cm2_pct": cy_totals["cm2_pct"],
+                "aov": aov,
+                "new_customers": new_customers_mtd,
+                "new_customer_cac": new_cac,
+            },
+            "ly": {
+                "revenue": ly_totals["revenue"],
+                "orders": ly_totals["orders"],
+                "ad_spend": ly_totals["ad_spend"],
+            },
+            "budget": mtd_budget,
+            "daily_cy": daily_cy,
+            "daily_ly": daily_ly,
+        },
+        "ytd": {
+            "months": ytd_months,
+            "totals_cy": ytd_totals_cy,
+            "totals_ly": ytd_totals_ly,
+            "totals_budget": ytd_totals_budget,
+        },
+        "pnl": {
+            "months": pnl_months,
+            "ytd": pnl_ytd,
+        },
+    }
     _write_json("reporting.json", result)
     print(f"  MTD CY revenue: ${cy_totals['revenue']:,.2f} | orders: {cy_totals['orders']}")
+    print(f"  P&L months: {len(pnl_months)} | YTD Net Income: ${pnl_ytd.get('net_income', 0):,.2f}")
     return True
 
 
