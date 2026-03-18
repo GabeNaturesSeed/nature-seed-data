@@ -1307,7 +1307,7 @@ def generate_walmart():
 def _load_abc_velocity():
     """Load daily_qty per SKU from abc_analysis_results.json."""
     velocity = {}
-    abc_path = ROOT / "abc-analysis" / "abc_analysis_results.json"
+    abc_path = ROOT / "research" / "abc-analysis" / "abc_analysis_results.json"
     if not abc_path.exists():
         return velocity
     try:

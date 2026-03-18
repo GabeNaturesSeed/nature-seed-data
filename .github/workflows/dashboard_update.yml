@@ -54,6 +54,9 @@ jobs:
           SHIPPO_API_KEY=${{ secrets.SHIPPO_API_KEY }}
           ENVEOF
 
+      - name: Refresh ABC velocity analysis (14-day sales)
+        run: python research/abc-analysis/abc_analysis.py
+
       - name: Generate dashboard data
         run: python infrastructure/dashboard/generate_data.py
 
@@ -64,6 +67,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/data/ docs/reviews/
+          git add docs/data/ docs/reviews/ research/abc-analysis/abc_analysis_results.json
           git diff --staged --quiet || git commit -m "chore: update dashboard data $(date -u +%Y-%m-%d)"
           git push

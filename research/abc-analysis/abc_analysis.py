@@ -14,6 +14,8 @@ from collections import defaultdict
 def _load_env():
     env = {}
     env_file = Path(__file__).parent / ".env"
+    if not env_file.exists():
+        env_file = Path(__file__).resolve().parent.parent.parent / ".env"
     if env_file.exists():
         for line in env_file.read_text().splitlines():
             line = line.strip()
