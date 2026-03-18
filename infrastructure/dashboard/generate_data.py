@@ -420,7 +420,7 @@ def _load_budget_csv():
     Returns dict: { "2026-01": { "net_revenue": 133779, "ad_spend": 35805,
                                  "cogs": 67192, "gross_margin": 66587, "net_income": -48839 } }
     """
-    budget_path = ROOT / "2026ECOMMBUDGET" / "Budget 2026 - Sheet1.csv"
+    budget_path = ROOT / "research" / "2026-budget" / "Budget 2026 - Sheet1.csv"
     budget = {}
     if not budget_path.exists():
         print("  [WARN] Budget CSV not found")
@@ -460,7 +460,7 @@ def _load_actuals_csv():
     Returns dict: { "2026-01": { "net_revenue": ..., "cogs": ..., ... } }
     """
     actuals = {}
-    budget_dir = ROOT / "2026ECOMMBUDGET"
+    budget_dir = ROOT / "research" / "2026-budget"
     if not budget_dir.exists():
         return actuals
 
