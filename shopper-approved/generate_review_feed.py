@@ -275,6 +275,41 @@ ALIASES = {
 }
 
 
+def build_gmc_gtin_map():
+    """Build parent SKU → GTINs/MPNs map from Google Merchant Center raw product data.
+
+    GMC has 93.5% GTIN coverage (286/306 products). GTINs are the strongest
+    product identifier for matching reviews to products in Merchant Center.
+
+    IMPORTANT: GMC feed contains VARIATIONS (e.g., PG-TRRE-10-LB-KIT) while
+    Shopper Approved reviews are on PARENT products (e.g., PG-TRRE). We collect
+    ALL variation GTINs per parent so the review matches any variant in Shopping.
+    """
+    gmc_path = os.path.join(PROJECT_DIR, 'seo', 'merchant-center-audit', 'data', 'raw_products.json')
+    if not os.path.exists(gmc_path):
+        print("  ⚠ GMC raw_products.json not found — run pull_merchant_data.py first")
+        return {}
+
+    with open(gmc_path) as f:
+        products = json.load(f)
+
+    parent_gtins = {}  # parent_sku → list of ALL variant GTINs
+    parent_mpns = {}   # parent_sku → list of ALL variant MPNs
+    for p in products:
+        mpn = p.get('mpn', '')
+        gtin = p.get('gtin', '')
+        parent = extract_parent_sku(mpn)
+        if parent and gtin:
+            parent_gtins.setdefault(parent, []).append(gtin)
+        if parent and mpn:
+            parent_mpns.setdefault(parent, []).append(mpn)
+
+    print(f"  → {len(parent_gtins)} parent SKUs with GTINs from GMC feed")
+    total_gtins = sum(len(v) for v in parent_gtins.values())
+    print(f"  → {total_gtins} total variant GTINs across all parents")
+    return parent_gtins, parent_mpns
+
+
 def match_sa_to_wc(sa_product_id, wc_map):
     """Match an SA product_id to WC product data.
 
@@ -361,14 +396,19 @@ def pull_all_reviews():
 
 
 # ── XML Feed Generation ────────────────────────────────────
-def clean_text(text):
-    """Clean review text for XML: decode HTML entities, strip tags."""
+def clean_text(text, strip_urls=False):
+    """Clean review text for XML: decode HTML entities, strip tags, optionally remove URLs."""
     if not text:
         return ""
     # Decode HTML entities
     text = html.unescape(text)
     # Strip HTML tags
     text = re.sub(r'<[^>]+>', '', text)
+    # Strip URLs and emails from review content (GMC rejects these)
+    if strip_urls:
+        text = re.sub(r'https?://[^\s<>"]+', '', text)
+        text = re.sub(r'www\.[^\s<>"]+', '', text)
+        text = re.sub(r'[\w.+-]+@[\w-]+\.[\w.]+', '', text)
     # Normalize whitespace
     text = re.sub(r'\s+', ' ', text).strip()
     return text
@@ -386,7 +426,7 @@ def parse_review_date(date_str):
         return datetime.now(timezone.utc).isoformat()
 
 
-def generate_xml_feed(reviews, wc_map):
+def generate_xml_feed(reviews, wc_map, gmc_gtins=None, gmc_mpns=None):
     """Generate Google Product Reviews XML feed v2.4."""
     feed = Element('feed')
     # Version
@@ -409,7 +449,7 @@ def generate_xml_feed(reviews, wc_map):
 
     for review in reviews:
         product_id = review.get('product_id', '')
-        comments = clean_text(review.get('comments', ''))
+        comments = clean_text(review.get('comments', ''), strip_urls=True)
         rating = review.get('rating')
 
         # Skip reviews with no content
@@ -482,18 +522,49 @@ def generate_xml_feed(reviews, wc_map):
         prod_name = SubElement(product, 'product_name')
         prod_name.text = clean_text(review.get('product', product_id))
 
-        # SKUs
-        skus = SubElement(product, 'product_ids')
-        sku_el = SubElement(skus, 'skus')
-        sku_val = SubElement(sku_el, 'sku')
-        sku_val.text = product_id
+        # Product identifiers — GTIN is strongest, then Brand+MPN, then SKU
+        # GMC feed has VARIATIONS, SA reviews are on PARENTS. Include ALL variant
+        # GTINs+MPNs so the review matches any variant in Google Shopping.
+        product_ids_el = SubElement(product, 'product_ids')
 
-        # GTINs if available
-        if wc_product and wc_product.get('gtins'):
-            gtins_el = SubElement(skus, 'gtins')
-            for gtin in wc_product['gtins']:
-                gtin_val = SubElement(gtins_el, 'gtin')
-                gtin_val.text = gtin
+        # Resolve the parent SKU for GMC lookup
+        parent_sku = extract_parent_sku(product_id)
+        resolved_sku = ALIASES.get(product_id, ALIASES.get(parent_sku, parent_sku))
+
+        # GTINs: include ALL unique variant GTINs from GMC (strongest match)
+        gtin_list = []
+        if gmc_gtins:
+            gtin_list = gmc_gtins.get(resolved_sku, []) or gmc_gtins.get(parent_sku, [])
+        if not gtin_list and wc_product and wc_product.get('gtins'):
+            gtin_list = wc_product['gtins']
+        # Deduplicate (many variants share the same UPC)
+        gtin_list = list(dict.fromkeys(gtin_list))
+        if gtin_list:
+            gtins_el = SubElement(product_ids_el, 'gtins')
+            for gtin_val in gtin_list:
+                gtin_el = SubElement(gtins_el, 'gtin')
+                gtin_el.text = gtin_val
+
+        # MPNs: include ALL variant MPNs (these match GMC's mpn field exactly)
+        mpn_list = []
+        if gmc_mpns:
+            mpn_list = gmc_mpns.get(resolved_sku, []) or gmc_mpns.get(parent_sku, [])
+        if not mpn_list:
+            mpn_list = [wc_product['skus'][0] if wc_product else product_id]
+        mpns_el = SubElement(product_ids_el, 'mpns')
+        for mpn_val in mpn_list:
+            mpn_el = SubElement(mpns_el, 'mpn')
+            mpn_el.text = mpn_val
+
+        # SKUs
+        skus_el = SubElement(product_ids_el, 'skus')
+        sku_val = SubElement(skus_el, 'sku')
+        sku_val.text = wc_product['skus'][0] if wc_product else product_id
+
+        # Brand (always Nature's Seed)
+        brands_el = SubElement(product_ids_el, 'brands')
+        brand_el = SubElement(brands_el, 'brand')
+        brand_el.text = "Nature's Seed"
 
         # Is verified purchase
         if review.get('verified'):
@@ -522,20 +593,28 @@ def main():
     wc_map = build_wc_product_map()
     print(f"  → {len(wc_map)} WC products indexed")
 
-    # Step 2: Pull all SA reviews
-    print("\n[2/4] Pulling Shopper Approved reviews...")
+    # Step 2: Load GMC GTIN data
+    print("\n[2/5] Loading Google Merchant Center GTIN data...")
+    gmc_result = build_gmc_gtin_map()
+    if gmc_result:
+        gmc_gtins, gmc_mpns = gmc_result
+    else:
+        gmc_gtins, gmc_mpns = {}, {}
+
+    # Step 3: Pull all SA reviews
+    print("\n[3/5] Pulling Shopper Approved reviews...")
     reviews = pull_all_reviews()
     print(f"  → {len(reviews)} public reviews pulled")
 
-    # Step 3: Generate XML feed
-    print("\n[3/4] Generating Google Product Reviews XML feed...")
-    feed, matched, unmatched, skipped = generate_xml_feed(reviews, wc_map)
+    # Step 4: Generate XML feed
+    print("\n[4/5] Generating Google Product Reviews XML feed...")
+    feed, matched, unmatched, skipped = generate_xml_feed(reviews, wc_map, gmc_gtins, gmc_mpns)
     print(f"  Matched to WC products: {matched}")
     print(f"  Unmatched (search URL):  {unmatched}")
     print(f"  Skipped (no content):    {skipped}")
     print(f"  Total reviews in feed:   {matched + unmatched}")
 
-    # Step 4: Write XML
+    # Step 5: Write XML
     if DRY_RUN:
         print("\n*** DRY RUN — no file written ***")
         xml_bytes = pretty_xml(feed)
@@ -552,7 +631,7 @@ def main():
     with open(output_path, 'wb') as f:
         f.write(xml_bytes)
 
-    print(f"\n[4/4] Written to: {output_path}")
+    print(f"\n[5/5] Written to: {output_path}")
     print(f"  File size: {len(xml_bytes):,} bytes")
     print(f"  URL (GitHub Pages): https://gabenaturesseed.github.io/nature-seed-data/reviews/product_reviews.xml")
 
