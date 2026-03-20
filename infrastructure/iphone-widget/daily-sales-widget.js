@@ -7,24 +7,16 @@ var WC_CK = "ck_9629579f1379f272169de8628edddb00b24737f9";
 var WC_CS = "cs_bf6dcf206d6ed26b83e55e8af62c16de26339815";
 // ────────────────────────────────────────────────────────────────────
 
-async function getTodaySales() {
-  var now = new Date();
-  var y = now.getFullYear();
-  var m = String(now.getMonth() + 1).padStart(2, "0");
-  var d = String(now.getDate()).padStart(2, "0");
-  var after = y + "-" + m + "-" + d + "T00:00:00";
-  var before = y + "-" + m + "-" + d + "T23:59:59";
-
+async function fetchByStatus(status, after, before) {
   var base = "https://naturesseed.com/wp-json/wc/v3/orders";
-  var revenue = 0;
-  var orderCount = 0;
+  var all = [];
   var page = 1;
 
   while (true) {
     var url = base
       + "?consumer_key=" + WC_CK
       + "&consumer_secret=" + WC_CS
-      + "&status[]=completed&status[]=processing"
+      + "&status=" + status
       + "&after=" + after
       + "&before=" + before
       + "&per_page=100"
@@ -33,20 +25,32 @@ async function getTodaySales() {
     var req = new Request(url);
     req.timeoutInterval = 30;
 
-    try {
-      var orders = await req.loadJSON();
-      if (!Array.isArray(orders) || orders.length === 0) break;
-      for (var i = 0; i < orders.length; i++) {
-        revenue += parseFloat(orders[i].total || 0);
-      }
-      orderCount += orders.length;
-      if (orders.length < 100) break;
-      page++;
-    } catch (e) {
-      break;
-    }
+    var orders = await req.loadJSON();
+    if (!Array.isArray(orders) || orders.length === 0) break;
+    all = all.concat(orders);
+    if (orders.length < 100) break;
+    page++;
   }
-  return { revenue: revenue, orderCount: orderCount };
+  return all;
+}
+
+async function getTodaySales() {
+  var now = new Date();
+  var y = now.getFullYear();
+  var m = String(now.getMonth() + 1).padStart(2, "0");
+  var d = String(now.getDate()).padStart(2, "0");
+  var after = y + "-" + m + "-" + d + "T00:00:00";
+  var before = y + "-" + m + "-" + d + "T23:59:59";
+
+  var completed = await fetchByStatus("completed", after, before);
+  var processing = await fetchByStatus("processing", after, before);
+  var all = completed.concat(processing);
+
+  var revenue = 0;
+  for (var i = 0; i < all.length; i++) {
+    revenue += parseFloat(all[i].total || 0);
+  }
+  return { revenue: revenue, orderCount: all.length };
 }
 
 // ── Helpers ─────────────────────────────────────────────────────────
