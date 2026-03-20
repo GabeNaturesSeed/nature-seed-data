@@ -741,7 +741,7 @@ def generate_reporting():
     # YTD — aggregate by month
     from collections import defaultdict
     cy_by_month = defaultdict(lambda: {"revenue": 0, "orders": 0, "ad_spend": 0, "cogs": 0, "shipping": 0, "platform_fees": 0, "net_revenue": 0})
-    ly_by_month = defaultdict(lambda: {"revenue": 0})
+    ly_by_month = defaultdict(lambda: {"revenue": 0, "ad_spend": 0})
 
     for r in ytd_cy_rows:
         m = r["report_date"][:7]  # YYYY-MM
@@ -759,6 +759,7 @@ def generate_reporting():
         year_ly, mon_ly = m_ly.split("-")
         m_cy = f"{int(year_ly)+1}-{mon_ly}"
         ly_by_month[m_cy]["revenue"] += float(_col(r, "total_revenue", "revenue") or 0)
+        ly_by_month[m_cy]["ad_spend"] += float(_col(r, "total_ad_spend", "ad_spend") or 0)
 
     # Build month list (all months in YTD that have data or budget)
     all_months = sorted(set(list(cy_by_month.keys()) + [k for k in budget if k <= cur_month_key]))
@@ -774,14 +775,24 @@ def generate_reporting():
         cm1_m = gross_profit_m - ad
         cm2_m = cm1_m - ship_m - pfees_m
         mer = round(rev / ad, 2) if ad else 0
+        ly_ad = ly_by_month.get(m, {}).get("ad_spend", 0)
+        bud_ad = budget.get(m, {}).get("ad_spend", 0)
+        ly_rev = ly_by_month.get(m, {}).get("revenue", 0)
+        ly_mer = round(ly_rev / ly_ad, 2) if ly_ad else None
+        bud_rev = budget.get(m, {}).get("net_revenue", 0)
+        bud_mer = round(bud_rev / bud_ad, 2) if bud_ad else None
         ytd_months.append({
             "month": m,
             "revenue": round(rev, 2),
-            "ly_revenue": round(ly_by_month.get(m, {}).get("revenue", 0), 2),
-            "budget_revenue": budget.get(m, {}).get("net_revenue", 0),
+            "ly_revenue": round(ly_rev, 2),
+            "budget_revenue": bud_rev,
             "orders": cy.get("orders", 0),
             "ad_spend": round(ad, 2),
+            "ly_ad_spend": round(ly_ad, 2),
+            "budget_ad_spend": bud_ad,
             "mer": mer,
+            "ly_mer": ly_mer,
+            "budget_mer": bud_mer,
             "cogs": round(cogs_m, 2),
             "net_revenue": round(cy.get("net_revenue", 0), 2),
             "gross_profit": round(gross_profit_m, 2),
@@ -804,8 +815,20 @@ def generate_reporting():
         "cm2": _ytd_cm2,
         "cm2_pct": round(_ytd_cm2 / _ytd_rev * 100, 1) if _ytd_rev else None,
     }
-    ytd_totals_ly = {"revenue": round(sum(m["ly_revenue"] for m in ytd_months), 2)}
-    ytd_totals_budget = {"revenue": round(sum(m["budget_revenue"] for m in ytd_months), 2)}
+    _ytd_ly_rev = round(sum(m["ly_revenue"] for m in ytd_months), 2)
+    _ytd_ly_ad = round(sum(m["ly_ad_spend"] for m in ytd_months), 2)
+    _ytd_bud_rev = round(sum(m["budget_revenue"] for m in ytd_months), 2)
+    _ytd_bud_ad = round(sum(m["budget_ad_spend"] for m in ytd_months), 2)
+    ytd_totals_ly = {
+        "revenue": _ytd_ly_rev,
+        "ad_spend": _ytd_ly_ad,
+        "mer": round(_ytd_ly_rev / _ytd_ly_ad, 2) if _ytd_ly_ad else None,
+    }
+    ytd_totals_budget = {
+        "revenue": _ytd_bud_rev,
+        "ad_spend": _ytd_bud_ad,
+        "mer": round(_ytd_bud_rev / _ytd_bud_ad, 2) if _ytd_bud_ad else None,
+    }
 
     # Pull MTD WC orders to count new vs returning customers
     print("  Pulling MTD WC orders for new customer count...")

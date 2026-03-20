@@ -931,8 +931,8 @@ function renderYtd(reporting) {
   const kpis = [
     { label:'YTD Revenue', val:fmt(tcy.revenue), lyPct:calcPct(tcy.revenue,tly.revenue), budPct:calcPct(tcy.revenue,tbud.revenue) },
     { label:'YTD Orders', val:fmtInt(tcy.orders), lyPct:null, budPct:null },
-    { label:'YTD Ad Spend', val:fmt(tcy.ad_spend), lyPct:null, budPct:null },
-    { label:'YTD MER', val: tcy.ad_spend > 0 ? (tcy.revenue/tcy.ad_spend).toFixed(2)+'x' : '—', lyPct:null, budPct:null },
+    { label:'YTD Ad Spend', val:fmt(tcy.ad_spend), lyPct:calcPct(tcy.ad_spend,tly.ad_spend), budPct:calcPct(tcy.ad_spend,tbud.ad_spend) },
+    { label:'YTD MER', val: tcy.ad_spend > 0 ? (tcy.revenue/tcy.ad_spend).toFixed(2)+'x' : '—', lyPct: tly.mer ? calcPct(tcy.revenue/tcy.ad_spend, tly.mer) : null, budPct: tbud.mer ? calcPct(tcy.revenue/tcy.ad_spend, tbud.mer) : null },
     { label:'YTD COGS', val:fmt(tcy.cogs), lyPct:null, budPct:null },
     { label:'YTD Gross Profit', val:fmt(tcy.gross_profit), lyPct:null, budPct:null },
     { label:'YTD Gross Margin %', val:(tcy.gross_margin_pct != null ? tcy.gross_margin_pct.toFixed(1)+'%' : '—'), lyPct:null, budPct:null },
@@ -958,35 +958,48 @@ function renderYtd(reporting) {
   // Bar chart placeholder
   const chartHtml = `<div class="chart-card" style="margin-bottom:20px"><h3>Monthly Revenue</h3><div class="chart-wrap" style="height:260px"><canvas id="chart-ytd-monthly"></canvas></div></div>`;
 
+  // Cumulative YTD revenue curve
+  const cumulativeChartHtml = `<div class="chart-card" style="margin-bottom:20px"><h3>Cumulative YTD Revenue</h3><div class="chart-wrap" style="height:300px"><canvas id="chart-ytd-cumulative"></canvas></div></div>`;
+
   // Table
   let tableHtml = `<div class="table-card"><table>
     <thead><tr>
-      <th>Month</th><th>Revenue</th><th>vs Budget</th><th>vs LY</th><th>Orders</th><th>Ad Spend</th><th>MER</th><th>Gross Margin</th><th>CM2 %</th>
+      <th>Month</th><th>Revenue</th><th>vs Budget</th><th>vs LY</th><th>Ad Spend</th><th>vs Budget</th><th>vs LY</th><th>MER</th><th>LY MER</th><th>Bud MER</th><th>Orders</th><th>GM %</th><th>CM2 %</th>
     </tr></thead><tbody>`;
   months.forEach(m => {
     const vsB = calcPct(m.revenue, m.budget_revenue);
     const vsLY = calcPct(m.revenue, m.ly_revenue);
+    const adVsB = calcPct(m.ad_spend, m.budget_ad_spend);
+    const adVsLY = calcPct(m.ad_spend, m.ly_ad_spend);
     const rowCls = (vsB != null && vsB >= 0) ? 'row-green' : 'row-red';
     const monthLabel = new Date(m.month+'-02').toLocaleDateString('en-US',{year:'numeric',month:'short'});
     const gmPct = m.gross_margin_pct != null ? m.gross_margin_pct.toFixed(1)+'%' : '—';
     const cm2Pct = m.cm2_pct != null ? m.cm2_pct.toFixed(1)+'%' : '—';
     const cm2Cls = m.cm2_pct != null ? (m.cm2_pct >= 20 ? 'text-green' : m.cm2_pct >= 10 ? 'text-yellow' : 'text-red') : '';
+    // For ad spend, under budget is GOOD (green), over budget is BAD (red) — invert logic
+    const adBCls = adVsB != null ? (adVsB <= 0 ? 'text-green' : 'text-red') : '';
+    const adLYCls = adVsLY != null ? (adVsLY <= 0 ? 'text-green' : 'text-red') : '';
     tableHtml += `<tr class="${rowCls}">
       <td>${monthLabel}</td>
       <td>${fmt(m.revenue)}</td>
       <td class="${vsB>=0?'text-green':'text-red'}">${pct(vsB)}</td>
       <td class="${vsLY>=0?'text-green':'text-red'}">${pct(vsLY)}</td>
-      <td>${fmtInt(m.orders)}</td>
       <td>${fmt(m.ad_spend)}</td>
+      <td class="${adBCls}">${pct(adVsB)}</td>
+      <td class="${adLYCls}">${pct(adVsLY)}</td>
       <td>${m.mer != null ? m.mer.toFixed(2)+'x' : '—'}</td>
+      <td style="color:var(--gray)">${m.ly_mer != null ? m.ly_mer.toFixed(2)+'x' : '—'}</td>
+      <td style="color:var(--gray)">${m.budget_mer != null ? m.budget_mer.toFixed(2)+'x' : '—'}</td>
+      <td>${fmtInt(m.orders)}</td>
       <td>${gmPct}</td>
       <td class="${cm2Cls}">${cm2Pct}</td>
     </tr>`;
   });
   tableHtml += '</tbody></table></div>';
 
-  el.innerHTML = kpiHtml + projHtml + chartHtml + tableHtml;
+  el.innerHTML = kpiHtml + projHtml + chartHtml + cumulativeChartHtml + tableHtml;
   renderYtdChart(reporting);
+  renderYtdCumulativeChart(reporting);
 }
 
 function renderYtdChart(reporting) {
@@ -1033,6 +1046,125 @@ function renderYtdChart(reporting) {
       scales: {
         x: { ticks: { font:{size:10} } },
         y: { ticks: { font:{size:10}, callback: v => '$'+v.toLocaleString() } }
+      }
+    }
+  });
+}
+
+function renderYtdCumulativeChart(reporting) {
+  if (!reporting) return;
+  const months = (reporting.ytd || {}).months || [];
+  if (!months.length) return;
+
+  // Build cumulative data
+  let cumCY = 0, cumLY = 0, cumBud = 0;
+  const labels = [];
+  const dataCY = [];
+  const dataLY = [];
+  const dataBud = [];
+
+  months.forEach(m => {
+    const monthLabel = new Date(m.month+'-02').toLocaleDateString('en-US',{month:'short'});
+    labels.push(monthLabel);
+    cumCY += safe(m.revenue);
+    cumLY += safe(m.ly_revenue);
+    cumBud += safe(m.budget_revenue);
+    dataCY.push(Math.round(cumCY));
+    dataLY.push(Math.round(cumLY));
+    dataBud.push(Math.round(cumBud));
+  });
+
+  // Current month = last entry. Project month-end based on daily run rate.
+  const lastMonth = months[months.length - 1];
+  const today = new Date(reporting.as_of || new Date().toISOString().slice(0,10));
+  const dayOfMonth = today.getDate();
+  const daysInMonth = new Date(today.getFullYear(), today.getMonth()+1, 0).getDate();
+
+  // Projected month-end: current partial month revenue * (days_in_month / days_elapsed)
+  const projectedMonthRev = dayOfMonth > 0 ? (safe(lastMonth.revenue) / dayOfMonth * daysInMonth) : safe(lastMonth.revenue);
+  const projectedCumCY = Math.round((cumCY - safe(lastMonth.revenue)) + projectedMonthRev);
+
+  // Add projected point as extra label
+  labels.push(labels[labels.length-1] + ' (Proj)');
+  dataLY.push(dataLY[dataLY.length-1]);  // LY stays flat (month already complete in LY)
+  dataBud.push(dataBud[dataBud.length-1]); // Budget stays same (already full month)
+  dataCY.push(null); // CY actual stops at today
+
+  const dataProj = new Array(dataCY.length - 2).fill(null);
+  dataProj.push(dataCY[dataCY.length - 2]); // Start from current CY actual
+  dataProj.push(projectedCumCY); // End at projected
+
+  const datasets = [
+    {
+      label: 'CY Actual',
+      data: dataCY,
+      borderColor: '#2d5a27',
+      backgroundColor: 'rgba(45,90,39,0.1)',
+      borderWidth: 3,
+      pointRadius: 5,
+      pointBackgroundColor: '#2d5a27',
+      fill: false,
+      tension: 0.2,
+      spanGaps: false,
+    },
+    {
+      label: 'Projected Month-End',
+      data: dataProj,
+      borderColor: '#2d5a27',
+      borderWidth: 2,
+      borderDash: [8, 4],
+      pointRadius: 6,
+      pointStyle: 'triangle',
+      pointBackgroundColor: '#2d5a27',
+      fill: false,
+      tension: 0,
+      spanGaps: false,
+    },
+    {
+      label: 'Last Year',
+      data: dataLY,
+      borderColor: '#aaa',
+      backgroundColor: 'transparent',
+      borderWidth: 2,
+      pointRadius: 4,
+      pointBackgroundColor: '#aaa',
+      fill: false,
+      tension: 0.2,
+    },
+    {
+      label: 'Budget',
+      data: dataBud,
+      borderColor: '#e67e22',
+      backgroundColor: 'transparent',
+      borderWidth: 2,
+      borderDash: [6, 3],
+      pointRadius: 4,
+      pointBackgroundColor: '#e67e22',
+      fill: false,
+      tension: 0.2,
+    }
+  ];
+
+  makeChart('chart-ytd-cumulative', {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { font:{size:11} } },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              if (ctx.raw == null) return null;
+              return ctx.dataset.label + ': $' + ctx.raw.toLocaleString();
+            }
+          }
+        }
+      },
+      scales: {
+        x: { ticks: { font:{size:10} } },
+        y: { ticks: { font:{size:10}, callback: v => '$'+(v/1000).toFixed(0)+'K' } }
       }
     }
   });
