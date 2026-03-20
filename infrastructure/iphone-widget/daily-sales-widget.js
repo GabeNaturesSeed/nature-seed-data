@@ -1,69 +1,52 @@
 // Nature's Seed — Daily Sales Widget for Scriptable (iOS)
-// Frosted glass design · Pulls from WooCommerce every 15 min
-//
-// SETUP:
-// 1. Install "Scriptable" from the App Store (free)
-// 2. Create a new script, paste this entire file
-// 3. Replace WC_CK and WC_CS below with your real keys
-// 4. Long-press home screen → add Scriptable widget → select this script
-//
-// Runs from your phone IP — bypasses Cloudflare Bot Fight Mode.
+// Frosted glass · WooCommerce · 15 min refresh
+// Shows today's revenue + order count. Minimal API calls.
 
 // ── Config ──────────────────────────────────────────────────────────
-const WC_CK = "YOUR_CONSUMER_KEY";
-const WC_CS = "YOUR_CONSUMER_SECRET";
-const WC_BASE = "https://naturesseed.com/wp-json/wc/v3";
+var WC_CK = "ck_9629579f1379f272169de8628edddb00b24737f9";
+var WC_CS = "cs_bf6dcf206d6ed26b83e55e8af62c16de26339815";
 // ────────────────────────────────────────────────────────────────────
 
-// ── Data fetching ───────────────────────────────────────────────────
+async function getTodaySales() {
+  var now = new Date();
+  var y = now.getFullYear();
+  var m = String(now.getMonth() + 1).padStart(2, "0");
+  var d = String(now.getDate()).padStart(2, "0");
+  var after = y + "-" + m + "-" + d + "T00:00:00";
+  var before = y + "-" + m + "-" + d + "T23:59:59";
 
-async function fetchOrders(status) {
-  const now = new Date();
-  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const after = startOfDay.toISOString();
-  const before = now.toISOString();
-
-  const auth = btoa(`${WC_CK}:${WC_CS}`);
-  let allOrders = [];
-  let page = 1;
+  var base = "https://naturesseed.com/wp-json/wc/v3/orders";
+  var revenue = 0;
+  var orderCount = 0;
+  var page = 1;
 
   while (true) {
-    const url = `${WC_BASE}/orders?status=${status}&after=${after}&before=${before}&per_page=100&page=${page}`;
-    const req = new Request(url);
-    req.headers = {
-      "Authorization": `Basic ${auth}`,
-      "User-Agent": "NaturesSeed-iPhoneWidget/1.0",
-    };
+    var url = base
+      + "?consumer_key=" + WC_CK
+      + "&consumer_secret=" + WC_CS
+      + "&status=completed,processing"
+      + "&after=" + after
+      + "&before=" + before
+      + "&per_page=100"
+      + "&page=" + page;
+
+    var req = new Request(url);
     req.timeoutInterval = 30;
 
     try {
-      const orders = await req.loadJSON();
+      var orders = await req.loadJSON();
       if (!Array.isArray(orders) || orders.length === 0) break;
-      allOrders = allOrders.concat(orders);
+      for (var i = 0; i < orders.length; i++) {
+        revenue += parseFloat(orders[i].total || 0);
+      }
+      orderCount += orders.length;
       if (orders.length < 100) break;
       page++;
     } catch (e) {
-      console.error(`Error fetching ${status} page ${page}: ${e}`);
       break;
     }
   }
-  return allOrders;
-}
-
-async function getTodaySales() {
-  const [completed, processing] = await Promise.all([
-    fetchOrders("completed"),
-    fetchOrders("processing"),
-  ]);
-
-  const allOrders = completed.concat(processing);
-  const revenue = allOrders.reduce((sum, o) => sum + parseFloat(o.total || 0), 0);
-  const orderCount = allOrders.length;
-  const units = allOrders.reduce((sum, o) => {
-    return sum + (o.line_items || []).reduce((s, item) => s + (item.quantity || 0), 0);
-  }, 0);
-
-  return { revenue, orderCount, units };
+  return { revenue: revenue, orderCount: orderCount };
 }
 
 // ── Helpers ─────────────────────────────────────────────────────────
@@ -73,187 +56,80 @@ function fmt(n) {
 }
 
 function fmtTime(d) {
-  let h = d.getHours();
-  const m = String(d.getMinutes()).padStart(2, "0");
-  const ampm = h >= 12 ? "PM" : "AM";
+  var h = d.getHours();
+  var m = String(d.getMinutes()).padStart(2, "0");
+  var ampm = h >= 12 ? "PM" : "AM";
   h = h % 12 || 12;
-  return `${h}:${m} ${ampm}`;
+  return h + ":" + m + " " + ampm;
 }
 
 // ── Glass background ────────────────────────────────────────────────
 
 function drawGlassBackground(w) {
-  // Soft gradient base — translucent dark with green tint
-  const g = new LinearGradient();
+  var g = new LinearGradient();
   g.locations = [0, 0.5, 1];
   g.colors = [
-    new Color("#1a2f25", 0.85),  // deep forest, slightly transparent
-    new Color("#1e3a2c", 0.78),  // mid green glass
-    new Color("#162b20", 0.90),  // bottom anchors darker
+    new Color("#1a2f25", 0.85),
+    new Color("#1e3a2c", 0.78),
+    new Color("#162b20", 0.90),
   ];
   w.backgroundGradient = g;
 }
 
-// ── Stat pill (glass card) ──────────────────────────────────────────
+// ── Small widget ────────────────────────────────────────────────────
 
-function addStatPill(parent, value, label) {
-  const pill = parent.addStack();
-  pill.layoutVertically();
-  pill.centerAlignContent();
-  pill.backgroundColor = new Color("#ffffff", 0.08);
-  pill.cornerRadius = 12;
-  pill.setPadding(8, 12, 8, 12);
-
-  const valText = pill.addText(value);
-  valText.font = Font.boldRoundedSystemFont(15);
-  valText.textColor = Color.white();
-  valText.lineLimit = 1;
-
-  pill.addSpacer(2);
-
-  const lblText = pill.addText(label);
-  lblText.font = Font.mediumRoundedSystemFont(10);
-  lblText.textColor = new Color("#a7f3d0", 0.8);
-  lblText.lineLimit = 1;
-}
-
-// ── Widget (small) ──────────────────────────────────────────────────
-
-async function createWidget(sales) {
-  const w = new ListWidget();
+function createWidget(sales) {
+  var w = new ListWidget();
   drawGlassBackground(w);
   w.setPadding(14, 14, 14, 14);
 
-  // ── Header row ──
-  const header = w.addStack();
+  // Header
+  var header = w.addStack();
   header.layoutHorizontally();
   header.centerAlignContent();
 
-  const dot = header.addText("\u25CF");  // filled circle
+  var dot = header.addText("\u25CF");
   dot.font = Font.systemFont(7);
-  dot.textColor = new Color("#4ade80");  // green "live" dot
-
+  dot.textColor = new Color("#4ade80");
   header.addSpacer(5);
 
-  const title = header.addText("Nature's Seed");
+  var title = header.addText("Nature's Seed");
   title.font = Font.semiboldRoundedSystemFont(12);
   title.textColor = new Color("#d1fae5", 0.9);
-
   header.addSpacer(null);
 
-  const live = header.addText("LIVE");
+  var live = header.addText("LIVE");
   live.font = Font.boldRoundedSystemFont(9);
   live.textColor = new Color("#4ade80", 0.7);
 
   w.addSpacer(8);
 
-  // ── Revenue (hero number) ──
-  const revLine = w.addText(fmt(sales.revenue));
+  // Revenue
+  var revLine = w.addText(fmt(sales.revenue));
   revLine.font = Font.boldRoundedSystemFont(34);
   revLine.textColor = Color.white();
   revLine.minimumScaleFactor = 0.5;
 
   w.addSpacer(2);
 
-  const subtitle = w.addText("today's revenue");
+  var subtitle = w.addText("today's revenue");
   subtitle.font = Font.mediumRoundedSystemFont(11);
   subtitle.textColor = new Color("#86efac", 0.65);
 
-  w.addSpacer(10);
-
-  // ── Stat pills row ──
-  const row = w.addStack();
-  row.layoutHorizontally();
-  row.spacing = 8;
-
-  addStatPill(row, String(sales.orderCount), "orders");
-  addStatPill(row, String(sales.units), "units");
-
   w.addSpacer(null);
 
-  // ── Footer — last updated ──
-  const footer = w.addStack();
+  // Footer: orders + timestamp
+  var footer = w.addStack();
   footer.layoutHorizontally();
+  footer.centerAlignContent();
+
+  var ordTxt = footer.addText(sales.orderCount + " orders");
+  ordTxt.font = Font.mediumRoundedSystemFont(10);
+  ordTxt.textColor = new Color("#a7f3d0", 0.7);
 
   footer.addSpacer(null);
 
-  const ts = footer.addText(fmtTime(new Date()));
-  ts.font = Font.regularRoundedSystemFont(9);
-  ts.textColor = new Color("#9ca3af", 0.5);
-
-  // Refresh every 15 min
-  w.refreshAfterDate = new Date(Date.now() + 15 * 60 * 1000);
-  return w;
-}
-
-// ── Medium widget (wider layout) ────────────────────────────────────
-
-async function createMediumWidget(sales) {
-  const w = new ListWidget();
-  drawGlassBackground(w);
-  w.setPadding(16, 18, 16, 18);
-
-  // ── Header ──
-  const header = w.addStack();
-  header.layoutHorizontally();
-  header.centerAlignContent();
-
-  const dot = header.addText("\u25CF");
-  dot.font = Font.systemFont(7);
-  dot.textColor = new Color("#4ade80");
-
-  header.addSpacer(5);
-
-  const title = header.addText("Nature's Seed");
-  title.font = Font.semiboldRoundedSystemFont(13);
-  title.textColor = new Color("#d1fae5", 0.9);
-
-  header.addSpacer(null);
-
-  const badge = header.addText("LIVE");
-  badge.font = Font.boldRoundedSystemFont(9);
-  badge.textColor = new Color("#4ade80", 0.7);
-
-  w.addSpacer(6);
-
-  // ── Main content row ──
-  const main = w.addStack();
-  main.layoutHorizontally();
-  main.centerAlignContent();
-
-  // Left — Revenue
-  const left = main.addStack();
-  left.layoutVertically();
-
-  const revText = left.addText(fmt(sales.revenue));
-  revText.font = Font.boldRoundedSystemFont(38);
-  revText.textColor = Color.white();
-  revText.minimumScaleFactor = 0.5;
-
-  left.addSpacer(2);
-
-  const revLabel = left.addText("today's revenue");
-  revLabel.font = Font.mediumRoundedSystemFont(12);
-  revLabel.textColor = new Color("#86efac", 0.65);
-
-  main.addSpacer(null);
-
-  // Right — Stat pills stacked
-  const right = main.addStack();
-  right.layoutVertically();
-  right.spacing = 6;
-
-  addStatPill(right, String(sales.orderCount), "orders");
-  addStatPill(right, String(sales.units), "units");
-
-  w.addSpacer(null);
-
-  // ── Footer ──
-  const footer = w.addStack();
-  footer.layoutHorizontally();
-  footer.addSpacer(null);
-
-  const ts = footer.addText(fmtTime(new Date()));
+  var ts = footer.addText(fmtTime(new Date()));
   ts.font = Font.regularRoundedSystemFont(9);
   ts.textColor = new Color("#9ca3af", 0.5);
 
@@ -263,24 +139,24 @@ async function createMediumWidget(sales) {
 
 // ── Error widget ────────────────────────────────────────────────────
 
-async function createErrorWidget(message) {
-  const w = new ListWidget();
+function createErrorWidget(message) {
+  var w = new ListWidget();
   drawGlassBackground(w);
   w.setPadding(16, 16, 16, 16);
 
-  const title = w.addText("Nature's Seed");
+  var title = w.addText("Nature's Seed");
   title.font = Font.semiboldRoundedSystemFont(13);
   title.textColor = new Color("#fca5a5");
 
   w.addSpacer(8);
 
-  const err = w.addText(message);
+  var err = w.addText(message);
   err.font = Font.regularRoundedSystemFont(12);
   err.textColor = new Color("#ffffff", 0.7);
 
   w.addSpacer(null);
 
-  const hint = w.addText("Check API keys");
+  var hint = w.addText("Tap to retry");
   hint.font = Font.regularRoundedSystemFont(10);
   hint.textColor = new Color("#9ca3af", 0.5);
 
@@ -291,14 +167,8 @@ async function createErrorWidget(message) {
 // ── Main ────────────────────────────────────────────────────────────
 
 try {
-  const sales = await getTodaySales();
-
-  let widget;
-  if (config.widgetFamily === "medium") {
-    widget = await createMediumWidget(sales);
-  } else {
-    widget = await createWidget(sales);
-  }
+  var sales = await getTodaySales();
+  var widget = createWidget(sales);
 
   if (config.runsInWidget) {
     Script.setWidget(widget);
@@ -306,8 +176,7 @@ try {
     await widget.presentSmall();
   }
 } catch (e) {
-  console.error(`Widget error: ${e}`);
-  const widget = await createErrorWidget("Couldn't reach store");
+  var widget = createErrorWidget("Couldn't reach store");
   if (config.runsInWidget) {
     Script.setWidget(widget);
   } else {
