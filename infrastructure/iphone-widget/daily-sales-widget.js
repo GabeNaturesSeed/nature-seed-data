@@ -9,20 +9,23 @@ var WC_CS = "cs_bf6dcf206d6ed26b83e55e8af62c16de26339815";
 
 async function fetchByStatus(status, after, before) {
   var base = "https://naturesseed.com/wp-json/wc/v3/orders";
+  var auth = btoa(WC_CK + ":" + WC_CS);
   var all = [];
   var page = 1;
 
   while (true) {
     var url = base
-      + "?consumer_key=" + WC_CK
-      + "&consumer_secret=" + WC_CS
-      + "&status=" + status
+      + "?status=" + status
       + "&after=" + after
       + "&before=" + before
       + "&per_page=100"
       + "&page=" + page;
 
     var req = new Request(url);
+    req.headers = {
+      "Authorization": "Basic " + auth,
+      "User-Agent": "NaturesSeed-iPhoneWidget/1.0"
+    };
     req.timeoutInterval = 30;
 
     var orders = await req.loadJSON();
