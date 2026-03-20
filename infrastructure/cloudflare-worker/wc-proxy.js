@@ -1,8 +1,8 @@
 /**
- * Cloudflare Worker — WooCommerce API Proxy
+ * Cloudflare Worker — WordPress API Proxy
  *
  * Bypasses Bot Fight Mode by running inside Cloudflare's network.
- * GitHub Actions calls this Worker, which forwards to the WC REST API.
+ * Supports both WooCommerce REST API (/wc/v3) and WordPress REST API (/wp/v2).
  *
  * Deploy:
  *   1. Go to Cloudflare Dashboard → Workers & Pages → Create Worker
@@ -14,8 +14,9 @@
 
 export default {
   async fetch(request, env) {
-    // Only allow GET requests (WC API reads)
-    if (request.method !== "GET") {
+    // Allow GET, POST, PUT, PATCH, DELETE
+    const allowedMethods = ["GET", "POST", "PUT", "PATCH", "DELETE"];
+    if (!allowedMethods.includes(request.method)) {
       return new Response("Method not allowed", { status: 405 });
     }
 
@@ -25,30 +26,54 @@ export default {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    // Get the WC API path from the request URL
     const url = new URL(request.url);
+
+    // Determine API base path: wp_path for WP REST API, wc_path for WC API
+    const wpPath = url.searchParams.get("wp_path");
     const wcPath = url.searchParams.get("wc_path");
-    if (!wcPath) {
-      return new Response("Missing wc_path parameter", { status: 400 });
+
+    let apiBase;
+    let apiPath;
+    if (wpPath) {
+      apiBase = "https://naturesseed.com/wp-json/wp/v2";
+      apiPath = wpPath;
+    } else if (wcPath) {
+      apiBase = "https://naturesseed.com/wp-json/wc/v3";
+      apiPath = wcPath;
+    } else {
+      return new Response("Missing wc_path or wp_path parameter", { status: 400 });
     }
 
     // Build the origin URL — forward all other query params
     const originParams = new URLSearchParams(url.searchParams);
     originParams.delete("wc_path");
+    originParams.delete("wp_path");
 
-    const originUrl = `https://naturesseed.com/wp-json/wc/v3${wcPath}?${originParams.toString()}`;
+    const qs = originParams.toString();
+    const originUrl = `${apiBase}${apiPath}${qs ? "?" + qs : ""}`;
 
-    // Forward the request to WooCommerce with Basic Auth
-    const response = await fetch(originUrl, {
-      method: "GET",
-      headers: {
-        "Authorization": request.headers.get("Authorization"),
-        "User-Agent": "NaturesSeed-CloudflareWorker/1.0",
-        "Accept": "application/json",
-      },
-    });
+    // Build request headers
+    const reqHeaders = {
+      "Authorization": request.headers.get("Authorization"),
+      "User-Agent": "NaturesSeed-CloudflareWorker/1.0",
+      "Accept": "application/json",
+    };
 
-    // Return the response with CORS headers
+    // Forward body for write methods
+    const fetchOptions = {
+      method: request.method,
+      headers: reqHeaders,
+    };
+
+    if (["POST", "PUT", "PATCH"].includes(request.method)) {
+      reqHeaders["Content-Type"] = request.headers.get("Content-Type") || "application/json";
+      fetchOptions.body = await request.text();
+    }
+
+    // Forward the request
+    const response = await fetch(originUrl, fetchOptions);
+
+    // Return the response with relevant headers
     const body = await response.text();
     return new Response(body, {
       status: response.status,

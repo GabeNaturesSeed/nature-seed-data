@@ -1599,102 +1599,27 @@ def _load_abc_velocity():
     return velocity
 
 
-def generate_inventory():
-    """Query Fishbowl inventory and compute velocity/runway."""
-    print("\n[Fishbowl] Querying inventory...")
+def _fb_query(fb_token, sql):
+    """Execute a SQL query against Fishbowl and return the JSON array."""
+    import urllib.request as _urllib_req
+    req = _urllib_req.Request(
+        f"{FB_BASE}/api/data-query",
+        data=sql.encode("utf-8"),
+        method="GET",
+    )
+    req.add_header("Authorization", f"Bearer {fb_token}")
+    req.add_header("Content-Type", "text/plain")
+    with _urllib_req.urlopen(req, timeout=60) as resp:
+        result = json.loads(resp.read().decode("utf-8"))
+    return result if isinstance(result, list) else []
 
-    # Step 1: Login to Fishbowl
-    # Login body requires appName + appId per API guide
-    fb_token = None
-    try:
-        login_resp = requests.post(
-            f"{FB_BASE}/api/login",
-            json={"appName": "Postman Testing", "appId": 101, "username": FB_USER, "password": FB_PASS},
-            timeout=15,
-        )
-        login_resp.raise_for_status()
-        login_data = login_resp.json()
-        fb_token = (
-            login_data.get("token")
-            or login_data.get("access_token")
-            or login_data.get("data", {}).get("token")
-        )
-        if not fb_token:
-            raise ValueError(f"No token in response: {list(login_data.keys())}")
-        print("  Fishbowl login OK")
-    except Exception as e:
-        print(f"  [WARN] Fishbowl login failed: {e}")
-        _write_json("inventory.json", {
-            "as_of": TODAY_STR,
-            "items": [],
-            "summary": {"total_skus": 0, "red_count": 0, "yellow_count": 0, "green_count": 0},
-            "warning": f"Fishbowl login failed: {e}",
-        })
-        return False
 
-    # Step 2: Query inventory via GET /api/data-query with plain-text SQL body
-    # Per API guide: GET with body (unusual), Content-Type: text/plain, returns JSON array
-    raw_inventory = []
-    try:
-        import urllib.request as _urllib_req
-        sql = (
-            "SELECT p.num AS sku, p.description AS name, "
-            "qit.qtyonhand AS qty "
-            "FROM qtyinventorytotals qit "
-            "JOIN part p ON p.id = qit.partid "
-            "WHERE qit.qtyonhand > 0 AND p.activeFlag = 1 "
-            "ORDER BY p.num;"
-        )
-        req = _urllib_req.Request(
-            f"{FB_BASE}/api/data-query",
-            data=sql.encode("utf-8"),
-            method="GET",
-        )
-        req.add_header("Authorization", f"Bearer {fb_token}")
-        req.add_header("Content-Type", "text/plain")
-        with _urllib_req.urlopen(req, timeout=60) as resp:
-            raw_inventory = json.loads(resp.read().decode("utf-8"))
-        if not isinstance(raw_inventory, list):
-            raw_inventory = []
-        print(f"  Fishbowl returned {len(raw_inventory)} SKUs")
-    except Exception as e:
-        print(f"  [WARN] Fishbowl query failed: {e}")
-        _write_json("inventory.json", {
-            "as_of": TODAY_STR,
-            "items": [],
-            "summary": {"total_skus": 0, "red_count": 0, "yellow_count": 0, "green_count": 0},
-            "warning": f"Fishbowl query failed: {e}",
-        })
-    finally:
-        # Always logout to free the session slot
-        if fb_token:
-            try:
-                requests.post(f"{FB_BASE}/api/logout",
-                    headers={"Authorization": f"Bearer {fb_token}"}, timeout=10)
-            except Exception:
-                pass
-        if not raw_inventory:
-            return False
-
-    # Step 3: Load velocity from ABC analysis
-    velocity_map = _load_abc_velocity()
-
-    # Step 4: Compute Q1/Q2 runway
-    today = TODAY
-    # Q1 = Jan-Mar. Determine days remaining in Q1 (if we're in Q1)
-    q1_end = date(today.year, 3, 31)
-    if today <= q1_end:
-        days_remaining_q1 = (q1_end - today).days
-    else:
-        days_remaining_q1 = 0  # Q1 is over
-
-    q2_days = 91  # Apr-Jun
-
+def _compute_runway(raw_rows, velocity_map, days_remaining_q1, q2_days):
+    """Given raw Fishbowl rows and a velocity map, compute runway items + summary."""
     items = []
     red_count = yellow_count = green_count = 0
 
-    for row in raw_inventory:
-        # Row may be dict or list depending on Fishbowl API version
+    for row in raw_rows:
         if isinstance(row, dict):
             sku = str(row.get("sku") or row.get("SKU") or "").strip()
             name = str(row.get("name") or row.get("description") or "").strip()
@@ -1744,18 +1669,259 @@ def generate_inventory():
             "status": status,
         })
 
+    summary = {
+        "total_skus": len(items),
+        "red_count": red_count,
+        "yellow_count": yellow_count,
+        "green_count": green_count,
+    }
+    return items, summary
+
+
+def _load_amazon_velocity():
+    """Compute Amazon daily velocity from amazon.json daily data (last 14 days)."""
+    amz_path = OUT_DIR / "amazon.json"
+    if not amz_path.exists():
+        return {}
+
+    try:
+        with open(amz_path) as f:
+            data = json.load(f)
+        daily = data.get("daily", [])
+        if len(daily) < 2:
+            return {}
+
+        # Use last 14 days of data for velocity
+        recent = daily[-14:]
+        total_orders = sum(d.get("orders", 0) for d in recent)
+        num_days = len(recent)
+        if num_days == 0:
+            return {}
+
+        # Amazon velocity is order-level (not SKU-level) since we don't have
+        # per-SKU daily data. Return as a single aggregate.
+        return {
+            "daily_orders": round(total_orders / num_days, 1),
+            "daily_revenue": round(sum(d.get("revenue", 0) for d in recent) / num_days, 2),
+            "period_days": num_days,
+        }
+    except Exception:
+        return {}
+
+
+def _pull_wc_order_tracking():
+    """Pull WooCommerce order fulfillment metrics for last 30 days."""
+    print("\n[WC Orders] Pulling fulfillment tracking...")
+    if not WC_CK or not WC_CS:
+        print("  [SKIP] WC credentials not configured")
+        return None
+
+    now = datetime.utcnow()
+    after = (now - timedelta(days=30)).strftime("%Y-%m-%dT00:00:00")
+
+    all_orders = []
+    for status in ("completed", "processing", "on-hold"):
+        page = 1
+        while True:
+            try:
+                resp = _wc_get("/orders", {
+                    "status": status,
+                    "after": after,
+                    "per_page": 100,
+                    "page": page,
+                })
+                data = resp.json()
+                if not data:
+                    break
+                all_orders.extend(data)
+                total_pages = int(resp.headers.get("X-WP-TotalPages", 1))
+                if page >= total_pages:
+                    break
+                page += 1
+                time.sleep(0.3)
+            except Exception as e:
+                print(f"  [WARN] WC order pull failed (status={status}, page={page}): {e}")
+                break
+
+    total = len(all_orders)
+    fulfilled = 0
+    unfulfilled_lt_1d = 0
+    unfulfilled_lt_5d = 0
+    unfulfilled_gt_10d = 0
+    unfulfilled_5_to_10d = 0
+
+    for order in all_orders:
+        status = order.get("status", "")
+        if status == "completed":
+            fulfilled += 1
+        else:
+            # Calculate business days since order was placed
+            date_created = order.get("date_created", "")
+            if date_created:
+                try:
+                    order_dt = datetime.fromisoformat(date_created.replace("Z", "+00:00"))
+                    delta = now - order_dt.replace(tzinfo=None)
+                    days = delta.days
+                    # Rough business day conversion (5/7)
+                    biz_days = int(days * 5 / 7)
+                    if biz_days < 1:
+                        unfulfilled_lt_1d += 1
+                    elif biz_days < 5:
+                        unfulfilled_lt_5d += 1
+                    elif biz_days > 10:
+                        unfulfilled_gt_10d += 1
+                    else:
+                        unfulfilled_5_to_10d += 1
+                except Exception:
+                    unfulfilled_lt_5d += 1  # Default bucket
+
+    result = {
+        "total_30d": total,
+        "fulfilled": fulfilled,
+        "unfulfilled_lt_1d": unfulfilled_lt_1d,
+        "unfulfilled_lt_5d": unfulfilled_lt_5d,
+        "unfulfilled_5_to_10d": unfulfilled_5_to_10d,
+        "unfulfilled_gt_10d": unfulfilled_gt_10d,
+    }
+    print(f"  Total: {total} | Fulfilled: {fulfilled} | Unfulfilled <1d: {unfulfilled_lt_1d} | <5d: {unfulfilled_lt_5d} | >10d: {unfulfilled_gt_10d}")
+    return result
+
+
+def generate_inventory():
+    """Query Fishbowl inventory by location group and compute velocity/runway.
+
+    Separates local warehouse (Main) from Amazon FBA inventory.
+    Local velocity comes from WooCommerce ABC analysis.
+    FBA velocity comes from Amazon SP-API daily order data.
+    """
+    print("\n[Fishbowl] Querying inventory by location group...")
+
+    # Step 1: Login to Fishbowl
+    fb_token = None
+    try:
+        login_resp = requests.post(
+            f"{FB_BASE}/api/login",
+            json={"appName": "Postman Testing", "appId": 101, "username": FB_USER, "password": FB_PASS},
+            timeout=15,
+        )
+        login_resp.raise_for_status()
+        login_data = login_resp.json()
+        fb_token = (
+            login_data.get("token")
+            or login_data.get("access_token")
+            or login_data.get("data", {}).get("token")
+        )
+        if not fb_token:
+            raise ValueError(f"No token in response: {list(login_data.keys())}")
+        print("  Fishbowl login OK")
+    except Exception as e:
+        print(f"  [WARN] Fishbowl login failed: {e}")
+        _write_json("inventory.json", {
+            "as_of": TODAY_STR,
+            "items": [], "fba_items": [],
+            "summary": {"total_skus": 0, "red_count": 0, "yellow_count": 0, "green_count": 0},
+            "fba_summary": {"total_skus": 0, "red_count": 0, "yellow_count": 0, "green_count": 0},
+            "order_tracking": None,
+            "warning": f"Fishbowl login failed: {e}",
+        })
+        return False
+
+    # Step 2: Query inventory with location group breakdown
+    raw_local = []
+    raw_fba = []
+    try:
+        # Single query with location group info
+        sql = (
+            "SELECT p.num AS sku, p.description AS name, "
+            "qoh.qty AS qty, lg.name AS location_group "
+            "FROM qtyonhand qoh "
+            "JOIN part p ON p.id = qoh.partid "
+            "JOIN locationgroup lg ON lg.id = qoh.locationgroupid "
+            "WHERE qoh.qty > 0 AND p.activeFlag = 1 "
+            "ORDER BY p.num;"
+        )
+        raw_inventory = _fb_query(fb_token, sql)
+        print(f"  Fishbowl returned {len(raw_inventory)} rows")
+
+        # Split by location group
+        for row in raw_inventory:
+            lg = str(row.get("location_group") or row.get("LOCATION_GROUP") or "").strip()
+            if lg == "Amazon FBA":
+                raw_fba.append(row)
+            else:
+                raw_local.append(row)
+
+        print(f"  Local: {len(raw_local)} rows | Amazon FBA: {len(raw_fba)} rows")
+    except Exception as e:
+        print(f"  [WARN] Fishbowl query failed: {e}")
+        _write_json("inventory.json", {
+            "as_of": TODAY_STR,
+            "items": [], "fba_items": [],
+            "summary": {"total_skus": 0, "red_count": 0, "yellow_count": 0, "green_count": 0},
+            "fba_summary": {"total_skus": 0, "red_count": 0, "yellow_count": 0, "green_count": 0},
+            "order_tracking": None,
+            "warning": f"Fishbowl query failed: {e}",
+        })
+    finally:
+        if fb_token:
+            try:
+                requests.post(f"{FB_BASE}/api/logout",
+                    headers={"Authorization": f"Bearer {fb_token}"}, timeout=10)
+            except Exception:
+                pass
+        if not raw_local and not raw_fba:
+            return False
+
+    # Step 3: Load velocity — WC velocity for local, Amazon velocity for FBA
+    wc_velocity_map = _load_abc_velocity()
+    amz_velocity = _load_amazon_velocity()
+
+    # For FBA, distribute aggregate Amazon velocity proportionally by stock
+    # (We don't have per-SKU Amazon velocity, so use aggregate orders/day)
+    fba_velocity_map = {}
+    if amz_velocity and amz_velocity.get("daily_orders", 0) > 0:
+        # Calculate total FBA stock to distribute velocity proportionally
+        total_fba_qty = 0
+        for row in raw_fba:
+            try:
+                total_fba_qty += float(row.get("qty") or row.get("QTY") or 0)
+            except (TypeError, ValueError):
+                pass
+        if total_fba_qty > 0:
+            daily_orders = amz_velocity["daily_orders"]
+            for row in raw_fba:
+                sku = str(row.get("sku") or row.get("SKU") or "").strip()
+                try:
+                    qty = float(row.get("qty") or row.get("QTY") or 0)
+                except (TypeError, ValueError):
+                    qty = 0
+                # Proportional velocity: this SKU's share of total FBA stock × daily orders
+                fba_velocity_map[sku] = round((qty / total_fba_qty) * daily_orders, 2)
+
+    # Step 4: Compute Q1/Q2 runway
+    today = TODAY
+    q1_end = date(today.year, 3, 31)
+    days_remaining_q1 = max(0, (q1_end - today).days) if today <= q1_end else 0
+    q2_days = 91
+
+    local_items, local_summary = _compute_runway(raw_local, wc_velocity_map, days_remaining_q1, q2_days)
+    fba_items, fba_summary = _compute_runway(raw_fba, fba_velocity_map, days_remaining_q1, q2_days)
+
+    # Step 5: Pull WC order tracking
+    order_tracking = _pull_wc_order_tracking()
+
     result = {
         "as_of": TODAY_STR,
-        "items": items,
-        "summary": {
-            "total_skus": len(items),
-            "red_count": red_count,
-            "yellow_count": yellow_count,
-            "green_count": green_count,
-        },
+        "items": local_items,
+        "fba_items": fba_items,
+        "summary": local_summary,
+        "fba_summary": fba_summary,
+        "fba_velocity": amz_velocity,
+        "order_tracking": order_tracking,
     }
     _write_json("inventory.json", result)
-    print(f"  SKUs: {len(items)} | Red: {red_count} | Yellow: {yellow_count} | Green: {green_count}")
+    print(f"  Local — SKUs: {local_summary['total_skus']} | Red: {local_summary['red_count']} | Yellow: {local_summary['yellow_count']} | Green: {local_summary['green_count']}")
+    print(f"  FBA   — SKUs: {fba_summary['total_skus']} | Red: {fba_summary['red_count']} | Yellow: {fba_summary['yellow_count']} | Green: {fba_summary['green_count']}")
     return True
 
 

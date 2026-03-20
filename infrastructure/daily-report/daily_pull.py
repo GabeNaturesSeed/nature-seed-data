@@ -902,9 +902,16 @@ def main():
     args = sys.argv[1:]
 
     if len(args) == 0:
-        # Default: pull yesterday
-        target = date.today() - timedelta(days=1)
-        pull_date(target)
+        # Default: pull yesterday + re-pull 2 days ago
+        # Why re-pull? Amazon Pending orders have $0 OrderTotal on the day
+        # they're created. By re-pulling 2 days later, orders that transitioned
+        # from Pending → Shipped now have real revenue. Supabase upsert
+        # overwrites the stale $0 row with the correct amount.
+        yesterday = date.today() - timedelta(days=1)
+        two_days_ago = date.today() - timedelta(days=2)
+        print("  [Amazon backfill] Re-pulling 2 days ago to catch Pending→Shipped transitions")
+        pull_date(two_days_ago)
+        pull_date(yesterday)
 
     elif args[0] == "backfill" and len(args) == 3:
         # Backfill a date range

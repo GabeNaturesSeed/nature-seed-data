@@ -380,11 +380,12 @@
   /* ── Stock summary boxes ──────────────────────── */
   .stock-summary {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 12px;
     margin-bottom: 20px;
   }
   @media (max-width: 700px) { .stock-summary { grid-template-columns: repeat(2, 1fr); } }
+  .section-divider { margin: 28px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-size: 1rem; font-weight: 700; color: var(--text); }
   .stock-box {
     background: var(--card);
     border: 1px solid var(--border);
@@ -507,6 +508,8 @@
   <div class="sub-tabs" id="sub-inventory">
     <div class="sub-tab active" data-sub="stock" onclick="switchSub('inventory','stock',this)">Current Stock</div>
     <div class="sub-tab" data-sub="forecasting" onclick="switchSub('inventory','forecasting',this)">Forecasting</div>
+    <div class="sub-tab" data-sub="fba-stock" onclick="switchSub('inventory','fba-stock',this)">FBA Inventory</div>
+    <div class="sub-tab" data-sub="fba-forecasting" onclick="switchSub('inventory','fba-forecasting',this)">FBA Forecasting</div>
   </div>
 
   <!-- Panels -->
@@ -520,6 +523,8 @@
   <div id="panel-walmart" class="panel"></div>
   <div id="panel-stock" class="panel"></div>
   <div id="panel-forecasting" class="panel"></div>
+  <div id="panel-fba-stock" class="panel"></div>
+  <div id="panel-fba-forecasting" class="panel"></div>
   <div id="panel-marketing" class="panel"></div>
 </div>
 
@@ -1580,15 +1585,29 @@ function renderStock(inventory) {
 
   _inventoryItems = (inventory.items || []).slice();
   const summary = inventory.summary || {};
+  const ot = inventory.order_tracking || {};
 
-  const summaryHtml = `<div class="stock-summary">
+  // Order tracking widgets
+  const orderHtml = `<div class="section-divider">Order Tracking (Last 30 Days)</div>
+  <div class="stock-summary">
+    <div class="stock-box"><div class="sb-label">Total Orders</div><div class="sb-value">${fmtInt(ot.total_30d)}</div></div>
+    <div class="stock-box"><div class="sb-label">Fulfilled</div><div class="sb-value" style="color:var(--green-dark)">${fmtInt(ot.fulfilled)}</div></div>
+    <div class="stock-box"><div class="sb-label">Unfulfilled &lt;1 day</div><div class="sb-value" style="color:var(--yellow)">${fmtInt(ot.unfulfilled_lt_1d)}</div></div>
+    <div class="stock-box"><div class="sb-label">Unfulfilled &lt;5 days</div><div class="sb-value" style="color:var(--yellow)">${fmtInt(ot.unfulfilled_lt_5d)}</div></div>
+    <div class="stock-box"><div class="sb-label">Unfulfilled 5–10 days</div><div class="sb-value" style="color:${(ot.unfulfilled_5_to_10d||0) > 0 ? 'var(--red)' : 'var(--gray)'}">${fmtInt(ot.unfulfilled_5_to_10d)}</div></div>
+    <div class="stock-box"><div class="sb-label">Unfulfilled &gt;10 days</div><div class="sb-value" style="color:${(ot.unfulfilled_gt_10d||0) > 0 ? 'var(--red)' : 'var(--gray)'}">${fmtInt(ot.unfulfilled_gt_10d)}</div></div>
+  </div>`;
+
+  // Local inventory summary
+  const inventoryHtml = `<div class="section-divider">Local Warehouse Inventory</div>
+  <div class="stock-summary">
     <div class="stock-box"><div class="sb-label">Total SKUs</div><div class="sb-value">${fmtInt(summary.total_skus)}</div></div>
     <div class="stock-box"><div class="sb-label">Critical &lt;30d</div><div class="sb-value" style="color:var(--red)">${fmtInt(summary.red_count)}</div></div>
     <div class="stock-box"><div class="sb-label">Low 30–60d</div><div class="sb-value" style="color:var(--yellow)">${fmtInt(summary.yellow_count)}</div></div>
     <div class="stock-box"><div class="sb-label">OK &gt;60d</div><div class="sb-value" style="color:var(--green-dark)">${fmtInt(summary.green_count)}</div></div>
   </div>`;
 
-  el.innerHTML = summaryHtml + `
+  el.innerHTML = orderHtml + inventoryHtml + `
     <div class="filter-bar">
       <input type="text" id="stock-filter" placeholder="Filter by SKU or product name…" oninput="applyStockFilter(this.value)" />
     </div>
@@ -1677,13 +1696,8 @@ function renderStockTable() {
 // ═══════════════════════════════════════════════════════
 //  RENDER: INVENTORY — FORECASTING
 // ═══════════════════════════════════════════════════════
-function renderForecasting(inventory) {
-  const el = document.getElementById('panel-forecasting');
-  if (!inventory) { el.innerHTML = '<div class="data-unavailable">Inventory data unavailable</div>'; return; }
-
-  const items = inventory.items || [];
-
-  let html = `<p style="font-size:0.85rem;color:var(--gray);margin-bottom:16px">Based on current 30-day sales velocity. Q1 = remaining days × velocity, Q2 = 91 days × velocity.</p>
+function renderForecastingTable(el, items, subtitle) {
+  let html = `<p style="font-size:0.85rem;color:var(--gray);margin-bottom:16px">${subtitle}</p>
     <div class="table-card"><table>
       <thead><tr>
         <th>SKU</th><th>Product</th><th>Current Stock</th><th>Q1 Need</th><th>Q2 Need</th><th>Surplus / Gap</th>
@@ -1708,6 +1722,150 @@ function renderForecasting(inventory) {
   }
 
   html += '</tbody></table></div>';
+  return html;
+}
+
+function renderForecasting(inventory) {
+  const el = document.getElementById('panel-forecasting');
+  if (!inventory) { el.innerHTML = '<div class="data-unavailable">Inventory data unavailable</div>'; return; }
+  el.innerHTML = renderForecastingTable(el, inventory.items || [],
+    'Local warehouse forecasting. Based on WooCommerce 14-day sales velocity. Q1 = remaining days × velocity, Q2 = 91 days × velocity × 1.2 safety buffer.');
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER: FBA INVENTORY
+// ═══════════════════════════════════════════════════════
+let _fbaItems = [];
+let _fbaSortCol = 'days_remaining';
+let _fbaSortDir = 'asc';
+let _fbaFilter = '';
+
+function renderFbaStock(inventory) {
+  const el = document.getElementById('panel-fba-stock');
+  if (!inventory) { el.innerHTML = '<div class="data-unavailable">Inventory data unavailable</div>'; return; }
+
+  _fbaItems = (inventory.fba_items || []).slice();
+  const summary = inventory.fba_summary || {};
+  const vel = inventory.fba_velocity || {};
+
+  const summaryHtml = `
+    <div class="section-divider">Amazon FBA Inventory</div>
+    <div class="stock-summary">
+      <div class="stock-box"><div class="sb-label">FBA SKUs</div><div class="sb-value">${fmtInt(summary.total_skus)}</div></div>
+      <div class="stock-box"><div class="sb-label">Critical &lt;30d</div><div class="sb-value" style="color:var(--red)">${fmtInt(summary.red_count)}</div></div>
+      <div class="stock-box"><div class="sb-label">Low 30–60d</div><div class="sb-value" style="color:var(--yellow)">${fmtInt(summary.yellow_count)}</div></div>
+      <div class="stock-box"><div class="sb-label">OK &gt;60d</div><div class="sb-value" style="color:var(--green-dark)">${fmtInt(summary.green_count)}</div></div>
+      <div class="stock-box"><div class="sb-label">Daily Orders</div><div class="sb-value">${vel.daily_orders != null ? vel.daily_orders : '—'}</div></div>
+      <div class="stock-box"><div class="sb-label">Daily Revenue</div><div class="sb-value">${vel.daily_revenue != null ? fmt(vel.daily_revenue) : '—'}</div></div>
+    </div>`;
+
+  el.innerHTML = summaryHtml + `
+    <div class="filter-bar">
+      <input type="text" id="fba-filter" placeholder="Filter FBA by SKU or product name…" oninput="applyFbaFilter(this.value)" />
+    </div>
+    <div id="fba-table-wrap"></div>`;
+
+  renderFbaTable();
+}
+
+function applyFbaFilter(val) {
+  _fbaFilter = val.toLowerCase();
+  renderFbaTable();
+}
+
+function sortFba(col) {
+  if (_fbaSortCol === col) {
+    _fbaSortDir = _fbaSortDir === 'asc' ? 'desc' : 'asc';
+  } else {
+    _fbaSortCol = col;
+    _fbaSortDir = 'asc';
+  }
+  renderFbaTable();
+}
+
+function renderFbaTable() {
+  const wrap = document.getElementById('fba-table-wrap');
+  if (!wrap) return;
+
+  let items = _fbaItems;
+  if (_fbaFilter) {
+    items = items.filter(it =>
+      (it.sku||'').toLowerCase().includes(_fbaFilter) ||
+      (it.name||'').toLowerCase().includes(_fbaFilter)
+    );
+  }
+
+  items = [...items].sort((a,b) => {
+    let va = a[_fbaSortCol], vb = b[_fbaSortCol];
+    if (typeof va === 'string') va = va.toLowerCase();
+    if (typeof vb === 'string') vb = vb.toLowerCase();
+    if (va == null) va = _fbaSortDir === 'asc' ? Infinity : -Infinity;
+    if (vb == null) vb = _fbaSortDir === 'asc' ? Infinity : -Infinity;
+    if (va < vb) return _fbaSortDir === 'asc' ? -1 : 1;
+    if (va > vb) return _fbaSortDir === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  const sortClass = col => {
+    if (_fbaSortCol !== col) return 'sortable';
+    return 'sortable sort-'+_fbaSortDir;
+  };
+
+  let html = `<div class="table-card"><table>
+    <thead><tr>
+      <th class="${sortClass('sku')}" onclick="sortFba('sku')">SKU</th>
+      <th class="${sortClass('name')}" onclick="sortFba('name')">Product</th>
+      <th class="${sortClass('qty')}" onclick="sortFba('qty')">FBA Stock</th>
+      <th class="${sortClass('daily_velocity')}" onclick="sortFba('daily_velocity')">Est. Daily Velocity</th>
+      <th class="${sortClass('days_remaining')}" onclick="sortFba('days_remaining')">Days Remaining</th>
+    </tr></thead><tbody>`;
+
+  if (items.length === 0) {
+    html += '<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:24px">No FBA items match your filter</td></tr>';
+  } else {
+    items.forEach(it => {
+      const dr = it.days_remaining;
+      let drClass = 'text-green';
+      if (dr == null) drClass = 'text-gray';
+      else if (dr < 30) drClass = 'text-red';
+      else if (dr < 60) drClass = 'text-yellow';
+
+      html += `<tr>
+        <td><code>${escHtml(it.sku||'—')}</code></td>
+        <td>${escHtml(it.name||'—')}</td>
+        <td>${fmtInt(it.qty)}</td>
+        <td>${it.daily_velocity != null && it.daily_velocity > 0 ? it.daily_velocity.toFixed(2)+'/day' : '—'}</td>
+        <td class="${drClass}">${dr != null && dr < 9999 ? dr+' days' : '—'}</td>
+      </tr>`;
+    });
+  }
+
+  html += '</tbody></table></div>';
+  wrap.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER: FBA FORECASTING
+// ═══════════════════════════════════════════════════════
+function renderFbaForecasting(inventory) {
+  const el = document.getElementById('panel-fba-forecasting');
+  if (!inventory) { el.innerHTML = '<div class="data-unavailable">Inventory data unavailable</div>'; return; }
+
+  const fbaItems = inventory.fba_items || [];
+  const vel = inventory.fba_velocity || {};
+
+  // FBA velocity summary
+  let html = `<div class="section-divider">FBA Forecasting</div>
+    <div class="stock-summary">
+      <div class="stock-box"><div class="sb-label">Avg Daily Orders</div><div class="sb-value">${vel.daily_orders != null ? vel.daily_orders : '—'}</div></div>
+      <div class="stock-box"><div class="sb-label">Avg Daily Revenue</div><div class="sb-value">${vel.daily_revenue != null ? fmt(vel.daily_revenue) : '—'}</div></div>
+      <div class="stock-box"><div class="sb-label">Velocity Period</div><div class="sb-value" style="font-size:1.2rem">${vel.period_days || '—'} days</div></div>
+    </div>
+    <p style="font-size:0.85rem;color:var(--gray);margin-bottom:16px">Amazon FBA forecasting. Velocity is estimated proportionally from aggregate Amazon order data (${vel.period_days || 14}-day window). Q1 = remaining days × velocity, Q2 = 91 days × velocity × 1.2 safety buffer.</p>`;
+
+  html += renderForecastingTable(el, fbaItems,
+    '');
+
   el.innerHTML = html;
 }
 
@@ -1890,6 +2048,8 @@ async function initApp() {
   renderWalmart(data.walmart);
   renderStock(data.inventory);
   renderForecasting(data.inventory);
+  renderFbaStock(data.inventory);
+  renderFbaForecasting(data.inventory);
   renderMarketing(data.marketing);
 
   // Charts for initially visible panel

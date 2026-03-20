@@ -24,6 +24,7 @@ import re
 import sys
 import argparse
 import time
+import base64
 from datetime import datetime
 from pathlib import Path
 from html import unescape
@@ -35,8 +36,12 @@ except ImportError:
     import requests
 
 # ─── Config ───────────────────────────────────────────────────────────
-APP_ID = "CR7906DEBT"
-ADMIN_KEY = "48fa3067eaffd3b69093b3311a30b357"
+ROOT = Path(__file__).resolve().parent.parent.parent
+DATA_DIR = Path(__file__).resolve().parent / "data"
+
+# Algolia
+APP_ID = os.environ.get("ALGOLIA_APP_ID", "CR7906DEBT")
+ADMIN_KEY = os.environ.get("ALGOLIA_ADMIN_API_KEY", "48fa3067eaffd3b69093b3311a30b357")
 INDEX_NAME = "wp_prod_posts_product"
 
 BASE_URL = f"https://{APP_ID}-dsn.algolia.net"
@@ -46,15 +51,32 @@ HEADERS = {
     "Content-Type": "application/json",
 }
 
-# WC product data
-WC_PRODUCTS_PATH = Path("/Users/gabegimenes-silva/Desktop/ClaudeDataAgent -/spring-2026-recovery/data/products_active.json")
-DATA_DIR = Path(__file__).resolve().parent / "data"
+# ─── .env parsing (spaces around = AND quoted values) ─────────────────
+env_path = ROOT / ".env"
+env_vars = {}
+if env_path.exists():
+    with open(env_path) as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                key, val = line.split("=", 1)
+                env_vars[key.strip()] = val.strip().strip("'\"")
 
-# Order data for popularity scoring
+# WooCommerce (live API with CF Worker proxy support)
+WC_BASE = env_vars.get("WC_BASE_URL", "https://naturesseed.com/wp-json/wc/v3")
+WC_CK = env_vars.get("WC_CK", "")
+WC_CS = env_vars.get("WC_CS", "")
+CF_WORKER_URL = env_vars.get("CF_WORKER_URL", "")
+CF_WORKER_SECRET = env_vars.get("CF_WORKER_SECRET", "")
+
+# Fallback: static WC product file (used only if WC credentials not available)
+WC_PRODUCTS_PATH = ROOT / "spring-2026-recovery" / "data" / "products_active.json"
+
+# Order data for popularity scoring (optional — graceful if missing)
 ORDER_FILES = [
-    Path("/Users/gabegimenes-silva/Desktop/ClaudeDataAgent -/spring-2026-recovery/data/orders_2025_q3.json"),
-    Path("/Users/gabegimenes-silva/Desktop/ClaudeDataAgent -/spring-2026-recovery/data/orders_2025_q4.json"),
-    Path("/Users/gabegimenes-silva/Desktop/ClaudeDataAgent -/spring-2026-recovery/data/orders_2026_q1.json"),
+    ROOT / "spring-2026-recovery" / "data" / "orders_2025_q3.json",
+    ROOT / "spring-2026-recovery" / "data" / "orders_2025_q4.json",
+    ROOT / "spring-2026-recovery" / "data" / "orders_2026_q1.json",
 ]
 
 # Seasonal boost config — categories to boost per quarter
@@ -319,10 +341,51 @@ def load_algolia_records():
     return records
 
 
+def _wc_get(path, params=None):
+    """GET from WooCommerce REST API, routing through CF Worker if configured."""
+    if CF_WORKER_URL:
+        p = {"wc_path": path, **(params or {})}
+        auth_str = base64.b64encode(f"{WC_CK}:{WC_CS}".encode()).decode()
+        headers = {"X-Proxy-Secret": CF_WORKER_SECRET, "Authorization": f"Basic {auth_str}"}
+        resp = requests.get(CF_WORKER_URL, headers=headers, params=p, timeout=30)
+    else:
+        resp = requests.get(f"{WC_BASE}{path}", auth=(WC_CK, WC_CS), params=params or {}, timeout=30)
+    resp.raise_for_status()
+    return resp
+
+
+def _pull_wc_products_live():
+    """Pull all published products from WooCommerce API with full meta_data."""
+    print("  Pulling products from WooCommerce API...")
+    all_products = []
+    page = 1
+    while True:
+        resp = _wc_get("/products", {
+            "per_page": 100,
+            "page": page,
+            "status": "publish",
+        })
+        batch = resp.json()
+        if not batch:
+            break
+        all_products.extend(batch)
+        print(f"    Page {page}: {len(batch)} products (total: {len(all_products)})")
+        page += 1
+        time.sleep(0.3)  # Rate limit
+    return all_products
+
+
 def load_wc_products():
-    """Load WooCommerce products, excluding ADDON SKUs."""
-    with open(WC_PRODUCTS_PATH) as f:
-        products = json.load(f)
+    """Load WooCommerce products — live API if credentials available, fallback to static file."""
+    if WC_CK and WC_CS:
+        products = _pull_wc_products_live()
+    elif WC_PRODUCTS_PATH.exists():
+        print("  [FALLBACK] WC credentials not set, using static product file")
+        with open(WC_PRODUCTS_PATH) as f:
+            products = json.load(f)
+    else:
+        print("  [ERROR] No WC credentials and no static file found")
+        return []
     return [p for p in products if "ADDON" not in p.get("sku", "").upper()]
 
 
@@ -437,20 +500,32 @@ def push():
             "body": update,
         })
 
-    # Batch in groups of 50
-    batch_size = 50
+    # Batch in groups of 10 (smaller batches for SSL stability)
+    batch_size = 10
     total_pushed = 0
+    task_id = None
     for i in range(0, len(batch_requests), batch_size):
         batch = batch_requests[i:i + batch_size]
-        result = requests.post(
-            f"{BASE_URL}/1/indexes/{INDEX_NAME}/batch",
-            headers=HEADERS,
-            json={"requests": batch},
-        )
-        result.raise_for_status()
-        task_id = result.json().get("taskID")
-        total_pushed += len(batch)
-        print(f"    Batch {i // batch_size + 1}: {len(batch)} records (task {task_id})")
+        for attempt in range(3):
+            try:
+                result = requests.post(
+                    f"{BASE_URL}/1/indexes/{INDEX_NAME}/batch",
+                    headers=HEADERS,
+                    json={"requests": batch},
+                    timeout=30,
+                )
+                result.raise_for_status()
+                task_id = result.json().get("taskID")
+                total_pushed += len(batch)
+                print(f"    Batch {i // batch_size + 1}: {len(batch)} records (task {task_id})")
+                break
+            except (requests.exceptions.SSLError, requests.exceptions.ConnectionError) as e:
+                if attempt < 2:
+                    print(f"    Batch {i // batch_size + 1}: retry {attempt + 1}/3 ({e.__class__.__name__})")
+                    time.sleep(2)
+                else:
+                    raise
+        time.sleep(0.5)
 
     # Wait for last task
     if task_id:
