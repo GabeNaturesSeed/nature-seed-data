@@ -24,7 +24,7 @@ async function getTodaySales() {
     var url = base
       + "?consumer_key=" + WC_CK
       + "&consumer_secret=" + WC_CS
-      + "&status=completed,processing"
+      + "&status[]=completed&status[]=processing"
       + "&after=" + after
       + "&before=" + before
       + "&per_page=100"
