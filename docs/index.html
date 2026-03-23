@@ -510,6 +510,7 @@
     <div class="sub-tab" data-sub="forecasting" onclick="switchSub('inventory','forecasting',this)">Forecasting</div>
     <div class="sub-tab" data-sub="fba-stock" onclick="switchSub('inventory','fba-stock',this)">FBA Inventory</div>
     <div class="sub-tab" data-sub="fba-forecasting" onclick="switchSub('inventory','fba-forecasting',this)">FBA Forecasting</div>
+    <div class="sub-tab" data-sub="shipping" onclick="switchSub('inventory','shipping',this)">Shipping</div>
   </div>
 
   <!-- Panels -->
@@ -525,6 +526,7 @@
   <div id="panel-forecasting" class="panel"></div>
   <div id="panel-fba-stock" class="panel"></div>
   <div id="panel-fba-forecasting" class="panel"></div>
+  <div id="panel-shipping" class="panel"></div>
   <div id="panel-marketing" class="panel"></div>
 </div>
 
@@ -574,7 +576,7 @@ const mainPanelMap = {
 const subGroups = {
   reporting: ['mtd','ytd','notes','site-health'],
   marketplace: ['amazon','walmart'],
-  inventory: ['stock','forecasting'],
+  inventory: ['stock','forecasting','shipping'],
 };
 let activeMain = 'reporting';
 let activeSub = {reporting:'mtd', marketplace:'amazon', inventory:'stock'};
@@ -650,6 +652,7 @@ function flushRedraws() {
     if (name === 'ytd') renderYtdChart(window._appData.reporting);
     if (name === 'amazon') renderAmazonChart(window._appData.amazon);
     if (name === 'walmart') renderWalmartChart(window._appData.walmart);
+    if (name === 'shipping') renderShippingCharts(window._appData.shipping);
     pendingRedraws.delete(name);
   });
 }
@@ -658,7 +661,7 @@ function flushRedraws() {
 //  DATA LOADING
 // ═══════════════════════════════════════════════════════
 async function loadAllData() {
-  const files = ['reporting','budget','klaviyo','amazon','walmart','inventory','notes','marketing'];
+  const files = ['reporting','budget','klaviyo','amazon','walmart','inventory','notes','marketing','shipping'];
   const base = './data/';
   const results = await Promise.allSettled(
     files.map(f => fetch(base+f+'.json').then(r => { if(!r.ok) throw new Error(r.status); return r.json(); }))
@@ -2002,6 +2005,149 @@ function renderFbaForecasting(inventory) {
 }
 
 // ═══════════════════════════════════════════════════════
+//  RENDER: SHIPPING INSIGHTS
+// ═══════════════════════════════════════════════════════
+function renderShipping(shipping) {
+  const el = document.getElementById('panel-shipping');
+  if (!shipping) { el.innerHTML = '<div class="data-unavailable">Shipping data unavailable</div>'; return; }
+
+  const mtd = shipping.mtd || {};
+  const ytd = shipping.ytd || {};
+  const carriers = shipping.carriers || [];
+
+  // Net color helper
+  const netClass = v => v >= 0 ? 'text-green' : 'text-red';
+
+  let html = `
+    <div class="section-divider">Month-to-Date</div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Shipping Collected</div>
+        <div class="kpi-value">${fmt(mtd.shipping_collected)}</div>
+        <div class="kpi-meta"><span class="kpi-badge badge-blue">${fmtInt(mtd.wc_order_count)} orders</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Shipping Paid</div>
+        <div class="kpi-value">${fmt(mtd.shipping_paid)}</div>
+        <div class="kpi-meta"><span class="kpi-badge badge-gray">${fmtInt(mtd.shipment_count)} shipments</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Net Cost</div>
+        <div class="kpi-value ${netClass(mtd.shipping_net)}">${fmt(mtd.shipping_net)}</div>
+        <div class="kpi-meta"><span class="kpi-badge ${mtd.shipping_net >= 0 ? 'badge-green' : 'badge-red'}">${mtd.shipping_net >= 0 ? 'Surplus' : 'Deficit'}</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg Cost / Order</div>
+        <div class="kpi-value">${fmt(mtd.avg_cost_per_order)}</div>
+      </div>
+    </div>
+
+    <div class="section-divider">Year-to-Date</div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Shipping Collected</div>
+        <div class="kpi-value">${fmt(ytd.shipping_collected)}</div>
+        <div class="kpi-meta"><span class="kpi-badge badge-blue">${fmtInt(ytd.wc_order_count)} orders</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Shipping Paid</div>
+        <div class="kpi-value">${fmt(ytd.shipping_paid)}</div>
+        <div class="kpi-meta"><span class="kpi-badge badge-gray">${fmtInt(ytd.shipment_count)} shipments</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Net Cost</div>
+        <div class="kpi-value ${netClass(ytd.shipping_net)}">${fmt(ytd.shipping_net)}</div>
+        <div class="kpi-meta"><span class="kpi-badge ${ytd.shipping_net >= 0 ? 'badge-green' : 'badge-red'}">${ytd.shipping_net >= 0 ? 'Surplus' : 'Deficit'}</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg Cost / Order</div>
+        <div class="kpi-value">${fmt(ytd.avg_cost_per_order)}</div>
+      </div>
+    </div>`;
+
+  // Carrier breakdown cards
+  if (carriers.length > 0) {
+    html += `<div class="section-divider">Carrier Breakdown (YTD)</div><div class="kpi-grid">`;
+    carriers.forEach(c => {
+      html += `
+        <div class="kpi-card">
+          <div class="kpi-label">${escHtml(c.carrier)}</div>
+          <div class="kpi-value">${fmt(c.total_paid)}</div>
+          <div class="kpi-meta">
+            <span class="kpi-badge badge-gray">${fmtInt(c.shipment_count)} shipments (${c.pct_of_shipments}%)</span>
+            <span class="kpi-badge badge-blue">Avg ${fmt(c.avg_cost_per_shipment)}/shipment</span>
+          </div>
+        </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Chart canvases for weekly cost-per-pound by carrier
+  const weeklyCpl = shipping.weekly_cost_per_lb || {};
+  const carrierKeys = Object.keys(weeklyCpl);
+  if (carrierKeys.length > 0) {
+    html += `<div class="section-divider">Weekly Avg Cost per Pound (YTD)</div><div class="chart-row">`;
+    carrierKeys.forEach(carrier => {
+      const canvasId = 'chart-shipping-cpl-' + carrier.replace(/[^a-zA-Z0-9]/g, '_');
+      html += `
+        <div class="chart-card">
+          <h3>${escHtml(carrier)} — Cost / lb</h3>
+          <div class="chart-wrap"><canvas id="${canvasId}"></canvas></div>
+        </div>`;
+    });
+    html += `</div>`;
+  }
+
+  el.innerHTML = html;
+
+  // Render charts immediately
+  renderShippingCharts(shipping);
+}
+
+function renderShippingCharts(shipping) {
+  if (!shipping) return;
+  const weeklyCpl = shipping.weekly_cost_per_lb || {};
+  const carrierColors = {
+    'USPS': '#1a56db',
+    'UPS': '#6b3e0a',
+    'FEDEX': '#4b2087',
+    'DHL': '#d4a017',
+  };
+  const defaultColor = '#4a8c3f';
+
+  Object.keys(weeklyCpl).forEach(carrier => {
+    const canvasId = 'chart-shipping-cpl-' + carrier.replace(/[^a-zA-Z0-9]/g, '_');
+    const cd = weeklyCpl[carrier];
+    const color = carrierColors[carrier] || defaultColor;
+
+    makeChart(canvasId, {
+      type: 'line',
+      data: {
+        labels: cd.weeks,
+        datasets: [{
+          label: carrier + ' $/lb',
+          data: cd.values,
+          borderColor: color,
+          backgroundColor: color + '22',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 2,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { beginAtZero: true, ticks: { callback: v => '$' + v.toFixed(2) } },
+          x: { ticks: { autoSkip: true, maxRotation: 45 } },
+        },
+        plugins: { legend: { display: false } },
+      },
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════════════
 //  UPDATE "LAST UPDATED" header
 // ═══════════════════════════════════════════════════════
 function updateLastUpdated(data) {
@@ -2182,6 +2328,7 @@ async function initApp() {
   renderForecasting(data.inventory);
   renderFbaStock(data.inventory);
   renderFbaForecasting(data.inventory);
+  renderShipping(data.shipping);
   renderMarketing(data.marketing);
 
   // Charts for initially visible panel

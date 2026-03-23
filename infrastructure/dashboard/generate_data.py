@@ -11,7 +11,8 @@ Sources:
   4. Amazon    — amazon.json     (SP-API orders + health)
   5. Walmart   — walmart.json    (marketplace orders)
   6. Fishbowl  — inventory.json  (stock levels + velocity)
-  7. docs/notes.md — notes.json  (operator notes)
+  7. Shippo+WC  — shipping.json  (shipping costs + carrier breakdown)
+  8. docs/notes.md — notes.json  (operator notes)
 """
 
 import json
@@ -2038,6 +2039,228 @@ def generate_inventory():
 
 
 # ══════════════════════════════════════════════════════════════
+# 6b. SHIPPING.JSON — Shipping cost insights from Shippo + WC
+# ══════════════════════════════════════════════════════════════
+
+def generate_shipping():
+    """Pull shipping data from Shippo (costs/carrier/weight) and WooCommerce (collected).
+
+    Writes shipping.json with:
+      - MTD/YTD KPI totals (collected, paid, net, avg cost per order)
+      - Carrier breakdown (YTD totals, % of shipments)
+      - Weekly avg cost-per-pound by carrier (for Chart.js line charts)
+    """
+    print("\n[Shipping] Pulling Shippo transactions + WC shipping collected...")
+
+    today = TODAY
+    ytd_start = date(today.year, 1, 1)
+    mtd_start = date(today.year, today.month, 1)
+
+    # ── Step 1: Pull ALL Shippo transactions for YTD ───────────
+    if not SHIPPO_API_KEY:
+        print("  [SKIP] No SHIPPO_API_KEY configured")
+        _write_json("shipping.json", {
+            "as_of": TODAY_STR,
+            "mtd": {}, "ytd": {},
+            "carriers": [], "weekly_cost_per_lb": {},
+            "warning": "Shippo API key not configured",
+        })
+        return False
+
+    headers = {"Authorization": f"ShippoToken {SHIPPO_API_KEY}"}
+    all_txns = []
+    url = "https://api.goshippo.com/transactions/"
+    params = {"results": 200}
+    pages_checked = 0
+    seen_tracking = set()
+
+    while url:
+        try:
+            resp = requests.get(url, headers=headers, params=params, timeout=30)
+            if resp.status_code != 200:
+                print(f"  [WARN] Shippo: {resp.status_code} {resp.text[:200]}")
+                break
+            data = resp.json()
+            pages_checked += 1
+
+            found_older = False
+            for txn in data.get("results", []):
+                txn_date = (txn.get("object_created") or "")[:10]
+
+                if txn_date < str(ytd_start):
+                    found_older = True
+                    break
+
+                if txn.get("status") != "SUCCESS":
+                    continue
+
+                tracking = txn.get("tracking_number", "")
+                if tracking and tracking in seen_tracking:
+                    continue
+                if tracking:
+                    seen_tracking.add(tracking)
+
+                all_txns.append(txn)
+
+            if found_older:
+                break
+
+            url = data.get("next")
+            params = {}
+            time.sleep(0.3)
+        except Exception as e:
+            print(f"  [WARN] Shippo pagination error: {e}")
+            break
+
+    print(f"  Shippo: {len(all_txns)} transactions across {pages_checked} pages (YTD)")
+
+    # ── Step 2: Fetch rate details for cost + carrier + weight ─
+    rate_cache = {}
+
+    def _get_rate(rate_id):
+        if not rate_id:
+            return {"amount": 0, "carrier": "Unknown", "weight": 0}
+        if rate_id in rate_cache:
+            return rate_cache[rate_id]
+        try:
+            r = requests.get(f"https://api.goshippo.com/rates/{rate_id}",
+                             headers=headers, timeout=15)
+            if r.status_code == 200:
+                rd = r.json()
+                info = {
+                    "amount": float(rd.get("amount") or 0),
+                    "carrier": (rd.get("provider") or "Unknown").upper(),
+                    "weight": float(rd.get("parcel", {}).get("weight") or 0) if isinstance(rd.get("parcel"), dict)
+                             else 0,
+                }
+            else:
+                info = {"amount": 0, "carrier": "Unknown", "weight": 0}
+        except Exception:
+            info = {"amount": 0, "carrier": "Unknown", "weight": 0}
+        rate_cache[rate_id] = info
+        time.sleep(0.1)
+        return info
+
+    # Enrich transactions with rate info
+    enriched = []
+    for txn in all_txns:
+        rate_info = _get_rate(txn.get("rate", ""))
+        txn_date = (txn.get("object_created") or "")[:10]
+        enriched.append({
+            "date": txn_date,
+            "cost": rate_info["amount"],
+            "carrier": rate_info["carrier"],
+            "weight": rate_info["weight"],
+        })
+
+    # ── Step 3: Pull WC shipping collected (MTD + YTD) ─────────
+    wc_shipping_mtd = 0.0
+    wc_shipping_ytd = 0.0
+    wc_orders_count_mtd = 0
+    wc_orders_count_ytd = 0
+
+    try:
+        # YTD orders (includes MTD)
+        ytd_orders = _pull_wc_orders_range(str(ytd_start), str(today))
+        for order in ytd_orders:
+            ship_total = float(order.get("shipping_total") or 0)
+            order_date_str = (order.get("date_created") or "")[:10]
+            wc_shipping_ytd += ship_total
+            wc_orders_count_ytd += 1
+            if order_date_str >= str(mtd_start):
+                wc_shipping_mtd += ship_total
+                wc_orders_count_mtd += 1
+        print(f"  WC shipping collected: MTD ${wc_shipping_mtd:,.2f} | YTD ${wc_shipping_ytd:,.2f}")
+    except Exception as e:
+        print(f"  [WARN] WC shipping pull failed: {e}")
+
+    # ── Step 4: Compute MTD / YTD KPIs ─────────────────────────
+    mtd_txns = [t for t in enriched if t["date"] >= str(mtd_start)]
+    ytd_txns = enriched  # already filtered to YTD
+
+    def _kpi(txns, collected, order_count):
+        paid = round(sum(t["cost"] for t in txns), 2)
+        count = len(txns)
+        return {
+            "shipping_collected": round(collected, 2),
+            "shipping_paid": paid,
+            "shipping_net": round(collected - paid, 2),
+            "shipment_count": count,
+            "avg_cost_per_order": round(paid / count, 2) if count else 0,
+            "wc_order_count": order_count,
+        }
+
+    mtd_kpi = _kpi(mtd_txns, wc_shipping_mtd, wc_orders_count_mtd)
+    ytd_kpi = _kpi(ytd_txns, wc_shipping_ytd, wc_orders_count_ytd)
+
+    # ── Step 5: Carrier breakdown (YTD) ────────────────────────
+    carrier_totals = {}
+    for t in ytd_txns:
+        c = t["carrier"]
+        if c not in carrier_totals:
+            carrier_totals[c] = {"paid": 0, "count": 0, "total_weight": 0}
+        carrier_totals[c]["paid"] += t["cost"]
+        carrier_totals[c]["count"] += 1
+        carrier_totals[c]["total_weight"] += t["weight"]
+
+    total_shipments = len(ytd_txns) or 1
+    carriers = []
+    for name, stats in sorted(carrier_totals.items(), key=lambda x: -x[1]["paid"]):
+        carriers.append({
+            "carrier": name,
+            "total_paid": round(stats["paid"], 2),
+            "shipment_count": stats["count"],
+            "pct_of_shipments": round(stats["count"] / total_shipments * 100, 1),
+            "total_weight_lbs": round(stats["total_weight"], 1),
+            "avg_cost_per_shipment": round(stats["paid"] / stats["count"], 2) if stats["count"] else 0,
+        })
+
+    # ── Step 6: Weekly cost-per-pound by carrier (for charts) ──
+    from collections import defaultdict
+    weekly_data = defaultdict(lambda: defaultdict(lambda: {"cost": 0, "weight": 0}))
+
+    for t in ytd_txns:
+        if not t["date"] or t["weight"] <= 0:
+            continue
+        # ISO week label (e.g., "2026-W03")
+        try:
+            d = datetime.strptime(t["date"], "%Y-%m-%d").date()
+            iso_year, iso_week, _ = d.isocalendar()
+            week_label = f"{iso_year}-W{iso_week:02d}"
+        except ValueError:
+            continue
+        carrier = t["carrier"]
+        weekly_data[carrier][week_label]["cost"] += t["cost"]
+        weekly_data[carrier][week_label]["weight"] += t["weight"]
+
+    weekly_cost_per_lb = {}
+    for carrier, weeks in weekly_data.items():
+        sorted_weeks = sorted(weeks.keys())
+        weekly_cost_per_lb[carrier] = {
+            "weeks": sorted_weeks,
+            "values": [
+                round(weeks[w]["cost"] / weeks[w]["weight"], 2) if weeks[w]["weight"] > 0 else 0
+                for w in sorted_weeks
+            ],
+        }
+
+    # ── Write output ───────────────────────────────────────────
+    output = {
+        "as_of": TODAY_STR,
+        "mtd": mtd_kpi,
+        "ytd": ytd_kpi,
+        "carriers": carriers,
+        "weekly_cost_per_lb": weekly_cost_per_lb,
+    }
+
+    _write_json("shipping.json", output)
+    print(f"  MTD paid: ${mtd_kpi['shipping_paid']:,.2f} ({mtd_kpi['shipment_count']} shipments)")
+    print(f"  YTD paid: ${ytd_kpi['shipping_paid']:,.2f} ({ytd_kpi['shipment_count']} shipments)")
+    print(f"  Carriers: {', '.join(c['carrier'] for c in carriers)}")
+    return True
+
+
+# ══════════════════════════════════════════════════════════════
 # 7. NOTES.JSON — Convert docs/notes.md to HTML
 # ══════════════════════════════════════════════════════════════
 
@@ -2414,6 +2637,7 @@ def main():
         ("Amazon (SP-API)",       generate_amazon),
         ("Walmart (Marketplace)", generate_walmart),
         ("Inventory (Fishbowl)",  generate_inventory),
+        ("Shipping (Shippo+WC)", generate_shipping),
         ("Notes (Markdown)",      generate_notes),
         ("Marketing (Channels)",  generate_marketing),
     ]
