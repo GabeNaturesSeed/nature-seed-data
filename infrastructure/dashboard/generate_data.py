@@ -562,37 +562,31 @@ def _load_budget_csv_full():
 
 def _load_actuals_csv():
     """
-    Parse any *Actuals*.csv files from 2026ECOMMBUDGET/.
-    Returns dict: { "2026-01": { "net_revenue": ..., "cogs": ..., ... } }
+    Parse any *Actuals*.csv files from 2026-budget/.
+    Returns dict: { "2026-01": { "net_revenue": ..., "cogs": ..., "warehouse": ..., ... } }
+    Captures ALL P&L line items so completed months use real numbers.
     """
     actuals = {}
     budget_dir = ROOT / "research" / "2026-budget"
     if not budget_dir.exists():
         return actuals
 
-    # Map column header → month key
     month_names = {
         "jan": "01", "feb": "02", "mar": "03", "apr": "04",
         "may": "05", "jun": "06", "jul": "07", "aug": "08",
         "sep": "09", "oct": "10", "nov": "11", "dec": "12",
-    }
-    row_map = {
-        "Net Revenue": "net_revenue",
-        "Total Cost Of Goods": "cogs",
-        "Gross Margin": "gross_margin",
-        "Advertising": "ad_spend",
-        "Net Income": "net_income",
     }
 
     for csv_path in sorted(budget_dir.glob("*Actuals*.csv")):
         with open(csv_path, newline="", encoding="utf-8-sig") as f:
             reader = csv.reader(f)
             header = None
+            # Track which section we're in to disambiguate duplicate labels
+            section = None
             for row in reader:
                 if not row:
                     continue
                 if header is None:
-                    # First row: determine which month columns are present
                     header = []
                     for cell in row:
                         cell_lower = cell.strip().lower()
@@ -603,8 +597,86 @@ def _load_actuals_csv():
                     continue
 
                 label = row[0].strip()
-                if label in row_map:
-                    key = row_map[label]
+
+                # Track sections for disambiguation
+                if label == "REVENUE":
+                    section = "revenue"
+                    continue
+                elif label == "COST OF GOODS":
+                    section = "cogs"
+                    continue
+                elif label == "PRODUCTION/WAREHOUSE":
+                    section = "production"
+                    continue
+                elif label == "SALES/MARKETING/ADVERTISING":
+                    section = "sma"
+                    continue
+                elif label == "GENERAL & ADMIN":
+                    section = "ga"
+                    continue
+
+                # Map label to key, handling duplicates by section
+                key = None
+                if label == "Net Revenue":
+                    key = "net_revenue"
+                elif label == "Total Cost Of Goods":
+                    key = "cogs"
+                elif label == "Gross Margin":
+                    key = "gross_margin"
+                elif label == "Advertising":
+                    key = "ad_spend"
+                elif label == "Net Income":
+                    key = "net_income"
+                elif label == "Warehouse":
+                    key = "warehouse"
+                elif label == "Farm":
+                    key = "farm"
+                elif label == "Collections":
+                    key = "collections"
+                elif label == "Total Production/Warehouse":
+                    key = "total_production"
+                elif label == "Salaries & Wages" and section == "sma":
+                    key = "sma_salaries"
+                elif label == "Salaries & Wages" and section == "ga":
+                    key = "ga_salaries"
+                elif label == "Marketing":
+                    key = "marketing"
+                elif label == "Development":
+                    key = "development"
+                elif label == "Total Sales/Marketing/Advertising":
+                    key = "total_sma"
+                elif label == "Professional Fees":
+                    key = "professional_fees"
+                elif label == "Insurance":
+                    key = "insurance"
+                elif label in ("T&E", "Travel & Entertainment"):
+                    key = "travel_entertainment"
+                elif label == "Utilities & Supplies":
+                    key = "utilities_supplies"
+                elif label == "Corporate Allocation":
+                    key = "corporate_allocation"
+                elif label == "Other" and section == "ga":
+                    key = "ga_other"
+                elif label == "Total General & Admin":
+                    key = "total_ga"
+                elif label == "Total Operating Costs":
+                    key = "total_opex"
+                elif label == "Depreciation":
+                    key = "depreciation"
+                elif label == "Amortization":
+                    key = "amortization"
+                elif label == "Interest":
+                    key = "interest"
+                elif label == "Tax":
+                    key = "tax"
+                elif label == "EBITDA":
+                    key = "ebitda"
+                elif label == "Other Income & Expense":
+                    key = "other_income"
+                elif label == "Freight" and section == "cogs":
+                    key = "cogs_freight"
+
+                if key:
                     for i, month_key in enumerate(header):
                         if month_key is None or i >= len(row):
                             continue
@@ -897,12 +969,22 @@ def generate_reporting():
         },
     }
     # ── P&L: merge actuals with budget fixed costs ────────
+    # For months with finance actuals CSV → use real fixed costs
+    # For months without actuals → use budget estimates
     print("  Building P&L from actuals + budget fixed costs...")
     budget_full = _load_budget_csv_full()
+    actuals_csv = _load_actuals_csv()
     pnl_months = []
     for m_data in ytd_months:
         mk = m_data["month"]  # e.g. "2026-01"
         bud = budget_full.get(mk, {})
+        act = actuals_csv.get(mk, {})  # Finance actuals for completed months
+        has_actuals = bool(act)
+
+        if has_actuals:
+            print(f"    {mk}: Using FINANCE ACTUALS for fixed costs")
+        else:
+            print(f"    {mk}: Using BUDGET ESTIMATES for fixed costs")
 
         # Actuals: revenue, COGS, ad spend, shipping come from Supabase
         act_revenue = m_data.get("revenue", 0)
@@ -911,22 +993,26 @@ def generate_reporting():
         act_shipping = m_data.get("shipping", 0) if m_data.get("shipping") else 0
         act_gross_profit = act_revenue - act_cogs
 
-        # Fixed costs from budget (these don't change with actual performance)
-        warehouse = bud.get("warehouse", 0)
-        farm = bud.get("farm", 0)
-        collections = bud.get("collections", 0)
-        total_production = bud.get("total_production", warehouse + farm + collections)
-        sma_salaries = bud.get("sma_salaries", 0)
-        marketing = bud.get("marketing", 0)
-        development = bud.get("development", 0)
-        ga_salaries = bud.get("ga_salaries", 0)
-        professional_fees = bud.get("professional_fees", 0)
-        insurance = bud.get("insurance", 0)
-        travel_entertainment = bud.get("travel_entertainment", 0)
-        utilities_supplies = bud.get("utilities_supplies", 0)
-        corporate_allocation = bud.get("corporate_allocation", 0)
-        ga_other = bud.get("ga_other", 0)
-        total_ga = bud.get("total_ga", ga_salaries + professional_fees + insurance + travel_entertainment + utilities_supplies + corporate_allocation + ga_other)
+        # Fixed costs: actuals if available, budget otherwise
+        # Helper: use actuals value if present, else budget value
+        def pick(key, default=0):
+            return act.get(key, bud.get(key, default))
+
+        warehouse = pick("warehouse")
+        farm = pick("farm")
+        collections = pick("collections")
+        total_production = pick("total_production", warehouse + farm + collections)
+        sma_salaries = pick("sma_salaries")
+        marketing = pick("marketing")
+        development = pick("development")
+        ga_salaries = pick("ga_salaries")
+        professional_fees = pick("professional_fees")
+        insurance = pick("insurance")
+        travel_entertainment = pick("travel_entertainment")
+        utilities_supplies = pick("utilities_supplies")
+        corporate_allocation = pick("corporate_allocation")
+        ga_other = pick("ga_other")
+        total_ga = pick("total_ga", ga_salaries + professional_fees + insurance + travel_entertainment + utilities_supplies + corporate_allocation + ga_other)
 
         # Computed P&L
         total_sma = sma_salaries + marketing + act_ad_spend + development
@@ -939,15 +1025,18 @@ def generate_reporting():
         bud_opex = bud.get("total_opex", 0)
         bud_net_income = bud.get("net_income", 0)
         bud_ebitda = bud.get("ebitda", 0)
+        bud_advertising = bud.get("ad_spend", bud.get("advertising", 0))
 
-        depreciation = bud.get("depreciation", 0)
-        amortization = bud.get("amortization", 0)
-        interest = bud.get("interest", 0)
-        tax = bud.get("tax", 0)
+        depreciation = pick("depreciation")
+        amortization = pick("amortization")
+        interest = pick("interest")
+        tax = pick("tax")
+        other_income = pick("other_income")
         ebitda = net_income + depreciation + amortization + interest + tax
 
         pnl_months.append({
             "month": mk,
+            "source": "actuals" if has_actuals else "budget",
             # Revenue
             "revenue": round(act_revenue, 2),
             "budget_revenue": round(bud_revenue, 2),
@@ -963,7 +1052,7 @@ def generate_reporting():
             "production_warehouse": round(total_production, 2),
             "warehouse": round(warehouse, 2),
             "advertising": round(act_ad_spend, 2),
-            "budget_advertising": round(bud.get("advertising", 0), 2),
+            "budget_advertising": round(bud_advertising, 2),
             "marketing": round(marketing, 2),
             "sma_salaries": round(sma_salaries, 2),
             "development": round(development, 2),
