@@ -10,67 +10,148 @@ on:
       - 'research/2026-budget/**'
       - 'docs/notes.md'
 
-jobs:
-  update-dashboard:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
+# ─── Shared env block for .env creation ───────────────────────
+env:
+  ENV_CONTENT: |
+    WC_BASE_URL=${{ secrets.WC_BASE_URL }}
+    WC_CK=${{ secrets.WC_CK }}
+    WC_CS=${{ secrets.WC_CS }}
+    WALMART_CLIENT_ID=${{ secrets.WALMART_CLIENT_ID }}
+    WALMART_CLIENT_SECRET=${{ secrets.WALMART_CLIENT_SECRET }}
+    KLAVIYO_API=${{ secrets.KLAVIYO_API }}
+    AMAZON_REFRESH_TOKEN=${{ secrets.AMAZON_REFRESH_TOKEN }}
+    AMAZON_CLIENT_ID=${{ secrets.AMAZON_CLIENT_ID }}
+    AMAZON_CLIENT_SECRET=${{ secrets.AMAZON_CLIENT_SECRET }}
+    SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+    SUPABASE_SECRET_API_KEY=${{ secrets.SUPABASE_SECRET_API_KEY }}
+    CF_WORKER_URL=${{ secrets.CF_WORKER_URL }}
+    CF_WORKER_SECRET=${{ secrets.CF_WORKER_SECRET }}
+    GOOGLE_ADS_DEVELOPER_TOKEN=${{ secrets.GOOGLE_ADS_DEVELOPER_TOKEN }}
+    GOOGLE_ADS_CLIENT_ID=${{ secrets.GOOGLE_ADS_CLIENT_ID }}
+    GOOGLE_ADS_CLIENT_SECRET=${{ secrets.GOOGLE_ADS_CLIENT_SECRET }}
+    GOOGLE_ADS_REFRESH_TOKEN=${{ secrets.GOOGLE_ADS_REFRESH_TOKEN }}
+    GOOGLE_ADS_CUSTOMER_ID=${{ secrets.GOOGLE_ADS_CUSTOMER_ID }}
+    GOOGLE_ADS_LOGIN_CUSTOMER_ID=${{ secrets.GOOGLE_ADS_LOGIN_CUSTOMER_ID }}
+    SA_SITE_ID=${{ secrets.SA_SITE_ID }}
+    SA_API_TOKEN=${{ secrets.SA_API_TOKEN }}
+    SHIPPO_API_KEY=${{ secrets.SHIPPO_API_KEY }}
+    VIBE_CO_API=${{ secrets.VIBE_CO_API }}
 
+jobs:
+  # ═══════════════════════════════════════════════════════════
+  # PARALLEL JOBS — run independently, no dependencies
+  # ═══════════════════════════════════════════════════════════
+
+  abc-analysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: Install dependencies
-        run: pip install requests google-ads google-auth
-
-      - name: Create .env from secrets
-        run: |
-          cat > .env << 'ENVEOF'
-          WC_BASE_URL=${{ secrets.WC_BASE_URL }}
-          WC_CK=${{ secrets.WC_CK }}
-          WC_CS=${{ secrets.WC_CS }}
-          WALMART_CLIENT_ID=${{ secrets.WALMART_CLIENT_ID }}
-          WALMART_CLIENT_SECRET=${{ secrets.WALMART_CLIENT_SECRET }}
-          KLAVIYO_API=${{ secrets.KLAVIYO_API }}
-          AMAZON_REFRESH_TOKEN=${{ secrets.AMAZON_REFRESH_TOKEN }}
-          AMAZON_CLIENT_ID=${{ secrets.AMAZON_CLIENT_ID }}
-          AMAZON_CLIENT_SECRET=${{ secrets.AMAZON_CLIENT_SECRET }}
-          SUPABASE_URL=${{ secrets.SUPABASE_URL }}
-          SUPABASE_SECRET_API_KEY=${{ secrets.SUPABASE_SECRET_API_KEY }}
-          CF_WORKER_URL=${{ secrets.CF_WORKER_URL }}
-          CF_WORKER_SECRET=${{ secrets.CF_WORKER_SECRET }}
-          GOOGLE_ADS_DEVELOPER_TOKEN=${{ secrets.GOOGLE_ADS_DEVELOPER_TOKEN }}
-          GOOGLE_ADS_CLIENT_ID=${{ secrets.GOOGLE_ADS_CLIENT_ID }}
-          GOOGLE_ADS_CLIENT_SECRET=${{ secrets.GOOGLE_ADS_CLIENT_SECRET }}
-          GOOGLE_ADS_REFRESH_TOKEN=${{ secrets.GOOGLE_ADS_REFRESH_TOKEN }}
-          GOOGLE_ADS_CUSTOMER_ID=${{ secrets.GOOGLE_ADS_CUSTOMER_ID }}
-          GOOGLE_ADS_LOGIN_CUSTOMER_ID=${{ secrets.GOOGLE_ADS_LOGIN_CUSTOMER_ID }}
-          SA_SITE_ID=${{ secrets.SA_SITE_ID }}
-          SA_API_TOKEN=${{ secrets.SA_API_TOKEN }}
-          SHIPPO_API_KEY=${{ secrets.SHIPPO_API_KEY }}
-          VIBE_CO_API=${{ secrets.VIBE_CO_API }}
-          ENVEOF
-
-      - name: Refresh ABC velocity analysis (14-day sales)
+      - run: pip install requests
+      - name: Create .env
+        run: echo "$ENV_CONTENT" > .env
+      - name: Refresh ABC velocity analysis
         run: python research/abc-analysis/abc_analysis.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: abc-data
+          path: research/abc-analysis/abc_analysis_results.json
+          retention-days: 1
 
+  dashboard-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests google-ads google-auth
+      - name: Create .env
+        run: echo "$ENV_CONTENT" > .env
       - name: Generate dashboard data
         run: python infrastructure/dashboard/generate_data.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dashboard-data
+          path: docs/data/
+          retention-days: 1
 
+  review-feed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Create .env
+        run: echo "$ENV_CONTENT" > .env
       - name: Generate product reviews feed
         run: python shopper-approved/generate_review_feed.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: review-feed
+          path: docs/reviews/
+          retention-days: 1
 
+  algolia-enrich:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests algoliasearch
+      - name: Create .env
+        run: echo "$ENV_CONTENT" > .env
       - name: Enrich Algolia product records
         env:
           ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
           ALGOLIA_ADMIN_API_KEY: ${{ secrets.ALGOLIA_ADMIN_API_KEY }}
         run: python seo/algolia-optimization/enrich_records.py --push
 
-      - name: Commit and push updated data
+  # ═══════════════════════════════════════════════════════════
+  # COMMIT — runs after all parallel jobs complete
+  # ═══════════════════════════════════════════════════════════
+
+  commit-and-push:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [abc-analysis, dashboard-data, review-feed, algolia-enrich]
+    if: always() && !cancelled()
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download ABC data
+        uses: actions/download-artifact@v4
+        with:
+          name: abc-data
+          path: research/abc-analysis/
+        continue-on-error: true
+
+      - name: Download dashboard data
+        uses: actions/download-artifact@v4
+        with:
+          name: dashboard-data
+          path: docs/data/
+        continue-on-error: true
+
+      - name: Download review feed
+        uses: actions/download-artifact@v4
+        with:
+          name: review-feed
+          path: docs/reviews/
+        continue-on-error: true
+
+      - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
