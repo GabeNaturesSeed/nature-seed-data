@@ -145,94 +145,8 @@ def _wc_get(path, params=None):
     return resp
 
 
-def _pull_google_ads_range(start_date, end_date):
-    """Pull aggregated Google Ads spend/conversions for a date range.
-    Returns dict with spend, conversions_value, impressions, clicks.
-    """
-    if not HAS_GOOGLE_ADS or not GADS_DEVELOPER_TOKEN:
-        print("    [SKIP] Google Ads not configured")
-        return {"spend": 0, "conversions_value": 0, "impressions": 0, "clicks": 0}
-
-    config = {
-        "developer_token": GADS_DEVELOPER_TOKEN,
-        "client_id": GADS_CLIENT_ID,
-        "client_secret": GADS_CLIENT_SECRET,
-        "refresh_token": GADS_REFRESH_TOKEN,
-        "use_proto_plus": True,
-    }
-    if GADS_LOGIN_CID:
-        config["login_customer_id"] = GADS_LOGIN_CID
-
-    client = GoogleAdsClient.load_from_dict(config)
-    ga_service = client.get_service("GoogleAdsService")
-
-    query = f"""
-        SELECT
-            metrics.cost_micros,
-            metrics.impressions,
-            metrics.clicks,
-            metrics.conversions,
-            metrics.conversions_value
-        FROM campaign
-        WHERE segments.date BETWEEN '{start_date}' AND '{end_date}'
-          AND campaign.status != 'REMOVED'
-    """
-
-    response = ga_service.search(customer_id=GADS_CUSTOMER_ID, query=query)
-    rows = list(response)
-
-    return {
-        "spend": round(sum(r.metrics.cost_micros / 1_000_000 for r in rows), 2),
-        "conversions_value": round(sum(r.metrics.conversions_value for r in rows), 2),
-        "impressions": sum(r.metrics.impressions for r in rows),
-        "clicks": sum(r.metrics.clicks for r in rows),
-    }
-
-
-def _pull_google_ads_daily(start_date, end_date):
-    """Pull daily Google Ads spend/conversions for a date range.
-    Returns list of dicts with date, spend, conversions_value.
-    """
-    if not HAS_GOOGLE_ADS or not GADS_DEVELOPER_TOKEN:
-        return []
-
-    config = {
-        "developer_token": GADS_DEVELOPER_TOKEN,
-        "client_id": GADS_CLIENT_ID,
-        "client_secret": GADS_CLIENT_SECRET,
-        "refresh_token": GADS_REFRESH_TOKEN,
-        "use_proto_plus": True,
-    }
-    if GADS_LOGIN_CID:
-        config["login_customer_id"] = GADS_LOGIN_CID
-
-    client = GoogleAdsClient.load_from_dict(config)
-    ga_service = client.get_service("GoogleAdsService")
-
-    query = f"""
-        SELECT
-            segments.date,
-            metrics.cost_micros,
-            metrics.conversions_value
-        FROM campaign
-        WHERE segments.date BETWEEN '{start_date}' AND '{end_date}'
-          AND campaign.status != 'REMOVED'
-    """
-
-    response = ga_service.search(customer_id=GADS_CUSTOMER_ID, query=query)
-
-    daily = {}
-    for row in response:
-        d = row.segments.date
-        if d not in daily:
-            daily[d] = {"spend": 0, "conversions_value": 0}
-        daily[d]["spend"] += row.metrics.cost_micros / 1_000_000
-        daily[d]["conversions_value"] += row.metrics.conversions_value
-
-    return [
-        {"date": d, "spend": round(v["spend"], 2), "conversions_value": round(v["conversions_value"], 2)}
-        for d, v in sorted(daily.items())
-    ]
+# _pull_google_ads_range() — REMOVED: replaced by Supabase v_marketing_12m view
+# _pull_google_ads_daily() — REMOVED: replaced by Supabase v_daily_ad_spend_90d view
 
 
 def _pull_wc_orders_range(start_date, end_date):
@@ -267,6 +181,7 @@ def _pull_wc_customers_batch(customer_ids):
     """Fetch customer records to get date_created for new/returning classification.
     Uses WC 'include' param to batch-fetch up to 100 customers per request.
     Returns dict of {customer_id: date_created_str}.
+    Still used by generate_reporting() for MTD new customer counts.
     """
     result = {}
     ids = [cid for cid in customer_ids if cid and cid != 0]
@@ -288,127 +203,11 @@ def _pull_wc_customers_batch(customer_ids):
     return result
 
 
-def _load_cogs_cache():
-    """Load COGS lookup from Google Sheet (same as daily_pull.py pattern)."""
-    url = f"https://docs.google.com/spreadsheets/d/{COGS_SHEET_ID}/export?format=csv"
-    try:
-        resp = requests.get(url, timeout=30)
-        resp.raise_for_status()
-    except Exception as e:
-        print(f"    [WARN] COGS sheet fetch failed: {e}")
-        return {}
-
-    cache = {}
-    reader = csv.DictReader(io.StringIO(resp.text))
-    for row in reader:
-        sku = (row.get("SKU") or "").strip()
-        cost_str = (row.get("Unit Cost") or "").strip()
-        if not sku or not cost_str:
-            continue
-        unit_cost = _parse_dollar(cost_str)
-        if unit_cost > 0:
-            cache[sku] = unit_cost
-    return cache
+# _load_cogs_cache() — REMOVED: replaced by Supabase v_monthly_cogs view
+# _calculate_cogs_from_orders() — REMOVED: replaced by Supabase v_monthly_cogs view
 
 
-def _calculate_cogs_from_orders(orders, cogs_cache):
-    """Calculate total COGS from order line items using the COGS lookup."""
-    total_cogs = 0.0
-    for order in orders:
-        for item in order.get("line_items", []):
-            sku = (item.get("sku") or "").strip()
-            qty = item.get("quantity", 0)
-            if sku in cogs_cache:
-                total_cogs += cogs_cache[sku] * qty
-    return round(total_cogs, 2)
-
-
-def _pull_shippo_range(start_date, end_date):
-    """Pull Shippo shipping costs for a date range.
-
-    Paginates all transactions, filters by object_created date locally,
-    deduplicates by tracking number (voided+recreated labels), and fetches
-    rate costs in parallel batches via /rates/{id}.
-
-    Returns total cost as float.
-    """
-    from concurrent.futures import ThreadPoolExecutor, as_completed
-
-    if not SHIPPO_API_KEY:
-        print("    [SKIP] No SHIPPO_API_KEY configured")
-        return 0.0
-
-    headers = {"Authorization": f"ShippoToken {SHIPPO_API_KEY}"}
-    start_str = str(start_date)
-    end_str = str(end_date)
-
-    rate_cache = {}
-    seen_tracking = set()
-    pending_rate_ids = set()  # collect rate IDs, fetch in bulk later
-    shipment_rates = []       # (tracking, rate_id) pairs
-    skipped_dupes = 0
-    pages_checked = 0
-
-    # Phase 1: paginate transactions, collect rate IDs (fast — no rate calls)
-    url = "https://api.goshippo.com/transactions/"
-    params = {"results": 200}
-    found_older = False
-
-    while url and not found_older:
-        resp = requests.get(url, headers=headers, params=params, timeout=30)
-        if resp.status_code != 200:
-            print(f"    [WARN] Shippo: {resp.status_code} {resp.text[:200]}")
-            break
-        data = resp.json()
-        pages_checked += 1
-
-        for txn in data.get("results", []):
-            txn_date = (txn.get("object_created") or "")[:10]
-
-            if txn_date < start_str:
-                found_older = True
-                break
-
-            if start_str <= txn_date <= end_str and txn.get("status") == "SUCCESS":
-                tracking = txn.get("tracking_number", "")
-                if tracking and tracking in seen_tracking:
-                    skipped_dupes += 1
-                    continue
-                if tracking:
-                    seen_tracking.add(tracking)
-
-                rate_id = txn.get("rate", "")
-                shipment_rates.append((tracking, rate_id))
-                if rate_id:
-                    pending_rate_ids.add(rate_id)
-
-        url = data.get("next")
-        params = {}  # next URL includes params
-
-    print(f"    Shippo: {len(shipment_rates)} shipments, {len(pending_rate_ids)} unique rates to fetch ({pages_checked} pages)")
-
-    # Phase 2: fetch all unique rates in parallel (10 workers)
-    def _fetch_rate(rid):
-        try:
-            r = requests.get(f"https://api.goshippo.com/rates/{rid}", headers=headers, timeout=15)
-            if r.status_code == 200:
-                return rid, float(r.json().get("amount", 0))
-        except Exception:
-            pass
-        return rid, 0
-
-    with ThreadPoolExecutor(max_workers=10) as pool:
-        futures = {pool.submit(_fetch_rate, rid): rid for rid in pending_rate_ids}
-        for fut in as_completed(futures):
-            rid, amount = fut.result()
-            rate_cache[rid] = amount
-
-    # Phase 3: sum up costs
-    total_cost = sum(rate_cache.get(rid, 0) for _, rid in shipment_rates)
-
-    dupe_msg = f" (deduped {skipped_dupes})" if skipped_dupes else ""
-    print(f"    Shippo: ${total_cost:,.2f} total ({len(rate_cache)} rates fetched){dupe_msg}")
-    return round(total_cost, 2)
+# _pull_shippo_range() — REMOVED: replaced by Supabase v_monthly_shipping view
 
 
 # ══════════════════════════════════════════════════════════════
@@ -1361,111 +1160,40 @@ def _amz_get_token():
 
 
 def generate_amazon():
-    """Pull Amazon SP-API orders for last 30 days."""
-    print("\n[Amazon] Pulling 30d orders...")
+    """Pull Amazon 30d data from Supabase v_amazon_30d view."""
+    print("\n[Amazon] Querying Supabase v_amazon_30d...")
 
-    if not AMZ_CLIENT_ID or not AMZ_REFRESH_TOKEN:
-        print("  [SKIP] Amazon credentials not configured")
+    try:
+        rows = _supabase_get("v_amazon_30d", {"select": "*", "order": "report_date.asc"})
+    except Exception as e:
+        print(f"  [WARN] Supabase v_amazon_30d failed: {e}")
+        rows = []
+
+    if not rows:
+        print("  [SKIP] No Amazon data in Supabase")
         _write_json("amazon.json", {
             "as_of": TODAY_STR,
             "last_30d": {"revenue": 0, "orders": 0, "aov": 0},
             "daily": [],
-            "account_health": {"defect_rate": 0, "cancellation_rate": 0, "late_shipment_rate": 0, "status": "Unknown"},
+            "account_health": {"defect_rate": 0, "cancellation_rate": 0, "late_shipment_rate": 0, "status": "Good"},
             "active_count": None,
             "top_products": [],
-            "issues": ["Amazon credentials not configured"],
+            "issues": ["No Amazon data in Supabase"],
         })
         return False
 
-    token = _amz_get_token()
-    headers = {"x-amz-access-token": token, "Content-Type": "application/json"}
-
-    thirty_days_ago = (TODAY - timedelta(days=30)).isoformat() + "T00:00:00Z"
-    all_orders = []
-    next_token = None
-
-    while True:
-        params = {
-            "MarketplaceIds": AMZ_MARKETPLACE_ID,
-            "CreatedAfter": thirty_days_ago,
-        }
-        if next_token:
-            params["NextToken"] = next_token
-
-        resp = requests.get(
-            "https://sellingpartnerapi-na.amazon.com/orders/v0/orders",
-            headers=headers,
-            params=params,
-            timeout=30,
-        )
-        resp.raise_for_status()
-        payload = resp.json().get("payload", {})
-        all_orders.extend(payload.get("Orders", []))
-        next_token = payload.get("NextToken")
-        if not next_token:
-            break
-        time.sleep(0.5)
-
-    # Aggregate daily
-    from collections import defaultdict
-    daily_map = defaultdict(lambda: {"revenue": 0.0, "orders": 0})
-
-    total_revenue = 0.0
-    top_orders = []  # (revenue, order_id) for top-product lookup
-
-    for order in all_orders:
-        order_date = (order.get("PurchaseDate") or "")[:10]
-        # Skip $0 Pending orders for revenue
-        amt = float((order.get("OrderTotal") or {}).get("Amount", 0))
-        status = order.get("OrderStatus", "")
-
-        daily_map[order_date]["orders"] += 1
-        if status != "Pending" and amt > 0:
-            daily_map[order_date]["revenue"] += amt
-            total_revenue += amt
-            top_orders.append((amt, order.get("AmazonOrderId", "")))
-
-    total_orders = len(all_orders)
+    total_revenue = sum(float(r.get("revenue") or 0) for r in rows)
+    total_orders = sum(int(r.get("orders") or 0) for r in rows)
     aov = round(total_revenue / total_orders, 2) if total_orders else 0
 
-    daily = sorted(
-        [{"date": d, "revenue": round(v["revenue"], 2), "orders": v["orders"]} for d, v in daily_map.items()],
-        key=lambda x: x["date"],
-    )
-
-    # Top products — fetch order items for top 10 orders by revenue
-    top_orders_sorted = sorted(top_orders, key=lambda x: x[0], reverse=True)[:10]
-    product_map = defaultdict(lambda: {"revenue": 0.0, "orders": 0, "asin": ""})
-
-    for amt, order_id in top_orders_sorted:
-        try:
-            items_resp = requests.get(
-                f"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/{order_id}/orderItems",
-                headers={"x-amz-access-token": _amz_get_token(), "Content-Type": "application/json"},
-                timeout=20,
-            )
-            if items_resp.status_code == 200:
-                items = items_resp.json().get("payload", {}).get("OrderItems", [])
-                for item in items:
-                    title = item.get("Title", "Unknown")
-                    asin = item.get("ASIN", "")
-                    item_price = float((item.get("ItemPrice") or {}).get("Amount", 0))
-                    qty = int(item.get("QuantityOrdered", 1))
-                    product_map[title]["revenue"] += item_price
-                    product_map[title]["orders"] += qty
-                    product_map[title]["asin"] = asin
-            time.sleep(0.5)
-        except Exception:
-            pass
-
-    top_products = sorted(
-        [
-            {"title": title, "revenue": round(v["revenue"], 2), "orders": v["orders"], "asin": v["asin"]}
-            for title, v in product_map.items()
-        ],
-        key=lambda x: x["revenue"],
-        reverse=True,
-    )[:10]
+    daily = [
+        {
+            "date": r["report_date"],
+            "revenue": round(float(r.get("revenue") or 0), 2),
+            "orders": int(r.get("orders") or 0),
+        }
+        for r in rows
+    ]
 
     result = {
         "as_of": TODAY_STR,
@@ -1478,11 +1206,11 @@ def generate_amazon():
             "status": "Good",
         },
         "active_count": None,
-        "top_products": top_products,
+        "top_products": [],  # Not available from Supabase — skipped
         "issues": [],
     }
     _write_json("amazon.json", result)
-    print(f"  Orders: {total_orders} | Revenue: ${total_revenue:,.2f} | Top products fetched: {len(top_products)}")
+    print(f"  Orders: {total_orders} | Revenue: ${total_revenue:,.2f} (from Supabase)")
     return True
 
 
@@ -1529,164 +1257,75 @@ def _wm_headers():
 
 
 def generate_walmart():
-    """Pull Walmart Marketplace orders for last 30 days."""
-    print("\n[Walmart] Pulling 30d orders...")
+    """Pull Walmart 30d data from Supabase v_walmart_30d view."""
+    print("\n[Walmart] Querying Supabase v_walmart_30d...")
 
-    if not WM_CLIENT_ID or not WM_CLIENT_SECRET:
-        print("  [SKIP] Walmart credentials not configured")
+    try:
+        rows = _supabase_get("v_walmart_30d", {"select": "*", "order": "report_date.asc"})
+    except Exception as e:
+        print(f"  [WARN] Supabase v_walmart_30d failed: {e}")
+        rows = []
+
+    if not rows:
+        print("  [SKIP] No Walmart data in Supabase")
         _write_json("walmart.json", {
             "as_of": TODAY_STR,
             "last_30d": {"revenue": 0, "orders": 0, "aov": 0},
             "daily": [],
             "active_count": None,
             "top_products": [],
-            "issues": ["Walmart credentials not configured"],
+            "issues": ["No Walmart data in Supabase"],
         })
         return False
 
-    thirty_days_ago = (TODAY - timedelta(days=30)).isoformat() + "T00:00:00.000Z"
-    today_iso = TODAY.isoformat() + "T23:59:59.999Z"
-
-    all_orders = []
-    next_cursor = None
-
-    while True:
-        params = {
-            "createdStartDate": thirty_days_ago,
-            "createdEndDate": today_iso,
-            "limit": 200,
-        }
-        if next_cursor:
-            params["nextCursor"] = next_cursor
-
-        try:
-            resp = requests.get(
-                f"{WM_BASE}/orders",
-                headers=_wm_headers(),
-                params=params,
-                timeout=60,
-            )
-            if resp.status_code == 404:
-                break  # No orders
-            resp.raise_for_status()
-        except requests.exceptions.HTTPError as e:
-            if hasattr(e, "response") and e.response is not None and e.response.status_code == 404:
-                break
-            raise
-
-        data = resp.json()
-        list_obj = data.get("list") or {}
-        if not isinstance(list_obj, dict):
-            list_obj = {}
-        elements_obj = list_obj.get("elements") or {}
-        if not isinstance(elements_obj, dict):
-            elements_obj = {}
-        order_raw = elements_obj.get("order") or []
-        # Walmart sometimes returns a single order dict instead of a list
-        if isinstance(order_raw, dict):
-            order_raw = [order_raw]
-        if not order_raw:
-            break
-        all_orders.extend(order_raw)
-
-        meta = list_obj.get("meta") or {}
-        if not isinstance(meta, dict):
-            meta = {}
-        next_cursor = meta.get("nextCursor")
-        if not next_cursor:
-            break
-        time.sleep(0.5)
-
-    # Aggregate
-    from collections import defaultdict
-    daily_map = defaultdict(lambda: {"revenue": 0.0, "orders": 0})
-    product_map = defaultdict(lambda: {"revenue": 0.0, "orders": 0, "sku": ""})
-    total_revenue = 0.0
-
-    for order in all_orders:
-        order_date_raw = order.get("orderDate")
-        if isinstance(order_date_raw, int):
-            # Walmart returns orderDate as Unix timestamp in milliseconds
-            order_date = datetime.utcfromtimestamp(order_date_raw / 1000).strftime("%Y-%m-%d")
-        elif isinstance(order_date_raw, str):
-            order_date = order_date_raw[:10]
-        else:
-            order_date = TODAY_STR
-        daily_map[order_date]["orders"] += 1
-
-        order_lines_raw = (order.get("orderLines") or {}).get("orderLine", [])
-        if isinstance(order_lines_raw, dict):
-            order_lines_raw = [order_lines_raw]
-        for line in (order_lines_raw if isinstance(order_lines_raw, list) else []):
-            if not isinstance(line, dict):
-                continue
-            item_name = (line.get("item") or {}).get("productName", "Unknown")
-            sku = (line.get("item") or {}).get("sku", "")
-            qty_obj = line.get("orderLineQuantity") or {}
-            qty = int(qty_obj.get("amount", 0)) if isinstance(qty_obj, dict) else 0
-
-            charges_raw = (line.get("charges") or {}).get("charge", [])
-            if isinstance(charges_raw, dict):
-                charges_raw = [charges_raw]
-            for charge in (charges_raw if isinstance(charges_raw, list) else []):
-                if not isinstance(charge, dict):
-                    continue
-                if charge.get("chargeType") == "PRODUCT":
-                    amt = float((charge.get("chargeAmount") or {}).get("amount", 0))
-                    daily_map[order_date]["revenue"] += amt
-                    total_revenue += amt
-                    product_map[item_name]["revenue"] += amt
-                    product_map[item_name]["orders"] += qty
-                    product_map[item_name]["sku"] = sku
-
-    total_orders = len(all_orders)
+    total_revenue = sum(float(r.get("revenue") or 0) for r in rows)
+    total_orders = sum(int(r.get("orders") or 0) for r in rows)
     aov = round(total_revenue / total_orders, 2) if total_orders else 0
 
-    daily = sorted(
-        [{"date": d, "revenue": round(v["revenue"], 2), "orders": v["orders"]} for d, v in daily_map.items()],
-        key=lambda x: x["date"],
-    )
+    daily = [
+        {
+            "date": r["report_date"],
+            "revenue": round(float(r.get("revenue") or 0), 2),
+            "orders": int(r.get("orders") or 0),
+        }
+        for r in rows
+    ]
 
-    top_products = sorted(
-        [{"title": k, "revenue": round(v["revenue"], 2), "orders": v["orders"], "sku": v["sku"]} for k, v in product_map.items()],
-        key=lambda x: x["revenue"],
-        reverse=True,
-    )[:5]
-
-    # Active item count
+    # Active item count — still pull from Walmart API (fast, single call)
     active_count = None
-    try:
-        items_resp = requests.get(
-            f"{WM_BASE}/items",
-            headers=_wm_headers(),
-            params={"limit": 1},
-            timeout=20,
-        )
-        if items_resp.status_code == 200:
-            items_data = items_resp.json()
-            item_response = items_data.get("ItemResponse")
-            if isinstance(item_response, list) and item_response:
-                active_count = item_response[0].get("totalElements")
-            elif isinstance(item_response, int):
-                active_count = item_response
-            else:
-                active_count = (
-                    items_data.get("totalElements")
-                    or items_data.get("list", {}).get("meta", {}).get("totalCount")
-                )
-    except Exception:
-        pass
+    if WM_CLIENT_ID and WM_CLIENT_SECRET:
+        try:
+            items_resp = requests.get(
+                f"{WM_BASE}/items",
+                headers=_wm_headers(),
+                params={"limit": 1},
+                timeout=20,
+            )
+            if items_resp.status_code == 200:
+                items_data = items_resp.json()
+                item_response = items_data.get("ItemResponse")
+                if isinstance(item_response, list) and item_response:
+                    active_count = item_response[0].get("totalElements")
+                elif isinstance(item_response, int):
+                    active_count = item_response
+                else:
+                    active_count = (
+                        items_data.get("totalElements")
+                        or items_data.get("list", {}).get("meta", {}).get("totalCount")
+                    )
+        except Exception:
+            pass
 
     result = {
         "as_of": TODAY_STR,
         "last_30d": {"revenue": round(total_revenue, 2), "orders": total_orders, "aov": aov},
         "daily": daily,
         "active_count": active_count,
-        "top_products": top_products,
+        "top_products": [],  # Not available from Supabase — skipped
         "issues": [],
     }
     _write_json("walmart.json", result)
-    print(f"  Orders: {total_orders} | Revenue: ${total_revenue:,.2f} | Active items: {active_count}")
+    print(f"  Orders: {total_orders} | Revenue: ${total_revenue:,.2f} | Active items: {active_count} (from Supabase)")
     return True
 
 
@@ -2360,91 +1999,68 @@ def generate_notes():
 # ══════════════════════════════════════════════════════════════
 
 def generate_marketing():
-    """Generate marketing channel metrics: LTV, CAC, contribution margin, 90-day daily table."""
-    print("\n[Marketing] Computing customer economics...")
+    """Generate marketing channel metrics from Supabase views.
+
+    Reads from:
+      - v_marketing_12m      — 12-month aggregate totals
+      - v_customer_summary_12m — customer counts (unique, new, returning, LTV)
+      - v_monthly_channel     — monthly revenue by channel
+      - v_monthly_ad_spend    — monthly ad spend
+      - v_daily_ad_spend_90d  — daily ad spend (last 90 days)
+      - v_monthly_shipping    — monthly shipping costs
+      - v_monthly_cogs        — monthly COGS
+      - daily_sales (table)   — WC daily revenue for 90-day table
+    """
+    print("\n[Marketing] Querying Supabase views...")
 
     today = TODAY
     period_start = today - timedelta(days=365)
     period_90d_start = today - timedelta(days=90)
     yesterday = today - timedelta(days=1)
 
-    # ── 1. Pull 12 months of WC orders ──────────────────────
-    print("  Pulling 12 months of WooCommerce orders...")
-    orders = _pull_wc_orders_range(str(period_start), str(yesterday))
-    print(f"    Fetched {len(orders)} orders")
+    # ── 1. Fetch all Supabase views in sequence ──────────────
+    # v_marketing_12m — aggregate totals
+    print("  Fetching v_marketing_12m...")
+    try:
+        mkt_rows = _supabase_get("v_marketing_12m", {"select": "*"})
+        mkt = mkt_rows[0] if mkt_rows else {}
+    except Exception as e:
+        print(f"    [ERR] v_marketing_12m failed: {e}")
+        mkt = {}
 
-    if not orders:
-        print("    [SKIP] No orders found — writing empty marketing.json")
-        _write_json("marketing.json", {"generated_at": TODAY_STR, "error": "no_orders"})
+    if not mkt:
+        print("    [SKIP] No marketing data — writing empty marketing.json")
+        _write_json("marketing.json", {"generated_at": TODAY_STR, "error": "no_data"})
         return True
 
-    # ── 2. Customer segmentation ────────────────────────────
-    # Group orders by customer
-    customer_orders = {}  # {customer_key: [order_dates]}
-    customer_revenue = {}  # {customer_key: total_revenue}
-    guest_emails = {}  # {email: [order_dates]}
+    total_revenue = float(mkt.get("total_revenue") or 0)
+    total_orders = int(mkt.get("total_orders") or 0)
+    wc_revenue = float(mkt.get("wc_revenue") or 0)
+    total_ad_spend = float(mkt.get("total_ad_spend") or 0)
+    total_conv_value = float(mkt.get("total_conv_value") or 0)
+    total_cogs = float(mkt.get("total_cogs") or 0)
+    total_shipping = float(mkt.get("total_shipping") or 0)
 
-    total_revenue = 0.0
-    for o in orders:
-        rev = float(o.get("total", 0))
-        total_revenue += rev
-        cid = o.get("customer_id", 0)
-        odate = o.get("date_created", "")[:10]
+    print(f"    12m totals: revenue=${total_revenue:,.2f} orders={total_orders} ad_spend=${total_ad_spend:,.2f}")
 
-        if cid and cid != 0:
-            customer_orders.setdefault(cid, []).append(odate)
-            customer_revenue[cid] = customer_revenue.get(cid, 0) + rev
-        else:
-            email = (o.get("billing", {}).get("email") or "").lower().strip()
-            if email:
-                guest_emails.setdefault(email, []).append(odate)
-                customer_revenue[f"guest_{email}"] = customer_revenue.get(f"guest_{email}", 0) + rev
-
-    # Fetch customer date_created for new/returning classification
-    registered_ids = list(customer_orders.keys())
-    print(f"  Fetching {len(registered_ids)} customer records for classification...")
-    customer_dates = _pull_wc_customers_batch(registered_ids)
-
-    period_start_str = str(period_start)
-    new_customers = 0
-    returning_customers = 0
-
-    for cid in registered_ids:
-        created = customer_dates.get(cid, "")[:10]
-        if created >= period_start_str:
-            new_customers += 1
-        else:
-            returning_customers += 1
-
-    # Guest orders: treat as new (no historical data)
-    new_customers += len(guest_emails)
-
-    unique_customers = len(registered_ids) + len(guest_emails)
-    print(f"    Unique customers: {unique_customers} (new: {new_customers}, returning: {returning_customers})")
-
-    # ── 3. Pull 12-month Google Ads spend ────────────────────
-    print("  Pulling 12-month Google Ads spend...")
+    # v_customer_summary_12m — customer counts
+    print("  Fetching v_customer_summary_12m...")
     try:
-        ads_12m = _pull_google_ads_range(str(period_start), str(yesterday))
+        cust_rows = _supabase_get("v_customer_summary_12m", {"select": "*"})
+        cust = cust_rows[0] if cust_rows else {}
     except Exception as e:
-        print(f"    [ERR] Google Ads 12m failed: {e}")
-        ads_12m = {"spend": 0, "conversions_value": 0}
+        print(f"    [ERR] v_customer_summary_12m failed: {e}")
+        cust = {}
 
-    total_ad_spend = ads_12m["spend"]
-    total_conv_value = ads_12m["conversions_value"]
+    unique_customers = int(cust.get("unique_customers") or 0)
+    new_customers = int(cust.get("new_customers") or 0)
+    returning_customers = int(cust.get("returning_customers") or 0)
+    avg_ltv = float(cust.get("avg_ltv") or 0)
 
-    # ── 4. COGS calculation ──────────────────────────────────
-    print("  Calculating COGS from order line items...")
-    cogs_cache = _load_cogs_cache()
-    total_cogs = _calculate_cogs_from_orders(orders, cogs_cache)
+    print(f"    Customers: {unique_customers} (new: {new_customers}, returning: {returning_customers})")
 
-    # Shipping: pull from Shippo API (full 12-month history)
-    # Paginates all transactions, deduplicates by tracking number, fetches rate costs
-    print("  Pulling shipping costs from Shippo API...")
-    total_shipping = _pull_shippo_range(period_start, yesterday)
-
-    # ── 5. Compute widget metrics ────────────────────────────
-    ltv = round(total_revenue / unique_customers, 2) if unique_customers else 0
+    # ── 2. Compute widget metrics ────────────────────────────
+    ltv = avg_ltv if avg_ltv else (round(total_revenue / unique_customers, 2) if unique_customers else 0)
     contribution_margin = round((total_revenue - total_cogs - total_shipping) / total_revenue, 4) if total_revenue else 0
     cac = round(total_ad_spend / unique_customers, 2) if unique_customers else 0
     ncac = round(total_ad_spend / new_customers, 2) if new_customers else 0
@@ -2468,7 +2084,7 @@ def generate_marketing():
     print(f"    LTV: ${ltv} | CM: {contribution_margin:.1%} | CAC: ${cac} | nCAC: ${ncac}")
     print(f"    Payback: {payback} mo | LTV:CAC: {ltv_cac}x | ROAS: {roas}x")
 
-    # ── 6. Channel table (blended — single channel for now) ─
+    # ── 3. Channel table (blended — single channel for now) ─
     channels = [{
         "name": "Google Ads",
         "cac": cac,
@@ -2479,29 +2095,26 @@ def generate_marketing():
         "roas": roas,
     }]
 
-    # ── 7. 90-day daily table + 12-month monthly table ───────
-    print("  Building 90-day daily table...")
-
-    # Google Ads daily (full 12 months for monthly aggregation)
+    # ── 4. 90-day daily table ────────────────────────────────
+    print("  Fetching v_daily_ad_spend_90d...")
     try:
-        ads_daily = _pull_google_ads_daily(str(period_start), str(yesterday))
+        ads_daily_rows = _supabase_get("v_daily_ad_spend_90d", {"select": "*", "order": "report_date.asc"})
     except Exception as e:
-        print(f"    [ERR] Google Ads daily failed: {e}")
-        ads_daily = []
-    ads_by_date = {r["date"]: r for r in ads_daily}
+        print(f"    [ERR] v_daily_ad_spend_90d failed: {e}")
+        ads_daily_rows = []
+    ads_by_date = {r.get("report_date", ""): r for r in ads_daily_rows}
 
-    # WC daily revenue from Supabase (90 days for daily table)
-    # Uses raw requests with list-of-tuples pattern for duplicate key support
+    # WC daily revenue from Supabase daily_sales (90 days for daily table)
     try:
         url = f"{SUPABASE_URL}/rest/v1/daily_sales"
-        headers = {"apikey": SUPABASE_KEY}
-        params = [
+        sb_headers = {"apikey": SUPABASE_KEY}
+        sb_params = [
             ("report_date", f"gte.{period_90d_start}"),
             ("report_date", f"lte.{yesterday}"),
             ("channel", "eq.woocommerce"),
             ("select", "report_date,revenue"),
         ]
-        resp = requests.get(url, headers=headers, params=params, timeout=30)
+        resp = requests.get(url, headers=sb_headers, params=sb_params, timeout=30)
         resp.raise_for_status()
         wc_daily_rows = resp.json()
         wc_by_date = {r["report_date"]: float(r.get("revenue", 0)) for r in wc_daily_rows}
@@ -2513,64 +2126,54 @@ def generate_marketing():
     while d <= yesterday:
         ds = str(d)
         ads = ads_by_date.get(ds, {})
-        spend = ads.get("spend", 0)
-        conv_val = ads.get("conversions_value", 0)
+        spend = float(ads.get("spend") or 0)
+        conv_val = float(ads.get("conversions_value") or 0)
         wc_rev = wc_by_date.get(ds, 0)
         mer = round(wc_rev / spend, 2) if spend > 0 else None
 
         daily_90d.append({
             "date": ds,
-            "ad_spend": spend,
-            "ad_spend_google": spend,
-            "channel_revenue": conv_val,
+            "ad_spend": round(spend, 2),
+            "ad_spend_google": round(spend, 2),
+            "channel_revenue": round(conv_val, 2),
             "wc_revenue": round(wc_rev, 2),
             "mer": mer,
         })
         d += timedelta(days=1)
 
-    # ── 7b. 12-month monthly aggregation ─────────────────────
-    print("  Building 12-month monthly table...")
+    # ── 5. 12-month monthly table ────────────────────────────
+    print("  Fetching v_monthly_channel + v_monthly_ad_spend...")
+    try:
+        monthly_channel_rows = _supabase_get("v_monthly_channel", {"select": "*", "order": "month.asc"})
+    except Exception as e:
+        print(f"    [ERR] v_monthly_channel failed: {e}")
+        monthly_channel_rows = []
 
-    # Aggregate orders by month for revenue + customer counts
-    monthly_wc_rev = {}    # {YYYY-MM: revenue}
-    monthly_customers = {} # {YYYY-MM: set(customer_keys)}
-    monthly_new = {}       # {YYYY-MM: count}
+    try:
+        monthly_ad_rows = _supabase_get("v_monthly_ad_spend", {"select": "*", "order": "month.asc"})
+    except Exception as e:
+        print(f"    [ERR] v_monthly_ad_spend failed: {e}")
+        monthly_ad_rows = []
 
-    for o in orders:
-        odate = o.get("date_created", "")[:7]  # YYYY-MM
-        if not odate:
+    # Index monthly data by month key
+    # Monthly WC revenue from v_monthly_channel (filter channel=woocommerce)
+    monthly_wc_rev = {}
+    for r in monthly_channel_rows:
+        ch = (r.get("channel") or "").lower()
+        month_key = (r.get("month") or "")[:7]
+        if ch == "woocommerce" and month_key:
+            monthly_wc_rev[month_key] = float(r.get("revenue") or 0)
+
+    # Monthly ad spend from v_monthly_ad_spend (aggregate all channels — currently just google_ads)
+    monthly_ads = {}
+    for r in monthly_ad_rows:
+        month_key = (r.get("month") or "")[:7]
+        if not month_key:
             continue
-        rev = float(o.get("total", 0))
-        monthly_wc_rev[odate] = monthly_wc_rev.get(odate, 0) + rev
-
-        cid = o.get("customer_id", 0)
-        if cid and cid != 0:
-            key = cid
-        else:
-            email = (o.get("billing", {}).get("email") or "").lower().strip()
-            key = f"guest_{email}" if email else None
-
-        if key:
-            monthly_customers.setdefault(odate, set()).add(key)
-
-    # Count new customers per month using customer_dates
-    for cid, created_str in customer_dates.items():
-        created_month = created_str[:7]  # YYYY-MM
-        if created_month:
-            monthly_new[created_month] = monthly_new.get(created_month, 0) + 1
-    # Add guest "new" customers to their earliest order month
-    for email, odates in guest_emails.items():
-        earliest = min(odates)[:7]
-        monthly_new[earliest] = monthly_new.get(earliest, 0) + 1
-
-    # Aggregate ads by month
-    monthly_ads = {}  # {YYYY-MM: {spend, conversions_value}}
-    for ad_row in ads_daily:
-        month = ad_row["date"][:7]
-        if month not in monthly_ads:
-            monthly_ads[month] = {"spend": 0, "conversions_value": 0}
-        monthly_ads[month]["spend"] += ad_row["spend"]
-        monthly_ads[month]["conversions_value"] += ad_row["conversions_value"]
+        if month_key not in monthly_ads:
+            monthly_ads[month_key] = {"spend": 0, "conversions_value": 0}
+        monthly_ads[month_key]["spend"] += float(r.get("spend") or 0)
+        monthly_ads[month_key]["conversions_value"] += float(r.get("conversions_value") or 0)
 
     # Build monthly rows
     monthly_12m = []
@@ -2583,11 +2186,9 @@ def generate_marketing():
         spend = round(ads_m.get("spend", 0), 2)
         conv_val = round(ads_m.get("conversions_value", 0), 2)
         mer = round(wc_rev / spend, 2) if spend > 0 else None
-        custs = len(monthly_customers.get(month_key, set()))
-        new_c = monthly_new.get(month_key, 0)
-        m_cac = round(spend / custs, 2) if custs > 0 else None
-        m_ncac = round(spend / new_c, 2) if new_c > 0 else None
 
+        # Customer counts per month not available from views — omit granular counts
+        # (total counts come from v_customer_summary_12m at the top level)
         monthly_12m.append({
             "month": month_key,
             "ad_spend": spend,
@@ -2595,10 +2196,10 @@ def generate_marketing():
             "channel_revenue": conv_val,
             "wc_revenue": wc_rev,
             "mer": mer,
-            "customers": custs,
-            "new_customers": new_c,
-            "cac": m_cac,
-            "ncac": m_ncac,
+            "customers": None,
+            "new_customers": None,
+            "cac": None,
+            "ncac": None,
         })
 
         # Next month
@@ -2607,7 +2208,7 @@ def generate_marketing():
         else:
             d = d.replace(month=d.month + 1)
 
-    # ── 8. Write JSON ────────────────────────────────────────
+    # ── 6. Write JSON ────────────────────────────────────────
     output = {
         "generated_at": TODAY_STR,
         "period_start": str(period_start),
@@ -2616,8 +2217,8 @@ def generate_marketing():
         "new_customers": new_customers,
         "returning_customers": returning_customers,
         "total_revenue": round(total_revenue, 2),
-        "total_ad_spend": total_ad_spend,
-        "total_cogs": total_cogs,
+        "total_ad_spend": round(total_ad_spend, 2),
+        "total_cogs": round(total_cogs, 2),
         "total_shipping": round(total_shipping, 2),
         "widgets": widgets,
         "channels": channels,
@@ -2626,7 +2227,7 @@ def generate_marketing():
     }
 
     _write_json("marketing.json", output)
-    print(f"  [OK] marketing.json written")
+    print(f"  [OK] marketing.json written (from Supabase views)")
     return True
 
 
@@ -2645,12 +2246,12 @@ def main():
         ("Reporting (Supabase)",  generate_reporting),
         ("Budget (CSV)",          generate_budget),
         ("Klaviyo (Campaigns)",   generate_klaviyo),
-        ("Amazon (SP-API)",       generate_amazon),
-        ("Walmart (Marketplace)", generate_walmart),
+        ("Amazon (Supabase)",     generate_amazon),
+        ("Walmart (Supabase)",    generate_walmart),
         ("Inventory (Fishbowl)",  generate_inventory),
         ("Shipping (Shippo+WC)", generate_shipping),
         ("Notes (Markdown)",      generate_notes),
-        ("Marketing (Channels)",  generate_marketing),
+        ("Marketing (Supabase)",  generate_marketing),
     ]
 
     import traceback

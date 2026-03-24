@@ -15,6 +15,7 @@ Usage:
   python3 daily_pull.py              # Pull yesterday's data
   python3 daily_pull.py 2026-03-01   # Pull specific date
   python3 daily_pull.py backfill 2025-01-01 2026-03-08  # Backfill range
+  python3 daily_pull.py backfill-customers              # Full customer sync
 """
 
 import json
@@ -115,6 +116,7 @@ _UPSERT_KEYS = {
     "daily_cogs": "report_date,channel",
     "cogs_lookup": "sku",
     "financial_goals": "year,month",
+    "customers": "customer_id",
 }
 
 
@@ -537,7 +539,7 @@ def pull_vibe(report_date):
 
     if not VIBE_API_KEY:
         print("    [SKIP] No VIBE_CO_API configured")
-        return {"report_date": str(report_date), "channel": "vibe_co", "spend": 0, "impressions": 0, "clicks": 0, "conversions": 0}
+        return {"report_date": str(report_date), "channel": "vibe_co", "spend": 0, "impressions": 0, "clicks": 0, "conversions": 0, "conversions_value": 0.0}
 
     headers = {"X-API-KEY": VIBE_API_KEY, "Content-Type": "application/json"}
     end_date = str(date.fromisoformat(str(report_date)) + timedelta(days=1))
@@ -574,10 +576,10 @@ def pull_vibe(report_date):
             break
         if status_data["status"] == "error":
             print(f"    [ERR] Vibe report failed: {status_data}")
-            return {"report_date": str(report_date), "channel": "vibe_co", "spend": 0, "impressions": 0, "clicks": 0, "conversions": 0}
+            return {"report_date": str(report_date), "channel": "vibe_co", "spend": 0, "impressions": 0, "clicks": 0, "conversions": 0, "conversions_value": 0.0}
     else:
         print("    [ERR] Vibe report timed out after 60s")
-        return {"report_date": str(report_date), "channel": "vibe_co", "spend": 0, "impressions": 0, "clicks": 0, "conversions": 0}
+        return {"report_date": str(report_date), "channel": "vibe_co", "spend": 0, "impressions": 0, "clicks": 0, "conversions": 0, "conversions_value": 0.0}
 
     # Step 3: Download report
     download_url = status_data["download_url"]
@@ -595,6 +597,7 @@ def pull_vibe(report_date):
         "impressions": impressions,
         "clicks": 0,  # CTV has no clicks
         "conversions": 0,
+        "conversions_value": 0.0,
     }
 
 
@@ -762,6 +765,177 @@ def calculate_cogs_for_orders(orders):
 
 
 # ══════════════════════════════════════════════════════════════
+# 6. CUSTOMER SYNC
+# ══════════════════════════════════════════════════════════════
+
+def sync_customers(wc_orders):
+    """Sync customer records from today's WC orders to Supabase.
+
+    Collects unique customer_ids from orders, fetches customer details
+    from the WC API (date_created), computes order totals from the
+    orders we already have, and upserts to the customers table.
+    """
+    print(f"\n  [Customers] Syncing customers from {len(wc_orders)} orders...")
+
+    if not wc_orders:
+        print("    [SKIP] No orders — nothing to sync")
+        return
+
+    # Collect unique customer data from orders
+    customer_orders = {}  # customer_id -> {emails, orders list}
+    for order in wc_orders:
+        cid = order.get("customer_id", 0)
+        if cid == 0:
+            continue  # Guest checkout — no customer record
+        email = order.get("billing", {}).get("email", "")
+        if cid not in customer_orders:
+            customer_orders[cid] = {"email": email, "orders": []}
+        customer_orders[cid]["orders"].append(order)
+
+    if not customer_orders:
+        print("    [SKIP] No registered customers in orders (all guest)")
+        return
+
+    customer_ids = list(customer_orders.keys())
+    print(f"    Found {len(customer_ids)} unique customer(s)")
+
+    # Fetch customer details from WC API in batches of 100
+    customer_details = {}  # customer_id -> {date_created}
+    for i in range(0, len(customer_ids), 100):
+        batch = customer_ids[i:i + 100]
+        include_str = ",".join(str(cid) for cid in batch)
+        params = {"include": include_str, "per_page": 100}
+        try:
+            resp = _wc_request_with_retry(f"{WC_BASE}/customers", params)
+            for cust in resp.json():
+                customer_details[cust["id"]] = {
+                    "date_created": cust.get("date_created", ""),
+                }
+        except Exception as e:
+            print(f"    [WARN] Failed to fetch customer batch: {e}")
+        time.sleep(0.3)
+
+    # Build upsert rows
+    rows = []
+    for cid, data in customer_orders.items():
+        orders = data["orders"]
+        total_revenue = sum(float(o.get("total", 0)) for o in orders)
+        total_orders = len(orders)
+        order_dates = sorted(o.get("date_created", "")[:10] for o in orders if o.get("date_created"))
+        first_order_date = order_dates[0] if order_dates else None
+        last_order_date = order_dates[-1] if order_dates else None
+
+        details = customer_details.get(cid, {})
+        rows.append({
+            "customer_id": cid,
+            "email": data["email"],
+            "date_created": details.get("date_created", ""),
+            "first_order_date": first_order_date,
+            "total_orders": total_orders,
+            "total_revenue": round(total_revenue, 2),
+            "last_order_date": last_order_date,
+        })
+
+    if SUPABASE_URL and SUPABASE_KEY and rows:
+        supabase_upsert("customers", rows)
+    else:
+        print(f"    [SKIP] No Supabase credentials — {len(rows)} customer rows not written")
+
+
+def backfill_customers():
+    """Pull ALL customers from WC API and upsert to Supabase.
+
+    Paginates through the entire customer list. For each customer,
+    also pulls their orders to compute total_orders, total_revenue,
+    first_order_date, and last_order_date.
+
+    Usage: python daily_pull.py backfill-customers
+    """
+    print(f"\n{'='*60}")
+    print(f"  CUSTOMER BACKFILL")
+    print(f"{'='*60}")
+
+    # Step 1: Paginate all customers
+    all_customers = []
+    page = 1
+    while True:
+        params = {"per_page": 100, "page": page}
+        try:
+            resp = _wc_request_with_retry(f"{WC_BASE}/customers", params)
+            customers = resp.json()
+            if not customers:
+                break
+            all_customers.extend(customers)
+            total_pages = int(resp.headers.get("X-WP-TotalPages", 1))
+            print(f"    Page {page}/{total_pages} — {len(customers)} customers")
+            if page >= total_pages:
+                break
+            page += 1
+            time.sleep(0.3)
+        except Exception as e:
+            print(f"    [ERR] Failed on page {page}: {e}")
+            break
+
+    print(f"\n    Total customers fetched: {len(all_customers)}")
+
+    # Step 2: For each customer, pull their orders to get totals
+    rows = []
+    for idx, cust in enumerate(all_customers):
+        cid = cust["id"]
+        email = cust.get("email", "")
+        date_created = cust.get("date_created", "")
+
+        # Pull all orders for this customer
+        order_page = 1
+        cust_orders = []
+        while True:
+            params = {"customer": cid, "per_page": 100, "page": order_page, "status": "completed,processing"}
+            try:
+                resp = _wc_request_with_retry(f"{WC_BASE}/orders", params)
+                orders = resp.json()
+                if not orders:
+                    break
+                cust_orders.extend(orders)
+                total_order_pages = int(resp.headers.get("X-WP-TotalPages", 1))
+                if order_page >= total_order_pages:
+                    break
+                order_page += 1
+                time.sleep(0.3)
+            except Exception as e:
+                print(f"    [WARN] Orders for customer {cid}: {e}")
+                break
+
+        total_revenue = sum(float(o.get("total", 0)) for o in cust_orders)
+        total_orders = len(cust_orders)
+        order_dates = sorted(o.get("date_created", "")[:10] for o in cust_orders if o.get("date_created"))
+        first_order_date = order_dates[0] if order_dates else None
+        last_order_date = order_dates[-1] if order_dates else None
+
+        rows.append({
+            "customer_id": cid,
+            "email": email,
+            "date_created": date_created,
+            "first_order_date": first_order_date,
+            "total_orders": total_orders,
+            "total_revenue": round(total_revenue, 2),
+            "last_order_date": last_order_date,
+        })
+
+        if (idx + 1) % 50 == 0:
+            print(f"    Processed {idx + 1}/{len(all_customers)} customers...")
+            # Upsert in batches of 50 to avoid timeout
+            if SUPABASE_URL and SUPABASE_KEY:
+                supabase_upsert("customers", rows)
+                rows = []
+
+    # Upsert remaining rows
+    if SUPABASE_URL and SUPABASE_KEY and rows:
+        supabase_upsert("customers", rows)
+
+    print(f"\n    [OK] Customer backfill complete — {len(all_customers)} customers processed")
+
+
+# ══════════════════════════════════════════════════════════════
 # MAIN ORCHESTRATOR
 # ══════════════════════════════════════════════════════════════
 
@@ -816,7 +990,7 @@ def pull_date(report_date):
     except Exception as e:
         print(f"    [ERR] Vibe.co failed: {e}")
         errors.append(f"Vibe.co: {e}")
-        vibe = {"report_date": str(report_date), "channel": "vibe_co", "spend": 0, "impressions": 0, "clicks": 0, "conversions": 0}
+        vibe = {"report_date": str(report_date), "channel": "vibe_co", "spend": 0, "impressions": 0, "clicks": 0, "conversions": 0, "conversions_value": 0.0}
 
     try:
         shipping = pull_shippo(report_date)
@@ -882,6 +1056,15 @@ def pull_date(report_date):
         if "Shippo" not in str(errors):
             supabase_upsert("daily_shipping", [shipping])
         print("  [OK] Data written to Supabase (skipped failed sources)")
+
+        # Sync customers from today's WC orders
+        raw_orders = wc.get("raw_orders", [])
+        if raw_orders and "WooCommerce" not in str(errors):
+            try:
+                sync_customers(raw_orders)
+            except Exception as e:
+                print(f"    [ERR] Customer sync failed: {e}")
+                errors.append(f"Customer sync: {e}")
     else:
         print("\n  [SKIP] No Supabase credentials — data printed only")
 
@@ -936,6 +1119,10 @@ def main():
         print(f"    Total Ad Spend: ${total_spend:,.2f}")
         print(f"    Period MER: {total_rev/total_spend:.2f}x" if total_spend > 0 else "    Period MER: N/A")
 
+    elif args[0] == "backfill-customers":
+        # Full customer backfill from WC API
+        backfill_customers()
+
     elif len(args) == 1:
         # Pull specific date
         target = date.fromisoformat(args[0])
@@ -946,6 +1133,7 @@ def main():
         print("  python3 daily_pull.py              # Yesterday")
         print("  python3 daily_pull.py 2026-03-08    # Specific date")
         print("  python3 daily_pull.py backfill 2025-01-01 2026-03-08  # Range")
+        print("  python3 daily_pull.py backfill-customers              # Full customer sync")
 
 
 if __name__ == "__main__":
