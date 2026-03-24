@@ -123,10 +123,15 @@ def _write_json(filename, data):
 
 
 def _supabase_get(path, params=None):
-    """GET from Supabase REST API."""
+    """GET from Supabase REST API.
+    Always sets a high limit to avoid PostgREST default truncation.
+    """
     url = f"{SUPABASE_URL}/rest/v1/{path}"
     headers = {"apikey": SUPABASE_KEY, "Content-Type": "application/json"}
-    resp = requests.get(url, headers=headers, params=params or {}, timeout=30)
+    p = dict(params or {})
+    if "limit" not in p:
+        p["limit"] = 10000
+    resp = requests.get(url, headers=headers, params=p, timeout=30)
     resp.raise_for_status()
     return resp.json()
 
