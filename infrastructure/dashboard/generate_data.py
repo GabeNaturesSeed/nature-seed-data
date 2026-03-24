@@ -2042,125 +2042,85 @@ def generate_inventory():
 # 6b. SHIPPING.JSON — Shipping cost insights from Shippo + WC
 # ══════════════════════════════════════════════════════════════
 
+def _carrier_from_tracking(tracking):
+    """Infer carrier from tracking number prefix (avoids Shippo rate API call)."""
+    if not tracking:
+        return "Unknown"
+    t = tracking.strip()
+    if t.startswith("1Z"):
+        return "UPS"
+    if t.startswith("94") or t.startswith("92") or t.startswith("93") or t.startswith("420"):
+        return "USPS"
+    if len(t) in (12, 15, 20, 22) and t.isdigit():
+        return "FEDEX"
+    # Check common FedEx patterns
+    if len(t) >= 12 and t[:2].isdigit():
+        return "FEDEX"
+    return "UPS"  # Default — Nature's Seed uses UPS 98%+ of the time
+
+
 def generate_shipping():
-    """Pull shipping data from Shippo (costs/carrier/weight) and WooCommerce (collected).
+    """Pull shipping data from Supabase (daily totals) + Shippo (carrier breakdown).
+
+    Uses Supabase daily_shipping for fast MTD/YTD totals, and Shippo transaction
+    list (no rate API calls) for carrier breakdown by inferring carrier from
+    tracking number prefixes. This avoids thousands of slow /rates/ API calls.
 
     Writes shipping.json with:
       - MTD/YTD KPI totals (collected, paid, net, avg cost per order)
       - Carrier breakdown (YTD totals, % of shipments)
-      - Weekly avg cost-per-pound by carrier (for Chart.js line charts)
+      - Weekly avg cost per shipment by carrier (for Chart.js line charts)
     """
-    print("\n[Shipping] Pulling Shippo transactions + WC shipping collected...")
+    print("\n[Shipping] Pulling shipping data (Supabase + Shippo carriers)...")
 
     today = TODAY
     ytd_start = date(today.year, 1, 1)
     mtd_start = date(today.year, today.month, 1)
 
-    # ── Step 1: Pull ALL Shippo transactions for YTD ───────────
-    if not SHIPPO_API_KEY:
-        print("  [SKIP] No SHIPPO_API_KEY configured")
-        _write_json("shipping.json", {
-            "as_of": TODAY_STR,
-            "mtd": {}, "ytd": {},
-            "carriers": [], "weekly_cost_per_lb": {},
-            "warning": "Shippo API key not configured",
-        })
-        return False
+    # ── Step 1: Get daily shipping totals from Supabase ────────
+    sb_shipping_ytd = []
+    try:
+        url = f"{SUPABASE_URL}/rest/v1/daily_shipping"
+        params = {
+            "select": "report_date,total_cost,shipment_count",
+            "report_date": f"gte.{ytd_start}",
+            "order": "report_date.asc",
+        }
+        resp = requests.get(url, headers={
+            "apikey": SUPABASE_KEY,
+            "Content-Type": "application/json",
+        }, params=params, timeout=15)
+        if resp.status_code == 200:
+            sb_shipping_ytd = resp.json()
+            print(f"  Supabase: {len(sb_shipping_ytd)} daily_shipping rows (YTD)")
+        else:
+            print(f"  [WARN] Supabase daily_shipping: {resp.status_code}")
+    except Exception as e:
+        print(f"  [WARN] Supabase shipping pull failed: {e}")
 
-    headers = {"Authorization": f"ShippoToken {SHIPPO_API_KEY}"}
-    all_txns = []
-    url = "https://api.goshippo.com/transactions/"
-    params = {"results": 200}
-    pages_checked = 0
-    seen_tracking = set()
+    # Compute MTD/YTD totals from Supabase
+    ytd_paid = 0
+    ytd_shipments = 0
+    mtd_paid = 0
+    mtd_shipments = 0
+    # Weekly totals for chart (all carriers combined from Supabase)
+    for row in sb_shipping_ytd:
+        cost = float(row.get("total_cost") or 0)
+        count = int(row.get("shipment_count") or 0)
+        rd = row.get("report_date", "")
+        ytd_paid += cost
+        ytd_shipments += count
+        if rd >= str(mtd_start):
+            mtd_paid += cost
+            mtd_shipments += count
 
-    while url:
-        try:
-            resp = requests.get(url, headers=headers, params=params, timeout=30)
-            if resp.status_code != 200:
-                print(f"  [WARN] Shippo: {resp.status_code} {resp.text[:200]}")
-                break
-            data = resp.json()
-            pages_checked += 1
-
-            found_older = False
-            for txn in data.get("results", []):
-                txn_date = (txn.get("object_created") or "")[:10]
-
-                if txn_date < str(ytd_start):
-                    found_older = True
-                    break
-
-                if txn.get("status") != "SUCCESS":
-                    continue
-
-                tracking = txn.get("tracking_number", "")
-                if tracking and tracking in seen_tracking:
-                    continue
-                if tracking:
-                    seen_tracking.add(tracking)
-
-                all_txns.append(txn)
-
-            if found_older:
-                break
-
-            url = data.get("next")
-            params = {}
-            time.sleep(0.3)
-        except Exception as e:
-            print(f"  [WARN] Shippo pagination error: {e}")
-            break
-
-    print(f"  Shippo: {len(all_txns)} transactions across {pages_checked} pages (YTD)")
-
-    # ── Step 2: Fetch rate details for cost + carrier + weight ─
-    rate_cache = {}
-
-    def _get_rate(rate_id):
-        if not rate_id:
-            return {"amount": 0, "carrier": "Unknown", "weight": 0}
-        if rate_id in rate_cache:
-            return rate_cache[rate_id]
-        try:
-            r = requests.get(f"https://api.goshippo.com/rates/{rate_id}",
-                             headers=headers, timeout=15)
-            if r.status_code == 200:
-                rd = r.json()
-                info = {
-                    "amount": float(rd.get("amount") or 0),
-                    "carrier": (rd.get("provider") or "Unknown").upper(),
-                    "weight": float(rd.get("parcel", {}).get("weight") or 0) if isinstance(rd.get("parcel"), dict)
-                             else 0,
-                }
-            else:
-                info = {"amount": 0, "carrier": "Unknown", "weight": 0}
-        except Exception:
-            info = {"amount": 0, "carrier": "Unknown", "weight": 0}
-        rate_cache[rate_id] = info
-        time.sleep(0.1)
-        return info
-
-    # Enrich transactions with rate info
-    enriched = []
-    for txn in all_txns:
-        rate_info = _get_rate(txn.get("rate", ""))
-        txn_date = (txn.get("object_created") or "")[:10]
-        enriched.append({
-            "date": txn_date,
-            "cost": rate_info["amount"],
-            "carrier": rate_info["carrier"],
-            "weight": rate_info["weight"],
-        })
-
-    # ── Step 3: Pull WC shipping collected (MTD + YTD) ─────────
+    # ── Step 2: Pull WC shipping collected (MTD + YTD) ─────────
     wc_shipping_mtd = 0.0
     wc_shipping_ytd = 0.0
     wc_orders_count_mtd = 0
     wc_orders_count_ytd = 0
 
     try:
-        # YTD orders (includes MTD)
         ytd_orders = _pull_wc_orders_range(str(ytd_start), str(today))
         for order in ytd_orders:
             ship_total = float(order.get("shipping_total") or 0)
@@ -2174,72 +2134,123 @@ def generate_shipping():
     except Exception as e:
         print(f"  [WARN] WC shipping pull failed: {e}")
 
-    # ── Step 4: Compute MTD / YTD KPIs ─────────────────────────
-    mtd_txns = [t for t in enriched if t["date"] >= str(mtd_start)]
-    ytd_txns = enriched  # already filtered to YTD
+    # ── Step 3: Pull Shippo transactions for carrier breakdown ─
+    # Only need tracking numbers + dates + status (NO rate API calls)
+    carrier_by_week = {}  # {carrier: {week: {"cost": x, "count": y}}}
+    carrier_totals = {}
+    from collections import defaultdict
 
-    def _kpi(txns, collected, order_count):
-        paid = round(sum(t["cost"] for t in txns), 2)
-        count = len(txns)
+    if SHIPPO_API_KEY:
+        headers = {"Authorization": f"ShippoToken {SHIPPO_API_KEY}"}
+        seen_tracking = set()
+        url = "https://api.goshippo.com/transactions/"
+        params = {"results": 200}
+        pages_checked = 0
+        all_carrier_txns = []
+
+        while url:
+            try:
+                resp = requests.get(url, headers=headers, params=params, timeout=30)
+                if resp.status_code != 200:
+                    print(f"  [WARN] Shippo: {resp.status_code}")
+                    break
+                data = resp.json()
+                pages_checked += 1
+
+                found_older = False
+                for txn in data.get("results", []):
+                    txn_date = (txn.get("object_created") or "")[:10]
+                    if txn_date < str(ytd_start):
+                        found_older = True
+                        break
+                    if txn.get("status") != "SUCCESS":
+                        continue
+                    tracking = txn.get("tracking_number", "")
+                    if tracking and tracking in seen_tracking:
+                        continue
+                    if tracking:
+                        seen_tracking.add(tracking)
+                    carrier = _carrier_from_tracking(tracking)
+                    all_carrier_txns.append({"date": txn_date, "carrier": carrier})
+
+                if found_older:
+                    break
+                url = data.get("next")
+                params = {}
+                time.sleep(0.3)
+            except Exception as e:
+                print(f"  [WARN] Shippo pagination error: {e}")
+                break
+
+        print(f"  Shippo: {len(all_carrier_txns)} transactions for carrier breakdown ({pages_checked} pages)")
+
+        # Build carrier totals and weekly breakdown
+        # Distribute Supabase daily costs proportionally by carrier count per day
+        daily_carrier_counts = defaultdict(lambda: defaultdict(int))  # {date: {carrier: count}}
+        for txn in all_carrier_txns:
+            daily_carrier_counts[txn["date"]][txn["carrier"]] += 1
+
+        # Map Supabase daily costs to carriers proportionally
+        sb_daily_map = {row["report_date"]: float(row.get("total_cost") or 0) for row in sb_shipping_ytd}
+
+        carrier_totals = defaultdict(lambda: {"paid": 0, "count": 0})
+        weekly_carrier = defaultdict(lambda: defaultdict(lambda: {"cost": 0, "count": 0}))
+
+        for txn in all_carrier_txns:
+            d = txn["date"]
+            carrier = txn["carrier"]
+            carrier_totals[carrier]["count"] += 1
+
+            # Proportional cost from Supabase daily total
+            day_total_cost = sb_daily_map.get(d, 0)
+            day_total_txns = sum(daily_carrier_counts[d].values()) or 1
+            proportional_cost = day_total_cost * (daily_carrier_counts[d][carrier] / day_total_txns) / daily_carrier_counts[d][carrier] if daily_carrier_counts[d][carrier] > 0 else 0
+            carrier_totals[carrier]["paid"] += proportional_cost
+
+            # Weekly bucket
+            try:
+                dt = datetime.strptime(d, "%Y-%m-%d").date()
+                iso_year, iso_week, _ = dt.isocalendar()
+                week_label = f"{iso_year}-W{iso_week:02d}"
+            except ValueError:
+                continue
+            weekly_carrier[carrier][week_label]["cost"] += proportional_cost
+            weekly_carrier[carrier][week_label]["count"] += 1
+
+    # ── Step 4: Build KPIs ─────────────────────────────────────
+    def _kpi(paid, shipments, collected, order_count):
         return {
             "shipping_collected": round(collected, 2),
-            "shipping_paid": paid,
+            "shipping_paid": round(paid, 2),
             "shipping_net": round(collected - paid, 2),
-            "shipment_count": count,
-            "avg_cost_per_order": round(paid / count, 2) if count else 0,
+            "shipment_count": shipments,
+            "avg_cost_per_order": round(paid / shipments, 2) if shipments else 0,
             "wc_order_count": order_count,
         }
 
-    mtd_kpi = _kpi(mtd_txns, wc_shipping_mtd, wc_orders_count_mtd)
-    ytd_kpi = _kpi(ytd_txns, wc_shipping_ytd, wc_orders_count_ytd)
+    mtd_kpi = _kpi(mtd_paid, mtd_shipments, wc_shipping_mtd, wc_orders_count_mtd)
+    ytd_kpi = _kpi(ytd_paid, ytd_shipments, wc_shipping_ytd, wc_orders_count_ytd)
 
-    # ── Step 5: Carrier breakdown (YTD) ────────────────────────
-    carrier_totals = {}
-    for t in ytd_txns:
-        c = t["carrier"]
-        if c not in carrier_totals:
-            carrier_totals[c] = {"paid": 0, "count": 0, "total_weight": 0}
-        carrier_totals[c]["paid"] += t["cost"]
-        carrier_totals[c]["count"] += 1
-        carrier_totals[c]["total_weight"] += t["weight"]
-
-    total_shipments = len(ytd_txns) or 1
+    # ── Step 5: Carrier list ───────────────────────────────────
+    total_shipments_count = sum(c["count"] for c in carrier_totals.values()) or 1
     carriers = []
     for name, stats in sorted(carrier_totals.items(), key=lambda x: -x[1]["paid"]):
         carriers.append({
             "carrier": name,
             "total_paid": round(stats["paid"], 2),
             "shipment_count": stats["count"],
-            "pct_of_shipments": round(stats["count"] / total_shipments * 100, 1),
-            "total_weight_lbs": round(stats["total_weight"], 1),
+            "pct_of_shipments": round(stats["count"] / total_shipments_count * 100, 1),
             "avg_cost_per_shipment": round(stats["paid"] / stats["count"], 2) if stats["count"] else 0,
         })
 
-    # ── Step 6: Weekly cost-per-pound by carrier (for charts) ──
-    from collections import defaultdict
-    weekly_data = defaultdict(lambda: defaultdict(lambda: {"cost": 0, "weight": 0}))
-
-    for t in ytd_txns:
-        if not t["date"] or t["weight"] <= 0:
-            continue
-        # ISO week label (e.g., "2026-W03")
-        try:
-            d = datetime.strptime(t["date"], "%Y-%m-%d").date()
-            iso_year, iso_week, _ = d.isocalendar()
-            week_label = f"{iso_year}-W{iso_week:02d}"
-        except ValueError:
-            continue
-        carrier = t["carrier"]
-        weekly_data[carrier][week_label]["cost"] += t["cost"]
-        weekly_data[carrier][week_label]["weight"] += t["weight"]
-
-    weekly_cost_per_lb = {}
-    for carrier, weeks in weekly_data.items():
+    # ── Step 6: Weekly avg cost per shipment by carrier (charts) ─
+    weekly_cost_per_shipment = {}
+    for carrier, weeks in weekly_carrier.items():
         sorted_weeks = sorted(weeks.keys())
-        weekly_cost_per_lb[carrier] = {
+        weekly_cost_per_shipment[carrier] = {
             "weeks": sorted_weeks,
             "values": [
-                round(weeks[w]["cost"] / weeks[w]["weight"], 2) if weeks[w]["weight"] > 0 else 0
+                round(weeks[w]["cost"] / weeks[w]["count"], 2) if weeks[w]["count"] > 0 else 0
                 for w in sorted_weeks
             ],
         }
@@ -2250,7 +2261,7 @@ def generate_shipping():
         "mtd": mtd_kpi,
         "ytd": ytd_kpi,
         "carriers": carriers,
-        "weekly_cost_per_lb": weekly_cost_per_lb,
+        "weekly_cost_per_lb": weekly_cost_per_shipment,  # Keep key name for frontend compat
     }
 
     _write_json("shipping.json", output)
