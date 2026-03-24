@@ -81,12 +81,12 @@
     {
       "sku": "PB-ALPACA-10-LB",
       "name": "Alpaca/Llama Pasture Mix",
-      "qty": 75.0,
+      "qty": 71.0,
       "daily_velocity": 0.3,
-      "days_remaining": 250,
+      "days_remaining": 236,
       "q1_need": 2.1,
       "q2_need": 32.8,
-      "surplus_gap": 40.1,
+      "surplus_gap": 36.1,
       "status": "ok"
     },
     {
@@ -114,12 +114,12 @@
     {
       "sku": "PB-CHIX-5-LB",
       "name": "Chicken Forage Mix",
-      "qty": 287.0,
+      "qty": 255.0,
       "daily_velocity": 11.6,
-      "days_remaining": 24,
+      "days_remaining": 21,
       "q1_need": 81.2,
       "q2_need": 1266.7,
-      "surplus_gap": -1060.9,
+      "surplus_gap": -1092.9,
       "status": "red"
     },
     {
@@ -158,34 +158,34 @@
     {
       "sku": "PB-COW-NTR-10-LB",
       "name": "Northern/Transitional Dairy Cow & Cattle Forage Mix",
-      "qty": 201.0,
+      "qty": 182.0,
       "daily_velocity": 0.8,
-      "days_remaining": 251,
+      "days_remaining": 227,
       "q1_need": 5.6,
       "q2_need": 87.4,
-      "surplus_gap": 108.0,
+      "surplus_gap": 89.0,
       "status": "ok"
     },
     {
       "sku": "PB-COW-SO-10-LB",
       "name": "Southern Dairy Cow & Cattle Forage Mix",
-      "qty": 276.0,
+      "qty": 271.0,
       "daily_velocity": 0.1,
-      "days_remaining": 2760,
+      "days_remaining": 2710,
       "q1_need": 0.7,
       "q2_need": 10.9,
-      "surplus_gap": 264.4,
+      "surplus_gap": 259.4,
       "status": "ok"
     },
     {
       "sku": "PB-DRY-10-LB",
       "name": "Dryland Pasture Mix",
-      "qty": 18.0,
+      "qty": 13.0,
       "daily_velocity": 0.2,
-      "days_remaining": 90,
+      "days_remaining": 65,
       "q1_need": 1.4,
       "q2_need": 21.8,
-      "surplus_gap": -5.2,
+      "surplus_gap": -10.2,
       "status": "ok"
     },
     {
@@ -202,23 +202,23 @@
     {
       "sku": "PB-GAME-10-LB",
       "name": "Big Game Forage Mix",
-      "qty": 234.0,
+      "qty": 226.0,
       "daily_velocity": 0.9,
-      "days_remaining": 260,
+      "days_remaining": 251,
       "q1_need": 6.3,
       "q2_need": 98.3,
-      "surplus_gap": 129.4,
+      "surplus_gap": 121.4,
       "status": "ok"
     },
     {
       "sku": "PB-GOAT-10-LB",
       "name": "Goat Pasture and Forage Mix",
-      "qty": 126.0,
+      "qty": 101.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 126.0,
+      "surplus_gap": 101.0,
       "status": "ok"
     },
     {
@@ -235,34 +235,34 @@
     {
       "sku": "PB-HONEY-5-LB",
       "name": "Honey Bee Pasture Mix",
-      "qty": 386.0,
+      "qty": 383.0,
       "daily_velocity": 1.6,
-      "days_remaining": 241,
+      "days_remaining": 239,
       "q1_need": 11.2,
       "q2_need": 174.7,
-      "surplus_gap": 200.1,
+      "surplus_gap": 197.1,
       "status": "ok"
     },
     {
       "sku": "PB-HRSE-N-10-LB",
       "name": "Northern Horse Forage Mix",
-      "qty": 234.0,
+      "qty": 229.0,
       "daily_velocity": 0.2,
-      "days_remaining": 1170,
+      "days_remaining": 1145,
       "q1_need": 1.4,
       "q2_need": 21.8,
-      "surplus_gap": 210.8,
+      "surplus_gap": 205.8,
       "status": "ok"
     },
     {
       "sku": "PB-HRSE-SO-10-LB",
       "name": "Southern Horse Forage Mix",
-      "qty": 132.0,
+      "qty": 123.0,
       "daily_velocity": 1.0,
-      "days_remaining": 132,
+      "days_remaining": 123,
       "q1_need": 7.0,
       "q2_need": 109.2,
-      "surplus_gap": 15.8,
+      "surplus_gap": 6.8,
       "status": "ok"
     },
     {
@@ -301,23 +301,23 @@
     {
       "sku": "PB-MUST-10-LB",
       "name": "Mustard Biofumigant Blend (cover crop)",
-      "qty": 45.0,
+      "qty": 44.0,
       "daily_velocity": 0.2,
-      "days_remaining": 225,
+      "days_remaining": 220,
       "q1_need": 1.4,
       "q2_need": 21.8,
-      "surplus_gap": 21.8,
+      "surplus_gap": 20.8,
       "status": "ok"
     },
     {
       "sku": "PB-PIG-10-LB",
       "name": "Pasture Pig Mix",
-      "qty": 60.0,
+      "qty": 58.0,
       "daily_velocity": 0.4,
-      "days_remaining": 150,
+      "days_remaining": 145,
       "q1_need": 2.8,
       "q2_need": 43.7,
-      "surplus_gap": 13.5,
+      "surplus_gap": 11.5,
       "status": "ok"
     },
     {
@@ -330,17 +330,6 @@
       "q2_need": 0.0,
       "surplus_gap": 25.0,
       "status": "ok"
-    },
-    {
-      "sku": "PB-SGPR-10-LB",
-      "name": "Shortgrass Prairie Mix",
-      "qty": 1.0,
-      "daily_velocity": 0.4,
-      "days_remaining": 2,
-      "q1_need": 2.8,
-      "q2_need": 43.7,
-      "surplus_gap": -45.5,
-      "status": "red"
     },
     {
       "sku": "PB-SHADE-10-LB",
@@ -356,12 +345,12 @@
     {
       "sku": "PB-SHEP-10-LB",
       "name": "Sheep Pasture and Forage Mix",
-      "qty": 37.0,
+      "qty": 30.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 37.0,
+      "surplus_gap": 30.0,
       "status": "ok"
     },
     {
@@ -411,12 +400,12 @@
     {
       "sku": "PG-BUCK-5-LB",
       "name": "Buckwheat",
-      "qty": 130.0,
+      "qty": 129.0,
       "daily_velocity": 0.3,
-      "days_remaining": 433,
+      "days_remaining": 430,
       "q1_need": 2.1,
       "q2_need": 32.8,
-      "surplus_gap": 95.1,
+      "surplus_gap": 94.1,
       "status": "ok"
     },
     {
@@ -433,45 +422,45 @@
     {
       "sku": "PG-DAGL-5-LB",
       "name": "Orchardgrass",
-      "qty": 193.0,
+      "qty": 167.0,
       "daily_velocity": 1.1,
-      "days_remaining": 175,
+      "days_remaining": 151,
       "q1_need": 7.7,
       "q2_need": 120.1,
-      "surplus_gap": 65.2,
+      "surplus_gap": 39.2,
       "status": "ok"
     },
     {
       "sku": "PG-FEAR2-5-LB",
       "name": "Tall Fescue - Pasture Type",
-      "qty": 190.0,
+      "qty": 185.0,
       "daily_velocity": 0.4,
-      "days_remaining": 475,
+      "days_remaining": 462,
       "q1_need": 2.8,
       "q2_need": 43.7,
-      "surplus_gap": 143.5,
+      "surplus_gap": 138.5,
       "status": "ok"
     },
     {
       "sku": "PG-LOPE-5-LB",
       "name": "Perennial Ryegrass",
-      "qty": 159.0,
+      "qty": 158.0,
       "daily_velocity": 0.9,
-      "days_remaining": 176,
+      "days_remaining": 175,
       "q1_need": 6.3,
       "q2_need": 98.3,
-      "surplus_gap": 54.4,
+      "surplus_gap": 53.4,
       "status": "ok"
     },
     {
       "sku": "PG-MESA-5-LB",
       "name": "Alfalfa",
-      "qty": 160.0,
+      "qty": 158.0,
       "daily_velocity": 1.6,
-      "days_remaining": 100,
+      "days_remaining": 98,
       "q1_need": 11.2,
       "q2_need": 174.7,
-      "surplus_gap": -25.9,
+      "surplus_gap": -27.9,
       "status": "ok"
     },
     {
@@ -521,23 +510,23 @@
     {
       "sku": "PG-SECE-5-LB",
       "name": "Cereal Rye",
-      "qty": 349.0,
+      "qty": 348.0,
       "daily_velocity": 0.5,
-      "days_remaining": 698,
+      "days_remaining": 696,
       "q1_need": 3.5,
       "q2_need": 54.6,
-      "surplus_gap": 290.9,
+      "surplus_gap": 289.9,
       "status": "ok"
     },
     {
       "sku": "PG-TRHY-5-LB",
       "name": "Alsike Clover",
-      "qty": 63.0,
+      "qty": 62.0,
       "daily_velocity": 0.4,
-      "days_remaining": 157,
+      "days_remaining": 155,
       "q1_need": 2.8,
       "q2_need": 43.7,
-      "surplus_gap": 16.5,
+      "surplus_gap": 15.5,
       "status": "ok"
     },
     {
@@ -554,23 +543,23 @@
     {
       "sku": "PG-TRPR-5-LB",
       "name": "Red Clover",
-      "qty": 172.0,
+      "qty": 170.0,
       "daily_velocity": 1.1,
-      "days_remaining": 156,
+      "days_remaining": 154,
       "q1_need": 7.7,
       "q2_need": 120.1,
-      "surplus_gap": 44.2,
+      "surplus_gap": 42.2,
       "status": "ok"
     },
     {
       "sku": "PG-TRRE-5-LB",
       "name": "White Clover (Pasture Type)",
-      "qty": 130.0,
+      "qty": 126.0,
       "daily_velocity": 2.7,
-      "days_remaining": 48,
+      "days_remaining": 46,
       "q1_need": 18.9,
       "q2_need": 294.8,
-      "surplus_gap": -183.7,
+      "surplus_gap": -187.7,
       "status": "yellow"
     },
     {
@@ -587,12 +576,12 @@
     {
       "sku": "S-DUTCH-5-LB",
       "name": "White Dutch Clover Seeds - 5 lbs",
-      "qty": 1050.0,
+      "qty": 1038.0,
       "daily_velocity": 7.9,
-      "days_remaining": 132,
+      "days_remaining": 131,
       "q1_need": 55.3,
       "q2_need": 862.7,
-      "surplus_gap": 132.0,
+      "surplus_gap": 120.0,
       "status": "ok"
     },
     {
@@ -620,45 +609,45 @@
     {
       "sku": "S-MICRO-1-LB",
       "name": "Microclover",
-      "qty": 623.0,
+      "qty": 622.0,
       "daily_velocity": 1.2,
-      "days_remaining": 519,
+      "days_remaining": 518,
       "q1_need": 8.4,
       "q2_need": 131.0,
-      "surplus_gap": 483.6,
+      "surplus_gap": 482.6,
       "status": "ok"
     },
     {
       "sku": "S-RICE-45-LB",
       "name": "Rice Hulls",
-      "qty": 62.0,
+      "qty": 61.0,
       "daily_velocity": 1.4,
-      "days_remaining": 44,
+      "days_remaining": 43,
       "q1_need": 9.8,
       "q2_need": 152.9,
-      "surplus_gap": -100.7,
+      "surplus_gap": -101.7,
       "status": "yellow"
     },
     {
       "sku": "S-RICE-5-LB",
       "name": "Rice Hulls - 5lbs",
-      "qty": 423.0,
+      "qty": 419.0,
       "daily_velocity": 4.6,
       "days_remaining": 91,
       "q1_need": 32.2,
       "q2_need": 502.3,
-      "surplus_gap": -111.5,
+      "surplus_gap": -115.5,
       "status": "ok"
     },
     {
       "sku": "S-TACKI-50-LB",
       "name": "M-Binder Tackifier-Soil Stabilizer",
-      "qty": 53.0,
+      "qty": 52.0,
       "daily_velocity": 0.5,
-      "days_remaining": 106,
+      "days_remaining": 104,
       "q1_need": 3.5,
       "q2_need": 54.6,
-      "surplus_gap": -5.1,
+      "surplus_gap": -6.1,
       "status": "ok"
     },
     {
@@ -675,12 +664,12 @@
     {
       "sku": "SUSTANE-4-6-4",
       "name": "Organic Seed Starter Fertilizer 4-6-4",
-      "qty": 60.0,
+      "qty": 59.0,
       "daily_velocity": 1.6,
-      "days_remaining": 37,
+      "days_remaining": 36,
       "q1_need": 11.2,
       "q2_need": 174.7,
-      "surplus_gap": -125.9,
+      "surplus_gap": -126.9,
       "status": "yellow"
     },
     {
@@ -708,23 +697,23 @@
     {
       "sku": "TURF-CLV-5-LB",
       "name": "Lawn Alternative clover mix",
-      "qty": 307.0,
+      "qty": 284.0,
       "daily_velocity": 3.2,
-      "days_remaining": 95,
+      "days_remaining": 88,
       "q1_need": 22.4,
       "q2_need": 349.4,
-      "surplus_gap": -64.8,
+      "surplus_gap": -87.8,
       "status": "ok"
     },
     {
       "sku": "TURF-FINE-5-LB",
       "name": "Fine Fescue Turf Mix",
-      "qty": 128.0,
+      "qty": 116.0,
       "daily_velocity": 1.5,
-      "days_remaining": 85,
+      "days_remaining": 77,
       "q1_need": 10.5,
       "q2_need": 163.8,
-      "surplus_gap": -46.3,
+      "surplus_gap": -58.3,
       "status": "ok"
     },
     {
@@ -752,23 +741,23 @@
     {
       "sku": "TURF-JBR-5-LB",
       "name": "Jimmy's Blue Ribbon Premium Grass Seed Mix - 5 LB",
-      "qty": 50.0,
+      "qty": 44.0,
       "daily_velocity": 1.0,
-      "days_remaining": 50,
+      "days_remaining": 44,
       "q1_need": 7.0,
       "q2_need": 109.2,
-      "surplus_gap": -66.2,
+      "surplus_gap": -72.2,
       "status": "yellow"
     },
     {
       "sku": "TURF-MLB-5-LB",
       "name": "Meadow Lawn Blend",
-      "qty": 164.0,
+      "qty": 156.0,
       "daily_velocity": 0.4,
-      "days_remaining": 410,
+      "days_remaining": 390,
       "q1_need": 2.8,
       "q2_need": 43.7,
-      "surplus_gap": 117.5,
+      "surplus_gap": 109.5,
       "status": "ok"
     },
     {
@@ -796,23 +785,23 @@
     {
       "sku": "TURF-W-BLUE-5-LB",
       "name": "TWCA Water-Wise Bluegrass Turf Blend",
-      "qty": 245.0,
+      "qty": 243.0,
       "daily_velocity": 0.7,
-      "days_remaining": 350,
+      "days_remaining": 347,
       "q1_need": 4.9,
       "q2_need": 76.4,
-      "surplus_gap": 163.7,
+      "surplus_gap": 161.7,
       "status": "ok"
     },
     {
       "sku": "TURF-W-BR-5-LB",
       "name": "TWCA Water-Wise Blue Ribbon Mix",
-      "qty": 503.0,
+      "qty": 494.0,
       "daily_velocity": 1.4,
-      "days_remaining": 359,
+      "days_remaining": 352,
       "q1_need": 9.8,
       "q2_need": 152.9,
-      "surplus_gap": 340.3,
+      "surplus_gap": 331.3,
       "status": "ok"
     },
     {
@@ -829,45 +818,45 @@
     {
       "sku": "TURF-W-SS-5-LB",
       "name": "TWCA Water-Wise Sun & Shade Turf Mix",
-      "qty": 270.0,
+      "qty": 268.0,
       "daily_velocity": 1.0,
-      "days_remaining": 270,
+      "days_remaining": 268,
       "q1_need": 7.0,
       "q2_need": 109.2,
-      "surplus_gap": 153.8,
+      "surplus_gap": 151.8,
       "status": "ok"
     },
     {
       "sku": "TURF-W-TALL-5-LB",
       "name": "TWCA Water-Wise Triple-Play Turf Blend",
-      "qty": 1007.0,
+      "qty": 992.0,
       "daily_velocity": 1.4,
-      "days_remaining": 719,
+      "days_remaining": 708,
       "q1_need": 9.8,
       "q2_need": 152.9,
-      "surplus_gap": 844.3,
+      "surplus_gap": 829.3,
       "status": "ok"
     },
     {
       "sku": "TURF-WSHD-5-LB",
       "name": "TWCA Water-Wise Shade Mix",
-      "qty": 87.0,
+      "qty": 85.0,
       "daily_velocity": 2.4,
-      "days_remaining": 36,
+      "days_remaining": 35,
       "q1_need": 16.8,
       "q2_need": 262.1,
-      "surplus_gap": -191.9,
+      "surplus_gap": -193.9,
       "status": "yellow"
     },
     {
       "sku": "W-ACLA-0.25-LB",
       "name": "Western Yarrow",
-      "qty": 14.0,
+      "qty": 11.0,
       "daily_velocity": 0.6,
-      "days_remaining": 23,
+      "days_remaining": 18,
       "q1_need": 4.2,
       "q2_need": 65.5,
-      "surplus_gap": -55.7,
+      "surplus_gap": -58.7,
       "status": "red"
     },
     {
@@ -1005,12 +994,12 @@
     {
       "sku": "W-NAPU-0.25-LB",
       "name": "Purple Needlegrass",
-      "qty": 16.0,
+      "qty": 12.0,
       "daily_velocity": 0.1,
-      "days_remaining": 160,
+      "days_remaining": 120,
       "q1_need": 0.7,
       "q2_need": 10.9,
-      "surplus_gap": 4.4,
+      "surplus_gap": 0.4,
       "status": "ok"
     },
     {
@@ -1071,12 +1060,12 @@
     {
       "sku": "WB-AN-0.5-LB",
       "name": "Annual Wildflower Blend",
-      "qty": 216.0,
+      "qty": 176.0,
       "daily_velocity": 0.7,
-      "days_remaining": 308,
+      "days_remaining": 251,
       "q1_need": 4.9,
       "q2_need": 76.4,
-      "surplus_gap": 134.7,
+      "surplus_gap": 94.7,
       "status": "ok"
     },
     {
@@ -1093,12 +1082,12 @@
     {
       "sku": "WB-DR-0.5-LB",
       "name": "Deer Resistant Wildflower Blend",
-      "qty": 120.0,
+      "qty": 110.0,
       "daily_velocity": 0.4,
-      "days_remaining": 300,
+      "days_remaining": 275,
       "q1_need": 2.8,
       "q2_need": 43.7,
-      "surplus_gap": 73.5,
+      "surplus_gap": 63.5,
       "status": "ok"
     },
     {
@@ -1148,23 +1137,23 @@
     {
       "sku": "WB-RM-0.5-LB",
       "name": "Rocky Mountain Wildflower Blend",
-      "qty": 124.0,
+      "qty": 114.0,
       "daily_velocity": 1.4,
-      "days_remaining": 88,
+      "days_remaining": 81,
       "q1_need": 9.8,
       "q2_need": 152.9,
-      "surplus_gap": -38.7,
+      "surplus_gap": -48.7,
       "status": "ok"
     },
     {
       "sku": "WB-SD-0.5-LB",
       "name": "Sonoran Desert Wildflower Mix",
-      "qty": 126.0,
+      "qty": 125.0,
       "daily_velocity": 0.7,
-      "days_remaining": 180,
+      "days_remaining": 178,
       "q1_need": 4.9,
       "q2_need": 76.4,
-      "surplus_gap": 44.7,
+      "surplus_gap": 43.7,
       "status": "ok"
     },
     {
@@ -1732,8 +1721,8 @@
     }
   ],
   "summary": {
-    "total_skus": 109,
-    "red_count": 4,
+    "total_skus": 108,
+    "red_count": 3,
     "yellow_count": 9,
     "green_count": 73
   },
@@ -1749,11 +1738,11 @@
     "period_days": 14
   },
   "order_tracking": {
-    "total_30d": 2758,
-    "fulfilled": 1858,
-    "unfulfilled_lt_1d": 190,
-    "unfulfilled_lt_5d": 561,
-    "unfulfilled_5_to_10d": 141,
+    "total_30d": 2778,
+    "fulfilled": 1947,
+    "unfulfilled_lt_1d": 192,
+    "unfulfilled_lt_5d": 562,
+    "unfulfilled_5_to_10d": 69,
     "unfulfilled_gt_10d": 8
   }
 }

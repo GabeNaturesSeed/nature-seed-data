@@ -855,11 +855,11 @@ def backfill_customers():
     print(f"  CUSTOMER BACKFILL")
     print(f"{'='*60}")
 
-    # Step 1: Paginate all customers
+    # Step 1: Paginate customers (2024+ only)
     all_customers = []
     page = 1
     while True:
-        params = {"per_page": 100, "page": page}
+        params = {"per_page": 100, "page": page, "after": "2024-01-01T00:00:00"}
         try:
             resp = _wc_request_with_retry(f"{WC_BASE}/customers", params)
             customers = resp.json()
