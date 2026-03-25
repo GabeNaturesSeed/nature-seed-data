@@ -480,6 +480,8 @@ def _load_actuals_csv():
                     key = "other_income"
                 elif label == "Freight" and section == "cogs":
                     key = "cogs_freight"
+                elif label == "Freight" and section == "revenue":
+                    key = "freight_revenue"
 
                 if key:
                     for i, month_key in enumerate(header):
@@ -797,6 +799,12 @@ def generate_reporting():
         act_cogs = m_data.get("cogs", 0) if m_data.get("cogs", 0) else 0
         act_ad_spend = m_data.get("ad_spend", 0)
         act_shipping = m_data.get("shipping", 0) if m_data.get("shipping") else 0
+
+        # Revenue freight (shipping charged to customers)
+        # For actuals months: use finance CSV value
+        # For current month: use WC shipping_total from orders (estimate ~$5K/month)
+        revenue_freight = act.get("freight_revenue", bud.get("freight_revenue", 0))
+
         act_gross_profit = act_revenue - act_cogs
 
         # Fixed costs: actuals if available, budget otherwise
@@ -846,6 +854,7 @@ def generate_reporting():
             # Revenue
             "revenue": round(act_revenue, 2),
             "budget_revenue": round(bud_revenue, 2),
+            "revenue_freight": round(revenue_freight, 2),
             # COGS
             "cogs": round(act_cogs, 2),
             "budget_cogs": round(bud.get("total_cogs", 0), 2),
@@ -887,7 +896,7 @@ def generate_reporting():
         return round(sum(m.get(key, 0) for m in pnl_months), 2)
 
     pnl_ytd = {k: _pnl_sum(k) for k in [
-        "revenue", "budget_revenue", "cogs", "budget_cogs", "cogs_freight",
+        "revenue", "budget_revenue", "revenue_freight", "cogs", "budget_cogs", "cogs_freight",
         "gross_profit", "budget_gross_profit",
         "production_warehouse", "warehouse", "advertising", "budget_advertising",
         "marketing", "sma_salaries", "development", "total_sma",

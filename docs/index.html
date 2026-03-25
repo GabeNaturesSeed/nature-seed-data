@@ -1195,9 +1195,14 @@ function renderPnl(reporting) {
 
   // P&L line item definitions: [label, key, type, indent, isCost]
   const lines = [
-    ['Revenue', 'revenue', 'money', 0, false],
-    ['Cost of Goods Sold', 'cogs', 'money', 0, true],
-    ['Shipping (Freight)', 'cogs_freight', 'money', 1, true],
+    ['REVENUE', null, 'header', 0],
+    ['Seed Revenue', 'revenue', 'money', 1, false],
+    ['Freight Revenue', 'revenue_freight', 'money', 1, false],
+    ['', null, 'spacer', 0],
+    ['COST OF GOODS', null, 'header', 0],
+    ['Product COGS', 'cogs', 'money', 1, true],
+    ['Freight (Shipping Paid)', 'cogs_freight', 'money', 1, true],
+    ['', null, 'spacer', 0],
     ['Gross Profit', 'gross_profit', 'money', 0, false, true],
     ['Gross Margin %', 'gross_margin_pct', 'pct', 0, false],
     ['', null, 'spacer', 0],
