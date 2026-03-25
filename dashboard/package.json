@@ -1,0 +1,29 @@
+{
+  "name": "dashboard",
+  "version": "1.0.0",
+  "description": "Nature's Seed Operations Dashboard",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "prebuild": "mkdir -p public/data && cp ../docs/data/*.json public/data/ 2>/dev/null || true",
+    "build": "next build",
+    "postbuild": "rm -rf ../docs/_next ../docs/_not-found ../docs/404 ../docs/calendar ../docs/inventory ../docs/marketing ../docs/marketplaces ../docs/reporting ../docs/website-health ../docs/*.html ../docs/*.txt && cp -r out/* ../docs/",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@heroui/react": "^3.0.1",
+    "@tailwindcss/postcss": "^4.2.2",
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.14",
+    "autoprefixer": "^10.4.27",
+    "framer-motion": "^12.38.0",
+    "lucide-react": "^1.7.0",
+    "next": "^16.2.1",
+    "postcss": "^8.5.8",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "recharts": "^3.8.1",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.2"
+  }
+}
