@@ -19,7 +19,8 @@ export function useJsonData<T>(filename: string): { data: T | null; loading: boo
     let cancelled = false;
     setLoading(true);
 
-    fetch(`/data/${filename}.json`)
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '/nature-seed-data';
+    fetch(`${basePath}/data/${filename}.json`)
       .then(r => {
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return r.json();
