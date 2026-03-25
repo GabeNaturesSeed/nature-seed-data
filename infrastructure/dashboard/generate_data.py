@@ -2150,6 +2150,29 @@ def generate_marketing():
         ads_daily_rows = []
     ads_by_date = {r.get("report_date", ""): r for r in ads_daily_rows}
 
+    # Fetch CTV (vibe_co) daily spend from daily_ad_spend — may be empty until constraint fix
+    print("  Fetching daily_ad_spend (vibe_co channel)...")
+    ctv_by_date = {}
+    try:
+        url = f"{SUPABASE_URL}/rest/v1/daily_ad_spend"
+        sb_headers = {"apikey": SUPABASE_KEY}
+        sb_params = [
+            ("report_date", f"gte.{period_90d_start}"),
+            ("report_date", f"lte.{yesterday}"),
+            ("channel", "eq.vibe_co"),
+            ("select", "report_date,spend"),
+        ]
+        resp = requests.get(url, headers=sb_headers, params=sb_params, timeout=30)
+        resp.raise_for_status()
+        for r in resp.json():
+            ctv_by_date[r["report_date"]] = float(r.get("spend", 0))
+        if ctv_by_date:
+            print(f"    Found {len(ctv_by_date)} days of CTV data")
+        else:
+            print("    No CTV data yet (constraint fix pending)")
+    except Exception as e:
+        print(f"    [WARN] CTV daily query failed: {e}")
+
     # WC daily revenue from Supabase daily_sales (90 days for daily table)
     try:
         url = f"{SUPABASE_URL}/rest/v1/daily_sales"
@@ -2177,13 +2200,17 @@ def generate_marketing():
         wc_rev = wc_by_date.get(ds, 0)
         mer = round(wc_rev / spend, 2) if spend > 0 else None
 
+        ctv_spend = ctv_by_date.get(ds, 0)
+        total_spend = spend + ctv_spend
+
         daily_90d.append({
             "date": ds,
-            "ad_spend": round(spend, 2),
+            "ad_spend": round(total_spend, 2),
             "ad_spend_google": round(spend, 2),
+            "ad_spend_ctv": round(ctv_spend, 2),
             "channel_revenue": round(conv_val, 2),
             "wc_revenue": round(wc_rev, 2),
-            "mer": mer,
+            "mer": round(wc_rev / total_spend, 2) if total_spend > 0 else None,
         })
         d += timedelta(days=1)
 
@@ -2221,6 +2248,14 @@ def generate_marketing():
         monthly_ads[month_key]["spend"] += float(r.get("spend") or 0)
         monthly_ads[month_key]["conversions_value"] += float(r.get("conversions_value") or 0)
 
+    # Monthly CTV spend — aggregate vibe_co from monthly_ad_rows
+    monthly_ctv = {}
+    for r in monthly_ad_rows:
+        ch = (r.get("channel") or "").lower()
+        month_key = (r.get("month") or "")[:7]
+        if ch == "vibe_co" and month_key:
+            monthly_ctv[month_key] = monthly_ctv.get(month_key, 0) + float(r.get("spend") or 0)
+
     # Build monthly rows
     monthly_12m = []
     d = period_start.replace(day=1)
@@ -2231,14 +2266,18 @@ def generate_marketing():
         ads_m = monthly_ads.get(month_key, {})
         spend = round(ads_m.get("spend", 0), 2)
         conv_val = round(ads_m.get("conversions_value", 0), 2)
-        mer = round(wc_rev / spend, 2) if spend > 0 else None
 
         # Customer counts per month not available from views — omit granular counts
         # (total counts come from v_customer_summary_12m at the top level)
+        ctv_m = round(monthly_ctv.get(month_key, 0), 2)
+        total_spend_m = round(spend + ctv_m, 2)
+        mer = round(wc_rev / total_spend_m, 2) if total_spend_m > 0 else None
+
         monthly_12m.append({
             "month": month_key,
-            "ad_spend": spend,
+            "ad_spend": total_spend_m,
             "ad_spend_google": spend,
+            "ad_spend_ctv": ctv_m,
             "channel_revenue": conv_val,
             "wc_revenue": wc_rev,
             "mer": mer,

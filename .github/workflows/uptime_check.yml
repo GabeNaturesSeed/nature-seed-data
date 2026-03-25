@@ -1,0 +1,35 @@
+name: Uptime Check
+
+on:
+  schedule:
+    # Every 30 minutes
+    - cron: '*/30 * * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  uptime-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: infrastructure/health
+          sparse-checkout-cone-mode: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install requests
+        run: pip install requests
+
+      - name: Create .env from secrets
+        run: |
+          cat > .env << 'ENVEOF'
+          SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_API_KEY=${{ secrets.SUPABASE_SECRET_API_KEY }}
+          ENVEOF
+
+      - name: Run uptime check
+        run: python infrastructure/health/uptime_check.py

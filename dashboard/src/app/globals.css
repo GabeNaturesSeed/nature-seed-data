@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+Display:wght@400;500;600;700&display=swap');
+
+@import "tailwindcss";
+@import "@heroui/styles";
+
+@theme {
+  /* Brand Colors — Organic Ledger */
+  --color-brand-primary: #2d6A4F;
+  --color-brand-secondary: #c96a2e;
+  --color-brand-tertiary: #52796F;
+  --color-brand-neutral: #212529;
+  --color-brand-surface: #f7f9ff;
+  --color-brand-surface-low: #f1f4f9;
+  --color-brand-surface-lowest: #ffffff;
+  --color-brand-on-primary: #ffffff;
+  --color-brand-outline: #bfc9c1;
+  --color-brand-warm-chip: #ffdbca;
+
+  /* Legacy aliases (referenced across pages) */
+  --color-ns-green-dark: #2d6A4F;
+  --color-ns-green-med: #52796F;
+  --color-ns-bg: #f7f9ff;
+  --color-ns-card: #ffffff;
+  --color-ns-text: #212529;
+  --color-ns-border: #bfc9c1;
+  --color-ns-red: #C0392B;
+  --color-ns-yellow: #E67E22;
+  --color-ns-gray: #6b7280;
+
+  /* Font families */
+  --font-serif: 'Noto Serif Display', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+body {
+  background-color: var(--color-brand-surface);
+  color: var(--color-brand-neutral);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Serif display — for milestone numbers and headlines */
+.font-display {
+  font-family: var(--font-serif);
+}
+
+/* Ambient shadow — 32px blur at 6% opacity */
+.shadow-ambient {
+  box-shadow: 0 4px 32px rgba(24, 28, 32, 0.06);
+}
+
+/* Ghost border — bfc9c1 at 15% opacity */
+.border-ghost {
+  border: 1px solid rgba(191, 201, 193, 0.15);
+}
+
+/* Warm accent chip */
+.bg-warm-chip {
+  background-color: var(--color-brand-warm-chip);
+}
+
+/* Surface containers */
+.bg-surface {
+  background-color: var(--color-brand-surface);
+}
+
+.bg-surface-low {
+  background-color: var(--color-brand-surface-low);
+}
+
+.bg-surface-lowest {
+  background-color: var(--color-brand-surface-lowest);
+}
+
+/* Glassmorphism effect */
+.glass {
+  background: rgba(241, 244, 249, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Recharts tooltip styling */
+.recharts-default-tooltip {
+  background-color: white !important;
+  border: none !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 4px 32px rgba(24, 28, 32, 0.06) !important;
+}
+
+/* Table header tonal surface */
+.tonal-header {
+  background-color: var(--color-brand-surface-low);
+}
+
+/* Override prose heading colors */
+.prose h1, .prose h2, .prose h3 {
+  color: var(--color-brand-primary);
+}

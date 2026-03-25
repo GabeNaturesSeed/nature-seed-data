@@ -1,0 +1,233 @@
+{
+  "as_of": "2026-03-25",
+  "uptime": {
+    "current_status": [],
+    "uptime_24h": null,
+    "uptime_7d": null,
+    "incidents": [],
+    "note": "Table not yet created. Run infrastructure/pipeline/website_health.sql in Supabase."
+  },
+  "order_velocity": {
+    "today_label": "Wednesday",
+    "hourly": [
+      {
+        "hour": 0,
+        "today": 0,
+        "last_week": 1
+      },
+      {
+        "hour": 1,
+        "today": 0,
+        "last_week": 1
+      },
+      {
+        "hour": 2,
+        "today": 1,
+        "last_week": 0
+      },
+      {
+        "hour": 3,
+        "today": 1,
+        "last_week": 2
+      },
+      {
+        "hour": 4,
+        "today": 1,
+        "last_week": 1
+      },
+      {
+        "hour": 5,
+        "today": 0,
+        "last_week": 7
+      },
+      {
+        "hour": 6,
+        "today": 1,
+        "last_week": 2
+      },
+      {
+        "hour": 7,
+        "today": 11,
+        "last_week": 2
+      },
+      {
+        "hour": 8,
+        "today": 8,
+        "last_week": 6
+      },
+      {
+        "hour": 9,
+        "today": 10,
+        "last_week": 11
+      },
+      {
+        "hour": 10,
+        "today": 9,
+        "last_week": 10
+      },
+      {
+        "hour": 11,
+        "today": 11,
+        "last_week": 5
+      },
+      {
+        "hour": 12,
+        "today": 8,
+        "last_week": 7
+      },
+      {
+        "hour": 13,
+        "today": 10,
+        "last_week": 5
+      },
+      {
+        "hour": 14,
+        "today": 0,
+        "last_week": 5
+      },
+      {
+        "hour": 15,
+        "today": 0,
+        "last_week": 7
+      },
+      {
+        "hour": 16,
+        "today": 0,
+        "last_week": 7
+      },
+      {
+        "hour": 17,
+        "today": 0,
+        "last_week": 1
+      },
+      {
+        "hour": 18,
+        "today": 0,
+        "last_week": 6
+      },
+      {
+        "hour": 19,
+        "today": 0,
+        "last_week": 11
+      },
+      {
+        "hour": 20,
+        "today": 0,
+        "last_week": 3
+      },
+      {
+        "hour": 21,
+        "today": 0,
+        "last_week": 2
+      },
+      {
+        "hour": 22,
+        "today": 0,
+        "last_week": 2
+      },
+      {
+        "hour": 23,
+        "today": 0,
+        "last_week": 2
+      }
+    ],
+    "today_total": 71,
+    "last_week_total": 106
+  },
+  "search_health": {
+    "total_searches_24h": 50,
+    "no_result_rate": 32.0,
+    "no_result_searches": 16,
+    "top_searches": [
+      {
+        "query": "clover",
+        "count": 12
+      },
+      {
+        "query": "bermuda",
+        "count": 7
+      },
+      {
+        "query": "alfalfa",
+        "count": 5
+      },
+      {
+        "query": "tall fescue",
+        "count": 5
+      },
+      {
+        "query": "rice hulls",
+        "count": 5
+      },
+      {
+        "query": "florida",
+        "count": 4
+      },
+      {
+        "query": "chicory seed",
+        "count": 3
+      },
+      {
+        "query": "microclover",
+        "count": 3
+      },
+      {
+        "query": "fescue",
+        "count": 3
+      },
+      {
+        "query": "vetch",
+        "count": 3
+      }
+    ],
+    "top_no_results": [
+      {
+        "query": "clemantis",
+        "count": 2
+      },
+      {
+        "query": "aurinia saxatilis",
+        "count": 2
+      },
+      {
+        "query": "tobosa",
+        "count": 2
+      },
+      {
+        "query": "frogfruit",
+        "count": 2
+      },
+      {
+        "query": "agritech",
+        "count": 2
+      },
+      {
+        "query": "tttf",
+        "count": 2
+      },
+      {
+        "query": "we23",
+        "count": 1
+      },
+      {
+        "query": "palisades zyosia",
+        "count": 1
+      },
+      {
+        "query": "joseph idahoe",
+        "count": 1
+      },
+      {
+        "query": "kersting's groundnut",
+        "count": 1
+      }
+    ]
+  },
+  "server": {
+    "install_name": "naturesseedprd",
+    "php_version": "8.4",
+    "wp_version": null,
+    "status": "active",
+    "environment": "production"
+  }
+}
