@@ -41,7 +41,7 @@ export default function WebsiteHealthPage() {
     return (
       <div className="space-y-6">
         <Skeleton className="h-8 w-56 rounded-xl" />
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-24 rounded-xl" />)}
         </div>
         <Skeleton className="h-72 rounded-xl" />
@@ -62,8 +62,8 @@ export default function WebsiteHealthPage() {
 
   return (
     <div>
-      <div className="flex items-baseline justify-between mb-8">
-        <h1 className="text-2xl font-display font-bold text-brand-neutral">Website Health</h1>
+      <div className="flex items-baseline justify-between mb-6 md:mb-8">
+        <h1 className="text-xl md:text-2xl font-display font-bold text-brand-neutral">Website Health</h1>
         <span className="text-xs text-brand-neutral/50">
           As of {new Date(data.as_of).toLocaleString('en-US', {
             month: 'short', day: 'numeric', year: 'numeric',
@@ -132,9 +132,9 @@ export default function WebsiteHealthPage() {
           <h3 className="font-display text-base font-semibold text-brand-neutral mb-3">Recent Incidents</h3>
           <div className="space-y-2">
             {uptime.incidents.map((inc, i) => (
-              <div key={i} className="flex items-center gap-4 text-sm">
+              <div key={i} className="flex flex-wrap items-center gap-2 md:gap-4 text-sm">
                 <StatusDot up={false} />
-                <span className="text-brand-neutral/70 w-40 flex-shrink-0">
+                <span className="text-brand-neutral/70 w-auto md:w-40 flex-shrink-0">
                   {new Date(inc.timestamp).toLocaleString('en-US', {
                     month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit',
                   })}
@@ -170,7 +170,7 @@ export default function WebsiteHealthPage() {
         </ResponsiveContainer>
       </ChartCard>
 
-      <div className="flex gap-6 mt-4 mb-8">
+      <div className="flex flex-col sm:flex-row gap-4 md:gap-6 mt-4 mb-6 md:mb-8">
         <div className="bg-surface-lowest rounded-xl shadow-ambient p-5 flex-1">
           <p className="text-xs uppercase tracking-wider text-brand-neutral/50 mb-1">Today Total</p>
           <p className="text-3xl font-semibold text-brand-neutral">{fmtInt(order_velocity.today_total)}</p>
@@ -207,7 +207,7 @@ export default function WebsiteHealthPage() {
         <KpiCard label="No-Result Searches" value={fmtInt(search_health.no_result_searches)} />
       </KpiGrid>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
         {/* Top Searches */}
         <div className="bg-surface-lowest rounded-xl shadow-ambient overflow-hidden">
           <div className="px-5 pt-5 pb-3">
@@ -263,7 +263,7 @@ export default function WebsiteHealthPage() {
       {/* ── Section 4: Server Health ── */}
       <h2 className="font-display text-lg font-semibold text-brand-neutral mb-4">Server Health</h2>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 md:mb-8">
         {Object.entries(server).map(([key, value]) => (
           <div key={key} className="bg-surface-lowest rounded-xl shadow-ambient p-5">
             <p className="text-xs uppercase tracking-wider text-brand-neutral/50 mb-2">

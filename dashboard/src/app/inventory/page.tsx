@@ -68,7 +68,7 @@ export default function InventoryPage() {
     return (
       <div className="space-y-6">
         <Skeleton className="h-8 w-48 rounded-xl" />
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-24 rounded-xl" />)}
         </div>
       </div>
@@ -79,9 +79,9 @@ export default function InventoryPage() {
 
   return (
     <div>
-      <div className="flex items-baseline justify-between mb-8">
-        <h1 className="font-display text-2xl font-bold text-brand-neutral">Current Stock</h1>
-        <span className="text-xs text-brand-neutral/50">As of {data.as_of}</span>
+      <div className="flex items-baseline justify-between mb-6 md:mb-8">
+        <h1 className="font-display text-xl md:text-2xl font-bold text-brand-neutral">Current Stock</h1>
+        <span className="text-[10px] md:text-xs text-brand-neutral/50">As of {data.as_of}</span>
       </div>
 
       {/* Summary */}
@@ -133,7 +133,7 @@ export default function InventoryPage() {
       })()}
 
       {/* Search */}
-      <div className="mb-5 max-w-xs">
+      <div className="mb-5 max-w-full sm:max-w-xs">
         <input
           type="text"
           placeholder="Search SKU or product name..."

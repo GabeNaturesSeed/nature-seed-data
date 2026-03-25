@@ -19,7 +19,7 @@ export default function AmazonPage() {
     return (
       <div className="space-y-6">
         <Skeleton className="h-8 w-48 rounded-xl" />
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-28 rounded-xl" />)}
         </div>
       </div>
@@ -38,9 +38,9 @@ export default function AmazonPage() {
 
   return (
     <div>
-      <div className="flex items-baseline justify-between mb-8">
-        <h1 className="text-2xl font-display font-bold text-brand-neutral">Amazon</h1>
-        <span className="text-xs text-brand-neutral/50">As of {data.as_of}</span>
+      <div className="flex items-baseline justify-between mb-6 md:mb-8">
+        <h1 className="text-xl md:text-2xl font-display font-bold text-brand-neutral">Amazon</h1>
+        <span className="text-[10px] md:text-xs text-brand-neutral/50">As of {data.as_of}</span>
       </div>
 
       <KpiGrid columns={3}>
@@ -51,7 +51,7 @@ export default function AmazonPage() {
 
       {/* Account Health */}
       <h2 className="font-display text-lg font-semibold text-brand-neutral mb-4">Account Health</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
         <div className="bg-surface-lowest rounded-xl shadow-ambient p-5 text-center">
           <p className="text-xs text-brand-neutral/50 uppercase mb-2">Status</p>
           <Chip color={account_health.status === 'Good' ? 'success' : 'danger'} variant="soft">

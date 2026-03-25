@@ -80,9 +80,9 @@ export default function YtdPage() {
 
   return (
     <div>
-      <div className="flex items-baseline justify-between mb-8">
-        <h1 className="text-2xl font-display font-bold text-brand-neutral">YTD Summary</h1>
-        <span className="text-xs text-brand-neutral/50">As of {reporting.as_of}</span>
+      <div className="flex items-baseline justify-between mb-6 md:mb-8">
+        <h1 className="text-xl md:text-2xl font-display font-bold text-brand-neutral">YTD Summary</h1>
+        <span className="text-[10px] md:text-xs text-brand-neutral/50">As of {reporting.as_of}</span>
       </div>
 
       <KpiGrid columns={4}>
@@ -122,9 +122,9 @@ export default function YtdPage() {
       </ChartCard>
 
       {/* Monthly Revenue Table */}
-      <h2 className="font-display text-lg font-semibold text-brand-neutral mt-8 mb-4">Monthly Breakdown</h2>
+      <h2 className="font-display text-lg font-semibold text-brand-neutral mt-6 md:mt-8 mb-4">Monthly Breakdown</h2>
       <div className="bg-surface-lowest rounded-xl shadow-ambient overflow-x-auto">
-        <table className="w-full text-sm border-collapse">
+        <table className="w-full text-sm border-collapse min-w-[700px]">
           <thead>
             <tr className="bg-surface-low">
               <th className="text-left px-5 py-3.5 text-xs uppercase tracking-wider text-brand-neutral/50 font-semibold">Month</th>

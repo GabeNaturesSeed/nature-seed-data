@@ -19,7 +19,7 @@ export default function MarketingPage() {
     return (
       <div className="space-y-6">
         <Skeleton className="h-8 w-48 rounded-xl" />
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-28 rounded-xl" />)}
         </div>
       </div>
@@ -51,9 +51,9 @@ export default function MarketingPage() {
 
   return (
     <div>
-      <div className="flex items-baseline justify-between mb-8">
-        <h1 className="text-2xl font-display font-bold text-brand-neutral">Marketing Performance</h1>
-        <span className="text-xs text-brand-neutral/50">{data.period_start} to {data.period_end}</span>
+      <div className="flex items-baseline justify-between mb-6 md:mb-8">
+        <h1 className="text-xl md:text-2xl font-display font-bold text-brand-neutral">Marketing Performance</h1>
+        <span className="text-[10px] md:text-xs text-brand-neutral/50">{data.period_start} to {data.period_end}</span>
       </div>
 
       {/* LTV / CAC Widgets */}

@@ -84,9 +84,9 @@ export default function CalendarPage() {
 
   return (
     <div>
-      <div className="flex items-baseline justify-between mb-8">
-        <h1 className="text-2xl font-display font-bold text-brand-neutral">Content Calendar</h1>
-        <span className="text-xs text-brand-neutral/50">As of {data?.as_of ?? ''}</span>
+      <div className="flex items-baseline justify-between mb-6 md:mb-8">
+        <h1 className="text-xl md:text-2xl font-display font-bold text-brand-neutral">Content Calendar</h1>
+        <span className="text-[10px] md:text-xs text-brand-neutral/50">As of {data?.as_of ?? ''}</span>
       </div>
 
       {/* Controls */}
@@ -97,11 +97,12 @@ export default function CalendarPage() {
       </div>
 
       {/* Calendar Grid */}
-      <div className="bg-surface-lowest rounded-xl shadow-ambient overflow-hidden">
+      <div className="bg-surface-lowest rounded-xl shadow-ambient overflow-x-auto">
+        <div className="min-w-[500px]">
         {/* Day of week headers */}
         <div className="grid grid-cols-7 bg-surface-low">
           {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-            <div key={d} className="px-2 py-2.5 text-center text-xs uppercase tracking-wider text-brand-neutral/50 font-semibold">
+            <div key={d} className="px-2 py-2.5 text-center text-[10px] md:text-xs uppercase tracking-wider text-brand-neutral/50 font-semibold">
               {d}
             </div>
           ))}
@@ -117,7 +118,7 @@ export default function CalendarPage() {
               return (
                 <div
                   key={di}
-                  className={`min-h-[100px] p-2 ${!d ? 'bg-surface-low' : ''} ${di < 6 ? 'border-r border-brand-outline/10' : ''} ${wi < weeks.length - 1 ? 'border-b border-brand-outline/10' : ''}`}
+                  className={`min-h-[80px] md:min-h-[100px] p-1.5 md:p-2 ${!d ? 'bg-surface-low' : ''} ${di < 6 ? 'border-r border-brand-outline/10' : ''} ${wi < weeks.length - 1 ? 'border-b border-brand-outline/10' : ''}`}
                 >
                   {d && (
                     <>
@@ -144,6 +145,7 @@ export default function CalendarPage() {
             })}
           </div>
         ))}
+        </div>
       </div>
 
       {/* Campaign Detail Modal */}
