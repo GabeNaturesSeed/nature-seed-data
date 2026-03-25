@@ -1732,6 +1732,7 @@ function renderStock(inventory) {
   <div class="stock-summary">
     <div class="stock-box"><div class="sb-label">Total Orders</div><div class="sb-value">${fmtInt(ot.total_30d)}</div></div>
     <div class="stock-box"><div class="sb-label">Fulfilled</div><div class="sb-value" style="color:var(--green-dark)">${fmtInt(ot.fulfilled)}</div></div>
+    <div class="stock-box"><div class="sb-label">Backorders</div><div class="sb-value" style="color:${(ot.backorders||0) > 0 ? 'var(--orange, #e67e22)' : 'var(--gray)'}">${fmtInt(ot.backorders)}</div></div>
     <div class="stock-box"><div class="sb-label">Unfulfilled &lt;1 day</div><div class="sb-value" style="color:var(--yellow)">${fmtInt(ot.unfulfilled_lt_1d)}</div></div>
     <div class="stock-box"><div class="sb-label">Unfulfilled &lt;5 days</div><div class="sb-value" style="color:var(--yellow)">${fmtInt(ot.unfulfilled_lt_5d)}</div></div>
     <div class="stock-box"><div class="sb-label">Unfulfilled 5–10 days</div><div class="sb-value" style="color:${(ot.unfulfilled_5_to_10d||0) > 0 ? 'var(--red)' : 'var(--gray)'}">${fmtInt(ot.unfulfilled_5_to_10d)}</div></div>

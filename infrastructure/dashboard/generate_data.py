@@ -729,9 +729,13 @@ def generate_reporting():
         new_customers_mtd = sum(1 for cid in mtd_cids if (cust_dates.get(cid, "")[:10] >= mtd_start_str))
         new_customers_mtd += len(mtd_guest_emails)  # guests treated as new
         print(f"    MTD customers: {len(mtd_cids) + len(mtd_guest_emails)} unique ({new_customers_mtd} new)")
+        # Sum shipping collected from WC orders for current month P&L
+        mtd_shipping_collected = round(sum(float(o.get("shipping_total") or 0) for o in mtd_orders), 2)
+        print(f"    MTD WC shipping collected: ${mtd_shipping_collected:,.2f}")
     except Exception as e:
         print(f"    [WARN] MTD new customer count failed: {e}")
         new_customers_mtd = None
+        mtd_shipping_collected = 0
 
     aov = round(cy_totals["revenue"] / cy_totals["orders"], 2) if cy_totals["orders"] else 0
     new_cac = round(cy_totals["ad_spend"] / new_customers_mtd, 2) if new_customers_mtd else None
@@ -802,8 +806,13 @@ def generate_reporting():
 
         # Revenue freight (shipping charged to customers)
         # For actuals months: use finance CSV value
-        # For current month: use WC shipping_total from orders (estimate ~$5K/month)
-        revenue_freight = act.get("freight_revenue", bud.get("freight_revenue", 0))
+        # For current month without actuals: use WC shipping_total from orders
+        if has_actuals:
+            revenue_freight = act.get("freight_revenue", 0)
+        elif mk == cur_month_key:
+            revenue_freight = mtd_shipping_collected
+        else:
+            revenue_freight = bud.get("freight_revenue", 0)
 
         act_gross_profit = act_revenue - act_cogs
 
@@ -1512,6 +1521,7 @@ def _pull_wc_order_tracking():
 
     total = len(all_orders)
     fulfilled = 0
+    backorders = 0
     unfulfilled_lt_1d = 0
     unfulfilled_lt_5d = 0
     unfulfilled_gt_10d = 0
@@ -1522,6 +1532,17 @@ def _pull_wc_order_tracking():
         if status == "completed":
             fulfilled += 1
         else:
+            # Check if any line item is backordered
+            is_backorder = False
+            for item in order.get("line_items", []):
+                if item.get("backordered", False):
+                    is_backorder = True
+                    break
+
+            if is_backorder:
+                backorders += 1
+                continue
+
             # Calculate business days since order was placed
             date_created = order.get("date_created", "")
             if date_created:
@@ -1545,12 +1566,13 @@ def _pull_wc_order_tracking():
     result = {
         "total_30d": total,
         "fulfilled": fulfilled,
+        "backorders": backorders,
         "unfulfilled_lt_1d": unfulfilled_lt_1d,
         "unfulfilled_lt_5d": unfulfilled_lt_5d,
         "unfulfilled_5_to_10d": unfulfilled_5_to_10d,
         "unfulfilled_gt_10d": unfulfilled_gt_10d,
     }
-    print(f"  Total: {total} | Fulfilled: {fulfilled} | Unfulfilled <1d: {unfulfilled_lt_1d} | <5d: {unfulfilled_lt_5d} | >10d: {unfulfilled_gt_10d}")
+    print(f"  Total: {total} | Fulfilled: {fulfilled} | Backorders: {backorders} | Unfulfilled <1d: {unfulfilled_lt_1d} | <5d: {unfulfilled_lt_5d} | >10d: {unfulfilled_gt_10d}")
     return result
 
 
