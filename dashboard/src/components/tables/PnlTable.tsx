@@ -30,6 +30,10 @@ const rows: RowDef[] = [
   { label: 'Gross Profit', key: 'gross_profit', budgetKey: 'budget_gross_profit', bold: true, highlight: true },
   { label: 'Gross Margin %', key: 'gross_margin_pct' },
   { label: '', separator: true },
+  { label: 'CONTRIBUTION MARGIN', separator: true },
+  { label: 'Contribution Margin (CM2)', key: '_cm2', bold: true, highlight: true },
+  { label: 'CM2 %', key: '_cm2_pct' },
+  { label: '', separator: true },
   { label: 'OPERATING EXPENSES', separator: true },
   { label: 'Production / Warehouse', key: 'production_warehouse', indent: true },
   { label: 'Advertising', key: 'advertising', budgetKey: 'budget_advertising', indent: true },
@@ -52,6 +56,22 @@ const rows: RowDef[] = [
 ];
 
 function getVal(obj: Record<string, unknown>, key: string): number | null {
+  // Computed CM2 fields: revenue - cogs - cogs_freight - advertising - platform_fees (if available)
+  if (key === '_cm2') {
+    const rev = typeof obj.revenue === 'number' ? obj.revenue : null;
+    const cogs = typeof obj.cogs === 'number' ? obj.cogs : 0;
+    const freight = typeof obj.cogs_freight === 'number' ? obj.cogs_freight : 0;
+    const ads = typeof obj.advertising === 'number' ? obj.advertising : 0;
+    if (rev == null) return null;
+    return rev - cogs - freight - ads;
+  }
+  if (key === '_cm2_pct') {
+    const rev = typeof obj.revenue === 'number' ? obj.revenue : null;
+    if (!rev) return null;
+    const cm2 = getVal(obj, '_cm2');
+    if (cm2 == null) return null;
+    return (cm2 / rev) * 100;
+  }
   const v = obj[key];
   if (v == null || typeof v !== 'number') return null;
   return v;
@@ -118,10 +138,11 @@ export default function PnlTable({ months, ytd }: PnlTableProps) {
                 </tr>
               );
             }
-            const isPercent = row.key === 'gross_margin_pct';
+            const isPercent = row.key === 'gross_margin_pct' || row.key === '_cm2_pct';
+            const isCM2Row = row.key === '_cm2' || row.key === '_cm2_pct';
             return (
-              <tr key={i} className={`hover:bg-surface-low transition-colors ${row.highlight ? 'bg-brand-primary/5' : ''}`}>
-                <td className={`px-5 py-2.5 ${row.indent ? 'pl-9' : ''} ${row.bold ? 'font-semibold' : ''}`}>
+              <tr key={i} className={`hover:bg-surface-low transition-colors ${row.highlight && !isCM2Row ? 'bg-brand-primary/5' : ''}`} style={row.highlight && isCM2Row ? { backgroundColor: 'rgba(201,106,46,0.07)' } : {}}>
+                <td className={`px-5 py-2.5 ${row.indent ? 'pl-9' : ''} ${row.bold ? 'font-semibold' : ''}`} style={isCM2Row ? { color: '#c96a2e' } : {}}>
                   {row.label}
                 </td>
                 {months.map(m => (
