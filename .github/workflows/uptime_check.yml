@@ -24,12 +24,10 @@ jobs:
       - name: Install requests
         run: pip install requests
 
-      - name: Create .env from secrets
-        run: |
-          cat > .env << 'ENVEOF'
-          SUPABASE_URL=${{ secrets.SUPABASE_URL }}
-          SUPABASE_SECRET_API_KEY=${{ secrets.SUPABASE_SECRET_API_KEY }}
-          ENVEOF
-
       - name: Run uptime check
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_API_KEY: ${{ secrets.SUPABASE_SECRET_API_KEY }}
+          CF_WORKER_URL: ${{ secrets.CF_WORKER_URL }}
+          CF_WORKER_SECRET: ${{ secrets.CF_WORKER_SECRET }}
         run: python infrastructure/health/uptime_check.py
