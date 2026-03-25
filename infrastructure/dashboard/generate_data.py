@@ -671,6 +671,7 @@ def generate_reporting():
             "ly_mer": ly_mer,
             "budget_mer": bud_mer,
             "cogs": round(cogs_m, 2),
+            "shipping": round(ship_m, 2),
             "net_revenue": round(cy.get("net_revenue", 0), 2),
             "gross_profit": round(gross_profit_m, 2),
             "gross_margin_pct": round(gross_profit_m / rev * 100, 1) if rev else None,

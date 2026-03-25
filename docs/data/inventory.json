@@ -81,12 +81,12 @@
     {
       "sku": "PB-ALPACA-10-LB",
       "name": "Alpaca/Llama Pasture Mix",
-      "qty": 71.0,
+      "qty": 70.0,
       "daily_velocity": 0.3,
-      "days_remaining": 236,
+      "days_remaining": 233,
       "q1_need": 1.8,
       "q2_need": 32.8,
-      "surplus_gap": 36.4,
+      "surplus_gap": 35.4,
       "status": "ok"
     },
     {
@@ -114,12 +114,12 @@
     {
       "sku": "PB-CHIX-5-LB",
       "name": "Chicken Forage Mix",
-      "qty": 240.0,
+      "qty": 238.0,
       "daily_velocity": 11.2,
       "days_remaining": 21,
       "q1_need": 67.2,
       "q2_need": 1223.0,
-      "surplus_gap": -1050.2,
+      "surplus_gap": -1052.2,
       "status": "red"
     },
     {
@@ -169,12 +169,12 @@
     {
       "sku": "PB-COW-SO-10-LB",
       "name": "Southern Dairy Cow & Cattle Forage Mix",
-      "qty": 258.0,
+      "qty": 252.0,
       "daily_velocity": 0.1,
-      "days_remaining": 2580,
+      "days_remaining": 2520,
       "q1_need": 0.6,
       "q2_need": 10.9,
-      "surplus_gap": 246.5,
+      "surplus_gap": 240.5,
       "status": "ok"
     },
     {
@@ -257,23 +257,23 @@
     {
       "sku": "PB-HRSE-SO-10-LB",
       "name": "Southern Horse Forage Mix",
-      "qty": 123.0,
+      "qty": 108.0,
       "daily_velocity": 1.1,
-      "days_remaining": 111,
+      "days_remaining": 98,
       "q1_need": 6.6,
       "q2_need": 120.1,
-      "surplus_gap": -3.7,
+      "surplus_gap": -18.7,
       "status": "ok"
     },
     {
       "sku": "PB-HRSE-TR-10-LB",
       "name": "Transitional Horse Forage Mix",
-      "qty": 133.0,
+      "qty": 123.0,
       "daily_velocity": 0.8,
-      "days_remaining": 166,
+      "days_remaining": 153,
       "q1_need": 4.8,
       "q2_need": 87.4,
-      "surplus_gap": 40.8,
+      "surplus_gap": 30.8,
       "status": "ok"
     },
     {
@@ -422,12 +422,12 @@
     {
       "sku": "PG-DAGL-5-LB",
       "name": "Orchardgrass",
-      "qty": 157.0,
+      "qty": 154.0,
       "daily_velocity": 1.5,
-      "days_remaining": 104,
+      "days_remaining": 102,
       "q1_need": 9.0,
       "q2_need": 163.8,
-      "surplus_gap": -15.8,
+      "surplus_gap": -18.8,
       "status": "ok"
     },
     {
@@ -444,23 +444,23 @@
     {
       "sku": "PG-LOPE-5-LB",
       "name": "Perennial Ryegrass",
-      "qty": 158.0,
+      "qty": 144.0,
       "daily_velocity": 0.9,
-      "days_remaining": 175,
+      "days_remaining": 160,
       "q1_need": 5.4,
       "q2_need": 98.3,
-      "surplus_gap": 54.3,
+      "surplus_gap": 40.3,
       "status": "ok"
     },
     {
       "sku": "PG-MESA-5-LB",
       "name": "Alfalfa",
-      "qty": 158.0,
+      "qty": 155.0,
       "daily_velocity": 1.8,
-      "days_remaining": 87,
+      "days_remaining": 86,
       "q1_need": 10.8,
       "q2_need": 196.6,
-      "surplus_gap": -49.4,
+      "surplus_gap": -52.4,
       "status": "ok"
     },
     {
@@ -620,12 +620,12 @@
     {
       "sku": "S-RICE-45-LB",
       "name": "Rice Hulls",
-      "qty": 61.0,
+      "qty": 60.0,
       "daily_velocity": 1.5,
       "days_remaining": 40,
       "q1_need": 9.0,
       "q2_need": 163.8,
-      "surplus_gap": -111.8,
+      "surplus_gap": -112.8,
       "status": "yellow"
     },
     {
@@ -840,12 +840,12 @@
     {
       "sku": "TURF-WSHD-5-LB",
       "name": "TWCA Water-Wise Shade Mix",
-      "qty": 84.0,
+      "qty": 83.0,
       "daily_velocity": 2.3,
       "days_remaining": 36,
       "q1_need": 13.8,
       "q2_need": 251.2,
-      "surplus_gap": -181.0,
+      "surplus_gap": -182.0,
       "status": "yellow"
     },
     {
@@ -1071,12 +1071,12 @@
     {
       "sku": "WB-CALN-0.5-LB",
       "name": "California Native Wildflower Mix",
-      "qty": 481.0,
+      "qty": 477.0,
       "daily_velocity": 0.7,
-      "days_remaining": 687,
+      "days_remaining": 681,
       "q1_need": 4.2,
       "q2_need": 76.4,
-      "surplus_gap": 400.4,
+      "surplus_gap": 396.4,
       "status": "ok"
     },
     {
@@ -1749,11 +1749,11 @@
     "period_days": 14
   },
   "order_tracking": {
-    "total_30d": 2822,
+    "total_30d": 2823,
     "fulfilled": 1984,
-    "unfulfilled_lt_1d": 176,
-    "unfulfilled_lt_5d": 575,
-    "unfulfilled_5_to_10d": 78,
+    "unfulfilled_lt_1d": 173,
+    "unfulfilled_lt_5d": 578,
+    "unfulfilled_5_to_10d": 79,
     "unfulfilled_gt_10d": 9
   }
 }
