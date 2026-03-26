@@ -73,7 +73,11 @@ export default function ShippingPage() {
       </div>
 
       {/* MTD KPIs */}
-      <h2 className="font-display text-lg font-semibold text-brand-neutral mb-4">Month to Date</h2>
+      <h2 className="font-display text-lg font-semibold text-brand-neutral mb-2">Month to Date</h2>
+      <p className="text-xs text-brand-secondary mb-4 flex items-center gap-1.5">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Paid amount reflects Shippo label charges. UPS negotiated discounts have not been applied yet for the current month.
+      </p>
       <KpiGrid columns={5}>
         <KpiCard label="Collected" value={fmt(mtd.shipping_collected)} />
         <KpiCard label="Paid" value={fmt(mtd.shipping_paid)} />
@@ -87,7 +91,10 @@ export default function ShippingPage() {
       </KpiGrid>
 
       {/* YTD KPIs */}
-      <h2 className="font-display text-lg font-semibold text-brand-neutral mb-4">Year to Date</h2>
+      <h2 className="font-display text-lg font-semibold text-brand-neutral mb-2">Year to Date</h2>
+      <p className="text-xs text-brand-neutral/50 mb-4">
+        Jan &amp; Feb use finance actuals (with UPS discounts applied). Current month uses Shippo pre-discount rates.
+      </p>
       <KpiGrid columns={5}>
         <KpiCard label="Collected" value={fmt(ytd.shipping_collected)} />
         <KpiCard label="Paid" value={fmt(ytd.shipping_paid)} />
