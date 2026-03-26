@@ -8,13 +8,29 @@ import KpiGrid from '@/components/kpi/KpiGrid';
 import ChartCard from '@/components/charts/ChartCard';
 import { Skeleton } from '@heroui/react';
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
-  ResponsiveContainer,
+  BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  ResponsiveContainer, Cell,
 } from 'recharts';
+
+interface LaneData {
+  summary: { total_shipments: number; total_cost: number; total_weight_lb: number; avg_cost_per_shipment: number; avg_cost_per_lb: number; period: string };
+  cost_per_lb_by_zone: Record<string, number>;
+  cost_per_shipment_by_zone: Record<string, number>;
+  volume_by_zone: Record<string, number>;
+  avg_weight_by_zone: Record<string, number>;
+  top_states_by_volume: { state: string; shipments: number }[];
+  top_states_by_avg_cost: { state: string; avg_cost: number }[];
+  state_breakdown: { state: string; shipments: number; total_cost: number; avg_cost: number; total_weight: number; avg_weight: number }[];
+  weight_bracket_analysis: { bracket: string; shipments: number; total_cost: number; avg_cost: number; avg_weight: number; cost_per_lb: number }[];
+  provider_breakdown: { service: string; shipments: number; total_cost: number; avg_cost: number }[];
+}
+
+const ZONE_COLORS = ['#2d6A4F', '#3a7d5c', '#478f69', '#52796F', '#6d9080', '#88a791', '#c96a2e', '#b85a20'];
 
 export default function ShippingPage() {
   const { data, loading } = useJsonData<ShippingData>('shipping');
   const { data: reporting } = useJsonData<ReportingData>('reporting');
+  const { data: lanes } = useJsonData<LaneData>('shipping_lanes');
 
   if (loading) {
     return (
@@ -107,21 +123,140 @@ export default function ShippingPage() {
         ))}
       </div>
 
-      {/* Weekly Cost Chart */}
-      <ChartCard title="Weekly Avg Cost per Shipment by Carrier" height={300}>
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={weeklyChartData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(191,201,193,0.1)" />
-            <XAxis dataKey="name" tick={{ fontSize: 9, fill: '#212529' }} />
-            <YAxis tickFormatter={v => '$' + v} tick={{ fontSize: 10, fill: '#212529' }} />
-            <Tooltip formatter={(v) => '$' + Number(v).toFixed(2)} />
-            <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Line type="monotone" dataKey="UPS" stroke="#5B3200" strokeWidth={2} dot={{ r: 3 }} connectNulls={false} />
-            <Line type="monotone" dataKey="USPS" stroke="#004B87" strokeWidth={2} dot={{ r: 3 }} connectNulls={false} />
-            <Line type="monotone" dataKey="FedEx" stroke="#4D148C" strokeWidth={2} dot={{ r: 3 }} connectNulls={false} />
-          </LineChart>
-        </ResponsiveContainer>
-      </ChartCard>
+      {/* Lane Analysis — Zone Breakdown */}
+      {lanes && (() => {
+        const zoneLabels: Record<string, string> = {
+          '1': 'Zone 1\n(0-50mi)', '2': 'Zone 2\n(51-150mi)', '3': 'Zone 3\n(151-300mi)',
+          '4': 'Zone 4\n(301-600mi)', '5': 'Zone 5\n(601-1000mi)', '6': 'Zone 6\n(1001-1400mi)',
+          '7': 'Zone 7\n(1401-1800mi)', '8': 'Zone 8\n(1801+mi)',
+        };
+        const zoneChartData = Object.keys(lanes.cost_per_shipment_by_zone).map(z => ({
+          zone: `Zone ${z}`,
+          costPerShipment: lanes.cost_per_shipment_by_zone[z],
+          costPerLb: lanes.cost_per_lb_by_zone[z] ?? 0,
+          volume: lanes.volume_by_zone[z] ?? 0,
+          avgWeight: lanes.avg_weight_by_zone[z] ?? 0,
+        }));
+
+        return (
+          <>
+            <h2 className="font-display text-lg font-semibold text-brand-neutral mb-4">Lane Analysis by Zone (Last 30 Days)</h2>
+            <p className="text-sm text-brand-neutral/50 mb-4">
+              {lanes.summary.total_shipments.toLocaleString()} shipments | {fmt(lanes.summary.total_cost)} total | {lanes.summary.total_weight_lb.toLocaleString()} lbs | {lanes.summary.period}
+            </p>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+              <ChartCard title="Cost per Shipment by Zone" height={280}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={zoneChartData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(191,201,193,0.1)" />
+                    <XAxis dataKey="zone" tick={{ fontSize: 10, fill: '#212529' }} />
+                    <YAxis tickFormatter={v => '$' + v} tick={{ fontSize: 10, fill: '#212529' }} />
+                    <Tooltip formatter={(v) => '$' + Number(v).toFixed(2)} />
+                    <Bar dataKey="costPerShipment" name="Avg Cost/Shipment" radius={[6, 6, 0, 0]}>
+                      {zoneChartData.map((_, i) => <Cell key={i} fill={ZONE_COLORS[i % ZONE_COLORS.length]} />)}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </ChartCard>
+
+              <ChartCard title="Shipment Volume by Zone" height={280}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={zoneChartData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(191,201,193,0.1)" />
+                    <XAxis dataKey="zone" tick={{ fontSize: 10, fill: '#212529' }} />
+                    <YAxis tick={{ fontSize: 10, fill: '#212529' }} />
+                    <Tooltip />
+                    <Bar dataKey="volume" name="Shipments" radius={[6, 6, 0, 0]}>
+                      {zoneChartData.map((_, i) => <Cell key={i} fill={ZONE_COLORS[i % ZONE_COLORS.length]} />)}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </ChartCard>
+            </div>
+
+            {/* Zone Details Table */}
+            <div className="overflow-x-auto mb-8">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr style={{ background: '#2d6A4F' }}>
+                    <th className="text-white py-3 px-4 font-medium text-left rounded-tl-xl">Zone</th>
+                    <th className="text-white py-3 px-4 font-medium text-right">Shipments</th>
+                    <th className="text-white py-3 px-4 font-medium text-right">% Volume</th>
+                    <th className="text-white py-3 px-4 font-medium text-right">Avg Cost/Shipment</th>
+                    <th className="text-white py-3 px-4 font-medium text-right">Avg Cost/lb</th>
+                    <th className="text-white py-3 px-4 font-medium text-right rounded-tr-xl">Avg Weight</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {zoneChartData.map((z, i) => {
+                    const totalVol = zoneChartData.reduce((s, r) => s + r.volume, 0);
+                    const pct = totalVol > 0 ? (z.volume / totalVol * 100).toFixed(1) : '0';
+                    return (
+                      <tr key={z.zone} className={i % 2 === 0 ? 'bg-surface-lowest' : 'bg-surface-low'}>
+                        <td className="py-3 px-4 font-medium">{z.zone}</td>
+                        <td className="py-3 px-4 text-right">{z.volume.toLocaleString()}</td>
+                        <td className="py-3 px-4 text-right">{pct}%</td>
+                        <td className="py-3 px-4 text-right font-semibold">{fmt(z.costPerShipment)}</td>
+                        <td className="py-3 px-4 text-right">{fmt(z.costPerLb)}</td>
+                        <td className="py-3 px-4 text-right">{z.avgWeight.toFixed(1)} lb</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Top States + Weight Brackets side by side */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+              {/* Top States */}
+              <div className="bg-surface-lowest rounded-xl shadow-ambient p-5">
+                <h3 className="font-display text-base font-semibold text-brand-neutral mb-3">Top 10 States by Volume</h3>
+                <div className="space-y-2">
+                  {lanes.top_states_by_volume.slice(0, 10).map(s => {
+                    const maxVol = lanes.top_states_by_volume[0]?.shipments ?? 1;
+                    const pct = (s.shipments / maxVol * 100);
+                    return (
+                      <div key={s.state} className="flex items-center gap-3 text-sm">
+                        <span className="w-8 font-semibold text-brand-neutral">{s.state}</span>
+                        <div className="flex-1 h-5 bg-surface-low rounded-full overflow-hidden">
+                          <div className="h-full rounded-full" style={{ width: `${pct}%`, background: '#2d6A4F' }} />
+                        </div>
+                        <span className="w-16 text-right text-brand-neutral/60">{s.shipments}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Weight Brackets */}
+              <div className="bg-surface-lowest rounded-xl shadow-ambient p-5">
+                <h3 className="font-display text-base font-semibold text-brand-neutral mb-3">Cost by Weight Bracket</h3>
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-left">
+                      <th className="py-2 text-brand-neutral/50 font-medium">Bracket</th>
+                      <th className="py-2 text-right text-brand-neutral/50 font-medium">Shipments</th>
+                      <th className="py-2 text-right text-brand-neutral/50 font-medium">Avg Cost</th>
+                      <th className="py-2 text-right text-brand-neutral/50 font-medium">Cost/lb</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {lanes.weight_bracket_analysis.map(b => (
+                      <tr key={b.bracket} className="border-t" style={{ borderColor: 'rgba(191,201,193,0.15)' }}>
+                        <td className="py-2 font-medium">{b.bracket}</td>
+                        <td className="py-2 text-right">{b.shipments.toLocaleString()}</td>
+                        <td className="py-2 text-right font-semibold">{fmt(b.avg_cost)}</td>
+                        <td className="py-2 text-right">{fmt(b.cost_per_lb)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </>
+        );
+      })()}
 
       {/* Shippo vs Finance Actuals Comparison */}
       {reporting?.pnl?.months && (() => {

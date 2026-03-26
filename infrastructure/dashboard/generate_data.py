@@ -1775,41 +1775,57 @@ def generate_shipping():
     except Exception as e:
         print(f"  [WARN] Supabase shipping pull failed: {e}")
 
-    # Compute MTD/YTD totals from Supabase
-    ytd_paid = 0
+    # Compute MTD/YTD Shippo totals from Supabase
+    shippo_ytd_paid = 0
     ytd_shipments = 0
-    mtd_paid = 0
+    shippo_mtd_paid = 0
     mtd_shipments = 0
-    # Weekly totals for chart (all carriers combined from Supabase)
     for row in sb_shipping_ytd:
         cost = float(row.get("total_cost") or 0)
         count = int(row.get("shipment_count") or 0)
         rd = row.get("report_date", "")
-        ytd_paid += cost
+        shippo_ytd_paid += cost
         ytd_shipments += count
         if rd >= str(mtd_start):
-            mtd_paid += cost
+            shippo_mtd_paid += cost
             mtd_shipments += count
 
+    # Use finance actuals for completed months, Shippo for current month
+    # Load actuals to get real freight costs
+    actuals_csv = _load_actuals_csv()
+    completed_months_paid = 0
+    for mk, act_data in actuals_csv.items():
+        if mk < str(mtd_start)[:7]:  # Only completed months (before current)
+            completed_months_paid += act_data.get("cogs_freight", 0)
+
+    # YTD paid = finance actuals for completed months + Shippo for current month
+    ytd_paid = completed_months_paid + shippo_mtd_paid
+    mtd_paid = shippo_mtd_paid  # Current month always uses Shippo (no actuals yet)
+    print(f"  Paid: completed months (finance) ${completed_months_paid:,.2f} + MTD (Shippo) ${shippo_mtd_paid:,.2f} = YTD ${ytd_paid:,.2f}")
+
     # ── Step 2: Pull WC shipping collected (MTD + YTD) ─────────
+    # Use finance actuals revenue_freight for completed months + WC API for current month
     wc_shipping_mtd = 0.0
     wc_shipping_ytd = 0.0
     wc_orders_count_mtd = 0
     wc_orders_count_ytd = 0
 
+    # Revenue freight from finance actuals (completed months)
+    for mk, act_data in actuals_csv.items():
+        wc_shipping_ytd += act_data.get("freight_revenue", 0)
+
+    # Current month: pull from WC API
     try:
-        ytd_orders = _pull_wc_orders_range(str(ytd_start), str(today))
-        for order in ytd_orders:
+        mtd_orders = _pull_wc_orders_range(str(mtd_start), str(today))
+        for order in mtd_orders:
             ship_total = float(order.get("shipping_total") or 0)
-            order_date_str = (order.get("date_created") or "")[:10]
-            wc_shipping_ytd += ship_total
-            wc_orders_count_ytd += 1
-            if order_date_str >= str(mtd_start):
-                wc_shipping_mtd += ship_total
-                wc_orders_count_mtd += 1
+            wc_shipping_mtd += ship_total
+            wc_orders_count_mtd += 1
+        wc_shipping_ytd += wc_shipping_mtd
+        wc_orders_count_ytd = wc_orders_count_mtd  # Only MTD orders pulled
         print(f"  WC shipping collected: MTD ${wc_shipping_mtd:,.2f} | YTD ${wc_shipping_ytd:,.2f}")
     except Exception as e:
-        print(f"  [WARN] WC shipping pull failed: {e}")
+        print(f"  [WARN] WC shipping pull failed: {e} — using finance actuals only")
 
     # ── Step 3: Pull Shippo transactions for carrier breakdown ─
     # Only need tracking numbers + dates + status (NO rate API calls)

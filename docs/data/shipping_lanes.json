@@ -1,0 +1,612 @@
+{
+  "summary": {
+    "period": "2026-02-24 to 2026-03-26",
+    "total_shipments": 2828,
+    "total_cost": 134707.43,
+    "total_weight_lb": 60791.8,
+    "avg_cost_per_shipment": 47.63,
+    "avg_cost_per_lb": 2.22,
+    "avg_weight_per_shipment": 21.5,
+    "origin": "Lehi, UT 84043"
+  },
+  "cost_per_lb_by_zone": {
+    "1": 1.56,
+    "2": 1.18,
+    "3": 1.51,
+    "4": 2.3,
+    "5": 2.08,
+    "6": 2.0,
+    "7": 2.44,
+    "8": 2.32
+  },
+  "cost_per_shipment_by_zone": {
+    "1": 24.83,
+    "2": 20.19,
+    "3": 38.48,
+    "4": 40.36,
+    "5": 40.49,
+    "6": 45.38,
+    "7": 64.13,
+    "8": 51.97
+  },
+  "volume_by_zone": {
+    "1": 63,
+    "2": 19,
+    "3": 62,
+    "4": 648,
+    "5": 445,
+    "6": 462,
+    "7": 540,
+    "8": 589
+  },
+  "avg_weight_by_zone": {
+    "1": 16.0,
+    "2": 17.2,
+    "3": 25.5,
+    "4": 17.5,
+    "5": 19.4,
+    "6": 22.7,
+    "7": 26.3,
+    "8": 22.4
+  },
+  "top_states_by_volume": [
+    {
+      "state": "CA",
+      "shipments": 265
+    },
+    {
+      "state": "TX",
+      "shipments": 196
+    },
+    {
+      "state": "WA",
+      "shipments": 139
+    },
+    {
+      "state": "CO",
+      "shipments": 137
+    },
+    {
+      "state": "NC",
+      "shipments": 123
+    },
+    {
+      "state": "VA",
+      "shipments": 123
+    },
+    {
+      "state": "PA",
+      "shipments": 102
+    },
+    {
+      "state": "UT",
+      "shipments": 96
+    },
+    {
+      "state": "IL",
+      "shipments": 85
+    },
+    {
+      "state": "TN",
+      "shipments": 84
+    }
+  ],
+  "top_states_by_avg_cost": [
+    {
+      "state": "AK",
+      "avg_cost": 97.8
+    },
+    {
+      "state": "VT",
+      "avg_cost": 89.08
+    },
+    {
+      "state": "WI",
+      "avg_cost": 84.33
+    },
+    {
+      "state": "NM",
+      "avg_cost": 82.4
+    },
+    {
+      "state": "SC",
+      "avg_cost": 76.54
+    },
+    {
+      "state": "MA",
+      "avg_cost": 72.51
+    },
+    {
+      "state": "KS",
+      "avg_cost": 72.18
+    },
+    {
+      "state": "OH",
+      "avg_cost": 71.95
+    },
+    {
+      "state": "ME",
+      "avg_cost": 69.31
+    },
+    {
+      "state": "AL",
+      "avg_cost": 66.17
+    }
+  ],
+  "state_breakdown": [
+    {
+      "state": "AK",
+      "shipments": 3,
+      "total_cost": 293.4,
+      "avg_cost": 97.8,
+      "total_weight": 30.0,
+      "avg_weight": 10.0
+    },
+    {
+      "state": "AL",
+      "shipments": 35,
+      "total_cost": 2315.91,
+      "avg_cost": 66.17,
+      "total_weight": 930.0,
+      "avg_weight": 26.6
+    },
+    {
+      "state": "AR",
+      "shipments": 30,
+      "total_cost": 1498.51,
+      "avg_cost": 49.95,
+      "total_weight": 886.2,
+      "avg_weight": 29.5
+    },
+    {
+      "state": "AZ",
+      "shipments": 67,
+      "total_cost": 1589.34,
+      "avg_cost": 23.72,
+      "total_weight": 935.0,
+      "avg_weight": 14.0
+    },
+    {
+      "state": "CA",
+      "shipments": 265,
+      "total_cost": 5866.34,
+      "avg_cost": 22.14,
+      "total_weight": 2311.5,
+      "avg_weight": 8.7
+    },
+    {
+      "state": "CO",
+      "shipments": 137,
+      "total_cost": 5450.34,
+      "avg_cost": 39.78,
+      "total_weight": 2553.0,
+      "avg_weight": 18.6
+    },
+    {
+      "state": "CT",
+      "shipments": 30,
+      "total_cost": 1204.06,
+      "avg_cost": 40.14,
+      "total_weight": 585.5,
+      "avg_weight": 19.5
+    },
+    {
+      "state": "DC",
+      "shipments": 13,
+      "total_cost": 267.02,
+      "avg_cost": 20.54,
+      "total_weight": 113.0,
+      "avg_weight": 8.7
+    },
+    {
+      "state": "DE",
+      "shipments": 9,
+      "total_cost": 196.93,
+      "avg_cost": 21.88,
+      "total_weight": 82.5,
+      "avg_weight": 9.2
+    },
+    {
+      "state": "FL",
+      "shipments": 70,
+      "total_cost": 2350.84,
+      "avg_cost": 33.58,
+      "total_weight": 1068.2,
+      "avg_weight": 15.3
+    },
+    {
+      "state": "GA",
+      "shipments": 81,
+      "total_cost": 4897.46,
+      "avg_cost": 60.46,
+      "total_weight": 2167.2,
+      "avg_weight": 26.8
+    },
+    {
+      "state": "HI",
+      "shipments": 2,
+      "total_cost": 129.97,
+      "avg_cost": 64.98,
+      "total_weight": 20.0,
+      "avg_weight": 10.0
+    },
+    {
+      "state": "IA",
+      "shipments": 31,
+      "total_cost": 1117.83,
+      "avg_cost": 36.06,
+      "total_weight": 610.0,
+      "avg_weight": 19.7
+    },
+    {
+      "state": "ID",
+      "shipments": 45,
+      "total_cost": 1657.73,
+      "avg_cost": 36.84,
+      "total_weight": 1157.0,
+      "avg_weight": 25.7
+    },
+    {
+      "state": "IL",
+      "shipments": 85,
+      "total_cost": 3272.01,
+      "avg_cost": 38.49,
+      "total_weight": 1855.0,
+      "avg_weight": 21.8
+    },
+    {
+      "state": "IN",
+      "shipments": 46,
+      "total_cost": 1690.01,
+      "avg_cost": 36.74,
+      "total_weight": 1096.0,
+      "avg_weight": 23.8
+    },
+    {
+      "state": "KS",
+      "shipments": 45,
+      "total_cost": 3248.21,
+      "avg_cost": 72.18,
+      "total_weight": 992.5,
+      "avg_weight": 22.1
+    },
+    {
+      "state": "KY",
+      "shipments": 32,
+      "total_cost": 1953.47,
+      "avg_cost": 61.05,
+      "total_weight": 825.0,
+      "avg_weight": 25.8
+    },
+    {
+      "state": "LA",
+      "shipments": 16,
+      "total_cost": 550.15,
+      "avg_cost": 34.38,
+      "total_weight": 322.0,
+      "avg_weight": 20.1
+    },
+    {
+      "state": "MA",
+      "shipments": 46,
+      "total_cost": 3335.44,
+      "avg_cost": 72.51,
+      "total_weight": 1074.0,
+      "avg_weight": 23.3
+    },
+    {
+      "state": "MD",
+      "shipments": 51,
+      "total_cost": 3324.21,
+      "avg_cost": 65.18,
+      "total_weight": 1200.0,
+      "avg_weight": 23.5
+    },
+    {
+      "state": "ME",
+      "shipments": 12,
+      "total_cost": 831.74,
+      "avg_cost": 69.31,
+      "total_weight": 305.0,
+      "avg_weight": 25.4
+    },
+    {
+      "state": "MI",
+      "shipments": 59,
+      "total_cost": 3847.05,
+      "avg_cost": 65.2,
+      "total_weight": 1346.8,
+      "avg_weight": 22.8
+    },
+    {
+      "state": "MN",
+      "shipments": 26,
+      "total_cost": 875.28,
+      "avg_cost": 33.66,
+      "total_weight": 487.0,
+      "avg_weight": 18.7
+    },
+    {
+      "state": "MO",
+      "shipments": 71,
+      "total_cost": 2165.1,
+      "avg_cost": 30.49,
+      "total_weight": 1279.0,
+      "avg_weight": 18.0
+    },
+    {
+      "state": "MS",
+      "shipments": 9,
+      "total_cost": 446.51,
+      "avg_cost": 49.61,
+      "total_weight": 265.0,
+      "avg_weight": 29.4
+    },
+    {
+      "state": "MT",
+      "shipments": 53,
+      "total_cost": 2956.58,
+      "avg_cost": 55.78,
+      "total_weight": 1549.5,
+      "avg_weight": 29.2
+    },
+    {
+      "state": "NC",
+      "shipments": 123,
+      "total_cost": 6479.23,
+      "avg_cost": 52.68,
+      "total_weight": 2976.0,
+      "avg_weight": 24.2
+    },
+    {
+      "state": "ND",
+      "shipments": 2,
+      "total_cost": 32.06,
+      "avg_cost": 16.03,
+      "total_weight": 10.0,
+      "avg_weight": 5.0
+    },
+    {
+      "state": "NE",
+      "shipments": 26,
+      "total_cost": 978.84,
+      "avg_cost": 37.65,
+      "total_weight": 545.0,
+      "avg_weight": 21.0
+    },
+    {
+      "state": "NH",
+      "shipments": 13,
+      "total_cost": 807.4,
+      "avg_cost": 62.11,
+      "total_weight": 350.0,
+      "avg_weight": 26.9
+    },
+    {
+      "state": "NJ",
+      "shipments": 43,
+      "total_cost": 1700.15,
+      "avg_cost": 39.54,
+      "total_weight": 945.0,
+      "avg_weight": 22.0
+    },
+    {
+      "state": "NM",
+      "shipments": 71,
+      "total_cost": 5850.31,
+      "avg_cost": 82.4,
+      "total_weight": 1692.5,
+      "avg_weight": 23.8
+    },
+    {
+      "state": "NV",
+      "shipments": 36,
+      "total_cost": 1369.94,
+      "avg_cost": 38.05,
+      "total_weight": 894.5,
+      "avg_weight": 24.8
+    },
+    {
+      "state": "NY",
+      "shipments": 83,
+      "total_cost": 3588.4,
+      "avg_cost": 43.23,
+      "total_weight": 1652.2,
+      "avg_weight": 19.9
+    },
+    {
+      "state": "OH",
+      "shipments": 73,
+      "total_cost": 5252.2,
+      "avg_cost": 71.95,
+      "total_weight": 1944.0,
+      "avg_weight": 26.6
+    },
+    {
+      "state": "OK",
+      "shipments": 40,
+      "total_cost": 1347.75,
+      "avg_cost": 33.69,
+      "total_weight": 883.0,
+      "avg_weight": 22.1
+    },
+    {
+      "state": "OR",
+      "shipments": 69,
+      "total_cost": 2877.37,
+      "avg_cost": 41.7,
+      "total_weight": 1459.5,
+      "avg_weight": 21.2
+    },
+    {
+      "state": "PA",
+      "shipments": 102,
+      "total_cost": 5107.74,
+      "avg_cost": 50.08,
+      "total_weight": 2373.5,
+      "avg_weight": 23.3
+    },
+    {
+      "state": "RI",
+      "shipments": 4,
+      "total_cost": 84.23,
+      "avg_cost": 21.06,
+      "total_weight": 45.0,
+      "avg_weight": 11.2
+    },
+    {
+      "state": "SC",
+      "shipments": 59,
+      "total_cost": 4515.91,
+      "avg_cost": 76.54,
+      "total_weight": 1772.5,
+      "avg_weight": 30.0
+    },
+    {
+      "state": "SD",
+      "shipments": 6,
+      "total_cost": 239.37,
+      "avg_cost": 39.9,
+      "total_weight": 175.0,
+      "avg_weight": 29.2
+    },
+    {
+      "state": "TN",
+      "shipments": 84,
+      "total_cost": 5147.24,
+      "avg_cost": 61.28,
+      "total_weight": 2186.5,
+      "avg_weight": 26.0
+    },
+    {
+      "state": "TX",
+      "shipments": 196,
+      "total_cost": 9481.67,
+      "avg_cost": 48.38,
+      "total_weight": 4357.2,
+      "avg_weight": 22.2
+    },
+    {
+      "state": "UT",
+      "shipments": 96,
+      "total_cost": 2494.87,
+      "avg_cost": 25.99,
+      "total_weight": 1693.8,
+      "avg_weight": 17.6
+    },
+    {
+      "state": "VA",
+      "shipments": 123,
+      "total_cost": 7637.28,
+      "avg_cost": 62.09,
+      "total_weight": 3465.8,
+      "avg_weight": 28.2
+    },
+    {
+      "state": "VT",
+      "shipments": 10,
+      "total_cost": 890.84,
+      "avg_cost": 89.08,
+      "total_weight": 315.0,
+      "avg_weight": 31.5
+    },
+    {
+      "state": "WA",
+      "shipments": 139,
+      "total_cost": 7088.6,
+      "avg_cost": 51.0,
+      "total_weight": 3285.8,
+      "avg_weight": 23.6
+    },
+    {
+      "state": "WI",
+      "shipments": 36,
+      "total_cost": 3035.93,
+      "avg_cost": 84.33,
+      "total_weight": 998.5,
+      "avg_weight": 27.7
+    },
+    {
+      "state": "WV",
+      "shipments": 12,
+      "total_cost": 692.17,
+      "avg_cost": 57.68,
+      "total_weight": 315.0,
+      "avg_weight": 26.2
+    },
+    {
+      "state": "WY",
+      "shipments": 13,
+      "total_cost": 676.49,
+      "avg_cost": 52.04,
+      "total_weight": 410.5,
+      "avg_weight": 31.6
+    }
+  ],
+  "weight_bracket_analysis": [
+    {
+      "bracket": "0-5 lb",
+      "shipments": 248,
+      "total_cost": 4596.11,
+      "avg_cost": 18.53,
+      "avg_weight": 1.1,
+      "cost_per_lb": 17.39
+    },
+    {
+      "bracket": "5-20 lb",
+      "shipments": 1287,
+      "total_cost": 29561.44,
+      "avg_cost": 22.97,
+      "avg_weight": 8.0,
+      "cost_per_lb": 2.88
+    },
+    {
+      "bracket": "20-50 lb",
+      "shipments": 671,
+      "total_cost": 33288.1,
+      "avg_cost": 49.61,
+      "avg_weight": 27.4,
+      "cost_per_lb": 1.81
+    },
+    {
+      "bracket": "50+ lb",
+      "shipments": 622,
+      "total_cost": 67261.78,
+      "avg_cost": 108.14,
+      "avg_weight": 51.2,
+      "cost_per_lb": 2.11
+    }
+  ],
+  "provider_breakdown": [
+    {
+      "service": "UPS - Ground",
+      "shipments": 2761,
+      "total_cost": 133472.58,
+      "avg_cost": 48.34
+    },
+    {
+      "service": "USPS - Ground Advantage",
+      "shipments": 35,
+      "total_cost": 520.63,
+      "avg_cost": 14.88
+    },
+    {
+      "service": "FedEx - Ground\u00ae Economy",
+      "shipments": 27,
+      "total_cost": 457.66,
+      "avg_cost": 16.95
+    },
+    {
+      "service": "UPS - 3 Day Select\u00ae",
+      "shipments": 3,
+      "total_cost": 108.95,
+      "avg_cost": 36.32
+    },
+    {
+      "service": "UPS - Next Day Air\u00ae",
+      "shipments": 2,
+      "total_cost": 147.61,
+      "avg_cost": 73.81
+    }
+  ]
+}
