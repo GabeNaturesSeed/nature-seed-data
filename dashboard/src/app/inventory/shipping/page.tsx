@@ -17,6 +17,7 @@ interface LaneData {
   cost_per_lb_by_zone: Record<string, number>;
   cost_per_shipment_by_zone: Record<string, number>;
   volume_by_zone: Record<string, number>;
+  states_by_zone: Record<string, string[]>;
   avg_weight_by_zone: Record<string, number>;
   top_states_by_volume: { state: string; shipments: number }[];
   top_states_by_avg_cost: { state: string; avg_cost: number }[];
@@ -192,9 +193,29 @@ export default function ShippingPage() {
                   {zoneChartData.map((z, i) => {
                     const totalVol = zoneChartData.reduce((s, r) => s + r.volume, 0);
                     const pct = totalVol > 0 ? (z.volume / totalVol * 100).toFixed(1) : '0';
+                    const zoneNum = z.zone.replace('Zone ', '');
+                    const states = lanes?.states_by_zone?.[zoneNum] ?? [];
                     return (
                       <tr key={z.zone} className={i % 2 === 0 ? 'bg-surface-lowest' : 'bg-surface-low'}>
-                        <td className="py-3 px-4 font-medium">{z.zone}</td>
+                        <td className="py-3 px-4">
+                          <div className="font-medium">{z.zone}</div>
+                          {states.length > 0 && (
+                            <div className="relative group inline-block mt-1">
+                              <span className="text-[10px] uppercase tracking-wider text-brand-tertiary/60 cursor-pointer border-b border-dashed border-brand-tertiary/30 hover:text-brand-tertiary hover:border-brand-tertiary transition-colors">
+                                {states.length} states
+                              </span>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block z-50 bg-brand-neutral text-white text-xs rounded-lg px-3 py-2 shadow-lg whitespace-nowrap max-w-xs">
+                                <div className="font-semibold mb-1">{z.zone} States</div>
+                                <div className="flex flex-wrap gap-1">
+                                  {states.map(s => (
+                                    <span key={s} className="bg-white/20 rounded px-1.5 py-0.5">{s}</span>
+                                  ))}
+                                </div>
+                                <div className="absolute left-4 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-brand-neutral" />
+                              </div>
+                            </div>
+                          )}
+                        </td>
                         <td className="py-3 px-4 text-right">{z.volume.toLocaleString()}</td>
                         <td className="py-3 px-4 text-right">{pct}%</td>
                         <td className="py-3 px-4 text-right font-semibold">{fmt(z.costPerShipment)}</td>
