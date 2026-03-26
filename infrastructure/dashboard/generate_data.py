@@ -867,7 +867,8 @@ def generate_reporting():
             # COGS
             "cogs": round(act_cogs, 2),
             "budget_cogs": round(bud.get("total_cogs", 0), 2),
-            "cogs_freight": round(act_shipping, 2),
+            "cogs_freight": round(act.get("cogs_freight", act_shipping) if has_actuals else act_shipping, 2),
+            "shippo_freight": round(act_shipping, 2),
             # Gross Profit
             "gross_profit": round(act_gross_profit, 2),
             "budget_gross_profit": round(bud_gross, 2),
@@ -2317,6 +2318,20 @@ def generate_marketing():
 
 
 # ══════════════════════════════════════════════════════════════
+# CUSTOMERS (delegated to generate_customers.py)
+# ══════════════════════════════════════════════════════════════
+
+def _run_generate_customers():
+    """Load and run generate_customers.py from the same directory."""
+    import importlib.util
+    script = Path(__file__).resolve().parent / "generate_customers.py"
+    spec = importlib.util.spec_from_file_location("generate_customers", script)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod.generate_customers()
+
+
+# ══════════════════════════════════════════════════════════════
 # MAIN
 # ══════════════════════════════════════════════════════════════
 
@@ -2337,6 +2352,8 @@ def main():
         ("Shipping (Shippo+WC)", generate_shipping),
         ("Notes (Markdown)",      generate_notes),
         ("Marketing (Supabase)",  generate_marketing),
+        # Customers runs as separate CI job (generate_customers.py) — uncomment for local:
+        # ("Customers (WC Orders)", _run_generate_customers),
     ]
 
     import traceback

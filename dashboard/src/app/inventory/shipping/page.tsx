@@ -134,7 +134,7 @@ export default function ShippingPage() {
           const mk = String(pm.month ?? '');
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const ytdM: any = ytdMonths.find((m: any) => m.month === mk);
-          const shippo = Number(ytdM?.shipping ?? 0);
+          const shippo = Number(pm.shippo_freight ?? ytdM?.shipping ?? 0);
           const financeFreight = Number(pm.cogs_freight ?? 0);
           const revenue = Number(ytdM?.revenue ?? 0);
           const cogs = Number(ytdM?.cogs ?? 0);
