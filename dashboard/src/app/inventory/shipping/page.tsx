@@ -1,7 +1,7 @@
 'use client';
 
 import { useJsonData } from '@/hooks/useJsonData';
-import { ShippingData } from '@/lib/types';
+import { ShippingData, ReportingData } from '@/lib/types';
 import { fmt, fmtInt, pctPlain } from '@/lib/formatters';
 import KpiCard from '@/components/kpi/KpiCard';
 import KpiGrid from '@/components/kpi/KpiGrid';
@@ -14,6 +14,7 @@ import {
 
 export default function ShippingPage() {
   const { data, loading } = useJsonData<ShippingData>('shipping');
+  const { data: reporting } = useJsonData<ReportingData>('reporting');
 
   if (loading) {
     return (
@@ -121,6 +122,124 @@ export default function ShippingPage() {
           </LineChart>
         </ResponsiveContainer>
       </ChartCard>
+
+      {/* Shippo vs Finance Actuals Comparison */}
+      {reporting?.pnl?.months && (() => {
+        const pnlMonths = reporting.pnl.months;
+        const ytdMonths = reporting.ytd?.months ?? [];
+
+        // Build comparison rows
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const compRows = pnlMonths.map((pm: any) => {
+          const mk = String(pm.month ?? '');
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const ytdM: any = ytdMonths.find((m: any) => m.month === mk);
+          const shippo = Number(ytdM?.shipping ?? 0);
+          const financeFreight = Number(pm.cogs_freight ?? 0);
+          const revenue = Number(ytdM?.revenue ?? 0);
+          const cogs = Number(ytdM?.cogs ?? 0);
+          const adSpend = Number(ytdM?.ad_spend ?? 0);
+          const grossProfit = revenue - cogs;
+          const cm1 = grossProfit - adSpend;
+          const diff = shippo - financeFreight;
+          const shippoPctCm1 = cm1 > 0 ? (shippo / cm1 * 100) : 0;
+          const financePctCm1 = cm1 > 0 ? (financeFreight / cm1 * 100) : 0;
+
+          return { month: mk, shippo, financeFreight, diff, cm1, shippoPctCm1, financePctCm1, hasActuals: pm.source === 'actuals' };
+        });
+
+        // YTD totals
+        const ytdShippo = compRows.reduce((s: number, r: { shippo: number }) => s + r.shippo, 0);
+        const ytdFinance = compRows.reduce((s: number, r: { financeFreight: number }) => s + r.financeFreight, 0);
+        const ytdCm1 = compRows.reduce((s: number, r: { cm1: number }) => s + r.cm1, 0);
+        const ytdDiff = ytdShippo - ytdFinance;
+
+        const monthLabel = (m: string) => {
+          const d = new Date(m + '-02');
+          return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        };
+
+        return (
+          <div className="mt-10">
+            <h2 className="font-display text-lg font-semibold text-brand-neutral mb-2">Shippo Charges vs Finance P&L Freight</h2>
+            <p className="text-sm text-brand-neutral/50 mb-4">
+              Comparing what Shippo billed us vs what finance recorded as COGS Freight on the P&L, and each as a % of CM1.
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left" style={{ background: '#2d6A4F' }}>
+                    <th className="text-white py-3 px-4 font-medium rounded-tl-xl">Month</th>
+                    <th className="text-white py-3 px-4 font-medium text-right">Shippo Charged</th>
+                    <th className="text-white py-3 px-4 font-medium text-right">Finance P&L</th>
+                    <th className="text-white py-3 px-4 font-medium text-right">Difference</th>
+                    <th className="text-white py-3 px-4 font-medium text-right">CM1</th>
+                    <th className="text-white py-3 px-4 font-medium text-right">Shippo % of CM1</th>
+                    <th className="text-white py-3 px-4 font-medium text-right rounded-tr-xl">Finance % of CM1</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {compRows.map((r: { month: string; shippo: number; financeFreight: number; diff: number; cm1: number; shippoPctCm1: number; financePctCm1: number; hasActuals: boolean }, i: number) => (
+                    <tr key={r.month} className={i % 2 === 0 ? 'bg-surface-lowest' : 'bg-surface-low'}>
+                      <td className="py-3 px-4 font-medium">{monthLabel(r.month)}</td>
+                      <td className="py-3 px-4 text-right font-semibold">{fmt(r.shippo)}</td>
+                      <td className="py-3 px-4 text-right">
+                        {r.hasActuals ? (
+                          <span className="font-semibold">{fmt(r.financeFreight)}</span>
+                        ) : (
+                          <span className="text-brand-neutral/40 italic">Pending</span>
+                        )}
+                      </td>
+                      <td className="py-3 px-4 text-right">
+                        {r.hasActuals ? (
+                          <span className={r.diff > 0 ? 'text-red-600 font-semibold' : 'text-brand-primary font-semibold'}>
+                            {r.diff > 0 ? '+' : ''}{fmt(r.diff)}
+                          </span>
+                        ) : '—'}
+                      </td>
+                      <td className="py-3 px-4 text-right text-brand-neutral/60">{fmt(r.cm1)}</td>
+                      <td className="py-3 px-4 text-right">
+                        <span className={r.shippoPctCm1 > 60 ? 'text-red-600 font-semibold' : r.shippoPctCm1 > 40 ? 'text-amber-600' : 'text-brand-primary'}>
+                          {r.shippoPctCm1.toFixed(1)}%
+                        </span>
+                      </td>
+                      <td className="py-3 px-4 text-right">
+                        {r.hasActuals ? (
+                          <span className={r.financePctCm1 > 60 ? 'text-red-600 font-semibold' : r.financePctCm1 > 40 ? 'text-amber-600' : 'text-brand-primary'}>
+                            {r.financePctCm1.toFixed(1)}%
+                          </span>
+                        ) : '—'}
+                      </td>
+                    </tr>
+                  ))}
+                  {/* YTD Total Row */}
+                  <tr className="border-t-2" style={{ borderColor: 'rgba(191,201,193,0.3)' }}>
+                    <td className="py-3 px-4 font-display font-bold text-brand-neutral">YTD Total</td>
+                    <td className="py-3 px-4 text-right font-bold text-lg">{fmt(ytdShippo)}</td>
+                    <td className="py-3 px-4 text-right font-bold text-lg">{fmt(ytdFinance)}</td>
+                    <td className="py-3 px-4 text-right">
+                      <span className={ytdDiff > 0 ? 'text-red-600 font-bold text-lg' : 'text-brand-primary font-bold'}>
+                        {ytdDiff > 0 ? '+' : ''}{fmt(ytdDiff)}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 text-right font-bold">{fmt(ytdCm1)}</td>
+                    <td className="py-3 px-4 text-right font-bold">
+                      {ytdCm1 > 0 ? (ytdShippo / ytdCm1 * 100).toFixed(1) + '%' : '—'}
+                    </td>
+                    <td className="py-3 px-4 text-right font-bold">
+                      {ytdCm1 > 0 ? (ytdFinance / ytdCm1 * 100).toFixed(1) + '%' : '—'}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p className="text-xs text-brand-neutral/40 mt-3">
+              Shippo = actual label charges from Shippo API. Finance P&L = COGS Freight from finance actuals CSV (Jan/Feb uploaded, Mar pending).
+              Difference shows how much more/less Shippo charged vs what appeared on the P&L. Color coding: red &gt;60% of CM1, amber &gt;40%.
+            </p>
+          </div>
+        );
+      })()}
     </div>
   );
 }
