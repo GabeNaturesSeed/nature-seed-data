@@ -1,45 +1,36 @@
 {
-  "generated_at": "2026-04-05",
-  "period_start": "2025-04-05",
-  "period_end": "2026-04-04",
-  "total_customers": 10037,
-  "new_customers": 7828,
-  "returning_customers": 2209,
-  "total_revenue": 1942437.11,
-  "total_ad_spend": 300216.32,
-  "total_cogs": 267629.81,
+  "generated_at": "2026-04-06",
+  "period_start": "2025-04-06",
+  "period_end": "2026-04-05",
+  "total_customers": 10113,
+  "new_customers": 7888,
+  "returning_customers": 2225,
+  "total_revenue": 1950575.16,
+  "total_ad_spend": 297959.32,
+  "total_cogs": 271856.59,
   "total_shipping": 297223.93,
   "widgets": {
-    "ltv_12m": 193.53,
-    "contribution_margin": 0.7092,
-    "cac": 29.91,
-    "max_cac_breakeven": 137.25,
-    "max_cac_20pct": 109.8,
-    "ncac": 38.35,
-    "payback_months": 1.9,
-    "ltv_cac_ratio": 6.47
+    "ltv_12m": 192.88,
+    "contribution_margin": 0.7082,
+    "cac": 29.46,
+    "max_cac_breakeven": 136.6,
+    "max_cac_20pct": 109.28,
+    "ncac": 37.77,
+    "payback_months": 1.8,
+    "ltv_cac_ratio": 6.55
   },
   "channels": [
     {
       "name": "Google Ads",
-      "cac": 29.91,
-      "ltv": 193.53,
-      "ncac": 38.35,
-      "payback_months": 1.9,
-      "revenue_contribution_pct": 48.2,
-      "roas": 3.12
+      "cac": 29.46,
+      "ltv": 192.88,
+      "ncac": 37.77,
+      "payback_months": 1.8,
+      "revenue_contribution_pct": 47.8,
+      "roas": 3.13
     }
   ],
   "daily_90d": [
-    {
-      "date": "2026-01-05",
-      "ad_spend": 0.0,
-      "ad_spend_google": 0.0,
-      "ad_spend_ctv": 0.0,
-      "channel_revenue": 0.0,
-      "wc_revenue": 516.53,
-      "mer": null
-    },
     {
       "date": "2026-01-06",
       "ad_spend": 0.0,
@@ -834,23 +825,32 @@
     },
     {
       "date": "2026-04-04",
-      "ad_spend": 275.16,
-      "ad_spend_google": 137.58,
-      "ad_spend_ctv": 137.58,
+      "ad_spend": 325.6,
+      "ad_spend_google": 162.8,
+      "ad_spend_ctv": 162.8,
       "channel_revenue": 0.0,
       "wc_revenue": 13516.28,
-      "mer": 49.12
+      "mer": 41.51
+    },
+    {
+      "date": "2026-04-05",
+      "ad_spend": 249.16,
+      "ad_spend_google": 124.58,
+      "ad_spend_ctv": 124.58,
+      "channel_revenue": 0.0,
+      "wc_revenue": 13920.4,
+      "mer": 55.87
     }
   ],
   "monthly_12m": [
     {
       "month": "2025-04",
-      "ad_spend": 36125.42,
-      "ad_spend_google": 36125.42,
+      "ad_spend": 33718.62,
+      "ad_spend_google": 33718.62,
       "ad_spend_ctv": 0,
-      "channel_revenue": 102655.67,
-      "wc_revenue": 244162.7,
-      "mer": 6.76,
+      "channel_revenue": 99442.07,
+      "wc_revenue": 237242.81,
+      "mer": 7.04,
       "customers": null,
       "new_customers": null,
       "cac": null,
@@ -1001,12 +1001,12 @@
     },
     {
       "month": "2026-04",
-      "ad_spend": 1183.52,
-      "ad_spend_google": 591.76,
-      "ad_spend_ctv": 591.76,
+      "ad_spend": 1483.12,
+      "ad_spend_google": 741.56,
+      "ad_spend_ctv": 741.56,
       "channel_revenue": 0.0,
-      "wc_revenue": 60905.23,
-      "mer": 51.46,
+      "wc_revenue": 74825.63,
+      "mer": 50.45,
       "customers": null,
       "new_customers": null,
       "cac": null,
