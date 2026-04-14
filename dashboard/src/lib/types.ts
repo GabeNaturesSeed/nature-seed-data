@@ -259,6 +259,10 @@ export interface InventoryItem {
 export interface InventoryData {
   as_of: string;
   items: InventoryItem[];
+  fba_items?: InventoryItem[];
+  summary?: { total_skus: number; red_count: number; yellow_count: number; green_count: number };
+  fba_summary?: { total_skus: number; red_count: number; yellow_count: number; green_count: number };
+  warning?: string;
   order_tracking?: {
     total_orders: number;
     fulfilled: number;
@@ -270,6 +274,44 @@ export interface InventoryData {
     unfulfilled_5_to_10d?: number;
     unfulfilled_gt_10d?: number;
   };
+}
+
+// ── ABC Product Report ──
+export interface AbcItem {
+  sku: string;
+  name: string;
+  class: 'A' | 'B' | 'C';
+  composite_score: number;
+  revenue: number;
+  margin: number;
+  margin_pct: number;
+  units: number;
+  orders: number;
+  avg_basket: number;
+  daily_velocity: number;
+  velocity_trend: number;
+  backorder_rate: number;
+  cancellation_rate: number;
+  reason: string;
+}
+
+export interface AbcSeason {
+  label: string;
+  period: string;
+  total_revenue: number;
+  total_orders: number;
+  total_skus: number;
+  summary: {
+    a_count: number; a_revenue: number; a_pct: number;
+    b_count: number; b_revenue: number; b_pct: number;
+    c_count: number; c_revenue: number; c_pct: number;
+  };
+  items: AbcItem[];
+}
+
+export interface AbcReportData {
+  generated: string;
+  seasons: Record<string, AbcSeason>;
 }
 
 // ── Klaviyo ──
@@ -348,6 +390,25 @@ export interface MarketingData {
   channels: MarketingChannel[];
   daily_90d: MarketingDailyPoint[];
   monthly_12m: MarketingMonthlyPoint[];
+}
+
+// ── Customers ──
+export interface CustomersData {
+  as_of: string;
+  orders_by_state: { state: string; state_name: string; orders: number; revenue: number }[];
+  orders_by_hour: { hour: number; label: string; orders: number; revenue: number }[];
+  attribution: {
+    by_source_type: { source: string; orders: number; revenue: number; pct: number }[];
+    by_utm_source: { source: string; orders: number; revenue: number; pct: number }[];
+  };
+  sessions_before_buying: { bucket: string; orders: number; pct: number }[];
+  new_vs_returning: {
+    monthly: { month: string; new: number; returning: number; new_revenue: number; returning_revenue: number }[];
+    ytd_new: number;
+    ytd_returning: number;
+    ytd_new_pct: number;
+  };
+  cohorts: { cohort: string; total: number; reordered: number; reorder_rate: number }[];
 }
 
 // ── Notes ──

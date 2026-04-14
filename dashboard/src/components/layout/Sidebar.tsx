@@ -19,6 +19,9 @@ import {
   Warehouse,
   Truck,
   HeartPulse,
+  Users,
+  MapPin,
+  ClipboardList,
   ChevronDown,
   ChevronRight,
   X,
@@ -60,7 +63,7 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    label: 'Inventory',
+    label: 'Operations',
     href: '/inventory',
     icon: Package,
     children: [
@@ -68,6 +71,16 @@ const navItems: NavItem[] = [
       { label: 'Forecasting', href: '/inventory/forecasting', icon: LineChart },
       { label: 'FBA Inventory', href: '/inventory/fba', icon: Warehouse },
       { label: 'Shipping Insights', href: '/inventory/shipping', icon: Truck },
+      { label: 'ABC Product Report', href: '/inventory/abc', icon: ClipboardList },
+    ],
+  },
+  {
+    label: 'Customers',
+    href: '/customers',
+    icon: Users,
+    children: [
+      { label: 'Demographics & Behavior', href: '/customers', icon: MapPin },
+      { label: 'Analytics', href: '/customers/analytics', icon: BarChart3 },
     ],
   },
   {
