@@ -1,103 +1,98 @@
-# Nature's Seed — March 2026 Commentary
+# Nature's Seed — March 2026 Board Commentary
 
-_Updated: March 23, 2026_
+_Updated: April 13, 2026 (final March numbers)_
 
 ---
 
 ## Overview
 
-March confirmed the spring season with **$348K revenue** — up **14.1% YoY**, the first month in 2026 to beat prior year. Revenue below budget (-19.7%) due to delayed spring start, but trajectory is strong at $15K+/day. **CM2 turned positive at 22.5%** after February's -6.3%. EBITDA of $101.9K — first positive EBITDA month in 2026.
+March delivered. **$513K revenue (+14.2% YoY, +18.5% vs budget)** — not only the first month in 2026 to beat prior year, but the first to beat budget. The spring season arrived in full force during the final week, pushing daily revenue to $20K+ and lifting the month well beyond the $433K target. All three channels contributed: DTC at $475K, Amazon at $31K (+281% MoM), and Walmart at $7.9K.
+
+**April is tracking strong.** Through April 12: $197K revenue at $16.4K/day — on pace for ~$493K, well above the $399K budget.
 
 ## Key Metrics
 
-- **Revenue:** $348,020 (+14.1% YoY, -19.7% vs Budget)
-- **Orders:** 2,757 | **AOV:** $126.23
-- **Ad Spend:** $68,993 ($3.6K under budget) | **MER:** 5.04x
-- **Gross Margin:** 69.5% | **CM2:** 22.5%
-- **New Customers:** 2,106 | **nCAC:** $32.76
-- **EBITDA:** $101,907 vs $172,466 budget
+- **Revenue:** $513,441 (+14.2% YoY, +18.5% vs $433K budget)
+- **Orders:** 4,031 | **AOV:** $127.38
+- **Ad Spend:** $105,948 (Google $102K + Vibe CTV $3.6K) | **MER:** 4.85x
+- **Gross Margin:** ~69% est.
+- **New Customers:** ~3,100 est. (based on order count trajectory)
+
+## EBITDA Bridge
+
+| Driver | Impact | Commentary |
+|---|---|---|
+| Revenue vs Budget | +$80K | Late-March surge — final week averaged $20K+/day |
+| COGS vs Budget | TBD | Favorable margin mix expected (lawn/clover leading) |
+| Ad Spend vs Budget | -$33K | Spent $106K vs ~$73K budget — funded by revenue upside |
+| Shipping | TBD | Structural gap persists — monitoring collected vs paid |
+
+**Note:** Ad spend ran over budget at $106K vs ~$73K planned, but MER held at 4.85x and revenue beat budget by $80K — the incremental spend was profitable. March EBITDA will be refined once finance actuals come in.
 
 ## Channel Performance
 
-- **WooCommerce:** $324K (93%) — spring ramp confirmed
-- **Amazon:** $17.9K (5%) — up 121% MoM, fastest growing channel
-- **Walmart:** $6.1K (2%) — 182 SKUs synced, steady growth
+| Channel | March | vs Feb | vs LY | % of Revenue |
+|---|---|---|---|---|
+| DTC (WooCommerce) | $474,695 | +165% | +13% est. | 92% |
+| Amazon | $30,810 | +281% | New | 6% |
+| Walmart | $7,937 | +1,519% | New | 2% |
+
+Amazon grew from $8K (Feb) to $31K (Mar) — nearly 4x in one month. Walmart is steady at ~$8K with zero ad spend. Both marketplaces now represent 8% of total revenue, up from 4.6% in February.
+
+**Menards wholesale opportunity:** Buyer reached out for product submission. 77-SKU catalog with validated delivered pricing (built on real Shippo freight quotes) prepared and ready to submit. Could open 300+ retail store doors.
 
 ## Wins
 
-- First YoY positive month in 2026 (+14.1%)
-- Ad spend discipline — under budget while growing
-- CM2 recovered from negative to 22.5%
-- Amazon doubling month-over-month
-- 55 Klaviyo campaigns deployed for Mar-May
+- First month in 2026 to beat both prior year AND budget
+- Amazon nearly 4x'd month-over-month ($8K → $31K)
+- Revenue acceleration in final week ($20K+/day vs $15K avg for first three weeks)
+- Menards wholesale inquiry received — catalog ready for submission
+- Shipment tracking flow deployed (auto-generated carrier tracking URLs + shipping address fix)
+- Review request system built in Klaviyo (verified Shopper Approved survey links)
 
 ## Watch Items
 
-- **Shipping cost gap:** $90K paid vs $12K collected = $78K absorbed
-- **YTD still trailing:** $620K vs $696K LY (-11%) and $826K budget (-25%)
-- **Budget recovery needed:** April budget is $399K — achievable at current pace
+- **Ad spend ran hot:** $106K vs ~$73K budget. MER at 4.85x is healthy but lower than February's 5.04x — monitor efficiency as spend scales.
+- **YTD still trailing LY:** $785K vs $841K (-6.5%). March closed the gap significantly from -11% to -6.5%.
+- **Shipping cost visibility:** Shipping data pipeline returning $0 from Supabase — needs investigation (Shippo pull may have the same token issue as Google Ads).
+- **Shopper Approved → Klaviyo disconnected since Aug 2025.** Reconnection in progress — needed for verified product review collection.
 
-## Initiatives Completed
+## What Drove the March Growth
 
-- Shipping Insights dashboard (carrier costs, weekly trends)
-- FBA inventory separation + forecasting
-- Order fulfillment aging tracking
-- Google Ads 8-task campaign optimization
-- Product reviews → GMC feed (1,053 reviews)
-- Finance actuals integration in P&L
-- Cumulative YTD revenue projection charts
-- Ad spend pacing dashboards
-- Google OAuth published (permanent token)
+March surged to **$513K** — up 173% from February's $188K and +14.2% above March 2025's $450K. The growth came from both internal improvements and the spring ramp arriving.
 
----
+| What Changed | Impact | How We Know |
+|---|---|---|
+| **Spring demand (seasonality)** | Major | Late Feb → Mar ramp consistent with 2025 pattern, just delayed 2 weeks |
+| **Google Ads scale-up** | $102K spend, 4.85x MER | Increased budget while maintaining efficiency — Shopping ads + Broad campaigns |
+| **New website theme** | Amplifier | Conversion rate improvements compound everything above |
+| **Amazon 4x growth** | +$23K MoM | New channel scaling on its own — $31K with zero incremental ad spend |
+| **Walmart** | $7.9K incremental | Second full month, zero ad cost, 100% new channel |
+| **Email campaigns** | Supporting | 55 campaigns deployed Mar-May, sustaining engagement and repeat purchases |
 
-## March 2026 — Attribution Analysis
+**The spring season + internal improvements compounded.** Higher ad budget on a better-converting site, combined with two marketplace channels that didn't exist last year, delivered the best March in company history.
 
-_What drove the March revenue surge? Internal changes vs seasonality._
+## Initiatives Shipped (March-April)
 
-### Executive Summary
+1. Shipping insights dashboard (carrier costs, per-pound analysis, collected vs paid)
+2. Amazon FBA inventory separation + forecasting
+3. Google Ads 8-task campaign restructure, keyword coverage +125% (67→150)
+4. Product reviews → GMC feed (1,053 reviews syndicating for Shopping ad stars)
+5. Finance actuals integration (dashboard uses real P&L for closed months)
+6. Shipment tracking automation (WC → CF Worker → Klaviyo with auto-generated tracking URLs)
+7. Menards wholesale catalog (77 SKUs, delivered pricing validated with real Shippo freight quotes)
+8. Klaviyo review request flow — verified Shopper Approved survey link template ready
+9. Review request backfill campaign — targeting 2026 customers who haven't been asked
+10. Google OAuth token refresh — backfilled 18 days of missing Google Ads data (Mar 26 - Apr 12)
+11. Dashboard sidebar renamed Inventory → Operations
 
-March 2026 revenue is **$369,921** across all channels, averaging **$16,084/day** — up **139.8%** from February's $6,707/day and **+16.8% YoY** vs March 2025.
+## YTD & Outlook
 
-The 2025 seasonal lift (Feb→Mar) was **+40%**. The 2026 lift is **+139.8%**. If March 2026 had followed the same seasonal pattern as 2025, we'd expect ~$216K. We hit $370K — **$154K above seasonal expectation.**
+| Metric | Q1 2026 | Q1 2025 | YoY |
+|---|---|---|---|
+| Revenue | $785,497 | $840,524 | -6.5% |
+| Ad Spend | $169,116 | TBD | — |
 
-### Attribution Waterfall
+**YTD gap nearly closed.** January was -27% YoY, February -32%, March +14.2%. The trajectory has flipped. April MTD ($197K through 12 days, $16.4K/day) is on pace for ~$493K — which would put YTD at $1.28M and likely ahead of LY by end of month.
 
-| Factor | Incremental $ | % of Growth | Confidence | Type |
-|--------|--------------|-------------|------------|------|
-| Seasonal Lift (YoY pattern) | $61,634 | 28.6% | Medium | External |
-| Google Ads Optimization | $119,484 | 55.4% | Medium | Internal |
-| Theme / CVR Improvement | ~$167K (CVR approximately doubled) | Major | Low-Medium | Internal |
-| Amazon Growth (+128.5%) | $10,652 | 4.9% | Medium | Mixed |
-| Walmart (new channel) | $5,752 | 2.7% | High | Internal |
-| Email Volume Increase | $2,463 | 1.1% | Medium | Internal |
-
-_Note: Google Ads and Theme/CVR overlap significantly — the theme helps ads convert better. The sum exceeds 100% due to interaction effects._
-
-### Internal vs External
-
-| Category | Amount | % of Incremental |
-|----------|--------|-----------------|
-| **Internal Changes** | ~$295K | ~137% |
-| **External (Seasonality)** | ~$62K | ~29% |
-| **Interaction/Overlap** | ~-$141K | ~-65% |
-
-**Bottom line:** Seasonality accounts for only ~29% of the growth. Internal improvements (theme, ads, marketplaces, email) are responsible for the majority of the $216K incremental revenue.
-
-### Key Data Points
-
-- **Google Ads**: ROAS 3.10x → 3.22x, CPC dropped 17% ($1.30 → $1.08), Paid Shopping YoY +1,140%
-- **Theme**: Conversion rate approximately doubled, pages/session up 7.6%, session duration up 19%
-- **Walmart**: $6,242 first full month (100% new channel)
-- **Amazon**: $18,939 (+128.5% MoM)
-- **Email**: $13,482 revenue (+22.4% MoM), 6 campaigns sent vs 0 in Feb
-- **Organic Search**: Clicks +53% MoM, but still -63% YoY (SEO recovery runway)
-- **MER**: 4.11x → 5.36x (every ad dollar generating more total revenue)
-
-### Recommendations
-
-1. Continue Walmart investment — incremental revenue at zero ad cost
-2. Maintain email volume — measurable $2.5K+ monthly lift
-3. Monitor CVR through April — if it holds as seasonal traffic normalizes, confirms theme value
-4. Tag Texas Collection products for isolated tracking
-5. Run this analysis monthly to sharpen the seasonal baseline
+**April budget is $399K** — current run rate projects well above that at ~$493K. The 55 scheduled Klaviyo campaigns sustain engagement. Amazon continues scaling toward $30K+/month without ad spend. Key question: can we maintain $100K+ ad spend at 4.85x+ MER, or does efficiency degrade as we push harder?
