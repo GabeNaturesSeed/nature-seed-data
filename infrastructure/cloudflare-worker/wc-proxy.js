@@ -106,6 +106,10 @@ async function handleWebhook(request, env) {
   const itemNames = (order.line_items || []).map((li) => li.name);
   const itemSkus = (order.line_items || []).map((li) => li.sku);
 
+  // Use shipping address (where the order actually goes), fall back to billing
+  const ship = order.shipping || order.billing || {};
+  const bill = order.billing || {};
+
   // Call Klaviyo — update profile + track event
   try {
     await Promise.all([
@@ -123,7 +127,22 @@ async function handleWebhook(request, env) {
         ItemNames: itemNames,
         ItemSkus: itemSkus,
         OrderTotal: parseFloat(order.total) || 0,
-        CustomerFirstName: order.billing?.first_name || "",
+        CustomerFirstName: ship.first_name || bill.first_name || "",
+        CustomerLastName: ship.last_name || bill.last_name || "",
+        // Shipping address (where the package is going)
+        ShippingFirstName: ship.first_name || "",
+        ShippingLastName: ship.last_name || "",
+        ShippingAddress1: ship.address_1 || "",
+        ShippingAddress2: ship.address_2 || "",
+        ShippingCity: ship.city || "",
+        ShippingState: ship.state || "",
+        ShippingPostcode: ship.postcode || "",
+        ShippingCountry: ship.country || "",
+        // Billing address (for reference)
+        BillingFirstName: bill.first_name || "",
+        BillingLastName: bill.last_name || "",
+        BillingCity: bill.city || "",
+        BillingState: bill.state || "",
       }, parseFloat(order.total) || 0),
     ]);
   } catch (err) {
@@ -169,15 +188,36 @@ function extractTracking(order) {
   for (const m of meta) {
     if (m.key === "_wc_shipment_tracking_items" && Array.isArray(m.value) && m.value.length > 0) {
       const item = m.value[0]; // Take the first (most recent) tracking entry
-      return {
-        number: item.tracking_number || "",
-        carrier: item.tracking_provider || "",
-        link: item.custom_tracking_link || "",
-        dateShipped: item.date_shipped || "",
-      };
+      const number = item.tracking_number || "";
+      const carrier = item.tracking_provider || "";
+      // custom_tracking_link is only set for manually entered URLs.
+      // For standard carriers (UPS, USPS, FedEx), build the URL from carrier + tracking number.
+      const link = item.custom_tracking_link || buildTrackingUrl(carrier, number);
+      return { number, carrier, link, dateShipped: item.date_shipped || "" };
     }
   }
   return { number: "", carrier: "", link: "", dateShipped: "" };
+}
+
+// --- Build tracking URL from carrier name + tracking number ---
+
+function buildTrackingUrl(carrier, trackingNumber) {
+  if (!trackingNumber) return "";
+  const c = carrier.toLowerCase().trim();
+  if (c.includes("ups")) {
+    return `https://www.ups.com/track?tracknum=${trackingNumber}`;
+  }
+  if (c.includes("usps") || c.includes("united states postal")) {
+    return `https://tools.usps.com/go/TrackConfirmAction?tLabels=${trackingNumber}`;
+  }
+  if (c.includes("fedex")) {
+    return `https://www.fedex.com/fedextrack/?trknbr=${trackingNumber}`;
+  }
+  if (c.includes("dhl")) {
+    return `https://www.dhl.com/us-en/home/tracking.html?tracking-id=${trackingNumber}`;
+  }
+  // Fallback: Google search for tracking number
+  return `https://www.google.com/search?q=${encodeURIComponent(carrier + " tracking " + trackingNumber)}`;
 }
 
 // --- Klaviyo: update profile properties ---

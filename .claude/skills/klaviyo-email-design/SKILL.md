@@ -150,7 +150,7 @@ Body:      Arial, 'Helvetica Neue', Helvetica, sans-serif
 <tr>
   <td align="center" style="background-color:#2d6a4f;padding:16px 24px;">
     <a href="https://www.naturesseed.com" target="_blank">
-      <img src="https://d3k81ch9hvuctc.cloudfront.net/company/H627hn/images/52272625-f380-43c4-a395-7a40eaef3ff5.png"
+      <img src="https://d3k81ch9hvuctc.cloudfront.net/company/H627hn/images/be2fed9c-ffbd-4b52-8313-952d7b7c774a.png"
            alt="Nature's Seed" width="180" height="45" style="display:block;border:0;">
     </a>
   </td>
@@ -395,7 +395,7 @@ Note: Logo is white on `#2d6a4f` green — perfect contrast.
 ### Logo
 | Asset | Size | URL |
 |-------|------|-----|
-| Nature's Seed logo | 200x50 | `https://d3k81ch9hvuctc.cloudfront.net/company/H627hn/images/52272625-f380-43c4-a395-7a40eaef3ff5.png` |
+| Nature's Seed logo | 200x50 | `https://d3k81ch9hvuctc.cloudfront.net/company/H627hn/images/be2fed9c-ffbd-4b52-8313-952d7b7c774a.png` |
 
 ### Hero Images (600x250)
 | Asset | URL |

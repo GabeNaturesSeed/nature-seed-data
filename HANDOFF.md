@@ -1,4 +1,4 @@
-# Nature's Seed — Session Handoff (March 16, 2026)
+# Nature's Seed — Session Handoff (March 30, 2026)
 
 > Read this at the start of any new session to pick up where we left off.
 
@@ -13,14 +13,54 @@
 | 3 | Google Ads Drip | `marketing/google-ads-audit/drip/` | ⏸️ Cron disabled — manual desktop only |
 | 4 | Walmart Optimization | `marketplaces/walmart-optimization/` | Spreadsheet regenerated, needs upload |
 | 5 | WC ↔ Walmart Sync | — | Not built yet |
-| 6 | Shopper Approved → GMC | — | Research done, needs dashboard check |
+| 6 | Shopper Approved → Klaviyo | — | ⚠️ SA→Klaviyo integration disconnected since Aug 2025. Gabe reconnecting in SA dashboard. |
 | 7 | Amazon Channel | — | API access obtained, ready to build |
-| 8 | Retool Dashboard | Retool (external) | Pending — connect to Supabase |
+| 8 | Dashboard (Next.js) | `dashboard/` | Live — menu renamed Inventory→Operations. Fishbowl API blocked from GH Actions (see below) |
 | 9 | Crawl Budget Cleanup | `seo/search-console/` | Theme code + GSC submissions pending |
 | 10 | Google Ads Audit | `marketing/google-ads-audit/` | Done — Tier 2-4 items remain |
 | 11 | Keyword Expansion | `seo/is-increase/` | Phase 1-3 done, manual SEO tasks remain |
+| 12 | Menards Wholesale | `Amazonimprovement/` | ✅ 77-SKU catalog with validated delivered pricing ready to submit |
+| 13 | Shipment Tracking Flow | `infrastructure/cloudflare-worker/wc-proxy.js` | ✅ Fixed: tracking URLs now auto-generated, shipping address added to event |
+| 14 | Review Request System | Klaviyo | ✅ Templates created (`WDeFiX` verified, `Tdpr6T` generic). Campaign draft ready. Flow needs UI setup. |
+| 15 | Dashboard Commentary | `docs/notes.md` | ✅ Updated March 30 — simplified attribution, Zeck-ready format |
 
 **Fully Completed (archived):** Google API Connections, Texas Collection Feed, Spring 2026 Recovery, Klaviyo 55 Campaign Drafts, Shopping Bottom-20 Fixes, Browse Abandonment Flow, Algolia Optimization, Marketplace Bot (cron disabled)
+
+---
+
+## Session Work (March 30, 2026)
+
+### Menards Wholesale Catalog
+- Menards buyer reached out for product submission (Grass Seed, Wildflower, Fertilizer categories)
+- Built 77-SKU wholesale catalog with real Shippo freight quotes (UPS Ground, Lehi UT → Eau Claire WI)
+- **All 50-lb items removed** — UPS Additional Handling surcharge ($77.41/unit) makes them unprofitable via parcel. Only viable with LTL pallet freight.
+- Files: `Amazonimprovement/menards_catalog_FINAL.csv` (external), `menards_internal_v3.csv` (with margins)
+- Script: `Amazonimprovement/build_menards_catalog_v3.py`
+- **Next:** Gabe to sign Defect Agreement + Terms Checklist, submit catalog with email response
+
+### Shipment Tracking Flow (CF Worker Fix)
+- **Problem 1:** `TrackingLink` was empty on 100% of "Order Shipped" events — `custom_tracking_link` field only populated for manual entries, not standard carriers
+- **Fix:** Added `buildTrackingUrl()` function that maps carrier name → tracking URL (UPS, USPS, FedEx, DHL + Google fallback)
+- **Problem 2:** Email showed billing address instead of shipping address — event only sent `CustomerFirstName` from billing
+- **Fix:** Added full `Shipping*` fields to event properties (FirstName, LastName, Address1, Address2, City, State, Postcode, Country)
+- **Next:** Deploy updated `wc-proxy.js` to Cloudflare. Update Klaviyo email template in UI to use `{{ event.ShippingCity }}` etc. and `{{ event.TrackingLink }}` for button URL
+
+### Review Request System (Klaviyo + Shopper Approved)
+- **Finding:** SA→Klaviyo integration stopped sending events in August 2025. Last "Eligible for Shopper Approved Review" event: Aug 20, 2025.
+- **Finding:** Each SA event includes `survey_link` — a unique HMAC-authenticated URL per customer/order for verified product reviews
+- **Created:** Template `WDeFiX` — verified purchase review request using `{{ event.survey_link }}` and `{{ event.products }}`. Correct logo.
+- **Created:** Template `Tdpr6T` — generic review request (for backfill campaign, no verified link)
+- **Created:** Campaign `01KMZXHRTAMZ9B9BRRHT6AH2KT` — backfill for Active Customer This Season segment, Smart Send April 1
+- **Next:** Gabe reconnecting SA→Klaviyo in SA dashboard. Build Klaviyo flow: trigger on "Eligible for SA Review" metric (`VcUYec`), email using template `WDeFiX`. Contact SA support to bulk-trigger eligibility for 2026 orders.
+
+### Dashboard Updates
+- Renamed sidebar "Inventory" → "Operations" in `Sidebar.tsx`
+- Updated `docs/notes.md` — simplified attribution analysis, restructured as Zeck board commentary
+- **Bug found:** Inventory data shows 0s on GitHub Pages because Fishbowl API (`naturesseed.myfishbowl.com:3875`) returns 400 from GitHub Actions IPs. Same datacenter IP blocking pattern as WooCommerce Bot Fight Mode.
+- **Fix needed:** Either route Fishbowl through CF Worker proxy, or upload local `inventory.json` manually, or whitelist GH Actions IPs in Fishbowl
+
+### Klaviyo Email Skill Update
+- Updated logo URL in `.claude/skills/klaviyo-email-design/SKILL.md` — old `52272625` → correct `be2fed9c`
 
 ---
 

@@ -161,7 +161,7 @@ export default function AbcReportPage() {
             <XAxis type="number" hide />
             <YAxis type="category" dataKey="label" hide />
             <Tooltip
-              formatter={(v: number, name: string) => [fmt(v), `Class ${name}`]}
+              formatter={(v: unknown, name: unknown) => [fmt(Number(v) || 0), `Class ${String(name)}`]}
               contentStyle={{ borderRadius: 8, border: 'none', boxShadow: '0 2px 8px rgba(0,0,0,0.12)' }}
             />
             <Bar dataKey="A" stackId="abc" fill={CLASS_COLORS.A} radius={[6, 0, 0, 6]} />
