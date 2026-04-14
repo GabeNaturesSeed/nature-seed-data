@@ -280,11 +280,11 @@
       "sku": "PB-PIG-10-LB",
       "name": "Pasture Pig Mix",
       "qty": 68.0,
-      "daily_velocity": 0.2,
-      "days_remaining": 340,
+      "daily_velocity": 0.3,
+      "days_remaining": 226,
       "q1_need": 0.0,
-      "q2_need": 21.8,
-      "surplus_gap": 46.2,
+      "q2_need": 32.8,
+      "surplus_gap": 35.2,
       "status": "ok"
     },
     {
@@ -302,11 +302,11 @@
       "sku": "PB-SGPR-10-LB",
       "name": "Shortgrass Prairie Mix",
       "qty": 78.0,
-      "daily_velocity": 0.1,
-      "days_remaining": 780,
+      "daily_velocity": 0.2,
+      "days_remaining": 390,
       "q1_need": 0.0,
-      "q2_need": 10.9,
-      "surplus_gap": 67.1,
+      "q2_need": 21.8,
+      "surplus_gap": 56.2,
       "status": "ok"
     },
     {
@@ -500,11 +500,11 @@
       "sku": "PG-TRHY-5-LB",
       "name": "Alsike Clover",
       "qty": 25.0,
-      "daily_velocity": 0.3,
-      "days_remaining": 83,
+      "daily_velocity": 0.4,
+      "days_remaining": 62,
       "q1_need": 0.0,
-      "q2_need": 32.8,
-      "surplus_gap": -7.8,
+      "q2_need": 43.7,
+      "surplus_gap": -18.7,
       "status": "ok"
     },
     {
@@ -555,11 +555,11 @@
       "sku": "S-DUTCH-5-LB",
       "name": "White Dutch Clover Seeds - 5 lbs",
       "qty": 673.0,
-      "daily_velocity": 5.1,
-      "days_remaining": 131,
+      "daily_velocity": 5.2,
+      "days_remaining": 129,
       "q1_need": 0.0,
-      "q2_need": 556.9,
-      "surplus_gap": 116.1,
+      "q2_need": 567.8,
+      "surplus_gap": 105.2,
       "status": "ok"
     },
     {
@@ -610,11 +610,11 @@
       "sku": "S-RICE-5-LB",
       "name": "Rice Hulls - 5lbs",
       "qty": 375.0,
-      "daily_velocity": 6.7,
-      "days_remaining": 55,
+      "daily_velocity": 6.9,
+      "days_remaining": 54,
       "q1_need": 0.0,
-      "q2_need": 731.6,
-      "surplus_gap": -356.6,
+      "q2_need": 753.5,
+      "surplus_gap": -378.5,
       "status": "yellow"
     },
     {
@@ -643,12 +643,12 @@
       "sku": "SUSTANE-4-6-4",
       "name": "Organic Seed Starter Fertilizer 4-6-4",
       "qty": 66.0,
-      "daily_velocity": 2.1,
-      "days_remaining": 31,
+      "daily_velocity": 2.2,
+      "days_remaining": 29,
       "q1_need": 0.0,
-      "q2_need": 229.3,
-      "surplus_gap": -163.3,
-      "status": "yellow"
+      "q2_need": 240.2,
+      "surplus_gap": -174.2,
+      "status": "red"
     },
     {
       "sku": "TURF-BERM-5-LB",
@@ -1568,8 +1568,8 @@
   ],
   "summary": {
     "total_skus": 105,
-    "red_count": 4,
-    "yellow_count": 13,
+    "red_count": 5,
+    "yellow_count": 12,
     "green_count": 67
   },
   "fba_summary": {
@@ -1584,12 +1584,12 @@
     "period_days": 14
   },
   "order_tracking": {
-    "total_30d": 3424,
-    "fulfilled": 2878,
+    "total_30d": 3430,
+    "fulfilled": 2919,
     "backorders": 0,
-    "unfulfilled_lt_1d": 199,
-    "unfulfilled_lt_5d": 284,
-    "unfulfilled_5_to_10d": 38,
+    "unfulfilled_lt_1d": 204,
+    "unfulfilled_lt_5d": 246,
+    "unfulfilled_5_to_10d": 36,
     "unfulfilled_gt_10d": 25
   }
 }
