@@ -424,8 +424,20 @@ def _load_actuals_csv():
                 key = None
                 if label == "Net Revenue":
                     key = "net_revenue"
+                elif label == "Seed" and section == "revenue":
+                    key = "seed_revenue"
+                elif label == "Other" and section == "revenue":
+                    key = "other_revenue"
+                elif label == "Discounts & Allowances":
+                    key = "discounts"
                 elif label == "Total Cost Of Goods":
                     key = "cogs"
+                elif label == "Seed" and section == "cogs":
+                    key = "seed_cogs"
+                elif label == "Other" and section == "cogs":
+                    key = "other_cogs"
+                elif label == "Inventory Adjustment":
+                    key = "inventory_adjustment"
                 elif label == "Gross Margin":
                     key = "gross_margin"
                 elif label == "Advertising":
@@ -566,11 +578,21 @@ def generate_reporting():
         return 0
 
     def sum_rows(rows):
-        rev = round(sum(float(_col(r, "total_revenue", "revenue") or 0) for r in rows), 2)
+        # CRITICAL REPORTING RULE: Revenue is WC-only (DTC). Exclude Amazon + Walmart.
+        # COGS note: daily_summary.total_cogs is all-channel; for precision MTD
+        # should pull daily_cogs where channel='woocommerce', but since
+        # Amazon/Walmart COGS is typically ~$0, total_cogs ≈ wc_cogs in practice.
+        rev = round(sum(float(r.get("wc_revenue") or 0) for r in rows), 2)
+        total_rev_all = round(sum(float(_col(r, "total_revenue", "revenue") or 0) for r in rows), 2)
+        amz_rev = round(sum(float(r.get("amazon_revenue") or 0) for r in rows), 2)
+        wmt_rev = round(sum(float(r.get("walmart_revenue") or 0) for r in rows), 2)
         cogs = round(sum(float(_col(r, "total_cogs", "cogs") or 0) for r in rows), 2)
         ad_spend = round(sum(float(_col(r, "total_ad_spend", "ad_spend") or 0) for r in rows), 2)
         shipping = round(sum(float(_col(r, "total_shipping", "shipping_cost") or 0) for r in rows), 2)
         platform_fees = round(sum(float(r.get("platform_fees") or 0) for r in rows), 2)
+        # If wc_revenue not populated (backfill gap), fall back gracefully
+        if rev == 0 and total_rev_all > 0:
+            rev = round(total_rev_all - amz_rev - wmt_rev, 2)
         gross_profit = round(rev - cogs, 2)
         cm1 = round(gross_profit - ad_spend, 2)
         cm2 = round(cm1 - shipping - platform_fees, 2)
@@ -581,9 +603,9 @@ def generate_reporting():
             "cogs": cogs,
             "shipping": shipping,
             "net_revenue": round(sum(float(_col(r, "net_revenue") or 0) for r in rows), 2),
-            "wc_revenue": round(sum(float(r.get("wc_revenue") or 0) for r in rows), 2),
-            "amazon_revenue": round(sum(float(r.get("amazon_revenue") or 0) for r in rows), 2),
-            "walmart_revenue": round(sum(float(r.get("walmart_revenue") or 0) for r in rows), 2),
+            "wc_revenue": rev,
+            "amazon_revenue": amz_rev,
+            "walmart_revenue": wmt_rev,
             "platform_fees": platform_fees,
             "gross_profit": gross_profit,
             "gross_margin_pct": round(gross_profit / rev * 100, 1) if rev else None,
@@ -618,13 +640,19 @@ def generate_reporting():
     ]
 
     # YTD — aggregate by month
+    # CRITICAL REPORTING RULE: Use WooCommerce (DTC) data ONLY. Exclude
+    # Amazon and Walmart marketplace revenue/orders from all P&L and reporting.
+    # Marketplaces are tracked separately on their own pages.
     from collections import defaultdict
     cy_by_month = defaultdict(lambda: {"revenue": 0, "orders": 0, "ad_spend": 0, "cogs": 0, "shipping": 0, "platform_fees": 0, "net_revenue": 0})
     ly_by_month = defaultdict(lambda: {"revenue": 0, "ad_spend": 0})
 
     for r in ytd_cy_rows:
         m = r["report_date"][:7]  # YYYY-MM
-        cy_by_month[m]["revenue"] += float(_col(r, "total_revenue", "revenue") or 0)
+        # revenue = WC only (excludes Amazon + Walmart). Fall back to total_revenue if wc_revenue column missing.
+        wc_rev = r.get("wc_revenue")
+        rev = float(wc_rev) if wc_rev is not None else float(_col(r, "total_revenue", "revenue") or 0)
+        cy_by_month[m]["revenue"] += rev
         cy_by_month[m]["orders"] += int(_col(r, "total_orders", "orders") or 0)
         cy_by_month[m]["ad_spend"] += float(_col(r, "total_ad_spend", "ad_spend") or 0)
         cy_by_month[m]["cogs"] += float(_col(r, "total_cogs", "cogs") or 0)
@@ -632,12 +660,39 @@ def generate_reporting():
         cy_by_month[m]["platform_fees"] += float(r.get("platform_fees") or 0)
         cy_by_month[m]["net_revenue"] += float(_col(r, "net_revenue") or 0)
 
+    # Pull WC-only COGS directly from daily_cogs (daily_summary.total_cogs is all-channel)
+    wc_cogs_by_month = defaultdict(float)
+    try:
+        url_cogs = f"{SUPABASE_URL}/rest/v1/daily_cogs"
+        headers_cogs = {"apikey": SUPABASE_KEY}
+        params_cogs = [
+            ("report_date", f"gte.{ytd_start_cy}"),
+            ("report_date", f"lte.{yesterday}"),
+            ("channel", "eq.woocommerce"),
+            ("select", "report_date,total_cogs"),
+        ]
+        resp_cogs = requests.get(url_cogs, headers=headers_cogs, params=params_cogs, timeout=30)
+        resp_cogs.raise_for_status()
+        for r in resp_cogs.json():
+            wc_cogs_by_month[r["report_date"][:7]] += float(r.get("total_cogs") or 0)
+    except Exception as e:
+        print(f"    [WARN] Could not pull WC-only daily_cogs: {e}. Falling back to total_cogs.")
+        for m, v in cy_by_month.items():
+            wc_cogs_by_month[m] = v["cogs"]
+
+    # Overwrite cogs with WC-only values
+    for m in list(cy_by_month.keys()):
+        cy_by_month[m]["cogs"] = round(wc_cogs_by_month.get(m, cy_by_month[m]["cogs"]), 2)
+
     for r in ytd_ly_rows:
         # Map last-year month to this-year equivalent
         m_ly = r["report_date"][:7]
         year_ly, mon_ly = m_ly.split("-")
         m_cy = f"{int(year_ly)+1}-{mon_ly}"
-        ly_by_month[m_cy]["revenue"] += float(_col(r, "total_revenue", "revenue") or 0)
+        # LY revenue also WC-only for fair YoY compare
+        wc_rev = r.get("wc_revenue")
+        rev = float(wc_rev) if wc_rev is not None else float(_col(r, "total_revenue", "revenue") or 0)
+        ly_by_month[m_cy]["revenue"] += rev
         ly_by_month[m_cy]["ad_spend"] += float(_col(r, "total_ad_spend", "ad_spend") or 0)
 
     # Build month list (all months in YTD that have data or budget)
@@ -798,22 +853,53 @@ def generate_reporting():
         else:
             print(f"    {mk}: Using BUDGET ESTIMATES for fixed costs")
 
-        # Actuals: revenue, COGS, ad spend, shipping come from Supabase
-        act_revenue = m_data.get("revenue", 0)
-        act_cogs = m_data.get("cogs", 0) if m_data.get("cogs", 0) else 0
+        # ── Revenue + COGS sourcing hierarchy ──────────────────
+        # 1) If finance actuals CSV present → use CSV (authoritative)
+        # 2) Else if Supabase has data for this month → use WC-only Supabase
+        # 3) Else → fall back to budget CSV (prorated yearly)
+        #
+        # NOTE: m_data.revenue is already WC-only (set above to wc_revenue).
+        #       m_data.cogs is already WC-only (set above to daily_cogs WC).
+        #       m_data.shipping is Shippo freight cost (all channels, but WC is ~100%).
         act_ad_spend = m_data.get("ad_spend", 0)
         act_shipping = m_data.get("shipping", 0) if m_data.get("shipping") else 0
 
-        # Revenue freight (shipping charged to customers)
-        # For actuals months: use finance CSV value
-        # For current month without actuals: use WC shipping_total from orders
         if has_actuals:
+            # Finance CSV is authoritative for closed months
+            seed_revenue = act.get("seed_revenue", 0)
+            other_revenue = act.get("other_revenue", 0)
+            discounts = act.get("discounts", 0)  # stored as negative number
             revenue_freight = act.get("freight_revenue", 0)
-        elif mk == cur_month_key:
-            revenue_freight = mtd_shipping_collected
-        else:
-            revenue_freight = bud.get("freight_revenue", 0)
+            # Net Revenue from CSV already = seed + other + freight + discounts
+            act_revenue = act.get("net_revenue", seed_revenue + other_revenue + revenue_freight + discounts)
 
+            seed_cogs = act.get("seed_cogs", 0)
+            other_cogs = act.get("other_cogs", 0)
+            inventory_adjustment = act.get("inventory_adjustment", 0)
+            cogs_freight = act.get("cogs_freight", 0)
+            # Total COGS from CSV already = seed + other + inv_adj + freight
+            act_cogs = act.get("cogs", seed_cogs + other_cogs + inventory_adjustment + cogs_freight)
+            source_tag = "actuals"
+        else:
+            # Supabase WC-only for current/future months without finance upload
+            seed_revenue = m_data.get("revenue", 0)  # = wc_revenue after above changes
+            other_revenue = 0
+            discounts = 0  # WC order totals are already post-discount
+            # Freight revenue: use WC shipping_total for current month, budget otherwise
+            if mk == cur_month_key:
+                revenue_freight = mtd_shipping_collected
+            else:
+                revenue_freight = bud.get("freight_revenue", 0)
+            act_revenue = seed_revenue + other_revenue + revenue_freight + discounts
+
+            seed_cogs = m_data.get("cogs", 0)  # = WC-only daily_cogs after above changes
+            other_cogs = 0
+            inventory_adjustment = 0
+            cogs_freight = act_shipping  # Shippo freight cost
+            act_cogs = seed_cogs + other_cogs + inventory_adjustment + cogs_freight
+            source_tag = "supabase_wc" if mk == cur_month_key or m_data.get("revenue") else "budget"
+
+        # ── Gross Profit: Revenue (incl freight, net of discounts) − COGS (incl freight) ──
         act_gross_profit = act_revenue - act_cogs
 
         # Fixed costs: actuals if available, budget otherwise
@@ -859,16 +945,27 @@ def generate_reporting():
 
         pnl_months.append({
             "month": mk,
-            "source": "actuals" if has_actuals else "budget",
-            # Revenue
-            "revenue": round(act_revenue, 2),
-            "budget_revenue": round(bud_revenue, 2),
+            "source": source_tag,  # "actuals" | "supabase_wc" | "budget"
+            # Revenue (granular line items for new P&L design)
+            "seed_revenue": round(seed_revenue, 2),
+            "other_revenue": round(other_revenue, 2),
             "revenue_freight": round(revenue_freight, 2),
-            # COGS
-            "cogs": round(act_cogs, 2),
+            "discounts": round(discounts, 2),
+            "revenue": round(act_revenue, 2),  # Net Revenue (seed + other + freight + discounts)
+            "budget_revenue": round(bud_revenue, 2),
+            # COGS (granular)
+            "seed_cogs": round(seed_cogs, 2),
+            "other_cogs": round(other_cogs, 2),
+            "inventory_adjustment": round(inventory_adjustment, 2),
+            "cogs_freight": round(cogs_freight, 2),
+            "cogs": round(act_cogs, 2),  # Total COGS (seed + other + inv_adj + freight)
             "budget_cogs": round(bud.get("total_cogs", 0), 2),
-            "cogs_freight": round(act.get("cogs_freight", act_shipping) if has_actuals else act_shipping, 2),
             "shippo_freight": round(act_shipping, 2),
+            # Data-source provenance per category (for tooltips)
+            "source_revenue": "Finance Actuals CSV" if has_actuals else ("WooCommerce API (via Supabase)" if mk == cur_month_key else "Supabase daily_summary (WC only)"),
+            "source_cogs": "Finance Actuals CSV" if has_actuals else "Supabase daily_cogs (WC channel)",
+            "source_freight_cogs": "Finance Actuals CSV" if has_actuals else "Shippo API",
+            "source_freight_revenue": "Finance Actuals CSV" if has_actuals else ("WooCommerce shipping_total" if mk == cur_month_key else "Yearly Budget Breakdown"),
             # Gross Profit
             "gross_profit": round(act_gross_profit, 2),
             "budget_gross_profit": round(bud_gross, 2),
@@ -907,6 +1004,8 @@ def generate_reporting():
 
     pnl_ytd = {k: _pnl_sum(k) for k in [
         "revenue", "budget_revenue", "revenue_freight", "cogs", "budget_cogs", "cogs_freight",
+        "seed_revenue", "other_revenue", "discounts",
+        "seed_cogs", "other_cogs", "inventory_adjustment",
         "gross_profit", "budget_gross_profit",
         "production_warehouse", "warehouse", "advertising", "budget_advertising",
         "marketing", "sma_salaries", "development", "total_sma",

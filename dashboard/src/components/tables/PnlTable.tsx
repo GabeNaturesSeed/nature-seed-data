@@ -20,12 +20,15 @@ type RowDef = {
 
 const rows: RowDef[] = [
   { label: 'REVENUE', separator: true },
-  { label: 'Seed Revenue', key: 'revenue', budgetKey: 'budget_revenue' },
+  { label: 'Seed Revenue', key: 'seed_revenue' },
   { label: 'Freight Revenue', key: 'revenue_freight' },
+  { label: 'Discounts & Allowances', key: 'discounts' },
+  { label: 'Net Revenue', key: 'revenue', budgetKey: 'budget_revenue', bold: true },
   { label: '', separator: true },
   { label: 'COST OF GOODS SOLD', separator: true },
-  { label: 'Product COGS', key: 'cogs', budgetKey: 'budget_cogs' },
+  { label: 'Seed COGS', key: 'seed_cogs' },
   { label: 'Freight COGS', key: 'cogs_freight' },
+  { label: 'Total COGS', key: 'cogs', budgetKey: 'budget_cogs', bold: true },
   { label: '', separator: true },
   { label: 'Gross Profit', key: 'gross_profit', budgetKey: 'budget_gross_profit', bold: true, highlight: true },
   { label: 'Gross Margin %', key: 'gross_margin_pct' },

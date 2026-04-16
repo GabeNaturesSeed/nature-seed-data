@@ -75,12 +75,22 @@ export interface YtdTotals {
 export interface PnlMonth {
   month: string;
   source: string;
+  seed_revenue?: number;
+  other_revenue?: number;
+  discounts?: number;
   revenue: number;
   budget_revenue: number;
   revenue_freight: number;
+  seed_cogs?: number;
+  other_cogs?: number;
+  inventory_adjustment?: number;
   cogs: number;
   budget_cogs: number;
   cogs_freight: number;
+  source_revenue?: string;
+  source_cogs?: string;
+  source_freight_cogs?: string;
+  source_freight_revenue?: string;
   gross_profit: number;
   budget_gross_profit: number;
   gross_margin_pct: number;
