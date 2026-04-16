@@ -203,11 +203,29 @@ jobs:
           path: docs/data/
         continue-on-error: true
 
+      # ─── Rebuild Next.js static dashboard with fresh data ───
+      # Without this step, data JSON refreshes but the rendered HTML
+      # (and any new pages added to the source) never get deployed.
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: dashboard/package-lock.json
+
+      - name: Install dashboard dependencies
+        working-directory: dashboard
+        run: npm ci
+
+      - name: Build dashboard (Next.js static export)
+        working-directory: dashboard
+        run: npm run build
+
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/data/ docs/reviews/ research/abc-analysis/abc_analysis_results.json
-          git diff --staged --quiet || git commit -m "chore: update dashboard data $(date -u +%Y-%m-%d)"
+          git add docs/ research/abc-analysis/abc_analysis_results.json
+          git diff --staged --quiet || git commit -m "chore: update dashboard data + rebuild $(date -u +%Y-%m-%d)"
           git pull --rebase || true
           git push
