@@ -125,9 +125,15 @@ export interface PnlYtd {
   revenue: number;
   budget_revenue: number;
   revenue_freight: number;
+  seed_revenue?: number;
+  other_revenue?: number;
+  discounts?: number;
   cogs: number;
   budget_cogs: number;
   cogs_freight: number;
+  seed_cogs?: number;
+  other_cogs?: number;
+  inventory_adjustment?: number;
   gross_profit: number;
   budget_gross_profit: number;
   production_warehouse: number;

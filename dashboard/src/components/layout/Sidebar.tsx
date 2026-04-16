@@ -49,6 +49,7 @@ const navItems: NavItem[] = [
       { label: 'MTD Overview', href: '/reporting', icon: TrendingUp },
       { label: 'YTD Summary', href: '/reporting/ytd', icon: LineChart },
       { label: 'P&L Statement', href: '/reporting/pnl', icon: DollarSign },
+      { label: 'CM Waterfall', href: '/reporting/cm', icon: TrendingUp },
       { label: 'Notes', href: '/reporting/notes', icon: StickyNote },
     ],
   },
