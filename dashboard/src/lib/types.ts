@@ -91,6 +91,8 @@ export interface PnlMonth {
   source_cogs?: string;
   source_freight_cogs?: string;
   source_freight_revenue?: string;
+  freight_cogs_ratio?: number | null;
+  shippo_freight?: number;
   gross_profit: number;
   budget_gross_profit: number;
   gross_margin_pct: number;

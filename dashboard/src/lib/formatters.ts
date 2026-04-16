@@ -73,5 +73,5 @@ export function shortDate(dateStr: string): string {
 export function monthLabel(monthStr: string): string {
   const [y, m] = monthStr.split('-');
   const dt = new Date(Number(y), Number(m) - 1);
-  return dt.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+  return dt.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 }

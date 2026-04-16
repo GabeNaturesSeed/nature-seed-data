@@ -841,6 +841,52 @@ def generate_reporting():
     print("  Building P&L from actuals + budget fixed costs...")
     budget_full = _load_budget_csv_full()
     actuals_csv = _load_actuals_csv()
+
+    # ── Freight revenue for open closed months ───────────
+    # Current month uses mtd_shipping_collected. Past months with actuals use CSV.
+    # Past months WITHOUT actuals (e.g. March before finance closes Jan/Feb) need
+    # WC orders pulled to recover customer-paid shipping.
+    open_closed_shipping = {}  # {month_key: shipping_collected}
+    open_closed_months = [
+        m["month"] for m in ytd_months
+        if m["month"] != cur_month_key and m["month"] not in actuals_csv
+    ]
+    for mk_open in open_closed_months:
+        y_o, mo_o = mk_open.split("-")
+        m_start = f"{y_o}-{mo_o}-01"
+        import calendar as _cal
+        m_end = f"{y_o}-{mo_o}-{_cal.monthrange(int(y_o), int(mo_o))[1]:02d}"
+        print(f"  Pulling WC orders for open month {mk_open} shipping_total...")
+        try:
+            m_orders = _pull_wc_orders_range(m_start, m_end)
+            open_closed_shipping[mk_open] = round(
+                sum(float(o.get("shipping_total") or 0) for o in m_orders), 2
+            )
+            print(f"    {mk_open} WC shipping collected: ${open_closed_shipping[mk_open]:,.2f}")
+        except Exception as e:
+            print(f"    [WARN] {mk_open} WC shipping pull failed: {e}")
+            open_closed_shipping[mk_open] = None
+
+    # ── Freight COGS discount ratio ──────────────────────
+    # For months with both finance actuals cogs_freight AND Shippo quote,
+    # compute ratio = actual_paid / shippo_quote. Average across months.
+    # Apply to open months to estimate their freight COGS from Shippo quote.
+    freight_ratios = []
+    for m_data in ytd_months:
+        mk = m_data["month"]
+        act_m = actuals_csv.get(mk, {})
+        shippo_quote = m_data.get("shipping", 0) or 0
+        actual_paid = act_m.get("cogs_freight", 0)
+        if act_m and shippo_quote and actual_paid:
+            r = actual_paid / shippo_quote
+            freight_ratios.append(r)
+            print(f"    Freight ratio {mk}: ${actual_paid:,.2f} / ${shippo_quote:,.2f} = {r:.3f}")
+    avg_freight_ratio = sum(freight_ratios) / len(freight_ratios) if freight_ratios else None
+    if avg_freight_ratio is not None:
+        print(f"  Avg freight discount ratio: {avg_freight_ratio:.3f} ({avg_freight_ratio*100:.1f}% of Shippo quote)")
+    else:
+        print("  No freight ratio — no closed months with both actuals + Shippo data")
+
     pnl_months = []
     for m_data in ytd_months:
         mk = m_data["month"]  # e.g. "2026-01"
@@ -880,22 +926,41 @@ def generate_reporting():
             # Total COGS from CSV already = seed + other + inv_adj + freight
             act_cogs = act.get("cogs", seed_cogs + other_cogs + inventory_adjustment + cogs_freight)
             source_tag = "actuals"
+            revenue_freight_source = "Finance Actuals CSV"
+            cogs_freight_source = "Finance Actuals CSV"
         else:
             # Supabase WC-only for current/future months without finance upload
             seed_revenue = m_data.get("revenue", 0)  # = wc_revenue after above changes
             other_revenue = 0
             discounts = 0  # WC order totals are already post-discount
-            # Freight revenue: use WC shipping_total for current month, budget otherwise
+            # Freight revenue sourcing hierarchy for non-actuals months:
+            #   1) Current month → live WC shipping_total MTD
+            #   2) Open closed month → backfilled WC shipping_total (pulled above)
+            #   3) Fallback → yearly budget prorate
             if mk == cur_month_key:
                 revenue_freight = mtd_shipping_collected
+                revenue_freight_source = "WooCommerce shipping_total (MTD live)"
+            elif open_closed_shipping.get(mk) is not None:
+                revenue_freight = open_closed_shipping[mk]
+                revenue_freight_source = "WooCommerce shipping_total (backfill)"
             else:
                 revenue_freight = bud.get("freight_revenue", 0)
+                revenue_freight_source = "Yearly Budget Breakdown"
             act_revenue = seed_revenue + other_revenue + revenue_freight + discounts
 
             seed_cogs = m_data.get("cogs", 0)  # = WC-only daily_cogs after above changes
             other_cogs = 0
             inventory_adjustment = 0
-            cogs_freight = act_shipping  # Shippo freight cost
+            # Freight COGS: Shippo transactions are the base cost. When we have a
+            # discount ratio (avg of finance-booked cogs_freight ÷ Shippo quote
+            # across closed months), apply it to bridge Shippo records to how
+            # finance will book the month.
+            if avg_freight_ratio is not None and act_shipping:
+                cogs_freight = round(act_shipping * avg_freight_ratio, 2)
+                cogs_freight_source = f"Estimated at {avg_freight_ratio*100:.1f}% of Shippo quote (avg ratio from closed-month finance actuals)"
+            else:
+                cogs_freight = act_shipping
+                cogs_freight_source = "Shippo API (raw quote)"
             act_cogs = seed_cogs + other_cogs + inventory_adjustment + cogs_freight
             source_tag = "supabase_wc" if mk == cur_month_key or m_data.get("revenue") else "budget"
 
@@ -964,8 +1029,9 @@ def generate_reporting():
             # Data-source provenance per category (for tooltips)
             "source_revenue": "Finance Actuals CSV" if has_actuals else ("WooCommerce API (via Supabase)" if mk == cur_month_key else "Supabase daily_summary (WC only)"),
             "source_cogs": "Finance Actuals CSV" if has_actuals else "Supabase daily_cogs (WC channel)",
-            "source_freight_cogs": "Finance Actuals CSV" if has_actuals else "Shippo API",
-            "source_freight_revenue": "Finance Actuals CSV" if has_actuals else ("WooCommerce shipping_total" if mk == cur_month_key else "Yearly Budget Breakdown"),
+            "source_freight_cogs": cogs_freight_source,
+            "source_freight_revenue": revenue_freight_source,
+            "freight_cogs_ratio": round(avg_freight_ratio, 4) if (not has_actuals and avg_freight_ratio is not None) else None,
             # Gross Profit
             "gross_profit": round(act_gross_profit, 2),
             "budget_gross_profit": round(bud_gross, 2),

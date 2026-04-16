@@ -148,14 +148,34 @@ export default function PnlTable({ months, ytd }: PnlTableProps) {
                 <td className={`px-5 py-2.5 ${row.indent ? 'pl-9' : ''} ${row.bold ? 'font-semibold' : ''}`} style={isCM2Row ? { color: '#c96a2e' } : {}}>
                   {row.label}
                 </td>
-                {months.map(m => (
-                  <td key={m.month} className={`px-5 py-2.5 text-right ${row.bold ? 'font-semibold' : ''} ${
-                    row.key && getVal(m as unknown as Record<string, unknown>, row.key!) !== null &&
-                    (getVal(m as unknown as Record<string, unknown>, row.key!) ?? 0) < 0 ? 'text-ns-red' : ''
-                  }`}>
-                    {row.key ? fmtCell(getVal(m as unknown as Record<string, unknown>, row.key), isPercent) : ''}
-                  </td>
-                ))}
+                {months.map(m => {
+                  const mRec = m as unknown as Record<string, unknown>;
+                  let cellTitle: string | undefined;
+                  if (row.key === 'cogs_freight' && typeof m.source_freight_cogs === 'string') {
+                    cellTitle = m.source_freight_cogs;
+                    if (typeof m.shippo_freight === 'number' && m.source_freight_cogs.includes('%')) {
+                      cellTitle += ` — Shippo quote: ${fmt(m.shippo_freight)}`;
+                    }
+                  } else if (row.key === 'revenue_freight' && typeof m.source_freight_revenue === 'string') {
+                    cellTitle = m.source_freight_revenue;
+                  } else if (row.key === 'seed_revenue' && typeof m.source_revenue === 'string') {
+                    cellTitle = m.source_revenue;
+                  } else if (row.key === 'seed_cogs' && typeof m.source_cogs === 'string') {
+                    cellTitle = m.source_cogs;
+                  }
+                  const isEstimated = row.key === 'cogs_freight' && cellTitle?.startsWith('Estimated');
+                  return (
+                    <td
+                      key={m.month}
+                      title={cellTitle}
+                      className={`px-5 py-2.5 text-right ${row.bold ? 'font-semibold' : ''} ${
+                        row.key && getVal(mRec, row.key!) !== null && (getVal(mRec, row.key!) ?? 0) < 0 ? 'text-ns-red' : ''
+                      } ${cellTitle ? 'cursor-help' : ''} ${isEstimated ? 'italic text-brand-neutral/70' : ''}`}
+                    >
+                      {row.key ? fmtCell(getVal(mRec, row.key), isPercent) : ''}
+                    </td>
+                  );
+                })}
                 <td className={`px-5 py-2.5 text-right font-semibold ${
                   row.key && getVal(ytd as unknown as Record<string, unknown>, row.key!) !== null &&
                   (getVal(ytd as unknown as Record<string, unknown>, row.key!) ?? 0) < 0 ? 'text-ns-red' : ''
