@@ -6,8 +6,7 @@ import pytest
 
 # Make framework modules importable during tests
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-FRAMEWORK_PATH = REPO_ROOT / "marketing" / "klaviyo-audit" / "framework"
-sys.path.insert(0, str(FRAMEWORK_PATH.parent))  # allow `from framework import ...`
+sys.path.insert(0, str(REPO_ROOT / "marketing" / "klaviyo-audit"))  # allow `from framework import ...`
 
 
 @pytest.fixture
@@ -41,6 +40,7 @@ def sample_flow_report():
                 "clicks_unique": 138,
                 "conversions": 135,
                 "conversion_value": 29314.00,
+                "conversion_rate": 0.042,
             }
         }
     }
