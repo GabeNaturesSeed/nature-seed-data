@@ -618,6 +618,47 @@ def generate_reporting():
     ly_totals = sum_rows(ly_rows)
     cy_totals["mer"] = round(cy_totals["revenue"] / cy_totals["ad_spend"], 2) if cy_totals["ad_spend"] else 0
 
+    # ── WC-only overrides for MTD metrics ────────────────────────
+    # daily_summary.total_orders/total_cogs are all-channel. Replace with
+    # WC-channel rollups so the DTC reporting section is WooCommerce-only.
+    def _sum_channel(table, start, end, channel, value_col):
+        try:
+            url = f"{SUPABASE_URL}/rest/v1/{table}"
+            params = [
+                ("report_date", f"gte.{start}"),
+                ("report_date", f"lte.{end}"),
+                ("channel", f"eq.{channel}"),
+                ("select", f"report_date,{value_col}"),
+            ]
+            resp = requests.get(url, headers={"apikey": SUPABASE_KEY}, params=params, timeout=30)
+            resp.raise_for_status()
+            return sum(float(r.get(value_col) or 0) for r in resp.json())
+        except Exception as e:
+            print(f"    [WARN] WC-only {table}.{value_col} pull failed: {e}")
+            return None
+
+    wc_orders_mtd = _sum_channel("daily_sales", mtd_start_cy, mtd_end_cy, "woocommerce", "orders")
+    wc_cogs_mtd = _sum_channel("daily_cogs", mtd_start_cy, mtd_end_cy, "woocommerce", "total_cogs")
+    wc_orders_ly = _sum_channel("daily_sales", mtd_start_ly, mtd_end_ly, "woocommerce", "orders")
+    wc_cogs_ly = _sum_channel("daily_cogs", mtd_start_ly, mtd_end_ly, "woocommerce", "total_cogs")
+
+    if wc_orders_mtd is not None:
+        cy_totals["orders"] = int(wc_orders_mtd)
+    if wc_cogs_mtd is not None:
+        cy_totals["cogs"] = round(wc_cogs_mtd, 2)
+    if wc_orders_ly is not None:
+        ly_totals["orders"] = int(wc_orders_ly)
+    if wc_cogs_ly is not None:
+        ly_totals["cogs"] = round(wc_cogs_ly, 2)
+
+    # Recompute DTC-only gross profit / CM1 / CM2 from WC-only revenue + cogs
+    for tot in (cy_totals, ly_totals):
+        tot["gross_profit"] = round(tot["revenue"] - tot["cogs"], 2)
+        tot["gross_margin_pct"] = round(tot["gross_profit"] / tot["revenue"] * 100, 1) if tot["revenue"] else None
+        tot["cm1"] = round(tot["gross_profit"] - tot["ad_spend"], 2)
+        tot["cm2"] = round(tot["cm1"] - tot["shipping"] - tot["platform_fees"], 2)
+        tot["cm2_pct"] = round(tot["cm2"] / tot["revenue"] * 100, 1) if tot["revenue"] else None
+
     budget = _load_budget_csv()
     cur_month_key = f"{today.year}-{today.month:02d}"
     budget_month = budget.get(cur_month_key, {})
@@ -626,15 +667,26 @@ def generate_reporting():
         "ad_spend": budget_month.get("ad_spend", 0),
     }
 
+    # Daily chart series — WC-only (fall back to total_revenue if wc_revenue missing)
+    def _wc_rev(row):
+        wc = row.get("wc_revenue")
+        if wc is not None:
+            return float(wc)
+        # Back-compat: derive from total - marketplaces
+        total = float(row.get("total_revenue") or 0)
+        amz = float(row.get("amazon_revenue") or 0)
+        wmt = float(row.get("walmart_revenue") or 0)
+        return max(0, total - amz - wmt)
+
     daily_cy = [
-        {"date": r["report_date"], "revenue": float(r.get("total_revenue") or 0)}
+        {"date": r["report_date"], "revenue": _wc_rev(r)}
         for r in cy_rows
     ]
     daily_ly = [
         {
             # Shift last-year date forward 1 year for chart alignment
             "date": str(date.fromisoformat(r["report_date"]) + timedelta(days=365)),
-            "revenue": float(r.get("total_revenue") or 0),
+            "revenue": _wc_rev(r),
         }
         for r in ly_rows
     ]

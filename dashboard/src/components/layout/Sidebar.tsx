@@ -42,7 +42,7 @@ interface SidebarProps {
 
 const navItems: NavItem[] = [
   {
-    label: 'Reporting',
+    label: 'DTC',
     href: '/reporting',
     icon: BarChart3,
     children: [

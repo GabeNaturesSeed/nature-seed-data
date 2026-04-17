@@ -6,6 +6,8 @@ import { fmt, fmtInt, ratio, pct, calcPct, badgeColor, linearProjection, cumulat
 import KpiCard from '@/components/kpi/KpiCard';
 import KpiGrid from '@/components/kpi/KpiGrid';
 import ChartCard from '@/components/charts/ChartCard';
+import { sources } from '@/lib/sources';
+import InfoTooltip from '@/components/InfoTooltip';
 import { Skeleton, Accordion, AccordionItem, AccordionHeading, AccordionTrigger, AccordionPanel, AccordionBody } from '@heroui/react';
 import {
   LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
@@ -106,10 +108,6 @@ export default function ReportingMtdPage() {
     ly: Math.round(lyCMCum[i]),
   }));
 
-  const wcPct = cy.revenue ? Math.round((cy.wc_revenue / cy.revenue) * 100) : 0;
-  const amzPct = cy.revenue ? Math.round((cy.amazon_revenue / cy.revenue) * 100) : 0;
-  const wmtPct = cy.revenue ? Math.round((cy.walmart_revenue / cy.revenue) * 100) : 0;
-
   return (
     <div>
       <div className="flex items-baseline justify-between mb-6 md:mb-8">
@@ -122,6 +120,7 @@ export default function ReportingMtdPage() {
         <KpiCard
           label="Revenue"
           value={fmt(cy.revenue)}
+          tooltip={sources.mtdRevenue}
           badges={[
             { label: `vs LY ${pct(revLyPct)}`, color: badgeColor(revLyPct) },
             { label: `vs Budget ${pct(revBudPct)}`, color: badgeColor(revBudPct) },
@@ -130,11 +129,13 @@ export default function ReportingMtdPage() {
         <KpiCard
           label="CM2 $"
           value={fmt(cy.cm2)}
+          tooltip={sources.mtdCm2}
           note="Revenue less COGS, shipping, ads, fees"
         />
         <KpiCard
           label="CM2 %"
           value={cy.cm2_pct?.toFixed(1) + '%'}
+          tooltip={sources.mtdCm2Pct}
           badges={[
             { label: cy.cm2_pct >= 20 ? 'Healthy' : cy.cm2_pct >= 10 ? 'Marginal' : 'Below Target', color: cy.cm2_pct >= 20 ? 'success' : cy.cm2_pct >= 10 ? 'warning' : 'danger' },
           ]}
@@ -145,6 +146,7 @@ export default function ReportingMtdPage() {
         <KpiCard
           label="Orders"
           value={fmtInt(cy.orders)}
+          tooltip={sources.mtdOrders}
           badges={[
             { label: `vs LY ${pct(ordLyPct)}`, color: badgeColor(ordLyPct) },
           ]}
@@ -152,6 +154,7 @@ export default function ReportingMtdPage() {
         <KpiCard
           label="Ad Spend"
           value={fmt(cy.ad_spend)}
+          tooltip={sources.mtdAdSpend}
           badges={[
             { label: `vs LY ${pct(adLyPct)}`, color: badgeColor(adLyPct, false) },
             { label: `vs Budget ${pct(adBudPct)}`, color: badgeColor(adBudPct, false) },
@@ -160,22 +163,26 @@ export default function ReportingMtdPage() {
         <KpiCard
           label="MER"
           value={ratio(cy.mer)}
+          tooltip={sources.mtdMer}
         />
         <KpiCard
           label="AOV"
           value={fmt(cy.aov)}
+          tooltip={sources.mtdAov}
         />
       </KpiGrid>
 
       {/* Projection bar */}
       {projection && (
         <div className="bg-surface-lowest rounded-xl shadow-ambient py-4 px-6 mb-8">
-          <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-brand-neutral">
-            <span>
+          <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-brand-neutral items-center">
+            <span className="inline-flex items-center gap-1.5">
               Projected Revenue: <strong className="text-brand-primary text-lg font-semibold">{fmt(projection)}</strong>
+              <InfoTooltip content={sources.mtdProjectedRevenue} />
             </span>
-            <span>
+            <span className="inline-flex items-center gap-1.5">
               Projected CM2 $: <strong className="text-lg font-semibold" style={{ color: '#c96a2e' }}>{fmt(projectedCM2)}</strong>
+              <InfoTooltip content={sources.mtdProjectedCm2} />
             </span>
             <span>
               Projected CM2 %: <strong className="text-lg font-semibold" style={{ color: '#c96a2e' }}>{projectedCM2Pct?.toFixed(1)}%</strong>
@@ -196,16 +203,16 @@ export default function ReportingMtdPage() {
           <AccordionPanel>
             <AccordionBody>
               <KpiGrid columns={5}>
-                <KpiCard label="COGS" value={fmt(cy.cogs)} />
-                <KpiCard label="Gross Profit" value={fmt(cy.gross_profit)} />
-                <KpiCard label="Gross Margin %" value={cy.gross_margin_pct?.toFixed(1) + '%'} />
-                <KpiCard label="CM2" value={fmt(cy.cm2)} />
-                <KpiCard label="CM2 %" value={cy.cm2_pct?.toFixed(1) + '%'} />
-                <KpiCard label="Shipping" value={fmt(cy.shipping)} />
-                <KpiCard label="Platform Fees" value={fmt(cy.platform_fees)} />
-                <KpiCard label="Net Revenue" value={fmt(cy.net_revenue)} />
-                <KpiCard label="AOV" value={fmt(cy.aov)} />
-                <KpiCard label="New Customer CAC" value={fmt(cy.new_customer_cac)} note={`${fmtInt(cy.new_customers)} new customers`} />
+                <KpiCard label="COGS" value={fmt(cy.cogs)} tooltip={sources.mtdCogs} />
+                <KpiCard label="Gross Profit" value={fmt(cy.gross_profit)} tooltip={sources.mtdGrossProfit} />
+                <KpiCard label="Gross Margin %" value={cy.gross_margin_pct?.toFixed(1) + '%'} tooltip={sources.mtdGrossMarginPct} />
+                <KpiCard label="CM2" value={fmt(cy.cm2)} tooltip={sources.mtdCm2} />
+                <KpiCard label="CM2 %" value={cy.cm2_pct?.toFixed(1) + '%'} tooltip={sources.mtdCm2Pct} />
+                <KpiCard label="Shipping" value={fmt(cy.shipping)} tooltip={sources.mtdShipping} />
+                <KpiCard label="Platform Fees" value={fmt(cy.platform_fees)} tooltip={sources.mtdPlatformFees} />
+                <KpiCard label="Net Revenue" value={fmt(cy.net_revenue)} tooltip={sources.mtdNetRevenue} />
+                <KpiCard label="AOV" value={fmt(cy.aov)} tooltip={sources.mtdAov} />
+                <KpiCard label="New Customer CAC" value={fmt(cy.new_customer_cac)} tooltip={sources.mtdNewCustomerCac} note={`${fmtInt(cy.new_customers)} new customers`} />
               </KpiGrid>
             </AccordionBody>
           </AccordionPanel>
@@ -214,7 +221,7 @@ export default function ReportingMtdPage() {
 
       {/* Charts row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <ChartCard title="Daily Revenue">
+        <ChartCard title="Daily Revenue" tooltip={sources.dailyRevenueChart}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={dailyChartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(191,201,193,0.1)" />
@@ -228,7 +235,7 @@ export default function ReportingMtdPage() {
           </ResponsiveContainer>
         </ChartCard>
 
-        <ChartCard title="Cumulative MTD Revenue">
+        <ChartCard title="Cumulative MTD Revenue" tooltip={sources.cumulativeRevenueChart}>
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={cumulativeChartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(191,201,193,0.1)" />
@@ -247,7 +254,7 @@ export default function ReportingMtdPage() {
       {/* Contribution Margin Charts */}
       <h2 className="font-display text-lg font-semibold text-brand-neutral mb-4">Contribution Margin</h2>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <ChartCard title="Daily Contribution Margin">
+        <ChartCard title="Daily Contribution Margin" tooltip={sources.dailyCmChart}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={dailyCMChartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(191,201,193,0.1)" />
@@ -259,7 +266,7 @@ export default function ReportingMtdPage() {
           </ResponsiveContainer>
         </ChartCard>
 
-        <ChartCard title="Cumulative MTD Contribution Margin">
+        <ChartCard title="Cumulative MTD Contribution Margin" tooltip={sources.cumulativeCmChart}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={cumulativeCMChartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(191,201,193,0.1)" />
@@ -274,25 +281,6 @@ export default function ReportingMtdPage() {
         </ChartCard>
       </div>
 
-      {/* Channel Breakdown */}
-      <h2 className="font-display text-lg font-semibold text-brand-neutral mb-4">Channel Breakdown</h2>
-      <KpiGrid columns={3}>
-        <KpiCard
-          label="WooCommerce Revenue"
-          value={fmt(cy.wc_revenue)}
-          badges={[{ label: `${wcPct}% of total`, color: 'default' }]}
-        />
-        <KpiCard
-          label="Amazon Revenue"
-          value={fmt(cy.amazon_revenue)}
-          badges={[{ label: `${amzPct}% of total`, color: 'default' }]}
-        />
-        <KpiCard
-          label="Walmart Revenue"
-          value={fmt(cy.walmart_revenue)}
-          badges={[{ label: `${wmtPct}% of total`, color: 'default' }]}
-        />
-      </KpiGrid>
     </div>
   );
 }

@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useJsonData } from '@/hooks/useJsonData';
 import { ReportingData, PnlMonth } from '@/lib/types';
 import CmWaterfallTable from '@/components/tables/CmWaterfallTable';
+import InfoTooltip from '@/components/InfoTooltip';
+import { sources } from '@/lib/sources';
 import { Skeleton } from '@heroui/react';
 import { fmt, monthLabel } from '@/lib/formatters';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, ReferenceLine, Cell } from 'recharts';
@@ -61,7 +63,10 @@ export default function CmWaterfallPage() {
     <div>
       <div className="flex items-baseline justify-between mb-6 md:mb-8">
         <div>
-          <h1 className="text-xl md:text-2xl font-display font-bold text-brand-neutral">Contribution Margin Waterfall</h1>
+          <h1 className="text-xl md:text-2xl font-display font-bold text-brand-neutral flex items-center gap-2">
+            <span>Contribution Margin Waterfall</span>
+            <InfoTooltip content={sources.cmWaterfall} size={15} />
+          </h1>
           <p className="text-[11px] md:text-xs text-brand-neutral/60 mt-1">
             Revenue → CM1 (after seed COGS) → CM2 (after freight + marketing) → Net Income (after G&amp;A)
           </p>

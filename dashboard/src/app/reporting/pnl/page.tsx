@@ -3,6 +3,8 @@
 import { useJsonData } from '@/hooks/useJsonData';
 import { ReportingData } from '@/lib/types';
 import PnlTable from '@/components/tables/PnlTable';
+import InfoTooltip from '@/components/InfoTooltip';
+import { sources } from '@/lib/sources';
 import { Skeleton } from '@heroui/react';
 
 export default function PnlPage() {
@@ -22,7 +24,10 @@ export default function PnlPage() {
   return (
     <div>
       <div className="flex items-baseline justify-between mb-6 md:mb-8">
-        <h1 className="text-xl md:text-2xl font-display font-bold text-brand-neutral">P&L Statement</h1>
+        <h1 className="text-xl md:text-2xl font-display font-bold text-brand-neutral flex items-center gap-2">
+          <span>P&L Statement</span>
+          <InfoTooltip content={sources.pnlStatement} size={15} />
+        </h1>
         <span className="text-[10px] md:text-xs text-brand-neutral/50">As of {data.as_of}</span>
       </div>
 

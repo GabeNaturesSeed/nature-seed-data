@@ -6,6 +6,7 @@ import { fmt, fmtInt, pct, ratio, calcPct, badgeColor, monthLabel, cumulative, s
 import KpiCard from '@/components/kpi/KpiCard';
 import KpiGrid from '@/components/kpi/KpiGrid';
 import ChartCard from '@/components/charts/ChartCard';
+import { sources } from '@/lib/sources';
 import { Skeleton } from '@heroui/react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
@@ -95,6 +96,7 @@ export default function YtdPage() {
         <KpiCard
           label="YTD Revenue"
           value={fmt(totCY.revenue)}
+          tooltip={sources.ytdRevenue}
           badges={[
             { label: `vs LY ${pct(revLyPct)}`, color: badgeColor(revLyPct) },
             { label: `vs Budget ${pct(revBudPct)}`, color: badgeColor(revBudPct) },
@@ -103,11 +105,13 @@ export default function YtdPage() {
         <KpiCard
           label="YTD CM2 $"
           value={fmt(totCY.cm2)}
+          tooltip={sources.ytdCm2}
           note="Contribution margin after variable costs"
         />
         <KpiCard
           label="YTD CM2 %"
           value={totCY.cm2_pct?.toFixed(1) + '%'}
+          tooltip={sources.ytdCm2Pct}
           badges={[
             { label: (totCY.cm2_pct ?? 0) >= 20 ? 'Healthy' : (totCY.cm2_pct ?? 0) >= 10 ? 'Marginal' : 'Below Target', color: (totCY.cm2_pct ?? 0) >= 20 ? 'success' : (totCY.cm2_pct ?? 0) >= 10 ? 'warning' : 'danger' },
           ]}
@@ -115,20 +119,21 @@ export default function YtdPage() {
       </KpiGrid>
 
       <KpiGrid columns={4}>
-        <KpiCard label="YTD Orders" value={fmtInt(totCY.orders)} />
+        <KpiCard label="YTD Orders" value={fmtInt(totCY.orders)} tooltip={sources.ytdOrders} />
         <KpiCard
           label="YTD Ad Spend"
           value={fmt(totCY.ad_spend)}
+          tooltip={sources.ytdAdSpend}
           badges={[
             { label: `vs LY ${pct(adLyPct)}`, color: badgeColor(adLyPct, false) },
           ]}
         />
-        <KpiCard label="YTD GM%" value={totCY.gross_margin_pct?.toFixed(1) + '%'} />
-        <KpiCard label="YTD MER" value={totCY.revenue && totCY.ad_spend ? ratio(totCY.revenue / totCY.ad_spend) : '\u2014'} />
+        <KpiCard label="YTD GM%" value={totCY.gross_margin_pct?.toFixed(1) + '%'} tooltip={sources.ytdGrossMarginPct} />
+        <KpiCard label="YTD MER" value={totCY.revenue && totCY.ad_spend ? ratio(totCY.revenue / totCY.ad_spend) : '\u2014'} tooltip={sources.ytdMer} />
       </KpiGrid>
 
       {/* Cumulative YTD Revenue Chart */}
-      <ChartCard title="Cumulative YTD Revenue" height={320}>
+      <ChartCard title="Cumulative YTD Revenue" height={320} tooltip={sources.cumulativeYtdRevenueChart}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={cumulativeChartData}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(191,201,193,0.1)" />
