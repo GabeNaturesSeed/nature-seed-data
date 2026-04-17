@@ -48,10 +48,6 @@ export default function YtdPage() {
   const lyCum = cumulative(lyRevs);
   const budCum = cumulative(budRevs);
 
-  // CM2 cumulative
-  const cyCM2s = months.map(m => safe(m.cm2));
-  const cyCM2Cum = cumulative(cyCM2s);
-
   // Add future budget months for projection
   const budgetMonths = budget ? Object.keys(budget.monthly).sort() : [];
   const existingMonths = new Set(months.map(m => m.month));
@@ -74,14 +70,12 @@ export default function YtdPage() {
       cy: cyCum[i],
       ly: lyCum[i],
       budget: budCum[i],
-      cm2: cyCM2Cum[i],
     })),
     ...futureMonthLabels.map((ml, i) => ({
       name: monthLabel(ml),
       cy: null as number | null,
       ly: null as number | null,
       budget: futureBudCum[i],
-      cm2: null as number | null,
     })),
   ];
 
@@ -92,7 +86,7 @@ export default function YtdPage() {
         <span className="text-[10px] md:text-xs text-brand-neutral/50">As of {reporting.as_of}</span>
       </div>
 
-      <KpiGrid columns={3}>
+      <KpiGrid columns={5}>
         <KpiCard
           label="YTD Revenue"
           value={fmt(totCY.revenue)}
@@ -102,23 +96,6 @@ export default function YtdPage() {
             { label: `vs Budget ${pct(revBudPct)}`, color: badgeColor(revBudPct) },
           ]}
         />
-        <KpiCard
-          label="YTD CM2 $"
-          value={fmt(totCY.cm2)}
-          tooltip={sources.ytdCm2}
-          note="Contribution margin after variable costs"
-        />
-        <KpiCard
-          label="YTD CM2 %"
-          value={totCY.cm2_pct?.toFixed(1) + '%'}
-          tooltip={sources.ytdCm2Pct}
-          badges={[
-            { label: (totCY.cm2_pct ?? 0) >= 20 ? 'Healthy' : (totCY.cm2_pct ?? 0) >= 10 ? 'Marginal' : 'Below Target', color: (totCY.cm2_pct ?? 0) >= 20 ? 'success' : (totCY.cm2_pct ?? 0) >= 10 ? 'warning' : 'danger' },
-          ]}
-        />
-      </KpiGrid>
-
-      <KpiGrid columns={4}>
         <KpiCard label="YTD Orders" value={fmtInt(totCY.orders)} tooltip={sources.ytdOrders} />
         <KpiCard
           label="YTD Ad Spend"
@@ -144,7 +121,6 @@ export default function YtdPage() {
             <Line type="monotone" dataKey="cy" name="CY Revenue" stroke="#2d6A4F" strokeWidth={2} dot={{ r: 3 }} connectNulls={false} />
             <Line type="monotone" dataKey="ly" name="LY Revenue" stroke="#52796F" strokeWidth={1.5} strokeDasharray="5 4" dot={{ r: 2 }} connectNulls={false} />
             <Line type="monotone" dataKey="budget" name="Budget" stroke="#888" strokeWidth={1.5} strokeDasharray="2 3" dot={{ r: 2 }} />
-            <Line type="monotone" dataKey="cm2" name="CM2 Cumulative" stroke="#c96a2e" strokeWidth={2} dot={{ r: 3 }} connectNulls={false} />
           </LineChart>
         </ResponsiveContainer>
       </ChartCard>
@@ -164,8 +140,6 @@ export default function YtdPage() {
               <th className="text-right px-5 py-3.5 text-xs uppercase tracking-wider text-brand-neutral/50 font-semibold">Ad Spend</th>
               <th className="text-right px-5 py-3.5 text-xs uppercase tracking-wider text-brand-neutral/50 font-semibold">MER</th>
               <th className="text-right px-5 py-3.5 text-xs uppercase tracking-wider text-brand-neutral/50 font-semibold">GM%</th>
-              <th className="text-right px-5 py-3.5 text-xs uppercase tracking-wider text-brand-neutral/50 font-semibold" style={{ color: '#c96a2e' }}>CM2 $</th>
-              <th className="text-right px-5 py-3.5 text-xs uppercase tracking-wider text-brand-neutral/50 font-semibold" style={{ color: '#c96a2e' }}>CM2 %</th>
             </tr>
           </thead>
           <tbody>
@@ -187,8 +161,6 @@ export default function YtdPage() {
                   <td className="px-5 py-3 text-right">{fmt(m.ad_spend)}</td>
                   <td className="px-5 py-3 text-right">{ratio(m.mer)}</td>
                   <td className="px-5 py-3 text-right">{m.gross_margin_pct?.toFixed(1)}%</td>
-                  <td className={`px-5 py-3 text-right font-semibold ${m.cm2 < 0 ? 'text-ns-red' : ''}`} style={m.cm2 >= 0 ? { color: '#c96a2e' } : {}}>{fmt(m.cm2)}</td>
-                  <td className={`px-5 py-3 text-right font-semibold ${m.cm2_pct < 0 ? 'text-ns-red' : ''}`} style={m.cm2_pct >= 0 ? { color: '#c96a2e' } : {}}>{m.cm2_pct?.toFixed(1)}%</td>
                 </tr>
               );
             })}
@@ -207,8 +179,6 @@ export default function YtdPage() {
               <td className="px-5 py-3 text-right">{fmt(totCY.ad_spend)}</td>
               <td className="px-5 py-3 text-right">{totCY.revenue && totCY.ad_spend ? ratio(totCY.revenue / totCY.ad_spend) : '\u2014'}</td>
               <td className="px-5 py-3 text-right">{totCY.gross_margin_pct?.toFixed(1)}%</td>
-              <td className={`px-5 py-3 text-right font-semibold ${(totCY.cm2 ?? 0) < 0 ? 'text-ns-red' : ''}`} style={(totCY.cm2 ?? 0) >= 0 ? { color: '#c96a2e' } : {}}>{fmt(totCY.cm2)}</td>
-              <td className={`px-5 py-3 text-right font-semibold ${(totCY.cm2_pct ?? 0) < 0 ? 'text-ns-red' : ''}`} style={(totCY.cm2_pct ?? 0) >= 0 ? { color: '#c96a2e' } : {}}>{totCY.cm2_pct?.toFixed(1)}%</td>
             </tr>
           </tbody>
         </table>
