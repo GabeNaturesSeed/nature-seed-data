@@ -48,6 +48,14 @@ const navItems: NavItem[] = [
     children: [
       { label: 'MTD Overview', href: '/reporting', icon: TrendingUp },
       { label: 'YTD Summary', href: '/reporting/ytd', icon: LineChart },
+      { label: 'Website Health', href: '/website-health', icon: HeartPulse },
+    ],
+  },
+  {
+    label: 'Finance Reports',
+    href: '/reporting/pnl',
+    icon: FileText,
+    children: [
       { label: 'P&L Statement', href: '/reporting/pnl', icon: DollarSign },
       { label: 'CM Waterfall', href: '/reporting/cm', icon: TrendingUp },
       { label: 'Notes', href: '/reporting/notes', icon: StickyNote },
@@ -84,15 +92,7 @@ const navItems: NavItem[] = [
       { label: 'Analytics', href: '/customers/analytics', icon: BarChart3 },
     ],
   },
-  {
-    label: 'Marketing',
-    href: '/marketing',
-    icon: Megaphone,
-    children: [
-      { label: 'Channel Performance', href: '/marketing', icon: TrendingUp },
-      { label: 'Website Health', href: '/website-health', icon: HeartPulse },
-    ],
-  },
+  { label: 'Marketing', href: '/marketing', icon: Megaphone },
 ];
 
 export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
@@ -104,11 +104,7 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
 
   function isSectionActive(item: NavItem): boolean {
     if (item.children) {
-      if (item.children.some(child => pathname === child.href || pathname.startsWith(child.href + '/'))) {
-        return true;
-      }
-      const basePath = item.href.split('/').slice(0, 2).join('/');
-      return pathname.startsWith(basePath);
+      return item.children.some(child => pathname === child.href || pathname.startsWith(child.href + '/'));
     }
     return pathname === item.href;
   }
