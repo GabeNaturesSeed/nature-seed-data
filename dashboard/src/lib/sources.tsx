@@ -44,9 +44,9 @@ function render(s: DataSource): ReactNode {
 // ── MTD KPIs ────────────────────────────────────────────────────────────
 const mtdSources = {
   mtdRevenue: {
-    description: 'Month-to-date WooCommerce (DTC) revenue — gross order total for completed + processing orders, 1st of current month through yesterday. Excludes Amazon and Walmart.',
+    description: 'Month-to-date WooCommerce (DTC) revenue — gross order total for completed + processing orders, 1st of current month through yesterday. Excludes Amazon and Walmart. "vs Budget Pace" compares MTD revenue to the prorated target (monthly budget × days-elapsed ÷ days-in-month), not the full-month budget, so early-month MTD is measured apples-to-apples.',
     formula: 'Σ daily_summary.wc_revenue (fallback: total_revenue − amazon_revenue − walmart_revenue)',
-    source: "Supabase view `daily_summary`, column `wc_revenue`, filter `report_date` in current MTD window",
+    source: "Supabase view `daily_summary`, column `wc_revenue`, filter `report_date` in current MTD window. Budget pace derived from `infrastructure/dashboard/budget_2026.csv` prorated by day-of-month.",
   },
   mtdOrders: {
     description: 'Count of WooCommerce orders (status = completed or processing) placed in the current month through yesterday.',
@@ -54,9 +54,9 @@ const mtdSources = {
     source: "Supabase table `daily_sales`, column `orders`, filter `channel='woocommerce'` AND `report_date` in MTD window",
   },
   mtdAdSpend: {
-    description: 'Month-to-date Google Ads spend. Marketplace ad spend (Amazon/Walmart) has its own platforms and is not included.',
+    description: 'Month-to-date Google Ads spend. Marketplace ad spend (Amazon/Walmart) has its own platforms and is not included. "vs Budget Pace" compares MTD spend to the prorated target (monthly budget × days-elapsed ÷ days-in-month), not the full-month budget.',
     formula: 'Σ daily_summary.total_ad_spend',
-    source: 'Supabase view `daily_summary`, column `total_ad_spend` (Google Ads API via `daily_ad_spend` table)',
+    source: 'Supabase view `daily_summary`, column `total_ad_spend` (Google Ads API via `daily_ad_spend` table). Budget pace from `budget_2026.csv` prorated by day-of-month.',
   },
   mtdMer: {
     description: 'Marketing Efficiency Ratio — WooCommerce revenue divided by total ad spend. Higher is better; > 4.0 is healthy for DTC seed.',

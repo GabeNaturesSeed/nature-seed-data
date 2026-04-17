@@ -37,11 +37,20 @@ export default function ReportingMtdPage() {
   const ly = mtd.ly;
   const budget = mtd.budget;
 
+  // Prorate monthly budget to MTD pace so "vs Budget" compares apples-to-apples
+  // (days elapsed vs full month). Without this, early-month MTD looks artificially
+  // far behind a whole-month target.
+  const mtdFirstDate = mtd.daily_cy.length ? new Date(mtd.daily_cy[0].date + 'T00:00:00') : new Date();
+  const daysInMonth = new Date(mtdFirstDate.getFullYear(), mtdFirstDate.getMonth() + 1, 0).getDate();
+  const daysElapsed = mtd.daily_cy.length;
+  const pacedRevenueBudget = daysInMonth ? budget.revenue * daysElapsed / daysInMonth : 0;
+  const pacedAdSpendBudget = daysInMonth ? budget.ad_spend * daysElapsed / daysInMonth : 0;
+
   const revLyPct = calcPct(cy.revenue, ly.revenue);
-  const revBudPct = calcPct(cy.revenue, budget.revenue);
+  const revBudPct = calcPct(cy.revenue, pacedRevenueBudget);
   const ordLyPct = calcPct(cy.orders, ly.orders);
   const adLyPct = calcPct(cy.ad_spend, ly.ad_spend);
-  const adBudPct = calcPct(cy.ad_spend, budget.ad_spend);
+  const adBudPct = calcPct(cy.ad_spend, pacedAdSpendBudget);
 
   const projection = linearProjection(mtd.daily_cy);
 
@@ -70,9 +79,7 @@ export default function ReportingMtdPage() {
   });
   const lyCum = cumulative(lyRevs);
 
-  const firstDate = mtd.daily_cy.length ? new Date(mtd.daily_cy[0].date + 'T00:00:00') : new Date();
-  const dim = new Date(firstDate.getFullYear(), firstDate.getMonth() + 1, 0).getDate();
-  const budgetDailyPace = budget.revenue / dim;
+  const budgetDailyPace = daysInMonth ? budget.revenue / daysInMonth : 0;
 
   const cumulativeChartData = mtd.daily_cy.map((d, i) => ({
     name: shortDate(d.date),
@@ -96,7 +103,7 @@ export default function ReportingMtdPage() {
           tooltip={sources.mtdRevenue}
           badges={[
             { label: `vs LY ${pct(revLyPct)}`, color: badgeColor(revLyPct) },
-            { label: `vs Budget ${pct(revBudPct)}`, color: badgeColor(revBudPct) },
+            { label: `vs Budget Pace ${pct(revBudPct)}`, color: badgeColor(revBudPct) },
           ]}
         />
         <KpiCard
@@ -113,7 +120,7 @@ export default function ReportingMtdPage() {
           tooltip={sources.mtdAdSpend}
           badges={[
             { label: `vs LY ${pct(adLyPct)}`, color: badgeColor(adLyPct, false) },
-            { label: `vs Budget ${pct(adBudPct)}`, color: badgeColor(adBudPct, false) },
+            { label: `vs Budget Pace ${pct(adBudPct)}`, color: badgeColor(adBudPct, false) },
           ]}
         />
         <KpiCard
