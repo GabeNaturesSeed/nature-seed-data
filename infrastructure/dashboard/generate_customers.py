@@ -108,14 +108,29 @@ def _wc_get(path, params=None, retries=3):
                 resp = requests.get(f"{WC_BASE}{path}", auth=(WC_CK, WC_CS), params=params or {}, timeout=60)
             resp.raise_for_status()
             return resp
-        except (requests.exceptions.ReadTimeout, requests.exceptions.HTTPError) as e:
-            is_retryable = isinstance(e, requests.exceptions.ReadTimeout) or (
-                hasattr(e, 'response') and e.response is not None and e.response.status_code in (502, 503, 504)
+        except (
+            requests.exceptions.ReadTimeout,
+            requests.exceptions.HTTPError,
+            requests.exceptions.ChunkedEncodingError,
+            requests.exceptions.ConnectionError,
+        ) as e:
+            is_retryable = (
+                isinstance(e, (
+                    requests.exceptions.ReadTimeout,
+                    requests.exceptions.ChunkedEncodingError,
+                    requests.exceptions.ConnectionError,
+                ))
+                or (
+                    isinstance(e, requests.exceptions.HTTPError)
+                    and hasattr(e, 'response')
+                    and e.response is not None
+                    and e.response.status_code in (502, 503, 504)
+                )
             )
             if is_retryable and attempt < retries:
-                wait = attempt * 5
+                wait = attempt * 10
                 page_info = (params or {}).get('page', '?')
-                print(f"    [RETRY] Error on {path} page {page_info}, retrying in {wait}s ({attempt}/{retries})...")
+                print(f"    [RETRY] {type(e).__name__} on {path} page {page_info}, retrying in {wait}s ({attempt}/{retries})...")
                 time.sleep(wait)
             else:
                 raise
