@@ -1,15 +1,15 @@
-name: Daily Report Pull
+name: Weekly Customer Match Sync
 
 on:
   schedule:
-    # Run at midnight MST (7:00 AM UTC) every day
-    - cron: '0 7 * * *'
+    # Run every Sunday at 8 AM UTC (1 AM MST) — after daily pull completes
+    - cron: '0 8 * * 0'
   workflow_dispatch: # Allow manual trigger
 
 jobs:
-  daily-pull:
+  customer-match:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v5
@@ -24,27 +24,15 @@ jobs:
       - name: Create .env from secrets
         run: |
           cat > .env << 'ENVEOF'
-          WC_BASE_URL=${{ secrets.WC_BASE_URL }}
-          WC_CK=${{ secrets.WC_CK }}
-          WC_CS=${{ secrets.WC_CS }}
-          WALMART_CLIENT_ID=${{ secrets.WALMART_CLIENT_ID }}
-          WALMART_CLIENT_SECRET=${{ secrets.WALMART_CLIENT_SECRET }}
           GOOGLE_ADS_DEVELOPER_TOKEN=${{ secrets.GOOGLE_ADS_DEVELOPER_TOKEN }}
           GOOGLE_ADS_CLIENT_ID=${{ secrets.GOOGLE_ADS_CLIENT_ID }}
           GOOGLE_ADS_CLIENT_SECRET=${{ secrets.GOOGLE_ADS_CLIENT_SECRET }}
           GOOGLE_ADS_REFRESH_TOKEN=${{ secrets.GOOGLE_ADS_REFRESH_TOKEN }}
           GOOGLE_ADS_CUSTOMER_ID=${{ secrets.GOOGLE_ADS_CUSTOMER_ID }}
           GOOGLE_ADS_LOGIN_CUSTOMER_ID=${{ secrets.GOOGLE_ADS_LOGIN_CUSTOMER_ID }}
-          SHIPPO_API_KEY=${{ secrets.SHIPPO_API_KEY }}
           SUPABASE_URL=${{ secrets.SUPABASE_URL }}
           SUPABASE_SECRET_API_KEY=${{ secrets.SUPABASE_SECRET_API_KEY }}
-          CF_WORKER_URL=${{ secrets.CF_WORKER_URL }}
-          CF_WORKER_SECRET=${{ secrets.CF_WORKER_SECRET }}
-          AMAZON_REFRESH_TOKEN=${{ secrets.AMAZON_REFRESH_TOKEN }}
-          AMAZON_CLIENT_ID=${{ secrets.AMAZON_CLIENT_ID }}
-          AMAZON_CLIENT_SECRET=${{ secrets.AMAZON_CLIENT_SECRET }}
-          VIBE_CO_API=${{ secrets.VIBE_CO_API }}
           ENVEOF
 
-      - name: Pull yesterday's data
-        run: python infrastructure/daily-report/daily_pull.py
+      - name: Sync Customer Match audiences
+        run: python infrastructure/daily-report/customer_match_sync.py

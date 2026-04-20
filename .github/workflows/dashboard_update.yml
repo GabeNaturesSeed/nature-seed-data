@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -55,7 +55,7 @@ jobs:
         run: echo "$ENV_CONTENT" > .env
       - name: Refresh ABC velocity analysis
         run: python research/abc-analysis/abc_analysis.py
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: abc-data
           path: research/abc-analysis/abc_analysis_results.json
@@ -65,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -74,7 +74,7 @@ jobs:
         run: echo "$ENV_CONTENT" > .env
       - name: Generate dashboard data
         run: python infrastructure/dashboard/generate_data.py
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: dashboard-data
           path: docs/data/
@@ -84,7 +84,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -93,7 +93,7 @@ jobs:
         run: echo "$ENV_CONTENT" > .env
       - name: Generate product reviews feed
         run: python shopper-approved/generate_review_feed.py
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: review-feed
           path: docs/reviews/
@@ -103,7 +103,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -112,7 +112,7 @@ jobs:
         run: echo "$ENV_CONTENT" > .env
       - name: Generate customer analytics data
         run: python infrastructure/dashboard/generate_customers.py
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: customer-data
           path: docs/data/customers.json
@@ -122,7 +122,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -139,7 +139,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -148,7 +148,7 @@ jobs:
         run: echo "$ENV_CONTENT" > .env
       - name: Generate ABC seasonal report
         run: python research/abc-analysis/abc_seasonal_report.py
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: abc-report
           path: docs/data/abc_report.json
@@ -164,40 +164,40 @@ jobs:
     needs: [abc-analysis, dashboard-data, customer-data, review-feed, algolia-enrich, abc-report]
     if: always() && !cancelled()
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download ABC data
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: abc-data
           path: research/abc-analysis/
         continue-on-error: true
 
       - name: Download dashboard data
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: dashboard-data
           path: docs/data/
         continue-on-error: true
 
       - name: Download customer data
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: customer-data
           path: docs/data/
         continue-on-error: true
 
       - name: Download review feed
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: review-feed
           path: docs/reviews/
         continue-on-error: true
 
       - name: Download ABC report
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: abc-report
           path: docs/data/
@@ -207,9 +207,9 @@ jobs:
       # Without this step, data JSON refreshes but the rendered HTML
       # (and any new pages added to the source) never get deployed.
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
           cache-dependency-path: dashboard/package-lock.json
 
