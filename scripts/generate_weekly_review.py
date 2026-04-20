@@ -9,6 +9,7 @@ Writes to: marketing/klaviyo-audit/reviews/weekly/<YYYY-MM-DD>-weekly-review.md
 """
 
 import sys
+import time
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
@@ -83,6 +84,7 @@ def main(argv: list) -> int:
                 "conversion_rate": attrs.get("conversion_rate", 0.0),
             }
             flow_revenue_total += revenue
+            time.sleep(0.4)  # Klaviyo reporting API rate limit — 429 on rapid sequential POSTs
         except Exception as e:  # noqa: BLE001 — log and continue
             print(f"[WARN] flow {flow_id} ({flow_name}): {e}", file=sys.stderr)
             flow_stats[flow_id] = {
