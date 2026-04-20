@@ -1,15 +1,15 @@
 {
-  "generated": "2026-04-20T15:27:43.227897",
+  "generated": "2026-04-20T15:58:20.044377",
   "seasons": {
     "spring_2026": {
       "label": "Spring 2026",
       "period": "2026-02-01 \u2192 2026-04-20",
-      "total_revenue": 868199.89,
-      "total_orders": 8900,
+      "total_revenue": 868709.81,
+      "total_orders": 8903,
       "total_skus": 312,
       "summary": {
         "a_count": 99,
-        "a_revenue": 694383.68,
+        "a_revenue": 694893.6,
         "a_pct": 80.0,
         "b_count": 86,
         "b_revenue": 130318.09,
@@ -39,19 +39,19 @@
         {
           "sku": "SUSTANE-4-6-4",
           "name": "Organic Seed Starter Fertilizer 4-6-4",
-          "revenue": 13432.87,
-          "margin": 10664.37,
+          "revenue": 13552.86,
+          "margin": 10759.86,
           "margin_pct": 79.4,
-          "units": 113,
-          "orders": 99,
-          "avg_basket": 370.58,
-          "daily_velocity": 1.45,
-          "velocity_trend": 161.3951,
+          "units": 114,
+          "orders": 100,
+          "avg_basket": 368.98,
+          "daily_velocity": 1.46,
+          "velocity_trend": 166.556,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
-          "composite_score": 88.54,
+          "composite_score": 88.66,
           "class": "A",
-          "reason": "Top performer \u2014 revenue $13,433 is 10.8x the median \u2014 strong 79% margin."
+          "reason": "Top performer \u2014 revenue $13,553 is 10.9x the median \u2014 strong 79% margin."
         },
         {
           "sku": "PB-HRSE-SO-50-LB-KIT",
@@ -66,7 +66,7 @@
           "velocity_trend": 14.265,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
-          "composite_score": 87.48,
+          "composite_score": 87.46,
           "class": "A",
           "reason": "Top performer \u2014 revenue $18,975 is 15.3x the median \u2014 accelerating sales trend."
         },
@@ -83,7 +83,7 @@
           "velocity_trend": 141.9073,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
-          "composite_score": 87.09,
+          "composite_score": 87.07,
           "class": "A",
           "reason": "Top performer \u2014 revenue $16,549 is 13.4x the median \u2014 accelerating sales trend."
         },
@@ -124,19 +124,19 @@
         {
           "sku": "TURF-FINE-25-LB-KIT",
           "name": "Fine Fescue Grass Seed Mix - 25 lb - Covers 5,000 Sq Ft",
-          "revenue": 14556.51,
-          "margin": 9284.76,
+          "revenue": 14856.49,
+          "margin": 9478.24,
           "margin_pct": 63.8,
-          "units": 99,
-          "orders": 76,
-          "avg_basket": 229.61,
-          "daily_velocity": 1.27,
-          "velocity_trend": 140.9905,
+          "units": 101,
+          "orders": 77,
+          "avg_basket": 230.86,
+          "daily_velocity": 1.29,
+          "velocity_trend": 154.626,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
-          "composite_score": 85.85,
+          "composite_score": 85.96,
           "class": "A",
-          "reason": "Top performer \u2014 revenue $14,557 is 11.8x the median \u2014 accelerating sales trend."
+          "reason": "Top performer \u2014 revenue $14,856 is 12.0x the median \u2014 accelerating sales trend."
         },
         {
           "sku": "PB-GRSC-50-LB-KIT",
@@ -326,6 +326,23 @@
           "reason": "Top performer \u2014 revenue $10,867 is 8.8x the median \u2014 strong 72% margin."
         },
         {
+          "sku": "PB-CHIX-25-LB-KIT",
+          "name": "Chicken Forage Seed Mix - 25 lb - Covers 50,000 Sq Ft",
+          "revenue": 12143.26,
+          "margin": 6091.26,
+          "margin_pct": 50.2,
+          "units": 136,
+          "orders": 135,
+          "avg_basket": 160.34,
+          "daily_velocity": 1.74,
+          "velocity_trend": 31.5769,
+          "backorder_rate": 0.0,
+          "cancellation_rate": 0.0,
+          "composite_score": 82.15,
+          "class": "A",
+          "reason": "Top performer \u2014 revenue $12,143 is 9.8x the median \u2014 accelerating sales trend."
+        },
+        {
           "sku": "PB-HRSE-TR-20-LB-KIT",
           "name": "Transitional Zone Horse Pasture Mix - 20 lb - Covers 40,000 Sq Ft",
           "revenue": 8481.55,
@@ -338,26 +355,9 @@
           "velocity_trend": 37.8776,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
-          "composite_score": 82.08,
+          "composite_score": 82.03,
           "class": "A",
           "reason": "Top performer \u2014 revenue $8,482 is 6.8x the median \u2014 strong 72% margin."
-        },
-        {
-          "sku": "PB-CHIX-25-LB-KIT",
-          "name": "Chicken Forage Seed Mix - 25 lb - Covers 50,000 Sq Ft",
-          "revenue": 12053.31,
-          "margin": 6045.81,
-          "margin_pct": 50.2,
-          "units": 135,
-          "orders": 134,
-          "avg_basket": 159.97,
-          "daily_velocity": 1.73,
-          "velocity_trend": 28.1172,
-          "backorder_rate": 0.0,
-          "cancellation_rate": 0.0,
-          "composite_score": 82.07,
-          "class": "A",
-          "reason": "Top performer \u2014 revenue $12,053 is 9.7x the median \u2014 accelerating sales trend."
         },
         {
           "sku": "S-RICE-45-LB",
@@ -593,7 +593,7 @@
           "velocity_trend": -16.2265,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
-          "composite_score": 79.09,
+          "composite_score": 78.99,
           "class": "A",
           "reason": "Top performer \u2014 revenue $13,544 is 10.9x the median \u2014 drives $437 avg basket."
         },
@@ -712,7 +712,7 @@
           "velocity_trend": 83.4897,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
-          "composite_score": 75.79,
+          "composite_score": 75.77,
           "class": "A",
           "reason": "Top performer \u2014 revenue $5,170 is 4.2x the median \u2014 strong 73% margin."
         },
@@ -1035,7 +1035,7 @@
           "velocity_trend": -4.3556,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
-          "composite_score": 71.85,
+          "composite_score": 71.82,
           "class": "A",
           "reason": "Top performer \u2014 revenue $3,825 is 3.1x the median \u2014 strong 74% margin."
         },
@@ -1312,23 +1312,6 @@
           "reason": "Top performer \u2014 revenue $2,640 is 2.1x the median \u2014 strong 89% margin."
         },
         {
-          "sku": "TURF-W-BLUE-5-LB",
-          "name": "Kentucky Bluegrass Seed Mix - 5 lb - Covers 1,000 Sq Ft",
-          "revenue": 2791.92,
-          "margin": 2324.42,
-          "margin_pct": 83.3,
-          "units": 34,
-          "orders": 29,
-          "avg_basket": 141.83,
-          "daily_velocity": 0.44,
-          "velocity_trend": 29.3119,
-          "backorder_rate": 0.0,
-          "cancellation_rate": 0.0,
-          "composite_score": 66.25,
-          "class": "A",
-          "reason": "Top performer \u2014 revenue $2,792 is 2.3x the median \u2014 strong 83% margin."
-        },
-        {
           "sku": "TURF-NFF-5-LB",
           "name": "California Native Grass Seed Mix - 5 lb - Covers 2,000 Sq Ft",
           "revenue": 3205.06,
@@ -1361,6 +1344,23 @@
           "composite_score": 66.22,
           "class": "A",
           "reason": "Top performer \u2014 revenue $3,848 is 3.1x the median \u2014 strong 76% margin."
+        },
+        {
+          "sku": "TURF-W-BLUE-5-LB",
+          "name": "Kentucky Bluegrass Seed Mix - 5 lb - Covers 1,000 Sq Ft",
+          "revenue": 2791.92,
+          "margin": 2324.42,
+          "margin_pct": 83.3,
+          "units": 34,
+          "orders": 29,
+          "avg_basket": 141.83,
+          "daily_velocity": 0.44,
+          "velocity_trend": 29.3119,
+          "backorder_rate": 0.0,
+          "cancellation_rate": 0.0,
+          "composite_score": 66.22,
+          "class": "A",
+          "reason": "Top performer \u2014 revenue $2,792 is 2.3x the median \u2014 strong 83% margin."
         },
         {
           "sku": "TURF-TXN-5-LB",
@@ -1664,7 +1664,7 @@
           "velocity_trend": 149.9936,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
-          "composite_score": 61.8,
+          "composite_score": 61.78,
           "class": "A",
           "reason": "Top performer \u2014 strong 74% margin \u2014 accelerating sales trend."
         },
@@ -3279,7 +3279,7 @@
           "velocity_trend": 162.34,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
-          "composite_score": 42.44,
+          "composite_score": 42.41,
           "class": "C",
           "reason": "Low volume \u2014 only 4 units sold."
         },

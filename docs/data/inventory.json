@@ -610,11 +610,11 @@
       "sku": "S-RICE-45-LB",
       "name": "Rice Hulls",
       "qty": 46.0,
-      "daily_velocity": 1.0,
-      "days_remaining": 46,
+      "daily_velocity": 1.1,
+      "days_remaining": 41,
       "q1_need": 0.0,
-      "q2_need": 109.2,
-      "surplus_gap": -63.2,
+      "q2_need": 120.1,
+      "surplus_gap": -74.1,
       "status": "yellow"
     },
     {
@@ -1606,12 +1606,12 @@
     "period_days": 14
   },
   "order_tracking": {
-    "total_30d": 3415,
-    "fulfilled": 3026,
+    "total_30d": 3417,
+    "fulfilled": 3027,
     "backorders": 0,
-    "unfulfilled_lt_1d": 202,
-    "unfulfilled_lt_5d": 137,
+    "unfulfilled_lt_1d": 200,
+    "unfulfilled_lt_5d": 141,
     "unfulfilled_5_to_10d": 28,
-    "unfulfilled_gt_10d": 22
+    "unfulfilled_gt_10d": 21
   }
 }
