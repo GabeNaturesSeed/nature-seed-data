@@ -153,16 +153,18 @@ def _pull_wc_orders_range(start_date, end_date):
     page = 1
     after = f"{start_date}T00:00:00"
     before = f"{end_date}T23:59:59"
+    # Smaller pages = smaller responses = fewer chunked-encoding drops via CF Worker
+    per_page = 50 if CF_WORKER_URL else 100
 
     while True:
         params = {
             "after": after,
             "before": before,
             "status": "completed,processing",
-            "per_page": 100,
+            "per_page": per_page,
             "page": page,
         }
-        resp = _wc_get("/orders", params)
+        resp = _wc_get("/orders", params, retries=5)
         orders = resp.json()
         if not orders:
             break
