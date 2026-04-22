@@ -73,7 +73,7 @@ def iso_week(date_str: str) -> int:
 
 def normalize(value: float, mean: float):
     """Normalize value against its mean. Caps at 2.0. Returns None if mean is zero."""
-    if not mean:
+    if mean == 0.0:
         return None
     return min(round(value / mean, 4), 2.0)
 
@@ -140,7 +140,7 @@ def compute_index_for_week(week_num: int, wc_week: dict, gads_week: dict, baseli
     norm_rev = normalize(revenue, baseline.get("revenue_mean", 0))
     norm_ord = normalize(orders, baseline.get("orders_mean", 0))
     norm_mer = normalize(mer, baseline.get("mer_mean", 0))
-    norm_is_rank = normalize(is_rank, baseline["is_rank_mean"]) if is_rank and baseline.get("is_rank_mean") else None
+    norm_is_rank = normalize(is_rank, baseline["is_rank_mean"]) if is_rank is not None and baseline.get("is_rank_mean") else None
     norm_is_budget_inv = (
         invert_normalize(is_budget_lost, baseline["is_budget_lost_mean"])
         if is_budget_lost is not None and baseline.get("is_budget_lost_mean")
