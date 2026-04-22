@@ -33,6 +33,7 @@ def test_get_wc_revenue_sums_rows():
         params_map.setdefault(k, []).append(v)
     assert params_map["channel"] == ["eq.woocommerce"]
     assert any("gte.2026-04-14" in v for v in params_map.get("report_date", []))
+    assert any("lte.2026-04-20" in v for v in params_map.get("report_date", []))
 
 
 def test_get_wc_revenue_returns_zero_on_empty():
@@ -51,6 +52,7 @@ def test_get_wc_revenue_returns_zero_on_empty():
         )
 
     assert total == 0.0
+    assert isinstance(total, float)
 
 
 def test_get_wc_revenue_correct_headers():

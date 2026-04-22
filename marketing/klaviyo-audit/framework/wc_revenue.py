@@ -34,4 +34,4 @@ def get_wc_revenue_for_week(
     response = requests.get(url, headers=headers, params=params, timeout=timeout)
     response.raise_for_status()
     rows = response.json()
-    return sum(float(row["revenue"]) for row in rows)
+    return sum((float(row["revenue"]) for row in rows), 0.0)
