@@ -42,3 +42,9 @@ def test_build_audit_row_no_stock():
     row = build_audit_row(item, fishbowl_qty=0, match_type="no_match", matched_sku=None)
     assert row["will_activate"] is False
     assert row["matched_fishbowl_sku"] is None
+
+
+def test_build_audit_row_missing_sku_does_not_crash():
+    item = {"productName": "No SKU item"}
+    row = build_audit_row(item, fishbowl_qty=0, match_type="no_match", matched_sku=None)
+    assert row["sku"] == ""

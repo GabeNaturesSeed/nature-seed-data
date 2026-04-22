@@ -16,7 +16,6 @@ from sku_matching import match_sku
 from walmart_client import get_all_items
 
 DATA_DIR = Path(__file__).parent / "data"
-DATA_DIR.mkdir(exist_ok=True)
 
 
 def filter_stage_items(items):
@@ -25,7 +24,7 @@ def filter_stage_items(items):
     result = []
     for item in items:
         sku = item.get("sku", "")
-        if item.get("publishedStatus") == "STAGE" and sku not in seen:
+        if item.get("publishedStatus") == "STAGE" and sku and sku not in seen:
             seen.add(sku)
             result.append(item)
     return result
@@ -34,7 +33,7 @@ def filter_stage_items(items):
 def build_audit_row(item, fishbowl_qty, match_type, matched_sku):
     """Build a single audit result dict."""
     return {
-        "sku": item["sku"],
+        "sku": item.get("sku", ""),
         "productName": item.get("productName", ""),
         "fishbowl_qty": fishbowl_qty,
         "matched_fishbowl_sku": matched_sku,
@@ -44,6 +43,7 @@ def build_audit_row(item, fishbowl_qty, match_type, matched_sku):
 
 
 def run_audit():
+    DATA_DIR.mkdir(exist_ok=True)
     print("Walmart STAGE Item Audit")
     print(f"Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 60)
@@ -58,7 +58,7 @@ def run_audit():
 
     results = []
     for item in stage_items:
-        qty, match_type, matched_sku = match_sku(item["sku"], fb_inventory)
+        qty, match_type, matched_sku = match_sku(item.get("sku", ""), fb_inventory)
         row = build_audit_row(item, qty, match_type, matched_sku)
         results.append(row)
 
