@@ -109,3 +109,49 @@ class KlaviyoClient:
         }
         body = self._post("/metric-aggregates", payload)
         return body["data"]["attributes"]
+
+    # Metric IDs for deliverability (Klaviyo account H627hn)
+    _DELIVERABILITY_METRIC_IDS = {
+        "subscribed": "RDUMLh",
+        "unsubscribed": "UwnyvV",
+        "bounced": "MTYddd",
+        "spam": "NwZfPQ",
+    }
+
+    def get_deliverability_metrics(
+        self,
+        start_date: str,
+        end_date: str,
+        total_sends: int,
+    ) -> Dict[str, Any]:
+        """Return a dict ready for check_all_gates().
+
+        Fetches 4 metric aggregate counts (subscribed, unsubscribed, bounced, spam)
+        and computes rates against total_sends.
+        """
+        def _count(metric_id: str) -> int:
+            attrs = self.query_metric_aggregates(
+                metric_id=metric_id,
+                measurements=["count"],
+                start_date=start_date,
+                end_date=end_date,
+                interval="month",
+            )
+            total = 0
+            for result in attrs.get("results", []):
+                values = result.get("measurements", {}).get("count", [])
+                total += sum(values)
+            return total
+
+        subscribed = _count(self._DELIVERABILITY_METRIC_IDS["subscribed"])
+        unsubscribed = _count(self._DELIVERABILITY_METRIC_IDS["unsubscribed"])
+        bounced = _count(self._DELIVERABILITY_METRIC_IDS["bounced"])
+        spam = _count(self._DELIVERABILITY_METRIC_IDS["spam"])
+
+        safe_sends = max(total_sends, 1)
+        return {
+            "net_list_growth_30d": subscribed - unsubscribed,
+            "spam_rate_30d": spam / safe_sends,
+            "bounce_rate_30d": bounced / safe_sends,
+            "unsub_rate_per_send_30d": unsubscribed / safe_sends,
+        }
