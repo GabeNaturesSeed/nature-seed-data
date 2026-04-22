@@ -22,14 +22,18 @@ def _load_env():
             env[k.strip()] = v.strip().strip("'\"")
     return env
 
-_ENV = _load_env()
-AMZ_CLIENT_ID = _ENV["AMAZON_CLIENT_ID"]
-AMZ_CLIENT_SECRET = _ENV["AMAZON_CLIENT_SECRET"]
-AMZ_REFRESH_TOKEN = _ENV["AMAZON_REFRESH_TOKEN"]
+try:
+    _ENV = _load_env()
+except FileNotFoundError:
+    _ENV = {}
+
+AMZ_CLIENT_ID = _ENV.get("AMAZON_CLIENT_ID", "")
+AMZ_CLIENT_SECRET = _ENV.get("AMAZON_CLIENT_SECRET", "")
+AMZ_REFRESH_TOKEN = _ENV.get("AMAZON_REFRESH_TOKEN", "")
 AMZ_MARKETPLACE_ID = "ATVPDKIKX0DER"
 SP_API_BASE = "https://sellingpartnerapi-na.amazon.com"
-SUPABASE_URL = _ENV["SUPABASE_URL"]
-SUPABASE_KEY = _ENV["SUPABASE_SECRET_API_KEY"]
+SUPABASE_URL = _ENV.get("SUPABASE_URL", "")
+SUPABASE_KEY = _ENV.get("SUPABASE_SECRET_API_KEY", "")
 
 # ── LWA Token ─────────────────────────────────────────────────────────────────
 _token_cache = {"token": None, "expires_at": None}
@@ -54,31 +58,45 @@ def get_token():
     return _token_cache["token"]
 
 # ── SP-API helpers ─────────────────────────────────────────────────────────────
-def sp_get(path, params=None, retries=3):
+def sp_get(path, params=None, retries=3, timeout=30):
+    last_err = None
     for attempt in range(retries):
-        headers = {"x-amz-access-token": get_token(), "Content-Type": "application/json"}
-        resp = requests.get(f"{SP_API_BASE}{path}", headers=headers,
-                            params=params or {}, timeout=30)
-        if resp.status_code == 429:
+        try:
+            headers = {"x-amz-access-token": get_token(), "Content-Type": "application/json"}
+            resp = requests.get(f"{SP_API_BASE}{path}", headers=headers,
+                                params=params or {}, timeout=timeout)
+            if resp.status_code == 429:
+                wait = 2 ** attempt + 1
+                print(f"    Rate limited, waiting {wait}s...")
+                time.sleep(wait)
+                continue
+            return resp
+        except (requests.Timeout, requests.ConnectionError) as e:
+            last_err = e
             wait = 2 ** attempt + 1
-            print(f"    Rate limited, waiting {wait}s...")
+            print(f"    Network error ({e}), retrying in {wait}s...")
             time.sleep(wait)
-            continue
-        return resp
-    return resp
+    raise RuntimeError(f"sp_get {path} failed after {retries} attempts: {last_err}")
 
-def sp_put(path, body, retries=3):
+def sp_put(path, body, retries=3, timeout=30):
+    last_err = None
     for attempt in range(retries):
-        headers = {"x-amz-access-token": get_token(), "Content-Type": "application/json"}
-        resp = requests.put(f"{SP_API_BASE}{path}", headers=headers,
-                            json=body, timeout=30)
-        if resp.status_code == 429:
+        try:
+            headers = {"x-amz-access-token": get_token(), "Content-Type": "application/json"}
+            resp = requests.put(f"{SP_API_BASE}{path}", headers=headers,
+                                json=body, timeout=timeout)
+            if resp.status_code == 429:
+                wait = 2 ** attempt + 1
+                print(f"    Rate limited, waiting {wait}s...")
+                time.sleep(wait)
+                continue
+            return resp
+        except (requests.Timeout, requests.ConnectionError) as e:
+            last_err = e
             wait = 2 ** attempt + 1
-            print(f"    Rate limited, waiting {wait}s...")
+            print(f"    Network error ({e}), retrying in {wait}s...")
             time.sleep(wait)
-            continue
-        return resp
-    return resp
+    raise RuntimeError(f"sp_put {path} failed after {retries} attempts: {last_err}")
 
 # ── Seller ID ──────────────────────────────────────────────────────────────────
 _seller_id = None
@@ -107,7 +125,7 @@ def check_completeness(row):
     """
     missing = []
     if not str(row.get('product_name', '')).strip():
-        missing.append('title')
+        missing.append('product_name')
     bullets = [str(row.get(f'bullet_{i}', '')).strip() for i in range(1, 6)]
     if len([b for b in bullets if b]) < 5:
         missing.append('bullets')
