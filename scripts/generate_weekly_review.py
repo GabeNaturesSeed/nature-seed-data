@@ -19,6 +19,7 @@ sys.path.insert(0, str(REPO_ROOT / "marketing" / "klaviyo-audit"))
 
 from framework.klaviyo_client import KlaviyoClient
 from framework.review_generator import build_weekly_review_markdown
+from framework.wc_revenue import get_wc_revenue_for_week
 
 
 # ── env loading (manual — matches infrastructure/daily-report pattern) ──
@@ -39,6 +40,8 @@ KLAVIYO_API_KEY = env_vars.get("KLAVIYO_API")
 if not KLAVIYO_API_KEY:
     print("[ERROR] KLAVIYO_API not set in .env", file=sys.stderr)
     sys.exit(1)
+SUPABASE_URL = env_vars.get("SUPABASE_URL", "")
+SUPABASE_API_KEY = env_vars.get("SUPABASE_SECRET_API_KEY", "")
 CONVERSION_METRIC_ID = "VLbLXB"  # WooCommerce Placed Order
 
 # Known flow IDs from spec / SKILL.md
@@ -59,6 +62,17 @@ def next_monday(from_date: date) -> date:
     """Return the next Monday on or after `from_date`."""
     days_ahead = (7 - from_date.weekday()) % 7
     return from_date + timedelta(days=days_ahead)
+
+
+def _get_wc_revenue(start_date: str, end_date: str) -> float:
+    if not SUPABASE_URL or not SUPABASE_API_KEY:
+        print("[WARN] SUPABASE_URL or SUPABASE_SECRET_API_KEY not set — WC revenue will show $0", file=sys.stderr)
+        return 0.0
+    try:
+        return get_wc_revenue_for_week(start_date, end_date, SUPABASE_URL, SUPABASE_API_KEY)
+    except Exception as e:
+        print(f"[WARN] Supabase WC revenue query failed: {e}", file=sys.stderr)
+        return 0.0
 
 
 def main(argv: list) -> int:
@@ -102,13 +116,25 @@ def main(argv: list) -> int:
     # Campaign aggregate revenue (placeholder — refined in Plan 2 via campaign IDs)
     campaign_revenue_total = 0.0
 
-    # Deliverability metrics (placeholder — Plan 2 wires real metric aggregates)
-    deliverability_metrics = {
-        "net_list_growth_30d": 0,     # TODO in Plan 2: pull from subscribe - unsub metric aggregates
-        "spam_rate_30d": 0.0,
-        "bounce_rate_30d": 0.0,
-        "unsub_rate_per_send_30d": 0.0,
-    }
+    # Real deliverability metrics from Klaviyo metric aggregates
+    total_sends_for_gates = sum(s["recipients"] for s in flow_stats.values())
+    end_date_str = target_monday.isoformat()
+    start_date_str = (target_monday - timedelta(days=30)).isoformat()
+    try:
+        deliverability_metrics = client.get_deliverability_metrics(
+            start_date=start_date_str,
+            end_date=end_date_str,
+            total_sends=total_sends_for_gates,
+        )
+        time.sleep(0.4)
+    except Exception as e:
+        print(f"[WARN] deliverability metrics failed: {e}", file=sys.stderr)
+        deliverability_metrics = {
+            "net_list_growth_30d": 0,
+            "spam_rate_30d": 0.0,
+            "bounce_rate_30d": 0.0,
+            "unsub_rate_per_send_30d": 0.0,
+        }
 
     data = {
         "week_of": target_monday,
@@ -119,7 +145,7 @@ def main(argv: list) -> int:
         "email_revenue": flow_revenue_total + campaign_revenue_total,
         "flow_revenue": flow_revenue_total,
         "campaign_revenue": campaign_revenue_total,
-        "total_wc_revenue": 0.0,      # populated in Plan 2 via Supabase daily_sales
+        "total_wc_revenue": _get_wc_revenue(start_date_str, end_date_str),
         "flow_stats": flow_stats,
         "campaigns_sent": [],
         "campaigns_proposed": _phase_0_and_phase_1_proposals(),
