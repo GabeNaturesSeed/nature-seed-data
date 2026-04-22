@@ -84,3 +84,4 @@ def test_get_deliverability_metrics_handles_zero_sends():
     assert result["spam_rate_30d"] == 0.0
     assert result["bounce_rate_30d"] == 0.0
     assert result["unsub_rate_per_send_30d"] == 0.0
+    assert result["net_list_growth_30d"] == 0

@@ -110,7 +110,7 @@ class KlaviyoClient:
         body = self._post("/metric-aggregates", payload)
         return body["data"]["attributes"]
 
-    # Metric IDs for deliverability (Klaviyo account H627hn)
+    # Metric IDs for deliverability signals
     _DELIVERABILITY_METRIC_IDS = {
         "subscribed": "RDUMLh",
         "unsubscribed": "UwnyvV",
@@ -139,8 +139,8 @@ class KlaviyoClient:
             )
             total = 0
             for result in attrs.get("results", []):
-                values = result.get("measurements", {}).get("count", [])
-                total += sum(values)
+                values = result.get("measurements", {}).get("count") or []
+                total += sum(v for v in values if isinstance(v, (int, float)))
             return total
 
         subscribed = _count(self._DELIVERABILITY_METRIC_IDS["subscribed"])
