@@ -159,5 +159,151 @@ def compute_index_for_week(week_num: int, wc_week: dict, gads_week: dict, baseli
     }
 
 
+# ════════════════════════════════════════════════════════════
+# API PULL FUNCTIONS
+# ════════════════════════════════════════════════════════════
+
+def _wc_get(path: str, params: dict = None):
+    """GET from WooCommerce REST API via CF Worker proxy if configured."""
+    if CF_WORKER_URL:
+        p = {"wc_path": path, **(params or {})}
+        auth_str = base64.b64encode(f"{WC_CK}:{WC_CS}".encode()).decode()
+        headers = {
+            "X-Proxy-Secret": CF_WORKER_SECRET,
+            "Authorization": f"Basic {auth_str}",
+        }
+        resp = requests.get(CF_WORKER_URL, headers=headers, params=p, timeout=30)
+    else:
+        resp = requests.get(f"{WC_BASE}{path}", auth=(WC_CK, WC_CS), params=params or {}, timeout=30)
+    resp.raise_for_status()
+    return resp
+
+
+def _pull_wc_quarter(start: date, end: date) -> dict:
+    """Pull WC orders for one date range. Returns {date_str: {revenue, orders}}."""
+    daily: dict = defaultdict(lambda: {"revenue": 0.0, "orders": 0})
+    page = 1
+    while True:
+        params = {
+            "after": f"{start}T00:00:00",
+            "before": f"{end}T23:59:59",
+            "status": "completed,processing",
+            "per_page": 100,
+            "page": page,
+        }
+        try:
+            orders = _wc_get("/orders", params).json()
+        except Exception as e:
+            print(f"    [WARN] WC page {page} failed: {e}")
+            break
+        if not orders:
+            break
+        for order in orders:
+            d = order.get("date_created", "")[:10]
+            if d:
+                daily[d]["revenue"] += float(order.get("total", 0))
+                daily[d]["orders"] += 1
+        page += 1
+        time.sleep(0.3)
+    return dict(daily)
+
+
+def pull_wc_history() -> dict:
+    """Pull all WC order history chunked by quarter.
+    Returns {date_str: {revenue: float, orders: int}}.
+    """
+    print("  Pulling WooCommerce history...")
+    combined: dict = {}
+    history_start = date(TODAY.year - YEARS_BACK, 1, 1)
+
+    chunk = history_start
+    while chunk <= YESTERDAY:
+        q_month_end = {1: 3, 2: 3, 3: 3, 4: 6, 5: 6, 6: 6, 7: 9, 8: 9, 9: 9, 10: 12, 11: 12, 12: 12}
+        end_month = q_month_end[chunk.month]
+        end_day = {3: 31, 6: 30, 9: 30, 12: 31}[end_month]
+        chunk_end = min(date(chunk.year, end_month, end_day), YESTERDAY)
+
+        print(f"    WC: {chunk} → {chunk_end}")
+        combined.update(_pull_wc_quarter(chunk, chunk_end))
+
+        if end_month == 12:
+            chunk = date(chunk.year + 1, 1, 1)
+        else:
+            chunk = date(chunk.year, end_month + 1, 1)
+
+    print(f"    WC: {len(combined)} days pulled")
+    return combined
+
+
+def pull_gads_history() -> dict:
+    """Pull Google Ads daily metrics (cost, IS rank, IS budget lost) for all history.
+    Returns {date_str: {cost: float, is_rank: float|None, is_budget_lost: float|None}}.
+    """
+    print("  Pulling Google Ads history...")
+    if not HAS_GOOGLE_ADS:
+        print("    [WARN] google-ads package not installed")
+        return {}
+    if not all([GADS_DEVELOPER_TOKEN, GADS_CLIENT_ID, GADS_CLIENT_SECRET, GADS_REFRESH_TOKEN, GADS_CUSTOMER_ID]):
+        print("    [WARN] Google Ads credentials not configured")
+        return {}
+
+    client = GoogleAdsClient.load_from_dict({
+        "developer_token": GADS_DEVELOPER_TOKEN,
+        "client_id": GADS_CLIENT_ID,
+        "client_secret": GADS_CLIENT_SECRET,
+        "refresh_token": GADS_REFRESH_TOKEN,
+        "login_customer_id": GADS_LOGIN_CID,
+        "use_proto_plus": True,
+    })
+
+    start_str = date(TODAY.year - YEARS_BACK, 1, 1).isoformat()
+    end_str = YESTERDAY.isoformat()
+
+    query = f"""
+        SELECT
+            segments.date,
+            metrics.cost_micros,
+            metrics.search_impression_share,
+            metrics.search_budget_lost_impression_share
+        FROM campaign
+        WHERE
+            segments.date >= '{start_str}'
+            AND segments.date <= '{end_str}'
+        ORDER BY segments.date ASC
+    """
+
+    service = client.get_service("GoogleAdsService")
+    stream = service.search_stream(customer_id=GADS_CUSTOMER_ID, query=query)
+
+    # Aggregate across all campaigns by date
+    raw: dict = defaultdict(lambda: {
+        "cost": 0.0, "is_rank_vals": [], "is_budget_vals": []
+    })
+    for batch in stream:
+        for row in batch.results:
+            d = row.segments.date
+            raw[d]["cost"] += row.metrics.cost_micros / 1_000_000
+            # IS metrics return 0.0 when data is unavailable ("--")
+            if row.metrics.search_impression_share > 0:
+                raw[d]["is_rank_vals"].append(row.metrics.search_impression_share)
+            if row.metrics.search_budget_lost_impression_share > 0:
+                raw[d]["is_budget_vals"].append(
+                    row.metrics.search_budget_lost_impression_share
+                )
+
+    result: dict = {}
+    for d, v in raw.items():
+        result[d] = {
+            "cost": round(v["cost"], 2),
+            "is_rank": round(sum(v["is_rank_vals"]) / len(v["is_rank_vals"]), 4)
+                       if v["is_rank_vals"] else None,
+            "is_budget_lost": round(sum(v["is_budget_vals"]) / len(v["is_budget_vals"]), 4)
+                              if v["is_budget_vals"] else None,
+        }
+
+    print(f"    Google Ads: {len(result)} days pulled")
+    return result
+
+
 if __name__ == "__main__":
     print("generate_seasonality.py: pipeline not yet implemented")
