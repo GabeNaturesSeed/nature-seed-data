@@ -19,10 +19,10 @@ DATA_DIR = Path(__file__).parent / "data"
 
 
 def build_mp_item_payload(item_detail):
-    """
-    Wrap a Walmart GET /v3/items/{sku} response into an MPItem feed entry.
-    Re-submitting via MP_ITEM triggers Walmart to re-evaluate a STAGE item.
-    """
+    # Wraps the GET /v3/items/{sku} response as-is into an MPItem feed entry.
+    # Assumption: MP_ITEM feed accepts the same body shape as MP_MAINTENANCE.
+    # If Walmart rejects read-only fields (publishedStatus, etc.), errors will
+    # appear in activation_results.json with DATA_ERROR + field-level details.
     return {"Item": item_detail}
 
 
@@ -54,6 +54,7 @@ def parse_feed_item_result(sku, feed_id, feed_status):
 
 
 def run_activation():
+    DATA_DIR.mkdir(exist_ok=True)
     print("Walmart STAGE Item Activation")
     print(f"Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 60)
@@ -74,51 +75,68 @@ def run_activation():
         return []
 
     results = []
-    for i, row in enumerate(to_activate, 1):
-        sku = row["sku"]
-        print(f"\n  [{i}/{len(to_activate)}] {sku}")
+    try:
+        for i, row in enumerate(to_activate, 1):
+            sku = row["sku"]
+            print(f"\n  [{i}/{len(to_activate)}] {sku}")
 
-        item_detail = get_item(sku)
-        if not item_detail:
-            print(f"    WARNING: Could not fetch item detail")
-            results.append({
-                "sku": sku,
-                "feed_id": None,
-                "status": "SKIPPED",
-                "ingestion_status": "SKIPPED",
-                "errors": ["Could not fetch item detail from Walmart API"],
-            })
-            continue
+            try:
+                item_detail = get_item(sku)
+            except Exception as exc:
+                print(f"    WARNING: get_item failed: {exc}")
+                results.append({
+                    "sku": sku, "feed_id": None, "status": "ERROR",
+                    "ingestion_status": "ERROR", "errors": [str(exc)],
+                })
+                continue
 
-        mp_item = build_mp_item_payload(item_detail)
-        feed_id = submit_maintenance_feed([mp_item], feed_type="MP_ITEM")
-        print(f"    Feed submitted: {feed_id}")
+            if not item_detail:
+                print(f"    WARNING: Could not fetch item detail")
+                results.append({
+                    "sku": sku, "feed_id": None, "status": "SKIPPED",
+                    "ingestion_status": "SKIPPED", "errors": ["Could not fetch item detail from Walmart API"],
+                })
+                continue
 
-        feed_status = wait_for_feed(feed_id, max_wait=600, poll_interval=30)
-        result = parse_feed_item_result(sku, feed_id, feed_status)
-        results.append(result)
+            mp_item = build_mp_item_payload(item_detail)
+            try:
+                feed_id = submit_maintenance_feed([mp_item], feed_type="MP_ITEM")
+                print(f"    Polling feed {feed_id}...")
+                feed_status = wait_for_feed(feed_id, max_wait=600, poll_interval=30)
+            except Exception as exc:
+                print(f"    WARNING: feed submission/polling failed: {exc}")
+                results.append({
+                    "sku": sku, "feed_id": None, "status": "ERROR",
+                    "ingestion_status": "ERROR", "errors": [str(exc)],
+                })
+                continue
 
-        if result["errors"]:
-            print(f"    Status: {result['ingestion_status']}")
-            for err in result["errors"]:
-                print(f"      ERROR: {err}")
-        else:
-            print(f"    Status: {result['ingestion_status']}")
+            result = parse_feed_item_result(sku, feed_id, feed_status)
+            results.append(result)
 
-        if i < len(to_activate):
-            time.sleep(2)
+            if result["errors"]:
+                print(f"    Status: {result['ingestion_status']}")
+                for err in result["errors"]:
+                    print(f"      ERROR: {err}")
+            else:
+                print(f"    Status: {result['ingestion_status']}")
+
+            if i < len(to_activate):
+                time.sleep(2)  # brief rate-limit buffer between submissions
+    finally:
+        out = DATA_DIR / "activation_results.json"
+        with open(out, "w") as f:
+            json.dump(results, f, indent=2)
+        print(f"\n  Results saved: {out}")
 
     success = sum(1 for r in results if r["ingestion_status"] == "SUCCESS")
     errors = sum(1 for r in results if r["ingestion_status"] not in ("SUCCESS", "SKIPPED", "UNKNOWN"))
+    timeouts = sum(1 for r in results if r["ingestion_status"] == "UNKNOWN")
 
     print(f"\nActivation results: {len(results)} submitted")
     print(f"  SUCCESS: {success}")
     print(f"  ERRORS:  {errors}  → see data/activation_results.json")
-
-    out = DATA_DIR / "activation_results.json"
-    with open(out, "w") as f:
-        json.dump(results, f, indent=2)
-    print(f"\n  Results saved: {out}")
+    print(f"  TIMEOUT: {timeouts}  (check activation_results.json)")
 
     return results
 
