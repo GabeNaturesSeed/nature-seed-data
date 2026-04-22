@@ -230,6 +230,7 @@ def run_report():
             "product_name": detail.get("productName", ""),
             "quality_score": result["quality_score"],
             "gaps": ", ".join(result["gaps"]) if result["gaps"] else "none",
+            "api_limitations": result["api_limitations"],
             "unpublished_reasons": "; ".join(result["unpublished_reasons"]) if result["unpublished_reasons"] else "",
             "in_stock": stock_info.get("in_stock", ""),
             "activation_attempted": bool(activation_info),
@@ -240,10 +241,12 @@ def run_report():
 
     # Write CSV
     csv_path = base_dir / "product_quality_report.csv"
-    fieldnames = ["sku", "product_name", "quality_score", "gaps", "unpublished_reasons", "in_stock", "activation_attempted"]
+    fieldnames = ["sku", "product_name", "quality_score", "gaps", "api_limitations", "unpublished_reasons", "in_stock", "activation_attempted"]
     with open(csv_path, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
+        for row in rows:
+            row["api_limitations"] = "; ".join(row.get("api_limitations", []))
         writer.writerows(rows)
     print(f"CSV written: {csv_path}")
 
