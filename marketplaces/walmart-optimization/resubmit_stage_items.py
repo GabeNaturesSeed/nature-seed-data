@@ -93,21 +93,22 @@ def build_visible(seo_item, product_type):
         "condition": attrs.get("condition", "New"),
     }
 
-    light = attrs.get("light_needs", "")
-    if light:
-        section["light_needs"] = _normalize_light_needs(light)
+    if product_type in ("Grass Seeds", "Plant Seeds"):
+        light = attrs.get("light_needs", "")
+        if light:
+            section["light_needs"] = _normalize_light_needs(light)
 
-    plant_cat = attrs.get("plantCategory", "")
-    if plant_cat:
-        section["plantCategory"] = [plant_cat]
+        plant_cat = attrs.get("plantCategory", "")
+        if plant_cat:
+            section["plantCategory"] = [plant_cat]
 
-    plant_name = attrs.get("plantName", "")
-    if plant_name:
-        section["plant_name"] = [plant_name]
+        plant_name_val = attrs.get("plantName", "")
+        if plant_name_val:
+            section["plant_name"] = [plant_name_val]
 
-    net_content = attrs.get("netContent", "")
-    if net_content:
-        section["netContent"] = _parse_net_content(net_content)
+        net_content = attrs.get("netContent", "")
+        if net_content:
+            section["netContent"] = _parse_net_content(net_content)
 
     return {product_type: section}
 
@@ -122,6 +123,10 @@ def run_resubmit():
     print("=" * 60)
 
     DATA_DIR.mkdir(exist_ok=True)
+
+    if submit_maintenance_feed is None or wait_for_feed is None:
+        print("ERROR: walmart_client not available. Check that WALMART_CLIENT_ID and WALMART_CLIENT_SECRET env vars are set.")
+        return
 
     audit_path = DATA_DIR / "stage_audit.json"
     if not audit_path.exists():
