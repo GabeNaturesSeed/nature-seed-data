@@ -26,6 +26,7 @@ import csv
 import os
 from pathlib import Path
 from datetime import datetime
+from stage_audit import filter_stage_items
 
 # ---------------------------------------------------------------------------
 # Species keywords used for title scoring
@@ -192,24 +193,25 @@ def run_report():
     stage_audit_path = base_dir / "stage_audit.json"
     stage_audit = {}
     if stage_audit_path.exists():
-        stage_audit = json.loads(stage_audit_path.read_text())
+        stage_audit = {r["sku"]: r for r in json.loads(stage_audit_path.read_text())}
 
     # Load activation results map (optional)
     activation_path = base_dir / "activation_results.json"
     activation_map = {}
     if activation_path.exists():
-        activation_map = json.loads(activation_path.read_text())
+        activation_map = {r["sku"]: r for r in json.loads(activation_path.read_text())}
 
     # Fetch all items and filter to STAGE
     print("Fetching all Walmart items...")
     all_items = get_all_items()
-    stage_items = [i for i in all_items if i.get("publishedStatus") == "STAGE"]
+    stage_items = filter_stage_items(all_items)
     print(f"Found {len(stage_items)} STAGE items.")
 
     rows = []
-    for item in stage_items:
+    total = len(stage_items)
+    for i, item in enumerate(stage_items, 1):
         sku = item.get("sku", "")
-        print(f"  Fetching detail for {sku}...")
+        print(f"  [{i}/{total}] Fetching detail for {sku}...")
         try:
             response = get_item(sku)
             item_responses = response.get("ItemResponse", [])
@@ -232,7 +234,7 @@ def run_report():
             "gaps": ", ".join(result["gaps"]) if result["gaps"] else "none",
             "api_limitations": result["api_limitations"],
             "unpublished_reasons": "; ".join(result["unpublished_reasons"]) if result["unpublished_reasons"] else "",
-            "in_stock": stock_info.get("in_stock", ""),
+            "will_activate": stock_info.get("will_activate", ""),
             "activation_attempted": bool(activation_info),
         })
 
@@ -241,13 +243,14 @@ def run_report():
 
     # Write CSV
     csv_path = base_dir / "product_quality_report.csv"
-    fieldnames = ["sku", "product_name", "quality_score", "gaps", "api_limitations", "unpublished_reasons", "in_stock", "activation_attempted"]
+    fieldnames = ["sku", "product_name", "quality_score", "gaps", "api_limitations", "unpublished_reasons", "will_activate", "activation_attempted"]
     with open(csv_path, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         for row in rows:
+            row = dict(row)
             row["api_limitations"] = "; ".join(row.get("api_limitations", []))
-        writer.writerows(rows)
+            writer.writerow(row)
     print(f"CSV written: {csv_path}")
 
     # Write Markdown

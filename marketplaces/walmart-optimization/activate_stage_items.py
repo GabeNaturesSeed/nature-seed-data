@@ -81,7 +81,7 @@ def run_activation():
             print(f"\n  [{i}/{len(to_activate)}] {sku}")
 
             try:
-                item_detail = get_item(sku)
+                response = get_item(sku)
             except Exception as exc:
                 print(f"    WARNING: get_item failed: {exc}")
                 results.append({
@@ -90,7 +90,7 @@ def run_activation():
                 })
                 continue
 
-            if not item_detail:
+            if not response or not response.get("ItemResponse"):
                 print(f"    WARNING: Could not fetch item detail")
                 results.append({
                     "sku": sku, "feed_id": None, "status": "SKIPPED",
@@ -98,6 +98,7 @@ def run_activation():
                 })
                 continue
 
+            item_detail = response["ItemResponse"][0]
             mp_item = build_mp_item_payload(item_detail)
             try:
                 feed_id = submit_maintenance_feed([mp_item], feed_type="MP_ITEM")
