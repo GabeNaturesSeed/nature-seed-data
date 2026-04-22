@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spring planting window closing</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f8f9fa;font-family:Inter,Arial,sans-serif;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f8f9fa;">
+<tr><td align="center" style="padding:24px 16px;">
+<table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" style="max-width:600px;width:100%;background-color:#ffffff;border-radius:4px;overflow:hidden;">
+
+  <!-- Header bar -->
+  <tr>
+    <td style="background-color:#2d6a4f;padding:16px 32px;text-align:center;">
+      <p style="margin:0;color:#ffffff;font-size:12px;letter-spacing:1px;text-transform:uppercase;font-family:Inter,Arial,sans-serif;">Nature's Seed — Seed You Can Trust</p>
+    </td>
+  </tr>
+
+  <!-- Urgency banner -->
+  <tr>
+    <td style="background-color:#1b4332;padding:16px 32px;text-align:center;">
+      {% if person|lookup:'last_category_purchased' == 'lawn' %}
+      <p style="margin:0;color:#ffffff;font-size:15px;font-weight:600;font-family:Inter,Arial,sans-serif;">Cool-season grasses: plant before soil temps hit 75°F</p>
+      {% elif person|lookup:'last_category_purchased' == 'pasture' %}
+      <p style="margin:0;color:#ffffff;font-size:15px;font-weight:600;font-family:Inter,Arial,sans-serif;">Spring overseed window: closes as summer heat sets in</p>
+      {% elif person|lookup:'last_category_purchased' == 'wildflower' %}
+      <p style="margin:0;color:#ffffff;font-size:15px;font-weight:600;font-family:Inter,Arial,sans-serif;">Wildflower direct-seeding: best before late May</p>
+      {% else %}
+      <p style="margin:0;color:#ffffff;font-size:15px;font-weight:600;font-family:Inter,Arial,sans-serif;">Spring planting window: best results before late May</p>
+      {% endif %}
+    </td>
+  </tr>
+
+  <!-- Body -->
+  <tr>
+    <td style="padding:40px 32px 24px;">
+      {% if person|lookup:'last_category_purchased' == 'lawn' %}
+      <h1 style="margin:0 0 16px;color:#212529;font-size:26px;font-weight:700;line-height:1.2;font-family:'Noto Serif Display',Georgia,serif;">Last chance for spring lawn seeding this year</h1>
+      <p style="margin:0 0 20px;color:#495057;font-size:15px;line-height:1.6;font-family:Inter,Arial,sans-serif;">Hi {{ first_name|default:"there" }},<br><br>Once soil temperatures climb past 75°F, cool-season grass seed (fescue, bluegrass, perennial rye) struggles to germinate. Summer heat causes seedlings to stress before they establish roots.<br><br>If you're going to seed this spring, order now — we ship within one business day, and you'll want a few days of consistent moisture after planting.</p>
+      {% elif person|lookup:'last_category_purchased' == 'pasture' %}
+      <h1 style="margin:0 0 16px;color:#212529;font-size:26px;font-weight:700;line-height:1.2;font-family:'Noto Serif Display',Georgia,serif;">Spring overseed window is closing</h1>
+      <p style="margin:0 0 20px;color:#495057;font-size:15px;line-height:1.6;font-family:Inter,Arial,sans-serif;">Hi {{ first_name|default:"there" }},<br><br>For most of the Mountain West and Plains, the spring overseed window runs April through mid-May. After that, summer heat and livestock pressure work against new seedlings.<br><br>If your pasture has thin spots, this is the last good window until fall.</p>
+      {% elif person|lookup:'last_category_purchased' == 'wildflower' %}
+      <h1 style="margin:0 0 16px;color:#212529;font-size:26px;font-weight:700;line-height:1.2;font-family:'Noto Serif Display',Georgia,serif;">Wildflower seeding: plant before it gets too warm</h1>
+      <p style="margin:0 0 20px;color:#495057;font-size:15px;line-height:1.6;font-family:Inter,Arial,sans-serif;">Hi {{ first_name|default:"there" }},<br><br>Many native wildflowers need cool, moist soil for germination. Late-spring direct seeding (before late May in most western regions) gives them the best start and protects new seedlings from summer heat stress.<br><br>The alternative is fall seeding — but that's 5 months away.</p>
+      {% else %}
+      <h1 style="margin:0 0 16px;color:#212529;font-size:26px;font-weight:700;line-height:1.2;font-family:'Noto Serif Display',Georgia,serif;">Spring planting: the window is still open</h1>
+      <p style="margin:0 0 20px;color:#495057;font-size:15px;line-height:1.6;font-family:Inter,Arial,sans-serif;">Hi {{ first_name|default:"there" }},<br><br>For most seed types, spring gives you the best conditions — soil moisture from snowmelt, moderate temps, and long days for establishment. That window runs through late May in most regions.<br><br>If you're planning to seed this year, ordering now means you can plant while conditions are still ideal.</p>
+      {% endif %}
+
+      <!-- Shipping promise -->
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border:1px solid #dee2e6;border-radius:4px;margin-bottom:24px;">
+        <tr><td style="padding:16px 20px;text-align:center;">
+          <p style="margin:0;color:#2d6a4f;font-size:15px;font-weight:600;font-family:Inter,Arial,sans-serif;">Order by 3pm MT — ships same business day</p>
+          <p style="margin:4px 0 0;color:#6c757d;font-size:13px;font-family:Inter,Arial,sans-serif;">Free shipping on orders over $75 · Farm-direct · Satisfaction guaranteed</p>
+        </td></tr>
+      </table>
+
+      <!-- CTA -->
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="border-radius:4px;background-color:#C96A2E;">
+            {% if person|lookup:'last_category_purchased' == 'lawn' %}
+            <a href="https://www.naturesseed.com/lawn-seed/?utm_source=klaviyo&utm_medium=email&utm_campaign=seasonal-reorder-e4" style="display:inline-block;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;font-family:Inter,Arial,sans-serif;">Order Now — Ships Today</a>
+            {% elif person|lookup:'last_category_purchased' == 'pasture' %}
+            <a href="https://www.naturesseed.com/pasture-seed/?utm_source=klaviyo&utm_medium=email&utm_campaign=seasonal-reorder-e4" style="display:inline-block;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;font-family:Inter,Arial,sans-serif;">Order Now — Ships Today</a>
+            {% elif person|lookup:'last_category_purchased' == 'wildflower' %}
+            <a href="https://www.naturesseed.com/wildflower-seed/?utm_source=klaviyo&utm_medium=email&utm_campaign=seasonal-reorder-e4" style="display:inline-block;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;font-family:Inter,Arial,sans-serif;">Order Now — Ships Today</a>
+            {% else %}
+            <a href="https://www.naturesseed.com/?utm_source=klaviyo&utm_medium=email&utm_campaign=seasonal-reorder-e4" style="display:inline-block;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;font-family:Inter,Arial,sans-serif;">Order Now — Ships Today</a>
+            {% endif %}
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- Footer -->
+  <tr>
+    <td style="padding:20px 32px;background-color:#f8f9fa;border-top:1px solid #e9ecef;">
+      <p style="margin:0;color:#6c757d;font-size:12px;line-height:1.5;font-family:Inter,Arial,sans-serif;">Nature's Seed | customercare@naturesseed.com | 801-531-1456<br>
+      <a href="{{ unsubscribe_url }}" style="color:#6c757d;">Unsubscribe</a> &nbsp;·&nbsp; <a href="{{ manage_preferences_url }}" style="color:#6c757d;">Manage preferences</a></p>
+    </td>
+  </tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time to reseed</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f8f9fa;font-family:Inter,Arial,sans-serif;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f8f9fa;">
+<tr><td align="center" style="padding:24px 16px;">
+<table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" style="max-width:600px;width:100%;background-color:#ffffff;border-radius:4px;overflow:hidden;">
+
+  <!-- Header bar -->
+  <tr>
+    <td style="background-color:#2d6a4f;padding:16px 32px;text-align:center;">
+      <p style="margin:0;color:#ffffff;font-size:12px;letter-spacing:1px;text-transform:uppercase;font-family:Inter,Arial,sans-serif;">Nature's Seed — Seed You Can Trust</p>
+    </td>
+  </tr>
+
+  <!-- Hero -->
+  <tr>
+    <td style="padding:40px 32px 24px;text-align:left;">
+      <p style="margin:0 0 8px;color:#2d6a4f;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;font-family:Inter,Arial,sans-serif;">Spring 2026</p>
+      {% if person|lookup:'last_category_purchased' == 'lawn' %}
+      <h1 style="margin:0 0 16px;color:#212529;font-size:28px;font-weight:700;line-height:1.2;font-family:'Noto Serif Display',Georgia,serif;">Your lawn is ready for its spring reseeding</h1>
+      <p style="margin:0 0 24px;color:#495057;font-size:16px;line-height:1.6;font-family:Inter,Arial,sans-serif;">Hi {{ first_name|default:"there" }},<br><br>Spring is the window. Soil temps are rising — which means your grass seed will germinate fastest right now, before summer heat slows things down.</p>
+      {% elif person|lookup:'last_category_purchased' == 'pasture' %}
+      <h1 style="margin:0 0 16px;color:#212529;font-size:28px;font-weight:700;line-height:1.2;font-family:'Noto Serif Display',Georgia,serif;">Spring overseeding time for your pasture</h1>
+      <p style="margin:0 0 24px;color:#495057;font-size:16px;line-height:1.6;font-family:Inter,Arial,sans-serif;">Hi {{ first_name|default:"there" }},<br><br>Your pasture came through winter. Now's the time to thicken thin spots before summer heat sets in — and before your livestock traffic puts pressure on recovering areas.</p>
+      {% elif person|lookup:'last_category_purchased' == 'wildflower' %}
+      <h1 style="margin:0 0 16px;color:#212529;font-size:28px;font-weight:700;line-height:1.2;font-family:'Noto Serif Display',Georgia,serif;">Your wildflower meadow — plant again this spring</h1>
+      <p style="margin:0 0 24px;color:#495057;font-size:16px;line-height:1.6;font-family:Inter,Arial,sans-serif;">Hi {{ first_name|default:"there" }},<br><br>Wildflower mixes do best when direct-seeded in early spring. Frost stratification is still happening in most zones right now — your best germination window is open.</p>
+      {% else %}
+      <h1 style="margin:0 0 16px;color:#212529;font-size:28px;font-weight:700;line-height:1.2;font-family:'Noto Serif Display',Georgia,serif;">Spring planting window is open</h1>
+      <p style="margin:0 0 24px;color:#495057;font-size:16px;line-height:1.6;font-family:Inter,Arial,sans-serif;">Hi {{ first_name|default:"there" }},<br><br>Spring is your best planting window. Whether you're reseeding clover, cover crop, or topping up from last year — conditions are right and we can ship within one business day.</p>
+      {% endif %}
+
+      <!-- CTA -->
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="border-radius:4px;background-color:#C96A2E;">
+            {% if person|lookup:'last_category_purchased' == 'lawn' %}
+            <a href="https://www.naturesseed.com/lawn-seed/?utm_source=klaviyo&utm_medium=email&utm_campaign=seasonal-reorder-e1" style="display:inline-block;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;font-family:Inter,Arial,sans-serif;">Shop Lawn Seed</a>
+            {% elif person|lookup:'last_category_purchased' == 'pasture' %}
+            <a href="https://www.naturesseed.com/pasture-seed/?utm_source=klaviyo&utm_medium=email&utm_campaign=seasonal-reorder-e1" style="display:inline-block;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;font-family:Inter,Arial,sans-serif;">Shop Pasture Seed</a>
+            {% elif person|lookup:'last_category_purchased' == 'wildflower' %}
+            <a href="https://www.naturesseed.com/wildflower-seed/?utm_source=klaviyo&utm_medium=email&utm_campaign=seasonal-reorder-e1" style="display:inline-block;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;font-family:Inter,Arial,sans-serif;">Shop Wildflower Seed</a>
+            {% else %}
+            <a href="https://www.naturesseed.com/?utm_source=klaviyo&utm_medium=email&utm_campaign=seasonal-reorder-e1" style="display:inline-block;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;font-family:Inter,Arial,sans-serif;">Shop Seed</a>
+            {% endif %}
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- Trust bar -->
+  <tr>
+    <td style="padding:24px 32px;border-top:1px solid #e9ecef;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td width="33%" style="padding:0 8px 0 0;color:#495057;font-size:12px;font-family:Inter,Arial,sans-serif;">Ships within 1 business day</td>
+          <td width="33%" style="padding:0 8px;color:#495057;font-size:12px;font-family:Inter,Arial,sans-serif;text-align:center;">Farm-direct, filler-free</td>
+          <td width="34%" style="padding:0 0 0 8px;color:#495057;font-size:12px;font-family:Inter,Arial,sans-serif;text-align:right;">Satisfaction guaranteed</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- Footer -->
+  <tr>
+    <td style="padding:20px 32px;background-color:#f8f9fa;border-top:1px solid #e9ecef;">
+      <p style="margin:0;color:#6c757d;font-size:12px;line-height:1.5;font-family:Inter,Arial,sans-serif;">Nature's Seed | customercare@naturesseed.com | 801-531-1456<br>
+      <a href="{{ unsubscribe_url }}" style="color:#6c757d;">Unsubscribe</a> &nbsp;·&nbsp; <a href="{{ manage_preferences_url }}" style="color:#6c757d;">Manage preferences</a></p>
+    </td>
+  </tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>

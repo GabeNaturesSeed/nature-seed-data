@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planting guide</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f8f9fa;font-family:Inter,Arial,sans-serif;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f8f9fa;">
+<tr><td align="center" style="padding:24px 16px;">
+<table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" style="max-width:600px;width:100%;background-color:#ffffff;border-radius:4px;overflow:hidden;">
+
+  <!-- Header bar -->
+  <tr>
+    <td style="background-color:#2d6a4f;padding:16px 32px;text-align:center;">
+      <p style="margin:0;color:#ffffff;font-size:12px;letter-spacing:1px;text-transform:uppercase;font-family:Inter,Arial,sans-serif;">Nature's Seed — Seed You Can Trust</p>
+    </td>
+  </tr>
+
+  <!-- Body -->
+  <tr>
+    <td style="padding:40px 32px 24px;">
+      <p style="margin:0 0 8px;color:#2d6a4f;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;font-family:Inter,Arial,sans-serif;">Expert tip</p>
+
+      {% if person|lookup:'last_category_purchased' == 'lawn' %}
+      <h1 style="margin:0 0 16px;color:#212529;font-size:26px;font-weight:700;line-height:1.2;font-family:'Noto Serif Display',Georgia,serif;">How to prepare your lawn for spring seeding</h1>
+      <p style="margin:0 0 16px;color:#495057;font-size:15px;line-height:1.6;font-family:Inter,Arial,sans-serif;">Three things our seed specialists recommend before you seed:</p>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:8px;">
+        <tr><td style="padding:12px 16px;background-color:#f8f9fa;border-left:3px solid #2d6a4f;font-family:Inter,Arial,sans-serif;font-size:14px;color:#212529;"><strong>1. Soil temp check</strong><br>Cool-season grasses (fescue, bluegrass, rye) germinate best at 50–65°F soil temp. Warm-season (bermuda, zoysia) need 65–70°F+.</td></tr>
+      </table>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:8px;">
+        <tr><td style="padding:12px 16px;background-color:#f8f9fa;border-left:3px solid #2d6a4f;font-family:Inter,Arial,sans-serif;font-size:14px;color:#212529;"><strong>2. Scalp and dethatch</strong><br>Mow low, rake out thatch. Seed-to-soil contact is the #1 germination factor. Dead thatch blocks it.</td></tr>
+      </table>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:24px;">
+        <tr><td style="padding:12px 16px;background-color:#f8f9fa;border-left:3px solid #2d6a4f;font-family:Inter,Arial,sans-serif;font-size:14px;color:#212529;"><strong>3. Starter fertilizer</strong><br>High-phosphorus starter fert in the seedbed significantly improves germination rates — especially in clay soils.</td></tr>
+      </table>
+
+      {% elif person|lookup:'last_category_purchased' == 'pasture' %}
+      <h1 style="margin:0 0 16px;color:#212529;font-size:26px;font-weight:700;line-height:1.2;font-family:'Noto Serif Display',Georgia,serif;">Spring pasture overseed: what actually works</h1>
+      <p style="margin:0 0 16px;color:#495057;font-size:15px;line-height:1.6;font-family:Inter,Arial,sans-serif;">Three things our agronomists see make the biggest difference:</p>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:8px;">
+        <tr><td style="padding:12px 16px;background-color:#f8f9fa;border-left:3px solid #2d6a4f;font-family:Inter,Arial,sans-serif;font-size:14px;color:#212529;"><strong>1. Rest the field first</strong><br>Remove livestock for at least 2 weeks before overseeding. Hoof traffic on newly germinating seed is a silent killer.</td></tr>
+      </table>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:8px;">
+        <tr><td style="padding:12px 16px;background-color:#f8f9fa;border-left:3px solid #2d6a4f;font-family:Inter,Arial,sans-serif;font-size:14px;color:#212529;"><strong>2. Use a slit seeder</strong><br>Broadcast seeding on established sod rarely works. Slit seeders place seed below the thatch layer where moisture is consistent.</td></tr>
+      </table>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:24px;">
+        <tr><td style="padding:12px 16px;background-color:#f8f9fa;border-left:3px solid #2d6a4f;font-family:Inter,Arial,sans-serif;font-size:14px;color:#212529;"><strong>3. Seeding rate matters</strong><br>Most people under-seed. For overseeding: use 80% of new-planting rate. For bare patches: full rate.</td></tr>
+      </table>
+
+      {% elif person|lookup:'last_category_purchased' == 'wildflower' %}
+      <h1 style="margin:0 0 16px;color:#212529;font-size:26px;font-weight:700;line-height:1.2;font-family:'Noto Serif Display',Georgia,serif;">How to get wildflowers to actually germinate</h1>
+      <p style="margin:0 0 16px;color:#495057;font-size:15px;line-height:1.6;font-family:Inter,Arial,sans-serif;">Most wildflower failures come down to three fixable mistakes:</p>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:8px;">
+        <tr><td style="padding:12px 16px;background-color:#f8f9fa;border-left:3px solid #2d6a4f;font-family:Inter,Arial,sans-serif;font-size:14px;color:#212529;"><strong>1. Weed competition</strong><br>Bare soil invites weeds. Solarize or till before seeding to deplete the weed seed bank. Wildflowers can't out-compete weeds at germination.</td></tr>
+      </table>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:8px;">
+        <tr><td style="padding:12px 16px;background-color:#f8f9fa;border-left:3px solid #2d6a4f;font-family:Inter,Arial,sans-serif;font-size:14px;color:#212529;"><strong>2. Planting depth</strong><br>Most wildflower seed needs light to germinate. Press seed into soil surface — don't bury it. A hand roller after seeding is ideal.</td></tr>
+      </table>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:24px;">
+        <tr><td style="padding:12px 16px;background-color:#f8f9fa;border-left:3px solid #2d6a4f;font-family:Inter,Arial,sans-serif;font-size:14px;color:#212529;"><strong>3. Consistent moisture in week 1</strong><br>Light daily watering for 7–10 days after seeding dramatically improves establishment. Don't let the surface dry completely.</td></tr>
+      </table>
+
+      {% else %}
+      <h1 style="margin:0 0 16px;color:#212529;font-size:26px;font-weight:700;line-height:1.2;font-family:'Noto Serif Display',Georgia,serif;">3 ways to get better germination this spring</h1>
+      <p style="margin:0 0 16px;color:#495057;font-size:15px;line-height:1.6;font-family:Inter,Arial,sans-serif;">Our seed scientists recommend the same three steps across almost every seed type:</p>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:8px;">
+        <tr><td style="padding:12px 16px;background-color:#f8f9fa;border-left:3px solid #2d6a4f;font-family:Inter,Arial,sans-serif;font-size:14px;color:#212529;"><strong>1. Seed-to-soil contact</strong><br>The most overlooked factor. Press or rake seed into the surface — don't scatter on top of thatch or mulch.</td></tr>
+      </table>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:8px;">
+        <tr><td style="padding:12px 16px;background-color:#f8f9fa;border-left:3px solid #2d6a4f;font-family:Inter,Arial,sans-serif;font-size:14px;color:#212529;"><strong>2. Consistent early moisture</strong><br>Light daily watering for the first 7–14 days. Let germination start before reducing frequency.</td></tr>
+      </table>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:24px;">
+        <tr><td style="padding:12px 16px;background-color:#f8f9fa;border-left:3px solid #2d6a4f;font-family:Inter,Arial,sans-serif;font-size:14px;color:#212529;"><strong>3. Right rate for the job</strong><br>Overseeding into existing growth requires 80% of a new-planting rate. Bare ground needs the full rate.</td></tr>
+      </table>
+      {% endif %}
+
+      <p style="margin:0 0 16px;color:#495057;font-size:15px;line-height:1.6;font-family:Inter,Arial,sans-serif;">Questions about your specific conditions? Our seed specialists answer by email or phone — no automated responses.</p>
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="border-radius:4px;background-color:#C96A2E;">
+            <a href="mailto:customercare@naturesseed.com?subject=Spring+planting+question&utm_source=klaviyo&utm_medium=email&utm_campaign=seasonal-reorder-e2" style="display:inline-block;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;font-family:Inter,Arial,sans-serif;">Ask a Seed Expert</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- Footer -->
+  <tr>
+    <td style="padding:20px 32px;background-color:#f8f9fa;border-top:1px solid #e9ecef;">
+      <p style="margin:0;color:#6c757d;font-size:12px;line-height:1.5;font-family:Inter,Arial,sans-serif;">Nature's Seed | customercare@naturesseed.com | 801-531-1456<br>
+      <a href="{{ unsubscribe_url }}" style="color:#6c757d;">Unsubscribe</a> &nbsp;·&nbsp; <a href="{{ manage_preferences_url }}" style="color:#6c757d;">Manage preferences</a></p>
+    </td>
+  </tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>

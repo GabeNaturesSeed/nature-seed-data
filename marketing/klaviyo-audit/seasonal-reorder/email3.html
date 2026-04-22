@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What customers planted this April</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f8f9fa;font-family:Inter,Arial,sans-serif;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f8f9fa;">
+<tr><td align="center" style="padding:24px 16px;">
+<table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" style="max-width:600px;width:100%;background-color:#ffffff;border-radius:4px;overflow:hidden;">
+
+  <!-- Header bar -->
+  <tr>
+    <td style="background-color:#2d6a4f;padding:16px 32px;text-align:center;">
+      <p style="margin:0;color:#ffffff;font-size:12px;letter-spacing:1px;text-transform:uppercase;font-family:Inter,Arial,sans-serif;">Nature's Seed — Seed You Can Trust</p>
+    </td>
+  </tr>
+
+  <!-- Social proof banner -->
+  <tr>
+    <td style="background-color:#40916c;padding:20px 32px;text-align:center;">
+      <p style="margin:0;color:#ffffff;font-size:20px;font-weight:700;font-family:'Noto Serif Display',Georgia,serif;">1,200+ customers have already seeded this spring</p>
+    </td>
+  </tr>
+
+  <!-- Body -->
+  <tr>
+    <td style="padding:40px 32px 24px;">
+      <p style="margin:0 0 20px;color:#495057;font-size:15px;line-height:1.6;font-family:Inter,Arial,sans-serif;">Hi {{ first_name|default:"there" }},</p>
+      <p style="margin:0 0 24px;color:#495057;font-size:15px;line-height:1.6;font-family:Inter,Arial,sans-serif;">Here's what customers with similar properties ordered this April:</p>
+
+      {% if person|lookup:'last_category_purchased' == 'lawn' %}
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border:1px solid #dee2e6;border-radius:4px;margin-bottom:24px;">
+        <tr><td style="padding:20px 24px;">
+          <p style="margin:0 0 4px;color:#2d6a4f;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;font-family:Inter,Arial,sans-serif;">Most ordered — Lawn</p>
+          <p style="margin:0 0 8px;color:#212529;font-size:17px;font-weight:700;font-family:'Noto Serif Display',Georgia,serif;">Premium Tall Fescue Blend</p>
+          <p style="margin:0 0 12px;color:#495057;font-size:14px;font-family:Inter,Arial,sans-serif;">Expertly blended for the Mountain West. 85%+ germination rate, tested at our Utah facility. Heat and drought tolerant once established.</p>
+          <p style="margin:0;color:#6c757d;font-size:13px;font-family:Inter,Arial,sans-serif;">"Thickest lawn I've had in 10 years" — Customer, Utah</p>
+        </td></tr>
+      </table>
+
+      {% elif person|lookup:'last_category_purchased' == 'pasture' %}
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border:1px solid #dee2e6;border-radius:4px;margin-bottom:24px;">
+        <tr><td style="padding:20px 24px;">
+          <p style="margin:0 0 4px;color:#2d6a4f;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;font-family:Inter,Arial,sans-serif;">Most ordered — Pasture</p>
+          <p style="margin:0 0 8px;color:#212529;font-size:17px;font-weight:700;font-family:'Noto Serif Display',Georgia,serif;">Premium Pasture Mix — Mountain West</p>
+          <p style="margin:0 0 12px;color:#495057;font-size:14px;font-family:Inter,Arial,sans-serif;">Orchard grass, meadow brome, perennial ryegrass — balanced for productivity and palatability. Regionally tested in Colorado, Utah, and Idaho.</p>
+          <p style="margin:0;color:#6c757d;font-size:13px;font-family:Inter,Arial,sans-serif;">"Best stand I've gotten in 5 tries" — Ranch manager, Wyoming</p>
+        </td></tr>
+      </table>
+
+      {% elif person|lookup:'last_category_purchased' == 'wildflower' %}
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border:1px solid #dee2e6;border-radius:4px;margin-bottom:24px;">
+        <tr><td style="padding:20px 24px;">
+          <p style="margin:0 0 4px;color:#2d6a4f;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;font-family:Inter,Arial,sans-serif;">Most ordered — Wildflower</p>
+          <p style="margin:0 0 8px;color:#212529;font-size:17px;font-weight:700;font-family:'Noto Serif Display',Georgia,serif;">Western Native Wildflower Mix</p>
+          <p style="margin:0 0 12px;color:#495057;font-size:14px;font-family:Inter,Arial,sans-serif;">36 species of native wildflowers, wildland-collected across 13 western states. No annuals that need replanting every year — these naturalize and spread.</p>
+          <p style="margin:0;color:#6c757d;font-size:13px;font-family:Inter,Arial,sans-serif;">"Bloomed the first year, came back fuller the second" — Homeowner, Colorado</p>
+        </td></tr>
+      </table>
+
+      {% else %}
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border:1px solid #dee2e6;border-radius:4px;margin-bottom:24px;">
+        <tr><td style="padding:20px 24px;">
+          <p style="margin:0 0 4px;color:#2d6a4f;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;font-family:Inter,Arial,sans-serif;">Most ordered — Spring</p>
+          <p style="margin:0 0 8px;color:#212529;font-size:17px;font-weight:700;font-family:'Noto Serif Display',Georgia,serif;">White Dutch Clover</p>
+          <p style="margin:0 0 12px;color:#495057;font-size:14px;font-family:Inter,Arial,sans-serif;">Nitrogen-fixing, drought-tolerant, pollinator-friendly. Mixes well with most grasses — great for filling thin spots while improving soil health.</p>
+          <p style="margin:0;color:#6c757d;font-size:13px;font-family:Inter,Arial,sans-serif;">"Germinated in 5 days, filled in fast" — Gardener, New Mexico</p>
+        </td></tr>
+      </table>
+      {% endif %}
+
+      <!-- CTA -->
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="border-radius:4px;background-color:#C96A2E;">
+            {% if person|lookup:'last_category_purchased' == 'lawn' %}
+            <a href="https://www.naturesseed.com/lawn-seed/?utm_source=klaviyo&utm_medium=email&utm_campaign=seasonal-reorder-e3" style="display:inline-block;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;font-family:Inter,Arial,sans-serif;">Shop Lawn Seed</a>
+            {% elif person|lookup:'last_category_purchased' == 'pasture' %}
+            <a href="https://www.naturesseed.com/pasture-seed/?utm_source=klaviyo&utm_medium=email&utm_campaign=seasonal-reorder-e3" style="display:inline-block;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;font-family:Inter,Arial,sans-serif;">Shop Pasture Seed</a>
+            {% elif person|lookup:'last_category_purchased' == 'wildflower' %}
+            <a href="https://www.naturesseed.com/wildflower-seed/?utm_source=klaviyo&utm_medium=email&utm_campaign=seasonal-reorder-e3" style="display:inline-block;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;font-family:Inter,Arial,sans-serif;">Shop Wildflower Seed</a>
+            {% else %}
+            <a href="https://www.naturesseed.com/?utm_source=klaviyo&utm_medium=email&utm_campaign=seasonal-reorder-e3" style="display:inline-block;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;font-family:Inter,Arial,sans-serif;">Shop Best Sellers</a>
+            {% endif %}
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- Footer -->
+  <tr>
+    <td style="padding:20px 32px;background-color:#f8f9fa;border-top:1px solid #e9ecef;">
+      <p style="margin:0;color:#6c757d;font-size:12px;line-height:1.5;font-family:Inter,Arial,sans-serif;">Nature's Seed | customercare@naturesseed.com | 801-531-1456<br>
+      <a href="{{ unsubscribe_url }}" style="color:#6c757d;">Unsubscribe</a> &nbsp;·&nbsp; <a href="{{ manage_preferences_url }}" style="color:#6c757d;">Manage preferences</a></p>
+    </td>
+  </tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>
