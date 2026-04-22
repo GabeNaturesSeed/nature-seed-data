@@ -23,6 +23,10 @@ from framework.review_generator import build_weekly_review_markdown
 
 # ── env loading (manual — matches infrastructure/daily-report pattern) ──
 env_path = REPO_ROOT / ".env"
+if not env_path.exists():
+    print(f"[ERROR] .env not found at {env_path}. Copy .env.example and fill in KLAVIYO_API.", file=sys.stderr)
+    sys.exit(1)
+
 env_vars = {}
 with open(env_path) as f:
     for line in f:
@@ -31,7 +35,10 @@ with open(env_path) as f:
             key, val = line.split("=", 1)
             env_vars[key.strip()] = val.strip().strip("'\"")
 
-KLAVIYO_API_KEY = env_vars["KLAVIYO_API"]
+KLAVIYO_API_KEY = env_vars.get("KLAVIYO_API")
+if not KLAVIYO_API_KEY:
+    print("[ERROR] KLAVIYO_API not set in .env", file=sys.stderr)
+    sys.exit(1)
 CONVERSION_METRIC_ID = "VLbLXB"  # WooCommerce Placed Order
 
 # Known flow IDs from spec / SKILL.md
@@ -51,9 +58,7 @@ FLOW_IDS = {
 def next_monday(from_date: date) -> date:
     """Return the next Monday on or after `from_date`."""
     days_ahead = (7 - from_date.weekday()) % 7
-    if days_ahead == 0 and from_date.weekday() != 0:
-        days_ahead = 7
-    return from_date + timedelta(days=days_ahead) if from_date.weekday() != 0 else from_date
+    return from_date + timedelta(days=days_ahead)
 
 
 def main(argv: list) -> int:

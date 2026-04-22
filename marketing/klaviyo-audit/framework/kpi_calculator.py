@@ -60,9 +60,10 @@ def email_revenue_share_of_wc(
 def agent_grade(
     flow_share_pct_change: float,
     gates_all_passing: bool,
-    critical_alerts: int,
-    medium_alerts: int,
-    flow_revenue_pct_change: float,
+    gates_failing: int = 0,
+    critical_alerts: int = 0,
+    medium_alerts: int = 0,
+    flow_revenue_pct_change: float = 0.0,
 ) -> str:
     """Self-grading logic per spec §5.5.
 
@@ -72,6 +73,8 @@ def agent_grade(
     D — 2+ gates failing, OR any critical alert, OR flow revenue dropped >10%
     """
     # D conditions (worst — check first)
+    if gates_failing >= 2:
+        return "D"
     if critical_alerts >= 1:
         return "D"
     if flow_revenue_pct_change <= -10.0:

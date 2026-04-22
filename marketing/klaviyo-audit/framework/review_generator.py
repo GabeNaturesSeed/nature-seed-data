@@ -39,6 +39,7 @@ def build_weekly_review_markdown(data: Dict[str, Any]) -> str:
     grade = agent_grade(
         flow_share_pct_change=share_pct_change,
         gates_all_passing=gates.all_pass,
+        gates_failing=sum(1 for g in gates.gates if not g.passing),
         critical_alerts=data.get("critical_alerts", 0),
         medium_alerts=data.get("medium_alerts", 0),
         flow_revenue_pct_change=flow_rev_pct_change,
@@ -92,7 +93,7 @@ def build_weekly_review_markdown(data: Dict[str, Any]) -> str:
     # Segment health
     sections.append("## Segment health check")
     sections.append("")
-    sections.append(f"- Net list growth (30d): {data['deliverability_metrics']['net_list_growth_30d']:+d}")
+    sections.append(f"- Net list growth (30d): {int(data['deliverability_metrics']['net_list_growth_30d']):+d}")
     sections.append("- (RFM transition data will populate here in Plan 2 when we have snapshots)")
     sections.append("")
 
