@@ -194,7 +194,7 @@ def _pull_wc_quarter(start: date, end: date) -> dict:
         try:
             orders = _wc_get("/orders", params).json()
         except Exception as e:
-            print(f"    [WARN] WC page {page} failed: {e}")
+            print(f"    [WARN] WC {start}→{end} page {page} failed: {e}")
             break
         if not orders:
             break
@@ -243,7 +243,7 @@ def pull_gads_history() -> dict:
     if not HAS_GOOGLE_ADS:
         print("    [WARN] google-ads package not installed")
         return {}
-    if not all([GADS_DEVELOPER_TOKEN, GADS_CLIENT_ID, GADS_CLIENT_SECRET, GADS_REFRESH_TOKEN, GADS_CUSTOMER_ID]):
+    if not all([GADS_DEVELOPER_TOKEN, GADS_CLIENT_ID, GADS_CLIENT_SECRET, GADS_REFRESH_TOKEN, GADS_CUSTOMER_ID, GADS_LOGIN_CID]):
         print("    [WARN] Google Ads credentials not configured")
         return {}
 
@@ -279,17 +279,20 @@ def pull_gads_history() -> dict:
     raw: dict = defaultdict(lambda: {
         "cost": 0.0, "is_rank_vals": [], "is_budget_vals": []
     })
-    for batch in stream:
-        for row in batch.results:
-            d = row.segments.date
-            raw[d]["cost"] += row.metrics.cost_micros / 1_000_000
-            # IS metrics return 0.0 when data is unavailable ("--")
-            if row.metrics.search_impression_share > 0:
-                raw[d]["is_rank_vals"].append(row.metrics.search_impression_share)
-            if row.metrics.search_budget_lost_impression_share > 0:
-                raw[d]["is_budget_vals"].append(
-                    row.metrics.search_budget_lost_impression_share
-                )
+    try:
+        for batch in stream:
+            for row in batch.results:
+                d = row.segments.date
+                raw[d]["cost"] += row.metrics.cost_micros / 1_000_000
+                # IS metrics return 0.0 when data is unavailable ("--")
+                if row.metrics.search_impression_share > 0:
+                    raw[d]["is_rank_vals"].append(row.metrics.search_impression_share)
+                if row.metrics.search_budget_lost_impression_share > 0:
+                    raw[d]["is_budget_vals"].append(
+                        row.metrics.search_budget_lost_impression_share
+                    )
+    except Exception as e:
+        print(f"    [WARN] Google Ads stream error after {len(raw)} days: {e}")
 
     result: dict = {}
     for d, v in raw.items():
