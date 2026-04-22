@@ -3,7 +3,7 @@
 Every broadcast must pass all 6 checks. Failing any one = auto-rejected.
 """
 from dataclasses import dataclass
-from typing import Optional
+from typing import Literal, Optional
 
 # Segments explicitly starred in CLAUDE.md / spec §1.3 — only these are valid audience targets
 STARRED_SEGMENTS = {
@@ -37,11 +37,11 @@ class ProposalCheck:
     has_suppression_exclusions: bool
     offer_pct: Optional[float]
     expected_rpr: float
-    target_type: str  # "targeted" | "broad"
+    target_type: Literal["targeted", "broad"]
 
     @property
     def goal_pass(self) -> bool:
-        return bool(self.goal)
+        return bool(self.goal and self.goal.strip())
 
     @property
     def audience_pass(self) -> bool:
@@ -81,7 +81,7 @@ class ProposalCheck:
         offer_detail = f"{self.offer_pct * 100:.0f}%" if self.offer_pct is not None else "none"
         min_rpr = MIN_RPR_TARGETED if self.target_type == "targeted" else MIN_RPR_BROAD
         checks = [
-            ("1. Goal", self.goal_pass, self.goal or "None — no business goal defined"),
+            ("1. Goal", self.goal_pass, (self.goal.strip() if self.goal else None) or "None — no business goal defined"),
             ("2. Audience", self.audience_pass, f"`{self.audience_segment_id}` {'✓ starred' if self.audience_pass else '✗ not in starred segments'}"),
             ("3. Cadence", self.cadence_pass, f"{self.sends_past_7d} sends in last 7d vs cap of {self.cadence_cap}"),
             ("4. Suppression", self.suppression_pass, "exclusions applied" if self.suppression_pass else "MISSING — add bought-48hr, in-active-flow, NOT-E90 exclusions"),

@@ -174,3 +174,52 @@ def test_to_markdown_shows_rejection():
     md = check.to_markdown()
     assert "REJECTED" in md
     assert "❌" in md
+
+
+def test_offer_at_exact_cap_passes():
+    """Offer at exactly 15% must pass (spec uses <=)."""
+    check = evaluate_proposal(
+        name="Exact cap offer",
+        goal="Seasonal moment",
+        audience_segment_id="WdpJti",
+        sends_past_7d=0,
+        cadence_cap=2,
+        has_suppression_exclusions=True,
+        offer_pct=0.15,
+        expected_rpr=0.65,
+        target_type="targeted",
+    )
+    assert check.offer_pass is True
+    assert check.all_pass is True
+
+
+def test_rpr_at_exact_targeted_minimum_passes():
+    """RPR at exactly $0.50 must pass for targeted (spec uses >=)."""
+    check = evaluate_proposal(
+        name="Exact RPR targeted",
+        goal="Replant",
+        audience_segment_id="WdpJti",
+        sends_past_7d=0,
+        cadence_cap=2,
+        has_suppression_exclusions=True,
+        offer_pct=None,
+        expected_rpr=0.50,
+        target_type="targeted",
+    )
+    assert check.rpr_pass is True
+
+
+def test_rpr_at_exact_broad_minimum_passes():
+    """RPR at exactly $0.15 must pass for broad (spec uses >=)."""
+    check = evaluate_proposal(
+        name="Exact RPR broad",
+        goal="Seasonal moment",
+        audience_segment_id="RbH7na",
+        sends_past_7d=0,
+        cadence_cap=3,
+        has_suppression_exclusions=True,
+        offer_pct=None,
+        expected_rpr=0.15,
+        target_type="broad",
+    )
+    assert check.rpr_pass is True
