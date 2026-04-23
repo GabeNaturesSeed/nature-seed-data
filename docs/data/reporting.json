@@ -1,31 +1,31 @@
 {
-  "as_of": "2026-04-22",
+  "as_of": "2026-04-23",
   "mtd": {
     "cy": {
-      "revenue": 302664.55,
-      "orders": 2333,
+      "revenue": 308572.51,
+      "orders": 2404,
       "ad_spend": 45039.59,
-      "mer": 6.72,
-      "cogs": 99234.27,
-      "shipping": 157720.21,
-      "net_revenue": 64758.56,
-      "wc_revenue": 302664.55,
-      "amazon_revenue": 15596.27,
+      "mer": 6.85,
+      "cogs": 101248.45,
+      "shipping": 159316.33,
+      "net_revenue": 67220.15,
+      "wc_revenue": 308572.51,
+      "amazon_revenue": 15760.2,
       "walmart_revenue": 3452.22,
-      "platform_fees": 11565.51,
-      "gross_profit": 203430.28,
+      "platform_fees": 11761.43,
+      "gross_profit": 207324.06,
       "gross_margin_pct": 67.2,
-      "cm1": 158390.69,
-      "cm2": -10895.03,
-      "cm2_pct": -3.6,
-      "aov": 129.73,
-      "new_customers": 2184,
-      "new_customer_cac": 20.62
+      "cm1": 162284.47,
+      "cm2": -8793.29,
+      "cm2_pct": -2.8,
+      "aov": 128.36,
+      "new_customers": 2249,
+      "new_customer_cac": 20.03
     },
     "ly": {
-      "revenue": 189250.11,
-      "orders": 1023,
-      "ad_spend": 33264.16
+      "revenue": 202313.31,
+      "orders": 1103,
+      "ad_spend": 34586.69
     },
     "budget": {
       "revenue": 399120.0,
@@ -114,7 +114,11 @@
       },
       {
         "date": "2026-04-21",
-        "revenue": 10792.52
+        "revenue": 9464.6
+      },
+      {
+        "date": "2026-04-22",
+        "revenue": 7235.88
       }
     ],
     "daily_ly": [
@@ -201,6 +205,10 @@
       {
         "date": "2026-04-21",
         "revenue": 10372.37
+      },
+      {
+        "date": "2026-04-22",
+        "revenue": 13063.2
       }
     ]
   },
@@ -268,40 +276,40 @@
       },
       {
         "month": "2026-04",
-        "revenue": 302664.55,
-        "ly_revenue": 189250.11,
+        "revenue": 308572.51,
+        "ly_revenue": 202313.31,
         "budget_revenue": 399120.0,
-        "orders": 2708,
+        "orders": 2787,
         "ad_spend": 45039.59,
-        "ly_ad_spend": 33264.16,
+        "ly_ad_spend": 34586.69,
         "budget_ad_spend": 44813.0,
-        "mer": 6.72,
-        "ly_mer": 5.69,
+        "mer": 6.85,
+        "ly_mer": 5.85,
         "budget_mer": 8.91,
-        "cogs": 99234.27,
-        "shipping": 157720.21,
-        "net_revenue": 64758.56,
-        "gross_profit": 203430.28,
+        "cogs": 101248.45,
+        "shipping": 159316.33,
+        "net_revenue": 67220.15,
+        "gross_profit": 207324.06,
         "gross_margin_pct": 67.2,
-        "cm2": -10895.03,
-        "cm2_pct": -3.6
+        "cm2": -8793.29,
+        "cm2_pct": -2.8
       }
     ],
     "totals_cy": {
-      "revenue": 1030730.89,
-      "orders": 8461,
+      "revenue": 1036638.85,
+      "orders": 8540,
       "ad_spend": 214155.15,
-      "cogs": 345934.08,
-      "net_revenue": 336920.75,
-      "gross_profit": 684796.81,
+      "cogs": 347948.26,
+      "net_revenue": 339382.34,
+      "gross_profit": 688690.59,
       "gross_margin_pct": 66.4,
-      "cm2": 5161.05,
-      "cm2_pct": 0.5
+      "cm2": 7262.79,
+      "cm2_pct": 0.7
     },
     "totals_ly": {
-      "revenue": 1029774.2,
-      "ad_spend": 201394.99,
-      "mer": 5.11
+      "revenue": 1042837.4,
+      "ad_spend": 202717.52,
+      "mer": 5.14
     },
     "totals_budget": {
       "revenue": 1224629.0,
@@ -458,27 +466,27 @@
       {
         "month": "2026-04",
         "source": "supabase_wc",
-        "seed_revenue": 302664.55,
+        "seed_revenue": 308572.51,
         "other_revenue": 0,
-        "revenue_freight": 11520.0,
+        "revenue_freight": 11040.0,
         "discounts": 0,
-        "revenue": 314184.55,
+        "revenue": 319612.51,
         "budget_revenue": 399120.0,
-        "seed_cogs": 99234.27,
+        "seed_cogs": 101248.45,
         "other_cogs": 0,
         "inventory_adjustment": 0,
-        "cogs_freight": 96587.07,
-        "cogs": 195821.34,
+        "cogs_freight": 97564.53,
+        "cogs": 198812.98,
         "budget_cogs": 171780.0,
-        "shippo_freight": 157720.21,
+        "shippo_freight": 159316.33,
         "source_revenue": "WooCommerce API (via Supabase)",
         "source_cogs": "Supabase daily_cogs (WC channel)",
         "source_freight_cogs": "Estimated at 61.2% of Shippo quote (avg ratio from closed-month finance actuals)",
         "source_freight_revenue": "WooCommerce shipping_total (MTD live)",
         "freight_cogs_ratio": 0.6124,
-        "gross_profit": 118363.21,
+        "gross_profit": 120799.53,
         "budget_gross_profit": 227340.0,
-        "gross_margin_pct": 37.7,
+        "gross_margin_pct": 37.8,
         "production_warehouse": 22908.0,
         "warehouse": 22633.0,
         "advertising": 45039.59,
@@ -497,27 +505,27 @@
         "total_ga": 50624.0,
         "total_opex": 127713.59,
         "budget_opex": 127487.0,
-        "net_income": -9350.38,
+        "net_income": -6914.06,
         "budget_net_income": 94476.0,
         "depreciation": 5377.0,
-        "ebitda": -3973.38,
+        "ebitda": -1537.06,
         "budget_ebitda": 99853.0
       }
     ],
     "ytd": {
-      "revenue": 1041324.32,
+      "revenue": 1046752.28,
       "budget_revenue": 1224629.0,
-      "revenue_freight": 36644.0,
-      "cogs": 596884.31,
+      "revenue_freight": 36164.0,
+      "cogs": 599875.95,
       "budget_cogs": 466878.0,
-      "cogs_freight": 252490.81,
-      "seed_revenue": 1010864.32,
+      "cogs_freight": 253468.27,
+      "seed_revenue": 1016772.28,
       "other_revenue": 0.0,
       "discounts": -6184.0,
-      "seed_cogs": 344393.5,
+      "seed_cogs": 346407.68,
       "other_cogs": 0.0,
       "inventory_adjustment": 0.0,
-      "gross_profit": 444440.01,
+      "gross_profit": 446876.33,
       "budget_gross_profit": 757751.0,
       "production_warehouse": 91660.0,
       "warehouse": 91160.0,
@@ -537,10 +545,10 @@
       "total_ga": 186823.0,
       "total_opex": 507271.15,
       "budget_opex": 509444.0,
-      "net_income": -62831.14,
+      "net_income": -60394.82,
       "budget_net_income": 226799.0,
       "depreciation": 21131.0,
-      "ebitda": -41700.14,
+      "ebitda": -39263.82,
       "budget_ebitda": 248307.0,
       "gross_margin_pct": 42.7
     }

@@ -1,42 +1,42 @@
 {
-  "as_of": "2026-04-22",
+  "as_of": "2026-04-23",
   "mtd": {
-    "shipping_collected": 11520.0,
-    "shipping_paid": 157720.21,
-    "shipping_net": -146200.21,
-    "shipment_count": 3267,
-    "avg_cost_per_order": 48.28,
-    "wc_order_count": 2333
+    "shipping_collected": 11040.0,
+    "shipping_paid": 159316.33,
+    "shipping_net": -148276.33,
+    "shipment_count": 3313,
+    "avg_cost_per_order": 48.09,
+    "wc_order_count": 2404
   },
   "ytd": {
-    "shipping_collected": 20084.0,
-    "shipping_paid": 212763.21,
-    "shipping_net": -192679.21,
-    "shipment_count": 8336,
-    "avg_cost_per_order": 25.52,
-    "wc_order_count": 2333
+    "shipping_collected": 19604.0,
+    "shipping_paid": 214359.33,
+    "shipping_net": -194755.33,
+    "shipment_count": 8382,
+    "avg_cost_per_order": 25.57,
+    "wc_order_count": 2404
   },
   "carriers": [
     {
       "carrier": "UPS",
-      "total_paid": 418882.97,
-      "shipment_count": 8208,
-      "pct_of_shipments": 98.6,
-      "avg_cost_per_shipment": 51.03
+      "total_paid": 420304.16,
+      "shipment_count": 8246,
+      "pct_of_shipments": 98.5,
+      "avg_cost_per_shipment": 50.97
     },
     {
       "carrier": "USPS",
-      "total_paid": 3913.04,
-      "shipment_count": 86,
-      "pct_of_shipments": 1.0,
-      "avg_cost_per_shipment": 45.5
+      "total_paid": 4053.27,
+      "shipment_count": 90,
+      "pct_of_shipments": 1.1,
+      "avg_cost_per_shipment": 45.04
     },
     {
       "carrier": "FEDEX",
-      "total_paid": 1559.13,
-      "shipment_count": 32,
+      "total_paid": 1593.83,
+      "shipment_count": 33,
       "pct_of_shipments": 0.4,
-      "avg_cost_per_shipment": 48.72
+      "avg_cost_per_shipment": 48.3
     }
   ],
   "weekly_cost_per_lb": {
@@ -72,10 +72,10 @@
         55.71,
         52.16,
         45.57,
-        47.04,
+        47.12,
         54.94,
-        43.95,
-        54.34
+        43.99,
+        52.85
       ]
     },
     "USPS": {
@@ -106,10 +106,10 @@
         28.54,
         45.36,
         44.25,
-        42.67,
+        42.75,
         56.38,
-        43.59,
-        54.62
+        43.63,
+        43.23
       ]
     },
     "FEDEX": {
@@ -118,14 +118,16 @@
         "2026-W09",
         "2026-W11",
         "2026-W12",
-        "2026-W13"
+        "2026-W13",
+        "2026-W17"
       ],
       "values": [
         64.93,
         60.68,
         51.96,
         46.53,
-        44.85
+        44.85,
+        34.7
       ]
     }
   }
