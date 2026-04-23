@@ -83,17 +83,17 @@ def test_build_product_identifiers_returns_none_when_neither():
 # --- build_orderable ---
 
 def test_build_orderable_contains_required_fields():
-    result = build_orderable(WM_ITEM)
+    result = build_orderable("PG-BUCK-5-LB", WM_ITEM)
+    assert result["sku"] == "PG-BUCK-5-LB"
     assert result["price"] == 49.99
-    assert result["fulfillmentLagTime"] == 2
-    assert "startDate" in result
-    assert "endDate" in result
+    assert result["productIdentifiers"]["productIdType"] == "GTIN"
+    assert result["productIdentifiers"]["productId"] == "00021532968880"
 
 
 def test_build_orderable_no_price_when_missing():
     item = dict(WM_ITEM)
     item["price"] = {}
-    result = build_orderable(item)
+    result = build_orderable("PG-BUCK-5-LB", item)
     assert "price" not in result
 
 

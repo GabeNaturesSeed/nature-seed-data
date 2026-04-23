@@ -37,9 +37,10 @@ def find_seo_content(sku, seo_items):
     return lookup.get(get_base_sku(sku))
 
 
+
 def build_product_identifiers(wm_item):
     """
-    Return productIdentifiers dict for the Item level, or None if no UPC/GTIN.
+    Return productIdentifiers dict (for inside Orderable), or None if no UPC/GTIN.
     Prefers GTIN over UPC.
     """
     gtin = wm_item.get("gtin", "")
@@ -51,16 +52,15 @@ def build_product_identifiers(wm_item):
     return None
 
 
-def build_orderable(wm_item):
+def build_orderable(sku, wm_item):
     """
     Build the Orderable section from a walmart_items.json entry.
-    Returns dict with startDate, endDate, fulfillmentLagTime, and price if present.
+    Returns dict with sku, productIdentifiers, startDate, endDate, fulfillmentLagTime, and price.
     """
-    orderable = {
-        "startDate": "2020-01-01T00:00:00Z",
-        "endDate": "2099-01-01T00:00:00Z",
-        "fulfillmentLagTime": 2,
-    }
+    orderable = {"sku": sku}
+    identifiers = build_product_identifiers(wm_item)
+    if identifiers:
+        orderable["productIdentifiers"] = identifiers
     price_amount = wm_item.get("price", {}).get("amount")
     if price_amount:
         orderable["price"] = price_amount
@@ -160,17 +160,13 @@ def run_resubmit():
 
         seo_content = find_seo_content(sku, seo_items)
         product_type = wm_item.get("productType", "Grass Seeds")
-        identifiers = build_product_identifiers(wm_item)
 
         item = {
-            "sku": sku,
-            "Orderable": build_orderable(wm_item),
+            "Orderable": build_orderable(sku, wm_item),
             "Visible": build_visible(seo_content, product_type),
         }
-        if identifiers:
-            item["productIdentifiers"] = identifiers
 
-        mp_items.append({"Item": item})
+        mp_items.append(item)
         match_label = "seo" if seo_content else "fallback"
         print(f"    [{len(mp_items)}/{len(stage_items)}] {sku} ({match_label})")
 
@@ -181,8 +177,8 @@ def run_resubmit():
         return
 
     # Submit feed
-    print(f"\n  Submitting MP_ITEM feed ({len(mp_items)} items)...")
-    feed_id = submit_maintenance_feed(mp_items, feed_type="MP_ITEM")
+    print(f"\n  Submitting MP_MAINTENANCE feed ({len(mp_items)} items)...")
+    feed_id = submit_maintenance_feed(mp_items, feed_type="MP_MAINTENANCE")
     print(f"  Polling feed {feed_id}...")
     feed_status = wait_for_feed(feed_id, max_wait=600, poll_interval=30)
 
