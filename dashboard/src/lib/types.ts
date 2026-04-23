@@ -430,6 +430,19 @@ export interface CustomersData {
 }
 
 // ── Notes ──
+export interface SeasonalityIndex {
+  seasonality: number | null;
+  demand: number | null;
+  performance: number | null;
+  label: string;
+}
+
+export interface SeasonalityData {
+  generated_at: string;
+  current_week: number;
+  index: SeasonalityIndex;
+}
+
 export interface NotesData {
   as_of: string;
   html: string;

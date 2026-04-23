@@ -1,7 +1,7 @@
 'use client';
 
 import { useJsonData } from '@/hooks/useJsonData';
-import { ReportingData } from '@/lib/types';
+import { ReportingData, SeasonalityData } from '@/lib/types';
 import { fmt, fmtInt, ratio, pct, calcPct, badgeColor, linearProjection, cumulative, safe, shortDate } from '@/lib/formatters';
 import KpiCard from '@/components/kpi/KpiCard';
 import KpiGrid from '@/components/kpi/KpiGrid';
@@ -18,6 +18,7 @@ const dollarFormatter = (v: number) => '$' + (v / 1000).toFixed(0) + 'K';
 
 export default function ReportingMtdPage() {
   const { data, loading } = useJsonData<ReportingData>('reporting');
+  const { data: seasonality } = useJsonData<SeasonalityData>('seasonality');
 
   if (loading) {
     return (
@@ -144,6 +145,25 @@ export default function ReportingMtdPage() {
               <InfoTooltip content={sources.mtdProjectedRevenue} />
             </span>
             <span className="text-brand-neutral/50">based on current daily pace</span>
+          </div>
+        </div>
+      )}
+
+      {/* Seasonality Index */}
+      {seasonality?.index?.seasonality != null && (
+        <div className="bg-surface-lowest rounded-xl shadow-ambient py-4 px-6 mb-8">
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-2 text-sm text-brand-neutral">
+            <span className="inline-flex items-center gap-1.5">
+              Seasonality Index:
+              <strong className="text-brand-primary text-lg font-semibold">
+                {seasonality.index.seasonality.toFixed(2)}
+              </strong>
+              <span className="text-xs text-brand-neutral/60 font-medium">{seasonality.index.label}</span>
+              <InfoTooltip content="Dual-track 0–2 index (1 = average week of year). Demand: revenue + orders vs historical baseline. Performance: MER + Impression Share signals." />
+            </span>
+            <span className="text-brand-neutral/50 text-xs">
+              Demand {seasonality.index.demand?.toFixed(2) ?? '—'} &nbsp;·&nbsp; Performance {seasonality.index.performance?.toFixed(2) ?? '—'} &nbsp;·&nbsp; Wk {seasonality.current_week}
+            </span>
           </div>
         </div>
       )}

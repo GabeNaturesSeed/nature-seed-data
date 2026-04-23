@@ -154,6 +154,25 @@ jobs:
           path: docs/data/abc_report.json
           retention-days: 1
 
+  seasonality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests google-ads google-auth
+      - name: Create .env
+        run: echo "$ENV_CONTENT" > .env
+      - name: Generate seasonality index
+        run: python infrastructure/dashboard/generate_seasonality.py
+      - uses: actions/upload-artifact@v5
+        with:
+          name: seasonality-data
+          path: docs/data/seasonality.json
+          retention-days: 1
+
   # ═══════════════════════════════════════════════════════════
   # COMMIT — runs after all parallel jobs complete
   # ═══════════════════════════════════════════════════════════
@@ -161,7 +180,7 @@ jobs:
   commit-and-push:
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: [abc-analysis, dashboard-data, customer-data, review-feed, algolia-enrich, abc-report]
+    needs: [abc-analysis, dashboard-data, customer-data, review-feed, algolia-enrich, abc-report, seasonality]
     if: always() && !cancelled()
     steps:
       - uses: actions/checkout@v5
@@ -200,6 +219,13 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           name: abc-report
+          path: docs/data/
+        continue-on-error: true
+
+      - name: Download seasonality data
+        uses: actions/download-artifact@v5
+        with:
+          name: seasonality-data
           path: docs/data/
         continue-on-error: true
 
