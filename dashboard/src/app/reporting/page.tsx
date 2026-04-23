@@ -55,6 +55,10 @@ export default function ReportingMtdPage() {
 
   const projection = linearProjection(mtd.daily_cy);
 
+  // MER floor = minimum MER for gross-profit break-even (1 / GM%)
+  const merFloor = cy.gross_margin_pct ? 100 / cy.gross_margin_pct : null;
+  const merHeadroom = cy.mer && merFloor ? cy.mer - merFloor : null;
+
   // Chart data: daily CY vs LY
   const lyMap: Record<number, number> = {};
   mtd.daily_ly.forEach(d => {
@@ -128,6 +132,8 @@ export default function ReportingMtdPage() {
           label="MER"
           value={ratio(cy.mer)}
           tooltip={sources.mtdMer}
+          badges={merHeadroom != null ? [{ label: `vs Floor ${merHeadroom >= 0 ? '+' : ''}${merHeadroom.toFixed(2)}x`, color: badgeColor(merHeadroom) }] : []}
+          note={merFloor ? `Floor ${ratio(merFloor)}` : undefined}
         />
         <KpiCard
           label="AOV"

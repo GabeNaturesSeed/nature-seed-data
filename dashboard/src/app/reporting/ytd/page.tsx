@@ -2,7 +2,7 @@
 
 import { useJsonData } from '@/hooks/useJsonData';
 import { ReportingData, BudgetData } from '@/lib/types';
-import { fmt, fmtInt, pct, ratio, calcPct, badgeColor, monthLabel, cumulative, safe, fmtK } from '@/lib/formatters';
+import { fmt, fmtInt, pct, ratio, calcPct, badgeColor, monthLabel, cumulative, safe } from '@/lib/formatters';
 import KpiCard from '@/components/kpi/KpiCard';
 import KpiGrid from '@/components/kpi/KpiGrid';
 import ChartCard from '@/components/charts/ChartCard';
@@ -34,6 +34,10 @@ export default function YtdPage() {
   const totCY = ytd.totals_cy;
   const totLY = ytd.totals_ly;
   const totBud = ytd.totals_budget;
+
+  const ytdMer = totCY.revenue && totCY.ad_spend ? totCY.revenue / totCY.ad_spend : null;
+  const merFloor = totCY.gross_margin_pct ? 100 / totCY.gross_margin_pct : null;
+  const merHeadroom = ytdMer && merFloor ? ytdMer - merFloor : null;
 
   const revLyPct = calcPct(totCY.revenue, totLY.revenue);
   const revBudPct = calcPct(totCY.revenue, totBud.revenue);
@@ -106,7 +110,13 @@ export default function YtdPage() {
           ]}
         />
         <KpiCard label="YTD GM%" value={totCY.gross_margin_pct?.toFixed(1) + '%'} tooltip={sources.ytdGrossMarginPct} />
-        <KpiCard label="YTD MER" value={totCY.revenue && totCY.ad_spend ? ratio(totCY.revenue / totCY.ad_spend) : '\u2014'} tooltip={sources.ytdMer} />
+        <KpiCard
+          label="YTD MER"
+          value={ytdMer ? ratio(ytdMer) : '\u2014'}
+          tooltip={sources.ytdMer}
+          badges={merHeadroom != null ? [{ label: `vs Floor ${merHeadroom >= 0 ? '+' : ''}${merHeadroom.toFixed(2)}x`, color: badgeColor(merHeadroom) }] : []}
+          note={merFloor ? `Floor ${ratio(merFloor)}` : undefined}
+        />
       </KpiGrid>
 
       {/* Cumulative YTD Revenue Chart */}
@@ -139,6 +149,7 @@ export default function YtdPage() {
               <th className="text-right px-5 py-3.5 text-xs uppercase tracking-wider text-brand-neutral/50 font-semibold">vs Budget</th>
               <th className="text-right px-5 py-3.5 text-xs uppercase tracking-wider text-brand-neutral/50 font-semibold">Ad Spend</th>
               <th className="text-right px-5 py-3.5 text-xs uppercase tracking-wider text-brand-neutral/50 font-semibold">MER</th>
+              <th className="text-right px-5 py-3.5 text-xs uppercase tracking-wider text-brand-neutral/50 font-semibold">Floor</th>
               <th className="text-right px-5 py-3.5 text-xs uppercase tracking-wider text-brand-neutral/50 font-semibold">GM%</th>
             </tr>
           </thead>
@@ -159,7 +170,8 @@ export default function YtdPage() {
                     {pct(vsBud)}
                   </td>
                   <td className="px-5 py-3 text-right">{fmt(m.ad_spend)}</td>
-                  <td className="px-5 py-3 text-right">{ratio(m.mer)}</td>
+                  <td className={`px-5 py-3 text-right font-semibold ${m.gross_margin_pct && m.mer >= 100 / m.gross_margin_pct ? 'text-brand-primary' : 'text-ns-red'}`}>{ratio(m.mer)}</td>
+                  <td className="px-5 py-3 text-right text-brand-neutral/50">{m.gross_margin_pct ? ratio(100 / m.gross_margin_pct) : '—'}</td>
                   <td className="px-5 py-3 text-right">{m.gross_margin_pct?.toFixed(1)}%</td>
                 </tr>
               );
@@ -177,7 +189,8 @@ export default function YtdPage() {
                 {pct(revBudPct)}
               </td>
               <td className="px-5 py-3 text-right">{fmt(totCY.ad_spend)}</td>
-              <td className="px-5 py-3 text-right">{totCY.revenue && totCY.ad_spend ? ratio(totCY.revenue / totCY.ad_spend) : '\u2014'}</td>
+              <td className={`px-5 py-3 text-right ${merHeadroom != null && merHeadroom >= 0 ? 'text-brand-primary' : 'text-ns-red'}`}>{ytdMer ? ratio(ytdMer) : '\u2014'}</td>
+              <td className="px-5 py-3 text-right text-brand-neutral/50">{merFloor ? ratio(merFloor) : '—'}</td>
               <td className="px-5 py-3 text-right">{totCY.gross_margin_pct?.toFixed(1)}%</td>
             </tr>
           </tbody>
