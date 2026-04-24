@@ -77,3 +77,58 @@ def test_scan_decay_idempotent_same_rule_same_run():
     run_scan_decay(s, rules=[AlwaysFiresRule()], current_shipping="", llm_client=None); s.commit()
     findings = s.execute(select(DecayFinding)).scalars().all()
     assert len(findings) == 1  # deduped on (content, rule, snippet_hash)
+
+
+def test_scan_decay_rule_filter_does_not_resolve_other_rules():
+    """When --rule is used, other rules' findings must stay open."""
+    s = _session()
+    c = ContentInventory(url="https://x/a", title="A", slug="a", post_type="post")
+    s.add(c); s.commit()
+
+    class RuleA:
+        name = "RuleA"; severity = "critical"
+        def check(self, content, ctx):
+            return [Finding(rule_name=self.name, severity=self.severity,
+                            snippet="a", suggested_action="a")]
+
+    class RuleB:
+        name = "RuleB"; severity = "warning"
+        def check(self, content, ctx):
+            return [Finding(rule_name=self.name, severity=self.severity,
+                            snippet="b", suggested_action="b")]
+
+    # First run: both rules fire, both findings open
+    run_scan_decay(s, rules=[RuleA(), RuleB()], current_shipping="", llm_client=None)
+    s.commit()
+    assert len(s.execute(select(DecayFinding).where(DecayFinding.status == "open")).scalars().all()) == 2
+
+    # Second run scoped to RuleA only — RuleB's finding must remain open
+    run_scan_decay(s, rules=[RuleA(), RuleB()], current_shipping="", llm_client=None,
+                   only_rule_name="RuleA")
+    s.commit()
+    remaining = s.execute(select(DecayFinding).where(DecayFinding.status == "open")).scalars().all()
+    assert len(remaining) == 2  # both still open
+    rule_names = {f.rule_name for f in remaining}
+    assert rule_names == {"RuleA", "RuleB"}
+
+
+def test_scan_decay_rule_filter_skips_refresh_queue_rebuild():
+    """With --rule filter, refresh_queue must not be wholesale rebuilt."""
+    s = _session()
+    c = ContentInventory(url="https://x/a", title="A", slug="a", post_type="post")
+    s.add(c); s.commit()
+
+    # Pre-existing refresh_queue row (simulates a prior full scan)
+    from naturesseed_pipeline.db.models import RefreshQueue
+    s.add(RefreshQueue(content_inventory_id=c.id, reason="preserved", status="pending"))
+    s.commit()
+
+    class RuleA:
+        name = "RuleA"; severity = "info"
+        def check(self, content, ctx): return []
+
+    run_scan_decay(s, rules=[RuleA()], current_shipping="", llm_client=None,
+                   only_rule_name="RuleA")
+    s.commit()
+    rows = s.execute(select(RefreshQueue)).scalars().all()
+    assert len(rows) == 1 and rows[0].reason == "preserved"

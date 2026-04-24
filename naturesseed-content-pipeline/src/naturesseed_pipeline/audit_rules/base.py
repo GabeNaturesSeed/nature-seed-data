@@ -25,12 +25,12 @@ class AuditContext:
     llm_client: object | None = None  # anthropic.Anthropic, lazy
     llm_model: str = "claude-sonnet-4-6"
     llm_token_budget_remaining: int = 50_000
-    _cache: dict = field(default_factory=dict)
+    cache: dict = field(default_factory=dict)
 
     def cached(self, key: str, factory):
-        if key not in self._cache:
-            self._cache[key] = factory()
-        return self._cache[key]
+        if key not in self.cache:
+            self.cache[key] = factory()
+        return self.cache[key]
 
 
 @runtime_checkable

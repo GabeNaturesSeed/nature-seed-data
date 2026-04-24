@@ -23,9 +23,9 @@ def needs_recheck(last_checked_at: datetime | None, cache_days: int) -> bool:
 
 def _check_one(client: httpx.Client, href: str) -> int | None:
     try:
-        resp = client.head(href, follow_redirects=True, timeout=10.0)
+        resp = client.head(href, follow_redirects=True, timeout=5.0)
         if resp.status_code >= 400:
-            resp = client.get(href, follow_redirects=True, timeout=10.0)
+            resp = client.get(href, follow_redirects=True, timeout=5.0)
         return resp.status_code
     except httpx.RequestError as e:
         log.warning("link_check.error", href=href, error=str(e))

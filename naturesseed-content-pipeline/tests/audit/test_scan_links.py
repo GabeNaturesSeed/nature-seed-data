@@ -73,3 +73,21 @@ def test_run_scan_links_idempotent():
 
     links = s.execute(select(OutboundLink)).scalars().all()
     assert len(links) == 1
+
+
+def test_scan_links_resolves_target_when_href_has_query_string():
+    s = _session()
+    src = ContentInventory(url="https://naturesseed.com/resources/a/",
+                           title="A", slug="a", post_type="post",
+                           content_html='<a href="/resources/b/?utm=x">B</a>')
+    tgt = ContentInventory(url="https://naturesseed.com/resources/b/",
+                           title="B", slug="b", post_type="post",
+                           content_html="")
+    s.add_all([src, tgt]); s.commit()
+
+    run_scan_links(s, site_host="naturesseed.com", cache_days=30,
+                   client=None, skip_http=True)
+    s.commit()
+
+    link = s.execute(select(OutboundLink).where(OutboundLink.link_type == "internal_content")).scalar_one()
+    assert link.target_content_id == tgt.id

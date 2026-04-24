@@ -36,7 +36,7 @@ def test_thin_content_fires_below_threshold():
                         word_count=50)
     s.add(c); s.commit()
     ctx = AuditContext(session=s, current_shipping="")
-    ctx._cache["thin_word_count"] = 300
+    ctx.cache["thin_word_count"] = 300
     assert len(ThinContentRule().check(c, ctx)) == 1
 
 
@@ -46,7 +46,7 @@ def test_thin_content_silent_above():
                         word_count=1000)
     s.add(c); s.commit()
     ctx = AuditContext(session=s, current_shipping="")
-    ctx._cache["thin_word_count"] = 300
+    ctx.cache["thin_word_count"] = 300
     assert ThinContentRule().check(c, ctx) == []
 
 

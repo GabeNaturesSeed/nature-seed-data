@@ -21,7 +21,7 @@ def classify_href(href: str, site_host: str) -> str:
     parsed = urlparse(href)
     path = parsed.path or ""
     host = parsed.netloc.lower()
-    site_host = site_host.lower().lstrip("www.")
+    site_host = site_host.lower().removeprefix("www.")
 
     is_internal = (host == "" or host == site_host or host == f"www.{site_host}")
     if not is_internal:

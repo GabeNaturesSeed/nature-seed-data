@@ -8,7 +8,7 @@ class ThinContentRule:
     severity = "info"
 
     def check(self, content, ctx: AuditContext) -> list[Finding]:
-        threshold = ctx._cache.get("thin_word_count", 300)
+        threshold = ctx.cache.get("thin_word_count", 300)
         wc = content.word_count or 0
         if wc >= threshold:
             return []

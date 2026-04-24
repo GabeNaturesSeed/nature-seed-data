@@ -34,11 +34,13 @@ def run_scan_decay(
     if only_rule_name:
         rules = [r for r in rules if r.name == only_rule_name]
 
-    # Step 1: stale-out existing open findings for the scope being scanned
-    stale_q = update(DecayFinding).where(DecayFinding.status == "open")
+    # Step 1: stale-out existing open findings (scoped to filter)
+    stale_q = update(DecayFinding).where(DecayFinding.status == "open").values(status="stale")
+    if only_rule_name:
+        stale_q = stale_q.where(DecayFinding.rule_name == only_rule_name)
     if only_article_id:
         stale_q = stale_q.where(DecayFinding.content_inventory_id == only_article_id)
-    session.execute(stale_q.values(status="stale"))
+    session.execute(stale_q)
     session.flush()
 
     ctx = AuditContext(
@@ -51,9 +53,9 @@ def run_scan_decay(
     # Share thin-content threshold through cache for ThinContentRule
     try:
         from naturesseed_pipeline.config import settings
-        ctx._cache["thin_word_count"] = settings.audit_thin_word_count
+        ctx.cache["thin_word_count"] = settings.audit_thin_word_count
     except Exception:
-        ctx._cache["thin_word_count"] = 300
+        ctx.cache["thin_word_count"] = 300
 
     # Step 2: run rules per article
     content_q = select(ContentInventory)
@@ -105,46 +107,48 @@ def run_scan_decay(
                     counts["findings_reopened"] += 1
         session.flush()
 
-    # Step 3: stale → resolved
+    # Step 3: stale → resolved (scoped to same filter)
     now = datetime.now(timezone.utc)
-    stale_scope_q = select(DecayFinding).where(DecayFinding.status == "stale")
+    stale_select = select(DecayFinding).where(DecayFinding.status == "stale")
+    if only_rule_name:
+        stale_select = stale_select.where(DecayFinding.rule_name == only_rule_name)
     if only_article_id:
-        stale_scope_q = stale_scope_q.where(
+        stale_select = stale_select.where(
             DecayFinding.content_inventory_id == only_article_id
         )
-    stale = session.execute(stale_scope_q).scalars().all()
+    stale = session.execute(stale_select).scalars().all()
     for f in stale:
         f.status = "resolved"
         f.resolved_at = now
     session.flush()
 
-    # Step 4: rebuild refresh_queue — clear pending rows for scope, then re-insert
-    del_q = delete(RefreshQueue).where(RefreshQueue.status == "pending")
-    if only_article_id:
-        del_q = del_q.where(
-            RefreshQueue.content_inventory_id == only_article_id
-        )
-    session.execute(del_q)
+    # Step 4: rebuild refresh_queue from open findings — only on full scans
+    if only_rule_name is None and only_article_id is None:
+        session.execute(delete(RefreshQueue).where(RefreshQueue.status == "pending"))
+        open_findings = session.execute(
+            select(DecayFinding).where(DecayFinding.status == "open")
+        ).scalars().all()
+        by_content: dict[int, list[DecayFinding]] = {}
+        for f in open_findings:
+            by_content.setdefault(f.content_inventory_id, []).append(f)
 
-    open_scope_q = select(DecayFinding).where(DecayFinding.status == "open")
-    if only_article_id:
-        open_scope_q = open_scope_q.where(
-            DecayFinding.content_inventory_id == only_article_id
-        )
-    open_findings = session.execute(open_scope_q).scalars().all()
+        for cid, flist in by_content.items():
+            rule_names = sorted({f.rule_name for f in flist})
+            session.add(RefreshQueue(
+                content_inventory_id=cid,
+                reason=f"{len(flist)} decay findings: " + ", ".join(rule_names),
+                status="pending",
+            ))
+        counts["findings_open"] = len(open_findings)
+    else:
+        log.info("audit.scan_decay.partial", note="refresh_queue not rebuilt due to --rule/--article filter")
+        # Still count open findings for the return value, scoped
+        open_q = select(DecayFinding).where(DecayFinding.status == "open")
+        if only_rule_name:
+            open_q = open_q.where(DecayFinding.rule_name == only_rule_name)
+        if only_article_id:
+            open_q = open_q.where(DecayFinding.content_inventory_id == only_article_id)
+        counts["findings_open"] = len(session.execute(open_q).scalars().all())
 
-    by_content: dict[int, list[DecayFinding]] = {}
-    for f in open_findings:
-        by_content.setdefault(f.content_inventory_id, []).append(f)
-
-    for cid, flist in by_content.items():
-        rule_names = sorted({f.rule_name for f in flist})
-        session.add(RefreshQueue(
-            content_inventory_id=cid,
-            reason=f"{len(flist)} decay findings: " + ", ".join(rule_names),
-            status="pending",
-        ))
-
-    counts["findings_open"] = len(open_findings)
     log.info("audit.scan_decay.done", **counts)
     return counts
