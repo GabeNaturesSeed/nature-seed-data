@@ -161,6 +161,184 @@ def audit_report() -> None:
         session.close()
 
 
+# ── New audit pipeline commands (6-stage v2) ──────────────────────────────────
+
+@audit_app.command("sync")
+def audit_sync_cmd(
+    since: Optional[str] = typer.Option(None, "--since", help="Incremental YYYY-MM-DD"),
+) -> None:
+    """Pull posts + pages + products into content_inventory and wc_catalog_snapshot."""
+    from naturesseed_pipeline.db.session import SessionLocal
+    from naturesseed_pipeline.pipelines.audit.sync import run_sync
+    session = SessionLocal()
+    try:
+        counts = run_sync(session, since=since)
+        session.commit()
+        console.print(f"[bold]Sync complete[/bold] — {counts}")
+    finally:
+        session.close()
+
+
+@audit_app.command("classify")
+def audit_classify_cmd(
+    export_proposals: Optional[str] = typer.Option(
+        None, "--export-proposals",
+        help="Dump pending subtopic proposals to a markdown file at the given path"),
+    import_approvals: Optional[str] = typer.Option(
+        None, "--import-approvals",
+        help="Read an edited markdown file and apply approvals / rejections"),
+    approve_all: bool = typer.Option(
+        False, "--approve-all",
+        help="Non-interactive: approve every pending subtopic without review"),
+    reclassify: bool = typer.Option(
+        False, "--reclassify",
+        help="Re-run the full classify pipeline (seed + pass1 + pass2 + pass4)"),
+) -> None:
+    """Four-pass classify: seed + pass 1 deterministic + pass 2 LLM proposal + pass 4 subtopic match.
+
+    Subtopic approval is a markdown-file workflow: run --export-proposals to write a review
+    file, edit it (delete sections to reject, edit names/keywords to refine), then run
+    --import-approvals to apply your edits. Use --approve-all for non-interactive approval.
+    """
+    from pathlib import Path
+    from naturesseed_pipeline.db.session import SessionLocal
+    from naturesseed_pipeline.integrations.wordpress import WooCommerceClient
+    from naturesseed_pipeline.pipelines.audit.classify import (
+        seed_topics_from_wc_categories, run_classify_pass1, run_classify_pass2,
+        run_classify_pass4, approve_all_subtopics, AnthropicSubtopicProposer,
+        export_pending_subtopics_to_markdown, import_subtopic_approvals_from_markdown,
+    )
+
+    session = SessionLocal()
+    try:
+        if export_proposals:
+            n = export_pending_subtopics_to_markdown(session, Path(export_proposals))
+            console.print(f"Wrote {n} pending subtopic(s) to [bold]{export_proposals}[/bold]")
+            console.print("Review the file, then run: "
+                          f"[bold]nspipe audit classify --import-approvals {export_proposals}[/bold]")
+            return
+
+        if import_approvals:
+            counts = import_subtopic_approvals_from_markdown(session, Path(import_approvals))
+            session.commit()
+            console.print(f"[bold]Approvals imported[/bold] — {counts}")
+            console.print("Re-run [bold]nspipe audit classify[/bold] to run Pass 4 with the approved subtopics.")
+            return
+
+        if approve_all:
+            n = approve_all_subtopics(session); session.commit()
+            console.print(f"Approved {n} subtopic(s).")
+            return
+
+        # Full classify: seed + pass1 + pass2 + pass4 (pass4 skips non-approved anyway)
+        wc = WooCommerceClient()
+        try:
+            cats = wc._paginate("products/categories") or []
+        finally:
+            wc.close()
+        added = seed_topics_from_wc_categories(session, cats)
+        cat_map = {int(c["id"]): c.get("slug", "") for c in cats if c.get("id")}
+        assigned = run_classify_pass1(session, wp_cat_id_to_slug=cat_map)
+        try:
+            proposed = run_classify_pass2(session, proposer=AnthropicSubtopicProposer())
+        except Exception as e:
+            proposed = 0
+            console.print(f"[yellow]Pass 2 (LLM subtopic proposal) skipped: {e}[/yellow]")
+        sub_assigned = run_classify_pass4(session)
+        session.commit()
+        console.print(f"Topics added: {added}, top-level assignments: {assigned}, "
+                      f"LLM proposals: {proposed}, subtopic assignments: {sub_assigned}")
+        if proposed:
+            console.print("\nReview subtopic proposals:\n"
+                          "  [bold]nspipe audit classify --export-proposals docs/content-audit/subtopic-proposals.md[/bold]")
+    finally:
+        session.close()
+
+
+@audit_app.command("tag-products")
+def audit_tag_products_cmd() -> None:
+    """Tag articles with active + inactive product + species mentions."""
+    from naturesseed_pipeline.config import settings
+    from naturesseed_pipeline.db.session import SessionLocal
+    from naturesseed_pipeline.pipelines.audit.tag_products import run_tag_products
+    session = SessionLocal()
+    try:
+        counts = run_tag_products(session, fuzzy_threshold=settings.audit_fuzzy_match_threshold)
+        session.commit()
+        console.print(f"[bold]Tag products complete[/bold] — {counts}")
+    finally:
+        session.close()
+
+
+@audit_app.command("scan-links")
+def audit_scan_links_cmd(
+    skip_http: bool = typer.Option(False, "--skip-http", help="Extract only, no HTTP checks"),
+    recheck_all: bool = typer.Option(False, "--recheck-all", help="Ignore 30-day cache"),
+) -> None:
+    """Extract outbound links + HTTP-check them."""
+    from urllib.parse import urlparse
+    from naturesseed_pipeline.config import settings
+    from naturesseed_pipeline.db.session import SessionLocal
+    from naturesseed_pipeline.pipelines.audit.scan_links import run_scan_links
+    session = SessionLocal()
+    try:
+        site_host = urlparse(settings.wc_base_url).netloc
+        cache_days = 0 if recheck_all else settings.audit_http_check_cache_days
+        counts = run_scan_links(session, site_host=site_host, cache_days=cache_days,
+                                skip_http=skip_http)
+        session.commit()
+        console.print(f"[bold]Scan links complete[/bold] — {counts}")
+    finally:
+        session.close()
+
+
+@audit_app.command("scan-decay")
+def audit_scan_decay_cmd(
+    rule: Optional[str] = typer.Option(None, "--rule", help="Run only a single rule"),
+    article: Optional[int] = typer.Option(None, "--article", help="Run against a single article id"),
+) -> None:
+    """Run all decay rules, reconcile findings, rebuild refresh_queue."""
+    from naturesseed_pipeline.audit_rules import discover_rules
+    from naturesseed_pipeline.config import settings
+    from naturesseed_pipeline.db.session import SessionLocal
+    from naturesseed_pipeline.pipelines.audit.scan_decay import run_scan_decay
+    session = SessionLocal()
+    try:
+        rules = discover_rules()
+        llm_client = None
+        if settings.anthropic_api_key:
+            import anthropic
+            llm_client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+        counts = run_scan_decay(
+            session, rules=rules,
+            current_shipping=settings.audit_current_shipping,
+            llm_client=llm_client, llm_model=settings.audit_llm_model,
+            llm_token_budget=settings.audit_llm_max_tokens_per_rule,
+            only_article_id=article, only_rule_name=rule,
+        )
+        session.commit()
+        console.print(f"[bold]Scan decay complete[/bold] — {counts}")
+    finally:
+        session.close()
+
+
+@audit_app.command("report-v2")
+def audit_report_v2_cmd(
+    out_dir: str = typer.Option("docs/content-audit",
+                                 "--out", help="Report output root"),
+) -> None:
+    """Generate markdown + CSV reports (new 6-stage pipeline version)."""
+    from pathlib import Path
+    from naturesseed_pipeline.db.session import SessionLocal
+    from naturesseed_pipeline.pipelines.audit.report import run_report
+    session = SessionLocal()
+    try:
+        out = run_report(session, out_root=Path(out_dir))
+        console.print(f"[bold]Reports written to {out}[/bold]")
+    finally:
+        session.close()
+
+
 # ── Orphan subcommands ────────────────────────────────────────────────────────
 
 @orphans_app.command("list")

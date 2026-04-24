@@ -270,3 +270,115 @@ def run_classify_pass4(session: Session) -> int:
         assigned += 1
 
     return assigned
+
+
+from pathlib import Path
+
+
+def export_pending_subtopics_to_markdown(session: Session, out_path: Path) -> int:
+    """Dump all pending subtopic proposals to a markdown file for review.
+
+    Format:
+        # Subtopic Proposals — Pending Approval
+        ... guidance ...
+        ---
+        ## <Subtopic Name> [parent: <parent-slug>]
+        - slug: <slug>
+        - keywords:
+          - <kw1>
+          - <kw2>
+    """
+    pending = list_pending_subtopics(session)
+    parent_by_id = {
+        t.id: t for t in session.execute(
+            select(Topic).where(Topic.parent_topic_id.is_(None))
+        ).scalars().all()
+    }
+    lines = [
+        "# Subtopic Proposals — Pending Approval",
+        "",
+        "Review each section below:",
+        "- **Approve**: leave it as-is.",
+        "- **Reject**: delete the section (including its `##` heading).",
+        "- **Refine**: edit the name, slug, or keywords. Re-imports re-read from disk.",
+        "",
+        "When done, run: `nspipe audit classify --import-approvals <this-file>`",
+        "",
+    ]
+    for t in pending:
+        parent = parent_by_id.get(t.parent_topic_id)
+        parent_slug = parent.slug if parent else "?"
+        lines.append("---")
+        lines.append(f"## {t.name} [parent: {parent_slug}]")
+        lines.append(f"- slug: {t.slug}")
+        lines.append("- keywords:")
+        for kw in (t.keywords or []):
+            lines.append(f"  - {kw}")
+        lines.append("")
+    out_path.write_text("\n".join(lines))
+    return len(pending)
+
+
+def import_subtopic_approvals_from_markdown(session: Session, in_path: Path) -> dict[str, int]:
+    """Parse the edited markdown file. Approve every surviving subtopic (update
+    name/keywords if edited). Delete any pending subtopic whose slug is absent
+    from the file — that represents a rejection.
+
+    Returns counts: {approved, rejected, refined, unknown}.
+    """
+    import re
+
+    text = in_path.read_text()
+    # Split on `---` section separators, keep only non-empty blocks after the header
+    blocks = [b.strip() for b in text.split("---") if b.strip()]
+    if blocks and blocks[0].startswith("# Subtopic Proposals"):
+        blocks = blocks[1:]  # drop the header block
+
+    parsed: dict[str, dict] = {}  # slug -> {name, keywords, parent_slug}
+    for block in blocks:
+        # Header: "## <Name> [parent: <parent-slug>]"
+        h = re.search(r"^##\s+(.+?)\s*\[parent:\s*([^\]]+)\]\s*$", block, re.MULTILINE)
+        if not h:
+            continue
+        name = h.group(1).strip()
+        parent_slug = h.group(2).strip()
+
+        slug_m = re.search(r"^\s*-\s*slug:\s*(.+?)\s*$", block, re.MULTILINE)
+        if not slug_m:
+            continue
+        slug = slug_m.group(1).strip()
+
+        # keywords: list items after "- keywords:"
+        kws: list[str] = []
+        kw_section = re.search(r"-\s*keywords:\s*\n((?:\s+-\s+.+\n?)*)", block)
+        if kw_section:
+            for line in kw_section.group(1).splitlines():
+                kw = line.strip().lstrip("-").strip()
+                if kw:
+                    kws.append(kw)
+
+        parsed[slug] = {"name": name, "keywords": kws, "parent_slug": parent_slug}
+
+    pending = list_pending_subtopics(session)
+    pending_slugs = {t.slug for t in pending}
+
+    counts = {"approved": 0, "rejected": 0, "refined": 0, "unknown": 0}
+
+    for t in pending:
+        if t.slug not in parsed:
+            session.delete(t)
+            counts["rejected"] += 1
+            continue
+        data = parsed[t.slug]
+        if data["name"] != t.name or data["keywords"] != (t.keywords or []):
+            t.name = data["name"]
+            t.keywords = data["keywords"]
+            counts["refined"] += 1
+        t.approved = 1
+        counts["approved"] += 1
+
+    # Slugs in file but not in pending — probably user-added or already approved
+    for slug in parsed.keys() - pending_slugs:
+        counts["unknown"] += 1
+
+    return counts
