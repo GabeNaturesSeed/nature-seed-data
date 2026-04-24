@@ -206,3 +206,67 @@ def approve_all_subtopics(session: Session) -> int:
     for t in pending:
         t.approved = 1
     return len(pending)
+
+
+def _score_article_against_subtopic(text: str, keywords: list[str]) -> int:
+    """Hit count of keyword phrases in article text (case-insensitive)."""
+    if not text or not keywords:
+        return 0
+    text_lower = text.lower()
+    return sum(text_lower.count(kw.lower()) for kw in keywords if kw)
+
+
+def run_classify_pass4(session: Session) -> int:
+    """Assign subtopic to each article using best-match keyword hit count.
+    Returns the count of new subtopic assignments."""
+    # Group approved subtopics by parent
+    top_levels = {t.id: t for t in session.execute(
+        select(Topic).where(Topic.parent_topic_id.is_(None))
+    ).scalars().all()}
+    subtopics_by_parent: dict[int, list[Topic]] = {}
+    for t in session.execute(
+        select(Topic).where(Topic.parent_topic_id.isnot(None), Topic.approved == 1)
+    ).scalars().all():
+        subtopics_by_parent.setdefault(t.parent_topic_id, []).append(t)
+
+    # Existing content-topic pairs
+    existing = {(a.content_inventory_id, a.topic_id) for a in
+                session.execute(select(ContentTopic)).scalars().all()}
+
+    # Build: content_id -> list of top-level topic_ids currently assigned
+    content_topic_rows = session.execute(select(ContentTopic)).scalars().all()
+    by_content: dict[int, list[int]] = {}
+    for ct in content_topic_rows:
+        by_content.setdefault(ct.content_inventory_id, []).append(ct.topic_id)
+
+    assigned = 0
+    content_rows = session.execute(select(ContentInventory)).scalars().all()
+    for row in content_rows:
+        assigned_topic_ids = by_content.get(row.id, [])
+        tl_id = next((tid for tid in assigned_topic_ids if tid in top_levels), None)
+        if tl_id is None:
+            continue
+        subs = subtopics_by_parent.get(tl_id, [])
+        if not subs:
+            continue
+
+        scored = sorted(
+            ((sub, _score_article_against_subtopic(row.content_text or "", sub.keywords or []))
+             for sub in subs),
+            key=lambda x: x[1], reverse=True,
+        )
+        best_sub, best_score = scored[0]
+        if best_score == 0:
+            continue
+        if (row.id, best_sub.id) in existing:
+            continue
+
+        total_hits = sum(score for _, score in scored) or 1
+        session.add(ContentTopic(
+            content_inventory_id=row.id, topic_id=best_sub.id,
+            confidence=best_score / total_hits, assigned_by="auto",
+        ))
+        existing.add((row.id, best_sub.id))
+        assigned += 1
+
+    return assigned
