@@ -1,0 +1,69 @@
+[project]
+name = "naturesseed-content-pipeline"
+version = "0.1.0"
+description = "Agentic content pipeline for Nature's Seed"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "sqlalchemy>=2.0",
+    "alembic>=1.13",
+    "typer>=0.12",
+    "pydantic-settings>=2.0",
+    "structlog>=24.0",
+    "rich>=13.0",
+    "httpx>=0.28.1",
+    "beautifulsoup4>=4.14.3",
+    "rapidfuzz>=3.14.5",
+    "google-ads>=30.0.0",
+    "google-api-python-client>=2.194.0",
+    "google-auth>=2.49.2",
+    "pytrends>=4.9.2",
+    "pydantic>=2.13.3",
+    "praw>=7.8.1",
+    "feedparser>=6.0.12",
+    "pyyaml>=6.0.3",
+    "trafilatura>=2.0.0",
+    "language-tool-python>=3.3.0",
+    "textstat>=0.7.13",
+    "pillow>=12.2.0",
+    "openai>=2.32.0",
+    "markdown-it-py>=4.0.0",
+    "mdit-py-plugins>=0.5.0",
+    "linkify-it-py>=2.1.0",
+]
+
+[project.scripts]
+nspipe = "naturesseed_pipeline.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/naturesseed_pipeline"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.20.1",
+    "pre-commit>=4.5.1",
+    "pytest>=9.0.3",
+    "responses>=0.26.0",
+    "respx>=0.23.1",
+    "ruff>=0.15.11",
+]

@@ -1,0 +1,10 @@
+# Editorial calendar settings.
+
+publish_days:
+  - Tuesday
+  - Thursday
+
+publish_time: "09:00"  # Local time (MST)
+timezone: "America/Denver"
+max_per_week: 3
+min_gap_hours: 24

@@ -1,0 +1,34 @@
+# Media sources for the content pipeline listener.
+# Add/remove channels, subreddits, and RSS feeds here.
+
+youtube:
+  channels:
+    - name: "Epic Gardening"
+      id: "UCSbOtBKbJbMwn49VlX3TqkA"
+    - name: "MIgardener"
+      id: "UCRZIKIqBb-JMmGojRfMhxzg"
+    - name: "Huw Richards"
+      id: "UCq7fbHOHm2d0YBwwg_J8ydA"
+    - name: "Garden Answer"
+      id: "UCQFPMwtSOrRrECirFhHZi1w"
+
+reddit:
+  subreddits:
+    - gardening
+    - vegetablegardening
+    - seedstarting
+    - permaculture
+    - urbanfarming
+
+rss:
+  feeds:
+    - name: "The Spruce - Gardening"
+      url: "https://www.thespruce.com/gardening-4127780/rss"
+    - name: "Gardening Know How"
+      url: "https://www.gardeningknowhow.com/feed"
+    - name: "Laidback Gardener"
+      url: "https://laidbackgardener.blog/feed/"
+
+trends:
+  category: 11  # Home & Garden category ID in Google Trends
+  geo: "US"
