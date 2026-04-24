@@ -1,9 +1,5 @@
 """Tests for the content audit pipeline: API clients, upsert, orphan detection."""
 
-import json
-import os
-import tempfile
-
 import httpx
 import pytest
 import respx
@@ -13,22 +9,13 @@ from sqlalchemy.orm import Session, sessionmaker
 from naturesseed_pipeline.db.models import (
     Base,
     ContentInventory,
-    OrphanReference,
 )
 from naturesseed_pipeline.integrations.wordpress import (
-    WooCommerceClient,
     WordPressClient,
     html_to_text,
 )
-from naturesseed_pipeline.pipelines.audit_legacy import (
-    get_audit_report,
-    run_content_sync,
-    run_orphan_scan,
-    upsert_content,
-)
+from naturesseed_pipeline.pipelines.audit._shared import upsert_content
 from naturesseed_pipeline.pipelines.orphans import (
-    OrphanHit,
-    ProductIndex,
     build_product_index,
     scan_content,
 )
@@ -317,190 +304,3 @@ def test_fuzzy_skips_short_names():
     assert len(name_hits) == 0
 
 
-# ── Full pipeline with mocked API ────────────────────────────────────────────
-
-@respx.mock
-def test_full_content_sync(db_session: Session):
-    """run_content_sync should populate content_inventory."""
-    wp_base = "https://test.com/wp-json/wp/v2"
-    wc_base = "https://test.com/wp-json/wc/v3"
-
-    respx.get(f"{wp_base}/posts").mock(return_value=httpx.Response(
-        200, json=[_make_wp_post(1, "Post 1")], headers={"X-WP-TotalPages": "1"},
-    ))
-    respx.get(f"{wp_base}/pages").mock(return_value=httpx.Response(
-        200, json=[_make_wp_post(2, "Page 1", slug="page-1")], headers={"X-WP-TotalPages": "1"},
-    ))
-    respx.get(f"{wc_base}/products").mock(return_value=httpx.Response(
-        200, json=[_make_wc_product(100)], headers={"X-WP-TotalPages": "1"},
-    ))
-
-    wp = WordPressClient(base_url=wp_base, username="u", app_password="p")
-    wc = WooCommerceClient(base_url=wc_base, consumer_key="ck", consumer_secret="cs")
-
-    counts = run_content_sync(db_session, wp, wc)
-    db_session.commit()
-
-    assert counts["posts"] == 1
-    assert counts["pages"] == 1
-    assert counts["products"] == 1
-
-    all_rows = db_session.execute(select(ContentInventory)).scalars().all()
-    assert len(all_rows) == 3
-
-    wp.close()
-    wc.close()
-
-
-@respx.mock
-def test_full_audit_idempotent(db_session: Session):
-    """Running sync twice should not duplicate rows."""
-    wp_base = "https://test.com/wp-json/wp/v2"
-    wc_base = "https://test.com/wp-json/wc/v3"
-
-    post_data = [_make_wp_post(1, "Post 1")]
-    page_data = [_make_wp_post(2, "Page 1", slug="page-1")]
-    product_data = [_make_wc_product(100)]
-
-    for _ in range(2):
-        respx.get(f"{wp_base}/posts").mock(return_value=httpx.Response(
-            200, json=post_data, headers={"X-WP-TotalPages": "1"},
-        ))
-        respx.get(f"{wp_base}/pages").mock(return_value=httpx.Response(
-            200, json=page_data, headers={"X-WP-TotalPages": "1"},
-        ))
-        respx.get(f"{wc_base}/products").mock(return_value=httpx.Response(
-            200, json=product_data, headers={"X-WP-TotalPages": "1"},
-        ))
-
-    wp = WordPressClient(base_url=wp_base, username="u", app_password="p")
-    wc = WooCommerceClient(base_url=wc_base, consumer_key="ck", consumer_secret="cs")
-
-    run_content_sync(db_session, wp, wc)
-    db_session.commit()
-    run_content_sync(db_session, wp, wc)
-    db_session.commit()
-
-    all_rows = db_session.execute(select(ContentInventory)).scalars().all()
-    assert len(all_rows) == 3  # not 6
-
-    wp.close()
-    wc.close()
-
-
-@respx.mock
-def test_orphan_scan_flags_correctly(db_session: Session):
-    """Orphan scan should flag references to inactive products."""
-    # Manually insert a content row with orphan references
-    content = ContentInventory(
-        wp_post_id=1,
-        url="https://naturesseed.com/best-lawn-seed/",
-        title="Best Lawn Seed Guide",
-        slug="best-lawn-seed",
-        content_html='<p>Try our <a href="/products/old-discontinued-mix/">old mix</a> '
-                      'or [product id="999"]</p>',
-        content_text="Try our old mix or discontinued product",
-        post_type="post",
-        status="publish",
-    )
-    db_session.add(content)
-    db_session.flush()
-
-    wc_base = "https://test.com/wp-json/wc/v3"
-    active = [_make_wc_product(100, "Active Seed", "active-seed")]
-    inactive = [_make_wc_product(200, "Old Discontinued Mix", "old-discontinued-mix", status="draft")]
-    all_products = active + inactive
-
-    respx.get(f"{wc_base}/products").mock(side_effect=[
-        httpx.Response(200, json=active, headers={"X-WP-TotalPages": "1"}),
-        httpx.Response(200, json=all_products, headers={"X-WP-TotalPages": "1"}),
-    ])
-
-    wc = WooCommerceClient(base_url=wc_base, consumer_key="ck", consumer_secret="cs")
-    flag_count = run_orphan_scan(db_session, wc)
-    db_session.commit()
-
-    assert flag_count >= 2  # URL + shortcode at minimum
-
-    refs = db_session.execute(select(OrphanReference)).scalars().all()
-    ref_types = {r.reference_type for r in refs}
-    assert "url" in ref_types
-    assert "shortcode" in ref_types
-
-    wc.close()
-
-
-@respx.mock
-def test_orphan_scan_idempotent(db_session: Session):
-    """Running orphan scan twice should not re-flag existing refs."""
-    content = ContentInventory(
-        wp_post_id=1,
-        url="https://naturesseed.com/guide/",
-        title="Guide",
-        slug="guide",
-        content_html='<a href="/products/gone-product/">link</a>',
-        content_text="See gone-product",
-        post_type="post",
-        status="publish",
-    )
-    db_session.add(content)
-    db_session.flush()
-
-    wc_base = "https://test.com/wp-json/wc/v3"
-    active: list = []
-    inactive = [_make_wc_product(200, "Gone Product", "gone-product", status="trash")]
-
-    # 4 responses: 2 per orphan_scan call (list_products + list_all_products)
-    respx.get(f"{wc_base}/products").mock(side_effect=[
-        httpx.Response(200, json=active, headers={"X-WP-TotalPages": "1"}),
-        httpx.Response(200, json=active + inactive, headers={"X-WP-TotalPages": "1"}),
-        httpx.Response(200, json=active, headers={"X-WP-TotalPages": "1"}),
-        httpx.Response(200, json=active + inactive, headers={"X-WP-TotalPages": "1"}),
-    ])
-
-    wc = WooCommerceClient(base_url=wc_base, consumer_key="ck", consumer_secret="cs")
-
-    run_orphan_scan(db_session, wc)
-    db_session.commit()
-    count1 = len(db_session.execute(select(OrphanReference)).scalars().all())
-
-    run_orphan_scan(db_session, wc)
-    db_session.commit()
-    count2 = len(db_session.execute(select(OrphanReference)).scalars().all())
-
-    assert count1 == count2  # no duplicates
-
-    wc.close()
-
-
-# ── Audit report ──────────────────────────────────────────────────────────────
-
-def test_audit_report_with_data(db_session: Session):
-    """Report should return correct stats."""
-    db_session.add(ContentInventory(
-        wp_post_id=1, url="u", title="t", slug="s",
-        content_text="hello world", post_type="post", word_count=2,
-    ))
-    db_session.add(ContentInventory(
-        wp_post_id=2, url="u2", title="t2", slug="s",  # duplicate slug
-        content_text="another post", post_type="post", word_count=2,
-    ))
-    db_session.add(ContentInventory(
-        wp_post_id=3, url="u3", title="t3", slug="page-1",
-        content_text="page content", post_type="page", word_count=2,
-    ))
-    db_session.flush()
-
-    # Add an orphan ref
-    db_session.add(OrphanReference(
-        content_inventory_id=1, reference_type="url",
-        reference_value="/products/old/", match_confidence=1.0,
-    ))
-    db_session.flush()
-
-    report = get_audit_report(db_session)
-    assert report["total_posts"] == 2
-    assert report["total_pages"] == 1
-    assert report["orphan_flags_total"] == 1
-    assert "url" in report["orphan_flags_by_type"]
-    assert len(report["duplicate_slugs"]) == 1

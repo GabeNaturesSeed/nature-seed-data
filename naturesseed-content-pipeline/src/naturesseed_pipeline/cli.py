@@ -93,76 +93,6 @@ def db_upgrade() -> None:
 
 # ── Audit commands ────────────────────────────────────────────────────────────
 
-@audit_app.command("run")
-def audit_run(
-    since: Optional[str] = typer.Option(None, "--since", help="Incremental: YYYY-MM-DD"),
-) -> None:
-    """Full content audit + orphan product reference scan."""
-    from naturesseed_pipeline.db.session import SessionLocal
-    from naturesseed_pipeline.pipelines.audit_legacy import run_full_audit
-
-    session = SessionLocal()
-    try:
-        result = run_full_audit(session, since=since)
-        console.print()
-        console.print("[bold]Audit complete[/bold]")
-        console.print(f"  Posts synced:    {result['posts']}")
-        console.print(f"  Pages synced:    {result['pages']}")
-        console.print(f"  Products synced: {result['products']}")
-        console.print(f"  [bold red]Orphan flags:    {result['orphan_flags']}[/bold red]")
-        if result["orphan_flags"] > 0:
-            console.print()
-            console.print("Run [bold]nspipe audit orphans list[/bold] to review flagged references.")
-    finally:
-        session.close()
-
-
-@audit_app.command("report")
-def audit_report() -> None:
-    """Content audit summary report."""
-    from naturesseed_pipeline.db.session import SessionLocal
-    from naturesseed_pipeline.pipelines.audit_legacy import get_audit_report
-
-    session = SessionLocal()
-    try:
-        r = get_audit_report(session)
-
-        console.print()
-        console.print("[bold]CONTENT AUDIT REPORT[/bold]")
-        console.print("=" * 50)
-
-        table = Table(show_header=False, box=None, padding=(0, 2))
-        table.add_column(style="bold")
-        table.add_column(justify="right")
-        table.add_row("Posts", str(r["total_posts"]))
-        table.add_row("Pages", str(r["total_pages"]))
-        table.add_row("Products", str(r["total_products"]))
-        table.add_row("Avg word count", str(r["avg_word_count"]))
-        table.add_row("Missing target keyword", str(r["missing_target_keyword"]))
-        table.add_row("Duplicate slugs", str(len(r["duplicate_slugs"])))
-        table.add_row("Category clusters", str(r["category_clusters"]))
-        console.print(table)
-
-        console.print()
-        console.print("[bold red]ORPHAN PRODUCT REFERENCES[/bold red]")
-        console.print(f"  Total flagged: {r['orphan_flags_total']}")
-        if r["orphan_flags_by_type"]:
-            for ref_type, count in sorted(r["orphan_flags_by_type"].items()):
-                console.print(f"    {ref_type}: {count}")
-        else:
-            console.print("  No orphan flags found.")
-
-        if r["duplicate_slugs"]:
-            console.print()
-            console.print("[bold]DUPLICATE SLUGS[/bold]")
-            for slug, count in r["duplicate_slugs"]:
-                console.print(f"  {slug} ({count}x)")
-    finally:
-        session.close()
-
-
-# ── New audit pipeline commands (6-stage v2) ──────────────────────────────────
-
 @audit_app.command("sync")
 def audit_sync_cmd(
     since: Optional[str] = typer.Option(None, "--since", help="Incremental YYYY-MM-DD"),
@@ -322,7 +252,7 @@ def audit_scan_decay_cmd(
         session.close()
 
 
-@audit_app.command("report-v2")
+@audit_app.command("report")
 def audit_report_v2_cmd(
     out_dir: str = typer.Option("docs/content-audit",
                                  "--out", help="Report output root"),
