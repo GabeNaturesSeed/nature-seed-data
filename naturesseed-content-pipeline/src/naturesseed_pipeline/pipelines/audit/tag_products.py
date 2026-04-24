@@ -20,39 +20,9 @@ from naturesseed_pipeline.pipelines.audit.product_match import (
 
 log = structlog.get_logger()
 
-# Broad vocabulary of grass/seed/forage species to detect in content,
-# even when not represented in the current catalog.
-_KNOWN_SPECIES: frozenset[str] = frozenset({
-    "fescue", "tall fescue", "fine fescue", "creeping red fescue", "chewings fescue",
-    "hard fescue", "sheep fescue",
-    "rye", "ryegrass", "perennial ryegrass", "annual ryegrass", "italian ryegrass",
-    "bluegrass", "kentucky bluegrass", "rough bluegrass", "canada bluegrass",
-    "bentgrass", "creeping bentgrass", "colonial bentgrass",
-    "bermudagrass", "bermuda grass", "zoysiagrass", "zoysia grass",
-    "buffalograss", "buffalo grass", "st augustine grass", "centipede grass",
-    "bahiagrass", "bahia grass", "carpetgrass",
-    "orchardgrass", "orchard grass",
-    "timothy", "bromegrass", "brome grass", "smooth brome", "meadow brome",
-    "wheatgrass", "crested wheatgrass", "intermediate wheatgrass", "pubescent wheatgrass",
-    "slender wheatgrass",
-    "clover", "red clover", "white clover", "alsike clover", "sweet clover",
-    "crimson clover", "arrowleaf clover", "subterranean clover",
-    "alfalfa", "sainfoin", "birdsfoot trefoil", "trefoil",
-    "vetch", "hairy vetch", "common vetch", "crown vetch",
-    "chicory", "plantain", "yarrow", "wildflower",
-    "sunflower", "buckwheat", "phacelia", "borage",
-    "sorghum", "sudangrass", "sudan grass", "sorghum sudan",
-    "millet", "foxtail millet", "pearl millet", "japanese millet",
-    "oats", "wheat", "barley", "triticale", "rye grain", "winter rye",
-    "flax", "linseed", "canola", "mustard",
-    "radish", "turnip", "rape", "rapeseed",
-    "cowpea", "soybean", "field pea", "sunn hemp", "hemp",
-})
-
-
 def _collect_species(matcher: ProductMatcher) -> set[str]:
-    """Merge catalog species_list entries with the built-in vocabulary."""
-    species: set[str] = set(_KNOWN_SPECIES)
+    """Collect every species string from every catalog snapshot (active + draft)."""
+    species: set[str] = set()
     for rec in matcher.all_records:
         for s in rec.species_list or []:
             if s:

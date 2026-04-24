@@ -60,9 +60,11 @@ def test_discontinued_product_goes_to_orphan_not_mentions():
 
 
 def test_unmatched_species_flagged_as_species_mention():
+    """Species only in a draft product's species_list (not in any active product)
+    should be flagged as a species_mention orphan when seen in article text."""
     s = _session(); _seed_catalog(s)
     s.add(ContentInventory(url="https://x/c", title="C", slug="c", post_type="post",
-                          content_html='', content_text="Plant clover or orchard grass here."))
+                          content_html='', content_text="This blend uses orchard grass as the base."))
     s.commit()
 
     run_tag_products(s, fuzzy_threshold=0.85)
@@ -71,7 +73,9 @@ def test_unmatched_species_flagged_as_species_mention():
     orphans = s.execute(select(OrphanReference)).scalars().all()
     values = {o.reference_value for o in orphans
               if o.reference_type == "species_mention"}
-    assert "clover" in values  # not in any snapshot species_list
+    # "orchard grass" is in product 2's species_list (status='draft'), so it's in
+    # all_species. No active product covers it → flagged as species_mention.
+    assert "orchard grass" in values
 
 
 def test_rerun_clears_prior_rows_and_re_inserts():
