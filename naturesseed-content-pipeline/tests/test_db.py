@@ -33,6 +33,12 @@ def test_all_tables_created() -> None:
             "competitor_domains",
             "media_index",
             "refresh_history",
+            "topics",
+            "content_topics",
+            "content_product_mentions",
+            "outbound_links",
+            "decay_findings",
+            "wc_catalog_snapshot",
         ])
         assert tables == expected
 
