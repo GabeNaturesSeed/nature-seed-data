@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from sqlalchemy import DateTime, Float, ForeignKey, Integer, String, Text, UniqueConstraint, func
+from sqlalchemy import DateTime, Float, ForeignKey, Index, Integer, String, Text, UniqueConstraint, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.types import JSON
 
@@ -266,7 +266,7 @@ class Topic(Base):
     slug: Mapped[str] = mapped_column(String(300), nullable=False, unique=True)
     wc_category_slug: Mapped[str | None] = mapped_column(String(300))
     source: Mapped[str] = mapped_column(String(50), nullable=False)
-    approved: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    approved: Mapped[bool] = mapped_column(Integer, nullable=False, default=0)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
 
 
@@ -325,12 +325,16 @@ class OutboundLink(Base):
 
 class DecayFinding(Base):
     __tablename__ = "decay_findings"
+    __table_args__ = (
+        Index("ix_decay_content_status", "content_inventory_id", "status"),
+        Index("ix_decay_rule_status", "rule_name", "status"),
+    )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     content_inventory_id: Mapped[int] = mapped_column(
-        ForeignKey("content_inventory.id"), nullable=False, index=True
+        ForeignKey("content_inventory.id"), nullable=False
     )
-    rule_name: Mapped[str] = mapped_column(String(100), nullable=False, index=True)
+    rule_name: Mapped[str] = mapped_column(String(100), nullable=False)
     severity: Mapped[str] = mapped_column(String(20), nullable=False)
     snippet: Mapped[str | None] = mapped_column(Text)
     suggested_action: Mapped[str | None] = mapped_column(Text)

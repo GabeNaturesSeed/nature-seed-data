@@ -1,8 +1,10 @@
 """Verify the 6 new audit tables can be created and related."""
 
+import pytest
 from datetime import datetime, timezone
 
 from sqlalchemy import create_engine
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from naturesseed_pipeline.db.models import (
@@ -37,8 +39,6 @@ def test_content_topic_unique():
     s.add(ContentTopic(content_inventory_id=content.id, topic_id=topic.id,
                        assigned_by="auto", confidence=0.9))
     s.commit()
-    import pytest
-    from sqlalchemy.exc import IntegrityError
     with pytest.raises(IntegrityError):
         s.add(ContentTopic(content_inventory_id=content.id, topic_id=topic.id,
                            assigned_by="auto", confidence=0.5))
@@ -53,8 +53,6 @@ def test_content_product_mention_unique():
                                 product_slug="x", product_name="X", match_type="exact",
                                 confidence=0.95))
     s.commit()
-    import pytest
-    from sqlalchemy.exc import IntegrityError
     with pytest.raises(IntegrityError):
         s.add(ContentProductMention(content_inventory_id=content.id, wp_product_id=42,
                                     product_slug="x", product_name="X", match_type="fuzzy",
@@ -73,6 +71,8 @@ def test_outbound_link_fields():
                         last_checked_at=datetime.now(timezone.utc))
     s.add(link); s.commit()
     assert link.target_content_id == tgt.id
+    assert link.http_status == 200
+    assert link.link_type == "internal_content"
 
 
 def test_decay_finding_status_default():
