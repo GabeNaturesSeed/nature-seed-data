@@ -1,6 +1,7 @@
 """HTTP status checker for outbound_links with 30-day result cache."""
 
 from datetime import datetime, timedelta, timezone
+from urllib.parse import urlparse
 
 import httpx
 import structlog
@@ -53,6 +54,10 @@ def check_links_http(
 
         to_check: dict[str, list[OutboundLink]] = {}
         for link in links:
+            # Skip relative hrefs — they have no scheme and cannot be HTTP-checked
+            # as standalone URLs. Internal link health is validated via target_content_id.
+            if not urlparse(link.href).scheme:
+                continue
             if needs_recheck(link.last_checked_at, cache_days):
                 to_check.setdefault(link.href, []).append(link)
 
