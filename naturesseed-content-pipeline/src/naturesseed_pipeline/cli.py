@@ -99,7 +99,7 @@ def audit_run(
 ) -> None:
     """Full content audit + orphan product reference scan."""
     from naturesseed_pipeline.db.session import SessionLocal
-    from naturesseed_pipeline.pipelines.audit import run_full_audit
+    from naturesseed_pipeline.pipelines.audit_legacy import run_full_audit
 
     session = SessionLocal()
     try:
@@ -121,7 +121,7 @@ def audit_run(
 def audit_report() -> None:
     """Content audit summary report."""
     from naturesseed_pipeline.db.session import SessionLocal
-    from naturesseed_pipeline.pipelines.audit import get_audit_report
+    from naturesseed_pipeline.pipelines.audit_legacy import get_audit_report
 
     session = SessionLocal()
     try:

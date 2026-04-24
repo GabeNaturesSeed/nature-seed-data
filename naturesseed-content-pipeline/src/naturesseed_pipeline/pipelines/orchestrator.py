@@ -23,7 +23,7 @@ def run_daily(session: Session) -> dict[str, Any]:
     # 1. Audit sync (content inventory)
     log.info("daily_step", step="audit_sync")
     try:
-        from naturesseed_pipeline.pipelines.audit import run_full_audit
+        from naturesseed_pipeline.pipelines.audit_legacy import run_full_audit
         results["audit"] = run_full_audit(session)
     except Exception as e:
         log.error("daily_audit_failed", error=str(e))

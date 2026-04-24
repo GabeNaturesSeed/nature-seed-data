@@ -355,7 +355,7 @@ def test_orchestrator_daily_runs_without_crash(db_session: Session):
     from unittest.mock import patch
 
     # Mock external calls
-    with patch("naturesseed_pipeline.pipelines.audit.run_full_audit", return_value={"posts": 0, "pages": 0, "products": 0, "orphan_flags": 0}), \
+    with patch("naturesseed_pipeline.pipelines.audit_legacy.run_full_audit", return_value={"posts": 0, "pages": 0, "products": 0, "orphan_flags": 0}), \
          patch("naturesseed_pipeline.pipelines.research_keywords.run_gsc_sync", return_value={"rows": 0}), \
          patch("naturesseed_pipeline.pipelines.research_media.run_listener_sweep", return_value={"new_signals": 0, "by_source": {}, "total_fetched": 0}):
         from naturesseed_pipeline.pipelines.orchestrator import run_daily

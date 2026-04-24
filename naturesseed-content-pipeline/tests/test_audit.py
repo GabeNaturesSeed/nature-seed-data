@@ -20,7 +20,7 @@ from naturesseed_pipeline.integrations.wordpress import (
     WordPressClient,
     html_to_text,
 )
-from naturesseed_pipeline.pipelines.audit import (
+from naturesseed_pipeline.pipelines.audit_legacy import (
     get_audit_report,
     run_content_sync,
     run_orphan_scan,
