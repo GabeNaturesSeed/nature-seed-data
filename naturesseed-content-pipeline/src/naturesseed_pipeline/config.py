@@ -45,6 +45,15 @@ class Settings(BaseSettings):
     # Anthropic
     anthropic_api_key: str = ""
 
+    # Audit pipeline settings
+    audit_llm_model: str = "claude-sonnet-4-6"
+    audit_http_check_concurrency: int = 5
+    audit_http_check_cache_days: int = 30
+    audit_fuzzy_match_threshold: float = 0.85
+    audit_thin_word_count: int = 300
+    audit_current_shipping: str = "Free shipping on orders over $99 (lower 48 US states)"
+    audit_llm_max_tokens_per_rule: int = 50_000
+
     # OpenAI (image generation, vision)
     openai_api_key: str = ""
     stability_api_key: str = ""
