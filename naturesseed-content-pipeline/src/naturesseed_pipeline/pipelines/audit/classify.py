@@ -7,7 +7,8 @@ Four-pass workflow:
   Pass 4: deterministic subtopic matching using approved subtopic keyword phrases
 """
 
-from typing import Any
+import json
+from typing import Any, Protocol
 
 import structlog
 from sqlalchemy import select
@@ -85,3 +86,95 @@ def run_classify_pass1(
         ))
         existing_pairs.add(key); assigned += 1
     return assigned
+
+
+class SubtopicProposer(Protocol):
+    """Contract for LLM-backed subtopic proposal. Real impl uses Anthropic."""
+    def propose(self, topic_name: str, samples: list[dict[str, str]]) -> list[dict]: ...
+
+
+class AnthropicSubtopicProposer:
+    """Real LLM impl — reads Anthropic client from settings."""
+
+    def __init__(self, model: str | None = None) -> None:
+        from naturesseed_pipeline.config import settings
+        import anthropic
+        self.client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+        self.model = model or settings.audit_llm_model
+
+    def propose(self, topic_name: str, samples: list[dict[str, str]]) -> list[dict]:
+        sample_text = "\n\n".join(
+            f"- Title: {s['title']}\n  Excerpt: {s.get('excerpt', '')[:400]}"
+            for s in samples[:40]
+        )
+        prompt = f"""You are organizing a content library for Nature's Seed.
+Top-level topic: "{topic_name}".
+
+Here are {len(samples)} article titles + excerpts in this topic:
+
+{sample_text}
+
+Propose 3-7 subtopics that best organize this content. Each subtopic MUST have:
+- A short name (2-4 words, title case)
+- A URL-safe slug (lowercase, hyphens)
+- 5-15 keyword phrases that, when matched against article text, would reliably identify articles as belonging to that subtopic
+
+Return ONLY a JSON array of objects with keys: name, slug, keywords. No prose.
+"""
+        resp = self.client.messages.create(
+            model=self.model, max_tokens=2000,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        text = resp.content[0].text.strip()
+        # Trim markdown fences if present
+        if text.startswith("```"):
+            text = text.strip("`")
+            text = text.split("\n", 1)[1] if "\n" in text else text
+            if text.endswith("```"):
+                text = text[:-3]
+        return json.loads(text)
+
+
+def run_classify_pass2(session: Session, proposer: SubtopicProposer) -> int:
+    """Ask LLM to propose subtopics for each top-level topic with no existing approved subtopics."""
+    top_level = [t for t in session.execute(select(Topic)).scalars().all()
+                 if t.parent_topic_id is None and t.slug != "unclassified"]
+    proposed_count = 0
+
+    for topic in top_level:
+        existing_subs = session.execute(
+            select(Topic).where(Topic.parent_topic_id == topic.id, Topic.approved == 1)
+        ).scalars().all()
+        if existing_subs:
+            continue
+
+        sample_rows = session.execute(
+            select(ContentInventory)
+            .join(ContentTopic, ContentTopic.content_inventory_id == ContentInventory.id)
+            .where(ContentTopic.topic_id == topic.id)
+            .limit(40)
+        ).scalars().all()
+        if not sample_rows:
+            continue
+
+        samples = [{"title": r.title, "excerpt": r.excerpt or r.content_text[:500] or ""}
+                   for r in sample_rows]
+
+        proposals = proposer.propose(topic.name, samples)
+        for p in proposals:
+            slug = p.get("slug") or ""
+            if not slug:
+                continue
+            existing = session.execute(
+                select(Topic).where(Topic.slug == slug)
+            ).scalar_one_or_none()
+            if existing:
+                continue
+            t = Topic(
+                name=p.get("name") or slug, slug=slug,
+                parent_topic_id=topic.id, source="llm_proposed", approved=0,
+                keywords=p.get("keywords") or [],
+            )
+            session.add(t); proposed_count += 1
+
+    return proposed_count

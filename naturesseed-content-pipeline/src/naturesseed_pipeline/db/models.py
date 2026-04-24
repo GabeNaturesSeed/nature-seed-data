@@ -268,6 +268,7 @@ class Topic(Base):
     source: Mapped[str] = mapped_column(String(50), nullable=False)
     approved: Mapped[bool] = mapped_column(Integer, nullable=False, default=0)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    keywords: Mapped[list | None] = mapped_column(JSON)
 
 
 class ContentTopic(Base):
