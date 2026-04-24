@@ -178,3 +178,31 @@ def run_classify_pass2(session: Session, proposer: SubtopicProposer) -> int:
             session.add(t); proposed_count += 1
 
     return proposed_count
+
+
+def list_pending_subtopics(session: Session) -> list[Topic]:
+    """Return all LLM-proposed subtopics still awaiting approval, oldest first."""
+    return list(session.execute(
+        select(Topic).where(
+            Topic.parent_topic_id.isnot(None),
+            Topic.source == "llm_proposed",
+            Topic.approved == 0,
+        ).order_by(Topic.id)
+    ).scalars().all())
+
+
+def approve_subtopic(session: Session, slug: str) -> bool:
+    """Flip a single subtopic to approved. Returns True if a row was flipped."""
+    t = session.execute(select(Topic).where(Topic.slug == slug)).scalar_one_or_none()
+    if t is None or t.approved == 1:
+        return False
+    t.approved = 1
+    return True
+
+
+def approve_all_subtopics(session: Session) -> int:
+    """Flip every pending proposal to approved. Returns the count flipped."""
+    pending = list_pending_subtopics(session)
+    for t in pending:
+        t.approved = 1
+    return len(pending)
