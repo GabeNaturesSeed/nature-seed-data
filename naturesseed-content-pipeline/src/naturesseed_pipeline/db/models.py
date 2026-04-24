@@ -255,3 +255,98 @@ class RefreshHistory(Base):
     changes_summary: Mapped[str | None] = mapped_column(Text)
     published_at: Mapped[datetime | None] = mapped_column(DateTime)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+
+
+class Topic(Base):
+    __tablename__ = "topics"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    parent_topic_id: Mapped[int | None] = mapped_column(ForeignKey("topics.id"))
+    name: Mapped[str] = mapped_column(String(300), nullable=False)
+    slug: Mapped[str] = mapped_column(String(300), nullable=False, unique=True)
+    wc_category_slug: Mapped[str | None] = mapped_column(String(300))
+    source: Mapped[str] = mapped_column(String(50), nullable=False)
+    approved: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+
+
+class ContentTopic(Base):
+    __tablename__ = "content_topics"
+    __table_args__ = (
+        UniqueConstraint("content_inventory_id", "topic_id", name="uq_content_topic"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    content_inventory_id: Mapped[int] = mapped_column(
+        ForeignKey("content_inventory.id"), nullable=False
+    )
+    topic_id: Mapped[int] = mapped_column(ForeignKey("topics.id"), nullable=False)
+    confidence: Mapped[float | None] = mapped_column(Float)
+    assigned_by: Mapped[str] = mapped_column(String(20), nullable=False)
+
+
+class ContentProductMention(Base):
+    __tablename__ = "content_product_mentions"
+    __table_args__ = (
+        UniqueConstraint("content_inventory_id", "wp_product_id",
+                         name="uq_content_product_mention"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    content_inventory_id: Mapped[int] = mapped_column(
+        ForeignKey("content_inventory.id"), nullable=False
+    )
+    wp_product_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    product_slug: Mapped[str] = mapped_column(String(300), nullable=False)
+    product_name: Mapped[str] = mapped_column(String(500), nullable=False)
+    mention_count: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
+    first_snippet: Mapped[str | None] = mapped_column(Text)
+    match_type: Mapped[str] = mapped_column(String(20), nullable=False)
+    confidence: Mapped[float] = mapped_column(Float, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+
+
+class OutboundLink(Base):
+    __tablename__ = "outbound_links"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    content_inventory_id: Mapped[int] = mapped_column(
+        ForeignKey("content_inventory.id"), nullable=False, index=True
+    )
+    href: Mapped[str] = mapped_column(String(2000), nullable=False)
+    anchor_text: Mapped[str | None] = mapped_column(String(500))
+    link_type: Mapped[str] = mapped_column(String(30), nullable=False)
+    target_content_id: Mapped[int | None] = mapped_column(
+        ForeignKey("content_inventory.id"), index=True
+    )
+    http_status: Mapped[int | None] = mapped_column(Integer)
+    last_checked_at: Mapped[datetime | None] = mapped_column(DateTime)
+
+
+class DecayFinding(Base):
+    __tablename__ = "decay_findings"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    content_inventory_id: Mapped[int] = mapped_column(
+        ForeignKey("content_inventory.id"), nullable=False, index=True
+    )
+    rule_name: Mapped[str] = mapped_column(String(100), nullable=False, index=True)
+    severity: Mapped[str] = mapped_column(String(20), nullable=False)
+    snippet: Mapped[str | None] = mapped_column(Text)
+    suggested_action: Mapped[str | None] = mapped_column(Text)
+    status: Mapped[str] = mapped_column(String(20), nullable=False, default="open")
+    detected_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    resolved_at: Mapped[datetime | None] = mapped_column(DateTime)
+
+
+class WcCatalogSnapshot(Base):
+    __tablename__ = "wc_catalog_snapshot"
+
+    wp_product_id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    slug: Mapped[str] = mapped_column(String(300), nullable=False, unique=True)
+    name: Mapped[str] = mapped_column(String(500), nullable=False)
+    status: Mapped[str] = mapped_column(String(30), nullable=False)
+    species_list: Mapped[list | None] = mapped_column(JSON)
+    price: Mapped[float | None] = mapped_column(Float)
+    permalink: Mapped[str | None] = mapped_column(String(500))
+    last_synced_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
