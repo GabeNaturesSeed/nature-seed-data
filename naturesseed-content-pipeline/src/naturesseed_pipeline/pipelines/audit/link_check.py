@@ -54,9 +54,11 @@ def check_links_http(
 
         to_check: dict[str, list[OutboundLink]] = {}
         for link in links:
-            # Skip relative hrefs — they have no scheme and cannot be HTTP-checked
-            # as standalone URLs. Internal link health is validated via target_content_id.
-            if not urlparse(link.href).scheme:
+            # Only HTTP(S) URLs are checkable. Relative paths, mailto:, tel:,
+            # javascript:, etc. cannot be HTTP-probed. Internal link health is
+            # validated via target_content_id, not by HTTP status.
+            scheme = urlparse(link.href).scheme.lower()
+            if scheme not in ("http", "https"):
                 continue
             if needs_recheck(link.last_checked_at, cache_days):
                 to_check.setdefault(link.href, []).append(link)

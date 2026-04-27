@@ -38,13 +38,19 @@ def _parse_price(raw: Any) -> float | None:
         return None
 
 
-def upsert_wc_snapshot(session: Session, product: dict[str, Any]) -> WcCatalogSnapshot:
+def upsert_wc_snapshot(session: Session, product: dict[str, Any]) -> WcCatalogSnapshot | None:
     pid = int(product["id"])
+    slug = product.get("slug") or ""
+    if not slug:
+        # WP returns drafts/auto-drafts without a slug; the slug column is UNIQUE
+        # so we'd collide on empty-string. Fall back to a synthetic slug keyed
+        # on the product ID so each row is still unique.
+        slug = f"_draft-{pid}"
     row = session.get(WcCatalogSnapshot, pid)
     if row is None:
         row = WcCatalogSnapshot(wp_product_id=pid)
         session.add(row)
-    row.slug = product.get("slug", "")
+    row.slug = slug
     row.name = product.get("name", "")
     row.status = product.get("status", "publish")
     row.species_list = extract_species_from_product(product)

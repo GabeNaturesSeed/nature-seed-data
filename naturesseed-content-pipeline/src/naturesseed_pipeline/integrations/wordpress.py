@@ -29,7 +29,12 @@ class _BaseClient:
     def __init__(self, base_url: str, auth: tuple[str, str]) -> None:
         self._base_url = base_url.rstrip("/")
         self._auth = auth
-        self._client = httpx.Client(timeout=30.0)
+        # Cloudflare Bot Fight Mode on naturesseed.com blocks the default
+        # python-httpx / requests User-Agent. A curl-like UA passes through.
+        self._client = httpx.Client(
+            timeout=30.0,
+            headers={"User-Agent": "curl/8.0.0", "Accept": "*/*"},
+        )
 
     def _request(self, method: str, path: str, **kwargs: Any) -> httpx.Response:
         url = f"{self._base_url}/{path.lstrip('/')}"
