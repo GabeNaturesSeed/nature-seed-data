@@ -1,0 +1,808 @@
+{
+  "generated_at": "2026-04-27",
+  "current_week": 18,
+  "index": {
+    "seasonality": 0.0,
+    "demand": 0.0,
+    "performance": 0.0,
+    "label": "Deep Off-Season"
+  },
+  "current_week_signals": {
+    "wc_revenue": 0,
+    "wc_revenue_avg": 51117.77,
+    "orders": 0,
+    "orders_avg": 336.0,
+    "blended_mer": null,
+    "blended_mer_avg": 4.6648,
+    "is_rank": null,
+    "is_rank_avg": 0.4589,
+    "is_budget_lost": null,
+    "is_budget_lost_avg": 0.1075,
+    "ad_spend": 0,
+    "ad_spend_avg": 4349.21
+  },
+  "weekly_baselines": {
+    "1": {
+      "revenue_mean": 11925.88,
+      "orders_mean": 79.0,
+      "ad_spend_mean": 1574.89,
+      "mer_mean": 5.6586,
+      "is_rank_mean": 0.3847,
+      "is_budget_lost_mean": 0.4272
+    },
+    "2": {
+      "revenue_mean": 17202.49,
+      "orders_mean": 108.5,
+      "ad_spend_mean": 3605.88,
+      "mer_mean": 3.2233,
+      "is_rank_mean": 0.4008,
+      "is_budget_lost_mean": 0.2244
+    },
+    "3": {
+      "revenue_mean": 21128.44,
+      "orders_mean": 130.0,
+      "ad_spend_mean": 3444.51,
+      "mer_mean": 3.4286,
+      "is_rank_mean": 0.3942,
+      "is_budget_lost_mean": 0.1192
+    },
+    "4": {
+      "revenue_mean": 25497.11,
+      "orders_mean": 148.0,
+      "ad_spend_mean": 3607.3,
+      "mer_mean": 4.4252,
+      "is_rank_mean": 0.4043,
+      "is_budget_lost_mean": 0.0759
+    },
+    "5": {
+      "revenue_mean": 31148.05,
+      "orders_mean": 167.5,
+      "ad_spend_mean": 4844.18,
+      "mer_mean": 4.3185,
+      "is_rank_mean": 0.3982,
+      "is_budget_lost_mean": 0.1675
+    },
+    "6": {
+      "revenue_mean": 35200.08,
+      "orders_mean": 201.5,
+      "ad_spend_mean": 4829.58,
+      "mer_mean": 3.69,
+      "is_rank_mean": 0.3701,
+      "is_budget_lost_mean": 0.2106
+    },
+    "7": {
+      "revenue_mean": 54901.34,
+      "orders_mean": 265.5,
+      "ad_spend_mean": 6615.84,
+      "mer_mean": 4.6302,
+      "is_rank_mean": 0.3834,
+      "is_budget_lost_mean": 0.1664
+    },
+    "8": {
+      "revenue_mean": 63347.26,
+      "orders_mean": 329.0,
+      "ad_spend_mean": 8983.44,
+      "mer_mean": 4.2791,
+      "is_rank_mean": 0.4228,
+      "is_budget_lost_mean": 0.2049
+    },
+    "9": {
+      "revenue_mean": 87318.88,
+      "orders_mean": 505.0,
+      "ad_spend_mean": 9373.89,
+      "mer_mean": 5.4264,
+      "is_rank_mean": 0.4402,
+      "is_budget_lost_mean": 0.2543
+    },
+    "10": {
+      "revenue_mean": 88361.06,
+      "orders_mean": 570.0,
+      "ad_spend_mean": 10143.19,
+      "mer_mean": 5.087,
+      "is_rank_mean": 0.3964,
+      "is_budget_lost_mean": 0.2564
+    },
+    "11": {
+      "revenue_mean": 103309.96,
+      "orders_mean": 642.0,
+      "ad_spend_mean": 11859.03,
+      "mer_mean": 5.1545,
+      "is_rank_mean": 0.3344,
+      "is_budget_lost_mean": 0.2293
+    },
+    "12": {
+      "revenue_mean": 104548.3,
+      "orders_mean": 691.0,
+      "ad_spend_mean": 12306.49,
+      "mer_mean": 4.8463,
+      "is_rank_mean": 0.3351,
+      "is_budget_lost_mean": 0.2006
+    },
+    "13": {
+      "revenue_mean": 117154.57,
+      "orders_mean": 695.0,
+      "ad_spend_mean": 12259.66,
+      "mer_mean": 5.2195,
+      "is_rank_mean": 0.3044,
+      "is_budget_lost_mean": 0.2777
+    },
+    "14": {
+      "revenue_mean": 91709.49,
+      "orders_mean": 629.5,
+      "ad_spend_mean": 12089.08,
+      "mer_mean": 4.0342,
+      "is_rank_mean": 0.2913,
+      "is_budget_lost_mean": 0.1944
+    },
+    "15": {
+      "revenue_mean": 85105.48,
+      "orders_mean": 554.0,
+      "ad_spend_mean": 9785.28,
+      "mer_mean": 5.2928,
+      "is_rank_mean": 0.275,
+      "is_budget_lost_mean": 0.2672
+    },
+    "16": {
+      "revenue_mean": 76644.1,
+      "orders_mean": 534.0,
+      "ad_spend_mean": 9336.67,
+      "mer_mean": 4.5588,
+      "is_rank_mean": 0.3087,
+      "is_budget_lost_mean": 0.2215
+    },
+    "17": {
+      "revenue_mean": 77226.4,
+      "orders_mean": 544.5,
+      "ad_spend_mean": 7721.43,
+      "mer_mean": 5.6081,
+      "is_rank_mean": 0.3831,
+      "is_budget_lost_mean": 0.2076
+    },
+    "18": {
+      "revenue_mean": 51117.77,
+      "orders_mean": 336.0,
+      "ad_spend_mean": 4349.21,
+      "mer_mean": 4.6648,
+      "is_rank_mean": 0.4589,
+      "is_budget_lost_mean": 0.1075
+    },
+    "19": {
+      "revenue_mean": 50728.74,
+      "orders_mean": 310.0,
+      "ad_spend_mean": 3830.21,
+      "mer_mean": 5.6838,
+      "is_rank_mean": 0.4723,
+      "is_budget_lost_mean": 0.0782
+    },
+    "20": {
+      "revenue_mean": 37210.06,
+      "orders_mean": 232.0,
+      "ad_spend_mean": 3161.6,
+      "mer_mean": 6.1446,
+      "is_rank_mean": 0.4663,
+      "is_budget_lost_mean": 0.1016
+    },
+    "21": {
+      "revenue_mean": 30557.91,
+      "orders_mean": 202.0,
+      "ad_spend_mean": 2558.14,
+      "mer_mean": 5.9337,
+      "is_rank_mean": 0.3361,
+      "is_budget_lost_mean": 0.2831
+    },
+    "22": {
+      "revenue_mean": 27815.32,
+      "orders_mean": 192.0,
+      "ad_spend_mean": 2334.81,
+      "mer_mean": 6.9777,
+      "is_rank_mean": 0.2319,
+      "is_budget_lost_mean": 0.3128
+    },
+    "23": {
+      "revenue_mean": 20225.35,
+      "orders_mean": 121.0,
+      "ad_spend_mean": 1834.26,
+      "mer_mean": 7.1334,
+      "is_rank_mean": 0.2107,
+      "is_budget_lost_mean": 0.2189
+    },
+    "24": {
+      "revenue_mean": 11056.86,
+      "orders_mean": 60.0,
+      "ad_spend_mean": 1414.1,
+      "mer_mean": 6.987,
+      "is_rank_mean": 0.2334,
+      "is_budget_lost_mean": 0.2837
+    },
+    "25": {
+      "revenue_mean": 9041.04,
+      "orders_mean": 62.0,
+      "ad_spend_mean": 1485.97,
+      "mer_mean": 4.6885,
+      "is_rank_mean": 0.2896,
+      "is_budget_lost_mean": 0.1684
+    },
+    "26": {
+      "revenue_mean": 10862.93,
+      "orders_mean": 66.0,
+      "ad_spend_mean": 1612.99,
+      "mer_mean": 5.5567,
+      "is_rank_mean": 0.3768,
+      "is_budget_lost_mean": 0.0286
+    },
+    "27": {
+      "revenue_mean": 8144.51,
+      "orders_mean": 48.0,
+      "ad_spend_mean": 1595.84,
+      "mer_mean": 5.0685,
+      "is_rank_mean": 0.3705,
+      "is_budget_lost_mean": 0.2944
+    },
+    "28": {
+      "revenue_mean": 6962.98,
+      "orders_mean": 42.0,
+      "ad_spend_mean": 1198.14,
+      "mer_mean": 8.8985,
+      "is_rank_mean": 0.3921,
+      "is_budget_lost_mean": 0.401
+    },
+    "29": {
+      "revenue_mean": 14091.3,
+      "orders_mean": 71.0,
+      "ad_spend_mean": 1126.91,
+      "mer_mean": 12.0059,
+      "is_rank_mean": 0.4993,
+      "is_budget_lost_mean": 0.5542
+    },
+    "30": {
+      "revenue_mean": 7316.06,
+      "orders_mean": 45.0,
+      "ad_spend_mean": 1392.18,
+      "mer_mean": 4.0664,
+      "is_rank_mean": 0.5145,
+      "is_budget_lost_mean": 0.2763
+    },
+    "31": {
+      "revenue_mean": 14043.23,
+      "orders_mean": 66.0,
+      "ad_spend_mean": 1686.79,
+      "mer_mean": 8.5277,
+      "is_rank_mean": 0.3972,
+      "is_budget_lost_mean": 0.1389
+    },
+    "32": {
+      "revenue_mean": 21268.4,
+      "orders_mean": 105.0,
+      "ad_spend_mean": 1733.3,
+      "mer_mean": 8.4881,
+      "is_rank_mean": 0.3713,
+      "is_budget_lost_mean": 0.5282
+    },
+    "33": {
+      "revenue_mean": 24596.64,
+      "orders_mean": 124.0,
+      "ad_spend_mean": 2318.63,
+      "mer_mean": 7.3948,
+      "is_rank_mean": 0.272,
+      "is_budget_lost_mean": 0.6251
+    },
+    "34": {
+      "revenue_mean": 24140.49,
+      "orders_mean": 104.0,
+      "ad_spend_mean": 2820.6,
+      "mer_mean": 6.4666,
+      "is_rank_mean": 0.2543,
+      "is_budget_lost_mean": 0.6586
+    },
+    "35": {
+      "revenue_mean": 38855.64,
+      "orders_mean": 233.0,
+      "ad_spend_mean": 3015.48,
+      "mer_mean": 11.8207,
+      "is_rank_mean": 0.2531,
+      "is_budget_lost_mean": 0.673
+    },
+    "36": {
+      "revenue_mean": 68491.02,
+      "orders_mean": 308.0,
+      "ad_spend_mean": 4655.71,
+      "mer_mean": 12.7367,
+      "is_rank_mean": 0.2344,
+      "is_budget_lost_mean": 0.6508
+    },
+    "37": {
+      "revenue_mean": 41890.43,
+      "orders_mean": 229.0,
+      "ad_spend_mean": 4071.47,
+      "mer_mean": 6.5173,
+      "is_rank_mean": 0.1959,
+      "is_budget_lost_mean": 0.3345
+    },
+    "38": {
+      "revenue_mean": 29735.35,
+      "orders_mean": 187.0,
+      "ad_spend_mean": 4773.05,
+      "mer_mean": 4.6969,
+      "is_rank_mean": 0.2215,
+      "is_budget_lost_mean": 0.3254
+    },
+    "39": {
+      "revenue_mean": 51199.6,
+      "orders_mean": 230.0,
+      "ad_spend_mean": 5515.93,
+      "mer_mean": 8.3141,
+      "is_rank_mean": 0.2534,
+      "is_budget_lost_mean": 0.3254
+    },
+    "40": {
+      "revenue_mean": 51790.69,
+      "orders_mean": 271.0,
+      "ad_spend_mean": 5295.94,
+      "mer_mean": 6.3753,
+      "is_rank_mean": 0.2849,
+      "is_budget_lost_mean": 0.3073
+    },
+    "41": {
+      "revenue_mean": 43777.93,
+      "orders_mean": 229.0,
+      "ad_spend_mean": 5277.73,
+      "mer_mean": 7.6692,
+      "is_rank_mean": 0.299,
+      "is_budget_lost_mean": 0.2941
+    },
+    "42": {
+      "revenue_mean": 25004.72,
+      "orders_mean": 135.0,
+      "ad_spend_mean": 4354.47,
+      "mer_mean": 4.5121,
+      "is_rank_mean": 0.3141,
+      "is_budget_lost_mean": 0.3241
+    },
+    "43": {
+      "revenue_mean": 29013.4,
+      "orders_mean": 142.0,
+      "ad_spend_mean": 3392.08,
+      "mer_mean": 7.0191,
+      "is_rank_mean": 0.3459,
+      "is_budget_lost_mean": 0.3525
+    },
+    "44": {
+      "revenue_mean": 34678.65,
+      "orders_mean": 131.0,
+      "ad_spend_mean": 3032.14,
+      "mer_mean": 11.6453,
+      "is_rank_mean": 0.4272,
+      "is_budget_lost_mean": 0.4775
+    },
+    "45": {
+      "revenue_mean": 14303.05,
+      "orders_mean": 82.0,
+      "ad_spend_mean": 3061.69,
+      "mer_mean": 5.7316,
+      "is_rank_mean": 0.4219,
+      "is_budget_lost_mean": 0.4996
+    },
+    "46": {
+      "revenue_mean": 18424.22,
+      "orders_mean": 86.0,
+      "ad_spend_mean": 3225.49,
+      "mer_mean": 7.1534,
+      "is_rank_mean": 0.4217,
+      "is_budget_lost_mean": 0.3686
+    },
+    "47": {
+      "revenue_mean": 11498.33,
+      "orders_mean": 49.0,
+      "ad_spend_mean": 2257.09,
+      "mer_mean": 5.0217,
+      "is_rank_mean": 0.4173,
+      "is_budget_lost_mean": 0.3509
+    },
+    "48": {
+      "revenue_mean": 9673.66,
+      "orders_mean": 61.0,
+      "ad_spend_mean": 1501.24,
+      "mer_mean": 7.5788,
+      "is_rank_mean": 0.4335,
+      "is_budget_lost_mean": 0.3887
+    },
+    "49": {
+      "revenue_mean": 8345.04,
+      "orders_mean": 42.0,
+      "ad_spend_mean": 1336.85,
+      "mer_mean": 4.8913,
+      "is_rank_mean": 0.3992,
+      "is_budget_lost_mean": 0.5707
+    },
+    "50": {
+      "revenue_mean": 7468.22,
+      "orders_mean": 50.0,
+      "ad_spend_mean": 1271.78,
+      "mer_mean": 4.8915,
+      "is_rank_mean": 0.3773,
+      "is_budget_lost_mean": 0.3539
+    },
+    "51": {
+      "revenue_mean": 7414.93,
+      "orders_mean": 43.0,
+      "ad_spend_mean": 1433.72,
+      "mer_mean": 5.1718,
+      "is_rank_mean": 0.3428,
+      "is_budget_lost_mean": 0.4361
+    },
+    "52": {
+      "revenue_mean": 7001.69,
+      "orders_mean": 47.0,
+      "ad_spend_mean": 1397.88,
+      "mer_mean": 5.0079,
+      "is_rank_mean": 0.3627,
+      "is_budget_lost_mean": 0.368
+    }
+  },
+  "weekly_history": [
+    {
+      "week": 1,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": 0.6302
+    },
+    {
+      "week": 2,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": 0.7916
+    },
+    {
+      "week": 3,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": 0.7987
+    },
+    {
+      "week": 4,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": 0.8959
+    },
+    {
+      "week": 5,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": 0.7649
+    },
+    {
+      "week": 6,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": 0.6949
+    },
+    {
+      "week": 7,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": 0.8511
+    },
+    {
+      "week": 8,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": 0.8461
+    },
+    {
+      "week": 9,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": 0.8236
+    },
+    {
+      "week": 10,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": 1.0077
+    },
+    {
+      "week": 11,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": 0.9896
+    },
+    {
+      "week": 12,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": 0.9891
+    },
+    {
+      "week": 13,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": 0.9652
+    },
+    {
+      "week": 14,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": 1.1029
+    },
+    {
+      "week": 15,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": 1.1652
+    },
+    {
+      "week": 16,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": 1.1296
+    },
+    {
+      "week": 17,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": 0.9152
+    },
+    {
+      "week": 18,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 19,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 20,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 21,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 22,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 23,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 24,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 25,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 26,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 27,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 28,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 29,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 30,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 31,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 32,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 33,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 34,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 35,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 36,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 37,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 38,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 39,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 40,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 41,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 42,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 43,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 44,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 45,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 46,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 47,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 48,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 49,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 50,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 51,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    },
+    {
+      "week": 52,
+      "seasonality_avg": 1.0,
+      "demand_avg": 1.0,
+      "performance_avg": 1.0,
+      "current_year": null
+    }
+  ]
+}

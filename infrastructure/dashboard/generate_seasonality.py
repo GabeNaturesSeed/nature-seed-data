@@ -10,8 +10,6 @@ Output: docs/data/seasonality.json
 """
 
 import json
-import time
-import base64
 import sys
 from collections import defaultdict
 from datetime import date, timedelta
@@ -49,6 +47,8 @@ WC_CK = env_vars.get("WC_CK", "")
 WC_CS = env_vars.get("WC_CS", "")
 CF_WORKER_URL = env_vars.get("CF_WORKER_URL", "")
 CF_WORKER_SECRET = env_vars.get("CF_WORKER_SECRET", "")
+SUPABASE_URL = env_vars.get("SUPABASE_URL", "")
+SUPABASE_KEY = env_vars.get("SUPABASE_SECRET_API_KEY", "")
 GADS_DEVELOPER_TOKEN = env_vars.get("GOOGLE_ADS_DEVELOPER_TOKEN", "")
 GADS_CLIENT_ID = env_vars.get("GOOGLE_ADS_CLIENT_ID", "")
 GADS_CLIENT_SECRET = env_vars.get("GOOGLE_ADS_CLIENT_SECRET", "")
@@ -163,76 +163,51 @@ def compute_index_for_week(week_num: int, wc_week: dict, gads_week: dict, baseli
 # API PULL FUNCTIONS
 # ════════════════════════════════════════════════════════════
 
-def _wc_get(path: str, params: dict = None):
-    """GET from WooCommerce REST API via CF Worker proxy if configured."""
-    if CF_WORKER_URL:
-        p = {"wc_path": path, **(params or {})}
-        auth_str = base64.b64encode(f"{WC_CK}:{WC_CS}".encode()).decode()
-        headers = {
-            "X-Proxy-Secret": CF_WORKER_SECRET,
-            "Authorization": f"Basic {auth_str}",
-        }
-        resp = requests.get(CF_WORKER_URL, headers=headers, params=p, timeout=30)
-    else:
-        resp = requests.get(f"{WC_BASE}{path}", auth=(WC_CK, WC_CS), params=params or {}, timeout=30)
+def _sb_get(path, params=None):
+    """GET from Supabase REST API."""
+    url = f"{SUPABASE_URL}/rest/v1/{path}"
+    headers = {"apikey": SUPABASE_KEY, "Content-Type": "application/json"}
+    p = dict(params or {})
+    if "limit" not in p:
+        p["limit"] = 50000
+    resp = requests.get(url, headers=headers, params=p, timeout=60)
     resp.raise_for_status()
-    return resp
-
-
-def _pull_wc_quarter(start: date, end: date) -> dict:
-    """Pull WC orders for one date range. Returns {date_str: {revenue, orders}}."""
-    daily: dict = defaultdict(lambda: {"revenue": 0.0, "orders": 0})
-    page = 1
-    while True:
-        params = {
-            "after": f"{start}T00:00:00",
-            "before": f"{end}T23:59:59",
-            "status": "completed,processing",
-            "per_page": 100,
-            "page": page,
-        }
-        try:
-            orders = _wc_get("/orders", params).json()
-        except Exception as e:
-            print(f"    [WARN] WC {start}→{end} page {page} failed: {e}")
-            break
-        if not orders:
-            break
-        for order in orders:
-            d = order.get("date_created", "")[:10]
-            if d:
-                daily[d]["revenue"] += float(order.get("total", 0))
-                daily[d]["orders"] += 1
-        page += 1
-        time.sleep(0.3)
-    return dict(daily)
+    return resp.json()
 
 
 def pull_wc_history() -> dict:
-    """Pull all WC order history chunked by quarter.
+    """Pull WC daily revenue and orders from Supabase daily_sales table.
     Returns {date_str: {revenue: float, orders: int}}.
+    Uses Supabase instead of paginated WC API — much faster for historical pulls.
     """
-    print("  Pulling WooCommerce history...")
-    combined: dict = {}
-    history_start = date(TODAY.year - YEARS_BACK, 1, 1)
+    print("  Pulling WooCommerce history from Supabase daily_sales...")
+    if not SUPABASE_URL or not SUPABASE_KEY:
+        print("    [WARN] Supabase credentials not configured")
+        return {}
 
-    chunk = history_start
-    while chunk <= YESTERDAY:
-        q_month_end = {1: 3, 2: 3, 3: 3, 4: 6, 5: 6, 6: 6, 7: 9, 8: 9, 9: 9, 10: 12, 11: 12, 12: 12}
-        end_month = q_month_end[chunk.month]
-        end_day = {3: 31, 6: 30, 9: 30, 12: 31}[end_month]
-        chunk_end = min(date(chunk.year, end_month, end_day), YESTERDAY)
+    history_start = date(TODAY.year - YEARS_BACK, 1, 1).isoformat()
+    try:
+        rows = _sb_get("daily_sales", {
+            "select": "report_date,revenue,orders",
+            "report_date": f"gte.{history_start}",
+            "channel": "eq.woocommerce",
+            "order": "report_date.asc",
+        })
+    except Exception as e:
+        print(f"    [WARN] Supabase daily_sales failed: {e}")
+        return {}
 
-        print(f"    WC: {chunk} → {chunk_end}")
-        combined.update(_pull_wc_quarter(chunk, chunk_end))
+    result: dict = {}
+    for r in rows:
+        d = r.get("report_date", "")
+        if d:
+            result[d] = {
+                "revenue": float(r.get("revenue") or 0),
+                "orders": int(r.get("orders") or 0),
+            }
 
-        if end_month == 12:
-            chunk = date(chunk.year + 1, 1, 1)
-        else:
-            chunk = date(chunk.year, end_month + 1, 1)
-
-    print(f"    WC: {len(combined)} days pulled")
-    return combined
+    print(f"    Supabase: {len(result)} days pulled")
+    return result
 
 
 def pull_gads_history() -> dict:
@@ -308,5 +283,239 @@ def pull_gads_history() -> dict:
     return result
 
 
+# ════════════════════════════════════════════════════════════
+# BASELINE COMPUTATION
+# ════════════════════════════════════════════════════════════
+
+def compute_weekly_baselines(wc_daily: dict, gads_daily: dict) -> dict:
+    """
+    Group all historical data by ISO week number and compute multi-year means.
+    Requires at least 2 years of data for a week to be included.
+    Returns {str(1..52): {revenue_mean, orders_mean, ad_spend_mean, mer_mean,
+                           is_rank_mean, is_budget_lost_mean}}.
+    """
+    # week_num → year → aggregated values for that (year, week) pair
+    week_years: dict = defaultdict(lambda: defaultdict(lambda: {
+        "revenue": 0.0, "orders": 0, "cost": 0.0,
+        "is_ranks": [], "is_budgets": [],
+    }))
+
+    for date_str, v in wc_daily.items():
+        try:
+            d = date.fromisoformat(date_str)
+        except ValueError:
+            continue
+        week = d.isocalendar()[1]
+        year = d.year
+        week_years[week][year]["revenue"] += v.get("revenue", 0.0)
+        week_years[week][year]["orders"] += v.get("orders", 0)
+
+    for date_str, v in gads_daily.items():
+        try:
+            d = date.fromisoformat(date_str)
+        except ValueError:
+            continue
+        week = d.isocalendar()[1]
+        year = d.year
+        week_years[week][year]["cost"] += v.get("cost", 0.0)
+        if v.get("is_rank") is not None:
+            week_years[week][year]["is_ranks"].append(v["is_rank"])
+        if v.get("is_budget_lost") is not None:
+            week_years[week][year]["is_budgets"].append(v["is_budget_lost"])
+
+    baselines: dict = {}
+    for week_num in range(1, 53):
+        years_data = week_years.get(week_num, {})
+        if len(years_data) < 2:
+            continue  # need at least 2 years to establish a baseline
+
+        revenues = [y["revenue"] for y in years_data.values() if y["revenue"] > 0]
+        orders_vals = [float(y["orders"]) for y in years_data.values() if y["orders"] > 0]
+        costs = [y["cost"] for y in years_data.values() if y["cost"] > 0]
+        all_is_ranks = [v for y in years_data.values() for v in y["is_ranks"]]
+        all_is_budgets = [v for y in years_data.values() for v in y["is_budgets"]]
+
+        if not revenues:
+            continue
+
+        rev_mean = sum(revenues) / len(revenues)
+        ord_mean = sum(orders_vals) / len(orders_vals) if orders_vals else 0.0
+        cost_mean = sum(costs) / len(costs) if costs else 0.0
+        mer_vals = []
+        for y in years_data.values():
+            if y["revenue"] > 0 and y["cost"] > 0:
+                mer_vals.append(y["revenue"] / y["cost"])
+        mer_mean = sum(mer_vals) / len(mer_vals) if mer_vals else 0.0
+
+        baselines[str(week_num)] = {
+            "revenue_mean": round(rev_mean, 2),
+            "orders_mean": round(ord_mean, 2),
+            "ad_spend_mean": round(cost_mean, 2),
+            "mer_mean": round(mer_mean, 4),
+            "is_rank_mean": round(sum(all_is_ranks) / len(all_is_ranks), 4) if all_is_ranks else None,
+            "is_budget_lost_mean": round(sum(all_is_budgets) / len(all_is_budgets), 4) if all_is_budgets else None,
+        }
+
+    return baselines
+
+
+def _aggregate_wc_by_week(wc_daily: dict, year: int) -> dict:
+    """Aggregate WC daily data for a specific year into {week_num: {revenue, orders}}."""
+    weeks: dict = defaultdict(lambda: {"revenue": 0.0, "orders": 0})
+    for date_str, v in wc_daily.items():
+        try:
+            d = date.fromisoformat(date_str)
+        except ValueError:
+            continue
+        if d.year == year:
+            w = d.isocalendar()[1]
+            weeks[w]["revenue"] += v.get("revenue", 0.0)
+            weeks[w]["orders"] += v.get("orders", 0)
+    return dict(weeks)
+
+
+def _aggregate_gads_by_week(gads_daily: dict, year: int) -> dict:
+    """Aggregate Google Ads daily data for a specific year into {week_num: {cost, is_rank, is_budget_lost}}."""
+    weeks: dict = defaultdict(lambda: {"cost": 0.0, "is_ranks": [], "is_budgets": []})
+    for date_str, v in gads_daily.items():
+        try:
+            d = date.fromisoformat(date_str)
+        except ValueError:
+            continue
+        if d.year == year:
+            w = d.isocalendar()[1]
+            weeks[w]["cost"] += v.get("cost", 0.0)
+            if v.get("is_rank") is not None:
+                weeks[w]["is_ranks"].append(v["is_rank"])
+            if v.get("is_budget_lost") is not None:
+                weeks[w]["is_budgets"].append(v["is_budget_lost"])
+
+    result: dict = {}
+    for w, v in weeks.items():
+        result[w] = {
+            "cost": round(v["cost"], 2),
+            "is_rank": round(sum(v["is_ranks"]) / len(v["is_ranks"]), 4) if v["is_ranks"] else None,
+            "is_budget_lost": round(sum(v["is_budgets"]) / len(v["is_budgets"]), 4) if v["is_budgets"] else None,
+        }
+    return result
+
+
+def build_weekly_history(wc_daily: dict, gads_daily: dict, baselines: dict) -> list:
+    """Build 52-entry weekly history array for current year + historical averages.
+    Returns list of {week, seasonality_avg, demand_avg, performance_avg, current_year}.
+    """
+    cy_wc = _aggregate_wc_by_week(wc_daily, TODAY.year)
+    cy_gads = _aggregate_gads_by_week(gads_daily, TODAY.year)
+    current_iso_week = TODAY.isocalendar()[1]
+
+    history = []
+    for week_num in range(1, 53):
+        baseline = baselines.get(str(week_num))
+        if not baseline:
+            avg_entry = {"week": week_num, "seasonality_avg": None, "demand_avg": None, "performance_avg": None}
+        else:
+            avg_entry = {"week": week_num, "seasonality_avg": 1.0, "demand_avg": 1.0, "performance_avg": 1.0}
+
+        current_year_val = None
+        if week_num < current_iso_week and baseline:
+            wc_w = cy_wc.get(week_num, {})
+            gads_w = cy_gads.get(week_num, {})
+            idx = compute_index_for_week(week_num, wc_w, gads_w, baselines)
+            current_year_val = idx["seasonality"]
+
+        history.append({**avg_entry, "current_year": current_year_val})
+
+    return history
+
+
+def _write_json(filename: str, data: dict) -> None:
+    path = OUT_DIR / filename
+    with open(path, "w") as f:
+        json.dump(data, f, indent=2, default=str)
+    print(f"  [OK] Wrote {path.name}")
+
+
+def main() -> None:
+    print("=== Seasonality Index Generator ===")
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    out_path = OUT_DIR / "seasonality.json"
+
+    # ── Step 1: Load or compute baselines ───────────────────
+    existing: dict = {}
+    if out_path.exists():
+        try:
+            existing = json.loads(out_path.read_text())
+        except json.JSONDecodeError:
+            pass
+
+    baselines = existing.get("weekly_baselines") if existing.get("weekly_baselines") else None
+
+    if baselines:
+        print("  Baselines found — pulling current year Google Ads only")
+        wc_daily = {}
+        gads_daily = pull_gads_history()
+        # Rebuild WC weekly aggregates from stored baselines context (not re-pulled)
+        # For history chart we use prior computed current_year values and extend
+        wc_daily_for_history = {}
+        gads_daily_for_history = gads_daily
+    else:
+        print("  No baselines found — running full historical pull")
+        wc_daily = pull_wc_history()
+        gads_daily = pull_gads_history()
+        baselines = compute_weekly_baselines(wc_daily, gads_daily)
+        wc_daily_for_history = wc_daily
+        gads_daily_for_history = gads_daily
+        print(f"  Baselines computed for {len(baselines)} weeks")
+
+    # ── Step 2: Current week aggregates ─────────────────────
+    current_week_num = TODAY.isocalendar()[1]
+    cy_wc = _aggregate_wc_by_week(wc_daily, TODAY.year)
+    cy_gads = _aggregate_gads_by_week(gads_daily, TODAY.year)
+    wc_cw = cy_wc.get(current_week_num, {})
+    gads_cw = cy_gads.get(current_week_num, {})
+
+    # ── Step 3: Compute current week index ──────────────────
+    indexes = compute_index_for_week(current_week_num, wc_cw, gads_cw, baselines)
+    baseline_cw = baselines.get(str(current_week_num), {}) if baselines else {}
+
+    mer_cw = (wc_cw.get("revenue", 0) / gads_cw["cost"]
+              if gads_cw.get("cost", 0) > 0 else None)
+
+    # ── Step 4: Build 52-week chart history ──────────────────
+    weekly_history = build_weekly_history(wc_daily_for_history, gads_daily_for_history, baselines or {})
+
+    # ── Step 5: Write output ─────────────────────────────────
+    output: dict = {
+        "generated_at": TODAY_STR,
+        "current_week": current_week_num,
+        "index": {
+            "seasonality": indexes["seasonality"],
+            "demand": indexes["demand"],
+            "performance": indexes["performance"],
+            "label": indexes["label"],
+        },
+        "current_week_signals": {
+            "wc_revenue": round(wc_cw.get("revenue", 0), 2),
+            "wc_revenue_avg": baseline_cw.get("revenue_mean"),
+            "orders": wc_cw.get("orders", 0),
+            "orders_avg": baseline_cw.get("orders_mean"),
+            "blended_mer": round(mer_cw, 4) if mer_cw else None,
+            "blended_mer_avg": baseline_cw.get("mer_mean"),
+            "is_rank": gads_cw.get("is_rank"),
+            "is_rank_avg": baseline_cw.get("is_rank_mean"),
+            "is_budget_lost": gads_cw.get("is_budget_lost"),
+            "is_budget_lost_avg": baseline_cw.get("is_budget_lost_mean"),
+            "ad_spend": gads_cw.get("cost", 0),
+            "ad_spend_avg": baseline_cw.get("ad_spend_mean"),
+        },
+        "weekly_baselines": baselines or {},
+        "weekly_history": weekly_history,
+    }
+
+    _write_json("seasonality.json", output)
+    print(f"  Seasonality Index: {indexes['seasonality']} ({indexes['label']})")
+
+
 if __name__ == "__main__":
-    print("generate_seasonality.py: pipeline not yet implemented")
+    main()
