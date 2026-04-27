@@ -1,16 +1,16 @@
 # Audit Summary
 
 - Total articles: 990
-- Total open decay findings: 8181
+- Total open decay findings: 8141
 
 ## Findings by rule
-- DiscontinuedProductRule: 3272
+- DiscontinuedProductRule: 3361
 - SchemaGapRule: 1966
-- DeadInternalLinkRule: 1146
-- MissingProductCardRule: 1068
+- MissingProductCardRule: 1064
+- DeadInternalLinkRule: 1020
 - ThinContentRule: 568
 - StaleDateRule: 78
-- DeadExternalLinkRule: 46
+- DeadExternalLinkRule: 47
 - OutdatedPricingRule: 21
 - OutdatedShippingRule: 11
 - ProductCategoryUrlRule: 5

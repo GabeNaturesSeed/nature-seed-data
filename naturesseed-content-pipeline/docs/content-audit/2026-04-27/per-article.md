@@ -33,11 +33,6 @@
 - Type: post | Words: 634
 - Products: Kentucky Bluegrass, Perennial Ryegrass, California Poppy, Sheep Fescue Grass Seed, Buffalograss Seed, Blue Grama Seed, White Clover Seed, Western Yarrow Seed, Golden Yarrow Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/ornamental-grasses/blue-grama/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/sheep-fescue-grass/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/white-dutch-clover/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/western-yarrow/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'blue-grama-pasture-seed' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'california-phacelia' with a currently-sold product or remove section
@@ -55,6 +50,11 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/golden-yarrow/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'blue-grama' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'sheep-fescue-grass' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'western-yarrow' with a currently-sold product or remove section
 
 ## 5 Star Bluegrass Lawn Seed Mix
 - URL: https://naturesseed.com/?post_type=product&p=455406
@@ -116,10 +116,6 @@
 - Products: Sheep Fescue Grass Seed, Buffalograss Seed, Blue Grama Seed
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/by-region-grass-seed/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/white-dutch-clover/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/sheep-fescue-grass/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/ornamental-grasses/blue-grama/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/low-maintenance-seed-mix/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'blue-grama-pasture-seed' with a currently-sold product or remove section
@@ -132,14 +128,16 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/blue-grama/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'sheep-fescue-grass' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'blue-grama' with a currently-sold product or remove section
 
 ## A Green, Spongy Menace: Dealing With Moss in Your Lawn
 - URL: https://naturesseed.com/?p=191086
 - Type: post | Words: 611
 - Products: Alsike Clover Seed, Red Clover Seed, White Dutch Clover Seed, White Clover Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/fine-fescue-grass-seed-mix/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/white-dutch-clover/
   - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'white-prairie-clover-disabled' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'tree-clover' with a currently-sold product or remove section
@@ -148,6 +146,8 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/clover-seed/white-dutch-clover/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'fine-fescue-grass-seed-mix' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover' with a currently-sold product or remove section
 
 ## A Guide to Grass Seed Germination
 - URL: https://naturesseed.com/?p=190077
@@ -178,7 +178,6 @@
 - Type: post | Words: 573
 - Products: White Clover Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/white-dutch-clover/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/laudable-legume-the-many-qualities-of-birdsfoot-trefoil/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/ancient-crop-new-interest-sainfoin-for-forage-hay-and-honey/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/utah-sweetvetch/
@@ -195,6 +194,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/clover-seed/white-clover/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover' with a currently-sold product or remove section
 
 ## A List of Plants That Will Grow Best in the Summer
 - URL: https://naturesseed.com/?p=191551
@@ -207,7 +207,6 @@
 - Type: post | Words: 515
 - Products: California Poppy
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/regional-wildflower-mixes/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'blue-grama-pasture-seed' with a currently-sold product or remove section
@@ -218,6 +217,7 @@
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
   - **StaleDateRule** (warning): Reference to 2015 may be stale — verify and update
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## A New Approach to Feeding Livestock: Sprouted Fodder Systems
 - URL: https://naturesseed.com/?p=191118
@@ -248,7 +248,7 @@
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
   - **StaleDateRule** (warning): Reference to 1988 may be stale — verify and update
   - **StaleDateRule** (warning): Reference to 2011 may be stale — verify and update
-  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: Claims $150 threshold; current policy is $99 (lower 48 US states)
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: Claims $150 threshold; current policy is $99 (lower 48 US states).
 
 ## Advantages of Establishing a Lawn from Seed Instead of Sod
 - URL: https://naturesseed.com/?p=190569
@@ -750,7 +750,6 @@
 - Type: post | Words: 695
 - Products: Alfalfa Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/white-dutch-clover/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/
   - **DiscontinuedProductRule** (critical): Replace mention of 'sainfoin' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'wheat' with a currently-sold product or remove section
@@ -761,6 +760,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/alfalfa/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover' with a currently-sold product or remove section
 
 ## Baby Blue Eyes
 - URL: https://naturesseed.com/?post_type=product&p=183279
@@ -1025,10 +1025,7 @@
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/triple-play-tall-fescue-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/perennial-ryegrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/bermuda-grass/bermudagrass-seed-blend/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/kentucky-bluegrass/kentucky-bluegrass-seed-blue-ribbon-blend/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/perennial-ryegrass/perennial-ryegrass-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/zoysia-grass/zoysia-grass-seed/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DiscontinuedProductRule** (critical): Replace mention of 'tall-fescue-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'bahia-grass' with a currently-sold product or remove section
@@ -1049,6 +1046,9 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/bahia-grass/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'kentucky-bluegrass' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'perennial-ryegrass' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## Best Grass Seed for Shade and Poor Soil
 - URL: https://naturesseed.com/?p=234
@@ -1058,11 +1058,8 @@
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/kentucky-bluegrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/perennial-ryegrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/fescue-grass/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/bahia-grass/bahia-grass-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/bermuda-grass/bermudagrass-seed-blend/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/zoysia-grass/zoysia-grass-seed/
-  - **DiscontinuedProductRule** (critical): Replace mention of 'bahia-grass' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'zoysia-grass-seed' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'creeping-red-fescue-grass' with a currently-sold product or remove section
@@ -1072,6 +1069,8 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/kentucky-bluegrass/
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/perennial-ryegrass/
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'bahia-grass' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## Best Grass Seed for Your Climate
 - URL: https://naturesseed.com/?p=441660
@@ -1084,7 +1083,6 @@
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/kentucky-bluegrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/tall-fescue/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/bahia-grass/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/fine-fescue-grass-seed-mix/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/
   - **DiscontinuedProductRule** (critical): Replace mention of 'tall-fescue-seeds' with a currently-sold product or remove section
@@ -1108,6 +1106,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/blue-eyed-grass/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'fine-fescue-grass-seed-mix' with a currently-sold product or remove section
 
 ## Best Grass Seed to Buy
 - URL: https://naturesseed.com/?p=408323
@@ -1267,12 +1266,12 @@
 - Products: Buffalograss Seed
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/buffalograss/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## Birdsfoot Trefoil
 - URL: https://naturesseed.com/?post_type=product&p=184471
@@ -1305,7 +1304,6 @@
 - Type: post | Words: 479
 - Products: Buffalograss Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/bison-pastures/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/the-benefits-of-management-intensive-grazing-on-the-environment-livestock-and-pasture-grass/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
@@ -1314,6 +1312,7 @@
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
   - **StaleDateRule** (warning): Reference to 2014 may be stale — verify and update
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## Black Gold: What to Look for When Purchasing Topsoil
 - URL: https://naturesseed.com/?p=191271
@@ -2404,7 +2403,6 @@
 - Type: post | Words: 598
 - Products: White Clover Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/white-dutch-clover/
   - **DiscontinuedProductRule** (critical): Replace mention of 'garden-cosmos' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'white-prairie-clover-disabled' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'little-bluestem-disabled' with a currently-sold product or remove section
@@ -2413,6 +2411,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/clover-seed/white-clover/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover' with a currently-sold product or remove section
 
 ## Clover Lawn Alternative Mix
 - URL: https://naturesseed.com/products/grass-seed/clover-lawn-alternative-mix/
@@ -2864,8 +2863,6 @@
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/kentucky-bluegrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/fescue-grass/triple-play-tall-fescue-seed-blend/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/fine-fescue-grass-seed-mix/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/perennial-ryegrass/perennial-ryegrass-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/kentucky-bluegrass/sun-shade-seed-mix/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/bermuda-grass/bermudagrass-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/buffalograss/
@@ -2884,19 +2881,18 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/blue-eyed-grass/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'fine-fescue-grass-seed-mix' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'perennial-ryegrass' with a currently-sold product or remove section
 
 ## Could Your Lawn Benefit From Core Aeration?
 - URL: https://naturesseed.com/?p=190999
 - Type: post | Words: 757
-- Products: Perennial Ryegrass, Kentucky Bluegrass, Perennial Ryegrass Seed Mix, Kentucky Bluegrass and Perennial Ryegrass Mix, Buffalograss Seed
+- Products: Organic Maintenance Fertilizer 18-1-8+fe, Perennial Ryegrass, Kentucky Bluegrass, Perennial Ryegrass Seed Mix, Kentucky Bluegrass and Perennial Ryegrass Mix, Buffalograss Seed
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/kentucky-bluegrass/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/perennial-ryegrass/perennial-ryegrass-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/bermuda-grass/bermudagrass-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/zoysia-grass/zoysia-grass-seed/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/organic-maintenance-fertilizer-18-1-8-fe/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'products-pasture-seed-bermudagrass' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'perennial-ryegrass-seed-blend-2' with a currently-sold product or remove section
@@ -2912,6 +2908,8 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/buffalograss/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'perennial-ryegrass' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## Coulter's Globemallow
 - URL: https://naturesseed.com/?post_type=product&p=184101
@@ -3030,16 +3028,14 @@
 ## Dealing With Annual Bluegrass in Your Lawn
 - URL: https://naturesseed.com/?p=190993
 - Type: post | Words: 823
-- Products: Kentucky Bluegrass, Organic Maintenance Fertilizer 18-1-8+fe, Kentucky Bluegrass Seed Mix
+- Products: Organic Maintenance Fertilizer 18-1-8+fe, Kentucky Bluegrass, Kentucky Bluegrass Seed Mix
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/kentucky-bluegrass/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/organic-maintenance-fertilizer-18-1-8-fe/
   - **DiscontinuedProductRule** (critical): Replace mention of 'kentucky-bluegrass' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'little-bluestem-disabled' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'annual-sunflower' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'annual-ryegrass' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'sandberg-bluegrass' with a currently-sold product or remove section
-  - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/product/organic-maintenance-fertilizer-18-1-8fe/
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/grass-seed/water-wise-bluegrass-blend/
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/kentucky-bluegrass/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
@@ -3069,7 +3065,6 @@
 - Type: post | Words: 908
 - Products: Kentucky Bluegrass, Kentucky Bluegrass Seed Mix
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/fine-fescue-grass-seed-mix/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/kentucky-bluegrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/triple-play-tall-fescue-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/bermuda-grass/bermudagrass-seed-blend/
@@ -3086,12 +3081,13 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/kentucky-bluegrass/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'fine-fescue-grass-seed-mix' with a currently-sold product or remove section
 
 ## Dealing With Snow Mold in Your Grass
 - URL: https://naturesseed.com/?p=190916
 - Type: post | Words: 744
+- Products: Organic Maintenance Fertilizer 18-1-8+fe
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/organic-maintenance-fertilizer-18-1-8-fe/
   - **DiscontinuedProductRule** (critical): Replace mention of 'little-bluestem-disabled' with a currently-sold product or remove section
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
@@ -3487,8 +3483,6 @@
 - Products: Buffalograss Seed
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/sheep-fescue-grass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/low-maintenance-seed-mix/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'sheep-fescue-grass-seed' with a currently-sold product or remove section
@@ -3496,6 +3490,8 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/buffalograss/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'sheep-fescue-grass' with a currently-sold product or remove section
 
 ## Englemann Daisy
 - URL: https://naturesseed.com/?post_type=product&p=187301
@@ -3536,7 +3532,6 @@
 - Type: post | Words: 652
 - Products: Perennial Ryegrass, White Clover Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/white-dutch-clover/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/perennial-ryegrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/prevent-water-pollution-using-grass-and-wildflower-buffer-strips/
   - **DiscontinuedProductRule** (critical): Replace mention of 'white-prairie-clover-disabled' with a currently-sold product or remove section
@@ -3545,6 +3540,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/clover-seed/white-clover/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover' with a currently-sold product or remove section
 
 ## Experiment Time: Cover Cropping an Existing Lawn
 - URL: https://naturesseed.com/?p=191341
@@ -4730,7 +4726,6 @@
 - Products: Rocky Mountain Wildflower Seed Mix
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/regional-wildflower-mixes/great-basin-wildflower-mix/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/regional-wildflower-mixes/rocky-mountain-wildflower-mix/
   - **DiscontinuedProductRule** (critical): Replace mention of 'great-basin-wildflower-mix' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'rocky-mountain-wildflower-seed-mix' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'rocky-mountain-penstemon' with a currently-sold product or remove section
@@ -4740,13 +4735,13 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/rocky-mountain-wildflower-mix/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'rocky-mountain-wildflower-mix' with a currently-sold product or remove section
 
 ## Guide to a Perfect Putting Green in Your Yard
 - URL: https://naturesseed.com/?p=191690
 - Type: post | Words: 2434
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/bermuda-grass/bermudagrass-seed-blend/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/ornamental-grasses/blue-grama/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/bottlebrush-squirreltail/
   - **DiscontinuedProductRule** (critical): Replace mention of 'bottlebrush-squirreltail' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'blue-grama-pasture-seed' with a currently-sold product or remove section
@@ -4758,6 +4753,7 @@
   - **DiscontinuedProductRule** (critical): Replace mention of 'fakahatchee-grass-seeds' with a currently-sold product or remove section
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'blue-grama' with a currently-sold product or remove section
 
 ## Gum Plant
 - URL: https://naturesseed.com/?post_type=product&p=186967
@@ -5030,12 +5026,12 @@
 - Type: post | Words: 487
 - Products: Buffalograss Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to /grass-seed/buffalograss/buffalograss-seed-blend/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'shade-tolerant-water-wise-northeast-lawn-mix-twca-certified-2' with a currently-sold product or remove section
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/buffalograss/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## How Does Dog Waste Affect A Fescue Grass Seed Lawn
 - URL: https://naturesseed.com/?p=126
@@ -5199,12 +5195,11 @@
 ## How to Avoid Necrotic Ring Spot in Your Lawn Grass
 - URL: https://naturesseed.com/?p=191146
 - Type: post | Words: 648
-- Products: Perennial Ryegrass, Kentucky Bluegrass, Perennial Ryegrass Seed Mix, Kentucky Bluegrass and Perennial Ryegrass Mix
+- Products: Organic Maintenance Fertilizer 18-1-8+fe, Perennial Ryegrass, Kentucky Bluegrass, Perennial Ryegrass Seed Mix, Kentucky Bluegrass and Perennial Ryegrass Mix
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/perennial-ryegrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/kentucky-bluegrass/kentucky-bluegrass-seed-blue-ribbon-mix/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/efficient-and-responsible-lawn-watering-tips/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/organic-maintenance-fertilizer-18-1-8-fe/
   - **DiscontinuedProductRule** (critical): Replace mention of 'annual-ryegrass' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'small-burnet' with a currently-sold product or remove section
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/grass-seed/perennial-ryegrass-seed-blend/
@@ -5221,7 +5216,6 @@
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/bermuda-grass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/perennial-ryegrass/perennial-ryegrass-seed-blend/
   - **DiscontinuedProductRule** (critical): Replace mention of 'tall-fescue-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'annual-ryegrass' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'products-pasture-seed-bermudagrass' with a currently-sold product or remove section
@@ -5233,6 +5227,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/perennial-ryegrass/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'perennial-ryegrass' with a currently-sold product or remove section
 
 ## How to Create a Backyard Putting Green
 - URL: https://naturesseed.com/?p=191065
@@ -5280,7 +5275,6 @@
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'fakahatchee-grass-seeds' with a currently-sold product or remove section
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/buffalograss/
@@ -5288,6 +5282,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/grass-seed/sundancer-buffalograss-seed/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## How to Fertilize Your New Buffalo Grass Seed Lawn
 - URL: https://naturesseed.com/?p=138
@@ -5296,13 +5291,13 @@
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'fakahatchee-grass-seeds' with a currently-sold product or remove section
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/buffalograss/
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/bahia-grass/
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/grass-seed/sundancer-buffalograss-seed/
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## How to Get Rid of Crabgrass
 - URL: https://naturesseed.com/?p=191579
@@ -5341,7 +5336,6 @@
 - URL: https://naturesseed.com/?p=191181
 - Type: post | Words: 562
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/white-dutch-clover/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/purple-prairie-clover/
   - **DiscontinuedProductRule** (critical): Replace mention of 'sainfoin' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'sideoats-grama' with a currently-sold product or remove section
@@ -5355,6 +5349,7 @@
   - **DiscontinuedProductRule** (critical): Replace mention of 'white-sweet-clover' with a currently-sold product or remove section
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover' with a currently-sold product or remove section
 
 ## How to Kill Weeds and Dandelions in Your Lawn
 - URL: https://naturesseed.com/?p=190282
@@ -5519,7 +5514,6 @@
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/zoysia-grass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/bermuda-grass/bermudagrass-seed-blend/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/
   - **DiscontinuedProductRule** (critical): Replace mention of 'zoysia-grass-seed' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
@@ -5534,13 +5528,13 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/grass-seed/sundancer-buffalograss-seed/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## How to Prepare your Soil for a Buffalo Grass Seed Lawn
 - URL: https://naturesseed.com/?p=135
 - Type: post | Words: 872
 - Products: Buffalograss Seed, Bahia Grass Seed, Blue-Eyed Grass Seed, Sundancer Buffalograss Lawn Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'timothy' with a currently-sold product or remove section
@@ -5548,6 +5542,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/blue-eyed-grass/
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/grass-seed/sundancer-buffalograss-seed/
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## How to Prepare your Soil for a Perennial Ryegrass Seed Lawn
 - URL: https://naturesseed.com/?p=154
@@ -5567,7 +5562,6 @@
 - Type: post | Words: 566
 - Products: Organic Seed Starter Fertilizer 4-6-4
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/planting-aids/organic-seed-starter-fertilizer-4-6-4/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/bermuda-grass/bermudagrass-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/zoysia-grass/zoysia-grass-seed/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/bahia-grass/
@@ -5580,6 +5574,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/planting-aids/organic-seed-starter-fertilizer-4-6-4/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'organic-seed-starter-fertilizer-4-6-4' with a currently-sold product or remove section
 
 ## How to Store Grass Seed: Tips to Keep Your Seeds Viable for Years
 - URL: https://naturesseed.com/?p=417371
@@ -5700,7 +5695,6 @@
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/perennial-ryegrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/kentucky-bluegrass/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/fine-fescue-grass-seed-mix/
   - **DiscontinuedProductRule** (critical): Replace mention of 'tall-fescue-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'products-pasture-seed-bermudagrass' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'perennial-ryegrass-seed-blend-2' with a currently-sold product or remove section
@@ -5719,6 +5713,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/perennial-ryegrass/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'fine-fescue-grass-seed-mix' with a currently-sold product or remove section
 
 ## Identifying and Preventing Sod Webworm Damage
 - URL: https://naturesseed.com/?p=190932
@@ -6077,7 +6072,6 @@
 - Type: post | Words: 576
 - Products: Blue Grama Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/ornamental-grasses/blue-grama/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/indiangrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/ornamental-grasses/little-bluestem/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/regional-wildflower-mixes/
@@ -6087,6 +6081,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/blue-grama/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'blue-grama' with a currently-sold product or remove section
 
 ## It Makes Perfect Scents: How to Grow a Fragrant Garden
 - URL: https://naturesseed.com/?p=191050
@@ -6094,7 +6089,6 @@
 - Products: White Dutch Clover Seed, Red Clover Seed
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/regional-wildflower-mixes/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/white-dutch-clover/
   - **DiscontinuedProductRule** (critical): Replace mention of 'wallflower' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'tree-clover' with a currently-sold product or remove section
@@ -6103,6 +6097,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/clover-seed/white-dutch-clover/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover' with a currently-sold product or remove section
 
 ## Japanese Millet
 - URL: https://naturesseed.com/?post_type=product&p=355811
@@ -6121,11 +6116,9 @@
 - Type: post | Words: 580
 - Products: Perennial Ryegrass, Kentucky Bluegrass, Bahia Grass Seed, Perennial Ryegrass Seed Mix, Kentucky Bluegrass Seed Mix, Kentucky Bluegrass and Perennial Ryegrass Mix, Blue-Eyed Grass Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/kentucky-bluegrass/jimmys-blue-ribbon-premium-grass-seed-mix/
   - **DiscontinuedProductRule** (critical): Replace mention of 'perennial-ryegrass-seed-blend-2' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'timothy' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'annual-ryegrass' with a currently-sold product or remove section
-  - **DiscontinuedProductRule** (critical): Replace mention of 'jimmys-blue-ribbon-premium-grass-seed-mix' with a currently-sold product or remove section
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/grass-seed/perennial-ryegrass-seed-blend/
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/grass-seed/water-wise-bluegrass-blend/
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/grass-seed/kentucky-bluegrass-seed-blue-ribbon-mix/
@@ -6134,6 +6127,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/blue-eyed-grass/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'jimmys-blue-ribbon-premium-grass-seed-mix' with a currently-sold product or remove section
 
 ## Jimmy's Blue Ribbon Lawn Seed Mix
 - URL: https://naturesseed.com/products/grass-seed/jimmys-blue-ribbon-premium-grass-seed-mix/
@@ -6216,11 +6210,9 @@
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/kentucky-bluegrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/bahia-grass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/triple-play-tall-fescue-seed-blend/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/bermuda-grass/bermudagrass-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/zoysia-grass/zoysia-grass-seed/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/perennial-ryegrass/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/fine-fescue-grass-seed-mix/
   - **DiscontinuedProductRule** (critical): Replace mention of 'tall-fescue-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'products-pasture-seed-bermudagrass' with a currently-sold product or remove section
@@ -6233,6 +6225,8 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/buffalograss/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'fine-fescue-grass-seed-mix' with a currently-sold product or remove section
 
 ## Keeping it Local with Basil & Rose
 - URL: https://naturesseed.com/?p=191598
@@ -6396,14 +6390,11 @@
   - **DeadExternalLinkRule** (warning): Remove or replace dead link to https://www.nrcs.usda.gov/Internet/FSE_DOCUMENTS/stelprdb1167377.pdf
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/11-tips-for-spring-grass-reseeding/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/by-region-grass-seed/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/bahia-grass/bahia-grass-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/bermuda-grass/bermudagrass-seed-blend/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/zoysia-grass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/kentucky-bluegrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/perennial-ryegrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/white-dutch-clover/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/
   - **DiscontinuedProductRule** (critical): Replace mention of 'tall-fescue-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
@@ -6415,7 +6406,6 @@
   - **DiscontinuedProductRule** (critical): Replace mention of 'chewings-fescue-grass' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'kentucky-bluegrass' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'common-bermudagrass' with a currently-sold product or remove section
-  - **DiscontinuedProductRule** (critical): Replace mention of 'bahia-grass' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'sandberg-bluegrass' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'creeping-red-fescue-grass' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover-5000-f' with a currently-sold product or remove section
@@ -6430,6 +6420,9 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/grass-seed/clover-lawn-alternative-mix/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'bahia-grass' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover' with a currently-sold product or remove section
 
 ## Lawn Seed Planting Instructions
 - URL: https://naturesseed.com/?p=355568
@@ -6453,7 +6446,6 @@
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/triple-play-tall-fescue-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/zoysia-grass/zoysia-grass-seed/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/white-dutch-clover/
   - **DiscontinuedProductRule** (critical): Replace mention of 'baby-s-breath' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'chinese-houses' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'echinacea' with a currently-sold product or remove section
@@ -6472,6 +6464,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/buffalograss/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover' with a currently-sold product or remove section
 
 ## Lead Plant
 - URL: https://naturesseed.com/?post_type=product&p=187437
@@ -6611,9 +6604,8 @@
 ## Maintaining Your Lawn and Garden During a Heat Wave
 - URL: https://naturesseed.com/?p=190987
 - Type: post | Words: 884
-- Products: Perennial Ryegrass, Kentucky Bluegrass, Kentucky Bluegrass and Perennial Ryegrass Mix, Buffalograss Seed
+- Products: Organic Maintenance Fertilizer 18-1-8+fe, Perennial Ryegrass, Kentucky Bluegrass, Kentucky Bluegrass and Perennial Ryegrass Mix, Buffalograss Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/organic-maintenance-fertilizer-18-1-8-fe/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'products-pasture-seed-bermudagrass' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'little-bluestem-disabled' with a currently-sold product or remove section
@@ -7016,10 +7008,6 @@
 - Type: post | Words: 577
 - Products: Alsike Clover Seed, Red Clover Seed, White Clover Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/white-dutch-clover/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/white-clover/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/red-clover/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/alsike-clover/
   - **DiscontinuedProductRule** (critical): Replace mention of 'tree-clover' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'white-prairie-clover-disabled' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'little-bluestem-disabled' with a currently-sold product or remove section
@@ -7028,6 +7016,8 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/clover-seed/white-clover/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-clover' with a currently-sold product or remove section
 
 ## Moss Verbena
 - URL: https://naturesseed.com/?post_type=product&p=184153
@@ -7108,7 +7098,6 @@
 - Type: post | Words: 1611
 - Products: Kentucky Bluegrass, Perennial Ryegrass
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/sheep-fescue-grass/
   - **DiscontinuedProductRule** (critical): Replace mention of 'tall-fescue-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'sheep-fescue-grass-seed' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'zorro-fescue' with a currently-sold product or remove section
@@ -7122,6 +7111,7 @@
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
   - **StaleDateRule** (warning): Reference to 2015 may be stale — verify and update
   - **StaleDateRule** (warning): Reference to 2000 may be stale — verify and update
+  - **DiscontinuedProductRule** (critical): Replace mention of 'sheep-fescue-grass' with a currently-sold product or remove section
 
 ## My Interview With an Ant: What Are You Doing in My Lawn Grass?
 - URL: https://naturesseed.com/?p=190984
@@ -7249,11 +7239,8 @@
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/desert-daisy/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/sand-dropseed/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/idaho-fescue/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/western-yarrow/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/blue-eyed-grass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/ornamental-grasses/purple-three-awn/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/brittlebush/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/ornamental-grasses/blue-grama/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/bottlebrush-squirreltail/
   - **DiscontinuedProductRule** (critical): Replace mention of 'brittlebush' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'bottlebrush-squirreltail' with a currently-sold product or remove section
@@ -7261,10 +7248,8 @@
   - **DiscontinuedProductRule** (critical): Replace mention of 'idaho-fescue' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'sand-dropseed' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'blue-wildrye' with a currently-sold product or remove section
-  - **DiscontinuedProductRule** (critical): Replace mention of 'blue-eyed-grass' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'california-sagebrush' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'california-phacelia' with a currently-sold product or remove section
-  - **DiscontinuedProductRule** (critical): Replace mention of 'western-yarrow' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'creeping-red-fescue-grass' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'chaparral-yucca' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'coastal-california-poppy' with a currently-sold product or remove section
@@ -7276,6 +7261,9 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/blue-eyed-grass/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'western-yarrow' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'blue-eyed-grass' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'blue-grama' with a currently-sold product or remove section
 
 ## Native Grass Series: Washington State
 - URL: https://naturesseed.com/?p=191649
@@ -7304,10 +7292,8 @@
 - Type: post | Words: 1050
 - Products: Perennial Ryegrass, Western Yarrow Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/western-yarrow/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/eastern-red-columbine/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/wild-bergamot/
-  - **DiscontinuedProductRule** (critical): Replace mention of 'western-yarrow' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'oats' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'wild-bergamot' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'colorado-columbine' with a currently-sold product or remove section
@@ -7316,6 +7302,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/western-yarrow/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'western-yarrow' with a currently-sold product or remove section
 
 ## Nature’s Seed Customer Highlight: Jimmy Lewis
 - URL: https://naturesseed.com/?p=191631
@@ -7333,14 +7320,13 @@
 - Products: Rice Hulls, Am 120 Standard Mycorrhizal Inoculant
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/planting-aids/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/planting-aids/am-120-standard-mycorrhizal-inoculant/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/planting-aids/m-binder-tackifier-soil-stabilizer/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/planting-aids/rice-hulls/
   - **DiscontinuedProductRule** (critical): Replace mention of 'innoculant' with a currently-sold product or remove section
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/planting-aids/am-120-standard-mycorrhizal-inoculant/
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/planting-aids/rice-hull/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'am-120-standard-mycorrhizal-inoculant' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'm-binder-tackifier-soil-stabilizer' with a currently-sold product or remove section
 
 ## Nature’s Seed Turns 10 Years Old!
 - URL: https://naturesseed.com/?p=191625
@@ -7387,7 +7373,6 @@
 - Type: post | Words: 731
 - Products: Buffalograss Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/planting-aids/seed-aide-cover-grow-water-retaining-seed-starting-mulch/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/specialty-seed/honey-bee-blends/
@@ -7396,6 +7381,7 @@
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
   - **StaleDateRule** (warning): Reference to 2014 may be stale — verify and update
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## Nodding Bur Marigold
 - URL: https://naturesseed.com/?post_type=product&p=187461
@@ -7517,7 +7503,6 @@
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/specialty-seed/honey-bee-blends/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/specialty-seed/honey-bee-blends/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/white-dutch-clover/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/california-bluebell/
   - **DiscontinuedProductRule** (critical): Replace mention of 'purple-prairie-clover' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'sainfoin' with a currently-sold product or remove section
@@ -7531,16 +7516,17 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/clover-seed/white-clover/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover' with a currently-sold product or remove section
 
 ## Not Too Little, Not Too Much: Bluegrass Watering Basics
 - URL: https://naturesseed.com/?p=191323
 - Type: post | Words: 690
 - Products: Kentucky Bluegrass
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/kentucky-bluegrass/kentucky-bluegrass-seed-blue-ribbon-blend/
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/kentucky-bluegrass/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'kentucky-bluegrass' with a currently-sold product or remove section
 
 ## Not Your Mother’s Earth Day Plans
 - URL: https://naturesseed.com/?p=191602
@@ -7663,12 +7649,10 @@
 - Products: Organic Maintenance Fertilizer 18-1-8+fe, Bahia Grass Seed, Blue-Eyed Grass Seed
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/organic-maintenance-fertilizer-18-1-8-fe/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/the-benefits-of-mulching-a-step-forward-in-sustainability/
   - **DiscontinuedProductRule** (critical): Replace mention of 'timothy' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'little-bluestem-disabled' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'lead-plant-disabled' with a currently-sold product or remove section
-  - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/product/organic-maintenance-fertilizer-18-1-8fe/
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/blue-eyed-grass/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
@@ -8160,11 +8144,7 @@
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/orchardgrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/common-bermudagrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/bahia-grass/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/timothy/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/alfalfa/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/white-clover/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/strawberry-clover/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/red-clover/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/field-pea/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/birdsfoot-trefoil/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/sainfoin/
@@ -8210,6 +8190,9 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/clover-seed/white-clover/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'timothy' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'alfalfa' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-clover' with a currently-sold product or remove section
 
 ## Pasture Seed Planting Instructions
 - URL: https://naturesseed.com/?p=355570
@@ -8232,12 +8215,12 @@
 - Type: post | Words: 739
 - Products: Deer Resistant Wildflower Seed Mix
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/regional-wildflower-mixes/deer-resistant-wildflower-mix/
   - **DiscontinuedProductRule** (critical): Replace mention of 'common-vetch-disabled' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'deer-resistant-wildflower-mix-2' with a currently-sold product or remove section
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/deer-resistant-wildflower-mix/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'deer-resistant-wildflower-mix' with a currently-sold product or remove section
 
 ## Penstemons: Summer’s Favorite Flowers
 - URL: https://naturesseed.com/?p=191605
@@ -8473,7 +8456,6 @@
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/shirley-poppy/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/icelandic-poppy/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/california-poppy/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/mexican-gold-poppy/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/arizona-poppy/
   - **DiscontinuedProductRule** (critical): Replace mention of 'shirley-poppy' with a currently-sold product or remove section
@@ -8484,6 +8466,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/california-poppy/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'california-poppy' with a currently-sold product or remove section
 
 ## Popular Bermuda Grass Varieties
 - URL: https://naturesseed.com/?p=191613
@@ -8618,11 +8601,8 @@
 ## Prepare Now to Beat Drought Next Summer
 - URL: https://naturesseed.com/?p=191014
 - Type: post | Words: 779
-- Products: Kentucky Bluegrass, Dryland Pasture Mix, Buffalograss Seed
+- Products: Organic Maintenance Fertilizer 18-1-8+fe, Sonoran Desert Wildflower Mix, Kentucky Bluegrass, Dryland Pasture Mix, Buffalograss Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/organic-maintenance-fertilizer-18-1-8-fe/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/regional-wildflower-mixes/sonoran-desert-wildflower-mix/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/regional-wildflower-mixes/southwest-wildflower-mix/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'southeast-wildflower-mix' with a currently-sold product or remove section
@@ -8631,6 +8611,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/dryland-pasture-mix/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## Pretty Prairie Tallgrass Mix
 - URL: https://naturesseed.com/?post_type=product&p=355990
@@ -9080,8 +9061,6 @@
 - Products: Deer Resistant Wildflower Seed Mix
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/regional-wildflower-mixes/great-basin-wildflower-mix/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/regional-wildflower-mixes/deer-resistant-wildflower-mix/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/regional-wildflower-mixes/annual-wildflower-mix/
   - **DiscontinuedProductRule** (critical): Replace mention of 'rocky-mountain-beeplant' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'great-basin-wildflower-mix' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'annual-wildflower-seed-mix' with a currently-sold product or remove section
@@ -9091,6 +9070,8 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/deer-resistant-wildflower-mix/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'deer-resistant-wildflower-mix' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'annual-wildflower-mix' with a currently-sold product or remove section
 
 ## Rocky Mountain Iris
 - URL: https://naturesseed.com/?post_type=product&p=184053
@@ -9112,7 +9093,6 @@
 - Type: post | Words: 800
 - Products: Rocky Mountain Wildflower Seed Mix
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/regional-wildflower-mixes/rocky-mountain-wildflower-mix/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/regional-wildflower-mixes/low-growing-wildflower-mix/
   - **DiscontinuedProductRule** (critical): Replace mention of 'rocky-mountain-iris' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'rocky-mountain-wildflower-seed-mix' with a currently-sold product or remove section
@@ -9122,6 +9102,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/rocky-mountain-wildflower-mix/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'rocky-mountain-wildflower-mix' with a currently-sold product or remove section
 
 ## Rocky Mountain Penstemon
 - URL: https://naturesseed.com/?post_type=product&p=184199
@@ -9419,8 +9400,6 @@
 - Type: post | Words: 573
 - Products: Perennial Ryegrass, White Dutch Clover Seed, White Clover Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/white-dutch-clover/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/sheep-fescue-grass/
   - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'tree-clover' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'sheep-fescue-grass-seed' with a currently-sold product or remove section
@@ -9431,6 +9410,8 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/clover-seed/white-clover/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'sheep-fescue-grass' with a currently-sold product or remove section
 
 ## Shade Tolerant Food Plot Mix
 - URL: https://naturesseed.com/products/pasture-seed/shade-mix-food-plot/
@@ -9494,13 +9475,13 @@
 - Type: post | Words: 568
 - Products: Sheep Fescue Grass Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/sheep-fescue-grass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/
   - **DiscontinuedProductRule** (critical): Replace mention of 'sheep-fescue-grass-seed' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'zorro-fescue' with a currently-sold product or remove section
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/grass-seed/sheep-fescue-grass/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'sheep-fescue-grass' with a currently-sold product or remove section
 
 ## Sheep Pasture & Forage Mix - Transitional
 - URL: https://naturesseed.com/?post_type=product&p=440384
@@ -9565,16 +9546,16 @@
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to mailto:customercare@naturesseed.com
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
-  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
-  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
-  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
-  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
-  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
-  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
-  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
-  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
-  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
-  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping on orders over $150; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping on orders over $150; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: References $150 free shipping threshold; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping on orders over $150; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping on orders over $150; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping on orders over $150; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping on orders over $150; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping valid for purchases of $150 or more; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping valid for purchases of $150 or more; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: Continues the $150 threshold context from snippet [10]; current policy is $99.
 
 ## Shirley Poppy
 - URL: https://naturesseed.com/?post_type=product&p=183084
@@ -9620,7 +9601,6 @@
 - Type: post | Words: 587
 - Products: Perennial Ryegrass
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/switchgrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/indiangrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/echinacea/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/black-eyed-susan/
@@ -9657,7 +9637,6 @@
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/kentucky-bluegrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/bermuda-grass/bermudagrass-seed-blend/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/fescue-grass/low-maintenance-seed-blend/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'products-pasture-seed-bermudagrass' with a currently-sold product or remove section
@@ -9669,6 +9648,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/blue-eyed-grass/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## Shoulder Bag Seeder/Spreader
 - URL: https://naturesseed.com/products/planting-aids/shoulder-bag-seeder-spreader/
@@ -9890,7 +9870,6 @@
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/kentucky-bluegrass/water-wise-bluegrass-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/planting-aids/seed-aide-cover-grow-water-retaining-seed-starting-mulch/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/planting-aids/rice-hulls/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/ornamental-grasses/little-bluestem/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/indian-ricegrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/specialty-seed/green-manure-cover-crops/
@@ -10968,20 +10947,14 @@
 ## Summer Lawn Care & Maintenance
 - URL: https://naturesseed.com/?p=191662
 - Type: post | Words: 1399
-- Products: Organic Seed Starter Fertilizer 4-6-4, Organic Maintenance Fertilizer 18-1-8+fe, Perennial Ryegrass, Kentucky Bluegrass, Buffalograss Seed
+- Products: Organic Maintenance Fertilizer 18-1-8+fe, Organic Seed Starter Fertilizer 4-6-4, Perennial Ryegrass, Kentucky Bluegrass, Buffalograss Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/organic-maintenance-fertilizer-18-1-8-fe/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/zoysia-grass/zoysia-grass-seed/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/kentucky-bluegrass/water-wise-bluegrass-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/amity-tall-fescue/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/triple-play-tall-fescue-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/kentucky-bluegrass/kentucky-bluegrass-seed-blue-ribbon-mix/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/perennial-ryegrass/perennial-ryegrass-seed-blend/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/fescue-grass/fine-fescue-grass-seed-mix/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/planting-aids/organic-seed-starter-fertilizer-4-6-4/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/planting-aids/seed-aide-cover-grow-water-retaining-seed-starting-mulch/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/planting-aids/seed-spreader/
   - **DiscontinuedProductRule** (critical): Replace mention of 'tall-fescue-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'seed-aide-cover-grow-water-retaining-seed-starting-mulch' with a currently-sold product or remove section
@@ -10991,12 +10964,15 @@
   - **DiscontinuedProductRule** (critical): Replace mention of 'k-31-tall-fescue-disabled' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'small-fescue' with a currently-sold product or remove section
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/planting-aids/organic-seed-starter-fertilizer-4-6-4/
-  - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/product/organic-maintenance-fertilizer-18-1-8fe/
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/kentucky-bluegrass/
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/perennial-ryegrass/
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/buffalograss/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'perennial-ryegrass' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'fine-fescue-grass-seed-mix' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'organic-seed-starter-fertilizer-4-6-4' with a currently-sold product or remove section
 
 ## Sun &amp; Shade Wildflower Mix
 - URL: https://naturesseed.com/?post_type=product&p=182849
@@ -11199,7 +11175,6 @@
   - **DeadExternalLinkRule** (warning): Remove or replace dead link to https://www.nrcs.usda.gov/Internet/FSE_PLANTMATERIALS/publications/npmptn3-13079.pdf
   - **DeadExternalLinkRule** (warning): Remove or replace dead link to https://energy.gov/sites/prod/files/2014/04/f14/ornl_switchgrass.pdf
   - **DeadExternalLinkRule** (warning): Remove or replace dead link to https://switchgrass.okstate.edu/what-is-switchgrass
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/switchgrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/
   - **DiscontinuedProductRule** (critical): Replace mention of 'oats' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'switch-grass-seeds' with a currently-sold product or remove section
@@ -11644,11 +11619,7 @@
 - Products: Alsike Clover Seed, California Poppy, Alfalfa Seed, Buckwheat Seed
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/sainfoin/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/white-clover/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/alsike-clover/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/crimson-clover/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/yellow-sweet-clover/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/alfalfa/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/regional-wildflower-mixes/
   - **DiscontinuedProductRule** (critical): Replace mention of 'sainfoin' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'wheat' with a currently-sold product or remove section
@@ -11667,6 +11638,8 @@
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
   - **StaleDateRule** (warning): Reference to 2007 may be stale — verify and update
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-clover' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'alfalfa' with a currently-sold product or remove section
 
 ## The Benefits of Management-Intensive Grazing on the Environment, Livestock, and Pasture Grass
 - URL: https://naturesseed.com/?p=190952
@@ -11720,7 +11693,6 @@
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/buffalograss/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/zoysia-grass/zoysia-grass-seed/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/planting-aids/organic-seed-starter-fertilizer-4-6-4/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/stop-wetland-destruction-avoid-peat-moss-when-germinating-grass-seed/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/planting-aids/seed-aide-cover-grow-water-retaining-seed-starting-mulch/
   - **DiscontinuedProductRule** (critical): Replace mention of 'tall-fescue-seeds' with a currently-sold product or remove section
@@ -11743,6 +11715,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/blue-eyed-grass/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'organic-seed-starter-fertilizer-4-6-4' with a currently-sold product or remove section
 
 ## The Broken Knife: A Gardening Parable
 - URL: https://naturesseed.com/?p=191432
@@ -11767,13 +11740,10 @@
 - Type: post | Words: 642
 - Products: Buffalograss Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/fine-fescue-grass-seed-mix/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/sheep-fescue-grass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/triple-play-tall-fescue-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/bermuda-grass/bermudagrass-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/zoysia-grass/zoysia-grass-seed/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/bahia-grass/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DiscontinuedProductRule** (critical): Replace mention of 'tall-fescue-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'products-pasture-seed-bermudagrass' with a currently-sold product or remove section
@@ -11786,6 +11756,9 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/buffalograss/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'fine-fescue-grass-seed-mix' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'sheep-fescue-grass' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## The First Step in the Landscape Design Process: The Big Picture
 - URL: https://naturesseed.com/?p=191381
@@ -11801,7 +11774,6 @@
 - Products: California Poppy, Buffalograss Seed
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/tips-for-establishing-a-dryland-pasture/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/the-benefits-of-raising-animals-and-livestock-on-pasture-grass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/happy-and-healthy-gardening-activities-for-children/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
@@ -11810,6 +11782,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/california-poppy/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## The Future of Beekeeping
 - URL: https://naturesseed.com/?p=191483
@@ -11915,7 +11888,6 @@
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/low-maintenance-seed-mix/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/ornamental-grasses/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
@@ -11924,6 +11896,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/buffalograss/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## The Many Faces of Small (Salad) Burnet
 - URL: https://naturesseed.com/?p=191335
@@ -11941,15 +11914,9 @@
 - Decay findings:
   - **DeadExternalLinkRule** (warning): Remove or replace dead link to https://renderer.ampry.com/register/click/624dcb673fc3c92ca80e9ae5?pixel_code=8ca578c96b08eb5fc6548e5404c28a51c410ff&countclick=1&revenue=&direct_url=aHR0cHM6Ly93d3cubmF0dXJlc3NlZWQuY29tL2dyYXNzLXNlZWQvY2xvdmVyLXNlZWRzLWxhd24tYWRkaXRpdmUvd2hpdGUtZHV0Y2gtY2xvdmVyLw%3D%3D
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/white-dutch-clover/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/clover-seeds-lawn-additive/white-dutch-clover/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/kentucky-bluegrass/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/microclover/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/clover-seeds-lawn-additive/microclover/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/seed-selector/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/seed-selector/
-  - **DiscontinuedProductRule** (critical): Replace mention of 'microclover' with a currently-sold product or remove section
-  - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'micro-clover-seed' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'kentucky-bluegrass' with a currently-sold product or remove section
@@ -11964,6 +11931,8 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/clover-seed/white-clover/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'microclover' with a currently-sold product or remove section
 
 ## The Most Likely Reason Your Plants are Dying
 - URL: https://naturesseed.com/?p=191456
@@ -11988,10 +11957,7 @@
 - Products: Kentucky Bluegrass, Buffalograss Seed, Sundancer Buffalograss Lawn Seed
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/product/buffalograss/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/product/buffalograss-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/category/buffalo-grass-guides/
-  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
-  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss-seed-blend' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'sandberg-bluegrass' with a currently-sold product or remove section
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/kentucky-bluegrass/
@@ -11999,6 +11965,7 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/grass-seed/sundancer-buffalograss-seed/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## The Ultimate 10 Step Guide to Overseeding Lawns
 - URL: https://naturesseed.com/?p=191573
@@ -12026,6 +11993,7 @@
   - **DiscontinuedProductRule** (critical): Replace mention of 'little-bluestem-disabled' with a currently-sold product or remove section
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DeadExternalLinkRule** (warning): Remove or replace dead link to https://web.archive.org/web/20230307234246/https://www.mygardenlife.com/how-to/how-to-evaluate-your-soil-type
 
 ## The Ultimate Habitat Restoration Bundle Mix
 - URL: https://naturesseed.com/?post_type=product&p=460828
@@ -12207,7 +12175,6 @@
 - Type: post | Words: 879
 - Products: Buffalograss Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'bachelor-button' with a currently-sold product or remove section
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/buffalograss/
@@ -12215,6 +12182,7 @@
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
   - **StaleDateRule** (warning): Reference to 2000 may be stale — verify and update
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
 
 ## Tips for Establishing a Dryland Pasture
 - URL: https://naturesseed.com/?p=191221
@@ -12270,9 +12238,9 @@
 ## Tips for Selecting an Organic Lawn Care Service
 - URL: https://naturesseed.com/?p=191109
 - Type: post | Words: 665
+- Products: Organic Maintenance Fertilizer 18-1-8+fe
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/guide-resources/how-to-choose-the-right-grass-seed-for-a-thriving-lawn/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/organic-maintenance-fertilizer-18-1-8-fe/
   - **DiscontinuedProductRule** (critical): Replace mention of 'little-bluestem-disabled' with a currently-sold product or remove section
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
@@ -12317,9 +12285,6 @@
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/soil-tests-a-crucial-step-before-planting-gardens-and-grass-seed/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/by-region-pasture-seed/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/
-  - **DiscontinuedProductRule** (critical): Replace mention of 'common-buckwheat' with a currently-sold product or remove section
-  - **DiscontinuedProductRule** (critical): Replace mention of 'cereal-rye' with a currently-sold product or remove section
-  - **DiscontinuedProductRule** (critical): Replace mention of 'bahia-grass' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'tall-fescue-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'smooth-brome' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'wheat' with a currently-sold product or remove section
@@ -12345,6 +12310,9 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/blue-eyed-grass/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'common-buckwheat' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'cereal-rye' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'bahia-grass' with a currently-sold product or remove section
 
 ## Topsoil Problems
 - URL: https://naturesseed.com/?p=191465
@@ -12569,16 +12537,15 @@
 ## Understanding Fertilizer Components
 - URL: https://naturesseed.com/?p=191143
 - Type: post | Words: 594
-- Products: White Clover Seed
+- Products: Organic Maintenance Fertilizer 18-1-8+fe, White Clover Seed
 - Decay findings:
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/clover-seeds-lawn-additive/white-dutch-clover/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/organic-maintenance-fertilizer-18-1-8-fe/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/planting-aids/organic-seed-starter-fertilizer-4-6-4/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/soil-tests-a-crucial-step-before-planting-gardens-and-grass-seed/
   - **DiscontinuedProductRule** (critical): Replace mention of 'little-bluestem-disabled' with a currently-sold product or remove section
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/clover-seed/white-clover/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'white-dutch-clover' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'organic-seed-starter-fertilizer-4-6-4' with a currently-sold product or remove section
 
 ## Unexpected Grazers: 5 Animals You Didn’t Know Were Grass Eaters
 - URL: https://naturesseed.com/?p=191212
@@ -12904,10 +12871,7 @@
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/kentucky-bluegrass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/bermuda-grass/bermudagrass-seed-blend/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/fine-fescue-grass-seed-mix/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/buffalograss/buffalograss-seed-blend/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/pasture-seed/individual-pasture-species/perennial-ryegrass/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/sheep-fescue-grass/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/grass-seed/fescue-grass/low-maintenance-seed-mix/
   - **DiscontinuedProductRule** (critical): Replace mention of 'buffalo-grass-seeds' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'products-pasture-seed-bermudagrass' with a currently-sold product or remove section
@@ -12923,6 +12887,9 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/buffalograss/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'fine-fescue-grass-seed-mix' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'buffalograss' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'sheep-fescue-grass' with a currently-sold product or remove section
 
 ## What Gardening System Should You Follow?
 - URL: https://naturesseed.com/?p=191420
@@ -12941,16 +12908,12 @@
 ## What Should I Plant to Attract Pollinators?
 - URL: https://naturesseed.com/?p=191659
 - Type: post | Words: 1142
-- Products: California Poppy, Perennial Ryegrass, Butterfly Milkweed Seeds, Blue-Eyed Grass Seed, Drummond Phlox Seeds
+- Products: Drummond Phlox Seeds, California Poppy, Perennial Ryegrass, Butterfly Milkweed Seeds, Blue-Eyed Grass Seed
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/tidy-tips/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/echinacea/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/black-eyed-susan/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/butterfly-milkweed/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/california-poppy/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/wild-bergamot/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/blue-eyed-grass/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/individual-wildflower-species/drummond-phlox/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/regional-wildflower-mixes/
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/specialty-seed/pollinator-seed-blends/
   - **DiscontinuedProductRule** (critical): Replace mention of 'tidy-tips' with a currently-sold product or remove section
@@ -12958,7 +12921,6 @@
   - **DiscontinuedProductRule** (critical): Replace mention of 'black-eyed-susan' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'wheat' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'wild-bergamot' with a currently-sold product or remove section
-  - **DiscontinuedProductRule** (critical): Replace mention of 'blue-eyed-grass' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'brown-eyed-susan-disabled' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'buckwheat-pasture-seed' with a currently-sold product or remove section
   - **DiscontinuedProductRule** (critical): Replace mention of 'coastal-california-poppy' with a currently-sold product or remove section
@@ -12969,9 +12931,10 @@
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/pasture-seed/perennial-ryegrass/
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/california-poppy/
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/blue-eyed-grass/
-  - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/drummond-phlox-seeds/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'california-poppy' with a currently-sold product or remove section
+  - **DiscontinuedProductRule** (critical): Replace mention of 'blue-eyed-grass' with a currently-sold product or remove section
 
 ## What You Need to Know About Endophyte Toxicity in Tall Fescue Pastures
 - URL: https://naturesseed.com/?p=191262
@@ -13375,10 +13338,10 @@
 - Type: post | Words: 567
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/wildflower-seed/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://naturesseed.com/planting-aids/organic-seed-starter-fertilizer-4-6-4/
   - **DiscontinuedProductRule** (critical): Replace mention of 'sierra-garden-wildflower-mix-disabled' with a currently-sold product or remove section
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **DiscontinuedProductRule** (critical): Replace mention of 'organic-seed-starter-fertilizer-4-6-4' with a currently-sold product or remove section
 
 ## Wild Bergamot
 - URL: https://naturesseed.com/?post_type=product&p=185824
@@ -13453,10 +13416,9 @@
 ## Winter Preparations for your Lawn
 - URL: https://naturesseed.com/?p=190559
 - Type: post | Words: 660
-- Products: Bahia Grass Seed, Blue-Eyed Grass Seed
+- Products: Organic Maintenance Fertilizer 18-1-8+fe, Bahia Grass Seed, Blue-Eyed Grass Seed
 - Decay findings:
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/grass-seed/
-  - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to https://www.naturesseed.com/planting-aids/organic-maintenance-fertilizer-18-1-8-fe/
   - **DiscontinuedProductRule** (critical): Replace mention of 'timothy' with a currently-sold product or remove section
   - **MissingProductCardRule** (warning): Add a product card or CTA linking to https://naturesseed.com/products/wildflower-seed/blue-eyed-grass/
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword

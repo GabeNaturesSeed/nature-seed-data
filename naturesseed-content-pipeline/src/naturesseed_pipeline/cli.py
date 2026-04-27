@@ -255,6 +255,33 @@ def audit_scan_decay_cmd(
         session.close()
 
 
+@audit_app.command("fix-links")
+def audit_fix_links_cmd(
+    plan: str = typer.Option("docs/content-audit/link-remapping-plan.md",
+                              "--plan", help="Path to the reviewed remapping plan markdown"),
+    dry_run: bool = typer.Option(True, "--dry-run/--apply",
+                                  help="Default is dry-run; pass --apply to push edits to WP"),
+) -> None:
+    """Apply a reviewed link-remapping plan: rewrite decayed internal links to active products."""
+    from pathlib import Path
+    from naturesseed_pipeline.db.session import SessionLocal
+    from naturesseed_pipeline.pipelines.audit.fix_links import run_fix_links
+    session = SessionLocal()
+    try:
+        path = Path(plan)
+        if not path.exists():
+            console.print(f"[red]Plan file not found: {path}[/red]")
+            raise typer.Exit(1)
+        if dry_run:
+            console.print("[yellow]Dry run — no WordPress changes. Use --apply to push.[/yellow]")
+        else:
+            console.print("[bold red]APPLYING changes to live WordPress content.[/bold red]")
+        counts = run_fix_links(session, plan_path=path, apply=not dry_run)
+        console.print(f"[bold]Fix-links complete[/bold] — {counts}")
+    finally:
+        session.close()
+
+
 @audit_app.command("report")
 def audit_report_v2_cmd(
     out_dir: str = typer.Option("docs/content-audit",
