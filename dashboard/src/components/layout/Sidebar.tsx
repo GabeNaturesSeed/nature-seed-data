@@ -32,7 +32,7 @@ interface NavItem {
   label: string;
   href: string;
   icon: LucideIcon;
-  children?: { label: string; href: string; icon: LucideIcon }[];
+  children?: { label: string; href: string; icon: LucideIcon; external?: boolean }[];
 }
 
 interface SidebarProps {
@@ -58,6 +58,7 @@ const navItems: NavItem[] = [
     children: [
       { label: 'CFO Tracking', href: '/reporting/pnl', icon: DollarSign },
       { label: 'CM Waterfall', href: '/reporting/cm', icon: TrendingUp },
+      { label: 'Living Budget', href: '/nature-seed-data/living-budget.html', icon: TrendingUp, external: true },
       { label: 'Notes', href: '/reporting/notes', icon: StickyNote },
     ],
   },
@@ -173,16 +174,25 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
                   {item.children!.map((child) => {
                     const ChildIcon = child.icon;
                     const childActive = isChildActive(child.href);
+                    const linkCls = `flex items-center gap-2.5 px-3 py-1.5 text-xs transition-all duration-150 rounded-lg ${
+                      childActive
+                        ? 'text-brand-primary font-semibold bg-brand-primary/6'
+                        : 'text-brand-neutral/50 hover:text-brand-neutral/80 hover:bg-brand-primary/4'
+                    }`;
+                    if (child.external) {
+                      return (
+                        <a key={child.href} href={child.href} onClick={handleNavClick} className={linkCls}>
+                          <ChildIcon size={14} className="text-brand-tertiary/40" />
+                          {child.label}
+                        </a>
+                      );
+                    }
                     return (
                       <Link
                         key={child.href}
                         href={child.href}
                         onClick={handleNavClick}
-                        className={`flex items-center gap-2.5 px-3 py-1.5 text-xs transition-all duration-150 rounded-lg ${
-                          childActive
-                            ? 'text-brand-primary font-semibold bg-brand-primary/6'
-                            : 'text-brand-neutral/50 hover:text-brand-neutral/80 hover:bg-brand-primary/4'
-                        }`}
+                        className={linkCls}
                       >
                         <ChildIcon size={14} className={childActive ? 'text-brand-primary' : 'text-brand-tertiary/40'} />
                         {child.label}

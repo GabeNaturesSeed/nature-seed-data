@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nature's Seed — Living Budget 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  background: #f0f4f0;
+  color: #1a2e1a;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+  color: white;
+  padding: 24px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.header-left .brand { font-size: 0.75em; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.65; margin-bottom: 4px; }
+.header-left h1 { font-size: 1.5em; font-weight: 700; letter-spacing: -0.02em; }
+.header-left p { font-size: 0.82em; opacity: 0.7; margin-top: 4px; }
+.header-right { text-align: right; font-size: 0.8em; opacity: 0.7; }
+.header-right strong { display: block; font-size: 1.4em; font-weight: 700; color: #a7f3d0; opacity: 1; margin-top: 2px; }
+
+/* ── LAYOUT ── */
+.container { max-width: 1300px; margin: 0 auto; padding: 28px 32px 60px; }
+@media (max-width: 768px) { .container { padding: 16px; } .header { padding: 18px 20px; flex-direction: column; align-items: flex-start; } }
+
+.section { margin-bottom: 36px; }
+.section-label {
+  font-size: 0.68em; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; color: #2d6a4f; margin-bottom: 14px;
+}
+
+/* ── CARDS ── */
+.card {
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  padding: 22px 24px;
+}
+
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+@media (max-width: 900px) { .grid-3 { grid-template-columns: repeat(2, 1fr); } .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .grid-3, .grid-4, .grid-2 { grid-template-columns: 1fr; } }
+
+.stat-card .label { font-size: 0.7em; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #52796f; margin-bottom: 6px; }
+.stat-card .value { font-size: 1.65em; font-weight: 700; color: #1b4332; letter-spacing: -0.02em; }
+.stat-card .sub { font-size: 0.75em; color: #6b7c73; margin-top: 4px; }
+
+.highlight-card {
+  background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+  color: white;
+  border-radius: 14px;
+  padding: 22px 24px;
+}
+.highlight-card .label { font-size: 0.7em; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; margin-bottom: 6px; }
+.highlight-card .value { font-size: 1.65em; font-weight: 700; letter-spacing: -0.02em; color: #a7f3d0; }
+.highlight-card .sub { font-size: 0.75em; opacity: 0.65; margin-top: 4px; }
+
+/* ── PROGRESS BAR ── */
+.progress-wrap { background: white; border-radius: 14px; padding: 20px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.progress-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.progress-title { font-size: 0.75em; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #52796f; }
+.progress-pct { font-size: 0.8em; color: #6b7c73; }
+.progress-track { height: 10px; background: #e8f0e8; border-radius: 99px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 99px; transition: width 0.5s ease; }
+.progress-fill.spent { background: linear-gradient(90deg, #1b4332, #2d6a4f); }
+.progress-fill.remaining { background: #a7f3d0; }
+.progress-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.72em; color: #6b7c73; }
+
+/* ── TABLE ── */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.82em; }
+thead th {
+  background: #f7faf7;
+  padding: 10px 12px;
+  text-align: right;
+  font-size: 0.68em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #52796f;
+  border-bottom: 2px solid #e8f0e8;
+  white-space: nowrap;
+}
+thead th:first-child { text-align: left; }
+tbody tr:hover { background: #f9fcf9; }
+tbody td {
+  padding: 11px 12px;
+  border-bottom: 1px solid #f0f4f0;
+  text-align: right;
+  white-space: nowrap;
+  color: #2d3a2d;
+}
+tbody td:first-child { text-align: left; font-weight: 600; color: #1b4332; }
+.td-muted { color: #a0b0a0 !important; }
+.td-current { background: rgba(167,243,208,0.08); }
+.td-current td:first-child::after { content: ' MTD'; font-size: 0.75em; font-weight: 700; color: #2d6a4f; margin-left: 4px; }
+
+.badge { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 0.78em; font-weight: 700; }
+.badge-green { background: #d1fae5; color: #065f46; }
+.badge-yellow { background: #fef3c7; color: #92400e; }
+.badge-red { background: #fee2e2; color: #991b1b; }
+.badge-grey { background: #f3f4f6; color: #6b7280; }
+
+.gap-pos { color: #059669; font-weight: 600; }
+.gap-neg { color: #dc2626; font-weight: 600; }
+
+/* ── CHART CARD ── */
+.chart-card { background: white; border-radius: 14px; padding: 22px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.chart-card h3 { font-size: 0.78em; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #52796f; margin-bottom: 16px; }
+.chart-container { position: relative; height: 280px; }
+
+/* ── GAUGE CARDS ── */
+.gauge-card { background: white; border-radius: 14px; padding: 22px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.gauge-card .g-label { font-size: 0.7em; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #52796f; margin-bottom: 10px; }
+.gauge-card .g-value { font-size: 2.2em; font-weight: 700; letter-spacing: -0.03em; }
+.gauge-card .g-value.green { color: #059669; }
+.gauge-card .g-value.yellow { color: #d97706; }
+.gauge-card .g-value.red { color: #dc2626; }
+.gauge-card .g-value.grey { color: #9ca3af; }
+.gauge-card .g-target { font-size: 0.75em; color: #6b7c73; margin-top: 4px; }
+.gauge-card .g-bar-track { height: 6px; background: #e8f0e8; border-radius: 99px; margin-top: 12px; overflow: hidden; }
+.gauge-card .g-bar-fill { height: 100%; border-radius: 99px; }
+.gauge-card .g-note { font-size: 0.72em; color: #6b7c73; margin-top: 8px; }
+
+/* ── BUDGET REMAINING ── */
+.budget-remaining { background: white; border-radius: 14px; padding: 22px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.budget-remaining .br-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; }
+.budget-remaining .br-label { font-size: 0.75em; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #52796f; }
+.budget-remaining .br-value { font-size: 0.88em; font-weight: 600; color: #1b4332; }
+.budget-remaining .br-big { font-size: 1.8em; font-weight: 700; color: #1b4332; }
+.budget-remaining .br-note { font-size: 0.75em; color: #6b7c73; margin-top: 12px; }
+
+/* ── LOADING / ERROR ── */
+.loading { text-align: center; padding: 60px 20px; color: #52796f; font-size: 0.9em; }
+.error-msg { background: #fee2e2; color: #991b1b; border-radius: 10px; padding: 16px 20px; font-size: 0.85em; }
+
+/* ── NAV LINK ── */
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78em; color: rgba(255,255,255,0.7); text-decoration: none; margin-bottom: 8px; transition: opacity 0.15s; }
+.back-link:hover { opacity: 1; color: white; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <a href="/nature-seed-data/" class="back-link">&#8592; Dashboard</a>
+    <div class="brand">Nature's Seed — Finance</div>
+    <h1>Living Budget — Ad Spend Rebalance 2026</h1>
+    <p>Tracking May–Dec advertising plan vs actuals in real time</p>
+  </div>
+  <div class="header-right">
+    Annual EBITDA Target
+    <strong id="ebitda-target-header">+$8,579</strong>
+  </div>
+</div>
+
+<div class="container" id="app">
+  <div class="loading">Loading budget data…</div>
+</div>
+
+<script>
+const DATA_URL = '/nature-seed-data/data/living-budget.json';
+const MONTH_NAMES = { '05':'May','06':'Jun','07':'Jul','08':'Aug','09':'Sep','10':'Oct','11':'Nov','12':'Dec' };
+
+function fmt(n, decimals=0) {
+  if (n == null || isNaN(n)) return '—';
+  const neg = n < 0;
+  const abs = Math.abs(n);
+  const s = '$' + abs.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  return neg ? '-' + s : s;
+}
+function fmtDelta(n) {
+  if (n == null || isNaN(n)) return '—';
+  const cls = n >= 0 ? 'gap-pos' : 'gap-neg';
+  const sign = n >= 0 ? '+' : '';
+  return `<span class="${cls}">${sign}${fmt(n)}</span>`;
+}
+function fmtRatio(n) { return n == null ? '—' : n.toFixed(2) + 'x'; }
+function moLabel(key) { return MONTH_NAMES[key.slice(5,7)] || key; }
+
+function statusBadge(m) {
+  if (m.status === 'future') return '<span class="badge badge-grey">Upcoming</span>';
+  if (m.ad_actual == null || m.budget_ad === 0) return '<span class="badge badge-grey">—</span>';
+  const adGap = m.ad_actual - m.budget_ad;
+  const revGap = m.rev_actual != null ? m.rev_actual - m.budget_rev : null;
+  // Status: green if within budget on ad AND revenue at/above plan, yellow if slight miss, red if >10% miss
+  if (revGap != null) {
+    const revPct = m.budget_rev > 0 ? revGap / m.budget_rev : 0;
+    if (revPct >= -0.05) return '<span class="badge badge-green">On Track</span>';
+    if (revPct >= -0.15) return '<span class="badge badge-yellow">Watch</span>';
+    return '<span class="badge badge-red">Behind</span>';
+  }
+  return '<span class="badge badge-grey">MTD</span>';
+}
+
+function buildPage(d) {
+  const app = document.getElementById('app');
+
+  const spentMayOnward = d.months.reduce((s, m) => s + (m.ad_actual || 0), 0);
+  const remainingNow = d.remaining - spentMayOnward;
+  const spentPct = Math.round((d.spent_jan_apr / d.annual_budget) * 100);
+  const spentMayPct = Math.round((spentMayOnward / d.remaining) * 100);
+
+  // Budget exhaustion estimate
+  const activeMo = d.months.filter(m => m.status !== 'future' && m.ad_actual > 0);
+  const dailyRunRate = activeMo.length > 0
+    ? activeMo.reduce((s,m) => s + m.ad_actual, 0) / activeMo.reduce((s,m) => s + (m.days_with_data||1), 0)
+    : null;
+  const exhaustDays = dailyRunRate && remainingNow > 0 ? Math.round(remainingNow / dailyRunRate) : null;
+  const exhaustDate = exhaustDays != null ? (() => {
+    const d2 = new Date(); d2.setDate(d2.getDate() + exhaustDays);
+    return d2.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  })() : null;
+
+  // EBITDA totals
+  const ytdActualEbitda = d.months.reduce((s, m) => m.ebitda_actual != null ? s + m.ebitda_actual : s, 0);
+  const totalBudgetEbitda = d.months.reduce((s, m) => s + m.budget_ebitda, 0);
+  const annualActualEbitda = ytdActualEbitda + d.q1_apr_ebitda;
+
+  // Current month ROAS / MER
+  const curRoas = d.current_roas;
+  const curMer = d.current_mer;
+  function gaugeColor(val, g, y) { if (val == null) return 'grey'; return val >= g ? 'green' : val >= y ? 'yellow' : 'red'; }
+  function gaugePct(val, max) { return val == null ? 0 : Math.min(100, Math.round(val / max * 100)); }
+
+  app.innerHTML = `
+    <!-- Section 1: Annual Snapshot -->
+    <div class="section">
+      <div class="section-label">Annual Budget Snapshot</div>
+      <div class="grid-4" style="margin-bottom:16px;">
+        <div class="card stat-card">
+          <div class="label">Annual Ad Bucket</div>
+          <div class="value">$391,315</div>
+          <div class="sub">Total 2026 advertising budget</div>
+        </div>
+        <div class="card stat-card">
+          <div class="label">Spent Jan–Apr (Actual)</div>
+          <div class="value" style="color:#1b4332;">$254,363</div>
+          <div class="sub">${spentPct}% of annual budget used in Q1+Apr</div>
+        </div>
+        <div class="card stat-card">
+          <div class="label">Remaining May–Dec</div>
+          <div class="value" style="color:#2d6a4f;">$136,952</div>
+          <div class="sub">Rebalanced across 8 months</div>
+        </div>
+        <div class="highlight-card">
+          <div class="label">Annual EBITDA Target</div>
+          <div class="value">+$8,579</div>
+          <div class="sub">Q1+Apr ${fmt(d.q1_apr_ebitda)} + May–Dec plan</div>
+        </div>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-header">
+          <span class="progress-title">Annual Ad Budget — Jan–Apr Consumption</span>
+          <span class="progress-pct">$254,363 of $391,315 spent (${spentPct}%)</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill spent" style="width:${spentPct}%;"></div>
+        </div>
+        <div class="progress-labels">
+          <span>Jan–Apr actual: $254,363</span>
+          <span>Remaining: $136,952</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Monthly Tracking Table -->
+    <div class="section">
+      <div class="section-label">Monthly Budget vs Actuals — May through December 2026</div>
+      <div class="card" style="padding:0;">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="text-align:left;">Month</th>
+                <th>Budget Ad</th>
+                <th>Actual Ad</th>
+                <th>Ad Remaining</th>
+                <th>Budget Rev</th>
+                <th>Actual Rev</th>
+                <th>Rev Gap</th>
+                <th>Budget EBITDA</th>
+                <th>Actual EBITDA</th>
+                <th>EBITDA Gap</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="monthly-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: EBITDA Chart -->
+    <div class="section">
+      <div class="section-label">EBITDA Waterfall — May through December 2026</div>
+      <div class="chart-card">
+        <h3>Budget vs Actual EBITDA by Month + Cumulative Running Total</h3>
+        <div class="chart-container">
+          <canvas id="ebitda-chart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: Efficiency Guardrails -->
+    <div class="section">
+      <div class="section-label">Efficiency Guardrails — Current Month MTD</div>
+      <div class="grid-2">
+        <div class="gauge-card">
+          <div class="g-label">ROAS (Current Month MTD)</div>
+          <div class="g-value ${gaugeColor(curRoas, 3.0, 2.5)}">${fmtRatio(curRoas)}</div>
+          <div class="g-target">Target: 3.0x floor &nbsp;·&nbsp; Floor = minimum for ad profitability</div>
+          <div class="g-bar-track">
+            <div class="g-bar-fill" style="width:${gaugePct(curRoas, 5)}%;background:${curRoas==null?'#e5e7eb':curRoas>=3?'#059669':curRoas>=2.5?'#d97706':'#dc2626'};"></div>
+          </div>
+          <div class="g-note">${curRoas == null ? 'No MTD data yet — May has not started.' : curRoas >= 3.0 ? 'Above floor — ads are earning their keep.' : curRoas >= 2.5 ? 'Watch zone — approaching break-even.' : 'Below floor — every dollar spent is destroying margin.'}</div>
+        </div>
+        <div class="gauge-card">
+          <div class="g-label">MER (Current Month MTD)</div>
+          <div class="g-value ${gaugeColor(curMer, 5.1, 4.0)}">${fmtRatio(curMer)}</div>
+          <div class="g-target">Target: 5.1x &nbsp;·&nbsp; Marketing Efficiency Ratio (WC Rev ÷ Ad Spend)</div>
+          <div class="g-bar-track">
+            <div class="g-bar-fill" style="width:${gaugePct(curMer, 10)}%;background:${curMer==null?'#e5e7eb':curMer>=5.1?'#059669':curMer>=4.0?'#d97706':'#dc2626'};"></div>
+          </div>
+          <div class="g-note">${curMer == null ? 'No MTD data yet — May has not started.' : curMer >= 5.1 ? 'At or above target — strong blended efficiency.' : curMer >= 4.0 ? 'Below target — monitor channel mix.' : 'Significantly below target — review ad allocation.'}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Budget Remaining Tracker -->
+    <div class="section">
+      <div class="section-label">Remaining Budget Tracker — May Onwards</div>
+      <div class="budget-remaining">
+        <div class="br-row">
+          <span class="br-label">Total May–Dec Budget</span>
+          <span class="br-value">$136,952</span>
+        </div>
+        <div class="br-row">
+          <span class="br-label">Spent Since May 1</span>
+          <span class="br-value">${fmt(spentMayOnward)}</span>
+        </div>
+        <div class="br-row">
+          <span class="br-label">Remaining</span>
+          <span class="br-big" style="color:${remainingNow>0?'#1b4332':'#dc2626'}">${fmt(remainingNow)}</span>
+        </div>
+        <div class="progress-track" style="margin-top:4px;">
+          <div class="progress-fill spent" style="width:${Math.min(100,spentMayPct)}%;"></div>
+        </div>
+        <div class="progress-labels">
+          <span>Spent: ${fmt(spentMayOnward)} (${spentMayPct}%)</span>
+          <span>Remaining: ${fmt(remainingNow)}</span>
+        </div>
+        <div class="br-note">
+          ${dailyRunRate != null ? `Daily run rate (since May 1): ${fmt(dailyRunRate, 0)}/day` : 'No spend data yet.'}
+          ${exhaustDate ? ` &nbsp;·&nbsp; At this pace, budget exhausts around <strong>${exhaustDate}</strong>.` : ''}
+        </div>
+      </div>
+    </div>
+
+    <div style="font-size:0.72em;color:#9ca3af;padding-top:8px;">
+      Last data: ${d.as_of} &nbsp;·&nbsp; Updated nightly via GitHub Actions
+    </div>
+  `;
+
+  buildTable(d.months);
+  buildChart(d.months, d.q1_apr_ebitda, d.annual_ebitda_target);
+}
+
+function buildTable(months) {
+  const tbody = document.getElementById('monthly-tbody');
+  const rows = months.map(m => {
+    const isFuture = m.status === 'future';
+    const isCurrent = m.status === 'mtd';
+    const rowCls = isCurrent ? 'td-current' : '';
+    const adRemaining = m.ad_actual != null ? m.budget_ad - m.ad_actual : null;
+    const revGap = m.rev_actual != null ? m.rev_actual - m.budget_rev : null;
+    const ebitdaGap = m.ebitda_actual != null ? m.ebitda_actual - m.budget_ebitda : null;
+
+    return `<tr class="${rowCls}">
+      <td>${moLabel(m.month)}</td>
+      <td>${fmt(m.budget_ad)}</td>
+      <td class="${isFuture?'td-muted':''}">${isFuture ? '—' : fmt(m.ad_actual)}</td>
+      <td class="${isFuture?'td-muted':''}">${isFuture ? '—' : fmtDelta(adRemaining)}</td>
+      <td>${fmt(m.budget_rev)}</td>
+      <td class="${isFuture?'td-muted':''}">${isFuture ? '—' : fmt(m.rev_actual)}</td>
+      <td class="${isFuture?'td-muted':''}">${isFuture ? '—' : fmtDelta(revGap)}</td>
+      <td>${fmt(m.budget_ebitda)}</td>
+      <td class="${isFuture?'td-muted':''}">${isFuture ? '—' : fmt(m.ebitda_actual)}</td>
+      <td class="${isFuture?'td-muted':''}">${isFuture ? '—' : fmtDelta(ebitdaGap)}</td>
+      <td>${statusBadge(m)}</td>
+    </tr>`;
+  });
+
+  // Totals row
+  const totalBudgetAd = months.reduce((s,m)=>s+m.budget_ad,0);
+  const totalActualAd = months.reduce((s,m)=>s+(m.ad_actual||0),0);
+  const totalBudgetRev = months.reduce((s,m)=>s+m.budget_rev,0);
+  const totalActualRev = months.reduce((s,m)=>s+(m.rev_actual||0),0);
+  const totalBudgetEbitda = months.reduce((s,m)=>s+m.budget_ebitda,0);
+  const totalActualEbitda = months.reduce((s,m)=>m.ebitda_actual!=null?s+m.ebitda_actual:s,0);
+  const hasAnyActual = months.some(m=>m.status!=='future');
+
+  rows.push(`<tr style="font-weight:700;background:#f7faf7;border-top:2px solid #e8f0e8;">
+    <td>Total May–Dec</td>
+    <td>${fmt(totalBudgetAd)}</td>
+    <td>${hasAnyActual?fmt(totalActualAd):'—'}</td>
+    <td>${hasAnyActual?fmtDelta(totalBudgetAd-totalActualAd):'—'}</td>
+    <td>${fmt(totalBudgetRev)}</td>
+    <td>${hasAnyActual?fmt(totalActualRev):'—'}</td>
+    <td>${hasAnyActual?fmtDelta(totalActualRev-totalBudgetRev):'—'}</td>
+    <td>${fmt(totalBudgetEbitda)}</td>
+    <td>${hasAnyActual?fmt(totalActualEbitda):'—'}</td>
+    <td>${hasAnyActual?fmtDelta(totalActualEbitda-totalBudgetEbitda):'—'}</td>
+    <td></td>
+  </tr>`);
+
+  tbody.innerHTML = rows.join('');
+}
+
+function buildChart(months, q1AprEbitda, annualTarget) {
+  const labels = months.map(m => moLabel(m.month));
+  const budgetData = months.map(m => m.budget_ebitda);
+  const actualData = months.map(m => m.ebitda_actual);
+
+  // Running cumulative (actual where available, else budget)
+  let cum = q1AprEbitda;
+  const cumulativeLine = months.map(m => {
+    cum += m.ebitda_actual != null ? m.ebitda_actual : m.budget_ebitda;
+    return Math.round(cum);
+  });
+
+  // Budget cumulative
+  let cumBud = q1AprEbitda;
+  const cumulativeBudget = months.map(m => {
+    cumBud += m.budget_ebitda;
+    return Math.round(cumBud);
+  });
+
+  const ctx = document.getElementById('ebitda-chart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Budget EBITDA',
+          data: budgetData,
+          backgroundColor: 'rgba(82,121,111,0.3)',
+          borderColor: 'rgba(82,121,111,0.7)',
+          borderWidth: 1.5,
+          borderRadius: 4,
+          order: 2,
+        },
+        {
+          label: 'Actual EBITDA',
+          data: actualData,
+          backgroundColor: months.map(m =>
+            m.ebitda_actual == null ? 'rgba(0,0,0,0)' :
+            m.ebitda_actual >= 0 ? 'rgba(5,150,105,0.7)' : 'rgba(220,38,38,0.65)'
+          ),
+          borderColor: months.map(m =>
+            m.ebitda_actual == null ? 'rgba(0,0,0,0)' :
+            m.ebitda_actual >= 0 ? '#059669' : '#dc2626'
+          ),
+          borderWidth: 1.5,
+          borderRadius: 4,
+          order: 1,
+        },
+        {
+          label: 'Cumulative (actual/plan)',
+          data: cumulativeLine,
+          type: 'line',
+          borderColor: '#1b4332',
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          pointRadius: 3,
+          tension: 0.3,
+          yAxisID: 'y2',
+          order: 0,
+        },
+        {
+          label: 'Cumulative Budget',
+          data: cumulativeBudget,
+          type: 'line',
+          borderColor: '#52796f',
+          backgroundColor: 'transparent',
+          borderWidth: 1.5,
+          borderDash: [5, 4],
+          pointRadius: 2,
+          tension: 0.3,
+          yAxisID: 'y2',
+          order: 0,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 16 } },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const v = ctx.parsed.y;
+              if (v == null) return null;
+              const neg = v < 0;
+              return `${ctx.dataset.label}: ${neg?'-':''}$${Math.abs(v).toLocaleString()}`;
+            }
+          }
+        },
+        annotation: annualTarget != null ? {
+          annotations: {
+            target: {
+              type: 'line',
+              yScaleID: 'y2',
+              yMin: annualTarget,
+              yMax: annualTarget,
+              borderColor: '#f59e0b',
+              borderWidth: 1.5,
+              borderDash: [4, 3],
+              label: { content: `Annual Target $${annualTarget.toLocaleString()}`, enabled: true, position: 'end', font: { size: 10 } }
+            }
+          }
+        } : {},
+      },
+      scales: {
+        x: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 11 } } },
+        y: {
+          position: 'left',
+          ticks: { callback: v => (v<0?'-$':'$')+Math.abs(v/1000).toFixed(0)+'K', font:{size:10} },
+          grid: { color: 'rgba(0,0,0,0.05)' },
+          title: { display: true, text: 'Monthly EBITDA', font:{size:10}, color:'#6b7c73' }
+        },
+        y2: {
+          position: 'right',
+          ticks: { callback: v => (v<0?'-$':'$')+Math.abs(v/1000).toFixed(0)+'K', font:{size:10} },
+          grid: { display: false },
+          title: { display: true, text: 'Cumulative EBITDA', font:{size:10}, color:'#6b7c73' }
+        }
+      }
+    }
+  });
+}
+
+// ── Load data ──────────────────────────────────────────────────────────────
+fetch(DATA_URL)
+  .then(r => {
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    return r.json();
+  })
+  .then(d => buildPage(d))
+  .catch(err => {
+    document.getElementById('app').innerHTML = `
+      <div class="error-msg">
+        <strong>Could not load budget data.</strong><br>
+        ${err.message}. The data file is generated nightly — check back after the next workflow run.
+      </div>`;
+  });
+</script>
+</body>
+</html>

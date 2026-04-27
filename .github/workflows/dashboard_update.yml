@@ -174,6 +174,25 @@ jobs:
           path: docs/data/seasonality.json
           retention-days: 1
 
+  living-budget:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Create .env
+        run: echo "$ENV_CONTENT" > .env
+      - name: Generate living budget data
+        run: python infrastructure/dashboard/generate_living_budget.py
+      - uses: actions/upload-artifact@v5
+        with:
+          name: living-budget-data
+          path: docs/data/living-budget.json
+          retention-days: 1
+
   # ═══════════════════════════════════════════════════════════
   # COMMIT — runs after all parallel jobs complete
   # ═══════════════════════════════════════════════════════════
@@ -181,7 +200,7 @@ jobs:
   commit-and-push:
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: [abc-analysis, dashboard-data, customer-data, review-feed, algolia-enrich, abc-report, seasonality]
+    needs: [abc-analysis, dashboard-data, customer-data, review-feed, algolia-enrich, abc-report, seasonality, living-budget]
     if: always() && !cancelled()
     steps:
       - uses: actions/checkout@v5
@@ -227,6 +246,13 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           name: seasonality-data
+          path: docs/data/
+        continue-on-error: true
+
+      - name: Download living budget data
+        uses: actions/download-artifact@v5
+        with:
+          name: living-budget-data
           path: docs/data/
         continue-on-error: true
 
