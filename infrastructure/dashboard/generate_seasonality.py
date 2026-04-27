@@ -175,6 +175,34 @@ def _sb_get(path, params=None):
     return resp.json()
 
 
+def pull_wc_year(year: int) -> dict:
+    """Pull WC daily revenue/orders for a single year from Supabase. Fast path."""
+    if not SUPABASE_URL or not SUPABASE_KEY:
+        return {}
+    try:
+        url = f"{SUPABASE_URL}/rest/v1/daily_sales"
+        headers = {"apikey": SUPABASE_KEY}
+        params = [
+            ("select", "report_date,revenue,orders"),
+            ("report_date", f"gte.{year}-01-01"),
+            ("report_date", f"lte.{year}-12-31"),
+            ("channel", "eq.woocommerce"),
+            ("limit", "400"),
+        ]
+        resp = requests.get(url, headers=headers, params=params, timeout=30)
+        resp.raise_for_status()
+        result = {}
+        for r in resp.json():
+            d = r.get("report_date", "")
+            if d:
+                result[d] = {"revenue": float(r.get("revenue") or 0), "orders": int(r.get("orders") or 0)}
+        print(f"    WC {year}: {len(result)} days pulled")
+        return result
+    except Exception as e:
+        print(f"    [WARN] Supabase year pull failed: {e}")
+        return {}
+
+
 def pull_wc_history() -> dict:
     """Pull WC daily revenue and orders from Supabase daily_sales table.
     Returns {date_str: {revenue: float, orders: int}}.
@@ -452,12 +480,10 @@ def main() -> None:
     baselines = existing.get("weekly_baselines") if existing.get("weekly_baselines") else None
 
     if baselines:
-        print("  Baselines found — pulling current year Google Ads only")
-        wc_daily = {}
+        print("  Baselines found — pulling current year WC + Google Ads")
+        wc_daily = pull_wc_year(TODAY.year)
         gads_daily = pull_gads_history()
-        # Rebuild WC weekly aggregates from stored baselines context (not re-pulled)
-        # For history chart we use prior computed current_year values and extend
-        wc_daily_for_history = {}
+        wc_daily_for_history = wc_daily
         gads_daily_for_history = gads_daily
     else:
         print("  No baselines found — running full historical pull")
@@ -475,12 +501,24 @@ def main() -> None:
     wc_cw = cy_wc.get(current_week_num, {})
     gads_cw = cy_gads.get(current_week_num, {})
 
-    # ── Step 3: Compute current week index ──────────────────
-    indexes = compute_index_for_week(current_week_num, wc_cw, gads_cw, baselines)
-    baseline_cw = baselines.get(str(current_week_num), {}) if baselines else {}
+    # ── Step 3: Compute index — use last complete week if current has no data ──
+    # Current week has no data at the start of the week (Monday morning). Fall back
+    # to the previous complete week so the index is never 0 due to missing data.
+    index_week_num = current_week_num
+    index_wc = wc_cw
+    index_gads = gads_cw
+    if wc_cw.get("revenue", 0) == 0 and gads_cw.get("cost", 0) == 0:
+        prev_week = current_week_num - 1 if current_week_num > 1 else 52
+        index_week_num = prev_week
+        index_wc = cy_wc.get(prev_week, {})
+        index_gads = cy_gads.get(prev_week, {})
+        print(f"  Current week {current_week_num} has no data — using week {prev_week} for index")
 
-    mer_cw = (wc_cw.get("revenue", 0) / gads_cw["cost"]
-              if gads_cw.get("cost", 0) > 0 else None)
+    indexes = compute_index_for_week(index_week_num, index_wc, index_gads, baselines)
+    baseline_cw = baselines.get(str(index_week_num), {}) if baselines else {}
+
+    mer_cw = (index_wc.get("revenue", 0) / index_gads["cost"]
+              if index_gads.get("cost", 0) > 0 else None)
 
     # ── Step 4: Build 52-week chart history ──────────────────
     weekly_history = build_weekly_history(wc_daily_for_history, gads_daily_for_history, baselines or {})
@@ -495,18 +533,19 @@ def main() -> None:
             "performance": indexes["performance"],
             "label": indexes["label"],
         },
+        "index_week": index_week_num,
         "current_week_signals": {
-            "wc_revenue": round(wc_cw.get("revenue", 0), 2),
+            "wc_revenue": round(index_wc.get("revenue", 0), 2),
             "wc_revenue_avg": baseline_cw.get("revenue_mean"),
-            "orders": wc_cw.get("orders", 0),
+            "orders": index_wc.get("orders", 0),
             "orders_avg": baseline_cw.get("orders_mean"),
             "blended_mer": round(mer_cw, 4) if mer_cw else None,
             "blended_mer_avg": baseline_cw.get("mer_mean"),
-            "is_rank": gads_cw.get("is_rank"),
+            "is_rank": index_gads.get("is_rank"),
             "is_rank_avg": baseline_cw.get("is_rank_mean"),
-            "is_budget_lost": gads_cw.get("is_budget_lost"),
+            "is_budget_lost": index_gads.get("is_budget_lost"),
             "is_budget_lost_avg": baseline_cw.get("is_budget_lost_mean"),
-            "ad_spend": gads_cw.get("cost", 0),
+            "ad_spend": index_gads.get("cost", 0),
             "ad_spend_avg": baseline_cw.get("ad_spend_mean"),
         },
         "weekly_baselines": baselines or {},
