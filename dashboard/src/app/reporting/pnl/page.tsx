@@ -14,6 +14,23 @@ import {
 
 const dollarFormatter = (v: number) => '$' + (v / 1000).toFixed(0) + 'K';
 
+// Net Revenue, COGS (incl. outbound freight), Advertising — from 2025 P&L spreadsheet
+// CM2 = Net Revenue − Total COGS − Advertising
+const LY_2025: Record<string, { revenue: number; cm2: number }> = {
+  '2025-01': { revenue: 110988, cm2: -3878 },
+  '2025-02': { revenue: 219218, cm2: 51305 },
+  '2025-03': { revenue: 367345, cm2: 126050 },
+  '2025-04': { revenue: 339121, cm2: 130362 },
+  '2025-05': { revenue: 185877, cm2: 29649 },
+  '2025-06': { revenue: 169436, cm2: 15969 },
+  '2025-07': { revenue: 44121, cm2: 5826 },
+  '2025-08': { revenue: 124842, cm2: 24974 },
+  '2025-09': { revenue: 206811, cm2: 75219 },
+  '2025-10': { revenue: 163739, cm2: 32161 },
+  '2025-11': { revenue: 67404, cm2: 14406 },
+  '2025-12': { revenue: 26645, cm2: -15645 },
+};
+
 export default function TrackingPage() {
   const { data, loading: loadingR } = useJsonData<ReportingData>('reporting');
   const { data: budget, loading: loadingB } = useJsonData<BudgetData>('budget');
@@ -108,6 +125,24 @@ export default function TrackingPage() {
     ? calcPct(ytdMargin, ytdBudgetMargin)
     : null;
 
+  // ── LY 2025 Margin (hardcoded from 2025 P&L spreadsheet) ─────────────────
+  const lyMonthKey = `2025-${currentMonth.slice(5)}`;
+  const lyMonthData = LY_2025[lyMonthKey];
+  const mtdLyCm2Paced = lyMonthData && dim ? lyMonthData.cm2 * daysElapsed / dim : null;
+  const mtdMarginVsLY = mtdMargin != null && mtdLyCm2Paced != null
+    ? calcPct(mtdMargin, mtdLyCm2Paced)
+    : null;
+
+  const ytdLyCm2 = months.reduce((sum, m, i) => {
+    const lyKey = `2025-${m.month.slice(5)}`;
+    const lyData = LY_2025[lyKey];
+    if (!lyData) return sum;
+    const isLast = i === months.length - 1;
+    const monthCm2 = isLast && dim ? lyData.cm2 * daysElapsed / dim : lyData.cm2;
+    return sum + monthCm2;
+  }, 0);
+  const ytdMarginVsLY = ytdMargin != null ? calcPct(ytdMargin, ytdLyCm2) : null;
+
   // ── Revenue chart data (cumulative monthly) ───────────────
   const cyCumRev = cumulative(months.map(m => safe(m.revenue)));
   const lyCumRev = cumulative(months.map(m => safe(m.ly_revenue)));
@@ -125,9 +160,11 @@ export default function TrackingPage() {
   // ── Margin chart data (monthly CM2 bars) ─────────────────
   const marginChartData = months.map(m => {
     const bm = budget?.monthly[m.month];
+    const lyKey = `2025-${m.month.slice(5)}`;
     return {
       name: monthLabel(m.month),
       cy: safe(m.cm2),
+      ly: LY_2025[lyKey]?.cm2 ?? null,
       budget: bm ? safe(bm.gross_margin) - safe(bm.ad_spend) : null,
     };
   });
@@ -204,6 +241,9 @@ export default function TrackingPage() {
           value={fmt(mtdMargin)}
           tooltip="Contribution Margin 2 = Revenue − COGS − Shipping/Freight − Ad Spend. Budget est. = gross margin − ad spend (freight excluded from budget data). LY not available at this granularity."
           badges={[
+            ...(mtdMarginVsLY != null
+              ? [{ label: `vs LY ${pct(mtdMarginVsLY)}`, color: badgeColor(mtdMarginVsLY) }]
+              : []),
             ...(mtdMarginVsBudget != null
               ? [{ label: `vs Budget Est. ${pct(mtdMarginVsBudget)}`, color: badgeColor(mtdMarginVsBudget) }]
               : []),
@@ -217,6 +257,9 @@ export default function TrackingPage() {
           value={fmt(ytdMargin)}
           tooltip="YTD Contribution Margin 2. Budget = sum of (gross_margin − ad_spend) for elapsed months — freight excluded from budget data. LY cost breakdown not available."
           badges={[
+            ...(ytdMarginVsLY != null
+              ? [{ label: `vs LY ${pct(ytdMarginVsLY)}`, color: badgeColor(ytdMarginVsLY) }]
+              : []),
             ...(ytdMarginVsBudget != null
               ? [{ label: `vs Budget Est. ${pct(ytdMarginVsBudget)}`, color: badgeColor(ytdMarginVsBudget) }]
               : []),
@@ -257,6 +300,7 @@ export default function TrackingPage() {
               <Tooltip formatter={(v) => fmt(Number(v))} />
               <Legend wrapperStyle={{ fontSize: 11 }} />
               <Bar dataKey="cy" name="CY CM2" fill="#2d6a4f" radius={[3, 3, 0, 0]} />
+              <Bar dataKey="ly" name="LY CM2" fill="#8bb4a0" radius={[3, 3, 0, 0]} opacity={0.7} />
               <Bar dataKey="budget" name="Budget CM2 (est.)" fill="#52796F" radius={[3, 3, 0, 0]} opacity={0.6} />
             </BarChart>
           </ResponsiveContainer>
