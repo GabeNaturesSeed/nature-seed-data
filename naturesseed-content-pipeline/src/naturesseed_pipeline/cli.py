@@ -231,14 +231,17 @@ def audit_scan_decay_cmd(
     from naturesseed_pipeline.audit_rules import discover_rules
     from naturesseed_pipeline.config import settings
     from naturesseed_pipeline.db.session import SessionLocal
+    from naturesseed_pipeline.pipelines.audit.llm import CliClaudeClient
     from naturesseed_pipeline.pipelines.audit.scan_decay import run_scan_decay
     session = SessionLocal()
     try:
         rules = discover_rules()
-        llm_client = None
-        if settings.anthropic_api_key:
-            import anthropic
-            llm_client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+        # Route LLM calls through `claude -p` (Max-plan auth) instead of API.
+        try:
+            llm_client = CliClaudeClient()
+        except RuntimeError as e:
+            console.print(f"[yellow]LLM-assisted rules disabled: {e}[/yellow]")
+            llm_client = None
         counts = run_scan_decay(
             session, rules=rules,
             current_shipping=settings.audit_current_shipping,

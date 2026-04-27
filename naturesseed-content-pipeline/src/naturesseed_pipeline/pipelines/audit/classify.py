@@ -98,8 +98,8 @@ class AnthropicSubtopicProposer:
 
     def __init__(self, model: str | None = None) -> None:
         from naturesseed_pipeline.config import settings
-        import anthropic
-        self.client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+        from naturesseed_pipeline.pipelines.audit.llm import CliClaudeClient
+        self.client = CliClaudeClient()
         self.model = model or settings.audit_llm_model
 
     def propose(self, topic_name: str, samples: list[dict[str, str]]) -> list[dict]:

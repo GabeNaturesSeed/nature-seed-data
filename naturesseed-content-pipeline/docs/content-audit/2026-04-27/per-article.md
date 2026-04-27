@@ -248,6 +248,7 @@
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
   - **StaleDateRule** (warning): Reference to 1988 may be stale — verify and update
   - **StaleDateRule** (warning): Reference to 2011 may be stale — verify and update
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: Claims $150 threshold; current policy is $99 (lower 48 US states)
 
 ## Advantages of Establishing a Lawn from Seed Instead of Sod
 - URL: https://naturesseed.com/?p=190569
@@ -9564,6 +9565,16 @@
   - **DeadInternalLinkRule** (critical): Fix or remove broken internal link to mailto:customercare@naturesseed.com
   - **SchemaGapRule** (info): Add an H1 heading that includes the target keyword
   - **SchemaGapRule** (info): Add Article or HowTo JSON-LD schema markup
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
+  - **OutdatedShippingRule** (warning): Update shipping claim to match current policy. Reason: States free shipping threshold is $150; current policy is $99.
 
 ## Shirley Poppy
 - URL: https://naturesseed.com/?post_type=product&p=183084
