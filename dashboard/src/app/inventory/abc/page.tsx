@@ -36,28 +36,9 @@ export default function AbcReportPage() {
   const activeSeason = selectedSeason || seasonKeys[0] || '';
   const season = data?.seasons[activeSeason];
 
-  if (loading) {
-    return (
-      <div className="space-y-6">
-        <Skeleton className="h-8 w-48 rounded-xl" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-28 rounded-xl" />)}
-        </div>
-      </div>
-    );
-  }
-
-  if (!data || !season) return <p className="text-brand-neutral/50">ABC report data unavailable</p>;
-
-  const { summary } = season;
-
-  // Chart data for stacked bar
-  const stackedData = [
-    { label: 'Revenue Distribution', A: summary.a_revenue, B: summary.b_revenue, C: summary.c_revenue },
-  ];
-
-  // Filter + search + sort
+  // Must be before any early returns — Rules of Hooks
   const filteredItems = useMemo(() => {
+    if (!season) return [];
     let items = [...season.items];
 
     if (classFilter !== 'All') {
@@ -81,7 +62,27 @@ export default function AbcReportPage() {
     });
 
     return items;
-  }, [season.items, classFilter, search, sortKey, sortDir]);
+  }, [season, classFilter, search, sortKey, sortDir]);
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <Skeleton className="h-8 w-48 rounded-xl" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-28 rounded-xl" />)}
+        </div>
+      </div>
+    );
+  }
+
+  if (!data || !season) return <p className="text-brand-neutral/50">ABC report data unavailable</p>;
+
+  const { summary } = season;
+
+  // Chart data for stacked bar
+  const stackedData = [
+    { label: 'Revenue Distribution', A: summary.a_revenue, B: summary.b_revenue, C: summary.c_revenue },
+  ];
 
   const handleSort = (key: SortKey) => {
     if (sortKey === key) {

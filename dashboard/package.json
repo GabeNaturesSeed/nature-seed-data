@@ -7,7 +7,7 @@
     "dev": "next dev",
     "prebuild": "mkdir -p public/data && cp ../docs/data/*.json public/data/ 2>/dev/null || true",
     "build": "next build",
-    "postbuild": "rm -rf ../docs/_next ../docs/_not-found ../docs/404 ../docs/calendar ../docs/inventory ../docs/marketing ../docs/marketplaces ../docs/reporting ../docs/website-health ../docs/*.html ../docs/*.txt && cp -r out/* ../docs/",
+    "postbuild": "rm -rf ../docs/_next ../docs/_not-found ../docs/404 ../docs/calendar ../docs/customers ../docs/inventory ../docs/marketing ../docs/marketplaces ../docs/reporting ../docs/website-health ../docs/*.html ../docs/*.txt && cp -r out/* ../docs/ && cp ../reports/shareholder_dashboard.html ../docs/shareholder.html",
     "start": "next start"
   },
   "dependencies": {

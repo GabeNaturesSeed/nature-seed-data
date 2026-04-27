@@ -7,6 +7,7 @@ on:
   workflow_dispatch: # Allow manual trigger
   push:
     paths:
+      - 'dashboard/**'
       - 'research/2026-budget/**'
       - 'docs/notes.md'
 
