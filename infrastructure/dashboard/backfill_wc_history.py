@@ -75,7 +75,7 @@ def pull_month(year: int, month: int) -> dict:
         params = {
             "after": f"{start}T00:00:00",
             "before": f"{end}T23:59:59",
-            "status": "completed,processing",
+            "status": "completed,processing,on-hold",
             "per_page": 100,
             "page": page,
         }
