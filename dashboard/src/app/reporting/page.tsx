@@ -2,7 +2,7 @@
 
 import { useJsonData } from '@/hooks/useJsonData';
 import { ReportingData, SeasonalityData } from '@/lib/types';
-import { fmt, fmtInt, ratio, pct, calcPct, badgeColor, linearProjection, cumulative, safe, shortDate } from '@/lib/formatters';
+import { fmt, fmtInt, ratio, pct, calcPct, badgeColor, linearProjection, trendRunRate, cumulative, safe, shortDate } from '@/lib/formatters';
 import KpiCard from '@/components/kpi/KpiCard';
 import KpiGrid from '@/components/kpi/KpiGrid';
 import ChartCard from '@/components/charts/ChartCard';
@@ -54,6 +54,7 @@ export default function ReportingMtdPage() {
   const adBudPct = calcPct(cy.ad_spend, pacedAdSpendBudget);
 
   const projection = linearProjection(mtd.daily_cy);
+  const runRate = trendRunRate(mtd.daily_cy);
 
   // MER floor = minimum MER for gross-profit break-even (1 / GM%)
   const merFloor = cy.gross_margin_pct ? 100 / cy.gross_margin_pct : null;
@@ -142,16 +143,41 @@ export default function ReportingMtdPage() {
         />
       </KpiGrid>
 
-      {/* Projection bar */}
-      {projection && (
-        <div className="bg-surface-lowest rounded-xl shadow-ambient py-4 px-6 mb-8">
-          <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-brand-neutral items-center">
-            <span className="inline-flex items-center gap-1.5">
-              Projected Revenue: <strong className="text-brand-primary text-lg font-semibold">{fmt(projection)}</strong>
-              <InfoTooltip content={sources.mtdProjectedRevenue} />
-            </span>
-            <span className="text-brand-neutral/50">based on current daily pace</span>
-          </div>
+      {/* Month projections row */}
+      {(projection || runRate) && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+          {/* Simple pace */}
+          {projection && (
+            <div className="bg-surface-lowest rounded-xl shadow-ambient py-4 px-6">
+              <div className="text-xs uppercase tracking-wider text-brand-neutral/50 font-semibold mb-1 inline-flex items-center gap-1">
+                Monthly Pace <InfoTooltip content={sources.mtdProjectedRevenue} />
+              </div>
+              <div className="text-2xl font-display font-bold text-brand-primary">{fmt(projection)}</div>
+              <div className="text-xs text-brand-neutral/50 mt-1">based on daily average · {runRate?.daysElapsed ?? 0} of {runRate?.daysTotal ?? 30} days</div>
+            </div>
+          )}
+
+          {/* Trend-adjusted run rate */}
+          {runRate && (
+            <div className="bg-surface-lowest rounded-xl shadow-ambient py-4 px-6">
+              <div className="text-xs uppercase tracking-wider text-brand-neutral/50 font-semibold mb-1 inline-flex items-center gap-1">
+                Month Run Rate
+                <InfoTooltip content="Trend-adjusted projection using OLS regression on daily revenue. Blends full-month slope with recent 7-day slope, weighted by R² fit quality. Accounts for acceleration and deceleration within the month." />
+              </div>
+              <div className="text-2xl font-display font-bold text-brand-primary">{fmt(runRate.runRate)}</div>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs text-brand-neutral/60">
+                <span className={runRate.recentTrendPerDay >= 0 ? 'text-brand-primary font-medium' : 'text-ns-red font-medium'}>
+                  {runRate.recentTrendPerDay >= 0 ? '▲' : '▼'} {fmt(Math.abs(runRate.recentTrendPerDay))}/day recent
+                </span>
+                <span>·</span>
+                <span className={runRate.trendPerDay >= 0 ? 'text-brand-primary' : 'text-ns-red'}>
+                  {runRate.trendPerDay >= 0 ? '▲' : '▼'} {fmt(Math.abs(runRate.trendPerDay))}/day full-month
+                </span>
+                <span>·</span>
+                <span>R² {(runRate.trendR2 * 100).toFixed(0)}%</span>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
