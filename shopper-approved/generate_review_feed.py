@@ -51,9 +51,9 @@ def _wc_get(path, params=None):
         p = {"wc_path": path, **(params or {})}
         auth_str = base64.b64encode(f"{WC_CK}:{WC_CS}".encode()).decode()
         headers = {"X-Proxy-Secret": CF_WORKER_SECRET, "Authorization": f"Basic {auth_str}"}
-        resp = requests.get(CF_WORKER_URL, headers=headers, params=p, timeout=30)
+        resp = requests.get(CF_WORKER_URL, headers=headers, params=p, timeout=60)
     else:
-        resp = requests.get(f"{WC_BASE}{path}", auth=WC_AUTH, params=params or {}, timeout=30)
+        resp = requests.get(f"{WC_BASE}{path}", auth=WC_AUTH, params=params or {}, timeout=60)
     resp.raise_for_status()
     return resp
 
