@@ -245,3 +245,40 @@ def test_transform_simple_product_full_row():
         "product_type": "Cover Crops",
         "google_product_category": "5587",
     }
+
+
+from transform import transform_variable_product
+
+
+def test_transform_variable_product_emits_one_row_per_valid_variation():
+    parent = _load_fixture("variable_product.json")
+    variations = _load_fixture("variations_for_variable.json")
+    rows, skipped = transform_variable_product(parent, variations)
+    assert [r["id"] for r in rows] == ["3001", "3002"]
+    assert all(r["item_group_id"] == "2001" for r in rows)
+    assert skipped == [{"id": 3003, "reason": "out_of_stock"}]
+
+
+def test_transform_variable_variation_image_fallback_to_parent():
+    parent = _load_fixture("variable_product.json")
+    variations = _load_fixture("variations_for_variable.json")
+    rows, _ = transform_variable_product(parent, variations)
+    row_3002 = next(r for r in rows if r["id"] == "3002")
+    assert row_3002["image_link"] == "https://naturesseed.com/img/sheep-parent.jpg"
+
+
+def test_transform_variable_title_includes_attributes():
+    parent = _load_fixture("variable_product.json")
+    variations = _load_fixture("variations_for_variable.json")
+    rows, _ = transform_variable_product(parent, variations)
+    row_3001 = next(r for r in rows if r["id"] == "3001")
+    assert row_3001["title"] == "Sheep Pasture Mix — 5 lb"
+
+
+def test_transform_variable_sale_price_when_lower():
+    parent = _load_fixture("variable_product.json")
+    variations = _load_fixture("variations_for_variable.json")
+    rows, _ = transform_variable_product(parent, variations)
+    row_3002 = next(r for r in rows if r["id"] == "3002")
+    assert row_3002["price"] == "99.99 USD"
+    assert row_3002["sale_price"] == "99.99 USD"

@@ -174,3 +174,40 @@ def transform_simple_product(product):
         "product_type": _product_type(product),
         "google_product_category": GOOGLE_PRODUCT_CATEGORY,
     }
+
+
+def transform_variable_product(parent, variations):
+    """Return (rows, skipped) for a variable WC product.
+
+    `variations` is the list returned by GET /products/{id}/variations.
+    Variations that fail filters are recorded in `skipped` with their reason
+    and excluded from `rows`. Each row uses the variation's id, but shares
+    `item_group_id` with all siblings (the parent's id).
+    """
+    parent_id = str(parent["id"])
+    rows = []
+    skipped = []
+    for v in variations:
+        reason = should_skip_variation(v)
+        if reason:
+            skipped.append({"id": v["id"], "reason": reason})
+            continue
+        rows.append({
+            "id": str(v["id"]),
+            "item_group_id": parent_id,
+            "title": build_title(parent.get("name"), v.get("attributes")),
+            "description": _description(parent),
+            "link": parent.get("permalink", ""),
+            "image_link": pick_image(parent, v) or "",
+            "additional_image_link": additional_images(parent),
+            "availability": "in stock",
+            "price": format_price(v.get("price")) or "",
+            "sale_price": _sale_price(v.get("regular_price"), v.get("sale_price")),
+            "brand": BRAND,
+            "condition": "new",
+            "gtin": "",
+            "mpn": v.get("sku", "") or parent.get("sku", "") or "",
+            "product_type": _product_type(parent),
+            "google_product_category": GOOGLE_PRODUCT_CATEGORY,
+        })
+    return rows, skipped
