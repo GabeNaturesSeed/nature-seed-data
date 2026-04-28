@@ -5,6 +5,9 @@ of its inputs so the unit tests in tests/test_transform.py can exercise
 every branch from JSON fixtures.
 """
 
+import html
+import re
+
 
 def format_price(value):
     """Format a price as '<float> USD' for the Reddit/Google Shopping spec.
@@ -22,9 +25,6 @@ def format_price(value):
         return None
     return f"{amount:.2f} USD"
 
-
-import html
-import re
 
 _TAG_RE = re.compile(r"<[^>]+>")
 _WS_RE = re.compile(r"\s+")
@@ -135,7 +135,7 @@ def _gtin_from_meta(meta_data):
 
 def _product_type(product):
     cats = product.get("categories") or []
-    return cats[0].get("name", "") if cats else ""
+    return html.unescape(cats[0].get("name", "")) if cats else ""
 
 
 def _description(product):
@@ -143,13 +143,17 @@ def _description(product):
     return truncate_description(text)
 
 
-def _sale_price(regular, sale):
+def _sale_price(regular, sale, current_price):
     sale_fmt = format_price(sale)
     reg_fmt = format_price(regular)
     if not sale_fmt or not reg_fmt:
         return ""
     if float(sale) >= float(regular):
         return ""
+    if current_price is not None:
+        current_fmt = format_price(current_price)
+        if current_fmt == sale_fmt:
+            return ""
     return sale_fmt
 
 
@@ -166,7 +170,7 @@ def transform_simple_product(product):
         "additional_image_link": additional_images(product),
         "availability": "in stock",
         "price": format_price(product.get("price")) or "",
-        "sale_price": _sale_price(product.get("regular_price"), product.get("sale_price")),
+        "sale_price": _sale_price(product.get("regular_price"), product.get("sale_price"), product.get("price")),
         "brand": BRAND,
         "condition": "new",
         "gtin": _gtin_from_meta(product.get("meta_data")),
@@ -202,7 +206,7 @@ def transform_variable_product(parent, variations):
             "additional_image_link": additional_images(parent),
             "availability": "in stock",
             "price": format_price(v.get("price")) or "",
-            "sale_price": _sale_price(v.get("regular_price"), v.get("sale_price")),
+            "sale_price": _sale_price(v.get("regular_price"), v.get("sale_price"), v.get("price")),
             "brand": BRAND,
             "condition": "new",
             "gtin": "",

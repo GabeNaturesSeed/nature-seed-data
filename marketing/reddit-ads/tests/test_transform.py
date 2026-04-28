@@ -275,13 +275,15 @@ def test_transform_variable_title_includes_attributes():
     assert row_3001["title"] == "Sheep Pasture Mix — 5 lb"
 
 
-def test_transform_variable_sale_price_when_lower():
+def test_transform_variable_sale_price_blank_when_current_price_equals_sale():
+    # Fixture 3002: regular=119.99, sale=99.99, price=99.99 (current price IS the sale)
+    # sale_price should be blank because the active price already reflects the discount
     parent = _load_fixture("variable_product.json")
     variations = _load_fixture("variations_for_variable.json")
     rows, _ = transform_variable_product(parent, variations)
     row_3002 = next(r for r in rows if r["id"] == "3002")
     assert row_3002["price"] == "99.99 USD"
-    assert row_3002["sale_price"] == "99.99 USD"
+    assert row_3002["sale_price"] == ""
 
 
 import io
@@ -316,3 +318,38 @@ def test_write_tsv_row_count_matches():
     buf = io.StringIO()
     write_tsv(buf, rows)
     assert len(buf.getvalue().splitlines()) == 6
+
+
+from transform import _sale_price, _product_type
+
+
+def test_sale_price_blank_when_equal_to_current_price():
+    # Variation on sale: regular=119.99, sale=99.99, current price=99.99
+    # Should NOT emit sale_price since price already reflects the sale
+    assert _sale_price("119.99", "99.99", "99.99") == ""
+
+
+def test_sale_price_set_when_lower_than_current_price():
+    # Edge case where current price differs from sale price (rare but possible)
+    assert _sale_price("119.99", "89.99", "99.99") == "89.99 USD"
+
+
+def test_sale_price_blank_when_no_current_price_passed_and_equal_to_regular():
+    # Backwards: when called without current_price, original behavior holds
+    # (sale==regular is also "no real sale")
+    assert _sale_price("99.99", "99.99", None) == ""
+
+
+def test_product_type_decodes_html_entities():
+    p = {"categories": [{"name": "Native Wildflower Seed &amp; Seed Mixes"}]}
+    assert _product_type(p) == "Native Wildflower Seed & Seed Mixes"
+
+
+def test_product_type_handles_no_entities():
+    p = {"categories": [{"name": "Cover Crops"}]}
+    assert _product_type(p) == "Cover Crops"
+
+
+def test_product_type_empty_when_no_categories():
+    assert _product_type({"categories": []}) == ""
+    assert _product_type({}) == ""
