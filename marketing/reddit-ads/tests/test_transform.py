@@ -71,3 +71,36 @@ def test_truncate_description_preserves_utf8():
     assert isinstance(out, str)
     assert len(out) <= 100
     out.encode("utf-8")
+
+
+from transform import build_title
+
+
+def test_build_title_no_attributes():
+    assert build_title("Kentucky Bluegrass Seed", []) == "Kentucky Bluegrass Seed"
+
+
+def test_build_title_single_attribute():
+    attrs = [{"name": "Size", "option": "5 lb"}]
+    assert build_title("Kentucky Bluegrass Seed", attrs) == "Kentucky Bluegrass Seed — 5 lb"
+
+
+def test_build_title_multiple_attributes_joined():
+    attrs = [
+        {"name": "Size", "option": "5 lb"},
+        {"name": "Type", "option": "Coated"},
+    ]
+    assert build_title("Clover Mix", attrs) == "Clover Mix — 5 lb / Coated"
+
+
+def test_build_title_truncates_at_150():
+    long_name = "A" * 200
+    out = build_title(long_name, [])
+    assert len(out) == 150
+
+
+def test_build_title_truncates_with_attributes():
+    long_name = "A" * 145
+    attrs = [{"name": "Size", "option": "Extra Large 50 Pound Bag"}]
+    out = build_title(long_name, attrs)
+    assert len(out) == 150

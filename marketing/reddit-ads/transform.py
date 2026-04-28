@@ -46,3 +46,24 @@ def truncate_description(text, limit=1000):
     if len(cleaned) <= limit:
         return cleaned
     return cleaned[:limit]
+
+
+TITLE_LIMIT = 150
+
+
+def build_title(name, attributes):
+    """Build the Reddit catalog title for one row.
+
+    `attributes` is the variation's `attributes` list from the WC API:
+    a list of {"name": ..., "option": ...} dicts. For simple products
+    pass an empty list.
+    """
+    base = name or ""
+    options = [a.get("option", "") for a in (attributes or []) if a.get("option")]
+    if options:
+        title = f"{base} — {' / '.join(options)}"
+    else:
+        title = base
+    if len(title) > TITLE_LIMIT:
+        title = title[:TITLE_LIMIT]
+    return title
