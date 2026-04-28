@@ -58,7 +58,7 @@ def build_title(name, attributes):
     a list of {"name": ..., "option": ...} dicts. For simple products
     pass an empty list.
     """
-    base = name or ""
+    base = html.unescape(name or "")
     options = [a.get("option", "") for a in (attributes or []) if a.get("option")]
     if options:
         title = f"{base} — {' / '.join(options)}"

@@ -353,3 +353,7 @@ def test_product_type_handles_no_entities():
 def test_product_type_empty_when_no_categories():
     assert _product_type({"categories": []}) == ""
     assert _product_type({}) == ""
+
+
+def test_build_title_decodes_html_entities():
+    assert build_title("Honey Bee Cover Crop &amp; Pasture Mix", []) == "Honey Bee Cover Crop & Pasture Mix"
