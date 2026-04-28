@@ -1,0 +1,54 @@
+name: Reddit Ads Catalog
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # 6 AM UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: write   # needed to commit the regenerated TSV back to main
+
+jobs:
+  build-catalog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r marketing/reddit-ads/requirements.txt
+
+      - name: Create .env from secrets
+        run: |
+          cat > .env << 'ENVEOF'
+          WC_BASE_URL=${{ secrets.WC_BASE_URL }}
+          WC_CK=${{ secrets.WC_CK }}
+          WC_CS=${{ secrets.WC_CS }}
+          WP_WOO_CONSUMER_KEY=${{ secrets.WP_WOO_CONSUMER_KEY }}
+          WP_WOO_CONSUMER_SECRET=${{ secrets.WP_WOO_CONSUMER_SECRET }}
+          CF_WORKER_URL=${{ secrets.CF_WORKER_URL }}
+          CF_WORKER_SECRET=${{ secrets.CF_WORKER_SECRET }}
+          ENVEOF
+
+      - name: Run unit tests
+        run: pytest marketing/reddit-ads/tests/ -v
+
+      - name: Build catalog
+        run: python marketing/reddit-ads/build_reddit_catalog.py
+
+      - name: Commit and push regenerated catalog
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add marketing/reddit-ads/output/reddit_catalog.tsv marketing/reddit-ads/output/reddit_catalog_summary.json
+          if git diff --cached --quiet; then
+            echo "No catalog changes."
+          else
+            git commit -m "chore(reddit-ads): daily catalog rebuild $(date -u +%Y-%m-%d)"
+            git push
+          fi
