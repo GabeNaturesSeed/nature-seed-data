@@ -67,3 +67,33 @@ def build_title(name, attributes):
     if len(title) > TITLE_LIMIT:
         title = title[:TITLE_LIMIT]
     return title
+
+
+def should_skip_product(product):
+    """Decide whether a parent WC product should be skipped before fetching
+    variations. Returns a reason string (for logging) or None to keep.
+
+    Variable parents are kept even if their stock/price look empty —
+    those fields are populated on the variation level.
+    """
+    if product.get("status") != "publish":
+        return "not_published"
+    if not product.get("images"):
+        return "no_image"
+    if product.get("type") == "variable":
+        return None
+    if product.get("stock_status") != "instock":
+        return "out_of_stock"
+    if format_price(product.get("price")) is None:
+        return "zero_price"
+    return None
+
+
+def should_skip_variation(variation):
+    """Decide whether a single variation should be skipped. Image is checked
+    elsewhere (variation can fall back to parent image)."""
+    if variation.get("stock_status") != "instock":
+        return "out_of_stock"
+    if format_price(variation.get("price")) is None:
+        return "zero_price"
+    return None

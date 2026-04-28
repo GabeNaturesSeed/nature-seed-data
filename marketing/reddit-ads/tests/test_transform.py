@@ -104,3 +104,68 @@ def test_build_title_truncates_with_attributes():
     attrs = [{"name": "Size", "option": "Extra Large 50 Pound Bag"}]
     out = build_title(long_name, attrs)
     assert len(out) == 150
+
+
+from transform import should_skip_product, should_skip_variation
+
+
+def _valid_simple_product():
+    return {
+        "id": 1,
+        "status": "publish",
+        "stock_status": "instock",
+        "price": "19.99",
+        "type": "simple",
+        "images": [{"src": "https://example.com/a.jpg"}],
+    }
+
+
+def test_skip_product_unpublished():
+    p = _valid_simple_product()
+    p["status"] = "draft"
+    assert should_skip_product(p) == "not_published"
+
+
+def test_skip_product_no_images():
+    p = _valid_simple_product()
+    p["images"] = []
+    assert should_skip_product(p) == "no_image"
+
+
+def test_skip_simple_out_of_stock():
+    p = _valid_simple_product()
+    p["stock_status"] = "outofstock"
+    assert should_skip_product(p) == "out_of_stock"
+
+
+def test_skip_simple_zero_price():
+    p = _valid_simple_product()
+    p["price"] = "0"
+    assert should_skip_product(p) == "zero_price"
+
+
+def test_keep_valid_simple_product():
+    assert should_skip_product(_valid_simple_product()) is None
+
+
+def test_variable_parent_not_skipped_for_stock_or_price():
+    p = _valid_simple_product()
+    p["type"] = "variable"
+    p["stock_status"] = "outofstock"
+    p["price"] = ""
+    assert should_skip_product(p) is None
+
+
+def test_skip_variation_out_of_stock():
+    v = {"id": 10, "stock_status": "outofstock", "price": "19.99"}
+    assert should_skip_variation(v) == "out_of_stock"
+
+
+def test_skip_variation_zero_price():
+    v = {"id": 10, "stock_status": "instock", "price": "0"}
+    assert should_skip_variation(v) == "zero_price"
+
+
+def test_keep_valid_variation():
+    v = {"id": 10, "stock_status": "instock", "price": "19.99"}
+    assert should_skip_variation(v) is None
