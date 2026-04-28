@@ -57,12 +57,13 @@ class BaseAdapter(ABC):
                 skus[p["sku"]] = p
             for v in p.get("variations", []):
                 if v["sku"]:
-                    skus[v["sku"]] = p
+                    skus[v["sku"]] = v
         return skus
 
-    def coverage_check(self, master: dict) -> CoverageResult:
+    def coverage_check(self, master: dict, channel_products: list = None) -> CoverageResult:
+        if channel_products is None:
+            channel_products = self.fetch_channel_products()
         wc_skus = self._active_wc_skus(master)
-        channel_products = self.fetch_channel_products()
         channel_skus = {p["sku"] for p in channel_products if p.get("sku")}
         missing = [sku for sku in wc_skus if sku not in channel_skus]
         return CoverageResult(
@@ -99,14 +100,7 @@ class BaseAdapter(ABC):
         result = AdapterResult(channel=self.channel)
         try:
             channel_products = self.fetch_channel_products()
-            wc_skus = self._active_wc_skus(master)
-            channel_skus = {p["sku"] for p in channel_products if p.get("sku")}
-            missing = [sku for sku in wc_skus if sku not in channel_skus]
-            result.coverage = CoverageResult(
-                wc_total=len(wc_skus),
-                channel_total=len(channel_skus),
-                missing_skus=missing,
-            )
+            result.coverage = self.coverage_check(master, channel_products)
             result.drift = self.drift_check(master, channel_products)
             result.quality = self.quality_check(channel_products)
         except Exception as e:

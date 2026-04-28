@@ -58,3 +58,13 @@ def test_run_catches_errors():
     result = adapter.run(_master())
     assert result.error != ""
     assert result.ok is False
+
+
+def test_run_returns_full_result_on_success():
+    adapter = ConcreteAdapter({})
+    result = adapter.run(_master())
+    assert result.ok is True
+    assert result.error == ""
+    assert result.coverage is not None
+    assert result.drift is not None
+    assert result.quality is not None
