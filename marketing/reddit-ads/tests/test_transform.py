@@ -282,3 +282,37 @@ def test_transform_variable_sale_price_when_lower():
     row_3002 = next(r for r in rows if r["id"] == "3002")
     assert row_3002["price"] == "99.99 USD"
     assert row_3002["sale_price"] == "99.99 USD"
+
+
+import io
+from transform import write_tsv, TSV_COLUMNS
+
+
+def test_write_tsv_header_first():
+    rows = [{c: "" for c in TSV_COLUMNS}]
+    rows[0]["id"] = "1"
+    buf = io.StringIO()
+    write_tsv(buf, rows)
+    lines = buf.getvalue().splitlines()
+    assert lines[0] == "\t".join(TSV_COLUMNS)
+
+
+def test_write_tsv_escapes_tabs_and_newlines():
+    row = {c: "" for c in TSV_COLUMNS}
+    row["id"] = "1"
+    row["title"] = "Has\ttab and\nnewline"
+    buf = io.StringIO()
+    write_tsv(buf, [row])
+    body = buf.getvalue().splitlines()[1]
+    cells = body.split("\t")
+    title_idx = TSV_COLUMNS.index("title")
+    assert cells[title_idx] == "Has tab and newline"
+
+
+def test_write_tsv_row_count_matches():
+    rows = [{c: "" for c in TSV_COLUMNS} for _ in range(5)]
+    for i, r in enumerate(rows):
+        r["id"] = str(i)
+    buf = io.StringIO()
+    write_tsv(buf, rows)
+    assert len(buf.getvalue().splitlines()) == 6

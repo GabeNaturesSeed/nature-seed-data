@@ -211,3 +211,38 @@ def transform_variable_product(parent, variations):
             "google_product_category": GOOGLE_PRODUCT_CATEGORY,
         })
     return rows, skipped
+
+
+TSV_COLUMNS = [
+    "id",
+    "item_group_id",
+    "title",
+    "description",
+    "link",
+    "image_link",
+    "additional_image_link",
+    "availability",
+    "price",
+    "sale_price",
+    "brand",
+    "condition",
+    "gtin",
+    "mpn",
+    "product_type",
+    "google_product_category",
+]
+
+
+def _scrub_cell(value):
+    """Replace tabs and newlines with single spaces — TSV cells cannot contain them."""
+    s = "" if value is None else str(value)
+    return s.replace("\t", " ").replace("\r", " ").replace("\n", " ")
+
+
+def write_tsv(file_like, rows):
+    """Write header + rows to a text file-like object. Each row is a dict
+    keyed by TSV_COLUMNS; missing keys become empty strings."""
+    file_like.write("\t".join(TSV_COLUMNS) + "\n")
+    for row in rows:
+        cells = [_scrub_cell(row.get(col, "")) for col in TSV_COLUMNS]
+        file_like.write("\t".join(cells) + "\n")
