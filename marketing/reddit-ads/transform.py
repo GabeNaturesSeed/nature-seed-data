@@ -120,3 +120,57 @@ def additional_images(parent):
     images = (parent or {}).get("images") or []
     extras = [img.get("src", "") for img in images[1:1 + ADDITIONAL_IMAGE_LIMIT]]
     return ",".join(e for e in extras if e)
+
+
+BRAND = "Nature's Seed"
+GOOGLE_PRODUCT_CATEGORY = "5587"  # Home & Garden > Lawn & Garden > Gardening > Plants > Seeds
+
+
+def _gtin_from_meta(meta_data):
+    for entry in meta_data or []:
+        if entry.get("key") == "_gtin":
+            return str(entry.get("value") or "")
+    return ""
+
+
+def _product_type(product):
+    cats = product.get("categories") or []
+    return cats[0].get("name", "") if cats else ""
+
+
+def _description(product):
+    text = product.get("short_description") or product.get("description") or ""
+    return truncate_description(text)
+
+
+def _sale_price(regular, sale):
+    sale_fmt = format_price(sale)
+    reg_fmt = format_price(regular)
+    if not sale_fmt or not reg_fmt:
+        return ""
+    if float(sale) >= float(regular):
+        return ""
+    return sale_fmt
+
+
+def transform_simple_product(product):
+    """Return one TSV row dict for a simple WC product."""
+    pid = str(product["id"])
+    return {
+        "id": pid,
+        "item_group_id": pid,
+        "title": build_title(product.get("name"), []),
+        "description": _description(product),
+        "link": product.get("permalink", ""),
+        "image_link": pick_image(product, None) or "",
+        "additional_image_link": additional_images(product),
+        "availability": "in stock",
+        "price": format_price(product.get("price")) or "",
+        "sale_price": _sale_price(product.get("regular_price"), product.get("sale_price")),
+        "brand": BRAND,
+        "condition": "new",
+        "gtin": _gtin_from_meta(product.get("meta_data")),
+        "mpn": product.get("sku", "") or "",
+        "product_type": _product_type(product),
+        "google_product_category": GOOGLE_PRODUCT_CATEGORY,
+    }

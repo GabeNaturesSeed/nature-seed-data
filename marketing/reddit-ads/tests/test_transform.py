@@ -211,3 +211,37 @@ def test_additional_images_caps_at_nine():
 def test_additional_images_empty_when_only_one():
     parent = {"images": [{"src": "a.jpg"}]}
     assert additional_images(parent) == ""
+
+
+import json
+from transform import transform_simple_product
+
+FIXTURE_DIR = os.path.join(os.path.dirname(__file__), "fixtures")
+
+
+def _load_fixture(name):
+    with open(os.path.join(FIXTURE_DIR, name)) as f:
+        return json.load(f)
+
+
+def test_transform_simple_product_full_row():
+    product = _load_fixture("simple_product.json")
+    row = transform_simple_product(product)
+    assert row == {
+        "id": "1001",
+        "item_group_id": "1001",
+        "title": "Annual Ryegrass Seed",
+        "description": "Fast germinating cover crop.",
+        "link": "https://naturesseed.com/products/annual-ryegrass/",
+        "image_link": "https://naturesseed.com/img/ar-1.jpg",
+        "additional_image_link": "https://naturesseed.com/img/ar-2.jpg",
+        "availability": "in stock",
+        "price": "24.99 USD",
+        "sale_price": "",
+        "brand": "Nature's Seed",
+        "condition": "new",
+        "gtin": "",
+        "mpn": "NS-AR-5LB",
+        "product_type": "Cover Crops",
+        "google_product_category": "5587",
+    }
