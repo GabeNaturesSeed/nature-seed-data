@@ -1,0 +1,32 @@
+[
+  {
+    "id": 3001,
+    "stock_status": "instock",
+    "price": "29.99",
+    "regular_price": "29.99",
+    "sale_price": "",
+    "sku": "NS-SHEEP-5LB",
+    "image": {"src": "https://naturesseed.com/img/sheep-5lb.jpg"},
+    "attributes": [{"name": "Size", "option": "5 lb"}]
+  },
+  {
+    "id": 3002,
+    "stock_status": "instock",
+    "price": "99.99",
+    "regular_price": "119.99",
+    "sale_price": "99.99",
+    "sku": "NS-SHEEP-25LB",
+    "image": null,
+    "attributes": [{"name": "Size", "option": "25 lb"}]
+  },
+  {
+    "id": 3003,
+    "stock_status": "outofstock",
+    "price": "199.99",
+    "regular_price": "199.99",
+    "sale_price": "",
+    "sku": "NS-SHEEP-50LB",
+    "image": {"src": "https://naturesseed.com/img/sheep-50lb.jpg"},
+    "attributes": [{"name": "Size", "option": "50 lb"}]
+  }
+]
