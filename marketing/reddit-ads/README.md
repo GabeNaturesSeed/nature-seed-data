@@ -6,10 +6,10 @@ Daily-regenerated Google-Shopping-spec product feed for Reddit Ads Manager.
 
 A GitHub Action runs daily at 6 AM UTC, pulls every in-stock published
 WooCommerce product (one row per variation), writes
-`output/reddit_catalog.tsv`, and commits it to `main`. GitHub Pages
-serves that file at:
+`docs/reddit-catalog/reddit_catalog.tsv`, and commits it to `main`.
+GitHub Pages serves that file (Pages source is `main:/docs`) at:
 
-`https://gabenaturesseed.github.io/nature-seed-data/marketing/reddit-ads/output/reddit_catalog.tsv`
+`https://gabenaturesseed.github.io/nature-seed-data/reddit-catalog/reddit_catalog.tsv`
 
 Reddit Ads Manager fetches that URL on its own daily schedule.
 
@@ -47,5 +47,5 @@ All transform logic is pure-function — tests run with no network.
 - `build_reddit_catalog.py` — orchestrator
 - `transform.py` — pure functions: filter, format, build rows, write TSV
 - `wc_client.py` — paginated WC fetch with retry, routes through CF Worker
-- `output/` — generated TSV + summary JSON, committed on every run
+- `docs/reddit-catalog/` — generated TSV + summary JSON, committed on every run (lives in `docs/` because GitHub Pages serves from there)
 - `tests/` — unit tests + JSON fixtures

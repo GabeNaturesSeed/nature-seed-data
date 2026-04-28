@@ -25,7 +25,7 @@ from transform import (
 )
 from wc_client import fetch_products, fetch_variations
 
-OUTPUT_DIR = os.path.join(SCRIPT_DIR, "output")
+OUTPUT_DIR = os.path.join(PROJECT_DIR, "docs", "reddit-catalog")
 TSV_PATH = os.path.join(OUTPUT_DIR, "reddit_catalog.tsv")
 SUMMARY_PATH = os.path.join(OUTPUT_DIR, "reddit_catalog_summary.json")
 REGRESSION_THRESHOLD = 0.5  # new run must have at least 50% of previous row count

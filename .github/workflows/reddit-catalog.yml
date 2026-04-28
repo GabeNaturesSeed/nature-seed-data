@@ -45,7 +45,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add marketing/reddit-ads/output/reddit_catalog.tsv marketing/reddit-ads/output/reddit_catalog_summary.json
+          git add docs/reddit-catalog/reddit_catalog.tsv docs/reddit-catalog/reddit_catalog_summary.json
           if git diff --cached --quiet; then
             echo "No catalog changes."
           else
