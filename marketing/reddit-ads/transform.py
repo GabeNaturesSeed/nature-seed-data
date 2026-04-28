@@ -97,3 +97,26 @@ def should_skip_variation(variation):
     if format_price(variation.get("price")) is None:
         return "zero_price"
     return None
+
+
+ADDITIONAL_IMAGE_LIMIT = 9
+
+
+def pick_image(parent, variation):
+    """Return the variation's image URL if set, else the parent's first
+    image, else None."""
+    if variation:
+        v_img = variation.get("image")
+        if v_img and v_img.get("src"):
+            return v_img["src"]
+    images = (parent or {}).get("images") or []
+    if images and images[0].get("src"):
+        return images[0]["src"]
+    return None
+
+
+def additional_images(parent):
+    """Return up to 9 extra image URLs (skipping the featured one) joined by ','."""
+    images = (parent or {}).get("images") or []
+    extras = [img.get("src", "") for img in images[1:1 + ADDITIONAL_IMAGE_LIMIT]]
+    return ",".join(e for e in extras if e)

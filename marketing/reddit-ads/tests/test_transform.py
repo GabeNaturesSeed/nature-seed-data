@@ -169,3 +169,45 @@ def test_skip_variation_zero_price():
 def test_keep_valid_variation():
     v = {"id": 10, "stock_status": "instock", "price": "19.99"}
     assert should_skip_variation(v) is None
+
+
+from transform import pick_image, additional_images
+
+
+def test_pick_image_variation_override():
+    parent = {"images": [{"src": "https://example.com/parent.jpg"}]}
+    variation = {"image": {"src": "https://example.com/var.jpg"}}
+    assert pick_image(parent, variation) == "https://example.com/var.jpg"
+
+
+def test_pick_image_falls_back_to_parent():
+    parent = {"images": [{"src": "https://example.com/parent.jpg"}]}
+    variation = {"image": None}
+    assert pick_image(parent, variation) == "https://example.com/parent.jpg"
+
+
+def test_pick_image_simple_product_no_variation():
+    parent = {"images": [{"src": "https://example.com/parent.jpg"}]}
+    assert pick_image(parent, None) == "https://example.com/parent.jpg"
+
+
+def test_pick_image_returns_none_when_nothing_available():
+    assert pick_image({"images": []}, None) is None
+
+
+def test_additional_images_skips_first():
+    parent = {"images": [
+        {"src": "a.jpg"}, {"src": "b.jpg"}, {"src": "c.jpg"}
+    ]}
+    assert additional_images(parent) == "b.jpg,c.jpg"
+
+
+def test_additional_images_caps_at_nine():
+    parent = {"images": [{"src": f"{i}.jpg"} for i in range(15)]}
+    out = additional_images(parent).split(",")
+    assert len(out) == 9
+
+
+def test_additional_images_empty_when_only_one():
+    parent = {"images": [{"src": "a.jpg"}]}
+    assert additional_images(parent) == ""
