@@ -29,3 +29,45 @@ def test_format_price_zero_returns_none():
     assert format_price("0") is None
     assert format_price(0) is None
     assert format_price("0.00") is None
+
+
+from transform import strip_html, truncate_description
+
+
+def test_strip_html_removes_tags():
+    assert strip_html("<p>Hello <b>world</b></p>") == "Hello world"
+
+
+def test_strip_html_decodes_entities():
+    assert strip_html("Tom &amp; Jerry &lt;3") == "Tom & Jerry <3"
+
+
+def test_strip_html_collapses_whitespace():
+    assert strip_html("<p>Line one</p>\n\n<p>Line two</p>") == "Line one Line two"
+
+
+def test_strip_html_handles_empty():
+    assert strip_html("") == ""
+    assert strip_html(None) == ""
+
+
+def test_truncate_description_short_passthrough():
+    assert truncate_description("Short text", limit=1000) == "Short text"
+
+
+def test_truncate_description_caps_at_limit():
+    long = "a" * 2000
+    out = truncate_description(long, limit=1000)
+    assert len(out) == 1000
+
+
+def test_truncate_description_strips_html_first():
+    out = truncate_description("<p>Hi <b>there</b></p>", limit=1000)
+    assert out == "Hi there"
+
+
+def test_truncate_description_preserves_utf8():
+    out = truncate_description("héllo " * 500, limit=100)
+    assert isinstance(out, str)
+    assert len(out) <= 100
+    out.encode("utf-8")
