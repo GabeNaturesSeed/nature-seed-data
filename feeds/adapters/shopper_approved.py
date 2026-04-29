@@ -41,4 +41,4 @@ class ShopperApprovedAdapter(BaseAdapter):
         return list(seen.values())
 
     def get_required_fields(self) -> list:
-        return ["sku", "name", "url"]
+        return ["sku", "name"]
