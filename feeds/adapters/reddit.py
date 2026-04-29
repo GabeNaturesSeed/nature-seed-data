@@ -5,7 +5,7 @@ from feeds.adapters.base_adapter import BaseAdapter
 
 class RedditAdapter(BaseAdapter):
     channel = "reddit"
-    CATALOG_PATH = Path("docs/reddit-catalog/reddit_catalog.csv")
+    CATALOG_PATH = Path("docs/reddit-catalog/reddit_catalog.tsv")
 
     def fetch_channel_products(self) -> list:
         if not self.CATALOG_PATH.exists():
@@ -14,12 +14,13 @@ class RedditAdapter(BaseAdapter):
             )
         products = []
         with open(self.CATALOG_PATH, newline="", encoding="utf-8") as f:
-            reader = csv.DictReader(f)
+            reader = csv.DictReader(f, delimiter="\t")
             for row in reader:
+                price = row.get("price", "").replace(" USD", "").strip()
                 products.append({
-                    "sku": row.get("id", ""),
+                    "sku": row.get("mpn", ""),
                     "name": row.get("title", ""),
-                    "price": row.get("price", "").replace("USD ", ""),
+                    "price": price,
                     "stock_status": "instock" if row.get("availability") == "in stock" else "outofstock",
                     "main_image_url": row.get("image_link", ""),
                     "description": row.get("description", ""),

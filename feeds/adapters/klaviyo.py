@@ -22,10 +22,11 @@ class KlaviyoAdapter(BaseAdapter):
         products = []
         cursor = None
         while True:
-            params = {"page[size]": 100}
+            # Build URL manually — requests percent-encodes brackets which Klaviyo rejects
+            url = f"{KLAVIYO_BASE}/catalog-items?page[size]=100"
             if cursor:
-                params["page[cursor]"] = cursor
-            resp = requests.get(f"{KLAVIYO_BASE}/catalog-items", headers=headers, params=params, timeout=30)
+                url += f"&page[cursor]={cursor}"
+            resp = requests.get(url, headers=headers, timeout=30)
             resp.raise_for_status()
             data = resp.json()
             for item in data.get("data", []):
