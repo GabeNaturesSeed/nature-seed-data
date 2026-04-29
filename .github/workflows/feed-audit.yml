@@ -1,0 +1,61 @@
+name: Feed Audit
+
+on:
+  schedule:
+    # Run at 7:05 AM UTC (12:05 AM MST) daily — 5 min after daily report
+    - cron: '5 7 * * *'
+  workflow_dispatch:
+
+jobs:
+  feed-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r feeds/requirements.txt
+
+      - name: Create .env from secrets
+        run: |
+          cat > .env << 'ENVEOF'
+          WC_BASE_URL = '${{ secrets.WC_BASE_URL }}'
+          WC_CK = '${{ secrets.WC_CK }}'
+          WC_CS = '${{ secrets.WC_CS }}'
+          CF_WORKER_URL = '${{ secrets.CF_WORKER_URL }}'
+          CF_WORKER_SECRET = '${{ secrets.CF_WORKER_SECRET }}'
+          WALMART_CLIENT_ID = '${{ secrets.WALMART_CLIENT_ID }}'
+          WALMART_CLIENT_SECRET = '${{ secrets.WALMART_CLIENT_SECRET }}'
+          AMAZON_REFRESH_TOKEN = '${{ secrets.AMAZON_REFRESH_TOKEN }}'
+          AMAZON_CLIENT_ID = '${{ secrets.AMAZON_CLIENT_ID }}'
+          AMAZON_CLIENT_SECRET = '${{ secrets.AMAZON_CLIENT_SECRET }}'
+          AMAZON_MERCHANT_TOKEN = '${{ secrets.AMAZON_MERCHANT_TOKEN }}'
+          GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}'
+          GOOGLE_CLIENT_SECRET = '${{ secrets.GOOGLE_CLIENT_SECRET }}'
+          GOOGLE_REFRESH_TOKEN = '${{ secrets.GOOGLE_REFRESH_TOKEN }}'
+          GOOGLE_MERCHANT_CENTER_ID = '138935850'
+          KLAVIYO_API = '${{ secrets.KLAVIYO_API }}'
+          SA_SITE_ID = '33157'
+          SA_API_TOKEN = '${{ secrets.SA_API_TOKEN }}'
+          ENVEOF
+
+      - name: Build feed master
+        run: python -m feeds.build_feed_master
+
+      - name: Run channel audits
+        run: python -m feeds.digest.run_audit
+
+      - name: Commit feed master + digest
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add feeds/feed_master.json feeds/digest/
+          git diff --staged --quiet || git commit -m "chore(feeds): daily feed snapshot + audit $(date -u +%Y-%m-%d)"
+          git push
