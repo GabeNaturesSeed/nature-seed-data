@@ -152,7 +152,7 @@ Find the spawn site in `src-tauri/src/agents/pool.rs` where `AgentConfig.model` 
 - [ ] **Step 6: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add src-tauri/src/agents/config.rs src-tauri/src/agents/pool.rs src-tauri/tests/agent_config_test.rs && git commit -m "feat(agents): add model_override for per-run model selection"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add src-tauri/src/agents/config.rs src-tauri/src/agents/pool.rs src-tauri/tests/agent_config_test.rs && git commit -m "feat(agents): add model_override for per-run model selection"
 ```
 
 ---
@@ -199,7 +199,7 @@ Expected: schema includes `target_agent TEXT` and `target_path TEXT`.
 - [ ] **Step 4: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add src-tauri/migrations/0002_human_gates_target.sql src-tauri/src/db/schema.rs && git commit -m "feat(db): add target_agent and target_path to human_gates"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add src-tauri/migrations/0002_human_gates_target.sql src-tauri/src/db/schema.rs && git commit -m "feat(db): add target_agent and target_path to human_gates"
 ```
 
 ---
@@ -358,7 +358,7 @@ The `denied_for_targets_outside_self` is enforced in the sidecar's `PreToolUse` 
 - [ ] **Step 7: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add src-tauri/assets/steward-seeds/ && git commit -m "feat(steward): seed asset files for steward agent"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add src-tauri/assets/steward-seeds/ && git commit -m "feat(steward): seed asset files for steward agent"
 ```
 
 ---
@@ -485,7 +485,7 @@ Expected: PASS.
 - [ ] **Step 7: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add src-tauri/src/install/ src-tauri/src/lib.rs src-tauri/tests/install_steward_test.rs && git commit -m "feat(install): install_steward filesystem layout"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add src-tauri/src/install/ src-tauri/src/lib.rs src-tauri/tests/install_steward_test.rs && git commit -m "feat(install): install_steward filesystem layout"
 ```
 
 ---
@@ -525,7 +525,7 @@ Expected: PASS (the impl from Task 5 already handles this case).
 - [ ] **Step 3: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add src-tauri/tests/install_steward_test.rs && git commit -m "test(install): assert install refuses to overwrite existing folder"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add src-tauri/tests/install_steward_test.rs && git commit -m "test(install): assert install refuses to overwrite existing folder"
 ```
 
 ---
@@ -613,7 +613,7 @@ Expected: compile error — `install_steward_inner` doesn't exist yet. Task 7 wi
 - [ ] **Step 3: Commit (test-only commit)**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add src-tauri/tests/install_steward_test.rs && git commit -m "test(install): mismatch detection cases (failing — impl in next task)"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add src-tauri/tests/install_steward_test.rs && git commit -m "test(install): mismatch detection cases (failing — impl in next task)"
 ```
 
 ---
@@ -709,7 +709,7 @@ Expected: compiles cleanly. If `store::create_agent` async-vs-sync doesn't match
 - [ ] **Step 4: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add src-tauri/src/install/steward.rs src-tauri/src/main.rs && git commit -m "feat(install): install_steward Tauri command with DB row creation"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add src-tauri/src/install/steward.rs src-tauri/src/main.rs && git commit -m "feat(install): install_steward Tauri command with DB row creation"
 ```
 
 ---
@@ -764,7 +764,7 @@ Both should show steward.
 - [ ] **Step 3: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add src-tauri/src/main.rs && git commit -m "feat(install): auto-install steward on app startup if absent"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add src-tauri/src/main.rs && git commit -m "feat(install): auto-install steward on app startup if absent"
 ```
 
 ---
@@ -917,7 +917,7 @@ Expected: 10 passed.
 - [ ] **Step 6: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add src-tauri/src/commands/ src-tauri/src/lib.rs src-tauri/tests/propose_edit_test.rs && git commit -m "feat(propose_edit): path validation for cross-agent edit proposals"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add src-tauri/src/commands/ src-tauri/src/lib.rs src-tauri/tests/propose_edit_test.rs && git commit -m "feat(propose_edit): path validation for cross-agent edit proposals"
 ```
 
 ---
@@ -1086,7 +1086,7 @@ Add `commands::propose_edit::propose_edit` to the `tauri::generate_handler!` lis
 - [ ] **Step 5: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add src-tauri/src/commands/propose_edit.rs src-tauri/src/main.rs src-tauri/tests/propose_edit_test.rs && git commit -m "feat(propose_edit): gate creation with old_string validation"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add src-tauri/src/commands/propose_edit.rs src-tauri/src/main.rs src-tauri/tests/propose_edit_test.rs && git commit -m "feat(propose_edit): gate creation with old_string validation"
 ```
 
 ---
@@ -1229,7 +1229,7 @@ Expected: 2 new tests pass.
 - [ ] **Step 6: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add src-tauri/src/commands/propose_edit.rs src-tauri/src/commands.rs src-tauri/tests/propose_edit_test.rs && git commit -m "feat(propose_edit): apply on approve, mark stale on conflict"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add src-tauri/src/commands/propose_edit.rs src-tauri/src/commands.rs src-tauri/tests/propose_edit_test.rs && git commit -m "feat(propose_edit): apply on approve, mark stale on conflict"
 ```
 
 ---
@@ -1367,7 +1367,7 @@ Build and run PARTY, open Steward agent, send a chat like: *"Propose an edit to 
 - [ ] **Step 6: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add sidecar/src/tools/propose_edit.ts sidecar/src/protocol.ts sidecar/src/index.ts src-tauri/src/agents/pool.rs && git commit -m "feat(sidecar): propose_edit SDK tool with gate request bridge"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add sidecar/src/tools/propose_edit.ts sidecar/src/protocol.ts sidecar/src/index.ts src-tauri/src/agents/pool.rs && git commit -m "feat(sidecar): propose_edit SDK tool with gate request bridge"
 ```
 
 ---
@@ -1428,7 +1428,7 @@ After Task 12 + 13, full round-trip works: Steward proposes → gate created →
 - [ ] **Step 5: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add sidecar/src/index.ts src-tauri/src/commands.rs src-tauri/src/agents/pool.rs && git commit -m "feat(sidecar): inject gate_resolved feedback into steward's next turn"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add sidecar/src/index.ts src-tauri/src/commands.rs src-tauri/src/agents/pool.rs && git commit -m "feat(sidecar): inject gate_resolved feedback into steward's next turn"
 ```
 
 ---
@@ -1488,7 +1488,7 @@ lineDiff("a\nb\nc", "a\nB\nc")
 - [ ] **Step 4: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add src/diff.js src/index.html && git commit -m "feat(frontend): line diff implementation for gate UI"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add src/diff.js src/index.html && git commit -m "feat(frontend): line diff implementation for gate UI"
 ```
 
 ---
@@ -1623,7 +1623,7 @@ Run `npm run tauri dev`. From Steward chat, propose an edit. Verify the gate pan
 - [ ] **Step 6: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add src/app.js src/styles.css src-tauri/src/commands/propose_edit.rs src-tauri/src/main.rs && git commit -m "feat(frontend): diff viewer for propose_edit gates"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add src/app.js src/styles.css src-tauri/src/commands/propose_edit.rs src-tauri/src/main.rs && git commit -m "feat(frontend): diff viewer for propose_edit gates"
 ```
 
 ---
@@ -1675,7 +1675,7 @@ Propose an edit, do NOT approve/reject. Quit the app. Restart. The gate should r
 - [ ] **Step 4: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add src/app.js src-tauri/src/commands.rs && git commit -m "fix(gates): render pending gates on app boot (§P0.8)"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add src/app.js src-tauri/src/commands.rs && git commit -m "fix(gates): render pending gates on app boot (§P0.8)"
 ```
 
 ---
@@ -1730,7 +1730,7 @@ Propose, reject with reason "too prescriptive". Verify Steward's next turn inclu
 - [ ] **Step 3: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add src-tauri/src/commands.rs && git commit -m "feat(gates): forward rejection reason to steward sidecar"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add src-tauri/src/commands.rs && git commit -m "feat(gates): forward rejection reason to steward sidecar"
 ```
 
 ---
@@ -1840,7 +1840,7 @@ Remove the debug command before committing.
 - [ ] **Step 5: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add src-tauri/src/scheduler/jobs.rs src-tauri/src/agents/pool.rs src-tauri/src/install/steward.rs && git commit -m "feat(steward): 01:00 daily digest cron with opus override"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add src-tauri/src/scheduler/jobs.rs src-tauri/src/agents/pool.rs src-tauri/src/install/steward.rs && git commit -m "feat(steward): 01:00 daily digest cron with opus override"
 ```
 
 ---
@@ -1986,7 +1986,7 @@ Delete `trigger_steward_digest_now` from `commands.rs` and `main.rs` registratio
 - [ ] **Step 5: Commit cleanup**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add -A && git commit -m "chore: remove debug digest trigger"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add -A && git commit -m "chore: remove debug digest trigger"
 ```
 
 ---
@@ -2014,7 +2014,7 @@ Mark the Steward layer item as shipped with a date and reference to this plan.
 - [ ] **Step 3: Commit**
 
 ```
-cd /Users/gabegimenes-silva/Desktop/party && git add HANDOFF.md ROADMAP.md && git commit -m "docs: mark steward layer shipped (Phase 3)"
+cd /Users/gabegimenes-silva/Desktop/party-dev && git add HANDOFF.md ROADMAP.md && git commit -m "docs: mark steward layer shipped (Phase 3)"
 ```
 
 ---
