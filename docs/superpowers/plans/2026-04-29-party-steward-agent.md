@@ -10,7 +10,7 @@
 
 **Spec:** [docs/superpowers/specs/2026-04-29-party-steward-agent-design.md](docs/superpowers/specs/2026-04-29-party-steward-agent-design.md)
 
-**Implementation repo:** `/Users/gabegimenes-silva/Desktop/party/` (canonical PARTY checkout). All file paths below are relative to that repo unless otherwise noted.
+**Implementation repo:** `/Users/gabegimenes-silva/Desktop/party-dev/` (canonical PARTY checkout). All file paths below are relative to that repo unless otherwise noted.
 
 **Prerequisite (separate PR, NOT part of this plan):** Fix the known persistence bug in `src-tauri/src/agents/pool.rs:167-175` where events are dropped when the user switches agents. This affects all agents, not just Steward.
 
