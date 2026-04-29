@@ -13,7 +13,7 @@ class WalmartAdapter(BaseAdapter):
             "https://marketplace.walmartapis.com/v3/token",
             auth=(self.env["WALMART_CLIENT_ID"], self.env["WALMART_CLIENT_SECRET"]),
             data={"grant_type": "client_credentials"},
-            headers={"WM_SVC.NAME": "Walmart Marketplace", "WM_QOS.CORRELATION_ID": "feed-audit"},
+            headers={"WM_SVC.NAME": "Walmart Marketplace", "WM_QOS.CORRELATION_ID": "feed-audit", "Accept": "application/json"},
             timeout=30,
         )
         resp.raise_for_status()

@@ -21,7 +21,7 @@ class AmazonAdapter(BaseAdapter):
 
     def fetch_channel_products(self) -> list:
         token = self._get_access_token()
-        seller_id = self.env["AMAZON_MERCHANT_TOKEN"]
+        seller_id = self.env["AMAZON_SELLER_ID"]
         headers = {
             "x-amz-access-token": token,
             "Accept": "application/json",

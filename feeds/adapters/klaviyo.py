@@ -13,6 +13,7 @@ class KlaviyoAdapter(BaseAdapter):
         return {
             "Authorization": f"Klaviyo-API-Key {self.env['KLAVIYO_API']}",
             "revision": REVISION,
+            "Content-Type": "application/json",
             "Accept": "application/json",
         }
 

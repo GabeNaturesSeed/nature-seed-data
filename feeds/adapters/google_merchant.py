@@ -9,9 +9,9 @@ class GoogleMerchantAdapter(BaseAdapter):
 
     def _get_access_token(self):
         resp = requests.post("https://oauth2.googleapis.com/token", data={
-            "client_id": self.env["GOOGLE_CLIENT_ID"],
-            "client_secret": self.env["GOOGLE_CLIENT_SECRET"],
-            "refresh_token": self.env["GOOGLE_REFRESH_TOKEN"],
+            "client_id": self.env["GOOGLE_ADS_CLIENT_ID"],
+            "client_secret": self.env["GOOGLE_ADS_CLIENT_SECRET"],
+            "refresh_token": self.env["GOOGLE_ADS_REFRESH_TOKEN"],
             "grant_type": "refresh_token",
         }, timeout=30)
         resp.raise_for_status()
