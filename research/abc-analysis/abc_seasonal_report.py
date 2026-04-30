@@ -45,9 +45,9 @@ SEASONS = {
     "spring_2025": ("Spring 2025", "2025-02-01", "2025-04-30"),
 }
 
-# 8-factor weights
+# 8-factor weights (revenue_velocity = revenue/active_days, normalizes for late-added products)
 WEIGHTS = {
-    "revenue":           0.30,
+    "revenue_velocity":  0.30,
     "margin":            0.15,
     "units":             0.15,
     "orders":            0.10,
@@ -263,7 +263,11 @@ def build_parent_map(product_ids):
         chunk = ids_list[i:i + 100]
         resp = wc_get("/products", {"include": ",".join(str(x) for x in chunk), "per_page": 100})
         for p in resp.json():
-            parent_map[p["id"]] = {"sku": p.get("sku", ""), "name": p.get("name", "")}
+            parent_map[p["id"]] = {
+                "sku": p.get("sku", ""),
+                "name": p.get("name", ""),
+                "date_created": (p.get("date_created") or "")[:10],
+            }
         time.sleep(0.25)
     print(f"  [Parent Map] {len(parent_map)} parent products mapped")
     return parent_map
@@ -272,7 +276,7 @@ def build_parent_map(product_ids):
 def aggregate_by_parent(completed_orders, cancelled_orders, cogs_lookup, date_start, date_end, parent_map):
     """Aggregate metrics grouped by product_id (parent product), tracking variants."""
     parent_data = defaultdict(lambda: {
-        "sku": "", "name": "",
+        "sku": "", "name": "", "date_created": "",
         "revenue": 0.0, "units": 0, "orders": set(), "order_totals": [],
         "weekly_revenue": defaultdict(float),
         "backordered_qty": 0,
@@ -305,6 +309,7 @@ def aggregate_by_parent(completed_orders, cancelled_orders, cogs_lookup, date_st
             d = parent_data[pid]
             d["sku"] = parent_sku
             d["name"] = parent_name
+            d["date_created"] = info.get("date_created", "")
             d["revenue"] += line_total
             d["units"] += qty
             d["orders"].add(order_id)
@@ -344,6 +349,17 @@ def aggregate_by_parent(completed_orders, cancelled_orders, cogs_lookup, date_st
         revenue = d["revenue"]
         units = d["units"]
 
+        # Active days: how many days in this window the product actually existed
+        created_str = d.get("date_created", "")
+        try:
+            created_date = date.fromisoformat(created_str) if created_str else None
+        except ValueError:
+            created_date = None
+        if created_date and created_date > start_date:
+            active_days = max(1, (end_date - created_date).days)
+        else:
+            active_days = days_in_period
+
         # Margin: sum COGS per variant SKU, fall back to default margin pct
         total_cogs = 0.0
         has_cogs = False
@@ -356,7 +372,8 @@ def aggregate_by_parent(completed_orders, cancelled_orders, cogs_lookup, date_st
         margin_pct = (margin / revenue * 100) if revenue > 0 else 0
 
         avg_basket = _mean(d["order_totals"]) if d["order_totals"] else 0
-        daily_velocity = round(units / days_in_period, 2)
+        daily_velocity = round(units / active_days, 2)
+        revenue_velocity = round(revenue / active_days, 2)
 
         weekly = d["weekly_revenue"]
         if len(weekly) >= 2:
@@ -387,7 +404,9 @@ def aggregate_by_parent(completed_orders, cancelled_orders, cogs_lookup, date_st
             "units": units,
             "orders": order_count,
             "avg_basket": round(float(avg_basket), 2),
+            "active_days": active_days,
             "daily_velocity": daily_velocity,
+            "revenue_velocity": revenue_velocity,
             "velocity_trend": velocity_trend,
             "backorder_rate": round(backorder_rate, 4),
             "cancellation_rate": round(cancellation_rate, 4),
@@ -429,7 +448,7 @@ def score_and_classify(items):
     if not items:
         return []
 
-    factors = ["revenue", "margin", "units", "orders", "avg_basket", "velocity_trend", "backorder_rate", "cancellation_rate"]
+    factors = ["revenue_velocity", "margin", "units", "orders", "avg_basket", "velocity_trend", "backorder_rate", "cancellation_rate"]
     inverted = {"backorder_rate", "cancellation_rate"}
 
     # Compute percentile ranks per factor
@@ -449,17 +468,20 @@ def score_and_classify(items):
     # Sort by composite score descending
     items.sort(key=lambda x: x["composite_score"], reverse=True)
 
-    # Classify: A = top 80% cumulative revenue, B = next 15%, C = bottom 5%
-    total_revenue = sum(i["revenue"] for i in items)
-    if total_revenue == 0:
+    # Classify using revenue_velocity (revenue/active_days) for cumulative cuts.
+    # This normalizes for products created after the season start so they aren't
+    # penalized by having fewer active days than established products.
+    # A = top 80% cumulative velocity, B = next 15%, C = bottom 5%
+    total_velocity = sum(i["revenue_velocity"] for i in items)
+    if total_velocity == 0:
         for item in items:
             item["class"] = "C"
         return items
 
     cumulative = 0.0
     for item in items:
-        cumulative += item["revenue"]
-        pct = cumulative / total_revenue
+        cumulative += item["revenue_velocity"]
+        pct = cumulative / total_velocity
         if pct <= 0.80:
             item["class"] = "A"
         elif pct <= 0.95:
@@ -480,7 +502,7 @@ def generate_reasons(items):
         return items
 
     # Compute medians for comparison
-    revenues = [i["revenue"] for i in items]
+    revenues = [i["revenue_velocity"] for i in items]
     margins = [i["margin_pct"] for i in items]
     med_revenue = _median(revenues)
     med_margin = _median(margins)
@@ -488,11 +510,13 @@ def generate_reasons(items):
     for item in items:
         parts = []
         cls = item["class"]
+        max_days = max(i["active_days"] for i in items)
+        new_flag = f" ({item['active_days']}d active)" if item["active_days"] < max_days else ""
 
         if cls == "A":
             parts.append("Top performer")
-            if item["revenue"] > med_revenue * 2:
-                parts.append(f"revenue ${item['revenue']:,.0f} is {item['revenue']/med_revenue:.1f}x the median")
+            if item["revenue_velocity"] > med_revenue * 2:
+                parts.append(f"${item['revenue_velocity']:,.0f}/day is {item['revenue_velocity']/med_revenue:.1f}x the median velocity{new_flag}")
             if item["margin_pct"] > 70:
                 parts.append(f"strong {item['margin_pct']:.0f}% margin")
             if item["velocity_trend"] > 0.5:

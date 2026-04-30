@@ -65,6 +65,18 @@ for status in ("completed", "processing"):
 
 print(f"Orders: {len(all_orders)}")
 
+# ── Fetch product date_created for active-days normalization ──────────────────
+product_ids = {item.get("product_id") for order in all_orders for item in order.get("line_items", []) if item.get("product_id")}
+product_dates = {}  # product_id → date_created str (YYYY-MM-DD)
+ids_list = list(product_ids)
+for i in range(0, len(ids_list), 100):
+    chunk = ids_list[i:i + 100]
+    data, _ = wc_get("/products", {"include": ",".join(str(x) for x in chunk), "per_page": 100})
+    for p in data:
+        product_dates[p["id"]] = (p.get("date_created") or "")[:10]
+    time.sleep(0.25)
+print(f"Product dates: {len(product_dates)} products")
+
 # ── Helpers ───────────────────────────────────────────────────────────────────
 SIZE_RE = re.compile(
     r'\b(\d+\.?\d*\s*(?:lb|lbs|oz|kg|g|pound|pounds|sqft|sq\s*ft)s?'
@@ -125,7 +137,7 @@ def infer_category(name, sku):
 # ── Aggregate ─────────────────────────────────────────────────────────────────
 # parent_id → { name, category, total_rev, total_qty, total_orders, variants: {size → {rev, qty}} }
 parents = defaultdict(lambda: {
-    "name": "", "sku_base": "", "category": "",
+    "name": "", "sku_base": "", "category": "", "date_created": "",
     "rev": 0.0, "qty": 0, "orders": 0,
     "variants": defaultdict(lambda: {"rev": 0.0, "qty": 0, "sku": ""})
 })
@@ -149,6 +161,7 @@ for order in all_orders:
         if not p["sku_base"]:
             p["sku_base"] = re.sub(r'-\d+[\.\d]*-?(LB|OZ|KG|KIT).*$', '', sku, flags=re.IGNORECASE)
         p["category"] = cat
+        p["date_created"] = product_dates.get(pid, "")
         p["rev"]    += rev
         p["qty"]    += qty
         p["orders"] += 1
@@ -156,8 +169,23 @@ for order in all_orders:
         p["variants"][size]["qty"] += qty
         p["variants"][size]["sku"]  = sku
 
-# ── Sort + classify ───────────────────────────────────────────────────────────
-rows = sorted(parents.items(), key=lambda x: x[1]["rev"], reverse=True)
+# ── Compute active_days and velocity per product ──────────────────────────────
+from datetime import date as _date
+
+for pid, r in parents.items():
+    created_str = r.get("date_created", "")
+    try:
+        created_date = _date.fromisoformat(created_str) if created_str else None
+    except ValueError:
+        created_date = None
+    if created_date and created_date > start_dt.date():
+        r["active_days"] = max(1, (now.date() - created_date).days)
+    else:
+        r["active_days"] = 14
+    r["velocity"] = round(r["rev"] / r["active_days"], 2)
+
+# ── Sort by velocity, apply ABC classification ────────────────────────────────
+rows = sorted(parents.items(), key=lambda x: x[1]["velocity"], reverse=True)
 total_rev = sum(r["rev"] for _, r in rows)
 
 cumulative = 0.0
@@ -166,8 +194,8 @@ for pid, r in rows:
     pct = cumulative / total_rev * 100
     r["class"]    = "A" if pct <= 80 else ("B" if pct <= 95 else "C")
     r["rev_pct"]  = r["rev"] / total_rev * 100
-    r["daily_rev"] = round(r["rev"] / 14, 2)
-    r["daily_qty"] = round(r["qty"] / 14, 1)
+    r["daily_rev"] = round(r["rev"] / r["active_days"], 2)
+    r["daily_qty"] = round(r["qty"] / r["active_days"], 1)
     r["pid"]       = pid
     # Sort variants by revenue
     r["variants"] = dict(sorted(r["variants"].items(), key=lambda x: x[1]["rev"], reverse=True))
@@ -183,6 +211,7 @@ out_data = {
     "generated": now.isoformat(),
     "period": "2026-02-25 to 2026-03-11",
     "period_days": 14,
+    "ranked_by": "velocity (rev/active_days)",
     "total_revenue": total_rev,
     "total_units": sum(r["qty"] for _, r in rows),
     "total_parent_skus": len(rows),
@@ -196,6 +225,7 @@ out_data = {
             "rev": round(r["rev"], 2),
             "qty": r["qty"],
             "orders": r["orders"],
+            "active_days": r["active_days"],
             "rev_pct": round(r["rev_pct"], 3),
             "daily_rev": r["daily_rev"],
             "daily_qty": r["daily_qty"],
