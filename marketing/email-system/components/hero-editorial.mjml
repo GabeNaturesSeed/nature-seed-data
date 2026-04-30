@@ -1,0 +1,32 @@
+<mj-section background-color="#1b4332" padding="64px 48px 56px">
+  <mj-column>
+    <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" font-weight="600" color="#d4a373" letter-spacing="0.14em" text-transform="uppercase" padding-bottom="20px">
+      Spring 2026 Collection
+    </mj-text>
+    <mj-text align="center" font-family="'Noto Serif Display', Georgia, serif" font-size="46px" font-weight="700" color="#ffffff" line-height="1.10" letter-spacing="-0.01em" padding-bottom="20px">
+      Beautiful Lawns<br/>
+      Start with<br/>
+      <span style="font-style:italic;color:#a8d5b5;">Seed you can trust.</span>
+    </mj-text>
+    <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="16px" color="#a8d5b5" line-height="1.6" padding-bottom="32px">
+      Expertly blended for your region. Farm-direct,<br/>
+      filler-free, and independently tested for germination.
+    </mj-text>
+    <mj-button
+      align="center"
+      background-color="#C96A2E"
+      color="#ffffff"
+      border-radius="2px"
+      font-family="Inter, Arial, sans-serif"
+      font-size="14px"
+      font-weight="600"
+      letter-spacing="0.04em"
+      text-transform="uppercase"
+      inner-padding="16px 36px"
+      href="https://naturesseed.com/collections/lawn-seed"
+    >
+      Shop Spring Seed
+    </mj-button>
+    <mj-divider border-color="#d4a373" border-width="3px" width="48px" padding="40px 0 0" />
+  </mj-column>
+</mj-section>
