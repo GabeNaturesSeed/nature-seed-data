@@ -20,7 +20,8 @@ WC_CS = env_vars["WC_CS"]
 CF_WORKER_URL = env_vars.get("CF_WORKER_URL", "")
 CF_WORKER_SECRET = env_vars.get("CF_WORKER_SECRET", "")
 
-def wc_get(path, params={}):
+def wc_get(path, params=None):
+    params = params or {}
     if CF_WORKER_URL and CF_WORKER_SECRET:
         p = dict(params); p["wc_path"] = path
         auth = base64.b64encode(f"{WC_CK}:{WC_CS}".encode()).decode()
@@ -103,7 +104,15 @@ PRODUCT_CATEGORIES = {
 }
 
 print("Fetching existing categories...")
-existing = wc_get("/products/categories", {"per_page": 100, "hide_empty": False})
+existing = []
+page = 1
+while True:
+    batch = wc_get("/products/categories", {"per_page": 100, "page": page, "hide_empty": False})
+    existing.extend(batch)
+    if len(batch) < 100:
+        break
+    page += 1
+    time.sleep(0.3)
 existing_by_slug = {c["slug"]: c for c in existing}
 
 if "regenerative-ag" in existing_by_slug:
@@ -111,6 +120,8 @@ if "regenerative-ag" in existing_by_slug:
     print(f"  Parent exists: ID {parent_id}")
 else:
     resp = wc_post("/products/categories", PARENT_CAT)
+    if resp.status_code not in (200, 201):
+        raise RuntimeError(f"Failed to create parent category: {resp.status_code} {resp.text[:200]}")
     parent_id = resp.json()["id"]
     print(f"  Created parent: ID {parent_id}")
 time.sleep(0.3)
@@ -123,6 +134,8 @@ for subcat in SUBCATEGORIES:
     else:
         payload = {**subcat, "parent": parent_id}
         resp = wc_post("/products/categories", payload)
+        if resp.status_code not in (200, 201):
+            raise RuntimeError(f"Failed to create subcategory {subcat['slug']}: {resp.status_code} {resp.text[:200]}")
         subcat_slug_to_id[subcat["slug"]] = resp.json()["id"]
         print(f"  Created subcat: {subcat['slug']} → ID {subcat_slug_to_id[subcat['slug']]}")
     time.sleep(0.3)
