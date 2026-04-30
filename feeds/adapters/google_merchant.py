@@ -36,7 +36,8 @@ class GoogleMerchantAdapter(BaseAdapter):
             for item in data.get("resources", []):
                 price_info = item.get("price", {})
                 products.append({
-                    "sku": item.get("offerId", ""),
+                    "sku": item.get("mpn", "") or item.get("offerId", ""),
+                    "gmc_id": item.get("offerId", ""),
                     "name": item.get("title", ""),
                     "price": price_info.get("value", ""),
                     "stock_status": "instock" if item.get("availability") == "in stock" else "outofstock",
