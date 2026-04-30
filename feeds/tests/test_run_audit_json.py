@@ -17,6 +17,7 @@ def test_run_audit_writes_latest_results_json(tmp_path, monkeypatch):
 
     with patch("feeds.digest.run_audit.MASTER_PATH", master_path), \
          patch("feeds.digest.run_audit.DIGEST_DIR", digest_dir), \
+         patch("feeds.digest.run_audit.load_env", return_value={}), \
          patch("feeds.digest.run_audit.WalmartAdapter") as wa, \
          patch("feeds.digest.run_audit.AmazonAdapter") as aa, \
          patch("feeds.digest.run_audit.GoogleMerchantAdapter") as ga, \
@@ -45,5 +46,6 @@ def test_run_audit_writes_latest_results_json(tmp_path, monkeypatch):
     assert results_path.exists(), "latest_results.json not written"
     data = json.loads(results_path.read_text())
     assert isinstance(data, list)
+    assert len(data) == 8
     assert data[0]["channel"] == "walmart"
     assert data[0]["coverage"]["wc_total"] == 10
