@@ -24,7 +24,7 @@ def test_coverage_relaxed_at_offseason():
     assert score == 100
 
 def test_coverage_low_at_peak():
-    # 42% actual vs 90% baseline at index 1.0 → expected = 0.9 → score = 0.42/0.9*100 = 46
+    # 42% actual vs 90% baseline at index 1.0 → expected = 0.9 → score = round(0.42/0.9*100) = round(46.67) = 47
     score = score_coverage(channel_total=42, wc_total=100, baseline_ratio=0.9, seasonality_index=1.0)
     assert score == 47  # min(100, round(42/90*100))
 
@@ -151,7 +151,7 @@ MOCK_SEASONALITY = {"index": 0.537, "label": "Deep Off-Season", "iso_week": 18}
 def test_build_snapshot_walmart_scores():
     snapshot = build_snapshot(MOCK_RESULTS, MOCK_SEASONALITY, CHANNEL_BASELINES)
     walmart = snapshot["channels"]["walmart"]
-    assert walmart["coverage_score"] is not None
+    assert walmart["coverage_score"] == 100
     assert walmart["quality_score"] == round((1 - 55/200) * 100)
     # drift: 1 price (weight 2.0) + 1 stock (weight 1.5) out of 200
     # weighted = (1*2.0 + 1*1.5)/200*100 = 1.75 → score = 98

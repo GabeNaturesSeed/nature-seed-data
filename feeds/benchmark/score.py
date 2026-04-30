@@ -2,9 +2,10 @@ import json
 from datetime import date
 from pathlib import Path
 
-RESULTS_PATH = Path("feeds/digest/latest_results.json")
-SEASONALITY_PATH = Path("docs/data/seasonality.json")
-BENCHMARK_PATH = Path("feeds/benchmark/benchmark.json")
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+RESULTS_PATH = _REPO_ROOT / "feeds/digest/latest_results.json"
+SEASONALITY_PATH = _REPO_ROOT / "docs/data/seasonality.json"
+BENCHMARK_PATH = _REPO_ROOT / "feeds/benchmark/benchmark.json"
 
 CHANNEL_BASELINES = {
     "walmart": 0.42,
@@ -49,7 +50,7 @@ def score_drift(drift_price, drift_stock, channel_total, is_discovery):
     if channel_total == 0:
         return None
     weighted = (drift_price * 2.0 + drift_stock * 1.5) / channel_total * 100
-    return max(0, round(100 - weighted))
+    return min(100, max(0, round(100 - weighted)))
 
 
 def rag(score, thresholds):
@@ -92,6 +93,8 @@ def load_seasonality_index():
     iso_week = str(date.today().isocalendar()[1])
     baselines = idx["weekly_baselines"]
     max_revenue = max(float(b["revenue_mean"]) for b in baselines.values())
+    if iso_week not in baselines:
+        raise ValueError(f"Week {iso_week} not in seasonality data — check docs/data/seasonality.json")
     current = float(baselines[iso_week]["revenue_mean"])
     return {
         "index": current / max_revenue,
@@ -212,7 +215,7 @@ def run_scoring(digest_path=None):
     for channel in CHANNEL_ORDER:
         ch = snapshot["channels"].get(channel, {})
         if "error" in ch:
-            print(f"  {channel}: ERROR — {ch['error'][:60]}")
+            print(f"  {channel}: ERROR — {str(ch['error'])[:60]}")
         elif ch:
             print(f"  {channel}: cov={ch.get('coverage_score')} qual={ch.get('quality_score')} drift={ch.get('drift_score')} composite={ch.get('composite')}")
     return snapshot
