@@ -1,0 +1,64 @@
+<mjml>
+  <mj-head>
+    <mj-preview>Expertly blended for your region — seed you can trust.</mj-preview>
+
+    <mj-font name="Noto Serif Display" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,600;0,700;1,700&family=Inter:wght@400;500;600&display=swap" />
+
+    <mj-attributes>
+      <mj-all font-family="Inter, Arial, sans-serif" />
+      <mj-body width="620px" background-color="#f0ece4" />
+    </mj-attributes>
+
+    <mj-style>
+      @media only screen and (max-width: 480px) {
+        .product-col { display: block !important; width: 100% !important; }
+      }
+    </mj-style>
+  </mj-head>
+
+  <mj-body>
+    <!-- Preheader spacer (invisible — extends preview text) -->
+    <mj-section padding="0">
+      <mj-column>
+        <mj-text font-size="1px" color="#f0ece4" padding="0">
+          &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-include path="../components/header.mjml" />
+    <mj-include path="../components/hero-editorial.mjml" />
+
+    <!-- Section label -->
+    <mj-section background-color="#ffffff" padding="36px 40px 0">
+      <mj-column>
+        <mj-text
+          align="center"
+          font-family="'Noto Serif Display', Georgia, serif"
+          font-size="24px"
+          font-weight="600"
+          color="#1b4332"
+          padding-bottom="8px"
+        >
+          This Season's Picks
+        </mj-text>
+        <mj-text
+          align="center"
+          font-family="Inter, Arial, sans-serif"
+          font-size="14px"
+          color="#6c757d"
+          line-height="1.5"
+          padding="0"
+        >
+          Regionally tested blends, ready to ship within one business day.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-include path="../components/product-grid-2.mjml" />
+    <mj-include path="../components/product-single.mjml" />
+    <mj-include path="../components/usps-bar.mjml" />
+    <mj-include path="../components/cta-block.mjml" />
+    <mj-include path="../components/footer.mjml" />
+  </mj-body>
+</mjml>
