@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useJsonData } from '@/hooks/useJsonData';
 import { AbcReportData, AbcItem } from '@/lib/types';
 import { fmt, fmtInt, pctPlain } from '@/lib/formatters';
@@ -13,7 +13,7 @@ import {
 } from 'recharts';
 
 type ClassFilter = 'All' | 'A' | 'B' | 'C';
-type SortKey = keyof AbcItem;
+type SortKey = 'class' | 'sku' | 'name' | 'revenue' | 'margin' | 'margin_pct' | 'units' | 'orders' | 'avg_basket' | 'daily_velocity' | 'backorder_rate' | 'reason';
 type SortDir = 'asc' | 'desc';
 
 const CLASS_COLORS: Record<string, string> = {
@@ -31,6 +31,7 @@ export default function AbcReportPage() {
   const [search, setSearch] = useState('');
   const [sortKey, setSortKey] = useState<SortKey>('revenue');
   const [sortDir, setSortDir] = useState<SortDir>('desc');
+  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
 
   // Set default season once data loads
   const activeSeason = selectedSeason || seasonKeys[0] || '';
@@ -51,8 +52,8 @@ export default function AbcReportPage() {
     }
 
     items.sort((a, b) => {
-      const av = a[sortKey];
-      const bv = b[sortKey];
+      const av = a[sortKey as keyof AbcItem];
+      const bv = b[sortKey as keyof AbcItem];
       if (typeof av === 'number' && typeof bv === 'number') {
         return sortDir === 'asc' ? av - bv : bv - av;
       }
@@ -106,6 +107,14 @@ export default function AbcReportPage() {
       {cls}
     </span>
   );
+
+  const toggleRow = (sku: string) => {
+    setExpandedRows(prev => {
+      const next = new Set(prev);
+      next.has(sku) ? next.delete(sku) : next.add(sku);
+      return next;
+    });
+  };
 
   const filterTabs: ClassFilter[] = ['All', 'A', 'B', 'C'];
 
@@ -214,6 +223,7 @@ export default function AbcReportPage() {
         <table className="w-full text-sm">
           <thead>
             <tr style={{ background: '#2d6A4F' }}>
+              <th className="text-white py-3 px-2 rounded-tl-xl w-6" />
               {([
                 ['class', 'Class'],
                 ['sku', 'SKU'],
@@ -233,7 +243,7 @@ export default function AbcReportPage() {
                   onClick={() => handleSort(key)}
                   className={`text-white py-3 px-3 font-medium cursor-pointer select-none whitespace-nowrap ${
                     key === 'name' || key === 'reason' ? 'text-left' : 'text-right'
-                  } ${i === 0 ? 'rounded-tl-xl text-left' : ''} ${i === arr.length - 1 ? 'rounded-tr-xl' : ''}`}
+                  } ${i === arr.length - 1 ? 'rounded-tr-xl' : ''}`}
                 >
                   {label}{sortArrow(key)}
                 </th>
@@ -241,25 +251,57 @@ export default function AbcReportPage() {
             </tr>
           </thead>
           <tbody>
-            {filteredItems.map((item, i) => (
-              <tr key={item.sku} className={i % 2 === 0 ? 'bg-surface-lowest' : 'bg-surface-low'}>
-                <td className="py-2.5 px-3">{classChip(item.class)}</td>
-                <td className="py-2.5 px-3 text-right font-mono text-xs">{item.sku}</td>
-                <td className="py-2.5 px-3 text-left max-w-[200px] truncate" title={item.name}>{item.name}</td>
-                <td className="py-2.5 px-3 text-right font-semibold">{fmt(item.revenue)}</td>
-                <td className="py-2.5 px-3 text-right">{fmt(item.margin)}</td>
-                <td className="py-2.5 px-3 text-right">{pctPlain(item.margin_pct)}</td>
-                <td className="py-2.5 px-3 text-right">{fmtInt(item.units)}</td>
-                <td className="py-2.5 px-3 text-right">{fmtInt(item.orders)}</td>
-                <td className="py-2.5 px-3 text-right">{fmt(item.avg_basket)}</td>
-                <td className="py-2.5 px-3 text-right">{item.daily_velocity.toFixed(1)}</td>
-                <td className="py-2.5 px-3 text-right">{pctPlain(item.backorder_rate)}</td>
-                <td className="py-2.5 px-3 text-left text-xs text-brand-neutral/60 max-w-[180px] truncate" title={item.reason}>{item.reason}</td>
-              </tr>
-            ))}
+            {filteredItems.map((item, i) => {
+              const hasVariants = (item.variants?.length ?? 0) > 1;
+              const isExpanded = expandedRows.has(item.sku);
+              const rowBg = i % 2 === 0 ? 'bg-surface-lowest' : 'bg-surface-low';
+              return (
+                <React.Fragment key={item.sku}>
+                  <tr className={rowBg}>
+                    <td className="py-2.5 px-2 text-center">
+                      {hasVariants && (
+                        <button
+                          onClick={() => toggleRow(item.sku)}
+                          className="text-brand-neutral/40 hover:text-brand-neutral transition-colors leading-none"
+                          aria-label={isExpanded ? 'Collapse variants' : 'Expand variants'}
+                        >
+                          {isExpanded ? '▼' : '▶'}
+                        </button>
+                      )}
+                    </td>
+                    <td className="py-2.5 px-3">{classChip(item.class)}</td>
+                    <td className="py-2.5 px-3 text-right font-mono text-xs">{item.sku}</td>
+                    <td className="py-2.5 px-3 text-left max-w-[200px] truncate" title={item.name}>{item.name}</td>
+                    <td className="py-2.5 px-3 text-right font-semibold">{fmt(item.revenue)}</td>
+                    <td className="py-2.5 px-3 text-right">{fmt(item.margin)}</td>
+                    <td className="py-2.5 px-3 text-right">{pctPlain(item.margin_pct)}</td>
+                    <td className="py-2.5 px-3 text-right">{fmtInt(item.units)}</td>
+                    <td className="py-2.5 px-3 text-right">{fmtInt(item.orders)}</td>
+                    <td className="py-2.5 px-3 text-right">{fmt(item.avg_basket)}</td>
+                    <td className="py-2.5 px-3 text-right">{item.daily_velocity.toFixed(1)}</td>
+                    <td className="py-2.5 px-3 text-right">{pctPlain(item.backorder_rate)}</td>
+                    <td className="py-2.5 px-3 text-left text-xs text-brand-neutral/60 max-w-[180px] truncate" title={item.reason}>{item.reason}</td>
+                  </tr>
+                  {isExpanded && item.variants?.map(v => (
+                    <tr key={v.sku} className={`${rowBg} opacity-80`}>
+                      <td />
+                      <td />
+                      <td className="py-1.5 px-3 text-right font-mono text-xs text-brand-neutral/60 pl-8">↳ {v.sku}</td>
+                      <td className="py-1.5 px-3 text-left text-xs text-brand-neutral/70 max-w-[200px] truncate" title={v.name}>{v.name}</td>
+                      <td className="py-1.5 px-3 text-right text-xs">{fmt(v.revenue)}</td>
+                      <td />
+                      <td />
+                      <td className="py-1.5 px-3 text-right text-xs">{fmtInt(v.units)}</td>
+                      <td className="py-1.5 px-3 text-right text-xs">{fmtInt(v.orders)}</td>
+                      <td /><td /><td />
+                    </tr>
+                  ))}
+                </React.Fragment>
+              );
+            })}
             {filteredItems.length === 0 && (
               <tr>
-                <td colSpan={12} className="py-8 text-center text-brand-neutral/40">No products match your filters</td>
+                <td colSpan={13} className="py-8 text-center text-brand-neutral/40">No products match your filters</td>
               </tr>
             )}
           </tbody>

@@ -295,9 +295,18 @@ export interface InventoryData {
 }
 
 // ── ABC Product Report ──
+export interface AbcVariant {
+  sku: string;
+  name: string;
+  revenue: number;
+  units: number;
+  orders: number;
+}
+
 export interface AbcItem {
   sku: string;
   name: string;
+  product_id?: number;
   class: 'A' | 'B' | 'C';
   composite_score: number;
   revenue: number;
@@ -311,6 +320,7 @@ export interface AbcItem {
   backorder_rate: number;
   cancellation_rate: number;
   reason: string;
+  variants?: AbcVariant[];
 }
 
 export interface AbcSeason {

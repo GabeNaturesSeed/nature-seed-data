@@ -255,112 +255,132 @@ def load_or_pull_orders(season_key, force_refresh=False):
 # AGGREGATION
 # ══════════════════════════════════════════════════════════════
 
-def aggregate_skus(completed_orders, cancelled_orders, cogs_lookup, date_start, date_end):
-    """Aggregate per-SKU metrics from order data."""
-    sku_data = defaultdict(lambda: {
-        "name": "",
-        "revenue": 0.0,
-        "units": 0,
-        "orders": set(),
-        "order_totals": [],
+def build_parent_map(product_ids):
+    """Fetch parent product SKU/name for a set of product_ids via WC /products bulk call."""
+    parent_map = {}
+    ids_list = list(product_ids)
+    for i in range(0, len(ids_list), 100):
+        chunk = ids_list[i:i + 100]
+        resp = wc_get("/products", {"include": ",".join(str(x) for x in chunk), "per_page": 100})
+        for p in resp.json():
+            parent_map[p["id"]] = {"sku": p.get("sku", ""), "name": p.get("name", "")}
+        time.sleep(0.25)
+    print(f"  [Parent Map] {len(parent_map)} parent products mapped")
+    return parent_map
+
+
+def aggregate_by_parent(completed_orders, cancelled_orders, cogs_lookup, date_start, date_end, parent_map):
+    """Aggregate metrics grouped by product_id (parent product), tracking variants."""
+    parent_data = defaultdict(lambda: {
+        "sku": "", "name": "",
+        "revenue": 0.0, "units": 0, "orders": set(), "order_totals": [],
         "weekly_revenue": defaultdict(float),
         "backordered_qty": 0,
+        "variants": defaultdict(lambda: {"sku": "", "name": "", "revenue": 0.0, "units": 0, "orders": 0}),
     })
 
-    # Parse start date for week number calc
     start_date = date.fromisoformat(date_start)
 
     for order in completed_orders:
         order_id = order.get("id")
         order_total = float(order.get("total", 0))
         order_date_str = order.get("date_created", "")[:10]
-
         try:
             order_date = date.fromisoformat(order_date_str)
         except (ValueError, TypeError):
             continue
-
-        # Week number relative to season start
         week_num = (order_date - start_date).days // 7
 
         for item in order.get("line_items", []):
+            pid = item.get("product_id", 0)
             sku = (item.get("sku") or "").strip()
-            if not sku:
-                continue
+            name = item.get("name", "")
             qty = item.get("quantity", 0)
             line_total = float(item.get("total", 0))
 
-            sku_data[sku]["name"] = item.get("name", "")
-            sku_data[sku]["revenue"] += line_total
-            sku_data[sku]["units"] += qty
-            sku_data[sku]["orders"].add(order_id)
-            sku_data[sku]["order_totals"].append(order_total)
-            sku_data[sku]["weekly_revenue"][week_num] += line_total
+            info = parent_map.get(pid, {})
+            parent_sku = info.get("sku") or str(pid)
+            parent_name = info.get("name") or name
 
-            # Check backorder meta
+            d = parent_data[pid]
+            d["sku"] = parent_sku
+            d["name"] = parent_name
+            d["revenue"] += line_total
+            d["units"] += qty
+            d["orders"].add(order_id)
+            d["order_totals"].append(order_total)
+            d["weekly_revenue"][week_num] += line_total
+
+            if sku:
+                d["variants"][sku]["sku"] = sku
+                d["variants"][sku]["name"] = name
+                d["variants"][sku]["revenue"] += line_total
+                d["variants"][sku]["units"] += qty
+                d["variants"][sku]["orders"] += 1
+
             for meta in item.get("meta_data", []):
                 if meta.get("key") == "_backordered" and meta.get("value"):
                     try:
-                        sku_data[sku]["backordered_qty"] += int(meta["value"])
+                        d["backordered_qty"] += int(meta["value"])
                     except (ValueError, TypeError):
                         pass
 
-    # Cancelled order SKU counts
-    cancelled_skus = defaultdict(int)  # sku → count of cancelled orders containing it
+    # Cancelled order counts by product_id
+    cancelled_pids = defaultdict(int)
     for order in cancelled_orders:
-        order_skus_seen = set()
+        pids_seen = set()
         for item in order.get("line_items", []):
-            sku = (item.get("sku") or "").strip()
-            if sku and sku not in order_skus_seen:
-                cancelled_skus[sku] += 1
-                order_skus_seen.add(sku)
+            pid = item.get("product_id", 0)
+            if pid and pid not in pids_seen:
+                cancelled_pids[pid] += 1
+                pids_seen.add(pid)
 
-    # Calculate days in period for velocity
     end_date = date.fromisoformat(date_end)
     days_in_period = max((end_date - start_date).days, 1)
 
-    # Build final metrics
     results = []
-    for sku, d in sku_data.items():
+    for pid, d in parent_data.items():
         order_count = len(d["orders"])
         revenue = d["revenue"]
         units = d["units"]
 
-        # Margin
-        unit_cost = cogs_lookup.get(sku)
-        if unit_cost is not None:
-            margin = revenue - (unit_cost * units)
-        else:
-            margin = revenue * DEFAULT_MARGIN_PCT
-
+        # Margin: sum COGS per variant SKU, fall back to default margin pct
+        total_cogs = 0.0
+        has_cogs = False
+        for vsku, vdata in d["variants"].items():
+            unit_cost = cogs_lookup.get(vsku)
+            if unit_cost is not None:
+                total_cogs += unit_cost * vdata["units"]
+                has_cogs = True
+        margin = (revenue - total_cogs) if has_cogs else (revenue * DEFAULT_MARGIN_PCT)
         margin_pct = (margin / revenue * 100) if revenue > 0 else 0
 
-        # Avg basket size
         avg_basket = _mean(d["order_totals"]) if d["order_totals"] else 0
-
-        # Daily velocity
         daily_velocity = round(units / days_in_period, 2)
 
-        # Velocity trend (linear regression slope of weekly revenue)
         weekly = d["weekly_revenue"]
         if len(weekly) >= 2:
             weeks = sorted(weekly.keys())
-            x = [float(w) for w in weeks]
-            y = [weekly[w] for w in weeks]
-            velocity_trend = round(_linregress_slope(x, y), 4)
+            velocity_trend = round(_linregress_slope([float(w) for w in weeks], [weekly[w] for w in weeks]), 4)
         else:
             velocity_trend = 0.0
 
-        # Backorder rate
         backorder_rate = d["backordered_qty"] / units if units > 0 else 0.0
 
-        # Cancellation rate
-        total_appearances = order_count + cancelled_skus.get(sku, 0)
-        cancellation_rate = cancelled_skus.get(sku, 0) / total_appearances if total_appearances > 0 else 0.0
+        total_appearances = order_count + cancelled_pids.get(pid, 0)
+        cancellation_rate = cancelled_pids.get(pid, 0) / total_appearances if total_appearances > 0 else 0.0
+
+        variants = sorted(
+            [{"sku": v["sku"], "name": v["name"], "revenue": round(v["revenue"], 2),
+              "units": v["units"], "orders": v["orders"]}
+             for v in d["variants"].values()],
+            key=lambda x: x["revenue"], reverse=True,
+        )
 
         results.append({
-            "sku": sku,
+            "sku": d["sku"],
             "name": d["name"],
+            "product_id": pid,
             "revenue": round(revenue, 2),
             "margin": round(margin, 2),
             "margin_pct": round(margin_pct, 1),
@@ -371,6 +391,7 @@ def aggregate_skus(completed_orders, cancelled_orders, cogs_lookup, date_start, 
             "velocity_trend": velocity_trend,
             "backorder_rate": round(backorder_rate, 4),
             "cancellation_rate": round(cancellation_rate, 4),
+            "variants": variants,
         })
 
     return results
@@ -519,8 +540,12 @@ def process_season(season_key, cogs_lookup, force_refresh=False):
     completed, cancelled, effective_end = load_or_pull_orders(season_key, force_refresh)
     print(f"  Orders: {len(completed)} completed/processing, {len(cancelled)} cancelled")
 
-    items = aggregate_skus(completed, cancelled, cogs_lookup, start, effective_end)
-    print(f"  SKUs: {len(items)}")
+    # Build parent product map from all product_ids in completed orders
+    product_ids = {item.get("product_id") for order in completed for item in order.get("line_items", []) if item.get("product_id")}
+    parent_map = build_parent_map(product_ids)
+
+    items = aggregate_by_parent(completed, cancelled, cogs_lookup, start, effective_end, parent_map)
+    print(f"  Parent products: {len(items)}")
 
     items = score_and_classify(items)
     items = generate_reasons(items)

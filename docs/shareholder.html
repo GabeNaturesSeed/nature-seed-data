@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nature's Seed — Shareholder Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f0f4f0;
+  color: #1a2e1a;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.dash-header {
+  background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+  color: white;
+  padding: 24px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dash-header .brand { font-size: 0.85em; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; margin-bottom: 4px; }
+.dash-header h1 { font-size: 1.6em; font-weight: 700; letter-spacing: -0.02em; }
+.dash-header .meta { text-align: right; }
+.dash-header .as-of { font-size: 0.85em; opacity: 0.75; margin-bottom: 6px; }
+.target-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 0.8em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.floor-badge {
+  display: inline-block;
+  background: rgba(255,200,100,0.2);
+  border: 1px solid rgba(255,200,100,0.4);
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: 0.72em;
+  color: #ffd97d;
+  margin-top: 6px;
+}
+
+/* ── LAYOUT ── */
+.container { max-width: 1400px; margin: 0 auto; padding: 28px 32px 48px; }
+
+.section-label {
+  font-size: 0.7em;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #2d6a4f;
+  margin-bottom: 14px;
+}
+
+.widget-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 18px;
+}
+.widget-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+/* ── WIDGET CARD ── */
+.widget {
+  background: white;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  border-top: 3px solid #2d6a4f;
+  display: flex;
+  flex-direction: column;
+}
+.widget.ytd-widget { border-top-color: #52b788; }
+.widget.placeholder { border-top-color: #ccc; background: #fafafa; }
+
+.widget-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.widget-title {
+  font-size: 0.7em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #2d6a4f;
+}
+.ytd-widget .widget-title { color: #52b788; }
+.widget-icon { font-size: 1.2em; opacity: 0.4; }
+
+/* ── METRIC PRIMARY ── */
+.metric-primary {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.metric-primary .amount {
+  font-size: 2em;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #1b4332;
+  line-height: 1;
+}
+.metric-primary .label {
+  font-size: 0.72em;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── METRIC ROW ── */
+.metric-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.metric-item { flex: 1; min-width: 80px; }
+.metric-item .val {
+  font-size: 1.0em;
+  font-weight: 700;
+  color: #1b4332;
+}
+.metric-item .lbl {
+  font-size: 0.67em;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 2px;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-section {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
+}
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 5px;
+}
+.progress-label {
+  font-size: 0.67em;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.progress-pct {
+  font-size: 1.05em;
+  font-weight: 700;
+  color: #1b4332;
+}
+.progress-track {
+  width: 100%;
+  height: 10px;
+  background: #e8f5e9;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2d6a4f, #52b788);
+  border-radius: 6px;
+}
+.progress-fill.behind { background: linear-gradient(90deg, #e67e22, #f39c12); }
+.progress-fill.critical { background: linear-gradient(90deg, #c0392b, #e74c3c); }
+.progress-fill.on-track { background: linear-gradient(90deg, #27ae60, #52b788); }
+.progress-context {
+  font-size: 0.66em;
+  color: #999;
+  line-height: 1.4;
+}
+
+/* ── CHANNEL BARS ── */
+.channel-bars { margin: 8px 0 12px; }
+.channel-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+}
+.channel-name { font-size: 0.72em; color: #555; width: 68px; white-space: nowrap; }
+.channel-bar-track { flex: 1; height: 7px; background: #f0f4f0; border-radius: 4px; overflow: hidden; }
+.channel-bar-fill { height: 100%; border-radius: 4px; }
+.channel-bar-fill.amazon  { background: #f39c12; }
+.channel-bar-fill.walmart { background: #0071ce; }
+.channel-bar-fill.google  { background: #4285f4; }
+.channel-bar-fill.ctv     { background: #a855f7; }
+.channel-pct { font-size: 0.67em; font-weight: 700; color: #555; width: 60px; text-align: right; white-space: nowrap; }
+.channel-amt { font-size: 0.67em; color: #aaa; width: 56px; text-align: right; }
+
+/* ── MER DISPLAY ── */
+.mer-display {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 6px 0 12px;
+}
+.mer-value {
+  font-size: 2.5em;
+  font-weight: 700;
+  color: #1b4332;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.mer-meta .mer-label { font-size: 0.68em; color: #999; text-transform: uppercase; letter-spacing: 0.06em; }
+.mer-meta .mer-sub   { font-size: 0.75em; color: #666; margin-top: 3px; }
+.mer-meta .mer-sub span { font-weight: 700; color: #e67e22; }
+
+/* ── RETURN CUSTOMER ── */
+.return-display {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin: 6px 0 12px;
+}
+.return-big { flex: 1; }
+.return-big .rate { font-size: 2.5em; font-weight: 700; color: #1b4332; letter-spacing: -0.03em; line-height: 1; }
+.return-big .rate-label { font-size: 0.7em; color: #999; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 3px; }
+.ltv-box {
+  background: #f0f9f4;
+  border: 1px solid #c8e6c9;
+  border-radius: 10px;
+  padding: 10px 14px;
+  text-align: center;
+}
+.ltv-box .ltv-val { font-size: 1.4em; font-weight: 700; color: #2d6a4f; }
+.ltv-box .ltv-label { font-size: 0.65em; color: #888; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+
+.monthly-mini {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.monthly-mini-item { flex: 1; text-align: center; background: #f8faf8; border-radius: 6px; padding: 5px 3px; }
+.monthly-mini-item .mm-val { font-size: 0.8em; font-weight: 700; color: #2d6a4f; }
+.monthly-mini-item .mm-lbl { font-size: 0.6em; color: #aaa; text-transform: uppercase; }
+
+/* ── INFLUENCER PLACEHOLDER ── */
+.coming-soon {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  flex: 1; padding: 20px 0; text-align: center;
+}
+.coming-soon .cs-icon { font-size: 2.2em; opacity: 0.2; margin-bottom: 10px; }
+.coming-soon .cs-text { font-size: 0.85em; color: #bbb; font-weight: 600; margin-bottom: 5px; }
+.coming-soon .cs-sub  { font-size: 0.72em; color: #ccc; line-height: 1.4; }
+
+/* ── DIVIDER ── */
+.section-divider {
+  border: none;
+  border-top: 2px solid #d4e8d4;
+  margin: 10px 0 28px;
+}
+
+/* ── STRATEGY SECTION ── */
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.action-card {
+  background: white; border-radius: 12px; padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.action-card .action-num { font-size: 0.65em; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #2d6a4f; }
+.action-card h3 { font-size: 0.92em; font-weight: 700; color: #1b4332; line-height: 1.3; }
+.action-card p  { font-size: 0.78em; color: #666; line-height: 1.5; }
+.action-card .action-status {
+  display: inline-block; padding: 3px 10px; border-radius: 12px;
+  font-size: 0.65em; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  margin-top: 4px; align-self: flex-start;
+}
+.status-urgent    { background: #fde8e8; color: #9b1c1c; }
+.status-active    { background: #d4edda; color: #155724; }
+.status-launched  { background: #cce5ff; color: #004085; }
+.status-progress  { background: #fff3cd; color: #856404; }
+.status-planned   { background: #f0f0f0; color: #666; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1000px) {
+  .widget-grid-3 { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .widget-grid-3, .widget-grid-2 { grid-template-columns: 1fr; }
+  .container { padding: 16px 14px 40px; }
+  .dash-header { flex-direction: column; gap: 14px; padding: 20px; }
+  .dash-header .meta { text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<div class="dash-header">
+  <div>
+    <div class="brand">Nature's Seed</div>
+    <h1>Shareholder Dashboard</h1>
+  </div>
+  <div class="meta">
+    <div class="as-of">As of April 20, 2026 &nbsp;·&nbsp; 20 of 30 days in month</div>
+    <div class="target-badge">$5M Annual Target</div>
+    <div class="floor-badge">Floor MER 3.0x &nbsp;·&nbsp; Derived from 2026 P&amp;L actuals</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!--  MTD WIDGETS                                       -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="section-label">Month to Date — April 2026</div>
+
+  <div class="widget-grid-3">
+
+    <!-- A: DTC -->
+    <div class="widget">
+      <div class="widget-header">
+        <div class="widget-title">DTC Revenue — WooCommerce</div>
+        <div class="widget-icon">🌱</div>
+      </div>
+      <div class="metric-primary">
+        <div class="amount" id="dtc-mtd">—</div>
+        <div class="label">MTD</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-item">
+          <div class="val" id="dtc-projected">—</div>
+          <div class="lbl">Month-End Proj.</div>
+        </div>
+        <div class="metric-item">
+          <div class="val" id="dtc-aov">—</div>
+          <div class="lbl">Avg Order</div>
+        </div>
+        <div class="metric-item">
+          <div class="val" id="dtc-orders">—</div>
+          <div class="lbl">Orders</div>
+        </div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-header">
+          <div class="progress-label">DTC run rate vs $5M April target (80% share)</div>
+          <div class="progress-pct" id="dtc-pct">—</div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill behind" id="dtc-bar" style="width:0%"></div>
+        </div>
+        <div class="progress-context" id="dtc-context">—</div>
+      </div>
+    </div>
+
+    <!-- B: MARKETPLACE -->
+    <div class="widget">
+      <div class="widget-header">
+        <div class="widget-title">Marketplace Revenue</div>
+        <div class="widget-icon">🛒</div>
+      </div>
+      <div class="metric-primary">
+        <div class="amount" id="mp-total">—</div>
+        <div class="label">MTD Total</div>
+      </div>
+      <div class="metric-row" style="margin-bottom:6px">
+        <div class="metric-item">
+          <div class="val" id="mp-projected">—</div>
+          <div class="lbl">Month-End Proj.</div>
+        </div>
+        <div class="metric-item">
+          <div class="val" id="mp-orders">—</div>
+          <div class="lbl">Orders</div>
+        </div>
+      </div>
+      <div class="channel-bars">
+        <div class="channel-row">
+          <div class="channel-name">Amazon</div>
+          <div class="channel-bar-track"><div class="channel-bar-fill amazon" id="amz-bar" style="width:0%"></div></div>
+          <div class="channel-pct" id="amz-pct">—</div>
+          <div class="channel-amt" id="amz-amt">—</div>
+        </div>
+        <div class="channel-row">
+          <div class="channel-name">Walmart</div>
+          <div class="channel-bar-track"><div class="channel-bar-fill walmart" id="wmt-bar" style="width:0%"></div></div>
+          <div class="channel-pct" id="wmt-pct">—</div>
+          <div class="channel-amt" id="wmt-amt">—</div>
+        </div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-header">
+          <div class="progress-label">MP run rate vs $5M April target (20% share)</div>
+          <div class="progress-pct" id="mp-pct">—</div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill behind" id="mp-bar" style="width:0%"></div>
+        </div>
+        <div class="progress-context" id="mp-context">—</div>
+      </div>
+    </div>
+
+    <!-- C: AD SPEND & MER -->
+    <div class="widget">
+      <div class="widget-header">
+        <div class="widget-title">Ad Spend &amp; Blended MER</div>
+        <div class="widget-icon">📈</div>
+      </div>
+      <div class="mer-display">
+        <div class="mer-value" id="mer-val">—</div>
+        <div class="mer-meta">
+          <div class="mer-label">Blended MER</div>
+          <div class="mer-sub">Floor MER <span id="mer-floor">—</span>x &nbsp;·&nbsp; Required: <span id="mer-required">—</span></div>
+        </div>
+      </div>
+      <div class="metric-row" style="margin-bottom:6px">
+        <div class="metric-item">
+          <div class="val" id="spend-total">—</div>
+          <div class="lbl">MTD Spend</div>
+        </div>
+        <div class="metric-item">
+          <div class="val" id="spend-projected">—</div>
+          <div class="lbl">Month-End Proj.</div>
+        </div>
+      </div>
+      <div class="channel-bars">
+        <div class="channel-row">
+          <div class="channel-name">Google Ads</div>
+          <div class="channel-bar-track"><div class="channel-bar-fill google" id="google-bar" style="width:0%"></div></div>
+          <div class="channel-pct" id="google-pct">—</div>
+          <div class="channel-amt" id="google-amt">—</div>
+        </div>
+        <div class="channel-row">
+          <div class="channel-name">CTV</div>
+          <div class="channel-bar-track"><div class="channel-bar-fill ctv" id="ctv-bar" style="width:0%"></div></div>
+          <div class="channel-pct" id="ctv-pct">—</div>
+          <div class="channel-amt" id="ctv-amt">—</div>
+        </div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-header">
+          <div class="progress-label">Spend deployed vs $5M floor MER budget</div>
+          <div class="progress-pct" id="mer-pct">—</div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill behind" id="mer-bar" style="width:0%"></div>
+        </div>
+        <div class="progress-context" id="mer-context">—</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="widget-grid-2">
+
+    <!-- D: RETURN CUSTOMERS -->
+    <div class="widget">
+      <div class="widget-header">
+        <div class="widget-title">Return Customer Behavior</div>
+        <div class="widget-icon">🔄</div>
+      </div>
+      <div class="return-display">
+        <div class="return-big">
+          <div class="rate" id="return-rate">—</div>
+          <div class="rate-label">Returning this month</div>
+        </div>
+        <div class="ltv-box">
+          <div class="ltv-val" id="ltv-val">—</div>
+          <div class="ltv-label">12M LTV</div>
+        </div>
+      </div>
+      <div class="monthly-mini" id="monthly-mini-row"></div>
+      <div style="font-size:0.67em; color:#aaa; margin-bottom:10px;">Monthly returning order share — Jan through Apr</div>
+      <div class="progress-section">
+        <div class="progress-header">
+          <div class="progress-label">Return revenue vs $5M pace (20% target)</div>
+          <div class="progress-pct" id="return-pct">—</div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill critical" id="return-bar" style="width:0%"></div>
+        </div>
+        <div class="progress-context" id="return-context">—</div>
+      </div>
+    </div>
+
+    <!-- E: INFLUENCER -->
+    <div class="widget placeholder">
+      <div class="widget-header">
+        <div class="widget-title" style="color:#bbb;">Influencer Revenue</div>
+        <div class="widget-icon">✨</div>
+      </div>
+      <div class="coming-soon">
+        <div class="cs-icon">📣</div>
+        <div class="cs-text">Pipeline in Development</div>
+        <div class="cs-sub">
+          Creator partnerships and affiliate tracking infrastructure currently being built.
+          Revenue attribution will appear here once the program launches Q3 2026.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!--  YTD WIDGETS                                       -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <hr class="section-divider">
+  <div class="section-label">Year to Date — Jan 1 through April 20, 2026</div>
+
+  <div class="widget-grid-3">
+
+    <!-- YTD A: DTC -->
+    <div class="widget ytd-widget">
+      <div class="widget-header">
+        <div class="widget-title">DTC Revenue — YTD</div>
+        <div class="widget-icon">🌱</div>
+      </div>
+      <div class="metric-primary">
+        <div class="amount" id="ytd-dtc-rev">—</div>
+        <div class="label">YTD</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-item">
+          <div class="val" id="ytd-dtc-orders">—</div>
+          <div class="lbl">Total Orders</div>
+        </div>
+        <div class="metric-item">
+          <div class="val" id="ytd-dtc-aov">—</div>
+          <div class="lbl">Blended AOV</div>
+        </div>
+        <div class="metric-item">
+          <div class="val" id="ytd-dtc-new-cust">—</div>
+          <div class="lbl">New Customers</div>
+        </div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-header">
+          <div class="progress-label">YTD DTC vs $5M pace through Apr 20 (80%)</div>
+          <div class="progress-pct" id="ytd-dtc-pct">—</div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill behind" id="ytd-dtc-bar" style="width:0%"></div>
+        </div>
+        <div class="progress-context" id="ytd-dtc-context">—</div>
+      </div>
+    </div>
+
+    <!-- YTD B: MARKETPLACE -->
+    <div class="widget ytd-widget">
+      <div class="widget-header">
+        <div class="widget-title">Marketplace Revenue — YTD</div>
+        <div class="widget-icon">🛒</div>
+      </div>
+      <div class="metric-primary">
+        <div class="amount" id="ytd-mp-rev">—</div>
+        <div class="label">Since Launch</div>
+      </div>
+      <div class="metric-row" style="margin-bottom:6px">
+        <div class="metric-item">
+          <div class="val" id="ytd-amz-rev">—</div>
+          <div class="lbl">Amazon (30d)</div>
+        </div>
+        <div class="metric-item">
+          <div class="val" id="ytd-wmt-rev">—</div>
+          <div class="lbl">Walmart (30d)</div>
+        </div>
+        <div class="metric-item">
+          <div class="val" id="ytd-mp-orders">—</div>
+          <div class="lbl">Total Orders</div>
+        </div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-header">
+          <div class="progress-label">YTD MP vs $5M pace through Apr 20 (20%)</div>
+          <div class="progress-pct" id="ytd-mp-pct">—</div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill critical" id="ytd-mp-bar" style="width:0%"></div>
+        </div>
+        <div class="progress-context" id="ytd-mp-context">—</div>
+      </div>
+    </div>
+
+    <!-- YTD C: AD SPEND -->
+    <div class="widget ytd-widget">
+      <div class="widget-header">
+        <div class="widget-title">Ad Spend — YTD</div>
+        <div class="widget-icon">📈</div>
+      </div>
+      <div class="metric-primary">
+        <div class="amount" id="ytd-spend">—</div>
+        <div class="label">YTD Spend</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-item">
+          <div class="val" id="ytd-mer">—</div>
+          <div class="lbl">YTD MER</div>
+        </div>
+        <div class="metric-item">
+          <div class="val" id="ytd-spend-required">—</div>
+          <div class="lbl">Required at 3x Floor</div>
+        </div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-header">
+          <div class="progress-label">YTD spend vs $5M floor MER budget</div>
+          <div class="progress-pct" id="ytd-spend-pct">—</div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill critical" id="ytd-spend-bar" style="width:0%"></div>
+        </div>
+        <div class="progress-context" id="ytd-spend-context">—</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="widget-grid-2">
+
+    <!-- YTD D: RETURN CUSTOMERS -->
+    <div class="widget ytd-widget">
+      <div class="widget-header">
+        <div class="widget-title">Return Customers — YTD</div>
+        <div class="widget-icon">🔄</div>
+      </div>
+      <div class="return-display">
+        <div class="return-big">
+          <div class="rate" id="ytd-return-rate">—</div>
+          <div class="rate-label">YTD return rate</div>
+        </div>
+        <div class="ltv-box">
+          <div class="ltv-val" id="ytd-ltv-val">—</div>
+          <div class="ltv-label">12M LTV</div>
+        </div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-item">
+          <div class="val" id="ytd-new-cust">—</div>
+          <div class="lbl">New Customers</div>
+        </div>
+        <div class="metric-item">
+          <div class="val" id="ytd-ret-cust">—</div>
+          <div class="lbl">Returning Customers</div>
+        </div>
+        <div class="metric-item">
+          <div class="val" id="ytd-ret-rev">—</div>
+          <div class="lbl">Return Revenue</div>
+        </div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-header">
+          <div class="progress-label">YTD return revenue vs $5M pace (20% target)</div>
+          <div class="progress-pct" id="ytd-return-pct">—</div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill critical" id="ytd-return-bar" style="width:0%"></div>
+        </div>
+        <div class="progress-context" id="ytd-return-context">—</div>
+      </div>
+    </div>
+
+    <!-- YTD E: INFLUENCER -->
+    <div class="widget ytd-widget placeholder" style="border-top-color:#b8dfc8;">
+      <div class="widget-header">
+        <div class="widget-title" style="color:#b8dfc8;">Influencer Revenue — YTD</div>
+        <div class="widget-icon">✨</div>
+      </div>
+      <div class="coming-soon">
+        <div class="cs-icon">📣</div>
+        <div class="cs-text">Not Yet Launched</div>
+        <div class="cs-sub">Q3 2026 target. Content Manager hire (Initiative 01) unlocks this channel.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!--  STRATEGIC INITIATIVES                             -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <hr class="section-divider">
+  <div class="section-label">Strategic Initiatives</div>
+
+  <div class="action-grid">
+
+    <div class="action-card">
+      <div class="action-num">Initiative 01 — Highest Priority</div>
+      <h3>Hire a Content Manager</h3>
+      <p>
+        The single highest-leverage hire to unlock multiple growth channels simultaneously.
+        Responsibilities: social media management across all platforms, SEO blog content that builds long-term organic traffic,
+        on-site product and category content, marketplace listing content (Amazon, Walmart + future channels),
+        and end-to-end influencer marketing — sourcing, outreach, contracting, and performance tracking.
+        Without this hire, content output is the bottleneck across every growth initiative on this list.
+      </p>
+      <span class="action-status status-urgent">Open Role — Hire Now</span>
+    </div>
+
+    <div class="action-card">
+      <div class="action-num">Initiative 02</div>
+      <h3>Google Ads Recovery &amp; Scaling</h3>
+      <p>
+        Full account audit completed. Paused 404-broken and money-losing ads, rebuilt negative keyword lists,
+        added high-value keyword campaigns, fixed redirect URLs. Current MER: 5.89x vs floor of 3.0x —
+        we have significant room to scale spend. April $5M pace requires $231K in ad spend; we're projecting $70K.
+        Closing this gap is the fastest path to hitting the revenue target.
+      </p>
+      <span class="action-status status-active">Active — Scale Spend</span>
+    </div>
+
+    <div class="action-card">
+      <div class="action-num">Initiative 03</div>
+      <h3>Amazon Marketplace Growth</h3>
+      <p>
+        Store live with SP-API data integration. Last 30d: $28,929 revenue (616 orders, $46.96 AOV).
+        Priority: Sponsored Products campaigns, catalog expansion, A+ content (requires Content Manager),
+        and review generation. Marketplace target is 20% of total business — currently at 3.2% of $5M April pace.
+      </p>
+      <span class="action-status status-launched">Launched — Scale</span>
+    </div>
+
+    <div class="action-card">
+      <div class="action-num">Initiative 04</div>
+      <h3>Walmart Marketplace Expansion</h3>
+      <p>
+        Seller account live with Fishbowl inventory sync. SEO content deployed. Last 30d: $5,725 revenue (108 orders).
+        Next: improve listing coverage, pricing parity, and Walmart Connect advertising. Content optimization
+        and additional SKU coverage will drive contribution toward the 20% marketplace target.
+      </p>
+      <span class="action-status status-launched">Launched — Optimize</span>
+    </div>
+
+    <div class="action-card">
+      <div class="action-num">Initiative 05</div>
+      <h3>Klaviyo Retention &amp; Email Flows</h3>
+      <p>
+        All core flows rebuilt and active: abandoned cart, post-purchase upsell, browse abandonment, reorder sequences.
+        YTD return rate: 1.8% / $30K returning revenue. Mature 2025 cohorts average 16.6% 12-month reorder.
+        Goal: push YTD return revenue from $30K toward $473K (20% of $5M YTD pace) through programmatic retention.
+      </p>
+      <span class="action-status status-active">Active</span>
+    </div>
+
+    <div class="action-card">
+      <div class="action-num">Initiative 06</div>
+      <h3>Spring 2026 SKU Recovery Campaign</h3>
+      <p>
+        Segmented Klaviyo campaign targeting customers whose purchased SKUs were discontinued.
+        Dynamic replacement maps built by category (lawn, pasture, wildflower, clover).
+        Customer profiles updated with replacement product properties and flows triggered.
+      </p>
+      <span class="action-status status-active">Active</span>
+    </div>
+
+    <div class="action-card">
+      <div class="action-num">Initiative 07</div>
+      <h3>AOV Improvement Strategy</h3>
+      <p>
+        Current AOV: $129.39. Target $150+ via bundle positioning, free shipping thresholds at higher cart values,
+        and cross-category upsell on high-intent categories. Wildflower audience segmentation completed
+        to identify cross-sell opportunity in adjacent product families.
+      </p>
+      <span class="action-status status-progress">In Progress</span>
+    </div>
+
+    <div class="action-card">
+      <div class="action-num">Initiative 08</div>
+      <h3>Influencer &amp; Creator Program</h3>
+      <p>
+        Blocked by Content Manager hire (Initiative 01). Once hired, the Content Manager owns this program:
+        creator sourcing, outreach, contracting, content briefs, and UTM attribution tracking.
+        Goal: revenue-attributed influencer channel contributing measurably by Q3 2026.
+      </p>
+      <span class="action-status status-planned">Planned — Q3 2026</span>
+    </div>
+
+    <div class="action-card">
+      <div class="action-num">Initiative 09</div>
+      <h3>Site &amp; Catalog Health</h3>
+      <p>
+        Algolia search optimized (no-result rate reduced). Planting aid content enriched across key SKUs.
+        Wildflower catalog content deployed. Ongoing: landing page quality score improvements
+        for paid traffic and product page conversion rate optimization.
+      </p>
+      <span class="action-status status-active">Active</span>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+// ════════════════════════════════════════════════════
+// DATA  (sourced from docs/data/*.json — Apr 20, 2026)
+// ════════════════════════════════════════════════════
+
+const DAYS_ELAPSED   = 20;
+const DAYS_IN_MONTH  = 30;
+const ANNUAL_TARGET  = 5_000_000;
+
+// Floor MER = 3.0x — derived from 2026 P&L actuals.
+// At the DTC $5M April target ($691K), GM ~44.6%, fixed non-ad costs ~$76K/mo:
+//   max ad spend = $691K × 0.446 − $76K = $232K → floor MER = $691K / $232K = 2.97x ≈ 3.0x
+const FLOOR_MER = 3.0;
+
+// Marketplace should be 20% of total business; DTC holds 80%
+const MARKETPLACE_PCT = 0.20;
+const DTC_PCT         = 0.80;
+
+// Returning customer revenue target = 20% of monthly $5M pace
+const RETURN_REVENUE_TARGET_PCT = 0.20;
+
+// LTV from marketing.json widgets
+const LTV = 184.31;
+
+// 2026 budget — monthly net revenue (seasonality model)
+const BUDGET = {
+  "2026-01": 133779, "2026-02": 258517, "2026-03": 433213, "2026-04": 399120,
+  "2026-05": 215931, "2026-06": 198920, "2026-07":  52314, "2026-08": 134221,
+  "2026-09": 210682, "2026-10": 174137, "2026-11":  74173, "2026-12":  25640,
+};
+const BUDGET_TOTAL = Object.values(BUDGET).reduce((a,b) => a+b, 0); // 2,310,647
+const SCALE        = ANNUAL_TARGET / BUDGET_TOTAL;                   // ×2.1641
+
+// ── $5M April monthly target
+const APR_TARGET_5M   = BUDGET["2026-04"] * SCALE;  // $863,688
+const APR_DTC_TARGET  = APR_TARGET_5M * DTC_PCT;    // $690,950  (80%)
+const APR_MP_TARGET   = APR_TARGET_5M * MARKETPLACE_PCT; // $172,738 (20%)
+const APR_SPEND_REQ   = APR_DTC_TARGET / FLOOR_MER; // $230,317  (DTC portion at floor MER)
+
+// ── YTD $5M target (through Apr 20)
+const YTD_BUDGET      = BUDGET["2026-01"] + BUDGET["2026-02"] + BUDGET["2026-03"]
+                      + BUDGET["2026-04"] * (DAYS_ELAPSED / DAYS_IN_MONTH);
+const YTD_TARGET_5M   = YTD_BUDGET * SCALE;                      // $2,362,740
+const YTD_DTC_TARGET  = YTD_TARGET_5M * DTC_PCT;                 // $1,890,192
+const YTD_MP_TARGET   = YTD_TARGET_5M * MARKETPLACE_PCT;         // $472,548
+const YTD_SPEND_REQ   = YTD_DTC_TARGET / FLOOR_MER;              // $630,064
+
+// MTD actuals
+const MTD = {
+  wc_revenue:      276761.49,
+  amazon_revenue:   14693.78,
+  walmart_revenue:   3452.22,
+  ad_spend_google:  45039.59,
+  ad_spend_ctv:      1920.98,
+  orders_wc:         2139,
+  orders_total:      2501,
+  aov:               129.39,
+  new_customers:     2005,
+};
+
+// YTD actuals
+const YTD = {
+  revenue:    1004827.83,
+  ad_spend:    214155.15,
+  orders:        8254,
+  new_customers: 6709,
+};
+
+// Marketplace — only last ~30 days available (channels launched Mar 2026)
+const MP_LAST30 = {
+  amazon_rev:   28928.62, amazon_orders:  616,
+  walmart_rev:   5724.88, walmart_orders: 108,
+};
+
+// Monthly YTD return customer data
+const MONTHS_YTD = [
+  { month: "Jan", new: 404,  returning:  6, new_rev:  73469.47, ret_rev:    886.23 },
+  { month: "Feb", new: 963,  returning: 27, new_rev: 169231.74, ret_rev:   9784.13 },
+  { month: "Mar", new:3210,  returning: 57, new_rev: 460507.72, ret_rev:  13769.53 },
+  { month: "Apr", new:2132,  returning: 33, new_rev: 277036.18, ret_rev:   5602.61 },
+];
+
+// ════════════════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════════════════
+
+const fmt = (n, dec) => {
+  const d = dec ?? 0;
+  if (n >= 1_000_000) return `$${(n/1_000_000).toFixed(dec ?? 1)}M`;
+  if (n >= 1_000)     return `$${(n/1_000).toFixed(d || 0)}K`;
+  return `$${n.toFixed(d)}`;
+};
+const fmtFull = n => `$${Math.round(n).toLocaleString()}`;
+const fmtK    = n => `$${(n/1000).toFixed(1)}K`;
+const clamp   = (v, lo=0, hi=100) => Math.min(hi, Math.max(lo, v));
+
+function set(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = val;
+}
+function sw(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.style.width = val;
+}
+
+// ════════════════════════════════════════════════════
+// COMPUTED
+// ════════════════════════════════════════════════════
+
+// DTC
+const dtcProjected   = MTD.wc_revenue / DAYS_ELAPSED * DAYS_IN_MONTH;
+const dtcProgress    = clamp(dtcProjected / APR_DTC_TARGET * 100);
+
+// Marketplace MTD
+const mpMTD          = MTD.amazon_revenue + MTD.walmart_revenue;
+const mpProjected    = mpMTD / DAYS_ELAPSED * DAYS_IN_MONTH;
+const amzProjected   = MTD.amazon_revenue / DAYS_ELAPSED * DAYS_IN_MONTH;
+const wmtProjected   = MTD.walmart_revenue / DAYS_ELAPSED * DAYS_IN_MONTH;
+const mpProgress     = clamp(mpProjected / APR_MP_TARGET * 100);
+// Channel bars scaled to APR_MP_TARGET
+const amzBarPct      = clamp(amzProjected / APR_MP_TARGET * 100);
+const wmtBarPct      = clamp(wmtProjected / APR_MP_TARGET * 100);
+
+// Ad spend
+const totalSpend        = MTD.ad_spend_google + MTD.ad_spend_ctv;
+const spendProjected    = totalSpend / DAYS_ELAPSED * DAYS_IN_MONTH;
+const googleProjected   = MTD.ad_spend_google / DAYS_ELAPSED * DAYS_IN_MONTH;
+const ctvProjectedV     = MTD.ad_spend_ctv / DAYS_ELAPSED * DAYS_IN_MONTH;
+const blendedMER        = MTD.wc_revenue / totalSpend;
+const spendProgress     = clamp(spendProjected / APR_SPEND_REQ * 100);
+const googleShareReq    = clamp(googleProjected / APR_SPEND_REQ * 100);
+const ctvShareReq       = clamp(ctvProjectedV / APR_SPEND_REQ * 100);
+
+// Return customers MTD (April)
+const aprMth          = MONTHS_YTD.find(m => m.month === "Apr");
+const aprRetRate      = aprMth.returning / (aprMth.new + aprMth.returning);
+const aprRetRev       = aprMth.ret_rev;
+const aprRetTarget    = APR_TARGET_5M * RETURN_REVENUE_TARGET_PCT;
+const retRevProgress  = clamp(aprRetRev / aprRetTarget * 100);
+
+// YTD
+const ytdMER         = YTD.revenue / YTD.ad_spend;
+const ytdDtcProgress = clamp(YTD.revenue / YTD_DTC_TARGET * 100);
+const ytdMpRev       = MP_LAST30.amazon_rev + MP_LAST30.walmart_rev;
+const ytdMpProgress  = clamp(ytdMpRev / YTD_MP_TARGET * 100);
+const ytdSpendProg   = clamp(YTD.ad_spend / YTD_SPEND_REQ * 100);
+const ytdRetRevTotal = MONTHS_YTD.reduce((a,m) => a + m.ret_rev, 0);
+const ytdNew         = MONTHS_YTD.reduce((a,m) => a + m.new, 0);
+const ytdRet         = MONTHS_YTD.reduce((a,m) => a + m.returning, 0);
+const ytdRetRate     = ytdRet / (ytdNew + ytdRet);
+const ytdRetProgress = clamp(ytdRetRevTotal / (YTD_TARGET_5M * RETURN_REVENUE_TARGET_PCT) * 100);
+const ytdAov         = YTD.revenue / YTD.orders;
+
+// ════════════════════════════════════════════════════
+// RENDER — MTD
+// ════════════════════════════════════════════════════
+
+function renderDTC() {
+  set("dtc-mtd",       fmt(MTD.wc_revenue));
+  set("dtc-projected", fmt(dtcProjected));
+  set("dtc-aov",       `$${MTD.aov.toFixed(2)}`);
+  set("dtc-orders",    MTD.orders_wc.toLocaleString());
+  set("dtc-pct",       `${dtcProgress.toFixed(1)}%`);
+  sw("dtc-bar",        `${dtcProgress}%`);
+  set("dtc-context",
+    `${fmtFull(dtcProjected)} month-end run rate vs ${fmtFull(APR_DTC_TARGET)} DTC target (80% of ${fmtFull(APR_TARGET_5M)} April $5M pace).`
+  );
+}
+
+function renderMarketplace() {
+  set("mp-total",     fmt(mpMTD));
+  set("mp-projected", fmt(mpProjected));
+  set("mp-orders",    (MTD.orders_total - MTD.orders_wc).toLocaleString());
+
+  // Bars vs marketplace $5M April target
+  sw("amz-bar", `${amzBarPct}%`);
+  set("amz-pct", `${(amzProjected/APR_MP_TARGET*100).toFixed(1)}% of target`);
+  set("amz-amt", fmtFull(amzProjected));
+
+  sw("wmt-bar", `${wmtBarPct}%`);
+  set("wmt-pct", `${(wmtProjected/APR_MP_TARGET*100).toFixed(1)}% of target`);
+  set("wmt-amt", fmtFull(wmtProjected));
+
+  set("mp-pct",  `${mpProgress.toFixed(1)}%`);
+  sw("mp-bar",   `${mpProgress}%`);
+  set("mp-context",
+    `Marketplace projected ${fmtFull(mpProjected)} vs ${fmtFull(APR_MP_TARGET)} target (20% of $5M April pace). ` +
+    `Amazon leads at ${(amzProjected/mpProjected*100).toFixed(0)}% of marketplace mix.`
+  );
+}
+
+function renderAdSpend() {
+  set("mer-val",        `${blendedMER.toFixed(2)}x`);
+  set("mer-floor",      FLOOR_MER.toFixed(1));
+  set("mer-required",   fmtFull(APR_SPEND_REQ));
+  set("spend-total",    fmt(totalSpend));
+  set("spend-projected",fmt(spendProjected));
+
+  // Channel bars: each channel projected vs total required
+  sw("google-bar", `${googleShareReq}%`);
+  set("google-pct", `${(googleProjected/APR_SPEND_REQ*100).toFixed(1)}% of req.`);
+  set("google-amt", fmtFull(googleProjected));
+
+  sw("ctv-bar", `${ctvShareReq}%`);
+  set("ctv-pct", `${(ctvProjectedV/APR_SPEND_REQ*100).toFixed(1)}% of req.`);
+  set("ctv-amt", fmtFull(ctvProjectedV));
+
+  set("mer-pct", `${spendProgress.toFixed(1)}% deployed`);
+  sw("mer-bar",  `${spendProgress}%`);
+  set("mer-context",
+    `At ${FLOOR_MER}x floor MER, reaching ${fmtFull(APR_DTC_TARGET)} DTC target requires ${fmtFull(APR_SPEND_REQ)}. ` +
+    `Projecting ${fmtFull(spendProjected)} — ${(100-spendProgress).toFixed(0)}% under-invested vs $5M pace.`
+  );
+}
+
+function renderReturnCustomers() {
+  set("return-rate", `${(aprRetRate*100).toFixed(1)}%`);
+  set("ltv-val",     `$${LTV.toFixed(0)}`);
+
+  const row = document.getElementById("monthly-mini-row");
+  MONTHS_YTD.forEach(m => {
+    const total = m.new + m.returning;
+    const rate  = total > 0 ? (m.returning / total * 100).toFixed(1) : "—";
+    row.innerHTML += `
+      <div class="monthly-mini-item">
+        <div class="mm-val">${rate}%</div>
+        <div class="mm-lbl">${m.month}</div>
+      </div>`;
+  });
+
+  set("return-pct", `${retRevProgress.toFixed(1)}%`);
+  sw("return-bar",  `${retRevProgress}%`);
+  set("return-context",
+    `April return revenue ${fmtFull(aprRetRev)} vs ${fmtFull(aprRetTarget)} target ` +
+    `(${(RETURN_REVENUE_TARGET_PCT*100).toFixed(0)}% of ${fmtFull(APR_TARGET_5M)} $5M pace). ` +
+    `Retention is the largest gap — active Klaviyo flows are building toward this.`
+  );
+}
+
+// ════════════════════════════════════════════════════
+// RENDER — YTD
+// ════════════════════════════════════════════════════
+
+function renderYtdDTC() {
+  set("ytd-dtc-rev",       fmt(YTD.revenue, 1));
+  set("ytd-dtc-orders",    YTD.orders.toLocaleString());
+  set("ytd-dtc-aov",       `$${ytdAov.toFixed(2)}`);
+  set("ytd-dtc-new-cust",  YTD.new_customers.toLocaleString());
+  set("ytd-dtc-pct",       `${ytdDtcProgress.toFixed(1)}%`);
+  sw("ytd-dtc-bar",        `${ytdDtcProgress}%`);
+  set("ytd-dtc-context",
+    `${fmtFull(YTD.revenue)} YTD vs ${fmtFull(YTD_DTC_TARGET)} expected through Apr 20 on $5M pace (80% DTC). ` +
+    `YTD $5M total pace: ${fmtFull(YTD_TARGET_5M)}.`
+  );
+}
+
+function renderYtdMarketplace() {
+  set("ytd-mp-rev",    fmt(ytdMpRev));
+  set("ytd-amz-rev",   fmt(MP_LAST30.amazon_rev));
+  set("ytd-wmt-rev",   fmt(MP_LAST30.walmart_rev));
+  set("ytd-mp-orders", (MP_LAST30.amazon_orders + MP_LAST30.walmart_orders).toLocaleString());
+  set("ytd-mp-pct",    `${ytdMpProgress.toFixed(1)}%`);
+  sw("ytd-mp-bar",     `${ytdMpProgress}%`);
+  set("ytd-mp-context",
+    `${fmtFull(ytdMpRev)} since March launch vs ${fmtFull(YTD_MP_TARGET)} YTD target ` +
+    `(20% of ${fmtFull(YTD_TARGET_5M)} $5M pace through Apr 20). Both channels launched March 2026.`
+  );
+}
+
+function renderYtdAdSpend() {
+  set("ytd-spend",          fmt(YTD.ad_spend, 1));
+  set("ytd-mer",            `${ytdMER.toFixed(2)}x`);
+  set("ytd-spend-required", fmt(YTD_SPEND_REQ, 1));
+  set("ytd-spend-pct",      `${ytdSpendProg.toFixed(1)}%`);
+  sw("ytd-spend-bar",       `${ytdSpendProg}%`);
+  set("ytd-spend-context",
+    `YTD spend ${fmtFull(YTD.ad_spend)} vs ${fmtFull(YTD_SPEND_REQ)} required at ${FLOOR_MER}x floor MER ` +
+    `(DTC's 80% of YTD $5M target). Under-invested by ${fmtFull(YTD_SPEND_REQ - YTD.ad_spend)} YTD.`
+  );
+}
+
+function renderYtdReturnCustomers() {
+  set("ytd-return-rate", `${(ytdRetRate*100).toFixed(1)}%`);
+  set("ytd-ltv-val",     `$${LTV.toFixed(0)}`);
+  set("ytd-new-cust",    ytdNew.toLocaleString());
+  set("ytd-ret-cust",    ytdRet.toLocaleString());
+  set("ytd-ret-rev",     fmt(ytdRetRevTotal));
+  set("ytd-return-pct",  `${ytdRetProgress.toFixed(1)}%`);
+  sw("ytd-return-bar",   `${ytdRetProgress}%`);
+  const ytdRetTarget = YTD_TARGET_5M * RETURN_REVENUE_TARGET_PCT;
+  set("ytd-return-context",
+    `YTD return revenue ${fmtFull(ytdRetRevTotal)} vs ${fmtFull(ytdRetTarget)} target ` +
+    `(${(RETURN_REVENUE_TARGET_PCT*100).toFixed(0)}% of ${fmtFull(YTD_TARGET_5M)} YTD $5M pace). ` +
+    `Largest growth lever. LTV $${LTV} — each retained customer is worth acquiring.`
+  );
+}
+
+// ════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderDTC();
+  renderMarketplace();
+  renderAdSpend();
+  renderReturnCustomers();
+  renderYtdDTC();
+  renderYtdMarketplace();
+  renderYtdAdSpend();
+  renderYtdReturnCustomers();
+});
+</script>
+</body>
+</html>
