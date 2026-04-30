@@ -7,6 +7,7 @@ Usage:
     python3 -m feeds.digest.run_audit
 """
 
+import dataclasses
 import json
 from datetime import date
 from pathlib import Path
@@ -111,6 +112,11 @@ def run_audit():
     with open(out_path, "w") as f:
         f.write(digest)
     print(f"\n[DONE] Digest written to {out_path}")
+
+    results_json_path = DIGEST_DIR / "latest_results.json"
+    with open(results_json_path, "w") as f:
+        json.dump([dataclasses.asdict(r) for r in results], f, indent=2)
+    print(f"[DONE] Results JSON written to {results_json_path}")
     return results
 
 
