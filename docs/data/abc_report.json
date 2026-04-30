@@ -1,21 +1,21 @@
 {
-  "generated": "2026-04-30T12:49:40.880721",
+  "generated": "2026-04-30T18:59:25.747557",
   "seasons": {
     "spring_2026": {
       "label": "Spring 2026",
       "period": "2026-02-01 \u2192 2026-04-30",
-      "total_revenue": 965729.52,
-      "total_orders": 9974,
+      "total_revenue": 965945.3,
+      "total_orders": 9979,
       "total_skus": 120,
       "summary": {
         "a_count": 37,
-        "a_revenue": 765014.2,
+        "a_revenue": 765134.67,
         "a_pct": 79.2,
         "b_count": 33,
-        "b_revenue": 151923.62,
-        "b_pct": 15.7,
+        "b_revenue": 151146.61,
+        "b_pct": 15.6,
         "c_count": 50,
-        "c_revenue": 48791.7,
+        "c_revenue": 49664.02,
         "c_pct": 5.1
       },
       "items": [
@@ -23,14 +23,14 @@
           "sku": "S-DUTCH",
           "name": "White Dutch Clover Seed",
           "product_id": 445312,
-          "revenue": 41086.58,
-          "margin": 19715.58,
+          "revenue": 41166.56,
+          "margin": 19752.56,
           "margin_pct": 48.0,
-          "units": 603,
-          "orders": 580,
-          "avg_basket": 138.84,
-          "daily_velocity": 6.85,
-          "velocity_trend": 189.7346,
+          "units": 604,
+          "orders": 581,
+          "avg_basket": 139.0,
+          "daily_velocity": 6.86,
+          "velocity_trend": 192.3713,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
           "variants": [
@@ -44,9 +44,9 @@
             {
               "sku": "S-DUTCH-10-LB-KIT",
               "name": "White Dutch Clover Seed - 10 lb - Covers 20,000 Sq Ft",
-              "revenue": 13232.66,
-              "units": 167,
-              "orders": 159
+              "revenue": 13312.64,
+              "units": 168,
+              "orders": 160
             },
             {
               "sku": "S-DUTCH-25-LB-KIT",
@@ -58,7 +58,7 @@
           ],
           "composite_score": 84.65,
           "class": "A",
-          "reason": "Top performer \u2014 revenue $41,087 is 12.2x the median \u2014 accelerating sales trend."
+          "reason": "Top performer \u2014 revenue $41,167 is 12.3x the median \u2014 accelerating sales trend."
         },
         {
           "sku": "PB-GOAT-TR",
@@ -739,7 +739,7 @@
               "orders": 29
             }
           ],
-          "composite_score": 75.73,
+          "composite_score": 75.82,
           "class": "A",
           "reason": "Top performer \u2014 revenue $25,071 is 7.5x the median \u2014 drives $297 avg basket."
         },
@@ -868,16 +868,16 @@
         },
         {
           "sku": "S-MICRO",
-          "name": "Micro Clover Seed (Mini Clover)",
+          "name": "Microclover Seed (Micro Clover, Mini Clover)",
           "product_id": 445346,
-          "revenue": 15111.32,
-          "margin": 9589.29,
+          "revenue": 15151.81,
+          "margin": 9615.21,
           "margin_pct": 63.5,
-          "units": 195,
-          "orders": 170,
-          "avg_basket": 137.86,
-          "daily_velocity": 2.22,
-          "velocity_trend": 102.0945,
+          "units": 196,
+          "orders": 171,
+          "avg_basket": 138.4,
+          "daily_velocity": 2.23,
+          "velocity_trend": 103.4293,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
           "variants": [
@@ -898,14 +898,14 @@
             {
               "sku": "S-MICRO-1-LB",
               "name": "Micro Clover Seed (Mini Clover) - 1 lb - Covers 1,000 Sq Ft",
-              "revenue": 3992.85,
-              "units": 92,
-              "orders": 87
+              "revenue": 4033.34,
+              "units": 93,
+              "orders": 88
             }
           ],
           "composite_score": 73.08,
           "class": "A",
-          "reason": "Top performer \u2014 revenue $15,111 is 4.5x the median \u2014 accelerating sales trend."
+          "reason": "Top performer \u2014 revenue $15,152 is 4.5x the median \u2014 accelerating sales trend."
         },
         {
           "sku": "PG-DAGL",
@@ -1620,50 +1620,9 @@
               "orders": 1
             }
           ],
-          "composite_score": 60.71,
+          "composite_score": 60.61,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 78% margin \u2014 positive trend."
-        },
-        {
-          "sku": "TURF-HLB",
-          "name": "Hardy Grass Seed Mix for High Traffic Lawns",
-          "product_id": 458047,
-          "revenue": 6527.58,
-          "margin": 3687.58,
-          "margin_pct": 56.5,
-          "units": 77,
-          "orders": 67,
-          "avg_basket": 156.04,
-          "daily_velocity": 0.88,
-          "velocity_trend": 17.9743,
-          "backorder_rate": 0.0,
-          "cancellation_rate": 0.0,
-          "variants": [
-            {
-              "sku": "TURF-HLB-10-LB-KIT",
-              "name": "Hardy Grass Seed Mix for High Traffic Lawns - 10 Lbs - 2,000 Sq Ft",
-              "revenue": 2791.65,
-              "units": 35,
-              "orders": 32
-            },
-            {
-              "sku": "TURF-HLB-25-LB-KIT",
-              "name": "Hardy Grass Seed Mix for High Traffic Lawns - 25 Lbs - 5,000 Sq Ft",
-              "revenue": 2397.48,
-              "units": 12,
-              "orders": 8
-            },
-            {
-              "sku": "TURF-HLB-5-LB",
-              "name": "Hardy Grass Seed Mix for High Traffic Lawns - 5 Lbs - 1,000 Sq Ft",
-              "revenue": 1338.45,
-              "units": 30,
-              "orders": 27
-            }
-          ],
-          "composite_score": 60.06,
-          "class": "B",
-          "reason": "Mid-tier SKU \u2014 56% margin \u2014 positive trend."
         },
         {
           "sku": "TURF-BERM",
@@ -1705,6 +1664,47 @@
           "composite_score": 59.99,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 69% margin \u2014 declining velocity."
+        },
+        {
+          "sku": "TURF-HLB",
+          "name": "Hardy Grass Seed Mix for High Traffic Lawns",
+          "product_id": 458047,
+          "revenue": 6527.58,
+          "margin": 3687.58,
+          "margin_pct": 56.5,
+          "units": 77,
+          "orders": 67,
+          "avg_basket": 156.04,
+          "daily_velocity": 0.88,
+          "velocity_trend": 17.9743,
+          "backorder_rate": 0.0,
+          "cancellation_rate": 0.0,
+          "variants": [
+            {
+              "sku": "TURF-HLB-10-LB-KIT",
+              "name": "Hardy Grass Seed Mix for High Traffic Lawns - 10 Lbs - 2,000 Sq Ft",
+              "revenue": 2791.65,
+              "units": 35,
+              "orders": 32
+            },
+            {
+              "sku": "TURF-HLB-25-LB-KIT",
+              "name": "Hardy Grass Seed Mix for High Traffic Lawns - 25 Lbs - 5,000 Sq Ft",
+              "revenue": 2397.48,
+              "units": 12,
+              "orders": 8
+            },
+            {
+              "sku": "TURF-HLB-5-LB",
+              "name": "Hardy Grass Seed Mix for High Traffic Lawns - 5 Lbs - 1,000 Sq Ft",
+              "revenue": 1338.45,
+              "units": 30,
+              "orders": 27
+            }
+          ],
+          "composite_score": 59.99,
+          "class": "B",
+          "reason": "Mid-tier SKU \u2014 56% margin \u2014 positive trend."
         },
         {
           "sku": "PG-LOPE",
@@ -1784,7 +1784,7 @@
               "orders": 2
             }
           ],
-          "composite_score": 59.03,
+          "composite_score": 58.96,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 69% margin \u2014 positive trend."
         },
@@ -1825,7 +1825,7 @@
               "orders": 28
             }
           ],
-          "composite_score": 58.67,
+          "composite_score": 58.76,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 88% margin \u2014 positive trend."
         },
@@ -1915,14 +1915,14 @@
           "sku": "PG-TRPR",
           "name": "Red Clover Seed",
           "product_id": 184488,
-          "revenue": 3674.38,
-          "margin": 2388.35,
+          "revenue": 3713.07,
+          "margin": 2413.5,
           "margin_pct": 65.0,
-          "units": 85,
-          "orders": 78,
-          "avg_basket": 237.35,
-          "daily_velocity": 0.97,
-          "velocity_trend": 16.5502,
+          "units": 86,
+          "orders": 79,
+          "avg_basket": 237.27,
+          "daily_velocity": 0.98,
+          "velocity_trend": 19.1295,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
           "variants": [
@@ -1943,12 +1943,12 @@
             {
               "sku": "PG-TRPR-10-LB-KIT",
               "name": "Red Clover Seed - 10 Lbs - 20,000 Sq Ft",
-              "revenue": 604.65,
-              "units": 16,
-              "orders": 16
+              "revenue": 643.34,
+              "units": 17,
+              "orders": 17
             }
           ],
-          "composite_score": 58.06,
+          "composite_score": 58.13,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 65% margin \u2014 positive trend."
         },
@@ -1989,7 +1989,7 @@
               "orders": 6
             }
           ],
-          "composite_score": 57.45,
+          "composite_score": 57.34,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 55% margin \u2014 declining velocity."
         },
@@ -2446,7 +2446,7 @@
               "orders": 2
             }
           ],
-          "composite_score": 49.45,
+          "composite_score": 49.54,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 86% margin \u2014 positive trend."
         },
@@ -2487,7 +2487,7 @@
               "orders": 1
             }
           ],
-          "composite_score": 49.16,
+          "composite_score": 49.12,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 59% margin \u2014 declining velocity."
         },
@@ -2644,7 +2644,7 @@
               "orders": 28
             }
           ],
-          "composite_score": 46.49,
+          "composite_score": 46.42,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 81% margin \u2014 positive trend."
         },
@@ -2767,9 +2767,36 @@
               "orders": 4
             }
           ],
-          "composite_score": 43.36,
+          "composite_score": 43.26,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 75% margin \u2014 positive trend."
+        },
+        {
+          "sku": "S-DUTCH-5-LB-ADDON",
+          "name": "White Dutch Clover Soil & Grass Health Boost - 5lb for 10,000 Sq ft.",
+          "product_id": 451810,
+          "revenue": 2094.15,
+          "margin": 782.65,
+          "margin_pct": 37.4,
+          "units": 61,
+          "orders": 44,
+          "avg_basket": 147.36,
+          "daily_velocity": 0.69,
+          "velocity_trend": -6.0811,
+          "backorder_rate": 0.0,
+          "cancellation_rate": 0.0,
+          "variants": [
+            {
+              "sku": "S-DUTCH-5-LB-ADDON",
+              "name": "White Dutch Clover Soil & Grass Health Boost - 5lb for 10,000 Sq ft.",
+              "revenue": 2094.15,
+              "units": 61,
+              "orders": 44
+            }
+          ],
+          "composite_score": 43.19,
+          "class": "B",
+          "reason": "Mid-tier SKU \u2014 37% margin \u2014 declining velocity."
         },
         {
           "sku": "TURF-W-TALL-BUNDLE",
@@ -2806,33 +2833,6 @@
               "revenue": 309.99,
               "units": 1,
               "orders": 1
-            }
-          ],
-          "composite_score": 43.29,
-          "class": "B",
-          "reason": "Mid-tier SKU \u2014 above-median 81% margin \u2014 declining velocity."
-        },
-        {
-          "sku": "S-DUTCH-5-LB-ADDON",
-          "name": "White Dutch Clover Soil & Grass Health Boost - 5lb for 10,000 Sq ft.",
-          "product_id": 451810,
-          "revenue": 2094.15,
-          "margin": 782.65,
-          "margin_pct": 37.4,
-          "units": 61,
-          "orders": 44,
-          "avg_basket": 147.36,
-          "daily_velocity": 0.69,
-          "velocity_trend": -6.0811,
-          "backorder_rate": 0.0,
-          "cancellation_rate": 0.0,
-          "variants": [
-            {
-              "sku": "S-DUTCH-5-LB-ADDON",
-              "name": "White Dutch Clover Soil & Grass Health Boost - 5lb for 10,000 Sq ft.",
-              "revenue": 2094.15,
-              "units": 61,
-              "orders": 44
             }
           ],
           "composite_score": 43.19,
@@ -2951,7 +2951,7 @@
               "orders": 4
             }
           ],
-          "composite_score": 41.26,
+          "composite_score": 41.22,
           "class": "C",
           "reason": "Low volume \u2014 declining trend."
         },
@@ -2992,7 +2992,7 @@
               "orders": 6
             }
           ],
-          "composite_score": 40.49,
+          "composite_score": 40.39,
           "class": "C",
           "reason": "Low volume \u2014 declining trend."
         },
@@ -3108,7 +3108,7 @@
               "orders": 5
             }
           ],
-          "composite_score": 39.3,
+          "composite_score": 39.24,
           "class": "C",
           "reason": "Low volume."
         },
@@ -3190,7 +3190,7 @@
               "orders": 4
             }
           ],
-          "composite_score": 38.19,
+          "composite_score": 38.08,
           "class": "C",
           "reason": "Low volume \u2014 declining trend."
         },
@@ -3258,7 +3258,7 @@
               "orders": 7
             }
           ],
-          "composite_score": 37.78,
+          "composite_score": 37.71,
           "class": "C",
           "reason": "Low volume \u2014 12% cancellation rate."
         },
@@ -3299,7 +3299,7 @@
               "orders": 5
             }
           ],
-          "composite_score": 37.63,
+          "composite_score": 37.59,
           "class": "C",
           "reason": "Low volume."
         },
@@ -3307,14 +3307,14 @@
           "sku": "WB-JPW",
           "name": "Jimmy's Perennial Wildflower Mix",
           "product_id": 458468,
-          "revenue": 827.07,
-          "margin": 537.6,
+          "revenue": 854.05,
+          "margin": 555.13,
           "margin_pct": 65.0,
-          "units": 19,
-          "orders": 16,
-          "avg_basket": 250.46,
-          "daily_velocity": 0.22,
-          "velocity_trend": 6.6085,
+          "units": 20,
+          "orders": 17,
+          "avg_basket": 249.31,
+          "daily_velocity": 0.23,
+          "velocity_trend": 9.0411,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
           "variants": [
@@ -3327,10 +3327,10 @@
             },
             {
               "sku": "WB-JPW-1-LB-KIT",
-              "name": "Jimmy's Perennial Wildflower Mix - 2.5 Lbs - 500 Sq Ft",
-              "revenue": 322.89,
-              "units": 8,
-              "orders": 7
+              "name": "Jimmy's Perennial Wildflower Mix - 1 Lb Kit - 200 Sq Ft",
+              "revenue": 349.87,
+              "units": 9,
+              "orders": 8
             },
             {
               "sku": "WB-JPW-0.5-LB",
@@ -3340,7 +3340,7 @@
               "orders": 7
             }
           ],
-          "composite_score": 35.63,
+          "composite_score": 36.71,
           "class": "C",
           "reason": "Low volume."
         },
@@ -3408,7 +3408,7 @@
               "orders": 5
             }
           ],
-          "composite_score": 35.33,
+          "composite_score": 35.27,
           "class": "C",
           "reason": "Low volume."
         },
@@ -3449,7 +3449,7 @@
               "orders": 2
             }
           ],
-          "composite_score": 33.66,
+          "composite_score": 33.59,
           "class": "C",
           "reason": "Low volume."
         },
@@ -3483,7 +3483,7 @@
               "orders": 9
             }
           ],
-          "composite_score": 33.45,
+          "composite_score": 33.35,
           "class": "C",
           "reason": "Low volume \u2014 declining trend."
         },
@@ -3537,7 +3537,7 @@
               "orders": 14
             }
           ],
-          "composite_score": 32.84,
+          "composite_score": 32.74,
           "class": "C",
           "reason": "Low volume \u2014 declining trend."
         },
@@ -3668,33 +3668,33 @@
           "sku": "W-SAAP",
           "name": "White Sage Seed",
           "product_id": 452899,
-          "revenue": 589.43,
-          "margin": 445.84,
+          "revenue": 619.07,
+          "margin": 467.92,
           "margin_pct": 75.6,
-          "units": 14,
-          "orders": 14,
-          "avg_basket": 300.14,
-          "daily_velocity": 0.16,
-          "velocity_trend": 1.5588,
+          "units": 15,
+          "orders": 15,
+          "avg_basket": 295.53,
+          "daily_velocity": 0.17,
+          "velocity_trend": 2.7245,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
           "variants": [
+            {
+              "sku": "W-SAAP-0.25-LB",
+              "name": "White Sage Seed - 0.25 lb - Covers 1,000 Sq Ft",
+              "revenue": 322.72,
+              "units": 10,
+              "orders": 10
+            },
             {
               "sku": "W-SAAP-0.5-LB-KIT",
               "name": "White Sage Seed - 0.5 lb - Covers 2,000 Sq Ft",
               "revenue": 296.35,
               "units": 5,
               "orders": 5
-            },
-            {
-              "sku": "W-SAAP-0.25-LB",
-              "name": "White Sage Seed - 0.25 lb - Covers 1,000 Sq Ft",
-              "revenue": 293.08,
-              "units": 9,
-              "orders": 9
             }
           ],
-          "composite_score": 30.91,
+          "composite_score": 32.05,
           "class": "C",
           "reason": "Low volume."
         },
@@ -3762,7 +3762,7 @@
               "orders": 4
             }
           ],
-          "composite_score": 29.9,
+          "composite_score": 29.61,
           "class": "C",
           "reason": "Low volume."
         },
@@ -3803,7 +3803,7 @@
               "orders": 2
             }
           ],
-          "composite_score": 29.35,
+          "composite_score": 29.25,
           "class": "C",
           "reason": "Low volume \u2014 declining trend."
         },
@@ -3830,7 +3830,7 @@
               "orders": 2
             }
           ],
-          "composite_score": 28.98,
+          "composite_score": 28.85,
           "class": "C",
           "reason": "Low volume \u2014 only 2 units sold."
         },
@@ -3871,7 +3871,7 @@
               "orders": 2
             }
           ],
-          "composite_score": 28.31,
+          "composite_score": 28.21,
           "class": "C",
           "reason": "Low volume."
         },
@@ -3905,7 +3905,7 @@
               "orders": 1
             }
           ],
-          "composite_score": 27.8,
+          "composite_score": 27.73,
           "class": "C",
           "reason": "Low volume."
         },
@@ -3973,7 +3973,7 @@
               "orders": 1
             }
           ],
-          "composite_score": 26.9,
+          "composite_score": 26.86,
           "class": "C",
           "reason": "Low volume \u2014 declining trend."
         },
@@ -4150,7 +4150,7 @@
               "orders": 5
             }
           ],
-          "composite_score": 22.59,
+          "composite_score": 22.53,
           "class": "C",
           "reason": "Low volume \u2014 only 5 units sold."
         },
@@ -4225,34 +4225,7 @@
               "orders": 4
             }
           ],
-          "composite_score": 21.99,
-          "class": "C",
-          "reason": "Low volume."
-        },
-        {
-          "sku": "PB-MUST",
-          "name": "Mustard Biofumigant Blend Cover Crop Seed Mix",
-          "product_id": 458469,
-          "revenue": 371.22,
-          "margin": 221.62,
-          "margin_pct": 59.7,
-          "units": 8,
-          "orders": 8,
-          "avg_basket": 182.69,
-          "daily_velocity": 0.09,
-          "velocity_trend": 2.1609,
-          "backorder_rate": 0.0,
-          "cancellation_rate": 0.0,
-          "variants": [
-            {
-              "sku": "PB-MUST-10-LB",
-              "name": "Mustard Biofumigant Blend Cover Crop Seed Mix - 10 Lbs - 5,000 Sq Ft",
-              "revenue": 371.22,
-              "units": 8,
-              "orders": 8
-            }
-          ],
-          "composite_score": 21.61,
+          "composite_score": 21.86,
           "class": "C",
           "reason": "Low volume."
         },
@@ -4282,6 +4255,33 @@
           "composite_score": 21.56,
           "class": "C",
           "reason": "Low volume \u2014 only 1 units sold."
+        },
+        {
+          "sku": "PB-MUST",
+          "name": "Mustard Biofumigant Blend Cover Crop Seed Mix",
+          "product_id": 458469,
+          "revenue": 371.22,
+          "margin": 221.62,
+          "margin_pct": 59.7,
+          "units": 8,
+          "orders": 8,
+          "avg_basket": 182.69,
+          "daily_velocity": 0.09,
+          "velocity_trend": 2.1609,
+          "backorder_rate": 0.0,
+          "cancellation_rate": 0.0,
+          "variants": [
+            {
+              "sku": "PB-MUST-10-LB",
+              "name": "Mustard Biofumigant Blend Cover Crop Seed Mix - 10 Lbs - 5,000 Sq Ft",
+              "revenue": 371.22,
+              "units": 8,
+              "orders": 8
+            }
+          ],
+          "composite_score": 21.54,
+          "class": "C",
+          "reason": "Low volume."
         },
         {
           "sku": "W-PHDR",
@@ -4320,7 +4320,7 @@
               "orders": 4
             }
           ],
-          "composite_score": 20.43,
+          "composite_score": 20.33,
           "class": "C",
           "reason": "Low volume \u2014 declining trend."
         },
@@ -5322,7 +5322,7 @@
         },
         {
           "sku": "S-MICRO",
-          "name": "Micro Clover Seed (Mini Clover)",
+          "name": "Microclover Seed (Micro Clover, Mini Clover)",
           "product_id": 445346,
           "revenue": 5035.29,
           "margin": 3578.29,
