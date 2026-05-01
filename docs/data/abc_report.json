@@ -1,15 +1,15 @@
 {
-  "generated": "2026-05-01T15:15:50.616813",
+  "generated": "2026-05-01T18:58:43.233740",
   "seasons": {
     "spring_2026": {
       "label": "Spring 2026",
       "period": "2026-02-01 \u2192 2026-04-30",
-      "total_revenue": 971731.41,
-      "total_orders": 10053,
+      "total_revenue": 971488.43,
+      "total_orders": 10051,
       "total_skus": 121,
       "summary": {
         "a_count": 39,
-        "a_revenue": 783765.25,
+        "a_revenue": 783522.27,
         "a_pct": 80.7,
         "b_count": 32,
         "b_revenue": 140519.1,
@@ -58,7 +58,7 @@
               "orders": 49
             }
           ],
-          "composite_score": 84.64,
+          "composite_score": 84.71,
           "class": "A",
           "reason": "Top performer \u2014 $469/day is 12.9x the median velocity \u2014 accelerating sales trend."
         },
@@ -81,7 +81,7 @@
           "variants": [
             {
               "sku": "PB-GOAT-TR-20-LB-KIT",
-              "name": "Goat Pasture &amp; Forage Mix - 20 lb - Covers 40,000 Sq Ft",
+              "name": "Transitional Zone Goat Pasture &amp; Forage Mix - 20 lb - Covers 40,000 Sq Ft",
               "revenue": 17949.75,
               "units": 228,
               "orders": 163
@@ -109,16 +109,16 @@
           "sku": "LAWN-BUDA",
           "name": "Sundancer Buffalograss Lawn Seed",
           "product_id": 456233,
-          "revenue": 28620.64,
-          "margin": 20648.02,
+          "revenue": 28410.65,
+          "margin": 20495.8,
           "margin_pct": 72.1,
-          "units": 126,
-          "orders": 110,
-          "avg_basket": 299.91,
+          "units": 125,
+          "orders": 109,
+          "avg_basket": 300.41,
           "active_days": 88,
-          "daily_velocity": 1.43,
-          "revenue_velocity": 325.23,
-          "velocity_trend": 199.7453,
+          "daily_velocity": 1.42,
+          "revenue_velocity": 322.85,
+          "velocity_trend": 196.2839,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
           "variants": [
@@ -132,9 +132,9 @@
             {
               "sku": "TURF-BUDA-6-LB-KIT",
               "name": "Sundancer Buffalograss Lawn Seed - 6 lb - Covers 2,000 Sq Ft",
-              "revenue": 11265.96,
-              "units": 54,
-              "orders": 50
+              "revenue": 11055.97,
+              "units": 53,
+              "orders": 49
             },
             {
               "sku": "TURF-BUDA-3-LB-KIT",
@@ -144,9 +144,9 @@
               "orders": 46
             }
           ],
-          "composite_score": 82.79,
+          "composite_score": 82.62,
           "class": "A",
-          "reason": "Top performer \u2014 $325/day is 8.9x the median velocity \u2014 strong 72% margin."
+          "reason": "Top performer \u2014 $323/day is 8.9x the median velocity \u2014 strong 72% margin."
         },
         {
           "sku": "TURF-W-TALL",
@@ -195,25 +195,25 @@
           "sku": "S-RICE",
           "name": "Rice Hulls",
           "product_id": 450345,
-          "revenue": 22139.27,
-          "margin": 20236.77,
+          "revenue": 22106.28,
+          "margin": 20206.28,
           "margin_pct": 91.4,
-          "units": 665,
-          "orders": 566,
-          "avg_basket": 154.08,
+          "units": 664,
+          "orders": 565,
+          "avg_basket": 153.93,
           "active_days": 88,
-          "daily_velocity": 7.56,
-          "revenue_velocity": 251.58,
-          "velocity_trend": 180.819,
+          "daily_velocity": 7.55,
+          "revenue_velocity": 251.21,
+          "velocity_trend": 180.2752,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
           "variants": [
             {
               "sku": "S-RICE-10-LB-KIT",
               "name": "Rice Hulls - 10 Lbs - 4,000 Sq Ft",
-              "revenue": 8428.96,
-              "units": 257,
-              "orders": 205
+              "revenue": 8395.97,
+              "units": 256,
+              "orders": 204
             },
             {
               "sku": "S-RICE-45-LB",
@@ -232,7 +232,7 @@
           ],
           "composite_score": 82.09,
           "class": "A",
-          "reason": "Top performer \u2014 $252/day is 6.9x the median velocity \u2014 strong 91% margin."
+          "reason": "Top performer \u2014 $251/day is 6.9x the median velocity \u2014 strong 91% margin."
         },
         {
           "sku": "PB-CHIX",
@@ -665,6 +665,35 @@
           "reason": "Top performer \u2014 $245/day is 6.7x the median velocity \u2014 accelerating sales trend."
         },
         {
+          "sku": "SUSTANE-4-6-4",
+          "name": "Organic Seed Starter Fertilizer 4-6-4",
+          "product_id": 445122,
+          "revenue": 14860.75,
+          "margin": 11798.25,
+          "margin_pct": 79.4,
+          "units": 125,
+          "orders": 110,
+          "avg_basket": 358.86,
+          "active_days": 88,
+          "daily_velocity": 1.42,
+          "revenue_velocity": 168.87,
+          "velocity_trend": 127.8768,
+          "backorder_rate": 0.0,
+          "cancellation_rate": 0.0,
+          "variants": [
+            {
+              "sku": "SUSTANE-4-6-4",
+              "name": "Organic Seed Starter Fertilizer 4-6-4",
+              "revenue": 14860.75,
+              "units": 125,
+              "orders": 110
+            }
+          ],
+          "composite_score": 77.7,
+          "class": "A",
+          "reason": "Top performer \u2014 $169/day is 4.6x the median velocity \u2014 strong 79% margin."
+        },
+        {
           "sku": "PB-COW-SO",
           "name": "Warm Season Cattle Pasture Seed Mix",
           "product_id": 445164,
@@ -706,35 +735,6 @@
           "composite_score": 77.62,
           "class": "A",
           "reason": "Top performer \u2014 $399/day is 10.9x the median velocity \u2014 drives $331 avg basket."
-        },
-        {
-          "sku": "SUSTANE-4-6-4",
-          "name": "Organic Seed Starter Fertilizer 4-6-4",
-          "product_id": 445122,
-          "revenue": 14860.75,
-          "margin": 11798.25,
-          "margin_pct": 79.4,
-          "units": 125,
-          "orders": 110,
-          "avg_basket": 358.86,
-          "active_days": 88,
-          "daily_velocity": 1.42,
-          "revenue_velocity": 168.87,
-          "velocity_trend": 127.8768,
-          "backorder_rate": 0.0,
-          "cancellation_rate": 0.0,
-          "variants": [
-            {
-              "sku": "SUSTANE-4-6-4",
-              "name": "Organic Seed Starter Fertilizer 4-6-4",
-              "revenue": 14860.75,
-              "units": 125,
-              "orders": 110
-            }
-          ],
-          "composite_score": 77.6,
-          "class": "A",
-          "reason": "Top performer \u2014 $169/day is 4.6x the median velocity \u2014 strong 79% margin."
         },
         {
           "sku": "PB-HRSE-SO",
@@ -1081,49 +1081,6 @@
           "reason": "Top performer \u2014 $169/day is 4.6x the median velocity \u2014 accelerating sales trend."
         },
         {
-          "sku": "TURF-JBR",
-          "name": "Jimmy's Blue Ribbon Lawn Seed Mix",
-          "product_id": 445158,
-          "revenue": 12071.18,
-          "margin": 10490.68,
-          "margin_pct": 86.9,
-          "units": 82,
-          "orders": 80,
-          "avg_basket": 190.19,
-          "active_days": 88,
-          "daily_velocity": 0.93,
-          "revenue_velocity": 137.17,
-          "velocity_trend": 143.5571,
-          "backorder_rate": 0.0,
-          "cancellation_rate": 0.0,
-          "variants": [
-            {
-              "sku": "TURF-JBR-5-LB",
-              "name": "Jimmy's Blue Ribbon Lawn Seed Mix - 5 lb - Covers 1,000 Sq Ft",
-              "revenue": 4308.51,
-              "units": 49,
-              "orders": 48
-            },
-            {
-              "sku": "TURF-JBR-10-LB-KIT",
-              "name": "Jimmy's Blue Ribbon Lawn Seed Mix - 10 lb - Covers 2,000 Sq Ft",
-              "revenue": 3932.77,
-              "units": 23,
-              "orders": 23
-            },
-            {
-              "sku": "TURF-JBR-25-LB-KIT",
-              "name": "Jimmy's Blue Ribbon Lawn Seed Mix - 25 lb - Covers 5,000 Sq Ft",
-              "revenue": 3829.9,
-              "units": 10,
-              "orders": 10
-            }
-          ],
-          "composite_score": 70.6,
-          "class": "A",
-          "reason": "Top performer \u2014 $137/day is 3.8x the median velocity \u2014 strong 87% margin."
-        },
-        {
           "sku": "WB-RM",
           "name": "Rocky Mountain Wildflower Seed Mix",
           "product_id": 445310,
@@ -1165,6 +1122,49 @@
           "composite_score": 70.6,
           "class": "A",
           "reason": "Top performer \u2014 $136/day is 3.7x the median velocity \u2014 accelerating sales trend."
+        },
+        {
+          "sku": "TURF-JBR",
+          "name": "Jimmy's Blue Ribbon Lawn Seed Mix",
+          "product_id": 445158,
+          "revenue": 12071.18,
+          "margin": 10490.68,
+          "margin_pct": 86.9,
+          "units": 82,
+          "orders": 80,
+          "avg_basket": 190.19,
+          "active_days": 88,
+          "daily_velocity": 0.93,
+          "revenue_velocity": 137.17,
+          "velocity_trend": 143.5571,
+          "backorder_rate": 0.0,
+          "cancellation_rate": 0.0,
+          "variants": [
+            {
+              "sku": "TURF-JBR-5-LB",
+              "name": "Jimmy's Blue Ribbon Lawn Seed Mix - 5 lb - Covers 1,000 Sq Ft",
+              "revenue": 4308.51,
+              "units": 49,
+              "orders": 48
+            },
+            {
+              "sku": "TURF-JBR-10-LB-KIT",
+              "name": "Jimmy's Blue Ribbon Lawn Seed Mix - 10 lb - Covers 2,000 Sq Ft",
+              "revenue": 3932.77,
+              "units": 23,
+              "orders": 23
+            },
+            {
+              "sku": "TURF-JBR-25-LB-KIT",
+              "name": "Jimmy's Blue Ribbon Lawn Seed Mix - 25 lb - Covers 5,000 Sq Ft",
+              "revenue": 3829.9,
+              "units": 10,
+              "orders": 10
+            }
+          ],
+          "composite_score": 70.6,
+          "class": "A",
+          "reason": "Top performer \u2014 $137/day is 3.8x the median velocity \u2014 strong 87% margin."
         },
         {
           "sku": "PG-MESA",
