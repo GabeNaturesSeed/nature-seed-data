@@ -57,7 +57,7 @@ const navItems: NavItem[] = [
     href: '/reporting/pnl',
     icon: FileText,
     children: [
-      { label: 'CFO Tracking', href: '/reporting/pnl', icon: DollarSign },
+      { label: 'Tracking', href: '/reporting/pnl', icon: DollarSign },
       { label: 'CM Waterfall', href: '/reporting/cm', icon: TrendingUp },
       { label: 'Living Budget', href: '/nature-seed-data/living-budget.html', icon: TrendingUp, external: true },
       { label: 'Notes', href: '/reporting/notes', icon: StickyNote },

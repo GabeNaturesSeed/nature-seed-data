@@ -61,13 +61,15 @@ export function linearProjection(dailyCY: { date: string; revenue: number }[]): 
 }
 
 export interface RunRateResult {
-  runRate: number;        // projected month-end total ($)
-  trendPerDay: number;    // OLS slope — $ change per day (negative = declining)
-  recentTrendPerDay: number; // slope of last 7 days only
-  avgDaily: number;       // simple daily average so far
+  runRate: number;            // projected month-end total ($)
+  trendPerDay: number;        // OLS slope — $ change per day (negative = declining)
+  recentTrendPerDay: number;  // slope of last 7 days only
+  avgDaily: number;           // simple daily average so far
   daysElapsed: number;
   daysTotal: number;
-  trendR2: number;        // 0–1, how well the trend line fits (signal quality)
+  trendR2: number;            // 0–1, OLS fit quality
+  lyScalingRatio: number | null; // CY-to-LY ratio observed so far (e.g. 1.12 = running 12% ahead of LY)
+  modelWeights: { ly: number; ols: number; avg: number }; // share each component contributed to the projection
 }
 
 function olsSlope(revs: number[]): { slope: number; intercept: number; r2: number } {
@@ -84,7 +86,28 @@ function olsSlope(revs: number[]): { slope: number; intercept: number; r2: numbe
   return { slope, intercept, r2 };
 }
 
-export function trendRunRate(dailyCY: { date: string; revenue: number }[]): RunRateResult | null {
+/**
+ * trendRunRate — 3-component blended projection
+ *
+ * Component 1 — LY Seasonality Scaling (highest priority when available)
+ *   Uses last-year daily revenue for the same calendar month, scaled by the
+ *   CY/LY ratio observed so far. This captures day-of-month shape (e.g. end-
+ *   of-month spikes, slow Sundays) that OLS cannot see. Weight grows with LY
+ *   data coverage for remaining days and number of elapsed days.
+ *
+ * Component 2 — OLS Trend (blended full-period + recent-7-day regression)
+ *   Captures intra-month acceleration/deceleration. Weighted by R² fit quality.
+ *
+ * Component 3 — Simple Daily Average (fallback / anchor)
+ *   Pure mean × remaining days. Used when both LY data and OLS signal are weak.
+ *
+ * dailyLY dates must be the LY actual dates shifted +1 year so that
+ * day-of-month aligns with dailyCY (this is how generate_data.py stores them).
+ */
+export function trendRunRate(
+  dailyCY: { date: string; revenue: number }[],
+  dailyLY?: { date: string; revenue: number }[],
+): RunRateResult | null {
   if (!dailyCY || dailyCY.length < 2) return null;
 
   const revs = dailyCY.map(d => safe(d.revenue));
@@ -96,38 +119,81 @@ export function trendRunRate(dailyCY: { date: string; revenue: number }[]): RunR
   const dim = daysInMonth(firstDate.getFullYear(), firstDate.getMonth() + 1);
   const remainingDays = dim - n;
 
+  const zeroWeights = { ly: 0, ols: 0, avg: 1 };
   if (remainingDays <= 0) {
-    return { runRate: actualToDate, trendPerDay: 0, recentTrendPerDay: 0, avgDaily, daysElapsed: n, daysTotal: dim, trendR2: 0 };
+    return { runRate: actualToDate, trendPerDay: 0, recentTrendPerDay: 0, avgDaily, daysElapsed: n, daysTotal: dim, trendR2: 0, lyScalingRatio: null, modelWeights: zeroWeights };
   }
 
-  // Full-period OLS regression
+  // ── Component 2: OLS Trend ─────────────────────────────────────────────────
   const full = olsSlope(revs);
-
-  // Recent 7-day OLS (captures acceleration or deceleration)
   const recentRevs = revs.slice(-Math.min(7, n));
   const recent = recentRevs.length >= 3 ? olsSlope(recentRevs) : full;
-  // Translate recent regression to global day indices
   const recentStartIdx = n - recentRevs.length;
   const recentIntercept = recent.intercept - recent.slope * recentStartIdx;
+  const recentBlendWeight = n >= 7 ? Math.min(recent.r2, 0.6) : 0;
 
-  // Blend full-period and recent-period projections.
-  // Weight recent more when it has strong signal and diverges from full trend.
-  // This catches "month started strong, now decelerating" patterns.
-  const recentWeight = n >= 7 ? Math.min(recent.r2, 0.6) : 0;
-  const fullWeight = 1 - recentWeight;
-
-  let fullProjected = 0;
-  let recentProjected = 0;
+  let fullOlsProjected = 0;
+  let recentOlsProjected = 0;
   for (let d = n; d < dim; d++) {
-    fullProjected += Math.max(0, full.intercept + full.slope * d);
-    recentProjected += Math.max(0, recentIntercept + recent.slope * d);
+    fullOlsProjected  += Math.max(0, full.intercept + full.slope * d);
+    recentOlsProjected += Math.max(0, recentIntercept + recent.slope * d);
+  }
+  const olsProjected = (1 - recentBlendWeight) * fullOlsProjected + recentBlendWeight * recentOlsProjected;
+
+  // ── Component 1: LY Seasonality Scaling ───────────────────────────────────
+  // Build day-of-month → LY revenue map.
+  // dailyLY dates are shifted +365 days by the backend so day-of-month aligns.
+  const lyByDay: Record<number, number> = {};
+  if (dailyLY?.length) {
+    for (const d of dailyLY) {
+      const day = new Date(d.date + 'T00:00:00').getDate();
+      lyByDay[day] = safe(d.revenue);
+    }
   }
 
-  // Final blend: trend vs simple average, weighted by full R² (trust trend only when it fits well)
-  const trendBlended = fullWeight * fullProjected + recentWeight * recentProjected;
+  // CY/LY ratio from elapsed days (only where both have data)
+  let lyToDateMatched = 0;
+  let cyToDateMatched = 0;
+  for (let i = 0; i < n; i++) {
+    const day = new Date(dailyCY[i].date + 'T00:00:00').getDate();
+    if (lyByDay[day] != null) {
+      lyToDateMatched += lyByDay[day];
+      cyToDateMatched += revs[i];
+    }
+  }
+  const lyScalingRatio = lyToDateMatched > 0 ? cyToDateMatched / lyToDateMatched : null;
+
+  // Project remaining days using LY pattern × CY/LY ratio
+  let lyProjected = 0;
+  let lyDaysHit = 0;
+  for (let d = n; d < dim; d++) {
+    const day = d + 1; // day-of-month is 1-indexed
+    if (lyByDay[day] != null && lyScalingRatio != null) {
+      lyProjected += lyByDay[day] * lyScalingRatio;
+      lyDaysHit++;
+    } else {
+      lyProjected += avgDaily; // no LY data for this day — fall back to average
+    }
+  }
+
+  // LY coverage: fraction of remaining days that have LY data
+  const lyCoverage = remainingDays > 0 ? lyDaysHit / remainingDays : 0;
+
+  // ── Weight the three components ───────────────────────────────────────────
+  // LY weight scales with: coverage of remaining days × elapsed days (need ≥3 to trust ratio)
+  const lyDataQuality = n >= 3 ? lyCoverage : 0;
+  const lyWeight = Math.min(lyDataQuality * 0.65, 0.65);
+
+  // OLS weight: trust the trend only when it fits well and month is mature enough
+  const olsConfidence = n >= 5 ? Math.min(full.r2, 0.85) : 0;
+
+  // Non-LY portion split between OLS and simple average by OLS confidence
+  const nonLyWeight = 1 - lyWeight;
+  const olsWeight   = nonLyWeight * olsConfidence;
+  const avgWeight   = nonLyWeight * (1 - olsConfidence);
+
   const simpleProjected = avgDaily * remainingDays;
-  const trendConfidence = n >= 5 ? Math.min(full.r2, 0.85) : 0;
-  const projected = trendConfidence * trendBlended + (1 - trendConfidence) * simpleProjected;
+  const projected = lyWeight * lyProjected + olsWeight * olsProjected + avgWeight * simpleProjected;
 
   return {
     runRate: actualToDate + projected,
@@ -137,6 +203,8 @@ export function trendRunRate(dailyCY: { date: string; revenue: number }[]): RunR
     daysElapsed: n,
     daysTotal: dim,
     trendR2: full.r2,
+    lyScalingRatio,
+    modelWeights: { ly: lyWeight, ols: olsWeight, avg: avgWeight },
   };
 }
 

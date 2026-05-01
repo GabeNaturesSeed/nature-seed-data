@@ -54,7 +54,7 @@ export default function ReportingMtdPage() {
   const adBudPct = calcPct(cy.ad_spend, pacedAdSpendBudget);
 
   const projection = linearProjection(mtd.daily_cy);
-  const runRate = trendRunRate(mtd.daily_cy);
+  const runRate = trendRunRate(mtd.daily_cy, mtd.daily_ly);
 
   // MER floor = minimum MER for gross-profit break-even (1 / GM%)
   const merFloor = cy.gross_margin_pct ? 100 / cy.gross_margin_pct : null;
@@ -162,19 +162,27 @@ export default function ReportingMtdPage() {
             <div className="bg-surface-lowest rounded-xl shadow-ambient py-4 px-6">
               <div className="text-xs uppercase tracking-wider text-brand-neutral/50 font-semibold mb-1 inline-flex items-center gap-1">
                 Month Run Rate
-                <InfoTooltip content="Trend-adjusted projection using OLS regression on daily revenue. Blends full-month slope with recent 7-day slope, weighted by R² fit quality. Accounts for acceleration and deceleration within the month." />
+                <InfoTooltip content="3-component blended projection: (1) LY Seasonality Scaling — last year's daily shape for this month scaled by the CY/LY ratio observed so far; (2) OLS Trend regression blending full-month and recent-7-day slopes, weighted by R² fit quality; (3) Simple daily average as fallback. Model weights shown below." />
               </div>
               <div className="text-2xl font-display font-bold text-brand-primary">{fmt(runRate.runRate)}</div>
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs text-brand-neutral/60">
+                {runRate.lyScalingRatio != null && (
+                  <>
+                    <span className={runRate.lyScalingRatio >= 1 ? 'text-brand-primary font-medium' : 'text-ns-red font-medium'}>
+                      LY ×{runRate.lyScalingRatio.toFixed(2)}
+                    </span>
+                    <span>·</span>
+                  </>
+                )}
                 <span className={runRate.recentTrendPerDay >= 0 ? 'text-brand-primary font-medium' : 'text-ns-red font-medium'}>
                   {runRate.recentTrendPerDay >= 0 ? '▲' : '▼'} {fmt(Math.abs(runRate.recentTrendPerDay))}/day recent
                 </span>
                 <span>·</span>
-                <span className={runRate.trendPerDay >= 0 ? 'text-brand-primary' : 'text-ns-red'}>
-                  {runRate.trendPerDay >= 0 ? '▲' : '▼'} {fmt(Math.abs(runRate.trendPerDay))}/day full-month
-                </span>
-                <span>·</span>
                 <span>R² {(runRate.trendR2 * 100).toFixed(0)}%</span>
+                <span>·</span>
+                <span className="text-brand-neutral/40">
+                  LY {(runRate.modelWeights.ly * 100).toFixed(0)}% · OLS {(runRate.modelWeights.ols * 100).toFixed(0)}% · Avg {(runRate.modelWeights.avg * 100).toFixed(0)}%
+                </span>
               </div>
             </div>
           )}
