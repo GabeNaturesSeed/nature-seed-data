@@ -1,8 +1,8 @@
 {
-  "generated": "2026-05-01T18:58:43.357278+00:00",
+  "generated": "2026-05-01T19:25:31.525778+00:00",
   "period_days": 14,
-  "total_revenue": 156519.42000000013,
-  "total_units": 2109,
+  "total_revenue": 156672.41000000012,
+  "total_units": 2110,
   "ranked_by": "velocity (revenue/active_days)",
   "skus": [
     {
@@ -146,7 +146,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 3.9,
+      "rev_pct": 3.89,
       "daily_qty": 1.8
     },
     {
@@ -182,7 +182,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 3.76,
+      "rev_pct": 3.75,
       "daily_qty": 6.5
     },
     {
@@ -290,7 +290,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 3.35,
+      "rev_pct": 3.34,
       "daily_qty": 3.9
     },
     {
@@ -438,6 +438,42 @@
       "daily_qty": 3.8
     },
     {
+      "sku": "PB-GRSC",
+      "name": "Green Screen Food Plot Mix",
+      "product_id": 455414,
+      "qty": 79,
+      "revenue": 4760.21,
+      "orders": 78,
+      "active_days": 14,
+      "velocity": 340.01,
+      "variants": [
+        {
+          "sku": "PB-GRSC-50-LB-KIT",
+          "name": "Green Screen Food Plot Mix - 50 lb - Covers 215,000 Sq Ft",
+          "qty": 11,
+          "revenue": 1682.89,
+          "orders": 10
+        },
+        {
+          "sku": "PB-GRSC-10-LB",
+          "name": "Green Screen Food Plot Mix - 10 lb - Covers 40,000 Sq Ft",
+          "qty": 46,
+          "revenue": 1651.94,
+          "orders": 46
+        },
+        {
+          "sku": "PB-GRSC-20-LB-KIT",
+          "name": "Green Screen Food Plot Mix - 20 lb - Covers 85,000 Sq Ft",
+          "qty": 22,
+          "revenue": 1425.38,
+          "orders": 22
+        }
+      ],
+      "class": "A",
+      "rev_pct": 3.04,
+      "daily_qty": 5.6
+    },
+    {
       "sku": "PB-HRSE-N",
       "name": "Cool Season Horse Pasture Mix",
       "product_id": 445269,
@@ -506,44 +542,8 @@
         }
       ],
       "class": "A",
-      "rev_pct": 2.95,
-      "daily_qty": 10.2
-    },
-    {
-      "sku": "PB-GRSC",
-      "name": "Green Screen Food Plot Mix",
-      "product_id": 455414,
-      "qty": 78,
-      "revenue": 4607.22,
-      "orders": 77,
-      "active_days": 14,
-      "velocity": 329.09,
-      "variants": [
-        {
-          "sku": "PB-GRSC-10-LB",
-          "name": "Green Screen Food Plot Mix - 10 lb - Covers 40,000 Sq Ft",
-          "qty": 46,
-          "revenue": 1651.94,
-          "orders": 46
-        },
-        {
-          "sku": "PB-GRSC-50-LB-KIT",
-          "name": "Green Screen Food Plot Mix - 50 lb - Covers 215,000 Sq Ft",
-          "qty": 10,
-          "revenue": 1529.9,
-          "orders": 9
-        },
-        {
-          "sku": "PB-GRSC-20-LB-KIT",
-          "name": "Green Screen Food Plot Mix - 20 lb - Covers 85,000 Sq Ft",
-          "qty": 22,
-          "revenue": 1425.38,
-          "orders": 22
-        }
-      ],
-      "class": "A",
       "rev_pct": 2.94,
-      "daily_qty": 5.6
+      "daily_qty": 10.2
     },
     {
       "sku": "PG-TRRE",
@@ -578,7 +578,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 2.86,
+      "rev_pct": 2.85,
       "daily_qty": 5.8
     },
     {
@@ -881,7 +881,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.15,
+      "rev_pct": 1.14,
       "daily_qty": 1.4
     },
     {
@@ -1900,7 +1900,7 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.36,
+      "rev_pct": 0.35,
       "daily_qty": 0.9
     },
     {
