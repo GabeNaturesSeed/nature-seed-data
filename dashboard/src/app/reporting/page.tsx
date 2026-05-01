@@ -56,6 +56,17 @@ export default function ReportingMtdPage() {
   const projection = linearProjection(mtd.daily_cy);
   const runRate = trendRunRate(mtd.daily_cy, mtd.daily_ly);
 
+  // Opening estimate for day 1 (no MTD data yet): scale last month's actual
+  // by the month-over-month budget growth ratio.
+  const openingEstimate = (!projection && !runRate && data.lm) ? (() => {
+    const lmRev = data.lm!.cy.revenue;
+    const lmBud = data.lm!.budget.revenue;
+    const curBud = budget.revenue;
+    if (lmRev && lmBud && curBud) return Math.round(lmRev * (curBud / lmBud));
+    if (curBud) return curBud;
+    return null;
+  })() : null;
+
   // MER floor = minimum MER for gross-profit break-even (1 / GM%)
   const merFloor = cy.gross_margin_pct ? 100 / cy.gross_margin_pct : null;
   const merHeadroom = cy.mer && merFloor ? cy.mer - merFloor : null;
@@ -142,6 +153,17 @@ export default function ReportingMtdPage() {
           tooltip={sources.mtdAov}
         />
       </KpiGrid>
+
+      {/* Opening month estimate — shown on day 1 when no MTD data exists yet */}
+      {openingEstimate && (
+        <div className="bg-surface-lowest rounded-xl shadow-ambient py-4 px-6 mb-8">
+          <div className="text-xs uppercase tracking-wider text-brand-neutral/50 font-semibold mb-1 inline-flex items-center gap-1">
+            Opening Month Estimate <InfoTooltip content="No MTD data yet. Estimate = last month actual × (this month budget ÷ last month budget). Updates to a live run rate once daily data flows in." />
+          </div>
+          <div className="text-2xl font-display font-bold text-brand-primary">{fmt(openingEstimate)}</div>
+          <div className="text-xs text-brand-neutral/50 mt-1">based on last month performance + budget seasonality · no days elapsed yet</div>
+        </div>
+      )}
 
       {/* Month projections row */}
       {(projection || runRate) && (

@@ -15,6 +15,7 @@ type Line = {
   highlight?: boolean;
   subtract?: boolean;
   section?: boolean;
+  showPct?: boolean;
 };
 
 const revenue = (m: Partial<PnlMonth>) => (m.seed_revenue ?? 0) + (m.revenue_freight ?? 0) + (m.discounts ?? 0);
@@ -29,12 +30,12 @@ const netIncome = (m: Partial<PnlMonth>) => cm2(m) - ga(m);
 const lines: Line[] = [
   { label: 'Revenue (Seed + Freight, net of discounts)', compute: revenue, bold: true },
   { label: 'Less: Seed COGS', compute: seedCogs, subtract: true },
-  { label: 'CM1 (Gross contribution after seed COGS)', compute: cm1, bold: true, highlight: true, section: true },
+  { label: 'CM1 (Gross contribution after seed COGS)', compute: cm1, bold: true, highlight: true, section: true, showPct: true },
   { label: 'Less: Freight Cost', compute: freightCost, subtract: true },
   { label: 'Less: Marketing Cost (Advertising + Development)', compute: marketingCost, subtract: true },
-  { label: 'CM2 (Contribution after variable overhead)', compute: cm2, bold: true, highlight: true, section: true },
+  { label: 'CM2 (Contribution after variable overhead)', compute: cm2, bold: true, highlight: true, section: true, showPct: true },
   { label: 'Less: OPEX (G&A)', compute: ga, subtract: true },
-  { label: 'Net Income (after G&A only)', compute: netIncome, bold: true, highlight: true, section: true },
+  { label: 'Net Income (after G&A only)', compute: netIncome, bold: true, highlight: true, section: true, showPct: true },
 ];
 
 function fmtCell(val: number | null, subtract: boolean): string {
@@ -42,6 +43,11 @@ function fmtCell(val: number | null, subtract: boolean): string {
   const abs = Math.abs(val);
   const formatted = fmt(abs);
   return subtract ? '(' + formatted + ')' : fmt(val);
+}
+
+function pctOfRevenue(val: number | null, rev: number): string | null {
+  if (val == null || rev === 0) return null;
+  return (val / rev * 100).toFixed(1) + '%';
 }
 
 export default function CmWaterfallTable({ months, ytd }: CmWaterfallTableProps) {
@@ -71,17 +77,28 @@ export default function CmWaterfallTable({ months, ytd }: CmWaterfallTableProps)
               </td>
               {months.map(m => {
                 const val = line.compute(m as Partial<PnlMonth>);
+                const rev = revenue(m as Partial<PnlMonth>);
+                const pct = line.showPct ? pctOfRevenue(val, rev) : null;
                 return (
                   <td
                     key={m.month}
                     className={`px-5 py-2.5 text-right ${line.bold ? 'font-semibold' : ''} ${val != null && val < 0 ? 'text-ns-red' : ''}`}
                   >
                     {fmtCell(val, !!line.subtract)}
+                    {pct && <div className="text-[10px] text-brand-neutral/40 font-normal">{pct}</div>}
                   </td>
                 );
               })}
               <td className={`px-5 py-2.5 text-right font-semibold ${line.bold ? '' : 'text-brand-neutral/80'}`}>
-                {fmtCell(line.compute(ytd as Partial<PnlMonth>), !!line.subtract)}
+                {(() => {
+                  const val = line.compute(ytd as Partial<PnlMonth>);
+                  const rev = revenue(ytd as Partial<PnlMonth>);
+                  const pct = line.showPct ? pctOfRevenue(val, rev) : null;
+                  return <>
+                    {fmtCell(val, !!line.subtract)}
+                    {pct && <div className="text-[10px] text-brand-neutral/40 font-normal">{pct}</div>}
+                  </>;
+                })()}
               </td>
             </tr>
           ))}
