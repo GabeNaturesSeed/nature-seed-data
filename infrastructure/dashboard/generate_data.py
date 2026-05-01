@@ -386,6 +386,7 @@ def _load_actuals_csv():
         with open(csv_path, newline="", encoding="utf-8-sig") as f:
             reader = csv.reader(f)
             header = None
+            scale = 1  # 1000 if CSV is in ($000s) format
             # Track which section we're in to disambiguate duplicate labels
             section = None
             for row in reader:
@@ -402,6 +403,11 @@ def _load_actuals_csv():
                     continue
 
                 label = row[0].strip()
+
+                # Detect thousands-format rows (e.g. "($000s)")
+                if "000s" in label.lower():
+                    scale = 1000
+                    continue
 
                 # Track sections for disambiguation
                 if label == "REVENUE":
@@ -501,7 +507,7 @@ def _load_actuals_csv():
                             continue
                         if month_key not in actuals:
                             actuals[month_key] = {}
-                        actuals[month_key][key] = _parse_dollar(row[i])
+                        actuals[month_key][key] = _parse_dollar(row[i]) * scale
 
     return actuals
 
