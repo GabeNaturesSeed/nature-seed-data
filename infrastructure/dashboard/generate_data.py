@@ -519,6 +519,16 @@ def generate_reporting():
     mtd_start_ly = date(today.year - 1, today.month, 1)
     mtd_end_ly = date(today.year - 1, today.month, yesterday.day)
 
+    # Last month window (full calendar month)
+    import calendar as _calendar
+    lm_year = today.year if today.month > 1 else today.year - 1
+    lm_month = today.month - 1 if today.month > 1 else 12
+    lm_days = _calendar.monthrange(lm_year, lm_month)[1]
+    lm_start_cy = date(lm_year, lm_month, 1)
+    lm_end_cy = date(lm_year, lm_month, lm_days)
+    lm_start_ly = date(lm_year - 1, lm_month, 1)
+    lm_end_ly = date(lm_year - 1, lm_month, lm_days)
+
     # YTD window (Jan 1 → yesterday)
     ytd_start_cy = date(today.year, 1, 1)
     ytd_start_ly = date(today.year - 1, 1, 1)
@@ -566,6 +576,8 @@ def generate_reporting():
 
     cy_rows = fetch_date_range(mtd_start_cy, mtd_end_cy)
     ly_rows = fetch_date_range(mtd_start_ly, mtd_end_ly)
+    lm_cy_rows = fetch_date_range(lm_start_cy, lm_end_cy)
+    lm_ly_rows = fetch_date_range(lm_start_ly, lm_end_ly)
     ytd_cy_rows = fetch_date_range(ytd_start_cy, yesterday)
     ytd_ly_rows = fetch_date_range(ytd_start_ly, ytd_end_ly)
 
@@ -659,12 +671,45 @@ def generate_reporting():
         tot["cm2"] = round(tot["cm1"] - tot["shipping"] - tot["platform_fees"], 2)
         tot["cm2_pct"] = round(tot["cm2"] / tot["revenue"] * 100, 1) if tot["revenue"] else None
 
+    # ── Last-month totals ─────────────────────────────────────
+    lm_cy_totals = sum_rows(lm_cy_rows)
+    lm_ly_totals = sum_rows(lm_ly_rows)
+    lm_cy_totals["mer"] = round(lm_cy_totals["revenue"] / lm_cy_totals["ad_spend"], 2) if lm_cy_totals["ad_spend"] else 0
+
+    wc_orders_lm = _sum_channel("daily_sales", lm_start_cy, lm_end_cy, "woocommerce", "orders")
+    wc_cogs_lm = _sum_channel("daily_cogs", lm_start_cy, lm_end_cy, "woocommerce", "total_cogs")
+    wc_orders_lm_ly = _sum_channel("daily_sales", lm_start_ly, lm_end_ly, "woocommerce", "orders")
+    wc_cogs_lm_ly = _sum_channel("daily_cogs", lm_start_ly, lm_end_ly, "woocommerce", "total_cogs")
+
+    if wc_orders_lm is not None:
+        lm_cy_totals["orders"] = int(wc_orders_lm)
+    if wc_cogs_lm is not None:
+        lm_cy_totals["cogs"] = round(wc_cogs_lm, 2)
+    if wc_orders_lm_ly is not None:
+        lm_ly_totals["orders"] = int(wc_orders_lm_ly)
+    if wc_cogs_lm_ly is not None:
+        lm_ly_totals["cogs"] = round(wc_cogs_lm_ly, 2)
+
+    for tot in (lm_cy_totals, lm_ly_totals):
+        tot["gross_profit"] = round(tot["revenue"] - tot["cogs"], 2)
+        tot["gross_margin_pct"] = round(tot["gross_profit"] / tot["revenue"] * 100, 1) if tot["revenue"] else None
+        tot["cm1"] = round(tot["gross_profit"] - tot["ad_spend"], 2)
+        tot["cm2"] = round(tot["cm1"] - tot["shipping"] - tot["platform_fees"], 2)
+        tot["cm2_pct"] = round(tot["cm2"] / tot["revenue"] * 100, 1) if tot["revenue"] else None
+
     budget = _load_budget_csv()
     cur_month_key = f"{today.year}-{today.month:02d}"
     budget_month = budget.get(cur_month_key, {})
     mtd_budget = {
         "revenue": budget_month.get("net_revenue", 0),
         "ad_spend": budget_month.get("ad_spend", 0),
+    }
+
+    lm_month_key = f"{lm_year}-{lm_month:02d}"
+    lm_budget_month = budget.get(lm_month_key, {})
+    lm_budget = {
+        "revenue": lm_budget_month.get("net_revenue", 0),
+        "ad_spend": lm_budget_month.get("ad_spend", 0),
     }
 
     # Daily chart series — WC-only (fall back to total_revenue if wc_revenue missing)
@@ -689,6 +734,18 @@ def generate_reporting():
             "revenue": _wc_rev(r),
         }
         for r in ly_rows
+    ]
+
+    lm_daily_cy = [
+        {"date": r["report_date"], "revenue": _wc_rev(r)}
+        for r in lm_cy_rows
+    ]
+    lm_daily_ly = [
+        {
+            "date": str(date.fromisoformat(r["report_date"]) + timedelta(days=365)),
+            "revenue": _wc_rev(r),
+        }
+        for r in lm_ly_rows
     ]
 
     # YTD — aggregate by month
@@ -847,6 +904,32 @@ def generate_reporting():
     aov = round(cy_totals["revenue"] / cy_totals["orders"], 2) if cy_totals["orders"] else 0
     new_cac = round(cy_totals["ad_spend"] / new_customers_mtd, 2) if new_customers_mtd else None
 
+    # Pull last-month WC orders for new customer count
+    print("  Pulling last-month WC orders for new customer count...")
+    try:
+        lm_orders = _pull_wc_orders_range(str(lm_start_cy), str(lm_end_cy))
+        lm_cids = {}
+        lm_guest_emails = {}
+        for o in lm_orders:
+            cid = o.get("customer_id", 0)
+            if cid and cid != 0:
+                lm_cids.setdefault(cid, True)
+            else:
+                email = (o.get("billing", {}).get("email") or "").lower().strip()
+                if email:
+                    lm_guest_emails.setdefault(email, True)
+        lm_cust_dates = _pull_wc_customers_batch(list(lm_cids.keys()))
+        lm_start_str = str(lm_start_cy)
+        new_customers_lm = sum(1 for cid in lm_cids if (lm_cust_dates.get(cid, "")[:10] >= lm_start_str))
+        new_customers_lm += len(lm_guest_emails)
+        print(f"    LM customers: {len(lm_cids) + len(lm_guest_emails)} unique ({new_customers_lm} new)")
+    except Exception as e:
+        print(f"    [WARN] Last-month new customer count failed: {e}")
+        new_customers_lm = None
+
+    lm_aov = round(lm_cy_totals["revenue"] / lm_cy_totals["orders"], 2) if lm_cy_totals["orders"] else 0
+    lm_new_cac = round(lm_cy_totals["ad_spend"] / new_customers_lm, 2) if new_customers_lm else None
+
     result = {
         "as_of": TODAY_STR,
         "mtd": {
@@ -879,6 +962,37 @@ def generate_reporting():
             "budget": mtd_budget,
             "daily_cy": daily_cy,
             "daily_ly": daily_ly,
+        },
+        "lm": {
+            "cy": {
+                "revenue": lm_cy_totals["revenue"],
+                "orders": lm_cy_totals["orders"],
+                "ad_spend": lm_cy_totals["ad_spend"],
+                "mer": lm_cy_totals["mer"],
+                "cogs": lm_cy_totals["cogs"],
+                "shipping": lm_cy_totals["shipping"],
+                "net_revenue": lm_cy_totals["net_revenue"],
+                "wc_revenue": lm_cy_totals["wc_revenue"],
+                "amazon_revenue": lm_cy_totals["amazon_revenue"],
+                "walmart_revenue": lm_cy_totals["walmart_revenue"],
+                "platform_fees": lm_cy_totals["platform_fees"],
+                "gross_profit": lm_cy_totals["gross_profit"],
+                "gross_margin_pct": lm_cy_totals["gross_margin_pct"],
+                "cm1": lm_cy_totals["cm1"],
+                "cm2": lm_cy_totals["cm2"],
+                "cm2_pct": lm_cy_totals["cm2_pct"],
+                "aov": lm_aov,
+                "new_customers": new_customers_lm,
+                "new_customer_cac": lm_new_cac,
+            },
+            "ly": {
+                "revenue": lm_ly_totals["revenue"],
+                "orders": lm_ly_totals["orders"],
+                "ad_spend": lm_ly_totals["ad_spend"],
+            },
+            "budget": lm_budget,
+            "daily_cy": lm_daily_cy,
+            "daily_ly": lm_daily_ly,
         },
         "ytd": {
             "months": ytd_months,

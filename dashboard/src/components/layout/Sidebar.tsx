@@ -47,6 +47,7 @@ const navItems: NavItem[] = [
     icon: BarChart3,
     children: [
       { label: 'MTD Overview', href: '/reporting', icon: TrendingUp },
+      { label: 'Last Month', href: '/reporting/last-month', icon: Calendar },
       { label: 'YTD Summary', href: '/reporting/ytd', icon: LineChart },
       { label: 'Website Health', href: '/website-health', icon: HeartPulse },
     ],

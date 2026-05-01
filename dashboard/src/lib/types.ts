@@ -171,6 +171,13 @@ export interface ReportingData {
     daily_cy: DailyDataPoint[];
     daily_ly: DailyDataPoint[];
   };
+  lm?: {
+    cy: MtdCY;
+    ly: MtdComparison;
+    budget: MtdBudget;
+    daily_cy: DailyDataPoint[];
+    daily_ly: DailyDataPoint[];
+  };
   ytd: {
     months: YtdMonth[];
     totals_cy: YtdTotals;
