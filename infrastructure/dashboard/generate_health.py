@@ -99,114 +99,6 @@ def _wc_get(path, params=None):
 
 
 # ══════════════════════════════════════════════════════════════
-# SECTION A: UPTIME (from Supabase website_health)
-# ══════════════════════════════════════════════════════════════
-
-def pull_uptime():
-    """Pull uptime data from Supabase website_health table."""
-    print("\n[A] Uptime data...")
-
-    if not SUPABASE_URL or not SUPABASE_KEY:
-        print("  [SKIP] No Supabase credentials")
-        return {
-            "current_status": [],
-            "uptime_24h": None,
-            "uptime_7d": None,
-            "incidents": [],
-        }
-
-    ts_24h = (NOW_UTC - timedelta(hours=24)).isoformat()
-    ts_7d = (NOW_UTC - timedelta(days=7)).isoformat()
-
-    # Pull last 7 days of data
-    try:
-        rows = _supabase_get("website_health", {
-            "check_timestamp": f"gte.{ts_7d}",
-            "order": "check_timestamp.desc",
-            "limit": 10000,
-        })
-    except requests.exceptions.HTTPError as e:
-        if e.response.status_code == 404:
-            print("  [WARN] website_health table not found — run website_health.sql first")
-        else:
-            print(f"  [WARN] Supabase error: {e}")
-        return {
-            "current_status": [],
-            "uptime_24h": None,
-            "uptime_7d": None,
-            "incidents": [],
-            "note": "Table not yet created. Run infrastructure/pipeline/website_health.sql in Supabase.",
-        }
-    print(f"  Fetched {len(rows)} health check rows (7d)")
-
-    if not rows:
-        return {
-            "current_status": [],
-            "uptime_24h": None,
-            "uptime_7d": None,
-            "incidents": [],
-        }
-
-    # Current status: latest check per URL
-    latest_by_url = {}
-    for r in rows:
-        url = r["url"]
-        if url not in latest_by_url:
-            latest_by_url[url] = {
-                "url": url,
-                "is_up": r["is_up"],
-                "status_code": r["status_code"],
-                "response_time_ms": r["response_time_ms"],
-                "last_checked": r["check_timestamp"],
-                "error_message": r.get("error_message"),
-            }
-    current_status = list(latest_by_url.values())
-
-    # Uptime percentages
-    rows_24h = [r for r in rows if r["check_timestamp"] >= ts_24h]
-    up_24h = sum(1 for r in rows_24h if r["is_up"])
-    uptime_24h = round(up_24h / len(rows_24h) * 100, 1) if rows_24h else None
-
-    up_7d = sum(1 for r in rows if r["is_up"])
-    uptime_7d = round(up_7d / len(rows) * 100, 1) if rows else None
-
-    print(f"  24h uptime: {uptime_24h}% ({up_24h}/{len(rows_24h)} checks)")
-    print(f"  7d uptime:  {uptime_7d}% ({up_7d}/{len(rows)} checks)")
-
-    # Incidents: downtime events in last 7 days
-    incidents = []
-    down_rows = [r for r in rows if not r["is_up"]]
-    # Group consecutive down checks by URL to estimate duration
-    down_by_url = defaultdict(list)
-    for r in down_rows:
-        down_by_url[r["url"]].append(r)
-
-    for url, dr_list in down_by_url.items():
-        # Sort by timestamp ascending
-        dr_list.sort(key=lambda x: x["check_timestamp"])
-        for dr in dr_list:
-            incidents.append({
-                "url": url,
-                "timestamp": dr["check_timestamp"],
-                "status_code": dr["status_code"],
-                "error_message": dr.get("error_message"),
-                "duration_min": 30,  # Each check is 30 min apart, so min duration
-            })
-
-    if incidents:
-        print(f"  {len(incidents)} downtime incidents found")
-    else:
-        print("  No downtime incidents")
-
-    return {
-        "current_status": current_status,
-        "uptime_24h": uptime_24h,
-        "uptime_7d": uptime_7d,
-        "incidents": incidents[:50],  # Cap at 50 incidents
-    }
-
-
-# ══════════════════════════════════════════════════════════════
 # SECTION B: ORDER VELOCITY (from WooCommerce)
 # ══════════════════════════════════════════════════════════════
 
@@ -512,7 +404,6 @@ def main():
 
     health = {"as_of": TODAY_STR}
 
-    health["uptime"] = pull_uptime()
     health["order_velocity"] = pull_order_velocity()
     health["search_health"] = pull_search_health()
     health["server"] = pull_server_health()

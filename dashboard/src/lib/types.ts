@@ -466,20 +466,6 @@ export interface NotesData {
 }
 
 // ── Website Health ──
-export interface UptimeStatus {
-  url: string;
-  is_up: boolean;
-  response_time_ms: number;
-  last_checked: string;
-}
-
-export interface UptimeIncident {
-  url: string;
-  timestamp: string;
-  status_code: number;
-  duration_min: number;
-}
-
 export interface HourlyOrder {
   hour: number;
   today: number;
@@ -493,13 +479,6 @@ export interface SearchQuery {
 
 export interface HealthData {
   as_of: string;
-  uptime: {
-    current_status: UptimeStatus[];
-    uptime_24h: number | null;
-    uptime_7d: number | null;
-    incidents: UptimeIncident[];
-    note?: string;
-  };
   order_velocity: {
     today_label: string;
     hourly: HourlyOrder[];

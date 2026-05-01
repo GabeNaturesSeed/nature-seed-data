@@ -1,24 +1,17 @@
 {
-  "as_of": "2026-03-25",
-  "uptime": {
-    "current_status": [],
-    "uptime_24h": null,
-    "uptime_7d": null,
-    "incidents": [],
-    "note": "Table not yet created. Run infrastructure/pipeline/website_health.sql in Supabase."
-  },
+  "as_of": "2026-05-01",
   "order_velocity": {
-    "today_label": "Wednesday",
+    "today_label": "Friday",
     "hourly": [
       {
         "hour": 0,
-        "today": 0,
-        "last_week": 1
+        "today": 1,
+        "last_week": 2
       },
       {
         "hour": 1,
         "today": 0,
-        "last_week": 1
+        "last_week": 0
       },
       {
         "hour": 2,
@@ -28,67 +21,67 @@
       {
         "hour": 3,
         "today": 1,
-        "last_week": 2
+        "last_week": 0
       },
       {
         "hour": 4,
-        "today": 1,
-        "last_week": 1
+        "today": 0,
+        "last_week": 2
       },
       {
         "hour": 5,
-        "today": 0,
+        "today": 1,
         "last_week": 7
       },
       {
         "hour": 6,
-        "today": 1,
-        "last_week": 2
+        "today": 2,
+        "last_week": 4
       },
       {
         "hour": 7,
-        "today": 11,
-        "last_week": 2
-      },
-      {
-        "hour": 8,
-        "today": 8,
+        "today": 4,
         "last_week": 6
       },
       {
+        "hour": 8,
+        "today": 12,
+        "last_week": 4
+      },
+      {
         "hour": 9,
-        "today": 10,
-        "last_week": 11
+        "today": 1,
+        "last_week": 6
       },
       {
         "hour": 10,
-        "today": 9,
-        "last_week": 10
+        "today": 0,
+        "last_week": 7
       },
       {
         "hour": 11,
-        "today": 11,
-        "last_week": 5
+        "today": 0,
+        "last_week": 10
       },
       {
         "hour": 12,
-        "today": 8,
+        "today": 0,
         "last_week": 7
       },
       {
         "hour": 13,
-        "today": 10,
-        "last_week": 5
+        "today": 0,
+        "last_week": 3
       },
       {
         "hour": 14,
         "today": 0,
-        "last_week": 5
+        "last_week": 3
       },
       {
         "hour": 15,
         "today": 0,
-        "last_week": 7
+        "last_week": 2
       },
       {
         "hour": 16,
@@ -98,22 +91,22 @@
       {
         "hour": 17,
         "today": 0,
-        "last_week": 1
+        "last_week": 5
       },
       {
         "hour": 18,
         "today": 0,
-        "last_week": 6
+        "last_week": 5
       },
       {
         "hour": 19,
         "today": 0,
-        "last_week": 11
+        "last_week": 4
       },
       {
         "hour": 20,
         "today": 0,
-        "last_week": 3
+        "last_week": 1
       },
       {
         "hour": 21,
@@ -128,61 +121,77 @@
       {
         "hour": 23,
         "today": 0,
-        "last_week": 2
+        "last_week": 0
       }
     ],
-    "today_total": 71,
-    "last_week_total": 106
+    "today_total": 23,
+    "last_week_total": 89
   },
   "search_health": {
-    "total_searches_24h": 50,
-    "no_result_rate": 32.0,
-    "no_result_searches": 16,
+    "total_searches_24h": 51,
+    "no_result_rate": 33.3,
+    "no_result_searches": 17,
     "top_searches": [
       {
         "query": "clover",
-        "count": 12
+        "count": 16
       },
       {
-        "query": "bermuda",
-        "count": 7
-      },
-      {
-        "query": "alfalfa",
+        "query": "soil ph 6.0",
         "count": 5
       },
       {
-        "query": "tall fescue",
+        "query": "pollinator habitat",
         "count": 5
       },
       {
-        "query": "rice hulls",
+        "query": "bermuda drought tolerant",
         "count": 5
-      },
-      {
-        "query": "florida",
-        "count": 4
-      },
-      {
-        "query": "chicory seed",
-        "count": 3
-      },
-      {
-        "query": "microclover",
-        "count": 3
       },
       {
         "query": "fescue",
+        "count": 4
+      },
+      {
+        "query": "tortoise",
+        "count": 4
+      },
+      {
+        "query": "purple needlegrass (foundation species) blue wildrye (early establishment) california oatgrass (palatability) idaho fescue (persistence) native clovers or forbs for nutrition",
         "count": 3
       },
       {
-        "query": "vetch",
+        "query": "sheep",
+        "count": 3
+      },
+      {
+        "query": "rye",
+        "count": 3
+      },
+      {
+        "query": "erosion control",
         "count": 3
       }
     ],
     "top_no_results": [
       {
-        "query": "clemantis",
+        "query": "ohio",
+        "count": 2
+      },
+      {
+        "query": "bamboo",
+        "count": 2
+      },
+      {
+        "query": "nasturtium",
+        "count": 2
+      },
+      {
+        "query": "nasturtiums",
+        "count": 2
+      },
+      {
+        "query": "yaak",
         "count": 2
       },
       {
@@ -190,35 +199,19 @@
         "count": 2
       },
       {
-        "query": "tobosa",
+        "query": "purple needlegrass (foundation species) blue wildrye (early establishment) california oatgrass (palatability) idaho fescue (persistence) native clovers or forbs for nutrition",
         "count": 2
       },
       {
-        "query": "frogfruit",
-        "count": 2
-      },
-      {
-        "query": "agritech",
-        "count": 2
-      },
-      {
-        "query": "tttf",
-        "count": 2
-      },
-      {
-        "query": "we23",
+        "query": "deschampsia cespitosa",
         "count": 1
       },
       {
-        "query": "palisades zyosia",
+        "query": "perryegrass",
         "count": 1
       },
       {
-        "query": "joseph idahoe",
-        "count": 1
-      },
-      {
-        "query": "kersting's groundnut",
+        "query": "wb rmi",
         "count": 1
       }
     ]

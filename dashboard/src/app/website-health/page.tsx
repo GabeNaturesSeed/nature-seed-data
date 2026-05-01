@@ -19,14 +19,6 @@ function formatHour(hour: number): string {
   return `${hour - 12}pm`;
 }
 
-function StatusDot({ up }: { up: boolean }) {
-  return (
-    <span
-      className={`inline-block w-2.5 h-2.5 rounded-full ${up ? 'bg-brand-primary' : 'bg-ns-red'}`}
-      style={{ boxShadow: up ? '0 0 6px rgba(45,106,79,0.4)' : '0 0 6px rgba(192,57,43,0.4)' }}
-    />
-  );
-}
 
 function noResultColor(rate: number): string {
   if (rate < 5) return 'text-brand-primary';
@@ -51,7 +43,7 @@ export default function WebsiteHealthPage() {
 
   if (!data) return <p className="text-brand-neutral/50">Website health data unavailable</p>;
 
-  const { uptime, order_velocity, search_health, server } = data;
+  const { order_velocity, search_health, server } = data;
 
   // Chart data
   const hourlyChartData = order_velocity.hourly.map(h => ({
@@ -72,83 +64,7 @@ export default function WebsiteHealthPage() {
         </span>
       </div>
 
-      {/* ── Section 1: Site Status ── */}
-      <h2 className="font-display text-lg font-semibold text-brand-neutral mb-4">Site Status</h2>
-
-      {uptime.current_status.length > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
-          {uptime.current_status.map(s => {
-            const label = s.url
-              .replace('https://naturesseed.com', '')
-              .replace(/\/$/, '') || 'Homepage';
-            const displayName = label === 'Homepage' ? 'Homepage'
-              : label.replace(/^\//, '').split('/').pop()?.replace(/-/g, ' ')
-                .replace(/\b\w/g, c => c.toUpperCase()) ?? label;
-
-            return (
-              <div key={s.url} className="bg-surface-lowest rounded-xl shadow-ambient p-4">
-                <p className="text-xs text-brand-neutral/50 mb-2 truncate" title={s.url}>{displayName}</p>
-                <div className="flex items-center gap-2 mb-1">
-                  <StatusDot up={s.is_up} />
-                  <span className={`text-sm font-semibold ${s.is_up ? 'text-brand-primary' : 'text-ns-red'}`}>
-                    {s.is_up ? 'Online' : 'Down'}
-                  </span>
-                </div>
-                <p className="text-xs text-brand-neutral/50">{s.response_time_ms}ms</p>
-              </div>
-            );
-          })}
-        </div>
-      ) : uptime.note ? (
-        <div className="bg-surface-lowest rounded-xl shadow-ambient p-5 mb-6">
-          <p className="text-sm text-brand-neutral/50">{uptime.note}</p>
-        </div>
-      ) : null}
-
-      {/* Uptime KPIs */}
-      <KpiGrid columns={3}>
-        <KpiCard
-          label="24h Uptime"
-          value={uptime.uptime_24h != null ? `${uptime.uptime_24h.toFixed(2)}%` : '\u2014'}
-          badges={uptime.uptime_24h != null ? [
-            { label: uptime.uptime_24h >= 99.9 ? 'Healthy' : 'Degraded', color: uptime.uptime_24h >= 99.9 ? 'success' : 'warning' }
-          ] : undefined}
-        />
-        <KpiCard
-          label="7d Uptime"
-          value={uptime.uptime_7d != null ? `${uptime.uptime_7d.toFixed(2)}%` : '\u2014'}
-          badges={uptime.uptime_7d != null ? [
-            { label: uptime.uptime_7d >= 99.9 ? 'Healthy' : 'Degraded', color: uptime.uptime_7d >= 99.9 ? 'success' : 'warning' }
-          ] : undefined}
-        />
-        <KpiCard label="Incidents (7d)" value={fmtInt(uptime.incidents.length)} badges={[
-          { label: uptime.incidents.length === 0 ? 'No incidents' : `${uptime.incidents.length} event(s)`, color: uptime.incidents.length === 0 ? 'success' : 'danger' }
-        ]} />
-      </KpiGrid>
-
-      {/* Incident Timeline */}
-      {uptime.incidents.length > 0 && (
-        <div className="bg-surface-lowest rounded-xl shadow-ambient p-5 mb-8">
-          <h3 className="font-display text-base font-semibold text-brand-neutral mb-3">Recent Incidents</h3>
-          <div className="space-y-2">
-            {uptime.incidents.map((inc, i) => (
-              <div key={i} className="flex flex-wrap items-center gap-2 md:gap-4 text-sm">
-                <StatusDot up={false} />
-                <span className="text-brand-neutral/70 w-auto md:w-40 flex-shrink-0">
-                  {new Date(inc.timestamp).toLocaleString('en-US', {
-                    month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit',
-                  })}
-                </span>
-                <span className="text-brand-neutral">{inc.url}</span>
-                <span className="text-xs text-ns-red font-medium">HTTP {inc.status_code}</span>
-                <span className="text-xs text-brand-neutral/50">{inc.duration_min} min</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* ── Section 2: Order Velocity ── */}
+      {/* ── Section 1: Order Velocity ── */}
       <ChartCard title="Order Velocity — Hour by Hour" height={320}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={hourlyChartData} barCategoryGap="20%">
