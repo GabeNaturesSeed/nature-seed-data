@@ -59,7 +59,7 @@ const navItems: NavItem[] = [
     children: [
       { label: 'Tracking', href: '/reporting/pnl', icon: DollarSign },
       { label: 'CM Waterfall', href: '/reporting/cm', icon: TrendingUp },
-      { label: 'Living Budget', href: '/nature-seed-data/living-budget.html', icon: TrendingUp, external: true },
+      { label: 'Living Budget', href: '/reporting/budget', icon: TrendingUp },
       { label: 'Notes', href: '/reporting/notes', icon: StickyNote },
     ],
   },
