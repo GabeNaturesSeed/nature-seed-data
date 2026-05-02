@@ -1,21 +1,21 @@
 {
-  "generated": "2026-05-01T19:50:59.428341",
+  "generated": "2026-05-02T08:55:55.817995",
   "seasons": {
     "spring_2026": {
       "label": "Spring 2026",
       "period": "2026-02-01 \u2192 2026-04-30",
-      "total_revenue": 971488.43,
-      "total_orders": 10051,
+      "total_revenue": 971312.05,
+      "total_orders": 10049,
       "total_skus": 121,
       "summary": {
         "a_count": 39,
-        "a_revenue": 783522.27,
+        "a_revenue": 783504.28,
         "a_pct": 80.7,
         "b_count": 32,
-        "b_revenue": 140519.1,
-        "b_pct": 14.5,
+        "b_revenue": 140105.36,
+        "b_pct": 14.4,
         "c_count": 50,
-        "c_revenue": 47447.06,
+        "c_revenue": 47702.41,
         "c_pct": 4.9
       },
       "items": [
@@ -195,16 +195,16 @@
           "sku": "S-RICE",
           "name": "Rice Hulls",
           "product_id": 450345,
-          "revenue": 22106.28,
-          "margin": 20206.28,
+          "revenue": 22088.29,
+          "margin": 20189.54,
           "margin_pct": 91.4,
-          "units": 664,
-          "orders": 565,
-          "avg_basket": 153.93,
+          "units": 663,
+          "orders": 564,
+          "avg_basket": 153.86,
           "active_days": 88,
-          "daily_velocity": 7.55,
-          "revenue_velocity": 251.21,
-          "velocity_trend": 180.2752,
+          "daily_velocity": 7.53,
+          "revenue_velocity": 251.0,
+          "velocity_trend": 180.1763,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
           "variants": [
@@ -225,9 +225,9 @@
             {
               "sku": "S-RICE-5-LB",
               "name": "Rice Hulls - 5 Lbs - 2,000 Sq Ft",
-              "revenue": 5916.79,
-              "units": 333,
-              "orders": 299
+              "revenue": 5898.8,
+              "units": 332,
+              "orders": 298
             }
           ],
           "composite_score": 82.09,
@@ -1549,7 +1549,7 @@
               "orders": 13
             }
           ],
-          "composite_score": 63.67,
+          "composite_score": 63.59,
           "class": "A",
           "reason": "Top performer \u2014 $120/day is 3.3x the median velocity \u2014 drives $282 avg basket."
         },
@@ -1743,7 +1743,7 @@
               "orders": 1
             }
           ],
-          "composite_score": 60.47,
+          "composite_score": 60.53,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 78% margin \u2014 positive trend."
         },
@@ -1958,7 +1958,7 @@
               "orders": 2
             }
           ],
-          "composite_score": 58.94,
+          "composite_score": 59.0,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 69% margin \u2014 positive trend."
         },
@@ -2697,7 +2697,7 @@
               "orders": 3
             }
           ],
-          "composite_score": 48.12,
+          "composite_score": 48.37,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 93% margin \u2014 positive trend."
         },
@@ -2819,7 +2819,7 @@
               "orders": 30
             }
           ],
-          "composite_score": 45.35,
+          "composite_score": 45.6,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 56% margin \u2014 positive trend."
         },
@@ -2865,49 +2865,6 @@
           "composite_score": 44.99,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 53% margin \u2014 positive trend."
-        },
-        {
-          "sku": "W-ASFA",
-          "name": "Narrowleaf Milkweed Seed",
-          "product_id": 445347,
-          "revenue": 2507.89,
-          "margin": 2084.11,
-          "margin_pct": 83.1,
-          "units": 21,
-          "orders": 21,
-          "avg_basket": 278.49,
-          "active_days": 88,
-          "daily_velocity": 0.24,
-          "revenue_velocity": 28.5,
-          "velocity_trend": -42.11,
-          "backorder_rate": 0.0,
-          "cancellation_rate": 0.0,
-          "variants": [
-            {
-              "sku": "W-ASFA-0.25-LB",
-              "name": "Narrowleaf Milkweed Seed - 0.25 lb - Covers 10,000 Sq Ft",
-              "revenue": 1716.83,
-              "units": 17,
-              "orders": 17
-            },
-            {
-              "sku": "W-ASFA-0.5-LB-KIT",
-              "name": "Narrowleaf Milkweed Seed - 0.5 lb - Covers 20,000 Sq Ft",
-              "revenue": 475.17,
-              "units": 3,
-              "orders": 3
-            },
-            {
-              "sku": "W-ASFA-1-LB-KIT",
-              "name": "Narrowleaf Milkweed Seed - 1 lb - Covers 40,000 Sq Ft",
-              "revenue": 315.89,
-              "units": 1,
-              "orders": 1
-            }
-          ],
-          "composite_score": 43.71,
-          "class": "B",
-          "reason": "Mid-tier SKU \u2014 above-median 83% margin \u2014 declining velocity."
         },
         {
           "sku": "TURF-W-TALL-BUNDLE",
@@ -2991,7 +2948,7 @@
               "orders": 4
             }
           ],
-          "composite_score": 43.18,
+          "composite_score": 43.24,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 75% margin \u2014 positive trend."
         },
@@ -3021,6 +2978,49 @@
             }
           ],
           "composite_score": 43.15,
+          "class": "B",
+          "reason": "Mid-tier SKU \u2014 37% margin \u2014 declining velocity."
+        },
+        {
+          "sku": "W-ASFA",
+          "name": "Narrowleaf Milkweed Seed",
+          "product_id": 445347,
+          "revenue": 2349.5,
+          "margin": 1925.72,
+          "margin_pct": 82.0,
+          "units": 20,
+          "orders": 20,
+          "avg_basket": 282.83,
+          "active_days": 88,
+          "daily_velocity": 0.23,
+          "revenue_velocity": 26.7,
+          "velocity_trend": -43.43,
+          "backorder_rate": 0.0,
+          "cancellation_rate": 0.0,
+          "variants": [
+            {
+              "sku": "W-ASFA-0.25-LB",
+              "name": "Narrowleaf Milkweed Seed - 0.25 lb - Covers 10,000 Sq Ft",
+              "revenue": 1716.83,
+              "units": 17,
+              "orders": 17
+            },
+            {
+              "sku": "W-ASFA-0.5-LB-KIT",
+              "name": "Narrowleaf Milkweed Seed - 0.5 lb - Covers 20,000 Sq Ft",
+              "revenue": 316.78,
+              "units": 2,
+              "orders": 2
+            },
+            {
+              "sku": "W-ASFA-1-LB-KIT",
+              "name": "Narrowleaf Milkweed Seed - 1 lb - Covers 40,000 Sq Ft",
+              "revenue": 315.89,
+              "units": 1,
+              "orders": 1
+            }
+          ],
+          "composite_score": 42.63,
           "class": "C",
           "reason": "Low volume \u2014 declining trend."
         },
@@ -3056,7 +3056,7 @@
               "orders": 4
             }
           ],
-          "composite_score": 41.2,
+          "composite_score": 41.45,
           "class": "C",
           "reason": "Low volume \u2014 declining trend."
         },
@@ -3508,7 +3508,7 @@
               "orders": 7
             }
           ],
-          "composite_score": 37.0,
+          "composite_score": 37.06,
           "class": "C",
           "reason": "Low volume."
         },
@@ -3657,6 +3657,42 @@
           "reason": "Low volume \u2014 declining trend."
         },
         {
+          "sku": "PB-KRMU",
+          "name": "Krunch N Munch Food Plot Mix",
+          "product_id": 455409,
+          "revenue": 863.8,
+          "margin": 637.19,
+          "margin_pct": 73.8,
+          "units": 20,
+          "orders": 17,
+          "avg_basket": 197.3,
+          "active_days": 88,
+          "daily_velocity": 0.23,
+          "revenue_velocity": 9.82,
+          "velocity_trend": -6.6407,
+          "backorder_rate": 0.0,
+          "cancellation_rate": 0.0,
+          "variants": [
+            {
+              "sku": "PB-KRMU-20-LB-KIT",
+              "name": "Krunch N Munch Food Plot Mix - 20 lb - Covers 2,000 Sq Ft",
+              "revenue": 593.89,
+              "units": 11,
+              "orders": 8
+            },
+            {
+              "sku": "PB-KRMU-10-LB",
+              "name": "Krunch N Munch Food Plot Mix - 10 lb - Covers 1,000 Sq Ft",
+              "revenue": 269.91,
+              "units": 9,
+              "orders": 9
+            }
+          ],
+          "composite_score": 33.6,
+          "class": "C",
+          "reason": "Low volume \u2014 declining trend."
+        },
+        {
           "sku": "WB-FLPB",
           "name": "Florida Pollinator and Butterfly Seed Mix",
           "product_id": 462280,
@@ -3696,42 +3732,6 @@
             }
           ],
           "composite_score": 33.54,
-          "class": "C",
-          "reason": "Low volume \u2014 declining trend."
-        },
-        {
-          "sku": "PB-KRMU",
-          "name": "Krunch N Munch Food Plot Mix",
-          "product_id": 455409,
-          "revenue": 863.8,
-          "margin": 637.19,
-          "margin_pct": 73.8,
-          "units": 20,
-          "orders": 17,
-          "avg_basket": 197.3,
-          "active_days": 88,
-          "daily_velocity": 0.23,
-          "revenue_velocity": 9.82,
-          "velocity_trend": -6.6407,
-          "backorder_rate": 0.0,
-          "cancellation_rate": 0.0,
-          "variants": [
-            {
-              "sku": "PB-KRMU-20-LB-KIT",
-              "name": "Krunch N Munch Food Plot Mix - 20 lb - Covers 2,000 Sq Ft",
-              "revenue": 593.89,
-              "units": 11,
-              "orders": 8
-            },
-            {
-              "sku": "PB-KRMU-10-LB",
-              "name": "Krunch N Munch Food Plot Mix - 10 lb - Covers 1,000 Sq Ft",
-              "revenue": 269.91,
-              "units": 9,
-              "orders": 9
-            }
-          ],
-          "composite_score": 33.53,
           "class": "C",
           "reason": "Low volume \u2014 declining trend."
         },
@@ -4407,7 +4407,7 @@
               "orders": 4
             }
           ],
-          "composite_score": 22.05,
+          "composite_score": 22.16,
           "class": "C",
           "reason": "Low volume."
         },
