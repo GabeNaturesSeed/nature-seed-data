@@ -62,6 +62,17 @@ def add_divider(doc):
     para.paragraph_format.space_after = Pt(4)
 
 
+def _set_cell_shading(cell, hex_color):
+    """Set background fill color on a table cell."""
+    tc = cell._tc
+    tcPr = tc.get_or_add_tcPr()
+    shd = OxmlElement("w:shd")
+    shd.set(qn("w:fill"), hex_color)
+    shd.set(qn("w:color"), "auto")
+    shd.set(qn("w:val"), "clear")
+    tcPr.append(shd)
+
+
 def add_table(doc, headers, rows):
     """Add a styled table. headers = list of str, rows = list of list of str."""
     table = doc.add_table(rows=1 + len(rows), cols=len(headers))
@@ -70,37 +81,27 @@ def add_table(doc, headers, rows):
     # Header row
     hdr_cells = table.rows[0].cells
     for i, h in enumerate(headers):
-        hdr_cells[i].text = h
-        run = hdr_cells[i].paragraphs[0].runs[0]
+        para = hdr_cells[i].paragraphs[0]
+        para.clear()
+        run = para.add_run(h)
         run.font.name = "Inter"
         run.font.size = Pt(10)
         run.font.bold = True
         run.font.color.rgb = RGBColor(255, 255, 255)
-        tc = hdr_cells[i]._tc
-        tcPr = tc.get_or_add_tcPr()
-        shd = OxmlElement("w:shd")
-        shd.set(qn("w:fill"), "2D6A4F")  # Primary green
-        shd.set(qn("w:color"), "auto")
-        shd.set(qn("w:val"), "clear")
-        tcPr.append(shd)
+        _set_cell_shading(hdr_cells[i], "2D6A4F")
 
     # Data rows
     for r_idx, row_data in enumerate(rows):
         row_cells = table.rows[r_idx + 1].cells
         fill = "F8F9FA" if r_idx % 2 == 0 else "FFFFFF"
-        for c_idx, cell_text in enumerate(row_data):
-            row_cells[c_idx].text = cell_text
-            run = row_cells[c_idx].paragraphs[0].runs[0]
+        for c_idx, cell_text in enumerate(row_data[:len(headers)]):
+            para = row_cells[c_idx].paragraphs[0]
+            para.clear()
+            run = para.add_run(cell_text)
             run.font.name = "Inter"
             run.font.size = Pt(10)
             run.font.color.rgb = RGBColor(33, 37, 41)
-            tc = row_cells[c_idx]._tc
-            tcPr = tc.get_or_add_tcPr()
-            shd = OxmlElement("w:shd")
-            shd.set(qn("w:fill"), fill)
-            shd.set(qn("w:color"), "auto")
-            shd.set(qn("w:val"), "clear")
-            tcPr.append(shd)
+            _set_cell_shading(row_cells[c_idx], fill)
 
     doc.add_paragraph()  # spacing after table
 
