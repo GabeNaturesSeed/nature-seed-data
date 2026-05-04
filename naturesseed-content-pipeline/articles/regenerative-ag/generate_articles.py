@@ -458,10 +458,10 @@ ARTICLES = [
       ["Tall fescue","Excellent — 12–16% crude protein [2] after frost","Excellent","Best nationwide","Use novel-endophyte variety to avoid toxicosis in cattle"],
       ["Orchardgrass","Moderate — quality declines faster than fescue","Good","Second-best option","Worth stockpiling if fescue isn't established yet"],
       ["Annual ryegrass","Good quality in mild climates","Moderate (winter-kills above zone 6)","Reliable in zones 6+","Fast-establishing alternative where fescue isn't an option"],
-      ["Kentucky bluegrass","Moderate — semi-dormant in cold","Good","Low","Not recommended as primary stockpile grass"],
-      ["Bermudagrass","Moderate (semi-dormant)","Poor north of zone 7","Good in the South only","Southern operations only — Other seed suppliers"]
+      ["Kentucky bluegrass","Moderate — semi-dormant in cold","Good","Low","Not recommended as primary stockpile grass — naturesseed.com/products/pasture-seed/kentucky-bluegrass/"],
+      ["Bermudagrass","Moderate (semi-dormant)","Poor north of zone 7","Good in the South only","Southern operations only — naturesseed.com/products/pasture-seed/bermudagrass/"]
     ]},
-    {"type":"note","text":"Nature's Seed carries: Tall fescue (naturesseed.com/products/pasture-seed/tall-fescue/), Orchardgrass (naturesseed.com/products/pasture-seed/orchardgrass/), Annual ryegrass (naturesseed.com/pasture-seed/individual-pasture-species/annual-ryegrass/). Kentucky bluegrass and Bermudagrass are not carried by Nature's Seed — check other seed suppliers."},
+    {"type":"note","text":"Nature's Seed carries: Tall fescue (naturesseed.com/products/pasture-seed/tall-fescue/), Orchardgrass (naturesseed.com/products/pasture-seed/orchardgrass/), Annual ryegrass (naturesseed.com/pasture-seed/individual-pasture-species/annual-ryegrass/), Kentucky bluegrass (naturesseed.com/products/pasture-seed/kentucky-bluegrass/), and Bermudagrass (naturesseed.com/products/pasture-seed/bermudagrass/)."},
     {"type":"p","text":"Tall fescue stands out because freeze-thaw cycling actually improves its palatability — by the time you're grazing it in December and January, the quality is often better than it was in September. That's the so what: the longer you wait, the better it gets."},
     {"type":"h2","text":"One Note on Fescue Variety"},
     {"type":"p","text":"Endophyte-infected tall fescue can cause toxicosis in cattle, particularly in late gestation and finishing animals. If you're establishing new fescue for stockpiling, use a novel-endophyte variety (like MaxQ) or endophyte-free seed."},
@@ -505,10 +505,10 @@ ARTICLES = [
       ["Orchardgrass","Yes","Yes — in fields without recent grass history","Particularly valuable on sandy or low-P soils"],
       ["Tall fescue","Yes","Yes — in new or renovated fields","AMF colonization improves drought survival during establishment"],
       ["Red clover / white clover","Yes (AMF + Rhizobium bacteria)","Yes — both types needed","Two separate inoculants; don't skip either one"],
-      ["Alfalfa","Yes (AMF + Rhizobium)","Yes — both types needed","High-value legume; inoculant pays back quickly"],
+      ["Alfalfa","Yes (AMF + Rhizobium)","Yes — both types needed","High-value legume; inoculant pays back quickly — naturesseed.com/products/pasture-seed/alfalfa/"],
       ["Brassicas (turnip, radish, kale, mustard)","No","No — don't waste inoculant","Brassicas do not form mycorrhizal associations"]
     ]},
-    {"type":"note","text":"Nature's Seed carries: Orchardgrass (naturesseed.com/products/pasture-seed/orchardgrass/), Tall fescue (naturesseed.com/products/pasture-seed/tall-fescue/), Red clover (naturesseed.com/products/clover-seed/red-clover-seed/), White clover (naturesseed.com/products/clover-seed/white-dutch-clover/). Alfalfa and brassicas (turnip, radish, kale) are not sold by Nature's Seed as standalone species — source from other seed suppliers."},
+    {"type":"note","text":"Nature's Seed carries: Orchardgrass (naturesseed.com/products/pasture-seed/orchardgrass/), Tall fescue (naturesseed.com/products/pasture-seed/tall-fescue/), Red clover (naturesseed.com/products/clover-seed/red-clover-seed/), White clover (naturesseed.com/products/clover-seed/white-dutch-clover/), and Alfalfa (naturesseed.com/products/pasture-seed/alfalfa/). Brassicas (turnip, radish, kale) are not sold by Nature's Seed as standalone species — source from other seed suppliers."},
     {"type":"h2","text":"How to Inoculate at Seeding"},
     {"type":"p","text":"Apply a mycorrhizal inoculant at seeding — this introduces AMF spores directly to the seedling root zone, where they can colonize quickly without waiting for a depleted spore bank. Commercial inoculants come in powder, granular, and liquid forms."},
     {"type":"bullet","text":"Seed coating: Mix dry inoculant powder with seed before loading the drill or spreader. Most products specify a ratio by weight. Gets inoculant directly in contact with germinating seeds."},
@@ -555,11 +555,11 @@ ARTICLES = [
       ["Orchardgrass","Excellent","~40% of full sun","naturesseed.com/products/pasture-seed/orchardgrass/"],
       ["White clover","Good","~45% of full sun","naturesseed.com/products/clover-seed/white-dutch-clover/"],
       ["Tall fescue","Good","~45% of full sun","naturesseed.com/products/pasture-seed/tall-fescue/"],
-      ["Timothy","Moderate","~50% of full sun","Other seed suppliers"],
-      ["Alfalfa","Poor — avoid","65%+ required","Other seed suppliers"],
-      ["Bermudagrass","Poor — avoid","65%+ required","Other seed suppliers"]
+      ["Timothy","Moderate","~50% of full sun","naturesseed.com/products/pasture-seed/timothy/"],
+      ["Alfalfa","Poor — avoid","65%+ required","naturesseed.com/products/pasture-seed/alfalfa/ (not suited for silvopasture — needs full sun)"],
+      ["Bermudagrass","Poor — avoid","65%+ required","naturesseed.com/products/pasture-seed/bermudagrass/ (not suited for shaded alleys)"]
     ]},
-    {"type":"note","text":"Nature's Seed carries: Orchardgrass (naturesseed.com/products/pasture-seed/orchardgrass/), White clover (naturesseed.com/products/clover-seed/white-dutch-clover/), Tall fescue (naturesseed.com/products/pasture-seed/tall-fescue/). For Timothy, Alfalfa, and Bermudagrass, check other seed suppliers — Nature's Seed does not carry these species."},
+    {"type":"note","text":"Nature's Seed carries: Orchardgrass (naturesseed.com/products/pasture-seed/orchardgrass/), White clover (naturesseed.com/products/clover-seed/white-dutch-clover/), Tall fescue (naturesseed.com/products/pasture-seed/tall-fescue/), Timothy (naturesseed.com/products/pasture-seed/timothy/), Alfalfa (naturesseed.com/products/pasture-seed/alfalfa/), and Bermudagrass (naturesseed.com/products/pasture-seed/bermudagrass/)."},
     {"type":"p","text":"Orchardgrass is the standout performer in silvopasture systems across the temperate US. It was named for its original habitat — orchards — and its shade tolerance reflects that history. It's productive, palatable, and persistent under the partial shade a well-managed system provides. That's your answer on forage species."},
     {"type":"h2","text":"Protecting Young Trees From Livestock"},
     {"type":"p","text":"This is where most silvopasture attempts fail in years one through five. Young trees are defenseless against livestock. Cattle will rub, browse, and girdle a sapling in a single grazing event."},
