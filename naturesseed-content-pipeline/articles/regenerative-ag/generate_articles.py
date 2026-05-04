@@ -319,7 +319,8 @@ ARTICLES = [
     {"type":"bullet","text":"Risk management. If one species fails, the others carry the mix. Single-species plantings are all-or-nothing."},
     {"type":"p","text":"Three to five well-chosen species is plenty. You don't need twelve to see the benefits."},
     {"type":"h2","text":"The Three Functional Groups — What Each Does and What to Plant"},
-    {"type":"table","headers":["Group","What It Does","Best Species","Drilled Rate","Nature's Seed"],"rows":[["Grasses","Biomass, organic matter, weed suppression","Winter rye, oats","Rye: 60\u201390 lbs/ac; Oats: 60\u201380 lbs/ac","naturesseed.com/products/pasture-seed/cereal-rye/"],["Legumes","Fixes nitrogen \u2014 60\u2013120 lbs N/ac under good conditions [1]","Crimson clover, hairy vetch, field peas","Crimson: 15\u201320 lbs/ac; Vetch: 15\u201325 lbs/ac","naturesseed.com/pasture-seed/individual-pasture-species/crimson-clover/"],["Brassicas","Deep taproot breaks compaction; scavenges nutrients from depth","Daikon radish, turnip","Radish: 5\u20138 lbs/ac; Turnip: 3\u20135 lbs/ac","NS Soil Builder Kit includes mustard (similar function)"]]},
+    {"type":"table","headers":["Group","What It Does","Best Species","Drilled Rate","Nature's Seed"],"rows":[["Grasses","Biomass, organic matter, weed suppression","Winter rye, oats","Rye: 60\u201390 lbs/ac; Oats: 60\u201380 lbs/ac","naturesseed.com/products/pasture-seed/cereal-rye/ (rye); naturesseed.com/pasture-seed/individual-pasture-species/oats/ (oats)"],["Legumes","Fixes nitrogen \u2014 60\u2013120 lbs N/ac under good conditions [1]","Crimson clover, hairy vetch, field peas","Crimson: 15\u201320 lbs/ac; Vetch: 15\u201325 lbs/ac","naturesseed.com/pasture-seed/individual-pasture-species/crimson-clover/ (crimson clover); naturesseed.com/pasture-seed/individual-pasture-species/hairy-vetch/ (hairy vetch) — field peas: other seed suppliers"],["Brassicas","Deep taproot breaks compaction; scavenges nutrients from depth","Daikon radish, turnip","Radish: 5\u20138 lbs/ac; Turnip: 3\u20135 lbs/ac","Other seed suppliers — NS does not sell daikon radish or turnip as standalone species. The NS Soil Builder Kit (naturesseed.com/products/pasture-seed/soil-builder-cover-crop-kit/) includes mustard, which provides similar compaction-breaking function."]]},
+    {"type":"note","text":"Nature's Seed carries: Winter rye (naturesseed.com/products/pasture-seed/cereal-rye/), Oats (naturesseed.com/pasture-seed/individual-pasture-species/oats/), Crimson clover (naturesseed.com/pasture-seed/individual-pasture-species/crimson-clover/), Hairy vetch (naturesseed.com/pasture-seed/individual-pasture-species/hairy-vetch/). For daikon radish, turnip, and field peas, check your local co-op or specialty cover crop supplier."},
     {"type":"p","text":"When you're mixing species, reduce each individual rate by roughly 30–40% from the drilled rate above. When broadcasting into standing crops, increase total rates by 25–30%."},
     {"type":"h2","text":"Build Your Mix Around One Goal"},
     {"type":"p","text":"Don't just pick random species. Decide what your field needs most, then build around it."},
@@ -341,7 +342,7 @@ ARTICLES = [
     {"type":"p","text":"If you want a reliable first-year mix, here's one that covers the bases without overthinking it:"},
     {"type":"bullet","text":"Winter rye: 40 lbs/acre"},
     {"type":"bullet","text":"Crimson clover: 10 lbs/acre"},
-    {"type":"bullet","text":"Daikon radish: 4 lbs/acre"},
+    {"type":"bullet","text":"Daikon radish: 4 lbs/acre (not sold by Nature's Seed — check local co-op or specialty seed supplier)"},
     {"type":"p","text":"Broadcast or drill in late summer to early fall. Inoculate the clover. Graze or mow before rye heads out in spring. The rye adds biomass and winter cover, the clover fixes nitrogen and improves forage quality, and the radish breaks up compaction. That's a full season of soil improvement from one simple planting."},
     {"type":"cta","text":"→ Shop cover crop seed at naturesseed.com/products/cover-crop-seed/"},
   ],
@@ -458,8 +459,9 @@ ARTICLES = [
       ["Orchardgrass","Moderate — quality declines faster than fescue","Good","Second-best option","Worth stockpiling if fescue isn't established yet"],
       ["Annual ryegrass","Good quality in mild climates","Moderate (winter-kills above zone 6)","Reliable in zones 6+","Fast-establishing alternative where fescue isn't an option"],
       ["Kentucky bluegrass","Moderate — semi-dormant in cold","Good","Low","Not recommended as primary stockpile grass"],
-      ["Bermudagrass","Moderate (semi-dormant)","Poor north of zone 7","Good in the South only","Southern operations only"]
+      ["Bermudagrass","Moderate (semi-dormant)","Poor north of zone 7","Good in the South only","Southern operations only — Other seed suppliers"]
     ]},
+    {"type":"note","text":"Nature's Seed carries: Tall fescue (naturesseed.com/products/pasture-seed/tall-fescue/), Orchardgrass (naturesseed.com/products/pasture-seed/orchardgrass/), Annual ryegrass (naturesseed.com/pasture-seed/individual-pasture-species/annual-ryegrass/). Kentucky bluegrass and Bermudagrass are not carried by Nature's Seed — check other seed suppliers."},
     {"type":"p","text":"Tall fescue stands out because freeze-thaw cycling actually improves its palatability — by the time you're grazing it in December and January, the quality is often better than it was in September. That's the so what: the longer you wait, the better it gets."},
     {"type":"h2","text":"One Note on Fescue Variety"},
     {"type":"p","text":"Endophyte-infected tall fescue can cause toxicosis in cattle, particularly in late gestation and finishing animals. If you're establishing new fescue for stockpiling, use a novel-endophyte variety (like MaxQ) or endophyte-free seed."},
@@ -506,6 +508,7 @@ ARTICLES = [
       ["Alfalfa","Yes (AMF + Rhizobium)","Yes — both types needed","High-value legume; inoculant pays back quickly"],
       ["Brassicas (turnip, radish, kale, mustard)","No","No — don't waste inoculant","Brassicas do not form mycorrhizal associations"]
     ]},
+    {"type":"note","text":"Nature's Seed carries: Orchardgrass (naturesseed.com/products/pasture-seed/orchardgrass/), Tall fescue (naturesseed.com/products/pasture-seed/tall-fescue/), Red clover (naturesseed.com/products/clover-seed/red-clover-seed/), White clover (naturesseed.com/products/clover-seed/white-dutch-clover/). Alfalfa and brassicas (turnip, radish, kale) are not sold by Nature's Seed as standalone species — source from other seed suppliers."},
     {"type":"h2","text":"How to Inoculate at Seeding"},
     {"type":"p","text":"Apply a mycorrhizal inoculant at seeding — this introduces AMF spores directly to the seedling root zone, where they can colonize quickly without waiting for a depleted spore bank. Commercial inoculants come in powder, granular, and liquid forms."},
     {"type":"bullet","text":"Seed coating: Mix dry inoculant powder with seed before loading the drill or spreader. Most products specify a ratio by weight. Gets inoculant directly in contact with germinating seeds."},
@@ -552,10 +555,11 @@ ARTICLES = [
       ["Orchardgrass","Excellent","~40% of full sun","naturesseed.com/products/pasture-seed/orchardgrass/"],
       ["White clover","Good","~45% of full sun","naturesseed.com/products/clover-seed/white-dutch-clover/"],
       ["Tall fescue","Good","~45% of full sun","naturesseed.com/products/pasture-seed/tall-fescue/"],
-      ["Timothy","Moderate","~50% of full sun","Check NS pasture category"],
-      ["Alfalfa","Poor — avoid","65%+ required","Not suited for silvopasture alleys"],
-      ["Bermudagrass","Poor — avoid","65%+ required","Avoid under any canopy"]
+      ["Timothy","Moderate","~50% of full sun","Other seed suppliers"],
+      ["Alfalfa","Poor — avoid","65%+ required","Other seed suppliers"],
+      ["Bermudagrass","Poor — avoid","65%+ required","Other seed suppliers"]
     ]},
+    {"type":"note","text":"Nature's Seed carries: Orchardgrass (naturesseed.com/products/pasture-seed/orchardgrass/), White clover (naturesseed.com/products/clover-seed/white-dutch-clover/), Tall fescue (naturesseed.com/products/pasture-seed/tall-fescue/). For Timothy, Alfalfa, and Bermudagrass, check other seed suppliers — Nature's Seed does not carry these species."},
     {"type":"p","text":"Orchardgrass is the standout performer in silvopasture systems across the temperate US. It was named for its original habitat — orchards — and its shade tolerance reflects that history. It's productive, palatable, and persistent under the partial shade a well-managed system provides. That's your answer on forage species."},
     {"type":"h2","text":"Protecting Young Trees From Livestock"},
     {"type":"p","text":"This is where most silvopasture attempts fail in years one through five. Young trees are defenseless against livestock. Cattle will rub, browse, and girdle a sapling in a single grazing event."},
@@ -588,9 +592,10 @@ ARTICLES = [
       ["Red clover","June–July","Limited for honeybees — flower tube too deep for most","Perennial","Yes — naturesseed.com/products/clover-seed/red-clover-seed/"],
       ["Sweet clover","June–August (year 2 of biennial)","One of the best honey plants in North America","Biennial","Yes — naturesseed.com/pasture-seed/individual-pasture-species/yellow-sweet-clover/"],
       ["Buckwheat","July–August","Good midsummer flow; dark strongly-flavored honey","Annual","Specialty cover crop suppliers"],
-      ["Goldenrod","August–October","Critical fall colony prep — excellent nectar + pollen","Native perennial","NS wildflower mixes"],
+      ["Goldenrod","August–October","Critical fall colony prep — excellent nectar + pollen","Native perennial","NS wildflower mixes (naturesseed.com/products/wildflower-seed/) — or let it establish naturally from nearby populations"],
       ["Native asters","September–October","Extends fall flow into October — good pollen and nectar","Native perennial","NS wildflower mixes — naturesseed.com/products/wildflower-seed/"]
     ]},
+    {"type":"note","text":"Nature's Seed carries: Crimson clover (naturesseed.com/pasture-seed/individual-pasture-species/crimson-clover/), White clover (naturesseed.com/products/clover-seed/white-dutch-clover/), Red clover (naturesseed.com/products/clover-seed/red-clover-seed/), Yellow sweet clover (naturesseed.com/pasture-seed/individual-pasture-species/yellow-sweet-clover/), and wildflower mixes that include goldenrod and native asters (naturesseed.com/products/wildflower-seed/). Buckwheat is not carried by Nature's Seed — check specialty cover crop suppliers."},
     {"type":"p","text":"The so what: if you only plant one thing, plant white clover — it covers your main flow. If you have acreage to work with, add crimson clover for spring and a wildflower mix with goldenrod and asters for fall, and you've filled the calendar."},
     {"type":"h2","text":"Designing Your Acreage Layout"},
     {"type":"p","text":"You don't need to dedicate every acre to pollinator forage. A practical layout for a 10–50 acre operation:"},
@@ -660,20 +665,22 @@ ARTICLES = [
     {"type":"h2","text":"The Four Functional Groups — What Each Does"},
     {"type":"p","text":"Different plant species do different things in your soil. A well-designed mix covers multiple functions simultaneously. Here's how to think about each group and what to plant. [1]"},
     {"type":"table","headers":["Group","Function","Best Species","Monoculture Rate","In-Mix Rate","NS Link"],"rows":[
-      ["Grasses","Biomass, OM, weed suppression","Winter rye, oats","Rye: 90 lbs/ac drilled","Rye: 40–50 lbs/ac","naturesseed.com/products/pasture-seed/cereal-rye/"],
-      ["Legumes","N-fixation — 60–120 lbs N/ac [1]","Hairy vetch, crimson clover","Vetch: 20 lbs/ac","Vetch: 10–12 lbs/ac","naturesseed.com/pasture-seed/individual-pasture-species/hairy-vetch/"],
-      ["Brassicas","Compaction breaking, nutrient scavenging from depth","Daikon radish, turnip","Radish: 8 lbs/ac","Radish: 3–4 lbs/ac","NS Soil Builder Kit includes mustard (similar function)"],
-      ["Broadleaf non-legumes","Root exudate diversity; pollinator benefit","Phacelia, buckwheat, sunflower","Variable","1–3 lbs/ac","Specialty suppliers"]
+      ["Grasses","Biomass, OM, weed suppression","Winter rye, oats","Rye: 90 lbs/ac drilled","Rye: 40–50 lbs/ac","naturesseed.com/products/pasture-seed/cereal-rye/ (rye); naturesseed.com/pasture-seed/individual-pasture-species/oats/ (oats)"],
+      ["Legumes","N-fixation — 60–120 lbs N/ac [1]","Hairy vetch, crimson clover","Vetch: 20 lbs/ac","Vetch: 10–12 lbs/ac","naturesseed.com/pasture-seed/individual-pasture-species/hairy-vetch/ (vetch); naturesseed.com/pasture-seed/individual-pasture-species/crimson-clover/ (crimson clover)"],
+      ["Brassicas","Compaction breaking, nutrient scavenging from depth","Daikon radish, turnip","Radish: 8 lbs/ac","Radish: 3–4 lbs/ac","Other seed suppliers — NS does not sell daikon radish or turnip as standalone species. The NS Soil Builder Kit (naturesseed.com/products/pasture-seed/soil-builder-cover-crop-kit/) includes mustard, which provides similar function."],
+      ["Broadleaf non-legumes","Root exudate diversity; pollinator benefit","Phacelia, buckwheat, sunflower","Variable","1–3 lbs/ac","Other seed suppliers — NS does not carry phacelia, buckwheat, or sunflower"]
     ]},
+    {"type":"note","text":"Nature's Seed carries from this table: Winter rye (naturesseed.com/products/pasture-seed/cereal-rye/), Oats (naturesseed.com/pasture-seed/individual-pasture-species/oats/), Hairy vetch (naturesseed.com/pasture-seed/individual-pasture-species/hairy-vetch/), Crimson clover (naturesseed.com/pasture-seed/individual-pasture-species/crimson-clover/), and the Soil Builder Cover Crop Kit (naturesseed.com/products/pasture-seed/soil-builder-cover-crop-kit/) which includes mustard for compaction breaking. For daikon radish, turnip, phacelia, buckwheat, and sunflower, check your local co-op or specialty cover crop supplier."},
     {"type":"p","text":"When you're building a mix, reduce each individual species rate by 30–50% from its monoculture rate. The so what: your total mix cost is often comparable to a high-rate monoculture — you're just buying five SKUs instead of one."},
     {"type":"h2","text":"Goal-Based Mix Recipes"},
     {"type":"p","text":"Start with your primary goal, then build your mix around it. These are tested recipes — not theoretical."},
-    {"type":"table","headers":["Goal","Mix Recipe","Total Rate","Notes"],"rows":[
-      ["Nitrogen for next crop","Hairy vetch 15 lbs + Winter rye 40 lbs + Crimson clover 8 lbs","63 lbs/ac","Grass component protects legume biomass from early breakdown"],
-      ["Max biomass / organic matter","Winter rye 50 lbs + Oats 30 lbs + Hairy vetch 12 lbs + Radish 4 lbs","96 lbs/ac","Let stand reach full biomass; terminate before seed set"],
-      ["Grazing / forage cover","Oats 50 lbs + Field peas 30 lbs + Crimson clover 10 lbs + Turnip 3 lbs","93 lbs/ac","All highly palatable; graze at 8–12 inch height"],
-      ["Soil biology recovery","Winter rye 30 lbs + Hairy vetch 12 lbs + Crimson clover 8 lbs + Radish 4 lbs + Phacelia 2 lbs","56 lbs/ac","Prioritize diversity over rates; lower total cost"]
+    {"type":"table","headers":["Goal","NS Ingredients (from naturesseed.com)","Add-On From Other Suppliers","Total Rate (incl. add-ons)","Notes"],"rows":[
+      ["Nitrogen for next crop","Hairy vetch 15 lbs (naturesseed.com/pasture-seed/individual-pasture-species/hairy-vetch/) + Winter rye 40 lbs (naturesseed.com/products/pasture-seed/cereal-rye/) + Crimson clover 8 lbs (naturesseed.com/pasture-seed/individual-pasture-species/crimson-clover/)","None required","63 lbs/ac","Grass component protects legume biomass from early breakdown"],
+      ["Max biomass / organic matter","Winter rye 50 lbs (naturesseed.com/products/pasture-seed/cereal-rye/) + Oats 30 lbs (naturesseed.com/pasture-seed/individual-pasture-species/oats/) + Hairy vetch 12 lbs (naturesseed.com/pasture-seed/individual-pasture-species/hairy-vetch/)","+ Daikon radish 4 lbs from other supplier (optional — adds compaction-breaking function)","96 lbs/ac","Let stand reach full biomass; terminate before seed set. NS Soil Builder Kit (naturesseed.com/products/pasture-seed/soil-builder-cover-crop-kit/) includes mustard for a similar function if daikon is unavailable."],
+      ["Grazing / forage cover","Oats 50 lbs (naturesseed.com/pasture-seed/individual-pasture-species/oats/) + Crimson clover 10 lbs (naturesseed.com/pasture-seed/individual-pasture-species/crimson-clover/)","+ Field peas 30 lbs from other supplier + Turnip 3 lbs from other supplier","93 lbs/ac","All highly palatable; graze at 8\u201312 inch height. Field peas and turnip not carried by NS \u2014 check local co-op or specialty cover crop supplier."],
+      ["Soil biology recovery","Winter rye 30 lbs (naturesseed.com/products/pasture-seed/cereal-rye/) + Hairy vetch 12 lbs (naturesseed.com/pasture-seed/individual-pasture-species/hairy-vetch/) + Crimson clover 8 lbs (naturesseed.com/pasture-seed/individual-pasture-species/crimson-clover/)","+ Daikon radish 4 lbs from other supplier + Phacelia 2 lbs from specialty supplier","56 lbs/ac","Prioritize diversity over rates; lower total cost. Daikon and phacelia not sold by NS \u2014 check specialty cover crop suppliers."]
     ]},
+    {"type":"note","text":"Nature's Seed ingredients in these recipes: Winter rye (naturesseed.com/products/pasture-seed/cereal-rye/), Oats (naturesseed.com/pasture-seed/individual-pasture-species/oats/), Hairy vetch (naturesseed.com/pasture-seed/individual-pasture-species/hairy-vetch/), Crimson clover (naturesseed.com/pasture-seed/individual-pasture-species/crimson-clover/). Daikon radish, turnip, field peas, and phacelia are not sold by Nature's Seed — source those from your local co-op or a specialty cover crop supplier."},
     {"type":"h2","text":"Common Mistakes That Kill Mix Performance"},
     {"type":"bullet","text":"Forgetting inoculant on legumes. Every legume species needs specific Rhizobium bacteria to fix nitrogen. A hairy vetch + crimson clover mix needs inoculant that covers both species — or separate inoculants for each."},
     {"type":"bullet","text":"Ignoring termination timing differences. Species in a mix don't all terminate at the same time. Rye at anthesis and immature clover respond differently to rolling. Design your termination plan before you plant."},
