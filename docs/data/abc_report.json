@@ -1,15 +1,15 @@
 {
-  "generated": "2026-05-04T10:04:21.881644",
+  "generated": "2026-05-04T15:31:10.670499",
   "seasons": {
     "spring_2026": {
       "label": "Spring 2026",
       "period": "2026-02-01 \u2192 2026-04-30",
-      "total_revenue": 971312.05,
-      "total_orders": 10049,
+      "total_revenue": 970868.08,
+      "total_orders": 10047,
       "total_skus": 121,
       "summary": {
         "a_count": 39,
-        "a_revenue": 783504.28,
+        "a_revenue": 783060.31,
         "a_pct": 80.7,
         "b_count": 32,
         "b_revenue": 140105.36,
@@ -106,49 +106,6 @@
           "reason": "Top performer \u2014 $442/day is 12.1x the median velocity \u2014 accelerating sales trend."
         },
         {
-          "sku": "LAWN-BUDA",
-          "name": "Sundancer Buffalograss Lawn Seed",
-          "product_id": 456233,
-          "revenue": 28410.65,
-          "margin": 20495.8,
-          "margin_pct": 72.1,
-          "units": 125,
-          "orders": 109,
-          "avg_basket": 300.41,
-          "active_days": 88,
-          "daily_velocity": 1.42,
-          "revenue_velocity": 322.85,
-          "velocity_trend": 196.2839,
-          "backorder_rate": 0.0,
-          "cancellation_rate": 0.0,
-          "variants": [
-            {
-              "sku": "TURF-BUDA-15-LB-KIT",
-              "name": "Sundancer Buffalograss Lawn Seed - 15 lb - Covers 5,000 Sq Ft",
-              "revenue": 11803.51,
-              "units": 24,
-              "orders": 20
-            },
-            {
-              "sku": "TURF-BUDA-6-LB-KIT",
-              "name": "Sundancer Buffalograss Lawn Seed - 6 lb - Covers 2,000 Sq Ft",
-              "revenue": 11055.97,
-              "units": 53,
-              "orders": 49
-            },
-            {
-              "sku": "TURF-BUDA-3-LB-KIT",
-              "name": "Sundancer Buffalograss Lawn Seed - 3 lb - Covers 1,000 Sq Ft",
-              "revenue": 5551.17,
-              "units": 48,
-              "orders": 46
-            }
-          ],
-          "composite_score": 82.62,
-          "class": "A",
-          "reason": "Top performer \u2014 $323/day is 8.9x the median velocity \u2014 strong 72% margin."
-        },
-        {
           "sku": "TURF-W-TALL",
           "name": "Triblade Elite Tall Fescue Grass Seed Mix",
           "product_id": 445117,
@@ -192,6 +149,49 @@
           "reason": "Top performer \u2014 $345/day is 9.5x the median velocity \u2014 strong 81% margin."
         },
         {
+          "sku": "LAWN-BUDA",
+          "name": "Sundancer Buffalograss Lawn Seed",
+          "product_id": 456233,
+          "revenue": 27966.68,
+          "margin": 20167.38,
+          "margin_pct": 72.1,
+          "units": 122,
+          "orders": 107,
+          "avg_basket": 301.5,
+          "active_days": 88,
+          "daily_velocity": 1.39,
+          "revenue_velocity": 317.8,
+          "velocity_trend": 194.3555,
+          "backorder_rate": 0.0,
+          "cancellation_rate": 0.0,
+          "variants": [
+            {
+              "sku": "TURF-BUDA-15-LB-KIT",
+              "name": "Sundancer Buffalograss Lawn Seed - 15 lb - Covers 5,000 Sq Ft",
+              "revenue": 11803.51,
+              "units": 24,
+              "orders": 20
+            },
+            {
+              "sku": "TURF-BUDA-6-LB-KIT",
+              "name": "Sundancer Buffalograss Lawn Seed - 6 lb - Covers 2,000 Sq Ft",
+              "revenue": 10845.98,
+              "units": 52,
+              "orders": 48
+            },
+            {
+              "sku": "TURF-BUDA-3-LB-KIT",
+              "name": "Sundancer Buffalograss Lawn Seed - 3 lb - Covers 1,000 Sq Ft",
+              "revenue": 5317.19,
+              "units": 46,
+              "orders": 44
+            }
+          ],
+          "composite_score": 82.43,
+          "class": "A",
+          "reason": "Top performer \u2014 $318/day is 8.7x the median velocity \u2014 strong 72% margin."
+        },
+        {
           "sku": "S-RICE",
           "name": "Rice Hulls",
           "product_id": 450345,
@@ -230,7 +230,7 @@
               "orders": 298
             }
           ],
-          "composite_score": 82.09,
+          "composite_score": 82.22,
           "class": "A",
           "reason": "Top performer \u2014 $251/day is 6.9x the median velocity \u2014 strong 91% margin."
         },
@@ -689,7 +689,7 @@
               "orders": 110
             }
           ],
-          "composite_score": 77.7,
+          "composite_score": 77.77,
           "class": "A",
           "reason": "Top performer \u2014 $169/day is 4.6x the median velocity \u2014 strong 79% margin."
         },
