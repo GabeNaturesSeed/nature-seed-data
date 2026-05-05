@@ -157,8 +157,8 @@ Let's walk through what a typical residential conversion looks like end-to-end, 
 - Misc (compost, edging, soil amendments): ~$400
 - **Total: ~$2,450**
 
-**Rebate at $5/sq ft (stacked MWD + city):**
-- 5,000 sq ft × $5 = **$25,000** (capped per program rules — actually $10,000 residential cap on MWD + city stack at typical rates)
+**Rebate at $5/sq ft (stacked MWD + city, e.g., Long Beach Water):**
+- 5,000 sq ft × $5/sq ft = **$25,000** ($10,000 from MWD at $2/sq ft + $15,000 from city top-up at $3/sq ft)
 
 Even at the most conservative residential cap, the rebate covers the conversion 4× over. That's the math nobody mentions in the city water-conservation pamphlets.
 
