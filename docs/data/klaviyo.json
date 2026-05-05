@@ -1,54 +1,6 @@
 {
-  "as_of": "2026-05-04",
+  "as_of": "2026-05-05",
   "campaigns": [
-    {
-      "id": "01KM13XTT89JS9EEE7S2D24T1H",
-      "name": "Edu Winback W7 \u2014 Lawn",
-      "send_time": "2026-05-04T14:00:00+00:00",
-      "status": "Cancelled",
-      "subject": "",
-      "segment_name": ""
-    },
-    {
-      "id": "01KM13Y1TKCMBH79Y3NH4XDRJT",
-      "name": "C4 Win Back \u2014 Lawn Seed",
-      "send_time": "2026-05-04T17:00:00+00:00",
-      "status": "Cancelled",
-      "subject": "",
-      "segment_name": ""
-    },
-    {
-      "id": "01KM13XZWKABRFF3WGKPCPZT01",
-      "name": "C4 Win Back \u2014 Pasture Seed",
-      "send_time": "2026-05-04T17:00:00+00:00",
-      "status": "Cancelled",
-      "subject": "",
-      "segment_name": ""
-    },
-    {
-      "id": "01KM13XY4Y732PXJ18X332ZSAW",
-      "name": "C4 Win Back \u2014 Wildflower Seed",
-      "send_time": "2026-05-04T17:00:00+00:00",
-      "status": "Cancelled",
-      "subject": "",
-      "segment_name": ""
-    },
-    {
-      "id": "01KM13XWJM9FPWWQ08JANS7V6K",
-      "name": "C4 Win Back \u2014 Specialty Seed",
-      "send_time": "2026-05-04T17:00:00+00:00",
-      "status": "Cancelled",
-      "subject": "",
-      "segment_name": ""
-    },
-    {
-      "id": "01KM13Y3DFGE97M4S844A4VJDK",
-      "name": "Edu Retention W7 \u2014 Lawn",
-      "send_time": "2026-05-04T18:00:00+00:00",
-      "status": "Scheduled",
-      "subject": "",
-      "segment_name": ""
-    },
     {
       "id": "01KM13Y53XGD9EQRECVCPATRGX",
       "name": "Edu Winback W7 \u2014 Pasture",
@@ -61,6 +13,14 @@
       "id": "01KM13Y6N3VY5QSP7Z47EJB0CK",
       "name": "Edu Retention W7 \u2014 Pasture",
       "send_time": "2026-05-05T18:00:00+00:00",
+      "status": "Scheduled",
+      "subject": "",
+      "segment_name": ""
+    },
+    {
+      "id": "01KQSZDPH9XTC9RJ7YSZ723KM0",
+      "name": "End of Spring Sale \u2014 Pasture (May 6)",
+      "send_time": "2026-05-06T14:00:00+00:00",
       "status": "Scheduled",
       "subject": "",
       "segment_name": ""
@@ -114,6 +74,14 @@
       "segment_name": ""
     },
     {
+      "id": "01KQSZDT49ECSZAR93PXYTJ6KJ",
+      "name": "End of Spring Sale \u2014 Lawn (May 7)",
+      "send_time": "2026-05-07T14:00:00+00:00",
+      "status": "Scheduled",
+      "subject": "",
+      "segment_name": ""
+    },
+    {
       "id": "01KM13YJW7GBKWKGXTPZARAZXV",
       "name": "Edu Winback W7 \u2014 Cover Crop & Food Plot",
       "send_time": "2026-05-07T14:00:00+00:00",
@@ -154,9 +122,41 @@
       "segment_name": ""
     },
     {
+      "id": "01KQSZDXPDYQJAWK9N45M5AZQV",
+      "name": "End of Spring Sale \u2014 Wildflower (May 8)",
+      "send_time": "2026-05-08T14:00:00+00:00",
+      "status": "Scheduled",
+      "subject": "",
+      "segment_name": ""
+    },
+    {
+      "id": "01KQST8KW8FPSMQ3HW67X292FN",
+      "name": "Post-Season Recovery \u2014 Pasture May 8",
+      "send_time": "2026-05-08T16:00:00+00:00",
+      "status": "Scheduled",
+      "subject": "",
+      "segment_name": ""
+    },
+    {
       "id": "01KM13YP9XX90DBZJ3F1BV4TAR",
       "name": "C4 VIP \u2014 What Do You Want to See Next?",
       "send_time": "2026-05-08T17:00:00+00:00",
+      "status": "Scheduled",
+      "subject": "",
+      "segment_name": ""
+    },
+    {
+      "id": "01KQSZE196EV1DVRK62FGSAEB3",
+      "name": "End of Spring Sale \u2014 Food Plot (May 9)",
+      "send_time": "2026-05-09T14:00:00+00:00",
+      "status": "Scheduled",
+      "subject": "",
+      "segment_name": ""
+    },
+    {
+      "id": "01KQSWMQMYHQ149VA4EXCX3YW4",
+      "name": "Pasture Maintenance \u2014 Summer 2026",
+      "send_time": "2026-05-10T16:00:00+00:00",
       "status": "Scheduled",
       "subject": "",
       "segment_name": ""
@@ -174,6 +174,14 @@
       "name": "Edu Winback W8 \u2014 Pasture",
       "send_time": "2026-05-12T14:00:00+00:00",
       "status": "Cancelled",
+      "subject": "",
+      "segment_name": ""
+    },
+    {
+      "id": "01KQST8WVWGP6S3G8SN0DFBJVY",
+      "name": "Post-Season Recovery \u2014 Lawn May 12",
+      "send_time": "2026-05-12T16:00:00+00:00",
+      "status": "Scheduled",
       "subject": "",
       "segment_name": ""
     },
@@ -198,6 +206,30 @@
       "name": "Edu Winback W8 \u2014 Cover Crop & Food Plot",
       "send_time": "2026-05-14T14:00:00+00:00",
       "status": "Cancelled",
+      "subject": "",
+      "segment_name": ""
+    },
+    {
+      "id": "01KQSWMV7G2795MCDWZHKMXBA0",
+      "name": "Lawn Maintenance \u2014 Summer 2026",
+      "send_time": "2026-05-14T16:00:00+00:00",
+      "status": "Scheduled",
+      "subject": "",
+      "segment_name": ""
+    },
+    {
+      "id": "01KQST90M91PHRSF3F3AD0CQSA",
+      "name": "Post-Season Recovery \u2014 Wildflower May 15",
+      "send_time": "2026-05-15T16:00:00+00:00",
+      "status": "Scheduled",
+      "subject": "",
+      "segment_name": ""
+    },
+    {
+      "id": "01KQSWMYTP60Q5CGRVDQ25Z4FQ",
+      "name": "Wildflower Maintenance \u2014 Summer 2026",
+      "send_time": "2026-05-17T16:00:00+00:00",
+      "status": "Scheduled",
       "subject": "",
       "segment_name": ""
     },
@@ -254,6 +286,14 @@
       "name": "Edu Winback W9 \u2014 Pasture",
       "send_time": "2026-05-19T14:00:00+00:00",
       "status": "Cancelled",
+      "subject": "",
+      "segment_name": ""
+    },
+    {
+      "id": "01KQST94FN42CPSGXPTHWET8WR",
+      "name": "Post-Season Recovery \u2014 Other May 19",
+      "send_time": "2026-05-19T16:00:00+00:00",
+      "status": "Scheduled",
       "subject": "",
       "segment_name": ""
     },
@@ -322,6 +362,14 @@
       "segment_name": ""
     },
     {
+      "id": "01KQSWN2AJYTVSAAXJ5R88D7J5",
+      "name": "Food Plot Maintenance \u2014 Summer 2026",
+      "send_time": "2026-05-21T16:00:00+00:00",
+      "status": "Scheduled",
+      "subject": "",
+      "segment_name": ""
+    },
+    {
       "id": "01KM13ZSH6TGSXMFFXRRXFEDV9",
       "name": "Edu Retention W9 \u2014 Cover Crop & Food Plot",
       "send_time": "2026-05-21T18:00:00+00:00",
@@ -354,9 +402,49 @@
       "segment_name": ""
     },
     {
+      "id": "01KQSY8XY36H0FA93GZWY1BHK1",
+      "name": "Lawn Survive Summer \u2014 Engaged (May 22)",
+      "send_time": "2026-05-22T14:00:00+00:00",
+      "status": "Scheduled",
+      "subject": "",
+      "segment_name": ""
+    },
+    {
+      "id": "01KQSY8TAHNH361XH1J4HRRT2R",
+      "name": "Regen Ag: Build Your Soil \u2014 Pasture (May 22)",
+      "send_time": "2026-05-22T14:00:00+00:00",
+      "status": "Scheduled",
+      "subject": "",
+      "segment_name": ""
+    },
+    {
       "id": "01KM13ZX2P98JMDNVSYMF2Q6Q9",
       "name": "C5 VIP \u2014 Any Requests Before Summer?",
       "send_time": "2026-05-22T17:00:00+00:00",
+      "status": "Scheduled",
+      "subject": "",
+      "segment_name": ""
+    },
+    {
+      "id": "01KQSY91J02BCEJ9K2T13SMQM2",
+      "name": "California Lawn Summer Tips (May 23)",
+      "send_time": "2026-05-23T14:00:00+00:00",
+      "status": "Scheduled",
+      "subject": "",
+      "segment_name": ""
+    },
+    {
+      "id": "01KQSY951Z4RYYKZ5TFKFED7DD",
+      "name": "Texas Lawn Summer Tips (May 24)",
+      "send_time": "2026-05-24T14:00:00+00:00",
+      "status": "Scheduled",
+      "subject": "",
+      "segment_name": ""
+    },
+    {
+      "id": "01KQSY98NG9TWF60RRZAQXESZ8",
+      "name": "Florida Lawn Summer Tips (May 25)",
+      "send_time": "2026-05-25T14:00:00+00:00",
       "status": "Scheduled",
       "subject": "",
       "segment_name": ""

@@ -1,15 +1,15 @@
 {
-  "generated": "2026-05-04T15:31:10.670499",
+  "generated": "2026-05-05T09:50:35.005661",
   "seasons": {
     "spring_2026": {
       "label": "Spring 2026",
       "period": "2026-02-01 \u2192 2026-04-30",
-      "total_revenue": 970868.08,
-      "total_orders": 10047,
+      "total_revenue": 970658.09,
+      "total_orders": 10046,
       "total_skus": 121,
       "summary": {
         "a_count": 39,
-        "a_revenue": 783060.31,
+        "a_revenue": 782850.32,
         "a_pct": 80.7,
         "b_count": 32,
         "b_revenue": 140105.36,
@@ -152,16 +152,16 @@
           "sku": "LAWN-BUDA",
           "name": "Sundancer Buffalograss Lawn Seed",
           "product_id": 456233,
-          "revenue": 27966.68,
-          "margin": 20167.38,
+          "revenue": 27756.69,
+          "margin": 20015.16,
           "margin_pct": 72.1,
-          "units": 122,
-          "orders": 107,
-          "avg_basket": 301.5,
+          "units": 121,
+          "orders": 106,
+          "avg_basket": 302.32,
           "active_days": 88,
-          "daily_velocity": 1.39,
-          "revenue_velocity": 317.8,
-          "velocity_trend": 194.3555,
+          "daily_velocity": 1.38,
+          "revenue_velocity": 315.42,
+          "velocity_trend": 189.7403,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
           "variants": [
@@ -175,9 +175,9 @@
             {
               "sku": "TURF-BUDA-6-LB-KIT",
               "name": "Sundancer Buffalograss Lawn Seed - 6 lb - Covers 2,000 Sq Ft",
-              "revenue": 10845.98,
-              "units": 52,
-              "orders": 48
+              "revenue": 10635.99,
+              "units": 51,
+              "orders": 47
             },
             {
               "sku": "TURF-BUDA-3-LB-KIT",
@@ -187,9 +187,9 @@
               "orders": 44
             }
           ],
-          "composite_score": 82.43,
+          "composite_score": 82.39,
           "class": "A",
-          "reason": "Top performer \u2014 $318/day is 8.7x the median velocity \u2014 strong 72% margin."
+          "reason": "Top performer \u2014 $315/day is 8.6x the median velocity \u2014 strong 72% margin."
         },
         {
           "sku": "S-RICE",
@@ -1205,7 +1205,7 @@
               "orders": 4
             }
           ],
-          "composite_score": 69.47,
+          "composite_score": 69.51,
           "class": "A",
           "reason": "Top performer \u2014 $101/day is 2.8x the median velocity \u2014 strong 72% margin."
         },
