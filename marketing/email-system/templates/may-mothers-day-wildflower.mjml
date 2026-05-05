@@ -17,6 +17,7 @@
   </mj-head>
 
   <mj-body>
+    <!-- Preheader spacer (invisible — extends preview text) -->
     <mj-section padding="0">
       <mj-column>
         <mj-text font-size="1px" color="#f0ece4" padding="0">
@@ -27,6 +28,7 @@
 
     <mj-include path="../components/header.mjml" />
 
+    <!-- Hero Section -->
     <mj-section background-color="#1b4332" padding="64px 48px 56px">
       <mj-column>
         <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" font-weight="600" color="#d4a373" letter-spacing="0.14em" text-transform="uppercase" padding-bottom="20px">
@@ -59,6 +61,7 @@
       </mj-column>
     </mj-section>
 
+    <!-- Body Copy -->
     <mj-section background-color="#ffffff" padding="48px 48px 0">
       <mj-column>
         <mj-text align="left" font-family="Inter, Arial, sans-serif" font-size="15px" color="#3d3d3d" line-height="1.75" padding-bottom="0">
@@ -75,6 +78,7 @@
       </mj-column>
     </mj-section>
 
+    <!-- Promo Code Callout -->
     <mj-section background-color="#ffffff" padding="36px 48px 48px">
       <mj-column border="2px solid #C96A2E" border-radius="4px" padding="28px 32px">
         <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" font-weight="600" color="#6c757d" letter-spacing="0.14em" text-transform="uppercase" padding-bottom="10px">
@@ -89,6 +93,7 @@
       </mj-column>
     </mj-section>
 
+    <!-- CTA Block -->
     <mj-section background-color="#ffffff" padding="0 48px 48px" border-top="1px solid #e8e4dc">
       <mj-column>
         <mj-text align="center" font-family="'Noto Serif Display', Georgia, serif" font-size="22px" font-weight="600" color="#1b4332" line-height="1.3" padding-bottom="12px" padding-top="40px">
@@ -116,6 +121,7 @@
       </mj-column>
     </mj-section>
 
+    <!-- USP Bar -->
     <mj-section background-color="#2d6a4f" padding="28px 40px">
       <mj-column padding="0 8px">
         <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" font-weight="600" color="#ffffff" letter-spacing="0.06em" text-transform="uppercase" padding-bottom="4px">American Farm-Direct</mj-text>
