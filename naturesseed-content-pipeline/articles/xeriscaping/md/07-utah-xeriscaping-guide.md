@@ -107,6 +107,12 @@ Order Sideoats Grama at [Nature's Seed](/products/sideoats-grama/).
 
 The single most common Utah xeriscape mistake is buying seed based on a national "drought-tolerant lawn" article without matching it to your specific climate zone. The second most common is buying it on price at a big-box store without checking what variety is actually in the bag. Get the right species for your zone, plant it in the right window, water through establishment, and the climate does the rest.
 
+## Why Establishment Takes Longer in Utah Than in Arizona
+
+Wasatch Front homeowners often read national xeriscape advice that promises a finished native lawn in 30 days. That timeline is written for Phoenix, where Bermudagrass sees 90°F+ soil temperatures from May through September and germinates in a week. The Wasatch Front's effective warm-season growing window is shorter — soil temperatures don't reliably hit 55°F until late May, and night temperatures drop back into the 50s by mid-September. Blue Grama and Buffalograss have far fewer warm days to establish than they would in Phoenix. Plan on 60 to 90 days for visible cover, not 30. St. George is the exception — its summer length matches Phoenix, and Bermudagrass establishment timelines apply.
+
+Utah soil types compound the timeline. Southern Utah (St. George, Hurricane, Cedar City foothills) sits on caliche and high-alkalinity soils that fight germination if not loosened. Northern valley floors (Salt Lake, Davis, Utah counties) run heavy clay-loam that compacts hard and sheds water in spring runoff. Both benefit from aeration before seeding — a core aerator pulls plugs that break up the surface layer, and the resulting holes give seed direct contact with the deeper, less-compacted soil where roots will actually develop.
+
 ## A Note on Localscapes and Slow the Flow Rebates
 
 Localscapes is the umbrella program coordinating water-wise landscaping across most of Utah, funded through partnerships with Jordan Valley Water Conservancy District, Central Utah Water Conservancy District, Weber Basin Water Conservancy District, and several municipal utilities. If you live along the Wasatch Front, your water provider almost certainly participates.

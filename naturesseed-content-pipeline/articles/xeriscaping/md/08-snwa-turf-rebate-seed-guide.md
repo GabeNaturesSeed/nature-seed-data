@@ -61,6 +61,14 @@ Order Sideoats Grama at [Nature's Seed](/products/sideoats-grama/).
 
 Order Southwest Wildflower Mix at [Nature's Seed](/products/southwest-wildflower-mix/).
 
+## Soil Prep for Las Vegas Turf Removal
+
+Demoing the old lawn is the easy part. What's left underneath is the harder problem. Vegas soils after turf removal are typically compacted caliche or sandy fill with very low organic matter — a substrate the dead lawn was holding together more than the native soil structure was. Once the bluegrass roots are gone, what remains is essentially construction sub-base.
+
+A 2-inch compost top-dress before seeding dramatically improves germination rates and first-season root development. This is not optional on Vegas turf-removal sites the way it might be optional on undisturbed native ground. The compost layer holds moisture against the seed long enough for germination, buffers the alkaline mineral soil, and re-introduces the microbial life that died with the irrigated lawn.
+
+The compaction issue is specific to lawn removal sites. Native Mojave soil that was never turfed has its own loose surface structure built by desert plants over decades. A site that grew Kentucky bluegrass for thirty years has none of that — the soil structure that existed came from the lawn roots, and they're gone. Don't rely on the existing soil alone, and don't skip the compost top-dress to save a few hundred dollars on a multi-thousand-dollar conversion.
+
 ## Seeding Windows for Las Vegas
 
 **Spring window: April 15 – May 15.** Soil temperatures need to hit 60°F at a 4-inch depth before warm-season grasses germinate. Push past May 15 and you're seeding into 100°F afternoons — germination drops, water demand spikes, and seedlings cook before they root.

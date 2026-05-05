@@ -83,6 +83,16 @@ Tall fescue is a cool-season grass bred for the transition zone — the band of 
 
 If you are converting an existing tall fescue lawn, you are making the same mistake the previous owner made. Tear it out, prep the soil, and seed natives. The "drought-tolerant" marketing on the bag was a comparative claim against bluegrass, not a recommendation for the high desert.
 
+## Seeding in New Mexico: What Big-Box Stores Don't Tell You
+
+The bag of seed at the home center comes with a one-page insert that assumes you have midwestern topsoil. New Mexico does not. The state's soils are predominantly alkaline (often 7.8–8.5 pH), thin, and rocky, with caliche layers commonly hitting at 12 to 18 inches. Native species evolved for these conditions, but they still establish faster with help.
+
+A thin top-dressing of compost — quarter-inch to half-inch — at seeding does more for germination than any other single intervention. It buffers soil temperature, holds moisture against the alkaline mineral soil long enough for radicles to anchor, and adds the microbial life that's missing on construction-disturbed lots. This is not "amending the soil" in the bluegrass-lawn sense — you're not trying to make it look like Indiana. You're giving the seed a workable two-week window to root.
+
+Irrigation cycles should be slow and deep, not fast and frequent. Caliche layers stop water from moving down past 12 to 18 inches in a single short cycle, and the water that doesn't make it past that layer evaporates back out the surface within days. Run drip or low-output sprays for longer periods, less often — a cycle-and-soak approach (15 minutes on, 30 minutes off, repeat) lets water move past the caliche.
+
+The hardest part for first-year homeowners is patience. Native grasses look thin and unimpressive for the first 60 to 90 days. The instinct is to assume the seeding failed and re-seed over the top. Don't. Blue Grama and Buffalograss put energy into roots before tops in their first season, and the visible cover catches up by month four. Re-seeding in panic just buries the seedlings that were already working.
+
 ## A Note on New Mexico Rebates
 
 Albuquerque's ABCWUA runs one of the longest-standing cash-for-grass programs in the Southwest, and Santa Fe Water Division runs a separate program for city of Santa Fe addresses. Per-square-foot rates and per-property caps change; check abcwua.org or the Santa Fe Water Division for current numbers. Apply *before* removing any turf — both programs disqualify retroactive applications.

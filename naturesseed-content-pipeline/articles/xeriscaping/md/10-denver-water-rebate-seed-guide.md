@@ -71,6 +71,14 @@ Order Microclover Seed at [Nature's Seed](/products/micro-clover-seed-2/).
 - **Late summer (August 1 – August 25):** Secondary window for cool-season species like Sheep Fescue. Avoid seeding past August 25 in the Denver area — September frost risk is real.
 - **Avoid early spring (March – early May):** Soil temperatures are too cold for warm-season germination.
 
+## Altitude Seeding Tips for Colorado's Front Range
+
+Denver and the Front Range sit at 5,000 to 6,000 feet, and altitude changes the seeding game in ways that don't show up in lower-elevation guides. UV intensity at this elevation is roughly 25% higher than at sea level, and that UV cooks exposed seedbeds and dries surface moisture faster than homeowners expect. Desiccation during germination is the single biggest killer of Front Range seedings — the seed germinates, the radicle emerges, and the surface dries before the root anchors.
+
+Keep the seedbed moist 2–3 times per day for the first three weeks. Morning and evening at minimum; midday too if the day runs hot and breezy. This is the inverse of established-lawn watering — short, frequent cycles to keep the surface wet, not deep cycles to push water down. Once seedlings have visible top growth and the first true blades, transition to deeper, less frequent watering to push roots down. Blue Grama and Buffalograss are drought-tolerant once established, but they require consistent moisture during germination — this is where most failed Front Range seedings actually go wrong, not in species selection or seeding date.
+
+Wind compounds the desiccation problem. Denver's spring Chinook winds can dry a freshly-watered seedbed in hours, and the gusts that come off the foothills are stronger than national-average wind data suggests. A light mulch — an eighth of an inch of compost or chopped straw — during germination reduces moisture loss dramatically without smothering the seed. Don't lay it on thick. The goal is to break the wind contact with the soil surface, not to bury the seed under a blanket. Once seedlings are established and rooted, the mulch breaks down naturally and feeds the new lawn its first organic input.
+
 ## A Note on Front Range Rebates
 
 Denver Water's Cash-for-Grass program pays a per-square-foot rebate for converting irrigated turf to water-wise landscaping. Visit denverwater.org/conservation/cash-for-grass for current rebate amounts — Denver Water updates rates annually based on conservation budget and demand. Don't trust dollar figures from third-party blogs that haven't been refreshed in a season.

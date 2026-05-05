@@ -111,6 +111,12 @@ If you're getting pushback:
 
 Most HOAs back down at this stage. Arizona courts have consistently sided with homeowners when the plan meets reasonable design standards.
 
+## Establishment Tips for Arizona's Desert Heat
+
+Phoenix and Tucson soils punish shortcuts. Caliche — the cement-like calcium carbonate layer that sits anywhere from 6 to 24 inches below the surface — blocks roots from going deeper, and a Bermudagrass lawn with shallow roots will fight you every summer. Break through the caliche layer at seedbed prep, even if it means renting a power auger or pickaxe work on a small site. Roots that reach below the caliche pull moisture cool-season grasses can't reach.
+
+Water in the evening during establishment, not midday. Surface dry-out in 110°F sun kills more germinating seed than any other single factor — evening watering gives the seedbed eight to ten hours of moist contact before the heat returns. After the first full season, cut irrigation back to deep, infrequent cycles — twice a month in summer for established Bermuda, less for natives.
+
 ## A Note on AMWUA and Tucson Water Rebates
 
 Most Arizona homeowners can stack a city rebate on top of the long-term water savings of a xeriscape conversion. AMWUA member cities (Phoenix, Mesa, Scottsdale, Tempe, Gilbert, Chandler, Glendale, Peoria) and Tucson Water (separate program) all offer some version of a turf removal rebate. Per-square-foot rates vary by city — Scottsdale runs the most generous program at $1.50/sq ft, most others sit between $0.20 and $0.50/sq ft.
