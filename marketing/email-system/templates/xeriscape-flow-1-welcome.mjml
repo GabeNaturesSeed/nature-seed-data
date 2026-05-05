@@ -1,0 +1,150 @@
+<mjml>
+  <mj-head>
+    <mj-preview>Grow the right thing for your climate. Drought-tolerant seed, regionally selected.</mj-preview>
+    <mj-font name="Noto Serif Display" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,600;0,700;1,700&family=Inter:wght@400;500;600&display=swap" />
+    <mj-attributes>
+      <mj-all font-family="Inter, Arial, sans-serif" />
+      <mj-body width="620px" background-color="#f0ece4" />
+    </mj-attributes>
+    <mj-style>
+      @media only screen and (max-width: 480px) {
+        .product-col { display: block !important; width: 100% !important; }
+      }
+    </mj-style>
+  </mj-head>
+  <mj-body>
+    <!-- Preheader spacer (invisible — extends preview text) -->
+    <mj-section padding="0">
+      <mj-column>
+        <mj-text font-size="1px" color="#f0ece4" padding="0">
+          &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-include path="../components/header.mjml" />
+
+    <!-- Hero Section -->
+    <mj-section background-color="#1b4332" padding="64px 48px 56px">
+      <mj-column>
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" font-weight="600" color="#d4a373" letter-spacing="0.14em" text-transform="uppercase" padding-bottom="20px">
+          Xeriscape Seed
+        </mj-text>
+        <mj-text align="center" font-family="'Noto Serif Display', Georgia, serif" font-size="46px" font-weight="700" color="#ffffff" line-height="1.10" letter-spacing="-0.01em" padding-bottom="20px">
+          Grow the Right<br/>Thing for<br/><span style="font-style:italic;color:#a8d5b5;">Your Climate</span>
+        </mj-text>
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="16px" color="#a8d5b5" line-height="1.6" padding-bottom="32px">
+          Drought-tolerant grass, native species, and wildflower seed selected for the dry West.
+        </mj-text>
+        <mj-button align="center" background-color="#C96A2E" color="#ffffff" border-radius="2px" font-family="Inter, Arial, sans-serif" font-size="14px" font-weight="600" letter-spacing="0.04em" text-transform="uppercase" inner-padding="16px 36px" href="https://www.naturesseed.com/xeriscaping/?utm_source=klaviyo&utm_campaign=xeriscape-flow&utm_content=email1-hero">
+          Shop Xeriscape Seed
+        </mj-button>
+        <mj-divider border-color="#d4a373" border-width="3px" width="48px" padding="40px 0 0" />
+      </mj-column>
+    </mj-section>
+
+    <!-- Body Copy — Welcome -->
+    <mj-section background-color="#ffffff" padding="48px 48px 0">
+      <mj-column>
+        <mj-text align="left" font-family="Inter, Arial, sans-serif" font-size="15px" color="#3d3d3d" line-height="1.75" padding-bottom="0">
+          Welcome. Across the dry West — from coastal California to the Rocky Mountain foothills — the lawn that worked for the last fifty years doesn't work anymore. Cool-season turf is a thirsty crop in a region that no longer has the water to support it. The good news: there's a better option, and it's been here all along.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding="24px 48px 0">
+      <mj-column>
+        <mj-text align="left" font-family="Inter, Arial, sans-serif" font-size="15px" color="#3d3d3d" line-height="1.75" padding-bottom="0">
+          We grow drought-tolerant grass, native short grasses, and regionally adapted wildflower seed on U.S. farms. No fillers, no GMOs, ships in one business day. Here's what we recommend for your area:
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- State-Conditional Region Intro -->
+    <mj-section background-color="#ffffff" padding="20px 48px 0">
+      <mj-column>
+        <mj-text align="left" font-family="Inter, Arial, sans-serif" font-size="15px" color="#3d3d3d" line-height="1.75" padding-bottom="0">
+          {% if person|lookup:'$region' == 'NV' or person|lookup:'$region' == 'AZ' %}
+          For the hot desert Southwest, the right approach is heat- and drought-adapted grasses paired with native wildflowers. Bermudagrass and buffalo grass root deeply and stay green on minimal irrigation once established.
+          {% elif person|lookup:'$region' == 'CA' %}
+          California's range of climates means the right mix depends on whether you're coastal or inland. Sheep fescue and microclover work beautifully along the coast; buffalo grass and bermudagrass blends are better fits inland.
+          {% elif person|lookup:'$region' == 'TX' %}
+          Texas natives — buffalo grass and sideoats grama (the state grass) — are the foundation of any good xeriscape lawn here. Pair them with Texas wildflowers for color that returns year after year.
+          {% elif person|lookup:'$region' == 'CO' or person|lookup:'$region' == 'UT' or person|lookup:'$region' == 'NM' %}
+          The Mountain West needs cold-hardy, low-water natives. Blue grama is the regional champion — paired with sheep fescue and buffalo grass, it handles freeze-thaw cycles and dry summers without irrigation.
+          {% else %}
+          Drought-tolerant native grasses outperform traditional turf almost anywhere west of the 100th meridian. Buffalo grass, blue grama, and microclover are the most versatile starting points.
+          {% endif %}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Product Grid — State-Conditional Content, Fixed Structure -->
+    <mj-section background-color="#ffffff" padding="32px 40px 48px">
+      <mj-column padding="8px" css-class="product-col">
+        <mj-text align="center" font-family="'Noto Serif Display', Georgia, serif" font-size="16px" font-weight="600" color="#1b4332" padding-bottom="6px">
+          {% if person|lookup:'$region' == 'NV' or person|lookup:'$region' == 'AZ' %}Bermudagrass Drought-Tolerant Blend{% elif person|lookup:'$region' == 'CA' %}Sheep Fescue{% elif person|lookup:'$region' == 'TX' %}Buffalo Grass{% elif person|lookup:'$region' == 'CO' or person|lookup:'$region' == 'UT' or person|lookup:'$region' == 'NM' %}Blue Grama{% else %}Buffalo Grass{% endif %}
+        </mj-text>
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="13px" color="#6c757d" line-height="1.5" padding-bottom="12px">
+          {% if person|lookup:'$region' == 'NV' or person|lookup:'$region' == 'AZ' %}Heat and drought resistant. Establishes well in desert soils and stays green on minimal irrigation.{% elif person|lookup:'$region' == 'CA' %}Low-water, low-mow fescue. The go-to for coastal and inland California xeriscape lawns.{% elif person|lookup:'$region' == 'TX' %}The Texas native. Drought-hardy, no irrigation needed once established.{% elif person|lookup:'$region' == 'CO' or person|lookup:'$region' == 'UT' or person|lookup:'$region' == 'NM' %}Native to the Rocky Mountain foothills. Cold-hardy and exceptionally drought-tolerant.{% else %}Low-water native short grass. Works across most western xeriscape climates.{% endif %}
+        </mj-text>
+        <mj-button align="center" background-color="#C96A2E" color="#ffffff" border-radius="2px" font-family="Inter, Arial, sans-serif" font-size="12px" font-weight="600" letter-spacing="0.04em" text-transform="uppercase" inner-padding="10px 20px" href="https://www.naturesseed.com/xeriscaping/?utm_source=klaviyo&utm_campaign=xeriscape-flow&utm_content=email1-p1">Shop Now</mj-button>
+      </mj-column>
+      <mj-column padding="8px" css-class="product-col">
+        <mj-text align="center" font-family="'Noto Serif Display', Georgia, serif" font-size="16px" font-weight="600" color="#1b4332" padding-bottom="6px">
+          {% if person|lookup:'$region' == 'NV' or person|lookup:'$region' == 'AZ' %}Buffalo Grass{% elif person|lookup:'$region' == 'CA' %}Microclover Lawn Mix{% elif person|lookup:'$region' == 'TX' %}Sideoats Grama{% elif person|lookup:'$region' == 'CO' or person|lookup:'$region' == 'UT' or person|lookup:'$region' == 'NM' %}Sheep Fescue{% else %}Microclover Lawn Mix{% endif %}
+        </mj-text>
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="13px" color="#6c757d" line-height="1.5" padding-bottom="12px">
+          {% if person|lookup:'$region' == 'NV' or person|lookup:'$region' == 'AZ' %}Native short grass. Minimal irrigation once established. A staple of the Southwest xeriscape lawn.{% elif person|lookup:'$region' == 'CA' %}Self-fertilizing, drought tolerant ground cover. A coastal California favorite.{% elif person|lookup:'$region' == 'TX' %}The Texas state grass. Native, drought-hardy, extremely low-maintenance.{% elif person|lookup:'$region' == 'CO' or person|lookup:'$region' == 'UT' or person|lookup:'$region' == 'NM' %}Cold-hardy, low-water fescue for mountain west conditions and freeze-thaw cycles.{% else %}Self-fertilizing and drought tolerant. Popular nationwide for water-wise lawn conversions.{% endif %}
+        </mj-text>
+        <mj-button align="center" background-color="#C96A2E" color="#ffffff" border-radius="2px" font-family="Inter, Arial, sans-serif" font-size="12px" font-weight="600" letter-spacing="0.04em" text-transform="uppercase" inner-padding="10px 20px" href="https://www.naturesseed.com/xeriscaping/?utm_source=klaviyo&utm_campaign=xeriscape-flow&utm_content=email1-p2">Shop Now</mj-button>
+      </mj-column>
+      <mj-column padding="8px" css-class="product-col">
+        <mj-text align="center" font-family="'Noto Serif Display', Georgia, serif" font-size="16px" font-weight="600" color="#1b4332" padding-bottom="6px">
+          {% if person|lookup:'$region' == 'NV' or person|lookup:'$region' == 'AZ' %}Southwestern Wildflower Mix{% elif person|lookup:'$region' == 'CA' %}Buffalo Grass{% elif person|lookup:'$region' == 'TX' %}TX/OK Wildflower Mix{% elif person|lookup:'$region' == 'CO' or person|lookup:'$region' == 'UT' or person|lookup:'$region' == 'NM' %}Buffalo Grass (Cold-Hardy){% else %}Blue Grama{% endif %}
+        </mj-text>
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="13px" color="#6c757d" line-height="1.5" padding-bottom="12px">
+          {% if person|lookup:'$region' == 'NV' or person|lookup:'$region' == 'AZ' %}Drought-adapted color. Pollinators included. Zero irrigation after establishment.{% elif person|lookup:'$region' == 'CA' %}Native short grass for California's drier inland and valley climates.{% elif person|lookup:'$region' == 'TX' %}Bluebonnets and Texas natives. Adds color while qualifying as drought-tolerant ground cover.{% elif person|lookup:'$region' == 'CO' or person|lookup:'$region' == 'UT' or person|lookup:'$region' == 'NM' %}Low-growing native. Handles Colorado freeze-thaw and dry mountain summers.{% else %}Native prairie grass. Excellent drought tolerance. A reliable xeriscape foundation.{% endif %}
+        </mj-text>
+        <mj-button align="center" background-color="#C96A2E" color="#ffffff" border-radius="2px" font-family="Inter, Arial, sans-serif" font-size="12px" font-weight="600" letter-spacing="0.04em" text-transform="uppercase" inner-padding="10px 20px" href="https://www.naturesseed.com/xeriscaping/?utm_source=klaviyo&utm_campaign=xeriscape-flow&utm_content=email1-p3">Shop Now</mj-button>
+      </mj-column>
+    </mj-section>
+
+    <!-- CTA Block -->
+    <mj-section background-color="#ffffff" padding="0 48px 48px" border-top="1px solid #e8e4dc">
+      <mj-column>
+        <mj-text align="center" font-family="'Noto Serif Display', Georgia, serif" font-size="22px" font-weight="600" color="#1b4332" line-height="1.3" padding-bottom="12px" padding-top="40px">
+          Your seed ships in 1 business day.
+        </mj-text>
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="14px" color="#6c757d" line-height="1.6" padding-bottom="24px">
+          Farm-direct, regionally selected, ready to plant.
+        </mj-text>
+        <mj-button align="center" background-color="#C96A2E" color="#ffffff" border-radius="2px" font-family="Inter, Arial, sans-serif" font-size="14px" font-weight="600" letter-spacing="0.04em" text-transform="uppercase" inner-padding="16px 36px" href="https://www.naturesseed.com/xeriscaping/?utm_source=klaviyo&utm_campaign=xeriscape-flow&utm_content=email1-cta">
+          Browse Xeriscape Seed
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    <!-- USP Bar -->
+    <mj-section background-color="#2d6a4f" padding="28px 40px">
+      <mj-column padding="0 8px">
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" font-weight="600" color="#ffffff" letter-spacing="0.06em" text-transform="uppercase" padding-bottom="4px">American Farm-Direct</mj-text>
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" color="#a8d5b5" line-height="1.4" padding="0">Grown on U.S. farms</mj-text>
+      </mj-column>
+      <mj-column padding="0 8px">
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" font-weight="600" color="#ffffff" letter-spacing="0.06em" text-transform="uppercase" padding-bottom="4px">No GMOs</mj-text>
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" color="#a8d5b5" line-height="1.4" padding="0">Pure, tested seed</mj-text>
+      </mj-column>
+      <mj-column padding="0 8px">
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" font-weight="600" color="#ffffff" letter-spacing="0.06em" text-transform="uppercase" padding-bottom="4px">Ships in 1 Business Day</mj-text>
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" color="#a8d5b5" line-height="1.4" padding="0">Fast, reliable delivery</mj-text>
+      </mj-column>
+      <mj-column padding="0 8px">
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" font-weight="600" color="#ffffff" letter-spacing="0.06em" text-transform="uppercase" padding-bottom="4px">Satisfaction Guaranteed</mj-text>
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" color="#a8d5b5" line-height="1.4" padding="0">We stand behind our seed</mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-include path="../components/footer.mjml" />
+  </mj-body>
+</mjml>

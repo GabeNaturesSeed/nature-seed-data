@@ -1,0 +1,135 @@
+<mjml>
+  <mj-head>
+    <mj-preview>Your planting window is closing — here's what to do.</mj-preview>
+    <mj-font name="Noto Serif Display" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,600;0,700;1,700&family=Inter:wght@400;500;600&display=swap" />
+    <mj-attributes>
+      <mj-all font-family="Inter, Arial, sans-serif" />
+      <mj-body width="620px" background-color="#f0ece4" />
+    </mj-attributes>
+    <mj-style>
+      @media only screen and (max-width: 480px) {
+        .product-col { display: block !important; width: 100% !important; }
+      }
+    </mj-style>
+  </mj-head>
+  <mj-body>
+    <!-- Preheader spacer (invisible — extends preview text) -->
+    <mj-section padding="0">
+      <mj-column>
+        <mj-text font-size="1px" color="#f0ece4" padding="0">
+          &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-include path="../components/header.mjml" />
+
+    <!-- Hero Section -->
+    <mj-section background-color="#1b4332" padding="64px 48px 56px">
+      <mj-column>
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" font-weight="600" color="#d4a373" letter-spacing="0.14em" text-transform="uppercase" padding-bottom="20px">
+          Planting Window
+        </mj-text>
+        <mj-text align="center" font-family="'Noto Serif Display', Georgia, serif" font-size="46px" font-weight="700" color="#ffffff" line-height="1.10" letter-spacing="-0.01em" padding-bottom="20px">
+          The Window<br/>Is Closing —<br/><span style="font-style:italic;color:#a8d5b5;">Plant Now</span>
+        </mj-text>
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="16px" color="#a8d5b5" line-height="1.6" padding-bottom="32px">
+          Drought-tolerant grasses need warm soil and time to root. The clock is short.
+        </mj-text>
+        <mj-button align="center" background-color="#C96A2E" color="#ffffff" border-radius="2px" font-family="Inter, Arial, sans-serif" font-size="14px" font-weight="600" letter-spacing="0.04em" text-transform="uppercase" inner-padding="16px 36px" href="https://www.naturesseed.com/xeriscaping/?utm_source=klaviyo&utm_campaign=xeriscape-flow&utm_content=email3-hero">
+          Order My Seed
+        </mj-button>
+        <mj-divider border-color="#d4a373" border-width="3px" width="48px" padding="40px 0 0" />
+      </mj-column>
+    </mj-section>
+
+    <!-- State-Conditional Timing -->
+    <mj-section background-color="#ffffff" padding="48px 48px 0">
+      <mj-column>
+        <mj-text align="left" font-family="Inter, Arial, sans-serif" font-size="15px" color="#3d3d3d" line-height="1.75" padding-bottom="0">
+          {% if person|lookup:'$region' == 'NV' %}
+          In Las Vegas and Southern Nevada, the spring/early-summer planting window for warm-season grasses like bermudagrass and buffalo grass closes once daytime highs settle above 100°F and the soil bakes. Get seed in the ground in the next two to three weeks for a real shot at fall establishment. Nevada decorative turf irrigation also becomes restricted under state law on January 1, 2027 — converting now lets you establish a compliant lawn before that deadline.
+          {% elif person|lookup:'$region' == 'AZ' %}
+          Across Phoenix, Tucson, and the Sonoran Desert, the bermudagrass and buffalo grass planting window is closing fast as soil temperatures climb. After mid-June, summer heat dries new seed before it can root. Plant now and you'll have an established xeriscape lawn before fall.
+          {% elif person|lookup:'$region' == 'CA' %}
+          California's coastal zones still have a planting window for sheep fescue and microclover, but inland and valley areas are approaching the cutoff for warm-season grasses. Once daytime highs lock in above 95°F, germination drops off sharply. The next two to three weeks matter.
+          {% elif person|lookup:'$region' == 'TX' %}
+          Across Texas, the spring planting window for buffalo grass and sideoats grama runs through late spring into early summer. Plant now, water lightly to germinate, and your lawn will establish before the worst summer heat arrives. Wait too long and you're waiting until fall.
+          {% elif person|lookup:'$region' == 'CO' or person|lookup:'$region' == 'UT' or person|lookup:'$region' == 'NM' %}
+          The Mountain West has a short but excellent planting window in late spring and early summer for blue grama, sheep fescue, and buffalo grass. Once monsoon season ends and dry heat sets in, germination becomes harder. Get seed in the ground while soil temperatures are right.
+          {% else %}
+          Most of the West has a finite spring/early-summer planting window for drought-tolerant grasses. Once daytime highs lock in above 95°F, germination drops sharply. Order this week to make the window.
+          {% endif %}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Static value prop -->
+    <mj-section background-color="#ffffff" padding="24px 48px 0">
+      <mj-column>
+        <mj-text align="left" font-family="Inter, Arial, sans-serif" font-size="15px" color="#3d3d3d" line-height="1.75" padding-bottom="0">
+          We grow our seed on U.S. farms — no fillers, no GMOs — and we ship every order in one business day. The seed is ready when you are.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- State-Conditional Best Product -->
+    <mj-section background-color="#ffffff" padding="32px 48px 0">
+      <mj-column>
+        <mj-text align="left" font-family="'Noto Serif Display', Georgia, serif" font-size="20px" font-weight="600" color="#1b4332" line-height="1.3" padding-bottom="12px">
+          The right seed for your area:
+        </mj-text>
+        <mj-text align="left" font-family="Inter, Arial, sans-serif" font-size="15px" color="#3d3d3d" line-height="1.75" padding-bottom="0">
+          {% if person|lookup:'$region' == 'NV' or person|lookup:'$region' == 'AZ' %}
+          Start with our <strong>Bermudagrass Drought-Tolerant Blend</strong>. It establishes well from late spring through early summer in desert conditions and is the most reliable lawn-style xeriscape grass for the Mojave and Sonoran zones.
+          {% elif person|lookup:'$region' == 'CA' %}
+          Coastal: our <strong>Sheep Fescue</strong> and <strong>Microclover Lawn Mix</strong>. Inland California: <strong>Bermudagrass Drought-Tolerant Blend</strong> and <strong>Buffalo Grass</strong>. All ship in one business day.
+          {% elif person|lookup:'$region' == 'TX' %}
+          Our <strong>Buffalo Grass</strong> is the Texas xeriscape standard — native, drought-hardy, and the most forgiving species for first-time xeriscape conversions in the Hill Country and across the state.
+          {% elif person|lookup:'$region' == 'CO' or person|lookup:'$region' == 'UT' or person|lookup:'$region' == 'NM' %}
+          Our <strong>Blue Grama</strong> is the Rocky Mountain xeriscape champion. Pair it with <strong>Sheep Fescue</strong> for a low-water lawn that handles freeze-thaw and dry summers across the Mountain West.
+          {% else %}
+          Our <strong>Buffalo Grass</strong> and <strong>Microclover Lawn Mix</strong> are the most versatile drought-tolerant species we sell — strong starting points for any Western xeriscape conversion.
+          {% endif %}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- CTA Block -->
+    <mj-section background-color="#ffffff" padding="0 48px 48px" border-top="1px solid #e8e4dc">
+      <mj-column>
+        <mj-text align="center" font-family="'Noto Serif Display', Georgia, serif" font-size="22px" font-weight="600" color="#1b4332" line-height="1.3" padding-bottom="12px" padding-top="40px">
+          The window won't stay open.
+        </mj-text>
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="14px" color="#6c757d" line-height="1.6" padding-bottom="24px">
+          Ships in 1 business day. Plant before summer heat locks you out until fall.
+        </mj-text>
+        <mj-button align="center" background-color="#C96A2E" color="#ffffff" border-radius="2px" font-family="Inter, Arial, sans-serif" font-size="14px" font-weight="600" letter-spacing="0.04em" text-transform="uppercase" inner-padding="16px 36px" href="https://www.naturesseed.com/xeriscaping/?utm_source=klaviyo&utm_campaign=xeriscape-flow&utm_content=email3-cta">
+          Order My Seed
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    <!-- USP Bar -->
+    <mj-section background-color="#2d6a4f" padding="28px 40px">
+      <mj-column padding="0 8px">
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" font-weight="600" color="#ffffff" letter-spacing="0.06em" text-transform="uppercase" padding-bottom="4px">American Farm-Direct</mj-text>
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" color="#a8d5b5" line-height="1.4" padding="0">Grown on U.S. farms</mj-text>
+      </mj-column>
+      <mj-column padding="0 8px">
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" font-weight="600" color="#ffffff" letter-spacing="0.06em" text-transform="uppercase" padding-bottom="4px">No GMOs</mj-text>
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" color="#a8d5b5" line-height="1.4" padding="0">Pure, tested seed</mj-text>
+      </mj-column>
+      <mj-column padding="0 8px">
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" font-weight="600" color="#ffffff" letter-spacing="0.06em" text-transform="uppercase" padding-bottom="4px">Ships in 1 Business Day</mj-text>
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" color="#a8d5b5" line-height="1.4" padding="0">Fast, reliable delivery</mj-text>
+      </mj-column>
+      <mj-column padding="0 8px">
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" font-weight="600" color="#ffffff" letter-spacing="0.06em" text-transform="uppercase" padding-bottom="4px">Satisfaction Guaranteed</mj-text>
+        <mj-text align="center" font-family="Inter, Arial, sans-serif" font-size="11px" color="#a8d5b5" line-height="1.4" padding="0">We stand behind our seed</mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-include path="../components/footer.mjml" />
+  </mj-body>
+</mjml>
