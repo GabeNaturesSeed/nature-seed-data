@@ -8,9 +8,7 @@ description: "Denver Water pays up to $1/sq ft for turf removal and water-wise r
 seo_title: "Denver Water Cash-for-Grass: Approved Seed Mixes & How to Apply"
 ---
 
-You've watered the front yard four nights a week since April. Your June water bill is the highest in the neighborhood, and the lawn still looks like a thrift-store rug — patchy on the south-facing slope, brown along the curb. The HOA sent a letter. Your landscaper says it needs more nitrogen.
-
-The problem isn't you. The problem is Kentucky bluegrass — a humid-climate cool-season turf trying to survive at 5,280 feet in a semi-arid climate that gets fifteen inches of precipitation a year. It loses water through its leaves faster than its roots can pull it from the soil for about ninety days every summer. You bought a lawn species the climate doesn't support.
+Your June water bill is the highest in the neighborhood, the lawn still looks patchy, and your landscaper says it needs more nitrogen. The problem isn't you — it's Kentucky bluegrass, a humid-climate turf trying to survive at 5,280 feet in a semi-arid climate that gets fifteen inches of precipitation a year. You bought a lawn species the climate doesn't support.
 
 Denver Water and several Front Range neighbors will pay you to fix it. The Cash-for-Grass program reimburses property owners for removing high-water turf and replanting with water-wise alternatives — and seeded establishment with the right native species qualifies. This guide covers Denver Water's program, the separate Aurora Water rebate, smaller programs in Castle Rock and Centennial, and which Nature's Seed mixes are on the approved replacement lists.
 
@@ -25,17 +23,15 @@ Denver Water's Cash-for-Grass program pays a per-square-foot rebate for converti
 - **Commercial:** Office parks, retail centers, parking strip frontages, and ornamental commercial turf qualify under the program's commercial track.
 - **Service area:** You must be a Denver Water customer. Suburbs served by other utilities (Aurora Water, Centennial Water, Castle Rock Water, Highlands Ranch, etc.) apply through their own programs.
 
-**Maximum rebate area:** Denver Water caps per-property rebate area annually; commercial caps are higher than residential. Confirm the current cap on the application page before sizing your project — there's no benefit to demoing more than the cap will pay for in a single application year.
+**Maximum rebate area:** Denver Water caps per-property rebate area annually; commercial caps are higher than residential. Confirm the current cap before sizing your project.
 
-**What constitutes an approved replacement:** Any landscape that reduces irrigation demand significantly compared to the existing turf. Acceptable conversions include native grass and wildflower seedings, drip-irrigated shrub beds, groundcover plantings, and decorative gravel with islands of plant material. Pure rock with no living plant cover is generally discouraged or capped at a percentage of the converted area; the program rewards living water-wise landscapes more than crushed-granite-only conversions.
+**Approved replacements:** Native grass and wildflower seedings, drip-irrigated shrub beds, groundcover plantings, and decorative gravel with plant material. Pure rock with no living cover is generally capped; the program rewards living water-wise landscapes.
 
 ## Aurora Water Xeriscape Rebate
 
 Aurora Water runs its own program separate from Denver Water. If your service address is in Aurora, you apply through Aurora Water — even if you're geographically next door to a Denver Water customer who's already gotten their check.
 
-Visit auroragov.org and search "water conservation rebate" for current rates. Aurora's program also requires pre-approval and uses a comparable application flow: submit, get approved, demo, replant, document, inspect, get paid. Aurora's approved species list overlaps heavily with Denver Water's, so the seed selection guidance below applies to both programs.
-
-The most common mistake we see from Aurora homeowners: applying to Denver Water by accident because Cash-for-Grass is the more famous program name. Check your water bill for the actual utility name before you start the paperwork.
+Visit auroragov.org and search "water conservation rebate" for current rates. Aurora's program requires pre-approval and follows the same flow as Denver Water; the approved species list overlaps, so the seed guidance below applies to both. Check your water bill for the actual utility name before starting paperwork — applying to Denver Water by accident is a common error.
 
 ## Castle Rock Water and Centennial Water
 
@@ -55,27 +51,27 @@ Denver Water and the major Front Range utilities accept seed-based conversions, 
 
 [Blue Grama](/products/blue-grama/) is the headline native grass for Front Range conversions. It's a fine-bladed, warm-season prairie grass native to the short-grass steppe that runs from the foothills east through the plains. Mature plants tolerate full Colorado summer drought without supplemental water once established and handle the freeze-thaw cycles that wreck a lot of imported species. The blue-green color reads as a lawn from a distance; up close it has the characteristic eyebrow-shaped seed heads that landscapers either love or hate.
 
-Plant May 15 to June 30, when soil temperatures hit 55°F and stay there. Seeding too early — late April, early May — wastes seed because Blue Grama is warm-season and won't germinate in cold soil. Establishment is slower than cool-season species: plan on 60 days minimum before the rebate program will inspect, and budget supplemental water through the first full growing season.
+Plant May 15 to June 30, when soil temperatures hit 55°F. Blue Grama is warm-season and won't germinate in cold soil. Plan on 60 days minimum before rebate inspection, and budget supplemental water through the first growing season.
 
 ### Sheep Fescue
 
 [Sheep Fescue Grass](/products/sheep-fescue-grass/) is the cool-season counterpart. Where Blue Grama goes dormant and tan in winter, Sheep Fescue stays a low blue-green well into the cold months and greens up early in spring. It's the right choice for shaded areas, north-facing slopes, and yards where you want some color through the shoulder seasons.
 
-Sheep Fescue is also the better pick if your conversion area gets mid-day shade from a tall tree or a north-facing wall — Blue Grama needs full sun. A common Front Range mix is Blue Grama as the dominant species in sunny areas and Sheep Fescue in the shaded patches; the two coexist fine and look unified at lawn distance.
+Blue Grama needs full sun; Sheep Fescue handles mid-day shade from trees or north-facing walls. A common Front Range approach is Blue Grama in sunny areas and Sheep Fescue in shaded patches — the two coexist and look unified at lawn distance.
 
 ### Buffalograss — Critical Note for Colorado
 
 [Buffalograss](/products/buffalograss/) is the other major Front Range native, and the warning here matters: **only cold-hardy varieties — Cody or Bowie — survive Colorado winters**. Warm-climate Buffalograss varieties marketed for Texas, Oklahoma, and the southern plains will not make it through a Denver winter. They'll establish fine the first summer and die in the first hard freeze.
 
-When you order, confirm the variety. The Nature's Seed Buffalograss product page lists which varieties are stocked; if you're seeding in Colorado, ask before you buy. This is the single most common cause of failed Buffalograss conversions on the Front Range — a homeowner buys cheap Buffalograss seed online, gets a southern variety, and watches the lawn brown out and not come back the following May.
+Confirm the variety before ordering — the Nature's Seed Buffalograss product page lists which varieties are stocked. Buying a southern variety is the single most common cause of failed Front Range conversions: the plant establishes fine in summer and dies in the first hard freeze.
 
-Plant May 15 to June 30, same window as Blue Grama. Cold-hardy Buffalograss is a true native to the Colorado short-grass prairie and behaves accordingly — slow to establish, drought-tolerant once mature, dormant tan in winter.
+Plant May 15 to June 30. Cold-hardy Buffalograss is slow to establish, drought-tolerant once mature, and dormant tan in winter.
 
 ### Rocky Mountain Wildflower Mix
 
 [Rocky Mountain Wildflower Mix](/products/rocky-mountain-wildflower-mix/) is the companion planting for any structural-grass conversion. Native perennials and annuals fill the gaps between bunchgrasses with color, support pollinators, and read as intentional landscape design rather than abandoned lot. Most rebate programs accept wildflower areas as part of the converted square footage as long as cover thresholds are met at inspection.
 
-Use the wildflower mix in border bands, around boulders or feature plantings, and in the transition zone between structural grass and shrub beds.
+Use it in border bands, around boulders, and in the transition zone between structural grass and shrub beds.
 
 ## Seeding Windows for the Front Range
 
@@ -96,6 +92,6 @@ The Denver Water, Aurora Water, Castle Rock, and Centennial programs all use a s
 7. **Inspection or remote verification.** An inspector visits or reviews submitted photos. They confirm species, measure cover, and verify the conversion matches the pre-approval description.
 8. **Rebate paid** as a check or utility bill credit, typically within 4–8 weeks of passing inspection.
 
-For the bigger picture on Colorado's HOA law, the 2026 commercial turf ban, and how this all fits together, see the [Colorado Xeriscaping Guide](/colorado-xeriscaping-guide/). For the Las Vegas equivalent program, see the [SNWA Turf Rebate Seed Guide](/snwa-turf-rebate-seed-guide/). And if you're outside Colorado, the [California MWD Turf Rebate Seed Guide](/california-mwd-turf-rebate-seed/) covers the Southern California version.
+For Colorado's HOA law, the 2026 commercial turf ban, and how this all fits together, see the [Colorado Xeriscaping Guide](/colorado-xeriscaping-guide/). For the broader xeriscape concept, see the [xeriscape pillar](/xeriscaping/).
 
-The seed path takes a little more documentation than installing decomposed granite, but the result is a living water-wise landscape that earns the rebate, drops the water bill, and finally looks the way it should at 5,280 feet.
+The seed path takes a little more documentation than decomposed granite, but the result is a living water-wise landscape that earns the rebate and drops the water bill at 5,280 feet.
