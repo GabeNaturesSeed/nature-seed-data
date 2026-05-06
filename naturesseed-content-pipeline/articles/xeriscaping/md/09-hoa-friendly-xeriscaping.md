@@ -2,7 +2,7 @@
 title: "HOA-Friendly Xeriscaping: Low-Water Lawns That Still Look Manicured"
 slug: "hoa-friendly-xeriscaping"
 date: "2026-05-06"
-category: "xeriscaping"
+category: "Xeriscaping"
 tags: ["xeriscape"]
 description: "Your HOA wants a green, even, manicured lawn. You want a lawn that doesn't cost you $200/month in water. These aren't mutually exclusive — here's how to get both."
 seo_title: "HOA-Friendly Xeriscaping: Low-Water Manicured Lawns | Nature's Seed"
@@ -70,6 +70,8 @@ Why this works: Visual uniformity is what HOAs actually grade on. A single mix a
 **Scenario 4: HOA covers the front, you control the back.**
 
 Hybrid strategy. Front yard: TWCA-certified turf to satisfy the covenant. Back yard, where the HOA can't see: microclover, buffalograss, or a more aggressive xeriscape conversion. Same homeowner, two different strategies, total water savings substantially better than going all-conventional out front.
+
+For the back lawn, [Sundancer Buffalograss](/products/sundancer-buffalograss-lawn-seed/) is the workhorse choice — a dense, sod-forming buffalograss that handles heat and drought with almost no input after establishment. It goes tan in winter (warm-season dormancy) and greens up in late spring. In a back yard where appearance expectations are lower than the front, buffalograss delivers the most water savings per square foot of any turf option.
 
 This is what most experienced xeriscapers in HOA communities actually do. Let the front comply. Let the back save real water.
 

@@ -2,7 +2,7 @@
 title: "How to Seed and Establish a Xeriscape Lawn (The Right Way)"
 slug: "how-to-seed-establish-xeriscape"
 date: "2026-05-06"
-category: "xeriscaping"
+category: "Xeriscaping"
 tags: ["xeriscape"]
 description: "Xeriscaping's paradox: drought-tolerant plants need consistent moisture to establish. Seed them wrong and they fail — not because they can't handle drought, but because they never got started."
 seo_title: "How to Seed & Establish a Xeriscape Lawn | Nature's Seed"

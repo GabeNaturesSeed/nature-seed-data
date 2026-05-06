@@ -2,7 +2,7 @@
 title: "Microclover & Clover Lawns: A Low-Water, Low-Mow Lawn Alternative"
 slug: "microclover-lawn-alternative-xeriscape"
 date: "2026-05-06"
-category: "xeriscaping"
+category: "Xeriscaping"
 tags: ["xeriscape"]
 description: "Microclover fixes its own nitrogen, needs half the water of turf grass, and stays green through summer droughts. It looks like a lawn but acts like a ground cover."
 seo_title: "Microclover Lawn Alternative for Xeriscape Yards | Nature's Seed"

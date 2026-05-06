@@ -2,7 +2,7 @@
 title: "Maintaining a Xeriscape Lawn: Year One and Year Two Playbook"
 slug: "xeriscape-lawn-maintenance-guide"
 date: "2026-05-06"
-category: "xeriscaping"
+category: "Xeriscaping"
 tags: ["xeriscape"]
 description: "A xeriscape lawn doesn't maintain itself in year one — but by year two, it mostly does. Here's what to expect, what to do, and what to stop doing as it establishes."
 seo_title: "Xeriscape Lawn Maintenance: Year One & Two Guide | Nature's Seed"
