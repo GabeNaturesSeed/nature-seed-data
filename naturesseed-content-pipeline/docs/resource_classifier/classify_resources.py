@@ -36,6 +36,7 @@ def main() -> None:
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--dry-run", action="store_true", help="Fetch articles, print first batch prompt, exit")
     parser.add_argument("--reset", action="store_true", help="Delete checkpoint and restart from scratch")
+    parser.add_argument("--max-batches", type=int, default=None, help="Stop after N batches (for testing)")
     args = parser.parse_args()
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -64,6 +65,10 @@ def main() -> None:
     print(f"Resuming — {len(completed)}/{len(batches)} batches already done.")
 
     for i, batch in enumerate(batches):
+        if args.max_batches is not None and i >= args.max_batches:
+            print(f"Reached --max-batches={args.max_batches}, stopping.")
+            break
+
         if i in completed:
             continue
 
