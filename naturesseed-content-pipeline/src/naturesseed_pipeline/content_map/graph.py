@@ -26,6 +26,7 @@ def build_graph(articles: pd.DataFrame, edges: pd.DataFrame) -> nx.DiGraph:
             title=str(row["title"]),
             url=str(row["url"]),
             word_count=int(row["word_count"]),
+            products_count=int(row["products_count"]),
             primary_category=str(row["primary_category"]),
             primary_subcategory=str(row["primary_subcategory"]),
         )
