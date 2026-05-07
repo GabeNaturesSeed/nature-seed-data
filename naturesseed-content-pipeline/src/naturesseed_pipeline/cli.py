@@ -3,6 +3,7 @@
 import csv
 import sys
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Optional
 
 import typer
@@ -1614,6 +1615,66 @@ def run_refresh_cmd() -> None:
             console.print(f"  {step}: {status}")
     finally:
         session.close()
+
+
+map_app = typer.Typer(help="Content link map — 3D internal linking visualization.")
+app.add_typer(map_app, name="map")
+
+
+@map_app.command("build")
+def map_build(
+    audit_dir: Path = typer.Option(
+        ...,
+        "--audit-dir",
+        help="Directory containing per-article.csv and internal-linking.csv",
+    ),
+    classifier_dir: Path = typer.Option(
+        ...,
+        "--classifier-dir",
+        help="Directory containing classifications.csv and taxonomy-key.csv",
+    ),
+    output_dir: Path = typer.Option(
+        Path("docs/content-map"),
+        "--output-dir",
+        help="Directory for HTML and CSV outputs",
+    ),
+) -> None:
+    """Build 3D internal link map from existing audit CSVs."""
+    import structlog
+    from naturesseed_pipeline.content_map.loader import load_data
+    from naturesseed_pipeline.content_map.graph import build_graph, compute_metrics
+    from naturesseed_pipeline.content_map.coverage import build_coverage_layer
+    from naturesseed_pipeline.content_map.renderer import build_and_export
+    from naturesseed_pipeline.content_map.exporter import export_csvs
+
+    log = structlog.get_logger()
+    log.info("loading data", audit_dir=str(audit_dir), classifier_dir=str(classifier_dir))
+
+    articles, edges, taxonomy = load_data(audit_dir=audit_dir, classifier_dir=classifier_dir)
+    log.info("data loaded", articles=len(articles), edges=len(edges))
+
+    g = build_graph(articles, edges)
+    log.info("graph built", nodes=g.number_of_nodes(), edges=g.number_of_edges())
+
+    metrics = compute_metrics(g)
+    orphan_count = sum(1 for m in metrics.values() if m.is_orphan)
+    cand_count = sum(1 for m in metrics.values() if m.is_consolidation_candidate)
+    log.info("metrics computed", orphans=orphan_count, consolidation_candidates=cand_count)
+
+    health, ghosts = build_coverage_layer(g, taxonomy)
+    log.info("coverage analyzed", ghosts=len(ghosts))
+
+    export_csvs(g, metrics, health, ghosts, output_dir=output_dir)
+    log.info("CSVs written", output_dir=str(output_dir))
+
+    html_path = output_dir / "content-link-map.html"
+    build_and_export(g, metrics, health, ghosts, output_path=html_path)
+    log.info("HTML map written", path=str(html_path))
+
+    console.print(f"[green]Map written to {html_path}[/green]")
+    console.print(f"  Orphans: {orphan_count}")
+    console.print(f"  Consolidation candidates: {cand_count}")
+    console.print(f"  Coverage ghosts: {len(ghosts)}")
 
 
 # ── Top-level callback ────────────────────────────────────────────────────────
