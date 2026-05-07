@@ -1,18 +1,18 @@
 {
-  "generated": "2026-05-06T10:06:57.680671",
+  "generated": "2026-05-07T10:12:21.638859",
   "seasons": {
     "spring_2026": {
       "label": "Spring 2026",
       "period": "2026-02-01 \u2192 2026-04-30",
-      "total_revenue": 970658.09,
-      "total_orders": 10046,
+      "total_revenue": 970448.11,
+      "total_orders": 10044,
       "total_skus": 121,
       "summary": {
         "a_count": 39,
-        "a_revenue": 782850.32,
+        "a_revenue": 782955.2,
         "a_pct": 80.7,
         "b_count": 32,
-        "b_revenue": 140105.36,
+        "b_revenue": 139790.5,
         "b_pct": 14.4,
         "c_count": 50,
         "c_revenue": 47702.41,
@@ -740,25 +740,25 @@
           "sku": "PB-HRSE-SO",
           "name": "Warm Season Horse Pasture Mix",
           "product_id": 445270,
-          "revenue": 25501.24,
-          "margin": 16238.24,
+          "revenue": 25353.75,
+          "margin": 16149.75,
           "margin_pct": 63.7,
-          "units": 225,
-          "orders": 153,
-          "avg_basket": 292.32,
+          "units": 224,
+          "orders": 152,
+          "avg_basket": 292.85,
           "active_days": 88,
-          "daily_velocity": 2.56,
-          "revenue_velocity": 289.79,
-          "velocity_trend": -31.0191,
+          "daily_velocity": 2.55,
+          "revenue_velocity": 288.11,
+          "velocity_trend": -35.071,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
           "variants": [
             {
               "sku": "PB-HRSE-SO-50-LB-KIT",
               "name": "Warm Season Horse Pasture Mix - 50 lb - Covers 100,000 Sq Ft",
-              "revenue": 19602.26,
-              "units": 124,
-              "orders": 80
+              "revenue": 19454.77,
+              "units": 123,
+              "orders": 79
             },
             {
               "sku": "PB-HRSE-SO-20-LB-KIT",
@@ -775,9 +775,9 @@
               "orders": 30
             }
           ],
-          "composite_score": 75.93,
+          "composite_score": 75.87,
           "class": "A",
-          "reason": "Top performer \u2014 $290/day is 7.9x the median velocity \u2014 drives $292 avg basket."
+          "reason": "Top performer \u2014 $288/day is 7.9x the median velocity \u2014 drives $293 avg basket."
         },
         {
           "sku": "PB-GAME",
@@ -934,7 +934,7 @@
             },
             {
               "sku": "TURF-TXN-5-LB",
-              "name": "Texas Native Grass Seed Mix - 5 lb",
+              "name": "Texas Native Lawn Mix - 5 lb",
               "revenue": 3943.26,
               "units": 24,
               "orders": 24
@@ -970,7 +970,7 @@
           "variants": [
             {
               "sku": "S-MICRO-2-LB-KIT",
-              "name": "Microclover Seed (Micro Clover, Mini Clover) - 2 lb - Covers 2,000 Sq Ft",
+              "name": "Micro Clover Seed (Mini Clover) - 2 lb - Covers 2,000 Sq Ft",
               "revenue": 6060.73,
               "units": 77,
               "orders": 68
@@ -1081,6 +1081,49 @@
           "reason": "Top performer \u2014 $169/day is 4.6x the median velocity \u2014 accelerating sales trend."
         },
         {
+          "sku": "TURF-JBR",
+          "name": "Jimmy's Blue Ribbon Lawn Seed Mix",
+          "product_id": 445158,
+          "revenue": 12071.18,
+          "margin": 10490.68,
+          "margin_pct": 86.9,
+          "units": 82,
+          "orders": 80,
+          "avg_basket": 190.19,
+          "active_days": 88,
+          "daily_velocity": 0.93,
+          "revenue_velocity": 137.17,
+          "velocity_trend": 143.5571,
+          "backorder_rate": 0.0,
+          "cancellation_rate": 0.0,
+          "variants": [
+            {
+              "sku": "TURF-JBR-5-LB",
+              "name": "Jimmy's Blue Ribbon Lawn Seed Mix - 5 lb - Covers 1,000 Sq Ft",
+              "revenue": 4308.51,
+              "units": 49,
+              "orders": 48
+            },
+            {
+              "sku": "TURF-JBR-10-LB-KIT",
+              "name": "Jimmy's Blue Ribbon Lawn Seed Mix - 10 lb - Covers 2,000 Sq Ft",
+              "revenue": 3932.77,
+              "units": 23,
+              "orders": 23
+            },
+            {
+              "sku": "TURF-JBR-25-LB-KIT",
+              "name": "Jimmy's Blue Ribbon Lawn Seed Mix - 25 lb - Covers 5,000 Sq Ft",
+              "revenue": 3829.9,
+              "units": 10,
+              "orders": 10
+            }
+          ],
+          "composite_score": 70.66,
+          "class": "A",
+          "reason": "Top performer \u2014 $137/day is 3.8x the median velocity \u2014 strong 87% margin."
+        },
+        {
           "sku": "WB-RM",
           "name": "Rocky Mountain Wildflower Seed Mix",
           "product_id": 445310,
@@ -1122,49 +1165,6 @@
           "composite_score": 70.6,
           "class": "A",
           "reason": "Top performer \u2014 $136/day is 3.7x the median velocity \u2014 accelerating sales trend."
-        },
-        {
-          "sku": "TURF-JBR",
-          "name": "Jimmy's Blue Ribbon Lawn Seed Mix",
-          "product_id": 445158,
-          "revenue": 12071.18,
-          "margin": 10490.68,
-          "margin_pct": 86.9,
-          "units": 82,
-          "orders": 80,
-          "avg_basket": 190.19,
-          "active_days": 88,
-          "daily_velocity": 0.93,
-          "revenue_velocity": 137.17,
-          "velocity_trend": 143.5571,
-          "backorder_rate": 0.0,
-          "cancellation_rate": 0.0,
-          "variants": [
-            {
-              "sku": "TURF-JBR-5-LB",
-              "name": "Jimmy's Blue Ribbon Lawn Seed Mix - 5 lb - Covers 1,000 Sq Ft",
-              "revenue": 4308.51,
-              "units": 49,
-              "orders": 48
-            },
-            {
-              "sku": "TURF-JBR-10-LB-KIT",
-              "name": "Jimmy's Blue Ribbon Lawn Seed Mix - 10 lb - Covers 2,000 Sq Ft",
-              "revenue": 3932.77,
-              "units": 23,
-              "orders": 23
-            },
-            {
-              "sku": "TURF-JBR-25-LB-KIT",
-              "name": "Jimmy's Blue Ribbon Lawn Seed Mix - 25 lb - Covers 5,000 Sq Ft",
-              "revenue": 3829.9,
-              "units": 10,
-              "orders": 10
-            }
-          ],
-          "composite_score": 70.6,
-          "class": "A",
-          "reason": "Top performer \u2014 $137/day is 3.8x the median velocity \u2014 strong 87% margin."
         },
         {
           "sku": "PG-MESA",
@@ -1640,35 +1640,6 @@
           "reason": "Top performer \u2014 $88/day is 2.4x the median velocity \u2014 accelerating sales trend."
         },
         {
-          "sku": "S-INNOC",
-          "name": "Am 120 Standard Mycorrhizal Inoculant",
-          "product_id": 445330,
-          "revenue": 6044.19,
-          "margin": 3912.19,
-          "margin_pct": 64.7,
-          "units": 82,
-          "orders": 67,
-          "avg_basket": 368.33,
-          "active_days": 88,
-          "daily_velocity": 0.93,
-          "revenue_velocity": 68.68,
-          "velocity_trend": -37.1586,
-          "backorder_rate": 0.0,
-          "cancellation_rate": 0.0,
-          "variants": [
-            {
-              "sku": "S-INNOC-5-LB",
-              "name": "Am 120 Standard Mycorrhizal Inoculant - 5 - Lbs",
-              "revenue": 6044.19,
-              "units": 82,
-              "orders": 67
-            }
-          ],
-          "composite_score": 60.78,
-          "class": "A",
-          "reason": "Top performer \u2014 drives $368 avg basket."
-        },
-        {
           "sku": "TURF-FLN",
           "name": "Grass Seed Mix for Florida Lawns",
           "product_id": 462284,
@@ -1708,8 +1679,37 @@
             }
           ],
           "composite_score": 60.69,
+          "class": "A",
+          "reason": "Top performer \u2014 $98/day is 2.7x the median velocity (64d active) \u2014 accelerating sales trend."
+        },
+        {
+          "sku": "S-INNOC",
+          "name": "Am 120 Standard Mycorrhizal Inoculant",
+          "product_id": 445330,
+          "revenue": 5981.7,
+          "margin": 3875.7,
+          "margin_pct": 64.8,
+          "units": 81,
+          "orders": 66,
+          "avg_basket": 370.73,
+          "active_days": 88,
+          "daily_velocity": 0.92,
+          "revenue_velocity": 67.97,
+          "velocity_trend": -38.8753,
+          "backorder_rate": 0.0,
+          "cancellation_rate": 0.0,
+          "variants": [
+            {
+              "sku": "S-INNOC-5-LB",
+              "name": "Am 120 Standard Mycorrhizal Inoculant - 5 - Lbs",
+              "revenue": 5981.7,
+              "units": 81,
+              "orders": 66
+            }
+          ],
+          "composite_score": 60.61,
           "class": "B",
-          "reason": "Mid-tier SKU \u2014 56% margin \u2014 positive trend."
+          "reason": "Mid-tier SKU \u2014 65% margin \u2014 declining velocity."
         },
         {
           "sku": "TURF-NFF",
@@ -2259,7 +2259,7 @@
               "orders": 23
             }
           ],
-          "composite_score": 54.43,
+          "composite_score": 54.5,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 56% margin \u2014 declining velocity."
         },
@@ -2374,7 +2374,7 @@
               "orders": 39
             }
           ],
-          "composite_score": 52.08,
+          "composite_score": 52.14,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 69% margin \u2014 declining velocity."
         },
@@ -2733,7 +2733,7 @@
               "orders": 1
             }
           ],
-          "composite_score": 47.37,
+          "composite_score": 47.5,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 83% margin \u2014 declining velocity."
         },
@@ -3269,49 +3269,6 @@
           "reason": "Low volume \u2014 declining trend."
         },
         {
-          "sku": "TURF-W-BLUE-BUNDLE",
-          "name": "Premium Pet & Kid Friendly Bluegrass Bundle",
-          "product_id": 452706,
-          "revenue": 1719.45,
-          "margin": 1216.66,
-          "margin_pct": 70.8,
-          "units": 5,
-          "orders": 5,
-          "avg_basket": 369.26,
-          "active_days": 88,
-          "daily_velocity": 0.06,
-          "revenue_velocity": 19.54,
-          "velocity_trend": 34.2866,
-          "backorder_rate": 0.0,
-          "cancellation_rate": 0.0,
-          "variants": [
-            {
-              "sku": "TURF-W-BLUE-BUNDLE-25-LB-KIT",
-              "name": "Premium Pet & Kid Friendly Bluegrass Bundle - 25 lb - Covers 5,000 Sq Ft",
-              "revenue": 1019.98,
-              "units": 2,
-              "orders": 2
-            },
-            {
-              "sku": "TURF-W-BLUE-BUNDLE-10-LB-KIT",
-              "name": "Premium Pet & Kid Friendly Bluegrass Bundle - 10 lb - Covers 2,000 Sq Ft",
-              "revenue": 499.48,
-              "units": 2,
-              "orders": 2
-            },
-            {
-              "sku": "TURF-W-BLUE-BUNDLE-5-LB",
-              "name": "Premium Pet & Kid Friendly Bluegrass Bundle - 5 lb - Covers 1,000 Sq Ft",
-              "revenue": 199.99,
-              "units": 1,
-              "orders": 1
-            }
-          ],
-          "composite_score": 38.57,
-          "class": "C",
-          "reason": "Low volume \u2014 only 5 units sold."
-        },
-        {
           "sku": "W-LUMI",
           "name": "Yellow Lupine Seed",
           "product_id": 452770,
@@ -3353,6 +3310,49 @@
           "composite_score": 38.5,
           "class": "C",
           "reason": "Low volume."
+        },
+        {
+          "sku": "TURF-W-BLUE-BUNDLE",
+          "name": "Premium Pet & Kid Friendly Bluegrass Bundle",
+          "product_id": 452706,
+          "revenue": 1719.45,
+          "margin": 1216.66,
+          "margin_pct": 70.8,
+          "units": 5,
+          "orders": 5,
+          "avg_basket": 369.26,
+          "active_days": 88,
+          "daily_velocity": 0.06,
+          "revenue_velocity": 19.54,
+          "velocity_trend": 34.2866,
+          "backorder_rate": 0.0,
+          "cancellation_rate": 0.0,
+          "variants": [
+            {
+              "sku": "TURF-W-BLUE-BUNDLE-25-LB-KIT",
+              "name": "Premium Pet & Kid Friendly Bluegrass Bundle - 25 lb - Covers 5,000 Sq Ft",
+              "revenue": 1019.98,
+              "units": 2,
+              "orders": 2
+            },
+            {
+              "sku": "TURF-W-BLUE-BUNDLE-10-LB-KIT",
+              "name": "Premium Pet & Kid Friendly Bluegrass Bundle - 10 lb - Covers 2,000 Sq Ft",
+              "revenue": 499.48,
+              "units": 2,
+              "orders": 2
+            },
+            {
+              "sku": "TURF-W-BLUE-BUNDLE-5-LB",
+              "name": "Premium Pet & Kid Friendly Bluegrass Bundle - 5 lb - Covers 1,000 Sq Ft",
+              "revenue": 199.99,
+              "units": 1,
+              "orders": 1
+            }
+          ],
+          "composite_score": 38.49,
+          "class": "C",
+          "reason": "Low volume \u2014 only 5 units sold."
         },
         {
           "sku": "PB-IR",
