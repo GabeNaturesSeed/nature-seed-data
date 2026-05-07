@@ -25,9 +25,10 @@ OUTPUT_DIR = Path(__file__).parent.parent / "resource-classifier"
 CLASSIFICATIONS_CSV = OUTPUT_DIR / "classifications.csv"
 TAXONOMY_KEY_CSV = OUTPUT_DIR / "taxonomy-key.csv"
 CHECKPOINT_JSON = OUTPUT_DIR / "checkpoint.json"
-# parents[0]=docs/resource_classifier, parents[1]=docs,
-# parents[2]=naturesseed-content-pipeline, parents[3]="ClaudeDataAgent -"
-ENV_PATH = Path(__file__).parents[3] / ".env"
+# parents[0]=docs/resource_classifier, parents[1]=docs, parents[2]=naturesseed-content-pipeline
+PROJECT_ROOT = Path(__file__).parents[2]
+ENV_PATH = PROJECT_ROOT.parent / ".env"
+DB_PATH = PROJECT_ROOT / "content_pipeline.db"
 
 
 def main() -> None:
@@ -45,9 +46,9 @@ def main() -> None:
         CHECKPOINT_JSON.unlink()
         print("Checkpoint reset.")
 
-    print("Fetching all published posts from WP REST API...")
-    posts = fetch_all_posts(env)
-    print(f"Fetched {len(posts)} posts.")
+    print("Loading articles from content_inventory DB...")
+    posts = fetch_all_posts(env, db_path=DB_PATH)
+    print(f"Loaded {len(posts)} articles.")
 
     batches = [posts[i:i + args.batch_size] for i in range(0, len(posts), args.batch_size)]
     print(f"Total batches: {len(batches)} (batch size {args.batch_size})")

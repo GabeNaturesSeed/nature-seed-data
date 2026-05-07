@@ -1,8 +1,8 @@
-import httpx
+import sqlite3
+from pathlib import Path
+from typing import Optional
+
 from bs4 import BeautifulSoup
-
-
-WP_POSTS_ENDPOINT = "https://naturesseed.com/wp-json/wp/v2/posts"
 
 
 def strip_html(html: str) -> str:
@@ -20,45 +20,29 @@ def parse_post(raw: dict) -> dict:
     }
 
 
-def _get_page(page: int, env: dict) -> list[dict]:
-    params = {"status": "publish", "per_page": 100, "page": page}
-    url = WP_POSTS_ENDPOINT
+def fetch_all_posts(env: dict, db_path: Optional[Path] = None) -> list[dict]:
+    """Load all post-type articles from content_inventory DB.
 
-    cf_url = env.get("CF_WORKER_URL", "").strip()
-    cf_secret = env.get("CF_WORKER_SECRET", "").strip()
-    ck = env.get("WC_CK", "").strip()
-    cs = env.get("WC_CS", "").strip()
-
-    if cf_url:
-        # Build the full target URL with query params
-        req = httpx.Request("GET", url, params=params)
-        target_url = str(req.url)
-        headers = {"X-Worker-Secret": cf_secret} if cf_secret else {}
-        payload = {
-            "url": target_url,
-            "method": "GET",
-            "auth": "basic",
-            "username": ck,
-            "password": cs,
+    WP REST API only exposes published posts (12 live). The DB already has
+    content_html for all 312 posts including drafts, so we read from there.
+    """
+    if db_path is None:
+        db_path = Path(env.get("DB_PATH", "")).expanduser()
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
+    rows = conn.execute(
+        "SELECT id AS post_id, wp_post_id, url, title, content_html "
+        "FROM content_inventory "
+        "WHERE post_type = 'post' AND content_html IS NOT NULL AND content_html != '' "
+        "ORDER BY id"
+    ).fetchall()
+    conn.close()
+    return [
+        {
+            "post_id": r["wp_post_id"] or r["post_id"],
+            "title": r["title"] or "",
+            "url": r["url"] or "",
+            "content_html": r["content_html"] or "",
         }
-        resp = httpx.post(cf_url, json=payload, headers=headers, timeout=30)
-    else:
-        resp = httpx.get(url, params=params, auth=(ck, cs), timeout=30)
-
-    resp.raise_for_status()
-    return resp.json()
-
-
-def fetch_all_posts(env: dict) -> list[dict]:
-    """Fetch all published WP posts. Returns list of parsed post dicts."""
-    posts = []
-    page = 1
-    while True:
-        raw_posts = _get_page(page, env)
-        if not raw_posts:
-            break
-        posts.extend(parse_post(p) for p in raw_posts)
-        if len(raw_posts) < 100:
-            break
-        page += 1
-    return posts
+        for r in rows
+    ]
