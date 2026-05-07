@@ -93,6 +93,14 @@ COGS_SHEET_ID = env_vars.get("COGS_SHEET_ID", "1nve5yRvw7fY0caVqZDHYDjhoQmj_a6S9
 # Shippo (shipping costs)
 SHIPPO_API_KEY = env_vars.get("SHIPPO_API_KEY", "")
 
+# Shipping cost estimation from Shippo quotes (for open months without finance actuals).
+# Formula: estimated_actual = shippo_quote × SHIPPO_RATE_MULTIPLIER + SHIPPO_WEIGHT_SURCHARGE × shipments
+#   - ×0.783: UPS invoices at 78.3% of Shippo's quoted rate (Shippo quotes run ~21.7% high)
+#   - +$2.00/shipment: UPS weight-corrects ~12.6% of packages after the fact; spread evenly ≈ $2/order
+# Net effect vs UPS list rate: ~47.7% savings (negotiated Shippo discount).
+SHIPPO_RATE_MULTIPLIER = 0.783
+SHIPPO_WEIGHT_SURCHARGE = 2.00  # dollars per shipment
+
 TODAY = date.today()
 TODAY_STR = str(TODAY)
 
@@ -1039,25 +1047,9 @@ def generate_reporting():
             print(f"    [WARN] {mk_open} WC shipping pull failed: {e}")
             open_closed_shipping[mk_open] = None
 
-    # ── Freight COGS discount ratio ──────────────────────
-    # For months with both finance actuals cogs_freight AND Shippo quote,
-    # compute ratio = actual_paid / shippo_quote. Average across months.
-    # Apply to open months to estimate their freight COGS from Shippo quote.
-    freight_ratios = []
-    for m_data in ytd_months:
-        mk = m_data["month"]
-        act_m = actuals_csv.get(mk, {})
-        shippo_quote = m_data.get("shipping", 0) or 0
-        actual_paid = act_m.get("cogs_freight", 0)
-        if act_m and shippo_quote and actual_paid:
-            r = actual_paid / shippo_quote
-            freight_ratios.append(r)
-            print(f"    Freight ratio {mk}: ${actual_paid:,.2f} / ${shippo_quote:,.2f} = {r:.3f}")
-    avg_freight_ratio = sum(freight_ratios) / len(freight_ratios) if freight_ratios else None
-    if avg_freight_ratio is not None:
-        print(f"  Avg freight discount ratio: {avg_freight_ratio:.3f} ({avg_freight_ratio*100:.1f}% of Shippo quote)")
-    else:
-        print("  No freight ratio — no closed months with both actuals + Shippo data")
+    # ── Freight COGS estimate formula ──────────────────────
+    # estimated_actual = shippo_quote × 0.783 + $2.00 × shipments
+    print(f"  Freight estimate: Shippo quote × {SHIPPO_RATE_MULTIPLIER} + ${SHIPPO_WEIGHT_SURCHARGE:.2f}/shipment")
 
     pnl_months = []
     for m_data in ytd_months:
@@ -1127,12 +1119,13 @@ def generate_reporting():
             # discount ratio (avg of finance-booked cogs_freight ÷ Shippo quote
             # across closed months), apply it to bridge Shippo records to how
             # finance will book the month.
-            if avg_freight_ratio is not None and act_shipping:
-                cogs_freight = round(act_shipping * avg_freight_ratio, 2)
-                cogs_freight_source = f"Estimated at {avg_freight_ratio*100:.1f}% of Shippo quote (avg ratio from closed-month finance actuals)"
+            if act_shipping:
+                month_shipments = m_data.get("orders", 0)
+                cogs_freight = round(act_shipping * SHIPPO_RATE_MULTIPLIER + SHIPPO_WEIGHT_SURCHARGE * month_shipments, 2)
+                cogs_freight_source = f"Estimated: Shippo quote × {SHIPPO_RATE_MULTIPLIER} + ${SHIPPO_WEIGHT_SURCHARGE:.2f} × {month_shipments} shipments"
             else:
-                cogs_freight = act_shipping
-                cogs_freight_source = "Shippo API (raw quote)"
+                cogs_freight = 0
+                cogs_freight_source = "Shippo API (no data)"
             act_cogs = seed_cogs + other_cogs + inventory_adjustment + cogs_freight
             source_tag = "supabase_wc" if mk == cur_month_key or m_data.get("revenue") else "budget"
 
@@ -1203,7 +1196,7 @@ def generate_reporting():
             "source_cogs": "Finance Actuals CSV" if has_actuals else "Supabase daily_cogs (WC channel)",
             "source_freight_cogs": cogs_freight_source,
             "source_freight_revenue": revenue_freight_source,
-            "freight_cogs_ratio": round(avg_freight_ratio, 4) if (not has_actuals and avg_freight_ratio is not None) else None,
+            "freight_cogs_ratio": SHIPPO_RATE_MULTIPLIER if not has_actuals else None,
             # Gross Profit
             "gross_profit": round(act_gross_profit, 2),
             "budget_gross_profit": round(bud_gross, 2),
@@ -2166,10 +2159,12 @@ def generate_shipping():
         if mk < str(mtd_start)[:7]:  # Only completed months (before current)
             completed_months_paid += act_data.get("cogs_freight", 0)
 
-    # YTD paid = finance actuals for completed months + Shippo for current month
-    ytd_paid = completed_months_paid + shippo_mtd_paid
-    mtd_paid = shippo_mtd_paid  # Current month always uses Shippo (no actuals yet)
-    print(f"  Paid: completed months (finance) ${completed_months_paid:,.2f} + MTD (Shippo) ${shippo_mtd_paid:,.2f} = YTD ${ytd_paid:,.2f}")
+    # YTD paid = finance actuals for completed months + estimated cost for current month.
+    # Formula: shippo_quote × 0.783 + $2.00 × shipments
+    shippo_mtd_paid_est = round(shippo_mtd_paid * SHIPPO_RATE_MULTIPLIER + SHIPPO_WEIGHT_SURCHARGE * mtd_shipments, 2)
+    ytd_paid = completed_months_paid + shippo_mtd_paid_est
+    mtd_paid = shippo_mtd_paid_est  # Current month always uses Shippo (no actuals yet)
+    print(f"  Paid: completed months (finance) ${completed_months_paid:,.2f} + MTD (Shippo×{SHIPPO_RATE_MULTIPLIER}+$2×{mtd_shipments}) ${shippo_mtd_paid_est:,.2f} = YTD ${ytd_paid:,.2f}")
 
     # ── Step 2: Pull WC shipping collected (MTD + YTD) ─────────
     # Use finance actuals revenue_freight for completed months + WC API for current month
