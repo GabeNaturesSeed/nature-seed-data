@@ -11,15 +11,6 @@ def strip_html(html: str) -> str:
     return BeautifulSoup(html, "html.parser").get_text(separator=" ", strip=True)
 
 
-def parse_post(raw: dict) -> dict:
-    return {
-        "post_id": raw["id"],
-        "title": BeautifulSoup(raw["title"]["rendered"], "html.parser").get_text(),
-        "url": raw["link"],
-        "content_html": raw["content"]["rendered"],
-    }
-
-
 def fetch_all_posts(env: dict, db_path: Optional[Path] = None) -> list[dict]:
     """Load all post-type articles from content_inventory DB.
 

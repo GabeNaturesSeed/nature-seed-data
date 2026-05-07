@@ -43,9 +43,11 @@ def main() -> None:
 
     env = load_env(ENV_PATH)
 
-    if args.reset and CHECKPOINT_JSON.exists():
-        CHECKPOINT_JSON.unlink()
-        print("Checkpoint reset.")
+    if args.reset:
+        for f in (CHECKPOINT_JSON, CLASSIFICATIONS_CSV, TAXONOMY_KEY_CSV):
+            if f.exists():
+                f.unlink()
+        print("Checkpoint and output CSVs reset.")
 
     print("Loading articles from content_inventory DB...")
     posts = fetch_all_posts(env, db_path=DB_PATH)
@@ -87,14 +89,17 @@ def main() -> None:
                 r.setdefault("title", post_lookup[pid]["title"])
                 r.setdefault("url", post_lookup[pid]["url"])
 
+        if len(results) != len(batch):
+            print(f"WARN: batch {i} expected {len(batch)} results, got {len(results)}")
+
         append_classifications(CLASSIFICATIONS_CSV, results)
         completed.add(i)
         save_checkpoint(CHECKPOINT_JSON, completed)
-        rebuild_taxonomy_key(CLASSIFICATIONS_CSV, TAXONOMY_KEY_CSV)
         print(f"done. ({len(completed)}/{len(batches)} complete)")
 
         time.sleep(0.3)  # rate limit
 
+    rebuild_taxonomy_key(CLASSIFICATIONS_CSV, TAXONOMY_KEY_CSV)
     print(f"\nDone. {len(completed)} batches classified.")
     print(f"  classifications: {CLASSIFICATIONS_CSV}")
     print(f"  taxonomy key:    {TAXONOMY_KEY_CSV}")
