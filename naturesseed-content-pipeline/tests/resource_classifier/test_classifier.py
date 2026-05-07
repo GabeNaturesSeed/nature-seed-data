@@ -55,6 +55,21 @@ def test_call_claude_returns_parsed(monkeypatch):
     assert result[0]["post_id"] == 1
 
 
+def test_call_claude_unwraps_claude_json_envelope(monkeypatch):
+    from docs.resource_classifier.classifier import call_claude
+
+    mock_result = MagicMock()
+    mock_result.returncode = 0
+    mock_result.stdout = json.dumps({"type": "result", "result": VALID_RESPONSE})
+    mock_result.stderr = ""
+
+    monkeypatch.setattr("subprocess.run", lambda *a, **kw: mock_result)
+
+    batch = [{"post_id": 1, "title": "T", "url": "u", "content_html": "<p>x</p>"}]
+    result = call_claude(batch)
+    assert result[0]["post_id"] == 1
+
+
 def test_call_claude_raises_on_nonzero_exit(monkeypatch):
     from docs.resource_classifier.classifier import call_claude, ClassifierError
 
