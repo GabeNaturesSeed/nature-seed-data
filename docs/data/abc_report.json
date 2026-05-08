@@ -1,11 +1,11 @@
 {
-  "generated": "2026-05-07T16:00:38.754805",
+  "generated": "2026-05-08T09:02:34.872697",
   "seasons": {
     "spring_2026": {
       "label": "Spring 2026",
       "period": "2026-02-01 \u2192 2026-04-30",
-      "total_revenue": 970448.11,
-      "total_orders": 10044,
+      "total_revenue": 970289.72,
+      "total_orders": 10043,
       "total_skus": 121,
       "summary": {
         "a_count": 39,
@@ -15,7 +15,7 @@
         "b_revenue": 139790.5,
         "b_pct": 14.4,
         "c_count": 50,
-        "c_revenue": 47702.41,
+        "c_revenue": 47544.02,
         "c_pct": 4.9
       },
       "items": [
@@ -1683,35 +1683,6 @@
           "reason": "Top performer \u2014 $98/day is 2.7x the median velocity (64d active) \u2014 accelerating sales trend."
         },
         {
-          "sku": "S-INNOC",
-          "name": "Am 120 Standard Mycorrhizal Inoculant",
-          "product_id": 445330,
-          "revenue": 5981.7,
-          "margin": 3875.7,
-          "margin_pct": 64.8,
-          "units": 81,
-          "orders": 66,
-          "avg_basket": 370.73,
-          "active_days": 88,
-          "daily_velocity": 0.92,
-          "revenue_velocity": 67.97,
-          "velocity_trend": -38.8753,
-          "backorder_rate": 0.0,
-          "cancellation_rate": 0.0,
-          "variants": [
-            {
-              "sku": "S-INNOC-5-LB",
-              "name": "Am 120 Standard Mycorrhizal Inoculant - 5 - Lbs",
-              "revenue": 5981.7,
-              "units": 81,
-              "orders": 66
-            }
-          ],
-          "composite_score": 60.61,
-          "class": "B",
-          "reason": "Mid-tier SKU \u2014 65% margin \u2014 declining velocity."
-        },
-        {
           "sku": "TURF-NFF",
           "name": "California Native Grass Seed Mix",
           "product_id": 445360,
@@ -1743,9 +1714,38 @@
               "orders": 1
             }
           ],
-          "composite_score": 60.53,
+          "composite_score": 60.59,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 78% margin \u2014 positive trend."
+        },
+        {
+          "sku": "S-INNOC",
+          "name": "Am 120 Standard Mycorrhizal Inoculant",
+          "product_id": 445330,
+          "revenue": 5981.7,
+          "margin": 3875.7,
+          "margin_pct": 64.8,
+          "units": 81,
+          "orders": 66,
+          "avg_basket": 370.73,
+          "active_days": 88,
+          "daily_velocity": 0.92,
+          "revenue_velocity": 67.97,
+          "velocity_trend": -38.8753,
+          "backorder_rate": 0.0,
+          "cancellation_rate": 0.0,
+          "variants": [
+            {
+              "sku": "S-INNOC-5-LB",
+              "name": "Am 120 Standard Mycorrhizal Inoculant - 5 - Lbs",
+              "revenue": 5981.7,
+              "units": 81,
+              "orders": 66
+            }
+          ],
+          "composite_score": 60.55,
+          "class": "B",
+          "reason": "Mid-tier SKU \u2014 65% margin \u2014 declining velocity."
         },
         {
           "sku": "PG-LOPE",
@@ -1872,7 +1872,7 @@
               "orders": 6
             }
           ],
-          "composite_score": 59.27,
+          "composite_score": 59.33,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 55% margin \u2014 declining velocity."
         },
@@ -1958,7 +1958,7 @@
               "orders": 2
             }
           ],
-          "composite_score": 59.0,
+          "composite_score": 59.07,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 69% margin \u2014 positive trend."
         },
@@ -2948,7 +2948,7 @@
               "orders": 4
             }
           ],
-          "composite_score": 43.24,
+          "composite_score": 43.3,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 75% margin \u2014 positive trend."
         },
@@ -2985,16 +2985,16 @@
           "sku": "W-ASFA",
           "name": "Narrowleaf Milkweed Seed",
           "product_id": 445347,
-          "revenue": 2349.5,
-          "margin": 1925.72,
-          "margin_pct": 82.0,
-          "units": 20,
-          "orders": 20,
-          "avg_basket": 282.83,
+          "revenue": 2191.11,
+          "margin": 1767.33,
+          "margin_pct": 80.7,
+          "units": 19,
+          "orders": 19,
+          "avg_basket": 288.73,
           "active_days": 88,
-          "daily_velocity": 0.23,
-          "revenue_velocity": 26.7,
-          "velocity_trend": -43.43,
+          "daily_velocity": 0.22,
+          "revenue_velocity": 24.9,
+          "velocity_trend": -36.8304,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
           "variants": [
@@ -3006,21 +3006,21 @@
               "orders": 17
             },
             {
-              "sku": "W-ASFA-0.5-LB-KIT",
-              "name": "Narrowleaf Milkweed Seed - 0.5 lb - Covers 20,000 Sq Ft",
-              "revenue": 316.78,
-              "units": 2,
-              "orders": 2
-            },
-            {
               "sku": "W-ASFA-1-LB-KIT",
               "name": "Narrowleaf Milkweed Seed - 1 lb - Covers 40,000 Sq Ft",
               "revenue": 315.89,
               "units": 1,
               "orders": 1
+            },
+            {
+              "sku": "W-ASFA-0.5-LB-KIT",
+              "name": "Narrowleaf Milkweed Seed - 0.5 lb - Covers 20,000 Sq Ft",
+              "revenue": 158.39,
+              "units": 1,
+              "orders": 1
             }
           ],
-          "composite_score": 42.63,
+          "composite_score": 41.72,
           "class": "C",
           "reason": "Low volume \u2014 declining trend."
         },
@@ -3056,7 +3056,7 @@
               "orders": 4
             }
           ],
-          "composite_score": 41.45,
+          "composite_score": 41.58,
           "class": "C",
           "reason": "Low volume \u2014 declining trend."
         },
@@ -3393,7 +3393,7 @@
               "orders": 4
             }
           ],
-          "composite_score": 37.98,
+          "composite_score": 38.29,
           "class": "C",
           "reason": "Low volume \u2014 declining trend."
         },
@@ -3508,7 +3508,7 @@
               "orders": 7
             }
           ],
-          "composite_score": 37.06,
+          "composite_score": 37.13,
           "class": "C",
           "reason": "Low volume."
         },
@@ -3652,7 +3652,7 @@
               "orders": 14
             }
           ],
-          "composite_score": 33.75,
+          "composite_score": 33.81,
           "class": "C",
           "reason": "Low volume \u2014 declining trend."
         },
@@ -3688,7 +3688,7 @@
               "orders": 9
             }
           ],
-          "composite_score": 33.6,
+          "composite_score": 33.66,
           "class": "C",
           "reason": "Low volume \u2014 declining trend."
         },
@@ -3954,7 +3954,7 @@
               "orders": 4
             }
           ],
-          "composite_score": 30.96,
+          "composite_score": 31.03,
           "class": "C",
           "reason": "Low volume."
         },
@@ -4407,7 +4407,7 @@
               "orders": 4
             }
           ],
-          "composite_score": 22.16,
+          "composite_score": 22.2,
           "class": "C",
           "reason": "Low volume."
         },
