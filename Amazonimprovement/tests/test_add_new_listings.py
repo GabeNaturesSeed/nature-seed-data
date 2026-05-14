@@ -97,23 +97,30 @@ def test_build_walmart_item_cnir_5lb():
     items = m.build_walmart_items()
     cnir_5 = next(i for i in items if i["Orderable"]["sku"] == "CV-CNIR-5-LB-KIT")
     assert cnir_5["Orderable"]["productIdentifiers"]["productIdType"] == "GTIN"
-    assert cnir_5["Orderable"]["productIdentifiers"]["productId"] == "840184629488"
+    assert cnir_5["Orderable"]["productIdentifiers"]["productId"] == "00840184629488"
     assert cnir_5["Orderable"]["price"] == 311.87
-    assert cnir_5["Orderable"]["variantGroupId"] == "CVCNIR"
-    assert cnir_5["Orderable"]["variantGroupInfo"]["groupingAttributes"][0]["value"] == "5"
+    assert cnir_5["Orderable"]["ShippingWeight"] == 5.0
+    assert cnir_5["Orderable"]["country_of_origin_substantial_transformation"] == "United States"
+    assert "variantGroupId" not in cnir_5
     visible = cnir_5["Visible"]["Grass Seeds"]
     assert "California Native Ignition Resistant" in visible["productName"]
     assert "5 lb" in visible["productName"]
     assert visible["brand"] == "Nature's Seed"
     assert len(visible["keyFeatures"]) == 5
     assert visible["condition"] == "New"
+    assert visible["mainImageUrl"] != ""
+    assert visible["netContent"] == {"productNetContentMeasure": 5.0, "productNetContentUnit": "Pound"}
+    assert visible["assembledProductWeight"] == {"measure": 5.0, "unit": "lb"}
+    assert visible["has_written_warranty"] == "No"
+    assert visible["plant_name"] == ["California Native Ignition Resistant Seed Mix"]
+    assert visible["light_needs"] == "Full Sun"
+    assert visible["plantCategory"] == ["Grasses"]
 
-def test_build_walmart_items_primary_variant():
+def test_build_walmart_items_no_variant_group_fields():
     items = m.build_walmart_items()
-    cnir_primary = next(i for i in items if i["Orderable"]["sku"] == "CV-CNIR-5-LB-KIT")
-    cnir_secondary = next(i for i in items if i["Orderable"]["sku"] == "CV-CNIR-10-LB-KIT")
-    assert cnir_primary["Orderable"]["variantGroupInfo"]["isPrimary"] is True
-    assert cnir_secondary["Orderable"]["variantGroupInfo"]["isPrimary"] is False
+    for item in items:
+        assert "variantGroupId" not in item
+        assert "variantGroupInfo" not in item
 
 def test_push_walmart_calls_submit_feed(monkeypatch):
     call_log = []

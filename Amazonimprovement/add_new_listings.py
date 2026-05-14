@@ -278,11 +278,6 @@ def push_gmc(rows):
 
 
 # ── Walmart Builder ───────────────────────────────────────────────────────────
-def _walmart_variant_group_id(parent_sku):
-    """Strip hyphens from parent SKU for Walmart variantGroupId."""
-    return parent_sku.replace("-", "")
-
-
 def build_walmart_items():
     """
     Build 9 MP_ITEM feed dicts (one per variant).
@@ -290,8 +285,7 @@ def build_walmart_items():
     """
     items = []
     for product in PRODUCTS:
-        group_id = _walmart_variant_group_id(product["parent_sku"])
-        for i, variant in enumerate(product["variants"]):
+        for variant in product["variants"]:
             lb = variant["lb"]
             sqft = variant["sqft"]
             sku_kit = f"{variant['sku']}-KIT"
@@ -299,16 +293,11 @@ def build_walmart_items():
                 "sku": sku_kit,
                 "productIdentifiers": {
                     "productIdType": "GTIN",
-                    "productId": product["gtin"],
+                    "productId": product["gtin"].zfill(14),
                 },
                 "price": variant["price"],
-                "variantGroupId": group_id,
-                "variantGroupInfo": {
-                    "isPrimary": i == 0,
-                    "groupingAttributes": [
-                        {"name": "assembled_product_weight", "value": str(lb)}
-                    ],
-                },
+                "ShippingWeight": float(lb),
+                "country_of_origin_substantial_transformation": "United States",
             }
             visible_section = {
                 "productName": f"{product['name']} - {lb} lb - Covers {_sqft_fmt(sqft)} Sq Ft",
@@ -317,8 +306,13 @@ def build_walmart_items():
                 "keyFeatures": product["bullets"],
                 "isProp65WarningRequired": "No",
                 "condition": "New",
+                "mainImageUrl": product["image"],
                 "light_needs": "Full Sun",
                 "plantCategory": ["Grasses"],
+                "plant_name": [product["name"]],
+                "netContent": {"productNetContentMeasure": float(lb), "productNetContentUnit": "Pound"},
+                "assembledProductWeight": {"measure": float(lb), "unit": "lb"},
+                "has_written_warranty": "No",
             }
             items.append({"Orderable": orderable, "Visible": {"Grass Seeds": visible_section}})
     return items
