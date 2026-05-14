@@ -51,3 +51,39 @@ def test_build_gmc_row_plpr_10lb():
     assert plpr_10["title"] == "Plains Prairie Native Seed Mix - 10 Lb - 29,000 Sq Ft"
     assert plpr_10["price"] == "157.99 USD"
     assert plpr_10["item_group_id"] == "NS_0105"
+
+
+def test_get_sheets_token_calls_oauth(monkeypatch):
+    captured = {}
+    def fake_urlopen(req, timeout=30):
+        captured["url"] = req.full_url
+        body = req.data.decode()
+        captured["body"] = body
+        resp = MagicMock()
+        resp.read.return_value = b'{"access_token": "test_token_abc"}'
+        resp.__enter__ = lambda s: s
+        resp.__exit__ = MagicMock(return_value=False)
+        return resp
+    monkeypatch.setattr("urllib.request.urlopen", fake_urlopen)
+    token = m.get_sheets_token()
+    assert token == "test_token_abc"
+    assert "oauth2.googleapis.com/token" in captured["url"]
+    assert "refresh_token" in captured["body"]
+
+
+def test_push_gmc_calls_sheets_append(monkeypatch):
+    call_log = []
+    def fake_urlopen(req, timeout=30):
+        call_log.append({"url": req.full_url, "method": req.get_method()})
+        resp = MagicMock()
+        resp.read.return_value = b'{"updates": {"updatedRows": 9}}'
+        resp.__enter__ = lambda s: s
+        resp.__exit__ = MagicMock(return_value=False)
+        return resp
+    monkeypatch.setattr("urllib.request.urlopen", fake_urlopen)
+    monkeypatch.setattr("add_new_listings.get_sheets_token", lambda: "fake_token")
+    rows = m.build_gmc_rows()
+    result = m.push_gmc(rows)
+    assert result == 9
+    assert any(m.SHEET_ID in c["url"] for c in call_log)
+    assert any("append" in c["url"] for c in call_log)

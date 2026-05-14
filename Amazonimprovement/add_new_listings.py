@@ -231,3 +231,47 @@ def build_gmc_rows():
             })
             rows.append(row)
     return rows
+
+
+def get_sheets_token():
+    """Exchange GOOGLE_SHEETS_REFRESH_TOKEN for a short-lived access token."""
+    data = urllib.parse.urlencode({
+        "client_id": ENV["GOOGLE_ADS_CLIENT_ID"],
+        "client_secret": ENV["GOOGLE_ADS_CLIENT_SECRET"],
+        "refresh_token": ENV["GOOGLE_SHEETS_REFRESH_TOKEN"],
+        "grant_type": "refresh_token",
+    }).encode()
+    req = urllib.request.Request(
+        "https://oauth2.googleapis.com/token",
+        data=data,
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        return json.loads(resp.read())["access_token"]
+
+
+def push_gmc(rows):
+    """
+    Append rows to the GMC supplemental Google Sheet.
+    rows: list of dicts keyed by GMC_COLS.
+    Returns number of rows appended.
+    """
+    token = get_sheets_token()
+    values = [[row.get(col, "") for col in GMC_COLS] for row in rows]
+    body = json.dumps({"values": values}).encode()
+    url = (
+        f"https://sheets.googleapis.com/v4/spreadsheets/{SHEET_ID}"
+        f"/values/{SHEET_RANGE}!A1:AG1:append"
+        f"?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS"
+    )
+    req = urllib.request.Request(
+        url, data=body,
+        headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        result = json.loads(resp.read())
+    updated = result.get("updates", {}).get("updatedRows", 0)
+    print(f"  GMC: appended {updated} rows to sheet")
+    return updated
