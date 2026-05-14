@@ -400,3 +400,33 @@ def push_amazon(rows):
             writer.writeheader()
         writer.writerows(rows)
     print(f"  Amazon: appended {len(rows)} rows to {AMAZON_CSV.name}")
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description="Push new product listings to GMC, Walmart, Amazon")
+    parser.add_argument("--gmc",     action="store_true", help="Push to GMC Sheet only")
+    parser.add_argument("--walmart", action="store_true", help="Push to Walmart only")
+    parser.add_argument("--amazon",  action="store_true", help="Push to Amazon CSV only")
+    args = parser.parse_args(argv)
+    run_all = not (args.gmc or args.walmart or args.amazon)
+
+    if run_all or args.gmc:
+        print("\n── Google Merchant Center ────────────────────────────────")
+        rows = build_gmc_rows()
+        push_gmc(rows)
+
+    if run_all or args.walmart:
+        print("\n── Walmart ───────────────────────────────────────────────")
+        items = build_walmart_items()
+        push_walmart(items)
+
+    if run_all or args.amazon:
+        print("\n── Amazon ────────────────────────────────────────────────")
+        rows = build_amazon_rows()
+        push_amazon(rows)
+
+    print("\nDone.")
+
+
+if __name__ == "__main__":
+    main()

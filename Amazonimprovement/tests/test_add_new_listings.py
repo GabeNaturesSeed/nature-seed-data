@@ -172,3 +172,22 @@ def test_push_amazon_appends_to_csv(tmp_path, monkeypatch):
     assert "CV-CNIR" in skus
     assert "PB-SOLS" in skus
     assert "PB-PLPR" in skus
+
+
+def test_main_runs_all_channels_by_default(monkeypatch):
+    called = []
+    monkeypatch.setattr("add_new_listings.push_gmc", lambda rows: called.append("gmc") or 9)
+    monkeypatch.setattr("add_new_listings.push_walmart", lambda items: called.append("walmart") or "feed_id")
+    monkeypatch.setattr("add_new_listings.push_amazon", lambda rows: called.append("amazon"))
+    m.main([])
+    assert "gmc" in called
+    assert "walmart" in called
+    assert "amazon" in called
+
+def test_main_runs_only_gmc_with_flag(monkeypatch):
+    called = []
+    monkeypatch.setattr("add_new_listings.push_gmc", lambda rows: called.append("gmc") or 9)
+    monkeypatch.setattr("add_new_listings.push_walmart", lambda items: called.append("walmart") or "feed_id")
+    monkeypatch.setattr("add_new_listings.push_amazon", lambda rows: called.append("amazon"))
+    m.main(["--gmc"])
+    assert called == ["gmc"]
