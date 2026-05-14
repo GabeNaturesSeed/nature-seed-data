@@ -87,3 +87,42 @@ def test_push_gmc_calls_sheets_append(monkeypatch):
     assert result == 9
     assert any(m.SHEET_ID in c["url"] for c in call_log)
     assert any("append" in c["url"] for c in call_log)
+
+
+def test_build_walmart_items_count():
+    items = m.build_walmart_items()
+    assert len(items) == 9
+
+def test_build_walmart_item_cnir_5lb():
+    items = m.build_walmart_items()
+    cnir_5 = next(i for i in items if i["Orderable"]["sku"] == "CV-CNIR-5-LB-KIT")
+    assert cnir_5["Orderable"]["productIdentifiers"]["productIdType"] == "GTIN"
+    assert cnir_5["Orderable"]["productIdentifiers"]["productId"] == "840184629488"
+    assert cnir_5["Orderable"]["price"] == 311.87
+    assert cnir_5["Orderable"]["variantGroupId"] == "CVCNIR"
+    assert cnir_5["Orderable"]["variantGroupInfo"]["groupingAttributes"][0]["value"] == "5"
+    visible = cnir_5["Visible"]["Grass Seeds"]
+    assert "California Native Ignition Resistant" in visible["productName"]
+    assert "5 lb" in visible["productName"]
+    assert visible["brand"] == "Nature's Seed"
+    assert len(visible["keyFeatures"]) == 5
+    assert visible["condition"] == "New"
+
+def test_build_walmart_items_primary_variant():
+    items = m.build_walmart_items()
+    cnir_primary = next(i for i in items if i["Orderable"]["sku"] == "CV-CNIR-5-LB-KIT")
+    cnir_secondary = next(i for i in items if i["Orderable"]["sku"] == "CV-CNIR-10-LB-KIT")
+    assert cnir_primary["Orderable"]["variantGroupInfo"]["isPrimary"] is True
+    assert cnir_secondary["Orderable"]["variantGroupInfo"]["isPrimary"] is False
+
+def test_push_walmart_calls_submit_feed(monkeypatch):
+    call_log = []
+    def fake_submit(mp_items, feed_type="MP_MAINTENANCE"):
+        call_log.append({"items": mp_items, "feed_type": feed_type})
+        return "feed_abc123"
+    monkeypatch.setattr("add_new_listings.submit_maintenance_feed", fake_submit)
+    items = m.build_walmart_items()
+    feed_id = m.push_walmart(items)
+    assert feed_id == "feed_abc123"
+    assert call_log[0]["feed_type"] == "MP_ITEM"
+    assert len(call_log[0]["items"]) == 9

@@ -275,3 +275,60 @@ def push_gmc(rows):
     updated = result.get("updates", {}).get("updatedRows", 0)
     print(f"  GMC: appended {updated} rows to sheet")
     return updated
+
+
+# ── Walmart Builder ───────────────────────────────────────────────────────────
+def _walmart_variant_group_id(parent_sku):
+    """Strip hyphens from parent SKU for Walmart variantGroupId."""
+    return parent_sku.replace("-", "")
+
+
+def build_walmart_items():
+    """
+    Build 9 MP_ITEM feed dicts (one per variant).
+    Returns list of {"Orderable": {...}, "Visible": {"Grass Seeds": {...}}} dicts.
+    """
+    items = []
+    for product in PRODUCTS:
+        group_id = _walmart_variant_group_id(product["parent_sku"])
+        for i, variant in enumerate(product["variants"]):
+            lb = variant["lb"]
+            sqft = variant["sqft"]
+            sku_kit = f"{variant['sku']}-KIT"
+            orderable = {
+                "sku": sku_kit,
+                "productIdentifiers": {
+                    "productIdType": "GTIN",
+                    "productId": product["gtin"],
+                },
+                "price": variant["price"],
+                "variantGroupId": group_id,
+                "variantGroupInfo": {
+                    "isPrimary": i == 0,
+                    "groupingAttributes": [
+                        {"name": "assembled_product_weight", "value": str(lb)}
+                    ],
+                },
+            }
+            visible_section = {
+                "productName": f"{product['name']} - {lb} lb - Covers {_sqft_fmt(sqft)} Sq Ft",
+                "brand": "Nature's Seed",
+                "shortDescription": product["description"][:4000],
+                "keyFeatures": product["bullets"],
+                "isProp65WarningRequired": "No",
+                "condition": "New",
+                "light_needs": "Full Sun",
+                "plantCategory": ["Grasses"],
+            }
+            items.append({"Orderable": orderable, "Visible": {"Grass Seeds": visible_section}})
+    return items
+
+
+def push_walmart(items):
+    """
+    Submit items as MP_ITEM feed.
+    Returns feed ID string.
+    """
+    feed_id = submit_maintenance_feed(items, feed_type="MP_ITEM")
+    print(f"  Walmart: feed submitted — {feed_id}")
+    return feed_id
