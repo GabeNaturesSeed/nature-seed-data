@@ -332,3 +332,71 @@ def push_walmart(items):
     feed_id = submit_maintenance_feed(items, feed_type="MP_ITEM")
     print(f"  Walmart: feed submitted — {feed_id}")
     return feed_id
+
+
+# ── Amazon CSV ────────────────────────────────────────────────────────────────
+AMAZON_CSV_COLS = [
+    "wc_id", "parent_sku", "product_name", "product_type", "categories", "tags",
+    "description_plain", "short_description_plain",
+    "bullet_1", "bullet_2", "bullet_3", "bullet_4", "bullet_5",
+    "search_terms", "price", "regular_price", "weight", "dimensions",
+    "image_1", "image_2", "image_3", "image_4", "image_5",
+    "size_options", "variation_skus", "variation_prices",
+    "sun_requirements", "planting_depth", "delivery_time", "wc_url",
+]
+
+
+def build_amazon_rows():
+    """
+    Build 3 parent rows for amazon_missing_products.csv (one per product).
+    Returns list of dicts keyed by AMAZON_CSV_COLS.
+    """
+    rows = []
+    for product in PRODUCTS:
+        variants = product["variants"]
+        size_options = " | ".join(
+            f"{v['lb']} lb - Covers {_sqft_fmt(v['sqft'])} Sq Ft" for v in variants
+        )
+        variation_skus = " | ".join(v["sku"] for v in variants)
+        variation_prices = " | ".join(f"${v['price']:.2f}" for v in variants)
+        min_price = min(v["price"] for v in variants)
+        row = {col: "" for col in AMAZON_CSV_COLS}
+        row.update({
+            "wc_id": product["wc_id"],
+            "parent_sku": product["parent_sku"],
+            "product_name": product["name"],
+            "product_type": "variable",
+            "description_plain": product["description"],
+            "bullet_1": product["bullets"][0],
+            "bullet_2": product["bullets"][1],
+            "bullet_3": product["bullets"][2],
+            "bullet_4": product["bullets"][3],
+            "bullet_5": product["bullets"][4],
+            "search_terms": product["search_terms"],
+            "price": f"{min_price:.2f}",
+            "image_1": product["image"],
+            "size_options": size_options,
+            "variation_skus": variation_skus,
+            "variation_prices": variation_prices,
+            "sun_requirements": "Full Sun",
+            "delivery_time": "7",
+            "wc_url": (
+                f"https://naturesseed.com/products/{product['category_path']}/{product['slug']}/"
+            ),
+        })
+        rows.append(row)
+    return rows
+
+
+def push_amazon(rows):
+    """
+    Append rows to amazon_missing_products.csv.
+    Creates file with header if it doesn't exist; otherwise appends without re-writing header.
+    """
+    write_header = not AMAZON_CSV.exists()
+    with open(AMAZON_CSV, "a", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=AMAZON_CSV_COLS, extrasaction="ignore")
+        if write_header:
+            writer.writeheader()
+        writer.writerows(rows)
+    print(f"  Amazon: appended {len(rows)} rows to {AMAZON_CSV.name}")

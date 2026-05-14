@@ -126,3 +126,49 @@ def test_push_walmart_calls_submit_feed(monkeypatch):
     assert feed_id == "feed_abc123"
     assert call_log[0]["feed_type"] == "MP_ITEM"
     assert len(call_log[0]["items"]) == 9
+
+
+def test_build_amazon_rows_count():
+    rows = m.build_amazon_rows()
+    assert len(rows) == 3  # one parent row per product
+
+def test_build_amazon_row_cnir():
+    rows = m.build_amazon_rows()
+    cnir = next(r for r in rows if r["parent_sku"] == "CV-CNIR")
+    assert cnir["wc_id"] == 470543
+    assert cnir["product_name"] == "California Native Ignition Resistant Seed Mix"
+    assert cnir["bullet_1"] != ""
+    assert cnir["bullet_5"] != ""
+    assert len(cnir["description_plain"]) > 100
+    assert "CV-CNIR-5-LB" in cnir["variation_skus"]
+    assert "CV-CNIR-10-LB" in cnir["variation_skus"]
+    assert "CV-CNIR-25-LB" in cnir["variation_skus"]
+    assert "311.87" in cnir["variation_prices"]
+    assert "5 lb" in cnir["size_options"]
+    assert cnir["image_1"] != ""
+
+def test_build_amazon_row_sols():
+    rows = m.build_amazon_rows()
+    sols = next(r for r in rows if r["parent_sku"] == "PB-SOLS")
+    assert "PB-SOLS-10-LB" in sols["variation_skus"]
+    assert "56.99" in sols["variation_prices"]
+    assert "10 lb" in sols["size_options"]
+
+def test_push_amazon_appends_to_csv(tmp_path, monkeypatch):
+    import csv as csv_module
+    monkeypatch.setattr("add_new_listings.AMAZON_CSV", tmp_path / "amazon_missing_products.csv")
+    # Pre-populate with header + one existing row
+    existing_cols = list(m.AMAZON_CSV_COLS)
+    with open(tmp_path / "amazon_missing_products.csv", "w", newline="") as f:
+        writer = csv_module.DictWriter(f, fieldnames=existing_cols)
+        writer.writeheader()
+        writer.writerow({c: "existing" for c in existing_cols})
+    rows = m.build_amazon_rows()
+    m.push_amazon(rows)
+    with open(tmp_path / "amazon_missing_products.csv") as f:
+        all_rows = list(csv_module.DictReader(f))
+    assert len(all_rows) == 4  # 1 existing + 3 new
+    skus = [r["parent_sku"] for r in all_rows]
+    assert "CV-CNIR" in skus
+    assert "PB-SOLS" in skus
+    assert "PB-PLPR" in skus
