@@ -60,6 +60,15 @@ try:
 except ImportError:
     submit_maintenance_feed = None
 
+# ── Helper Functions ──────────────────────────────────────────────────────────
+def _size_slug(lb):
+    """Convert lb integer to WC attribute slug: 5 -> '5-lb'"""
+    return f"{lb}-lb"
+
+def _sqft_fmt(sqft):
+    """Format sq ft with commas: 29000 -> '29,000'"""
+    return f"{sqft:,}"
+
 # ── Product Data ──────────────────────────────────────────────────────────────
 PRODUCTS = [
     {
@@ -177,3 +186,48 @@ PRODUCTS = [
         ],
     },
 ]
+
+# ── GMC Builder ───────────────────────────────────────────────────────────────
+def build_gmc_rows():
+    """
+    Build 9 GMC sheet rows (one per variant across all products).
+    Returns list of dicts keyed by GMC_COLS.
+    """
+    rows = []
+    for product in PRODUCTS:
+        for i, variant in enumerate(product["variants"]):
+            lb = variant["lb"]
+            sqft = variant["sqft"]
+            sku = variant["sku"]
+            wc_id = variant["wc_id"]
+            price = variant["price"]
+            link = (
+                f"https://naturesseed.com/products/{product['category_path']}"
+                f"/{product['slug']}/?attribute_pa_size={_size_slug(lb)}"
+            )
+            row = {col: "" for col in GMC_COLS}
+            row.update({
+                "id": f"gla_{wc_id}",
+                "title": f"{product['name']} - {lb} Lb - {_sqft_fmt(sqft)} Sq Ft",
+                "description": product["description"],
+                "availability": "in stock",
+                "condition": "new",
+                "price": f"{price:.2f} USD",
+                "link": link,
+                "image_link": product["image"],
+                "brand": "Nature's Seed",
+                "google_product_category": "Home & Garden > Plants > Seeds",
+                "fb_product_category": "patio & garden > plants, seeds & bulbs > seeds & bulbs",
+                "quantity_to_sell_on_facebook": "75",
+                "item_group_id": product["item_group_id"],
+                "shipping": "US:Ground:9.99 USD",
+                "shipping_weight": f"{lb} lb",
+                "gtin": product["gtin"],
+                "product_tags[0]": product["custom_label_0"],
+                "product_tags[1]": ">200",
+                "mpn": sku,
+                "custom_label_0": product["custom_label_0"],
+                "custom_label_1": ">200",
+            })
+            rows.append(row)
+    return rows
