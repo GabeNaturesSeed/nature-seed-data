@@ -1,35 +1,35 @@
 {
-  "as_of": "2026-05-18",
+  "as_of": "2026-05-19",
   "mtd": {
     "shipping_collected": 4480.0,
-    "shipping_paid": 40311.61,
-    "shipping_net": -35831.61,
-    "shipment_count": 1167,
-    "avg_cost_per_order": 34.54,
-    "wc_order_count": 1146
+    "shipping_paid": 48922.13,
+    "shipping_net": -44442.13,
+    "shipment_count": 1415,
+    "avg_cost_per_order": 34.57,
+    "wc_order_count": 1186
   },
   "ytd": {
     "shipping_collected": 27044.0,
-    "shipping_paid": 144354.61,
-    "shipping_net": -117310.61,
-    "shipment_count": 10352,
-    "avg_cost_per_order": 13.94,
-    "wc_order_count": 1146
+    "shipping_paid": 152965.13,
+    "shipping_net": -125921.13,
+    "shipment_count": 10600,
+    "avg_cost_per_order": 14.43,
+    "wc_order_count": 1186
   },
   "carriers": [
     {
       "carrier": "UPS",
-      "total_paid": 500377.75,
-      "shipment_count": 10199,
+      "total_paid": 510532.18,
+      "shipment_count": 10442,
       "pct_of_shipments": 98.6,
-      "avg_cost_per_shipment": 49.06
+      "avg_cost_per_shipment": 48.89
     },
     {
       "carrier": "USPS",
-      "total_paid": 4644.68,
-      "shipment_count": 104,
+      "total_paid": 4853.62,
+      "shipment_count": 109,
       "pct_of_shipments": 1.0,
-      "avg_cost_per_shipment": 44.66
+      "avg_cost_per_shipment": 44.53
     },
     {
       "carrier": "FEDEX",
@@ -60,7 +60,8 @@
         "2026-W17",
         "2026-W18",
         "2026-W19",
-        "2026-W20"
+        "2026-W20",
+        "2026-W21"
       ],
       "values": [
         36.07,
@@ -81,7 +82,8 @@
         50.34,
         38.32,
         43.46,
-        39.66
+        39.66,
+        41.79
       ]
     },
     "USPS": {
@@ -102,7 +104,8 @@
         "2026-W17",
         "2026-W18",
         "2026-W19",
-        "2026-W20"
+        "2026-W20",
+        "2026-W21"
       ],
       "values": [
         34.67,
@@ -121,7 +124,8 @@
         43.48,
         39.15,
         47.48,
-        37.66
+        37.66,
+        41.79
       ]
     },
     "FEDEX": {
