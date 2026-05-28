@@ -1,0 +1,33 @@
+name: Mix Composition Sync
+
+on:
+  schedule:
+    # Daily at 06:00 UTC (midnight MT)
+    - cron: "0 6 * * *"
+  workflow_dispatch: # allow manual runs from GitHub UI
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Sync mix compositions → WooCommerce
+        env:
+          WC_CK: ${{ secrets.WC_CK }}
+          WC_CS: ${{ secrets.WC_CS }}
+          CF_WORKER_URL: ${{ secrets.CF_WORKER_URL }}
+          CF_WORKER_SECRET: ${{ secrets.CF_WORKER_SECRET }}
+          ANTHROPIC_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+        run: python store/mix-composition-descriptions/sync_mix_compositions.py
