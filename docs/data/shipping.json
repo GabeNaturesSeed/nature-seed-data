@@ -1,28 +1,28 @@
 {
-  "as_of": "2026-05-28",
+  "as_of": "2026-05-29",
   "mtd": {
     "shipping_collected": 4960.0,
-    "shipping_paid": 61844.52,
-    "shipping_net": -56884.52,
-    "shipment_count": 1851,
-    "avg_cost_per_order": 33.41,
-    "wc_order_count": 1647
+    "shipping_paid": 64092.14,
+    "shipping_net": -59132.14,
+    "shipment_count": 1932,
+    "avg_cost_per_order": 33.17,
+    "wc_order_count": 1694
   },
   "ytd": {
     "shipping_collected": 27524.0,
-    "shipping_paid": 165887.52,
-    "shipping_net": -138363.52,
-    "shipment_count": 11036,
-    "avg_cost_per_order": 15.03,
-    "wc_order_count": 1647
+    "shipping_paid": 168135.14,
+    "shipping_net": -140611.14,
+    "shipment_count": 11117,
+    "avg_cost_per_order": 15.12,
+    "wc_order_count": 1694
   },
   "carriers": [
     {
       "carrier": "UPS",
-      "total_paid": 525698.86,
-      "shipment_count": 10872,
+      "total_paid": 528362.49,
+      "shipment_count": 10953,
       "pct_of_shipments": 98.6,
-      "avg_cost_per_shipment": 48.35
+      "avg_cost_per_shipment": 48.24
     },
     {
       "carrier": "USPS",
@@ -85,7 +85,7 @@
         43.46,
         39.66,
         38.83,
-        35.66
+        35.0
       ]
     },
     "FEDEX": {
