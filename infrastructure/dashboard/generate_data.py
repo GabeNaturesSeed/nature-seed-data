@@ -529,9 +529,15 @@ def generate_reporting():
 
     # MTD window
     mtd_start_cy = date(today.year, today.month, 1)
-    mtd_end_cy = yesterday
     mtd_start_ly = date(today.year - 1, today.month, 1)
-    mtd_end_ly = date(today.year - 1, today.month, yesterday.day)
+    # When today is the 1st, yesterday is in the prior month — clamp to avoid
+    # "day out of range" when yesterday.day > days in today.month (e.g. June 1 after May 31).
+    if today.day > 1:
+        mtd_end_cy = yesterday
+        mtd_end_ly = date(today.year - 1, today.month, yesterday.day)
+    else:
+        mtd_end_cy = mtd_start_cy
+        mtd_end_ly = date(today.year - 1, today.month, 1)
 
     # Last month window (full calendar month)
     import calendar as _calendar
