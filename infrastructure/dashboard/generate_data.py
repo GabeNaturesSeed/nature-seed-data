@@ -520,6 +520,17 @@ def _load_actuals_csv():
     return actuals
 
 
+def _safe_date(year, month, day):
+    """Build a date, clamping day to the last valid day of the month.
+
+    Guards against ValueError when mapping a day onto a month that has fewer
+    days (e.g. day 31 in a 30-day month, or Feb 29 in a non-leap prior year).
+    """
+    import calendar as _calendar
+    last = _calendar.monthrange(year, month)[1]
+    return date(year, month, min(day, last))
+
+
 def generate_reporting():
     """Pull MTD and YTD data from Supabase + budget CSV."""
     print("\n[Reporting] Pulling Supabase daily_summary...")
@@ -527,11 +538,17 @@ def generate_reporting():
     today = TODAY
     yesterday = today - timedelta(days=1)
 
-    # MTD window
-    mtd_start_cy = date(today.year, today.month, 1)
+    # MTD window — anchored on `yesterday`, the most recent completed day.
+    # On the 1st of the month `yesterday` falls in the previous month, which has
+    # no elapsed days yet; anchoring on yesterday means MTD reflects that just-
+    # completed month instead of producing an inverted (start > end) range or
+    # crashing on date(year, this_month, 31) when this_month has < 31 days.
+    mtd_year = yesterday.year
+    mtd_month = yesterday.month
+    mtd_start_cy = date(mtd_year, mtd_month, 1)
     mtd_end_cy = yesterday
-    mtd_start_ly = date(today.year - 1, today.month, 1)
-    mtd_end_ly = date(today.year - 1, today.month, yesterday.day)
+    mtd_start_ly = date(mtd_year - 1, mtd_month, 1)
+    mtd_end_ly = _safe_date(mtd_year - 1, mtd_month, yesterday.day)
 
     # Last month window (full calendar month)
     import calendar as _calendar
@@ -546,7 +563,7 @@ def generate_reporting():
     # YTD window (Jan 1 → yesterday)
     ytd_start_cy = date(today.year, 1, 1)
     ytd_start_ly = date(today.year - 1, 1, 1)
-    ytd_end_ly = date(today.year - 1, yesterday.month, yesterday.day)
+    ytd_end_ly = _safe_date(today.year - 1, yesterday.month, yesterday.day)
 
     def fetch_range(start, end):
         rows = _supabase_get(
@@ -712,7 +729,10 @@ def generate_reporting():
         tot["cm2_pct"] = round(tot["cm2"] / tot["revenue"] * 100, 1) if tot["revenue"] else None
 
     budget = _load_budget_csv()
-    cur_month_key = f"{today.year}-{today.month:02d}"
+    # Anchor on the MTD window month (yesterday's month) so the MTD budget
+    # comparison and P&L "open month" detection match the actuals window —
+    # on the 1st of the month this is the just-completed prior month.
+    cur_month_key = f"{mtd_year}-{mtd_month:02d}"
     budget_month = budget.get(cur_month_key, {})
     mtd_budget = {
         "revenue": budget_month.get("net_revenue", 0),
