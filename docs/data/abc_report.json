@@ -1,15 +1,15 @@
 {
-  "generated": "2026-06-11T12:01:20.068932",
+  "generated": "2026-06-12T11:32:38.413478",
   "seasons": {
     "spring_2026": {
       "label": "Spring 2026",
       "period": "2026-02-01 \u2192 2026-04-30",
-      "total_revenue": 970062.37,
-      "total_orders": 10039,
+      "total_revenue": 969979.6,
+      "total_orders": 10037,
       "total_skus": 121,
       "summary": {
         "a_count": 39,
-        "a_revenue": 782727.85,
+        "a_revenue": 782645.08,
         "a_pct": 80.7,
         "b_count": 32,
         "b_revenue": 139790.5,
@@ -195,16 +195,16 @@
           "sku": "S-RICE",
           "name": "Rice Hulls",
           "product_id": 450345,
-          "revenue": 22088.29,
-          "margin": 20189.54,
+          "revenue": 22070.3,
+          "margin": 20172.8,
           "margin_pct": 91.4,
-          "units": 663,
-          "orders": 564,
-          "avg_basket": 153.86,
+          "units": 662,
+          "orders": 563,
+          "avg_basket": 153.98,
           "active_days": 88,
-          "daily_velocity": 7.53,
-          "revenue_velocity": 251.0,
-          "velocity_trend": 180.1763,
+          "daily_velocity": 7.52,
+          "revenue_velocity": 250.8,
+          "velocity_trend": 179.7809,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0,
           "variants": [
@@ -225,9 +225,9 @@
             {
               "sku": "S-RICE-5-LB",
               "name": "Rice Hulls - 5 Lbs - 2,000 Sq Ft",
-              "revenue": 5898.8,
-              "units": 332,
-              "orders": 298
+              "revenue": 5880.81,
+              "units": 331,
+              "orders": 297
             }
           ],
           "composite_score": 82.22,
@@ -281,16 +281,16 @@
           "sku": "TURF-CLV",
           "name": "Clover Lawn Alternative Mix",
           "product_id": 458434,
-          "revenue": 38370.42,
-          "margin": 22362.54,
+          "revenue": 38305.64,
+          "margin": 22326.32,
           "margin_pct": 58.3,
-          "units": 916,
-          "orders": 723,
+          "units": 914,
+          "orders": 722,
           "avg_basket": 84.69,
           "active_days": 88,
-          "daily_velocity": 10.41,
-          "revenue_velocity": 436.03,
-          "velocity_trend": 336.444,
+          "daily_velocity": 10.39,
+          "revenue_velocity": 435.29,
+          "velocity_trend": 335.0203,
           "backorder_rate": 0.0,
           "cancellation_rate": 0.0014,
           "variants": [
@@ -304,9 +304,9 @@
             {
               "sku": "TURF-CLV-10-LB-KIT",
               "name": "Clover Lawn Alternative Mix - 10 Lbs - 2,000 Sq Ft",
-              "revenue": 13656.79,
-              "units": 426,
-              "orders": 337
+              "revenue": 13592.01,
+              "units": 424,
+              "orders": 336
             },
             {
               "sku": "TURF-CLV-5-LB",
@@ -318,7 +318,7 @@
           ],
           "composite_score": 81.71,
           "class": "A",
-          "reason": "Top performer \u2014 $436/day is 12.0x the median velocity \u2014 accelerating sales trend."
+          "reason": "Top performer \u2014 $435/day is 11.9x the median velocity \u2014 accelerating sales trend."
         },
         {
           "sku": "TURF-FINE",
