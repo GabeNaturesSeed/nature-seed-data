@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-06-14",
+  "as_of": "2026-06-15",
   "items": [
     {
       "sku": "2750AL-A",
@@ -654,11 +654,11 @@
       "sku": "SUSTANE-4-6-4",
       "name": "Organic Seed Starter Fertilizer 4-6-4",
       "qty": 26.0,
-      "daily_velocity": 1.2,
-      "days_remaining": 21,
+      "daily_velocity": 1.1,
+      "days_remaining": 23,
       "q1_need": 0.0,
-      "q2_need": 131.0,
-      "surplus_gap": -105.0,
+      "q2_need": 120.1,
+      "surplus_gap": -94.1,
       "status": "red"
     },
     {
@@ -1591,12 +1591,12 @@
   },
   "fba_velocity": {},
   "order_tracking": {
-    "total_30d": 1330,
-    "fulfilled": 1275,
+    "total_30d": 1307,
+    "fulfilled": 1220,
     "backorders": 0,
-    "unfulfilled_lt_1d": 45,
-    "unfulfilled_lt_5d": 5,
-    "unfulfilled_5_to_10d": 5,
-    "unfulfilled_gt_10d": 0
+    "unfulfilled_lt_1d": 52,
+    "unfulfilled_lt_5d": 30,
+    "unfulfilled_5_to_10d": 4,
+    "unfulfilled_gt_10d": 1
   }
 }
