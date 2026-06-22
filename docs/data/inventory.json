@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-06-21",
+  "as_of": "2026-06-22",
   "items": [
     {
       "sku": "2750AL-A",
@@ -654,12 +654,12 @@
       "sku": "SUSTANE-4-6-4",
       "name": "Organic Seed Starter Fertilizer 4-6-4",
       "qty": 23.0,
-      "daily_velocity": 0.8,
-      "days_remaining": 28,
+      "daily_velocity": 0.7,
+      "days_remaining": 32,
       "q1_need": 0.0,
-      "q2_need": 87.4,
-      "surplus_gap": -64.4,
-      "status": "red"
+      "q2_need": 76.4,
+      "surplus_gap": -53.4,
+      "status": "yellow"
     },
     {
       "sku": "TURF-BERM-5-LB",
@@ -1579,8 +1579,8 @@
   ],
   "summary": {
     "total_skus": 107,
-    "red_count": 1,
-    "yellow_count": 0,
+    "red_count": 0,
+    "yellow_count": 1,
     "green_count": 0
   },
   "fba_summary": {
@@ -1591,11 +1591,11 @@
   },
   "fba_velocity": {},
   "order_tracking": {
-    "total_30d": 1200,
-    "fulfilled": 1141,
+    "total_30d": 1192,
+    "fulfilled": 1096,
     "backorders": 0,
-    "unfulfilled_lt_1d": 42,
-    "unfulfilled_lt_5d": 12,
+    "unfulfilled_lt_1d": 51,
+    "unfulfilled_lt_5d": 40,
     "unfulfilled_5_to_10d": 2,
     "unfulfilled_gt_10d": 3
   }
