@@ -1,35 +1,35 @@
 {
-  "as_of": "2026-06-22",
+  "as_of": "2026-06-23",
   "mtd": {
-    "shipping_collected": 2960.0,
-    "shipping_paid": 41029.18,
-    "shipping_net": -38069.18,
-    "shipment_count": 1086,
-    "avg_cost_per_order": 37.78,
-    "wc_order_count": 726
+    "shipping_collected": 4240.0,
+    "shipping_paid": 44245.05,
+    "shipping_net": -40005.05,
+    "shipment_count": 1202,
+    "avg_cost_per_order": 36.81,
+    "wc_order_count": 760
   },
   "ytd": {
-    "shipping_collected": 25524.0,
-    "shipping_paid": 145072.18,
-    "shipping_net": -119548.18,
-    "shipment_count": 12244,
-    "avg_cost_per_order": 11.85,
-    "wc_order_count": 726
+    "shipping_collected": 26804.0,
+    "shipping_paid": 148288.05,
+    "shipping_net": -121484.05,
+    "shipment_count": 12360,
+    "avg_cost_per_order": 12.0,
+    "wc_order_count": 760
   },
   "carriers": [
     {
       "carrier": "UPS",
-      "total_paid": 579078.42,
-      "shipment_count": 12064,
+      "total_paid": 582856.38,
+      "shipment_count": 12179,
       "pct_of_shipments": 98.6,
-      "avg_cost_per_shipment": 48.0
+      "avg_cost_per_shipment": 47.86
     },
     {
       "carrier": "USPS",
-      "total_paid": 5596.21,
-      "shipment_count": 130,
+      "total_paid": 5629.06,
+      "shipment_count": 131,
       "pct_of_shipments": 1.1,
-      "avg_cost_per_shipment": 43.05
+      "avg_cost_per_shipment": 42.97
     },
     {
       "carrier": "FEDEX",
@@ -65,7 +65,8 @@
         "2026-W22",
         "2026-W23",
         "2026-W24",
-        "2026-W25"
+        "2026-W25",
+        "2026-W26"
       ],
       "values": [
         36.07,
@@ -91,7 +92,8 @@
         35.55,
         47.61,
         54.78,
-        30.99
+        30.99,
+        32.85
       ]
     },
     "USPS": {
@@ -117,7 +119,8 @@
         "2026-W22",
         "2026-W23",
         "2026-W24",
-        "2026-W25"
+        "2026-W25",
+        "2026-W26"
       ],
       "values": [
         34.67,
@@ -141,7 +144,8 @@
         37.85,
         41.14,
         32.24,
-        30.52
+        30.52,
+        32.85
       ]
     },
     "FEDEX": {
