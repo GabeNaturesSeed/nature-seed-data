@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-06-30",
+  "as_of": "2026-07-01",
   "items": [
     {
       "sku": "2750AL-A",
@@ -158,12 +158,12 @@
     {
       "sku": "PB-COW-SO-10-LB",
       "name": "Southern Dairy Cow & Cattle Forage Mix",
-      "qty": 117.0,
+      "qty": 112.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 117.0,
+      "surplus_gap": 112.0,
       "status": "ok"
     },
     {
@@ -202,12 +202,12 @@
     {
       "sku": "PB-GOAT-10-LB",
       "name": "Goat Pasture and Forage Mix",
-      "qty": 65.0,
+      "qty": 63.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 65.0,
+      "surplus_gap": 63.0,
       "status": "ok"
     },
     {
@@ -631,12 +631,12 @@
     {
       "sku": "PG-SOSU-5-LB",
       "name": "Sudangrass",
-      "qty": 9.0,
+      "qty": 8.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 9.0,
+      "surplus_gap": 8.0,
       "status": "ok"
     },
     {
@@ -807,12 +807,12 @@
     {
       "sku": "S-RICE-5-LB",
       "name": "Rice Hulls - 5lbs",
-      "qty": 147.0,
+      "qty": 146.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 147.0,
+      "surplus_gap": 146.0,
       "status": "ok"
     },
     {
@@ -841,12 +841,12 @@
       "sku": "SUSTANE-4-6-4",
       "name": "Organic Seed Starter Fertilizer 4-6-4",
       "qty": 20.0,
-      "daily_velocity": 0.3,
-      "days_remaining": 66,
+      "daily_velocity": 0.4,
+      "days_remaining": 50,
       "q1_need": 0.0,
-      "q2_need": 32.8,
-      "surplus_gap": -12.8,
-      "status": "ok"
+      "q2_need": 43.7,
+      "surplus_gap": -23.7,
+      "status": "yellow"
     },
     {
       "sku": "TURF-BERM-5-LB",
@@ -873,12 +873,12 @@
     {
       "sku": "TURF-CLV-5-LB",
       "name": "Lawn Alternative clover mix",
-      "qty": 103.0,
+      "qty": 101.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 103.0,
+      "surplus_gap": 101.0,
       "status": "ok"
     },
     {
@@ -1005,12 +1005,12 @@
     {
       "sku": "TURF-W-TALL-5-LB",
       "name": "TWCA Water-Wise Triple-Play Turf Blend",
-      "qty": 131.0,
+      "qty": 129.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 131.0,
+      "surplus_gap": 129.0,
       "status": "ok"
     },
     {
@@ -1313,12 +1313,12 @@
     {
       "sku": "WB-FLN-0.5-LB",
       "name": "Florida Native Wildflower Mix",
-      "qty": 45.0,
+      "qty": 43.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 45.0,
+      "surplus_gap": 43.0,
       "status": "ok"
     },
     {
@@ -1800,8 +1800,8 @@
   "summary": {
     "total_skus": 127,
     "red_count": 0,
-    "yellow_count": 0,
-    "green_count": 3
+    "yellow_count": 1,
+    "green_count": 2
   },
   "fba_summary": {
     "total_skus": 36,
@@ -1811,12 +1811,12 @@
   },
   "fba_velocity": {},
   "order_tracking": {
-    "total_30d": 1019,
-    "fulfilled": 997,
+    "total_30d": 993,
+    "fulfilled": 956,
     "backorders": 0,
-    "unfulfilled_lt_1d": 14,
-    "unfulfilled_lt_5d": 7,
-    "unfulfilled_5_to_10d": 1,
+    "unfulfilled_lt_1d": 24,
+    "unfulfilled_lt_5d": 11,
+    "unfulfilled_5_to_10d": 2,
     "unfulfilled_gt_10d": 0
   }
 }

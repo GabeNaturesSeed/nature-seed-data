@@ -1,27 +1,27 @@
 {
-  "as_of": "2026-06-30",
+  "as_of": "2026-07-01",
   "mtd": {
-    "shipping_collected": 4880.0,
-    "shipping_paid": 68858.08,
-    "shipping_net": -63978.08,
-    "shipment_count": 1476,
-    "avg_cost_per_order": 46.65,
-    "wc_order_count": 972
+    "shipping_collected": 0.0,
+    "shipping_paid": 0.0,
+    "shipping_net": 0.0,
+    "shipment_count": 0,
+    "avg_cost_per_order": 0,
+    "wc_order_count": 1
   },
   "ytd": {
-    "shipping_collected": 27444.0,
-    "shipping_paid": 172901.08,
-    "shipping_net": -145457.08,
-    "shipment_count": 12634,
-    "avg_cost_per_order": 13.69,
-    "wc_order_count": 972
+    "shipping_collected": 22564.0,
+    "shipping_paid": 104043.0,
+    "shipping_net": -81479.0,
+    "shipment_count": 12641,
+    "avg_cost_per_order": 8.23,
+    "wc_order_count": 1
   },
   "carriers": [
     {
       "carrier": "UPS",
       "total_paid": 611562.67,
       "shipment_count": 12352,
-      "pct_of_shipments": 97.9,
+      "pct_of_shipments": 97.8,
       "avg_cost_per_shipment": 49.51
     },
     {
@@ -33,10 +33,10 @@
     },
     {
       "carrier": "FEDEX",
-      "total_paid": 3404.79,
-      "shipment_count": 133,
+      "total_paid": 3486.99,
+      "shipment_count": 140,
       "pct_of_shipments": 1.1,
-      "avg_cost_per_shipment": 25.6
+      "avg_cost_per_shipment": 24.91
     }
   ],
   "weekly_cost_per_lb": {
@@ -63,7 +63,7 @@
         43.72,
         38.39,
         14.62,
-        25.88
+        22.35
       ]
     },
     "UPS": {
