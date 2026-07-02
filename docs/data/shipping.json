@@ -1,42 +1,42 @@
 {
-  "as_of": "2026-07-01",
+  "as_of": "2026-07-02",
   "mtd": {
-    "shipping_collected": 0.0,
-    "shipping_paid": 0.0,
-    "shipping_net": 0.0,
-    "shipment_count": 0,
-    "avg_cost_per_order": 0,
-    "wc_order_count": 1
+    "shipping_collected": 80.0,
+    "shipping_paid": 1231.35,
+    "shipping_net": -1151.35,
+    "shipment_count": 64,
+    "avg_cost_per_order": 19.24,
+    "wc_order_count": 25
   },
   "ytd": {
-    "shipping_collected": 22564.0,
-    "shipping_paid": 104043.0,
-    "shipping_net": -81479.0,
-    "shipment_count": 12641,
-    "avg_cost_per_order": 8.23,
-    "wc_order_count": 1
+    "shipping_collected": 22644.0,
+    "shipping_paid": 105274.35,
+    "shipping_net": -82630.35,
+    "shipment_count": 12705,
+    "avg_cost_per_order": 8.29,
+    "wc_order_count": 25
   },
   "carriers": [
     {
       "carrier": "UPS",
-      "total_paid": 611562.67,
-      "shipment_count": 12352,
-      "pct_of_shipments": 97.8,
+      "total_paid": 611584.69,
+      "shipment_count": 12353,
+      "pct_of_shipments": 97.3,
       "avg_cost_per_shipment": 49.51
     },
     {
       "carrier": "USPS",
-      "total_paid": 6017.33,
-      "shipment_count": 136,
+      "total_paid": 6039.34,
+      "shipment_count": 137,
       "pct_of_shipments": 1.1,
-      "avg_cost_per_shipment": 44.25
+      "avg_cost_per_shipment": 44.08
     },
     {
       "carrier": "FEDEX",
-      "total_paid": 3486.99,
-      "shipment_count": 140,
-      "pct_of_shipments": 1.1,
-      "avg_cost_per_shipment": 24.91
+      "total_paid": 4852.08,
+      "shipment_count": 202,
+      "pct_of_shipments": 1.6,
+      "avg_cost_per_shipment": 24.02
     }
   ],
   "weekly_cost_per_lb": {
@@ -63,7 +63,7 @@
         43.72,
         38.39,
         14.62,
-        22.35
+        22.12
       ]
     },
     "UPS": {
@@ -121,7 +121,7 @@
         54.78,
         30.99,
         134.71,
-        25.88
+        25.82
       ]
     },
     "USPS": {
@@ -175,7 +175,7 @@
         32.24,
         30.52,
         92.34,
-        25.88
+        24.59
       ]
     }
   }
