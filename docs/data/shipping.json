@@ -1,42 +1,42 @@
 {
-  "as_of": "2026-07-02",
+  "as_of": "2026-07-03",
   "mtd": {
     "shipping_collected": 80.0,
-    "shipping_paid": 1231.35,
-    "shipping_net": -1151.35,
-    "shipment_count": 64,
-    "avg_cost_per_order": 19.24,
-    "wc_order_count": 25
+    "shipping_paid": 1419.66,
+    "shipping_net": -1339.66,
+    "shipment_count": 77,
+    "avg_cost_per_order": 18.44,
+    "wc_order_count": 49
   },
   "ytd": {
     "shipping_collected": 22644.0,
-    "shipping_paid": 105274.35,
-    "shipping_net": -82630.35,
-    "shipment_count": 12705,
+    "shipping_paid": 105462.66,
+    "shipping_net": -82818.66,
+    "shipment_count": 12718,
     "avg_cost_per_order": 8.29,
-    "wc_order_count": 25
+    "wc_order_count": 49
   },
   "carriers": [
     {
       "carrier": "UPS",
       "total_paid": 611584.69,
       "shipment_count": 12353,
-      "pct_of_shipments": 97.3,
+      "pct_of_shipments": 97.2,
       "avg_cost_per_shipment": 49.51
     },
     {
       "carrier": "USPS",
-      "total_paid": 6039.34,
-      "shipment_count": 137,
+      "total_paid": 6055.29,
+      "shipment_count": 138,
       "pct_of_shipments": 1.1,
-      "avg_cost_per_shipment": 44.08
+      "avg_cost_per_shipment": 43.88
     },
     {
       "carrier": "FEDEX",
-      "total_paid": 4852.08,
-      "shipment_count": 202,
-      "pct_of_shipments": 1.6,
-      "avg_cost_per_shipment": 24.02
+      "total_paid": 5043.43,
+      "shipment_count": 214,
+      "pct_of_shipments": 1.7,
+      "avg_cost_per_shipment": 23.57
     }
   ],
   "weekly_cost_per_lb": {
@@ -63,7 +63,61 @@
         43.72,
         38.39,
         14.62,
-        22.12
+        21.39
+      ]
+    },
+    "USPS": {
+      "weeks": [
+        "2026-W02",
+        "2026-W03",
+        "2026-W04",
+        "2026-W05",
+        "2026-W07",
+        "2026-W08",
+        "2026-W09",
+        "2026-W10",
+        "2026-W11",
+        "2026-W13",
+        "2026-W14",
+        "2026-W15",
+        "2026-W16",
+        "2026-W17",
+        "2026-W18",
+        "2026-W19",
+        "2026-W20",
+        "2026-W21",
+        "2026-W22",
+        "2026-W23",
+        "2026-W24",
+        "2026-W25",
+        "2026-W26",
+        "2026-W27"
+      ],
+      "values": [
+        34.67,
+        26.3,
+        61.59,
+        91.61,
+        49.15,
+        83.22,
+        61.29,
+        28.54,
+        45.36,
+        44.25,
+        42.79,
+        56.38,
+        43.62,
+        43.48,
+        39.15,
+        47.48,
+        37.66,
+        40.07,
+        37.85,
+        41.14,
+        32.24,
+        30.52,
+        92.34,
+        22.43
       ]
     },
     "UPS": {
@@ -122,60 +176,6 @@
         30.99,
         134.71,
         25.82
-      ]
-    },
-    "USPS": {
-      "weeks": [
-        "2026-W02",
-        "2026-W03",
-        "2026-W04",
-        "2026-W05",
-        "2026-W07",
-        "2026-W08",
-        "2026-W09",
-        "2026-W10",
-        "2026-W11",
-        "2026-W13",
-        "2026-W14",
-        "2026-W15",
-        "2026-W16",
-        "2026-W17",
-        "2026-W18",
-        "2026-W19",
-        "2026-W20",
-        "2026-W21",
-        "2026-W22",
-        "2026-W23",
-        "2026-W24",
-        "2026-W25",
-        "2026-W26",
-        "2026-W27"
-      ],
-      "values": [
-        34.67,
-        26.3,
-        61.59,
-        91.61,
-        49.15,
-        83.22,
-        61.29,
-        28.54,
-        45.36,
-        44.25,
-        42.79,
-        56.38,
-        43.62,
-        43.48,
-        39.15,
-        47.48,
-        37.66,
-        40.07,
-        37.85,
-        41.14,
-        32.24,
-        30.52,
-        92.34,
-        24.59
       ]
     }
   }
