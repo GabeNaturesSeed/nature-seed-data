@@ -1,29 +1,29 @@
 {
-  "as_of": "2026-07-04",
+  "as_of": "2026-07-05",
   "orders_by_state": [
     {
       "state": "CA",
       "state_name": "California",
-      "orders": 1185,
-      "revenue": 174866.43
+      "orders": 1186,
+      "revenue": 174890.45
     },
     {
       "state": "TX",
       "state_name": "Texas",
-      "orders": 715,
-      "revenue": 126788.06
+      "orders": 717,
+      "revenue": 126965.54
     },
     {
       "state": "FL",
       "state_name": "Florida",
-      "orders": 566,
-      "revenue": 49757.41
+      "orders": 568,
+      "revenue": 49821.38
     },
     {
       "state": "CO",
       "state_name": "Colorado",
-      "orders": 549,
-      "revenue": 78363.21
+      "orders": 552,
+      "revenue": 78541.22
     },
     {
       "state": "WA",
@@ -64,14 +64,20 @@
     {
       "state": "UT",
       "state_name": "Utah",
-      "orders": 311,
-      "revenue": 44100.53
+      "orders": 312,
+      "revenue": 44186.47
     },
     {
       "state": "MA",
       "state_name": "Massachusetts",
-      "orders": 273,
-      "revenue": 34531.76
+      "orders": 274,
+      "revenue": 34596.54
+    },
+    {
+      "state": "WI",
+      "state_name": "Wisconsin",
+      "orders": 268,
+      "revenue": 32179.68
     },
     {
       "state": "VA",
@@ -80,22 +86,16 @@
       "revenue": 42865.28
     },
     {
-      "state": "WI",
-      "state_name": "Wisconsin",
-      "orders": 267,
-      "revenue": 32029.69
-    },
-    {
       "state": "OH",
       "state_name": "Ohio",
-      "orders": 259,
-      "revenue": 33215.4
+      "orders": 260,
+      "revenue": 33284.56
     },
     {
       "state": "OR",
       "state_name": "Oregon",
-      "orders": 226,
-      "revenue": 23989.66
+      "orders": 227,
+      "revenue": 24034.65
     },
     {
       "state": "MN",
@@ -112,20 +112,20 @@
     {
       "state": "MO",
       "state_name": "Missouri",
-      "orders": 214,
-      "revenue": 24324.58
+      "orders": 215,
+      "revenue": 24387.57
+    },
+    {
+      "state": "AZ",
+      "state_name": "Arizona",
+      "orders": 209,
+      "revenue": 28604.3
     },
     {
       "state": "TN",
       "state_name": "Tennessee",
       "orders": 208,
       "revenue": 30545.84
-    },
-    {
-      "state": "AZ",
-      "state_name": "Arizona",
-      "orders": 208,
-      "revenue": 28209.03
     },
     {
       "state": "IN",
@@ -136,8 +136,8 @@
     {
       "state": "ID",
       "state_name": "Idaho",
-      "orders": 177,
-      "revenue": 23663.72
+      "orders": 178,
+      "revenue": 23704.73
     },
     {
       "state": "NJ",
@@ -154,14 +154,14 @@
     {
       "state": "MT",
       "state_name": "Montana",
-      "orders": 154,
-      "revenue": 31728.51
+      "orders": 155,
+      "revenue": 31763.48
     },
     {
       "state": "NM",
       "state_name": "New Mexico",
-      "orders": 151,
-      "revenue": 27267.16
+      "orders": 153,
+      "revenue": 27725.46
     },
     {
       "state": "IA",
@@ -194,16 +194,16 @@
       "revenue": 18612.54
     },
     {
+      "state": "NH",
+      "state_name": "New Hampshire",
+      "orders": 107,
+      "revenue": 12820.74
+    },
+    {
       "state": "NV",
       "state_name": "Nevada",
       "orders": 106,
       "revenue": 23557.23
-    },
-    {
-      "state": "NH",
-      "state_name": "New Hampshire",
-      "orders": 106,
-      "revenue": 12780.75
     },
     {
       "state": "AR",
@@ -214,8 +214,8 @@
     {
       "state": "NE",
       "state_name": "Nebraska",
-      "orders": 88,
-      "revenue": 11792.52
+      "orders": 89,
+      "revenue": 11827.18
     },
     {
       "state": "WY",
@@ -232,8 +232,8 @@
     {
       "state": "AL",
       "state_name": "Alabama",
-      "orders": 79,
-      "revenue": 21401.49
+      "orders": 80,
+      "revenue": 21461.48
     },
     {
       "state": "ME",
@@ -312,8 +312,8 @@
     {
       "hour": 0,
       "label": "12 AM",
-      "orders": 57,
-      "revenue": 7750.21
+      "orders": 58,
+      "revenue": 7836.15
     },
     {
       "hour": 1,
@@ -330,8 +330,8 @@
     {
       "hour": 3,
       "label": "3 AM",
-      "orders": 43,
-      "revenue": 6227.67
+      "orders": 45,
+      "revenue": 6285.65
     },
     {
       "hour": 4,
@@ -348,14 +348,14 @@
     {
       "hour": 6,
       "label": "6 AM",
-      "orders": 388,
-      "revenue": 63055.01
+      "orders": 389,
+      "revenue": 63079.03
     },
     {
       "hour": 7,
       "label": "7 AM",
-      "orders": 556,
-      "revenue": 83484.6
+      "orders": 557,
+      "revenue": 83519.26
     },
     {
       "hour": 8,
@@ -366,38 +366,38 @@
     {
       "hour": 9,
       "label": "9 AM",
-      "orders": 781,
-      "revenue": 111629.89
+      "orders": 786,
+      "revenue": 112329.92
     },
     {
       "hour": 10,
       "label": "10 AM",
-      "orders": 812,
-      "revenue": 120530.63
+      "orders": 813,
+      "revenue": 120603.94
     },
     {
       "hour": 11,
       "label": "11 AM",
-      "orders": 792,
-      "revenue": 122549.65
+      "orders": 793,
+      "revenue": 122592.69
     },
     {
       "hour": 12,
       "label": "12 PM",
-      "orders": 751,
-      "revenue": 111027.26
+      "orders": 753,
+      "revenue": 111125.23
     },
     {
       "hour": 13,
       "label": "1 PM",
-      "orders": 778,
-      "revenue": 119505.11
+      "orders": 779,
+      "revenue": 119540.08
     },
     {
       "hour": 14,
       "label": "2 PM",
-      "orders": 722,
-      "revenue": 97646.98
+      "orders": 723,
+      "revenue": 97709.97
     },
     {
       "hour": 15,
@@ -408,26 +408,26 @@
     {
       "hour": 16,
       "label": "4 PM",
-      "orders": 598,
-      "revenue": 78899.8
+      "orders": 600,
+      "revenue": 78997.5
     },
     {
       "hour": 17,
       "label": "5 PM",
-      "orders": 581,
-      "revenue": 72850.14
+      "orders": 582,
+      "revenue": 72998.63
     },
     {
       "hour": 18,
       "label": "6 PM",
-      "orders": 536,
-      "revenue": 71562.38
+      "orders": 538,
+      "revenue": 72017.64
     },
     {
       "hour": 19,
       "label": "7 PM",
-      "orders": 522,
-      "revenue": 80024.36
+      "orders": 523,
+      "revenue": 80093.52
     },
     {
       "hour": 20,
@@ -458,26 +458,26 @@
     "by_source_type": [
       {
         "source": "utm",
-        "orders": 6039,
-        "revenue": 794471.63,
-        "pct": 56.6
+        "orders": 6050,
+        "revenue": 795375.11,
+        "pct": 56.5
       },
       {
         "source": "typein",
-        "orders": 2596,
-        "revenue": 436238.16,
+        "orders": 2601,
+        "revenue": 436937.73,
         "pct": 24.3
       },
       {
         "source": "organic",
-        "orders": 1250,
-        "revenue": 161432.65,
+        "orders": 1255,
+        "revenue": 161762.41,
         "pct": 11.7
       },
       {
         "source": "referral",
-        "orders": 740,
-        "revenue": 111405.03,
+        "orders": 741,
+        "revenue": 111457.74,
         "pct": 6.9
       },
       {
@@ -496,14 +496,14 @@
     "by_utm_source": [
       {
         "source": "google",
-        "orders": 6657,
-        "revenue": 867468.83,
+        "orders": 6669,
+        "revenue": 868472.82,
         "pct": 62.3
       },
       {
         "source": "(direct)",
-        "orders": 2596,
-        "revenue": 436238.16,
+        "orders": 2601,
+        "revenue": 436937.73,
         "pct": 24.3
       },
       {
@@ -525,15 +525,15 @@
         "pct": 1.5
       },
       {
-        "source": "bing.com",
-        "orders": 132,
-        "revenue": 21896.97,
+        "source": "klaviyo",
+        "orders": 133,
+        "revenue": 23510.48,
         "pct": 1.2
       },
       {
-        "source": "klaviyo",
-        "orders": 129,
-        "revenue": 23281.23,
+        "source": "bing.com",
+        "orders": 132,
+        "revenue": 21896.97,
         "pct": 1.2
       },
       {
@@ -759,6 +759,12 @@
         "pct": 0.0
       },
       {
+        "source": "app.raindrop.io",
+        "orders": 1,
+        "revenue": 52.71,
+        "pct": 0.0
+      },
+      {
         "source": "com.enflick.android.textnow",
         "orders": 1,
         "revenue": 63.74,
@@ -859,7 +865,7 @@
   "sessions_before_buying": [
     {
       "bucket": "1",
-      "orders": 9273,
+      "orders": 9295,
       "pct": 87.2
     },
     {
@@ -929,13 +935,13 @@
       },
       {
         "month": "2026-07",
-        "new": 83,
+        "new": 105,
         "returning": 1,
-        "new_revenue": 13530.73,
+        "new_revenue": 15516.25,
         "returning_revenue": 284.84
       }
     ],
-    "ytd_new": 10474,
+    "ytd_new": 10496,
     "ytd_returning": 204,
     "ytd_new_pct": 98.1
   },
@@ -1050,7 +1056,7 @@
     },
     {
       "cohort": "2026-07",
-      "total": 4,
+      "total": 7,
       "reordered": 0,
       "reorder_rate": 0.0
     }
