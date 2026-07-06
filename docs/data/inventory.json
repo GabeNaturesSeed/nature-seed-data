@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-07-05",
+  "as_of": "2026-07-06",
   "items": [
     {
       "sku": "2750AL-A",
@@ -830,11 +830,11 @@
       "sku": "SUSTANE-18-1-8+FE",
       "name": "Organic Maintenance Fertilizer 18-1-8+fe",
       "qty": 31.0,
-      "daily_velocity": 0.1,
-      "days_remaining": 310,
+      "daily_velocity": 0.2,
+      "days_remaining": 155,
       "q1_need": 0.0,
-      "q2_need": 10.9,
-      "surplus_gap": 20.1,
+      "q2_need": 21.8,
+      "surplus_gap": 9.2,
       "status": "ok"
     },
     {
@@ -1888,11 +1888,11 @@
   },
   "fba_velocity": {},
   "order_tracking": {
-    "total_30d": 936,
-    "fulfilled": 847,
+    "total_30d": 943,
+    "fulfilled": 812,
     "backorders": 0,
-    "unfulfilled_lt_1d": 50,
-    "unfulfilled_lt_5d": 36,
+    "unfulfilled_lt_1d": 55,
+    "unfulfilled_lt_5d": 73,
     "unfulfilled_5_to_10d": 3,
     "unfulfilled_gt_10d": 0
   }
