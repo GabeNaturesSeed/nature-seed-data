@@ -469,7 +469,7 @@ def pull_amazon(report_date):
         "cogs": {
             "report_date": str(report_date),
             "channel": "amazon",
-            "total_cogs": 0,
+            "total_cogs": round(revenue * 0.7358, 2),  # all-in Amazon cost = fees+COGS+refunds, blended 73.58% ratio (Sellerboard H1 2026). NOT SKU-matched — units stay "unmatched" by design.
             "matched_units": 0,
             "unmatched_units": units,
         },
