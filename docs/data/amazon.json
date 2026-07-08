@@ -1,11 +1,162 @@
 {
-  "as_of": "2026-07-07",
+  "as_of": "2026-07-08",
   "last_30d": {
-    "revenue": 0,
-    "orders": 0,
-    "aov": 0
+    "revenue": 6210.21,
+    "orders": 160,
+    "aov": 38.81
   },
-  "daily": [],
+  "daily": [
+    {
+      "date": "2026-06-08",
+      "revenue": 498.33,
+      "orders": 7
+    },
+    {
+      "date": "2026-06-09",
+      "revenue": 938.44,
+      "orders": 10
+    },
+    {
+      "date": "2026-06-10",
+      "revenue": 563.14,
+      "orders": 9
+    },
+    {
+      "date": "2026-06-11",
+      "revenue": 390.91,
+      "orders": 7
+    },
+    {
+      "date": "2026-06-12",
+      "revenue": 401.56,
+      "orders": 5
+    },
+    {
+      "date": "2026-06-13",
+      "revenue": 77.78,
+      "orders": 2
+    },
+    {
+      "date": "2026-06-14",
+      "revenue": 80.37,
+      "orders": 2
+    },
+    {
+      "date": "2026-06-15",
+      "revenue": 122.49,
+      "orders": 4
+    },
+    {
+      "date": "2026-06-16",
+      "revenue": 0.0,
+      "orders": 0
+    },
+    {
+      "date": "2026-06-17",
+      "revenue": 195.45,
+      "orders": 4
+    },
+    {
+      "date": "2026-06-18",
+      "revenue": 0.0,
+      "orders": 0
+    },
+    {
+      "date": "2026-06-19",
+      "revenue": 42.99,
+      "orders": 2
+    },
+    {
+      "date": "2026-06-20",
+      "revenue": 39.99,
+      "orders": 1
+    },
+    {
+      "date": "2026-06-21",
+      "revenue": 0.0,
+      "orders": 0
+    },
+    {
+      "date": "2026-06-22",
+      "revenue": 209.99,
+      "orders": 2
+    },
+    {
+      "date": "2026-06-23",
+      "revenue": 218.59,
+      "orders": 1
+    },
+    {
+      "date": "2026-06-24",
+      "revenue": 255.33,
+      "orders": 3
+    },
+    {
+      "date": "2026-06-25",
+      "revenue": 353.1,
+      "orders": 3
+    },
+    {
+      "date": "2026-06-26",
+      "revenue": 255.55,
+      "orders": 9
+    },
+    {
+      "date": "2026-06-27",
+      "revenue": 69.98,
+      "orders": 8
+    },
+    {
+      "date": "2026-06-28",
+      "revenue": 503.14,
+      "orders": 10
+    },
+    {
+      "date": "2026-06-29",
+      "revenue": 32.58,
+      "orders": 11
+    },
+    {
+      "date": "2026-06-30",
+      "revenue": 112.85,
+      "orders": 4
+    },
+    {
+      "date": "2026-07-01",
+      "revenue": 228.03,
+      "orders": 3
+    },
+    {
+      "date": "2026-07-02",
+      "revenue": 312.59,
+      "orders": 9
+    },
+    {
+      "date": "2026-07-03",
+      "revenue": 11.23,
+      "orders": 8
+    },
+    {
+      "date": "2026-07-04",
+      "revenue": 70.84,
+      "orders": 10
+    },
+    {
+      "date": "2026-07-05",
+      "revenue": 111.3,
+      "orders": 11
+    },
+    {
+      "date": "2026-07-06",
+      "revenue": 113.66,
+      "orders": 8
+    },
+    {
+      "date": "2026-07-07",
+      "revenue": 0.0,
+      "orders": 7
+    }
+  ],
   "account_health": {
     "defect_rate": 0,
     "cancellation_rate": 0,
@@ -14,7 +165,5 @@
   },
   "active_count": null,
   "top_products": [],
-  "issues": [
-    "No Amazon data in Supabase"
-  ]
+  "issues": []
 }
