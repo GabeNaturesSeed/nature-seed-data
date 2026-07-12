@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-07-11",
+  "as_of": "2026-07-12",
   "items": [
     {
       "sku": "2750AL-A",
@@ -841,12 +841,12 @@
       "sku": "SUSTANE-4-6-4",
       "name": "Organic Seed Starter Fertilizer 4-6-4",
       "qty": 14.0,
-      "daily_velocity": 0.4,
-      "days_remaining": 35,
+      "daily_velocity": 0.5,
+      "days_remaining": 28,
       "q1_need": 0.0,
-      "q2_need": 43.7,
-      "surplus_gap": -29.7,
-      "status": "yellow"
+      "q2_need": 54.6,
+      "surplus_gap": -40.6,
+      "status": "red"
     },
     {
       "sku": "test",
@@ -1503,11 +1503,11 @@
       "sku": "PB-HONEY-5-LB",
       "name": "Honey Bee Pasture Mix",
       "qty": 14.0,
-      "daily_velocity": 0.16,
-      "days_remaining": 87,
+      "daily_velocity": 0.15,
+      "days_remaining": 93,
       "q1_need": 0.0,
-      "q2_need": 17.5,
-      "surplus_gap": -3.5,
+      "q2_need": 16.4,
+      "surplus_gap": -2.4,
       "status": "ok"
     },
     {
@@ -1525,11 +1525,11 @@
       "sku": "PB-HRSE-SO-10-LB",
       "name": "Southern Horse Forage Mix",
       "qty": 23.0,
-      "daily_velocity": 0.26,
-      "days_remaining": 88,
+      "daily_velocity": 0.25,
+      "days_remaining": 92,
       "q1_need": 0.0,
-      "q2_need": 28.4,
-      "surplus_gap": -5.4,
+      "q2_need": 27.3,
+      "surplus_gap": -4.3,
       "status": "ok"
     },
     {
@@ -1569,11 +1569,11 @@
       "sku": "PG-BUCK-5-LB",
       "name": "Buckwheat",
       "qty": 25.0,
-      "daily_velocity": 0.28,
-      "days_remaining": 89,
+      "daily_velocity": 0.27,
+      "days_remaining": 92,
       "q1_need": 0.0,
-      "q2_need": 30.6,
-      "surplus_gap": -5.6,
+      "q2_need": 29.5,
+      "surplus_gap": -4.5,
       "status": "ok"
     },
     {
@@ -1602,11 +1602,11 @@
       "sku": "PG-MESA-5-LB",
       "name": "Alfalfa",
       "qty": 32.0,
-      "daily_velocity": 0.36,
-      "days_remaining": 88,
+      "daily_velocity": 0.35,
+      "days_remaining": 91,
       "q1_need": 0.0,
-      "q2_need": 39.3,
-      "surplus_gap": -7.3,
+      "q2_need": 38.2,
+      "surplus_gap": -6.2,
       "status": "ok"
     },
     {
@@ -1646,11 +1646,11 @@
       "sku": "S-DUTCH-5-LB",
       "name": "White Dutch Clover Seeds - 5 lbs",
       "qty": 66.0,
-      "daily_velocity": 0.73,
-      "days_remaining": 90,
+      "daily_velocity": 0.72,
+      "days_remaining": 91,
       "q1_need": 0.0,
-      "q2_need": 79.7,
-      "surplus_gap": -13.7,
+      "q2_need": 78.6,
+      "surplus_gap": -12.6,
       "status": "ok"
     },
     {
@@ -1679,11 +1679,11 @@
       "sku": "S-MICRO-1-LB",
       "name": "Microclover",
       "qty": 89.0,
-      "daily_velocity": 0.99,
-      "days_remaining": 89,
+      "daily_velocity": 0.98,
+      "days_remaining": 90,
       "q1_need": 0.0,
-      "q2_need": 108.1,
-      "surplus_gap": -19.1,
+      "q2_need": 107.0,
+      "surplus_gap": -18.0,
       "status": "ok"
     },
     {
@@ -1712,22 +1712,22 @@
       "sku": "TURF-BERM-5-LB",
       "name": "Bermuda grass Turf Blend",
       "qty": 36.0,
-      "daily_velocity": 0.4,
-      "days_remaining": 90,
+      "daily_velocity": 0.39,
+      "days_remaining": 92,
       "q1_need": 0.0,
-      "q2_need": 43.7,
-      "surplus_gap": -7.7,
+      "q2_need": 42.6,
+      "surplus_gap": -6.6,
       "status": "ok"
     },
     {
       "sku": "TURF-FINE-5-LB",
       "name": "Fine Fescue Turf Mix",
       "qty": 5.0,
-      "daily_velocity": 0.06,
-      "days_remaining": 83,
+      "daily_velocity": 0.05,
+      "days_remaining": 100,
       "q1_need": 0.0,
-      "q2_need": 6.6,
-      "surplus_gap": -1.6,
+      "q2_need": 5.5,
+      "surplus_gap": -0.5,
       "status": "ok"
     },
     {
@@ -1887,8 +1887,8 @@
   ],
   "summary": {
     "total_skus": 128,
-    "red_count": 0,
-    "yellow_count": 1,
+    "red_count": 1,
+    "yellow_count": 0,
     "green_count": 2
   },
   "fba_summary": {
@@ -1898,17 +1898,17 @@
     "green_count": 43
   },
   "fba_velocity": {
-    "daily_orders": 7.6,
-    "daily_revenue": 140.22,
+    "daily_orders": 7.5,
+    "daily_revenue": 140.93,
     "period_days": 14
   },
   "order_tracking": {
-    "total_30d": 912,
-    "fulfilled": 851,
+    "total_30d": 907,
+    "fulfilled": 817,
     "backorders": 0,
-    "unfulfilled_lt_1d": 44,
-    "unfulfilled_lt_5d": 7,
-    "unfulfilled_5_to_10d": 10,
-    "unfulfilled_gt_10d": 0
+    "unfulfilled_lt_1d": 48,
+    "unfulfilled_lt_5d": 30,
+    "unfulfilled_5_to_10d": 11,
+    "unfulfilled_gt_10d": 1
   }
 }
