@@ -1,35 +1,35 @@
 {
-  "as_of": "2026-07-14",
+  "as_of": "2026-07-15",
   "mtd": {
     "shipping_collected": 240.0,
-    "shipping_paid": 8294.15,
-    "shipping_net": -8054.15,
-    "shipment_count": 467,
-    "avg_cost_per_order": 17.76,
-    "wc_order_count": 374
+    "shipping_paid": 8600.8,
+    "shipping_net": -8360.8,
+    "shipment_count": 485,
+    "avg_cost_per_order": 17.73,
+    "wc_order_count": 410
   },
   "ytd": {
     "shipping_collected": 22804.0,
-    "shipping_paid": 112337.15,
-    "shipping_net": -89533.15,
-    "shipment_count": 13108,
-    "avg_cost_per_order": 8.57,
-    "wc_order_count": 374
+    "shipping_paid": 112643.8,
+    "shipping_net": -89839.8,
+    "shipment_count": 13126,
+    "avg_cost_per_order": 8.58,
+    "wc_order_count": 410
   },
   "carriers": [
     {
       "carrier": "UPS",
-      "total_paid": 611635.6,
-      "shipment_count": 12355,
-      "pct_of_shipments": 94.3,
-      "avg_cost_per_shipment": 49.51
+      "total_paid": 611654.8,
+      "shipment_count": 12356,
+      "pct_of_shipments": 94.2,
+      "avg_cost_per_shipment": 49.5
     },
     {
       "carrier": "FEDEX",
-      "total_paid": 12716.09,
-      "shipment_count": 599,
-      "pct_of_shipments": 4.6,
-      "avg_cost_per_shipment": 21.23
+      "total_paid": 13042.54,
+      "shipment_count": 616,
+      "pct_of_shipments": 4.7,
+      "avg_cost_per_shipment": 21.17
     },
     {
       "carrier": "USPS",
@@ -40,36 +40,6 @@
     }
   ],
   "weekly_cost_per_lb": {
-    "FEDEX": {
-      "weeks": [
-        "2026-W07",
-        "2026-W09",
-        "2026-W11",
-        "2026-W12",
-        "2026-W13",
-        "2026-W17",
-        "2026-W19",
-        "2026-W22",
-        "2026-W26",
-        "2026-W27",
-        "2026-W28",
-        "2026-W29"
-      ],
-      "values": [
-        64.93,
-        60.68,
-        51.96,
-        46.53,
-        44.85,
-        41.23,
-        43.72,
-        38.39,
-        14.62,
-        21.39,
-        20.53,
-        18.52
-      ]
-    },
     "UPS": {
       "weeks": [
         "2026-W02",
@@ -98,7 +68,8 @@
         "2026-W25",
         "2026-W26",
         "2026-W27",
-        "2026-W28"
+        "2026-W28",
+        "2026-W29"
       ],
       "values": [
         36.07,
@@ -127,7 +98,38 @@
         30.99,
         134.71,
         25.82,
-        25.46
+        25.46,
+        19.2
+      ]
+    },
+    "FEDEX": {
+      "weeks": [
+        "2026-W07",
+        "2026-W09",
+        "2026-W11",
+        "2026-W12",
+        "2026-W13",
+        "2026-W17",
+        "2026-W19",
+        "2026-W22",
+        "2026-W26",
+        "2026-W27",
+        "2026-W28",
+        "2026-W29"
+      ],
+      "values": [
+        64.93,
+        60.68,
+        51.96,
+        46.53,
+        44.85,
+        41.23,
+        43.72,
+        38.39,
+        14.62,
+        21.39,
+        20.53,
+        18.61
       ]
     },
     "USPS": {
