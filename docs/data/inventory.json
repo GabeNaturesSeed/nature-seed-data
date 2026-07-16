@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-07-15",
+  "as_of": "2026-07-16",
   "items": [
     {
       "sku": "2750AL-A",
@@ -708,12 +708,12 @@
     {
       "sku": "PG-TRRE-5-LB",
       "name": "White Clover (Pasture Type)",
-      "qty": 87.0,
+      "qty": 88.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 87.0,
+      "surplus_gap": 88.0,
       "status": "ok"
     },
     {
@@ -763,12 +763,12 @@
     {
       "sku": "S-FEOV-5-LB",
       "name": "Sheep Fescue",
-      "qty": 188.0,
+      "qty": 189.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 188.0,
+      "surplus_gap": 189.0,
       "status": "ok"
     },
     {
@@ -841,11 +841,11 @@
       "sku": "SUSTANE-4-6-4",
       "name": "Organic Seed Starter Fertilizer 4-6-4",
       "qty": 8.0,
-      "daily_velocity": 0.6,
-      "days_remaining": 13,
+      "daily_velocity": 0.8,
+      "days_remaining": 10,
       "q1_need": 0.0,
-      "q2_need": 65.5,
-      "surplus_gap": -57.5,
+      "q2_need": 87.4,
+      "surplus_gap": -79.4,
       "status": "red"
     },
     {
@@ -884,12 +884,12 @@
     {
       "sku": "TURF-CLV-5-LB",
       "name": "Lawn Alternative clover mix",
-      "qty": 442.0,
+      "qty": 443.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 442.0,
+      "surplus_gap": 443.0,
       "status": "ok"
     },
     {
@@ -1302,12 +1302,12 @@
     {
       "sku": "WB-DR-0.5-LB",
       "name": "Deer Resistant Wildflower Blend",
-      "qty": 40.0,
+      "qty": 41.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 40.0,
+      "surplus_gap": 41.0,
       "status": "ok"
     },
     {
@@ -1899,14 +1899,14 @@
   },
   "fba_velocity": {
     "daily_orders": 6.9,
-    "daily_revenue": 135.77,
+    "daily_revenue": 122.34,
     "period_days": 14
   },
   "order_tracking": {
-    "total_30d": 915,
-    "fulfilled": 881,
+    "total_30d": 913,
+    "fulfilled": 843,
     "backorders": 0,
-    "unfulfilled_lt_1d": 30,
+    "unfulfilled_lt_1d": 66,
     "unfulfilled_lt_5d": 0,
     "unfulfilled_5_to_10d": 3,
     "unfulfilled_gt_10d": 1
