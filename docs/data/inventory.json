@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-07-16",
+  "as_of": "2026-07-17",
   "items": [
     {
       "sku": "2750AL-A",
@@ -796,23 +796,23 @@
     {
       "sku": "S-RICE-45-LB",
       "name": "Rice Hulls",
-      "qty": 1.0,
+      "qty": 49.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 1.0,
+      "surplus_gap": 49.0,
       "status": "ok"
     },
     {
       "sku": "S-RICE-5-LB",
       "name": "Rice Hulls - 5lbs",
-      "qty": 56.0,
+      "qty": 456.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 56.0,
+      "surplus_gap": 456.0,
       "status": "ok"
     },
     {
@@ -840,13 +840,13 @@
     {
       "sku": "SUSTANE-4-6-4",
       "name": "Organic Seed Starter Fertilizer 4-6-4",
-      "qty": 8.0,
-      "daily_velocity": 0.8,
-      "days_remaining": 10,
+      "qty": 38.0,
+      "daily_velocity": 0.9,
+      "days_remaining": 42,
       "q1_need": 0.0,
-      "q2_need": 87.4,
-      "surplus_gap": -79.4,
-      "status": "red"
+      "q2_need": 98.3,
+      "surplus_gap": -60.3,
+      "status": "yellow"
     },
     {
       "sku": "test",
@@ -1280,12 +1280,12 @@
     {
       "sku": "WB-CALN-0.5-LB",
       "name": "California Native Wildflower Mix",
-      "qty": 171.0,
+      "qty": 169.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 171.0,
+      "surplus_gap": 169.0,
       "status": "ok"
     },
     {
@@ -1887,8 +1887,8 @@
   ],
   "summary": {
     "total_skus": 128,
-    "red_count": 1,
-    "yellow_count": 0,
+    "red_count": 0,
+    "yellow_count": 1,
     "green_count": 1
   },
   "fba_summary": {
@@ -1899,15 +1899,15 @@
   },
   "fba_velocity": {
     "daily_orders": 6.9,
-    "daily_revenue": 122.34,
+    "daily_revenue": 111.13,
     "period_days": 14
   },
   "order_tracking": {
-    "total_30d": 913,
-    "fulfilled": 843,
+    "total_30d": 898,
+    "fulfilled": 805,
     "backorders": 0,
-    "unfulfilled_lt_1d": 66,
-    "unfulfilled_lt_5d": 0,
+    "unfulfilled_lt_1d": 50,
+    "unfulfilled_lt_5d": 39,
     "unfulfilled_5_to_10d": 3,
     "unfulfilled_gt_10d": 1
   }
