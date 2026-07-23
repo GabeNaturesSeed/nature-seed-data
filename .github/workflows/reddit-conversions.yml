@@ -1,0 +1,67 @@
+name: Reddit Conversions (CAPI)
+
+# Sends recent WooCommerce purchases to the Reddit Conversions API (server-side
+# companion to the browser Reddit pixel). Sender: marketing/reddit-ads/send_reddit_conversions.py
+#
+# ENABLE: add two Repository secrets (Settings > Secrets and variables >
+# Actions > Repository secrets, NOT Environment secrets):
+#   - REDDIT_EVENTS_TOKEN   (Conversions API access token)
+#   - REDDIT_PIXEL_ID       (a2_ix4acqaqmq42)
+# The WC + CF Worker secrets already exist (reddit-catalog.yml uses them).
+# Add the secrets BEFORE this merges to main, or scheduled runs will error.
+#
+# Browser-pixel dedup is DONE and verified 2026-07-23: the GTM Reddit Purchase
+# tag conversion_id now equals the WC order id (eventModel.transaction_id),
+# matching what this sender posts, so Reddit collapses browser + server to one.
+#
+# Cadence: every 2h with a 3h lookback. Overlap is safe: Reddit dedupes on
+# event_metadata.conversion_id (= WC order id).
+
+on:
+  schedule:
+    - cron: '0 */2 * * *'   # every 2 hours, on the hour (UTC)
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'test (validate only) or live (process events)'
+        default: 'test'
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  send-conversions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r marketing/reddit-ads/requirements.txt
+
+      - name: Create .env from secrets
+        run: |
+          cat > .env << 'ENVEOF'
+          CF_WORKER_URL=${{ secrets.CF_WORKER_URL }}
+          CF_WORKER_SECRET=${{ secrets.CF_WORKER_SECRET }}
+          WP_WOO_CONSUMER_KEY=${{ secrets.WP_WOO_CONSUMER_KEY }}
+          WP_WOO_CONSUMER_SECRET=${{ secrets.WP_WOO_CONSUMER_SECRET }}
+          REDDIT_EVENTS_TOKEN=${{ secrets.REDDIT_EVENTS_TOKEN }}
+          REDDIT_PIXEL_ID=${{ secrets.REDDIT_PIXEL_ID }}
+          ENVEOF
+
+      - name: Send conversions
+        run: |
+          # Scheduled runs are always live. Manual runs honor the mode input
+          # (defaults to test so a manual trigger never processes by accident).
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event.inputs.mode }}" = "live" ]; then
+            python marketing/reddit-ads/send_reddit_conversions.py --hours 3 --live
+          else
+            python marketing/reddit-ads/send_reddit_conversions.py --hours 3
+          fi
