@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-27T10:59:50.066150",
+  "generated": "2026-07-28T10:20:32.867472",
   "seasons": {
     "spring_2026": {
       "label": "Spring 2026",
@@ -1601,8 +1601,8 @@
           "name": "Dryland Pasture Mix",
           "product_id": 458472,
           "revenue": 7722.46,
-          "margin": 4540.06,
-          "margin_pct": 58.8,
+          "margin": 4172.86,
+          "margin_pct": 54.0,
           "units": 55,
           "orders": 39,
           "avg_basket": 240.09,
@@ -1614,14 +1614,14 @@
           "cancellation_rate": 0.025,
           "variants": [
             {
-              "sku": "PB-DRY-20-LB-KIT",
+              "sku": "PB-DRY-50-LB-KIT",
               "name": "Dryland Pasture Mix - 50 Lbs - 25,000 Sq Ft",
               "revenue": 5417.75,
               "units": 25,
               "orders": 13
             },
             {
-              "sku": "PB-DRY-50-LB-KIT",
+              "sku": "PB-DRY-20-LB-KIT",
               "name": "Dryland Pasture Mix - 20 Lbs - 10,000 Sq Ft",
               "revenue": 1743.82,
               "units": 19,
@@ -1635,7 +1635,7 @@
               "orders": 11
             }
           ],
-          "composite_score": 60.96,
+          "composite_score": 60.71,
           "class": "A",
           "reason": "Top performer \u2014 $88/day is 2.4x the median velocity \u2014 accelerating sales trend."
         },
@@ -1786,7 +1786,7 @@
               "orders": 4
             }
           ],
-          "composite_score": 60.01,
+          "composite_score": 60.13,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 85% margin \u2014 declining velocity."
         },
@@ -2001,7 +2001,7 @@
               "orders": 28
             }
           ],
-          "composite_score": 58.9,
+          "composite_score": 59.02,
           "class": "B",
           "reason": "Mid-tier SKU \u2014 above-median 88% margin \u2014 positive trend."
         },
