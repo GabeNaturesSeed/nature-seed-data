@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-31",
-  "as_of": "2026-07-30",
+  "generated_at": "2026-08-01",
+  "as_of": "2026-07-31",
   "annual_budget": 391315,
   "spent_jan_apr": 254363,
   "remaining": 136952,
@@ -35,26 +35,26 @@
     },
     {
       "month": "2026-07",
-      "status": "mtd",
-      "days_with_data": 60,
+      "status": "complete",
+      "days_with_data": 62,
       "budget_ad": 5000,
       "budget_rev": 36676,
       "budget_ebitda": -57522,
-      "ad_actual": 24908.52,
-      "rev_actual": 118079.66,
-      "ebitda_actual": -36077.05,
-      "roas_actual": 1.975,
-      "mer_actual": 4.741
+      "ad_actual": 25428.16,
+      "rev_actual": 122450.03,
+      "ebitda_actual": -34376.54,
+      "roas_actual": 1.983,
+      "mer_actual": 4.816
     },
     {
       "month": "2026-08",
-      "status": "future",
+      "status": "mtd",
       "days_with_data": 0,
       "budget_ad": 15000,
       "budget_rev": 112188,
       "budget_ebitda": -32291,
-      "ad_actual": null,
-      "rev_actual": null,
+      "ad_actual": 0.0,
+      "rev_actual": 0.0,
       "ebitda_actual": null,
       "roas_actual": null,
       "mer_actual": null
@@ -112,7 +112,7 @@
       "mer_actual": null
     }
   ],
-  "current_month": "2026-07",
-  "current_roas": 1.975,
-  "current_mer": 4.741
+  "current_month": "2026-08",
+  "current_roas": null,
+  "current_mer": null
 }
