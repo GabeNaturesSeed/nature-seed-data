@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-08-02",
+  "as_of": "2026-08-03",
   "items": [
     {
       "sku": "2750AL-A",
@@ -940,12 +940,12 @@
       "sku": "SUSTANE-4-6-4",
       "name": "Organic Seed Starter Fertilizer 4-6-4",
       "qty": 28.0,
-      "daily_velocity": 0.4,
-      "days_remaining": 70,
+      "daily_velocity": 0.5,
+      "days_remaining": 56,
       "q1_need": 0.0,
-      "q2_need": 43.7,
-      "surplus_gap": -15.7,
-      "status": "ok"
+      "q2_need": 54.6,
+      "surplus_gap": -26.6,
+      "status": "yellow"
     },
     {
       "sku": "test",
@@ -1613,11 +1613,11 @@
       "sku": "CV-CHM-5-LB",
       "name": "California Habitat Mix",
       "qty": 9.0,
-      "daily_velocity": 0.1,
-      "days_remaining": 90,
+      "daily_velocity": 0.11,
+      "days_remaining": 81,
       "q1_need": 0.0,
-      "q2_need": 10.9,
-      "surplus_gap": -1.9,
+      "q2_need": 12.0,
+      "surplus_gap": -3.0,
       "status": "ok"
     },
     {
@@ -1635,44 +1635,44 @@
       "sku": "CV-CNFW-5-LB",
       "name": "California Native Fire-Wise Mix",
       "qty": 9.0,
-      "daily_velocity": 0.1,
-      "days_remaining": 90,
+      "daily_velocity": 0.11,
+      "days_remaining": 81,
       "q1_need": 0.0,
-      "q2_need": 10.9,
-      "surplus_gap": -1.9,
+      "q2_need": 12.0,
+      "surplus_gap": -3.0,
       "status": "ok"
     },
     {
       "sku": "PB-ALPACA-10-LB",
       "name": "Alpaca/Llama Pasture Mix",
       "qty": 3.0,
-      "daily_velocity": 0.03,
-      "days_remaining": 100,
+      "daily_velocity": 0.04,
+      "days_remaining": 75,
       "q1_need": 0.0,
-      "q2_need": 3.3,
-      "surplus_gap": -0.3,
+      "q2_need": 4.4,
+      "surplus_gap": -1.4,
       "status": "ok"
     },
     {
       "sku": "PB-CHIX-5-LB",
       "name": "Chicken Forage Mix",
       "qty": 32.0,
-      "daily_velocity": 0.37,
-      "days_remaining": 86,
+      "daily_velocity": 0.38,
+      "days_remaining": 84,
       "q1_need": 0.0,
-      "q2_need": 40.4,
-      "surplus_gap": -8.4,
+      "q2_need": 41.5,
+      "surplus_gap": -9.5,
       "status": "ok"
     },
     {
       "sku": "PB-COW-SO-10-LB",
       "name": "Southern Dairy Cow & Cattle Forage Mix",
       "qty": 3.0,
-      "daily_velocity": 0.03,
-      "days_remaining": 100,
+      "daily_velocity": 0.04,
+      "days_remaining": 75,
       "q1_need": 0.0,
-      "q2_need": 3.3,
-      "surplus_gap": -0.3,
+      "q2_need": 4.4,
+      "surplus_gap": -1.4,
       "status": "ok"
     },
     {
@@ -1712,11 +1712,11 @@
       "sku": "PB-HRSE-SO-10-LB",
       "name": "Southern Horse Forage Mix",
       "qty": 9.0,
-      "daily_velocity": 0.1,
-      "days_remaining": 90,
+      "daily_velocity": 0.11,
+      "days_remaining": 81,
       "q1_need": 0.0,
-      "q2_need": 10.9,
-      "surplus_gap": -1.9,
+      "q2_need": 12.0,
+      "surplus_gap": -3.0,
       "status": "ok"
     },
     {
@@ -1767,11 +1767,11 @@
       "sku": "PG-MESA-5-LB",
       "name": "Alfalfa",
       "qty": 22.0,
-      "daily_velocity": 0.25,
-      "days_remaining": 88,
+      "daily_velocity": 0.26,
+      "days_remaining": 84,
       "q1_need": 0.0,
-      "q2_need": 27.3,
-      "surplus_gap": -5.3,
+      "q2_need": 28.4,
+      "surplus_gap": -6.4,
       "status": "ok"
     },
     {
@@ -1844,33 +1844,33 @@
       "sku": "S-MICRO-1-LB",
       "name": "Microclover",
       "qty": 89.0,
-      "daily_velocity": 1.03,
-      "days_remaining": 86,
+      "daily_velocity": 1.04,
+      "days_remaining": 85,
       "q1_need": 0.0,
-      "q2_need": 112.5,
-      "surplus_gap": -23.5,
+      "q2_need": 113.6,
+      "surplus_gap": -24.6,
       "status": "ok"
     },
     {
       "sku": "S-RICE-5-LB",
       "name": "Rice Hulls - 5lbs",
       "qty": 174.0,
-      "daily_velocity": 2.02,
-      "days_remaining": 86,
+      "daily_velocity": 2.04,
+      "days_remaining": 85,
       "q1_need": 0.0,
-      "q2_need": 220.6,
-      "surplus_gap": -46.6,
+      "q2_need": 222.8,
+      "surplus_gap": -48.8,
       "status": "ok"
     },
     {
       "sku": "SUSTANE-18-1-8+FE",
       "name": "Organic Maintenance Fertilizer 18-1-8+fe",
       "qty": 3.0,
-      "daily_velocity": 0.03,
-      "days_remaining": 100,
+      "daily_velocity": 0.04,
+      "days_remaining": 75,
       "q1_need": 0.0,
-      "q2_need": 3.3,
-      "surplus_gap": -0.3,
+      "q2_need": 4.4,
+      "surplus_gap": -1.4,
       "status": "ok"
     },
     {
@@ -1899,11 +1899,11 @@
       "sku": "TURF-NFF-5-LB",
       "name": "Native Fine Fescue Mix",
       "qty": 9.0,
-      "daily_velocity": 0.1,
-      "days_remaining": 90,
+      "daily_velocity": 0.11,
+      "days_remaining": 81,
       "q1_need": 0.0,
-      "q2_need": 10.9,
-      "surplus_gap": -1.9,
+      "q2_need": 12.0,
+      "surplus_gap": -3.0,
       "status": "ok"
     },
     {
@@ -1932,22 +1932,22 @@
       "sku": "TURF-WSHD-5-LB",
       "name": "TWCA Water-Wise Shade Mix",
       "qty": 9.0,
-      "daily_velocity": 0.1,
-      "days_remaining": 90,
+      "daily_velocity": 0.11,
+      "days_remaining": 81,
       "q1_need": 0.0,
-      "q2_need": 10.9,
-      "surplus_gap": -1.9,
+      "q2_need": 12.0,
+      "surplus_gap": -3.0,
       "status": "ok"
     },
     {
       "sku": "W-ENFA-0.25-LB",
       "name": "Brittlebush",
       "qty": 22.0,
-      "daily_velocity": 0.25,
-      "days_remaining": 88,
+      "daily_velocity": 0.26,
+      "days_remaining": 84,
       "q1_need": 0.0,
-      "q2_need": 27.3,
-      "surplus_gap": -5.3,
+      "q2_need": 28.4,
+      "surplus_gap": -6.4,
       "status": "ok"
     },
     {
@@ -1965,33 +1965,33 @@
       "sku": "W-LUMI-0.25-LB",
       "name": "Chick Lupine",
       "qty": 21.0,
-      "daily_velocity": 0.24,
-      "days_remaining": 87,
+      "daily_velocity": 0.25,
+      "days_remaining": 84,
       "q1_need": 0.0,
-      "q2_need": 26.2,
-      "surplus_gap": -5.2,
+      "q2_need": 27.3,
+      "surplus_gap": -6.3,
       "status": "ok"
     },
     {
       "sku": "W-LUSU-0.25-LB",
       "name": "Arroyo Lupine",
       "qty": 3.0,
-      "daily_velocity": 0.03,
-      "days_remaining": 100,
+      "daily_velocity": 0.04,
+      "days_remaining": 75,
       "q1_need": 0.0,
-      "q2_need": 3.3,
-      "surplus_gap": -0.3,
+      "q2_need": 4.4,
+      "surplus_gap": -1.4,
       "status": "ok"
     },
     {
       "sku": "W-NAPU-0.25-LB",
       "name": "Purple Needlegrass",
       "qty": 21.0,
-      "daily_velocity": 0.24,
-      "days_remaining": 87,
+      "daily_velocity": 0.25,
+      "days_remaining": 84,
       "q1_need": 0.0,
-      "q2_need": 26.2,
-      "surplus_gap": -5.2,
+      "q2_need": 27.3,
+      "surplus_gap": -6.3,
       "status": "ok"
     },
     {
@@ -2042,8 +2042,8 @@
   "summary": {
     "total_skus": 146,
     "red_count": 0,
-    "yellow_count": 0,
-    "green_count": 1
+    "yellow_count": 1,
+    "green_count": 0
   },
   "fba_summary": {
     "total_skus": 39,
@@ -2052,17 +2052,17 @@
     "green_count": 39
   },
   "fba_velocity": {
-    "daily_orders": 8.9,
-    "daily_revenue": 335.8,
+    "daily_orders": 9.0,
+    "daily_revenue": 344.76,
     "period_days": 14
   },
   "order_tracking": {
-    "total_30d": 958,
-    "fulfilled": 896,
+    "total_30d": 970,
+    "fulfilled": 862,
     "backorders": 0,
-    "unfulfilled_lt_1d": 53,
-    "unfulfilled_lt_5d": 8,
-    "unfulfilled_5_to_10d": 1,
+    "unfulfilled_lt_1d": 64,
+    "unfulfilled_lt_5d": 42,
+    "unfulfilled_5_to_10d": 2,
     "unfulfilled_gt_10d": 0
   }
 }
