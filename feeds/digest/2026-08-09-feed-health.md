@@ -1,0 +1,2919 @@
+# Feed Health — 2026-08-09
+
+## Summary
+
+| Channel | Coverage | Drift | Quality Issues |
+|---|---|---|---|
+| walmart | 200/603 | 220 | 200 |
+| amazon | ERROR | ERROR | 400 Client Error:  for url: https://sellingpartnerapi-na.amazon.com/catalog/2022-04-01/items?sellerId=A1L3JR5H0WXLZ&includedData=summaries%2Cattributes%2Coffers |
+| google_merchant | 417/603 | 245 | 96 |
+| klaviyo | ERROR | ERROR | 401 Client Error: Unauthorized for url: https://a.klaviyo.com/api/catalog-items?page%5Bsize%5D=100 |
+| shopper_approved | 474/603 | 20 | 13 |
+| reddit | 262/603 | 1 | 0 |
+| facebook | 289/603 | 380 | 9 |
+| pinterest | ERROR | ERROR | not connected — Pinterest Catalog API not yet configured |
+
+## Action Items
+
+- [ ] **walmart**: sync price on `PB-SOLS-20-LB-KIT` (WC: 117.78 | channel: 56.99)
+- [ ] **walmart**: sync stock_status on `PB-SOLS-20-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `CV-CNIR-10-LB-KIT` (WC: 561.37 | channel: 1325.44)
+- [ ] **walmart**: sync stock_status on `CV-CNIR-10-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-BIRD-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-BIRD-20-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-BIRD-10-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `PB-DRY-20-LB-KIT` (WC: 91.78 | channel: 216.71)
+- [ ] **walmart**: sync stock_status on `PB-DRY-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-IR-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-IR-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync price on `PB-CABIN-25-LB-KIT` (WC: 258.23 | channel: 218.99)
+- [ ] **walmart**: sync stock_status on `PB-CABIN-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-CABIN-10-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-MUST-20-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-MUST-50-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `PB-MUST-10-LB` (WC: 51.99 | channel: 46.99)
+- [ ] **walmart**: sync stock_status on `PB-MUST-10-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-CLV-20-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-CLV-50-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `PB-CLV-10-LB` (WC: 52.99 | channel: 47.99)
+- [ ] **walmart**: sync stock_status on `PB-CLV-10-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `TURF-MLB-5-LB` (WC: 33.99 | channel: 28.99)
+- [ ] **walmart**: sync stock_status on `TURF-MLB-5-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-MLB-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-MLB-10-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-HLB-5-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-HLB-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-HLB-10-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-GRSC-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-GRSC-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-FULL-50-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-FULL-20-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `PB-FULL-10-LB` (WC: 116.99 | channel: 111.99)
+- [ ] **walmart**: sync stock_status on `PB-FULL-10-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-KRMU-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-KRMU-10-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-SHADE-50-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-SHADE-20-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `PB-SHADE-10-LB` (WC: 118.99 | channel: 113.99)
+- [ ] **walmart**: sync stock_status on `PB-SHADE-10-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-PLPR-16-LBS` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-CHSS-2-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-CHSS-0.5-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `PB-COSS-2-LB-KIT` (WC: 131.99 | channel: 118.79)
+- [ ] **walmart**: sync stock_status on `PB-COSS-2-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-COSS-1-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-COSS-0.5-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `W-ENCA-1-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync price on `W-ENCA-0.5-LB-KIT` (WC: 38.10 | channel: 38.1)
+- [ ] **walmart**: sync stock_status on `W-ENCA-0.5-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `W-ENCA-0.25-LB` (WC: 21.16 | channel: 17.99)
+- [ ] **walmart**: sync stock_status on `W-ENCA-0.25-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync price on `W-NAPU-1-LB-KIT` (WC: 67.99 | channel: 60.29)
+- [ ] **walmart**: sync stock_status on `W-NAPU-1-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `W-NAPU-0.5-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `W-NAPU-0.25-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `W-LUSU-1-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `W-LUSU-0.5-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `W-LUSU-0.25-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync price on `WB-XCVP-2-LB-KIT` (WC: 199.99 | channel: 206.99)
+- [ ] **walmart**: sync stock_status on `WB-XCVP-2-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `WB-XCVP-0.5-LB` (WC: 58.82 | channel: 57.99)
+- [ ] **walmart**: sync stock_status on `WB-XCVP-0.5-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `W-LUMI-0.5-LB-KIT` (WC: 52.94 | channel: 83.69)
+- [ ] **walmart**: sync stock_status on `W-LUMI-0.5-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `W-LUMI-0.25-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `W-ACLA-1-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `W-ACLA-0.5-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `W-ACLA-0.25-LB` (WC: 17.64 | channel: 14.99)
+- [ ] **walmart**: sync stock_status on `W-ACLA-0.25-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-W-BLUE-BUNDLE-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-W-BLUE-BUNDLE-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-W-BLUE-BUNDLE-10-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `W-ENFA-1-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `W-ENFA-0.5-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `W-ENFA-0.25-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-TRRE-10-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `S-RICE-25-LB-ADDON` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `S-RICE-10-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-W-SS-10-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-W-SS-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-W-SS-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `CV-CHM-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `CV-CHM-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-CHM-5-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `CV-CNEC-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `CV-CNEC-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `CV-CNEC-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync price on `S-AGPA8-2-LB-KIT` (WC: 192.68 | channel: 162.89)
+- [ ] **walmart**: sync stock_status on `S-AGPA8-2-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `S-AGPA8-10-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `S-AGPA8-1-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-NFF-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync price on `TURF-NFF-5-LB` (WC: 230.58 | channel: 195.99)
+- [ ] **walmart**: sync stock_status on `TURF-NFF-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `W-ESCA-1-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `WB-CCN-0.5-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `WB-CCN-5-LB-KIT` (WC: 319.99 | channel: 284.39)
+- [ ] **walmart**: sync stock_status on `WB-CCN-5-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `WB-CALN-0.5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync price on `WB-CALN-1-LB-KIT` (WC: 74.10 | channel: 74.1)
+- [ ] **walmart**: sync stock_status on `WB-CALN-1-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `WB-CALN-5-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `W-ASFA-1-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `W-ASFA-0.5-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `W-ASFA-0.25-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `S-MICRO-5-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `S-MICRO-2-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `S-INNOC-5-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `S-TACKI-50-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-BUCK-50-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-BUCK-25-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `PG-BUCK-5-LB` (WC: 44.99 | channel: 39.99)
+- [ ] **walmart**: sync stock_status on `PG-BUCK-5-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-SECE-5-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-SECE-25-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-SECE-50-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-PANO-50-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-PANO-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync price on `PG-BOGR-25-LB-KIT` (WC: 1246.49 | channel: 949.99)
+- [ ] **walmart**: sync stock_status on `PG-BOGR-25-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `PG-BOGR-5-LB` (WC: 276.99 | channel: 325.87)
+- [ ] **walmart**: sync stock_status on `PG-BOGR-5-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-BUDA-50-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-BUDA-5-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-LOPE-50-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `PG-LOPE-5-LB` (WC: 42.21 | channel: 34.99)
+- [ ] **walmart**: sync stock_status on `PG-LOPE-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-POPR-50-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `PG-POPR-5-LB` (WC: 44.99 | channel: 39.99)
+- [ ] **walmart**: sync stock_status on `PG-POPR-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-POPR-25-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-MESA-50-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `PG-MESA-5-LB` (WC: 47.49 | channel: 39.99)
+- [ ] **walmart**: sync stock_status on `PG-MESA-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-MESA-25-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-PHPR-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-PHPR-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync price on `PG-PHPR-5-LB` (WC: 42.21 | channel: 34.99)
+- [ ] **walmart**: sync stock_status on `PG-PHPR-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-DAGL-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-DAGL-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync price on `PG-DAGL-5-LB` (WC: 39.99 | channel: 34.99)
+- [ ] **walmart**: sync stock_status on `PG-DAGL-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-FEAR2-50-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PG-FEAR2-25-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `S-FEOV-5-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `S-FEOV-25-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `S-FEOV-10-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `WB-DR-1-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync price on `WB-DR-0.5-LB` (WC: 34.99 | channel: 29.99)
+- [ ] **walmart**: sync stock_status on `WB-DR-0.5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `S-DUTCH-25-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `WB-AN-1-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `WB-AN-0.5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `WB-RM-5-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `WB-RM-1-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `WB-RM-0.5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-BERM-5-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-BERM-10-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-BERM-25-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-W-BR-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-W-BR-10-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-W-BR-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-SHEP-TR-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-SHEP-TR-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-SHEP-SO-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-SHEP-N-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-SHEP-N-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-PIG-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-PIG-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-HRSE-TR-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync price on `PB-HRSE-TR-10-LB` (WC: 54.99 | channel: 49.99)
+- [ ] **walmart**: sync stock_status on `PB-HRSE-TR-10-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-HRSE-TR-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-HRSE-SO-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-HRSE-SO-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync price on `PB-HRSE-SO-10-LB` (WC: 44.99 | channel: 39.99)
+- [ ] **walmart**: sync stock_status on `PB-HRSE-SO-10-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-HRSE-N-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-HONEY-5-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-HONEY-25-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-HONEY-50-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-GOAT-TR-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-GOAT-TR-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-GAME-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-COW-NTR-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-COW-NTR-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-COW-NTR-10-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-COW-SO-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync price on `PB-CHIX-5-LB` (WC: 24.99 | channel: 19.99)
+- [ ] **walmart**: sync stock_status on `PB-CHIX-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-CHIX-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-CHIX-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-ALPACA-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `PB-ALPACA-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `CV-CNFW-5-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `CV-CNFW-20-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `CV-CNFW-10-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync price on `CV-BGEC-10-LB` (WC: 204.99 | channel: 199.99)
+- [ ] **walmart**: sync stock_status on `CV-BGEC-10-LB` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `CV-BGEC-20-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-JBR-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-JBR-10-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-JBR-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-W-BLUE-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-W-BLUE-10-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-W-BLUE-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-W-RYE-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-W-RYE-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-W-TALL-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-W-TALL-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync price on `TURF-WSHD-5-LB` (WC: 44.99 | channel: 39.99)
+- [ ] **walmart**: sync stock_status on `TURF-WSHD-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-WSHD-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `TURF-WSHD-10-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `WB-SD-0.5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `WB-SD-5-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: sync stock_status on `WB-SD-1-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **walmart**: 417 WC SKUs not listed — W-HEAN, W-HEAN-1-LB-KIT, W-HEAN-0.5-LB-KIT, W-HEAN-0.25-LB, PB-DOVE...
+- [ ] **walmart**: `PB-SHADE-20-LB-KIT` missing fields: short_description, main_image_url
+- [ ] **walmart**: `W-ENCA-0.5-LB-KIT` missing fields: short_description, main_image_url
+- [ ] **walmart**: `PB-CHSS-2-LB-KIT` missing fields: short_description, main_image_url
+- [ ] **walmart**: `TURF-BERM-25-LB-KIT` missing fields: short_description, main_image_url
+- [ ] **walmart**: `PG-BOGR-50-LB-KIT` missing fields: short_description, main_image_url
+- [ ] **amazon**: investigate error — 400 Client Error:  for url: https://sellingpartnerapi-na.amazon.com/catalog/2022-04-01/items?sellerId=A1L3JR5H0WXLZ&includedData=summaries%2Cattributes%2Coffers
+- [ ] **google_merchant**: sync price on `W-TRDA-1-LB-KIT` (WC: 55.24 | channel: 89.06)
+- [ ] **google_merchant**: sync price on `W-TRDA-0.5-LB-KIT` (WC: 29.69 | channel: 45.07)
+- [ ] **google_merchant**: sync price on `WB-TEXN-5-LB-KIT` (WC: 275.39 | channel: 395.04)
+- [ ] **google_merchant**: sync price on `WB-TEXN-1-LB-KIT` (WC: 58.49 | channel: 79.00)
+- [ ] **google_merchant**: sync price on `WB-TXPB-5-LB-KIT` (WC: 286.44 | channel: 409.30)
+- [ ] **google_merchant**: sync price on `WB-TXPB-1-LB-KIT` (WC: 61.19 | channel: 82.32)
+- [ ] **google_merchant**: sync price on `PB-TXPR-50-LB-KIT` (WC: 912.89 | channel: 1163.61)
+- [ ] **google_merchant**: sync price on `PB-TXPR-20-LB-KIT` (WC: 386.99 | channel: 464.43)
+- [ ] **google_merchant**: sync price on `W-PHDR-1-LB-KIT` (WC: 35.69 | channel: 64.69)
+- [ ] **google_merchant**: sync price on `W-PHDR-0.5-LB-KIT` (WC: 18.89 | channel: 32.24)
+- [ ] **google_merchant**: sync price on `WB-FLCO-5-LB-KIT` (WC: 101.14 | channel: 178.53)
+- [ ] **google_merchant**: sync price on `WB-FLCO-1-LB-KIT` (WC: 21.59 | channel: 35.88)
+- [ ] **google_merchant**: sync price on `TURF-FLN-25-LB-KIT` (WC: 277.94 | channel: 372.46)
+- [ ] **google_merchant**: sync price on `TURF-FLN-10-LB-KIT` (WC: 117.89 | channel: 148.74)
+- [ ] **google_merchant**: sync price on `WB-FLPB-5-LB-KIT` (WC: 162.34 | channel: 252.81)
+- [ ] **google_merchant**: sync price on `WB-FLPB-1-LB-KIT` (WC: 35.09 | channel: 51.45)
+- [ ] **google_merchant**: sync price on `WB-FLN-5-LB-KIT` (WC: 109.64 | channel: 189.15)
+- [ ] **google_merchant**: sync price on `WB-FLN-1-LB-KIT` (WC: 23.39 | channel: 37.99)
+- [ ] **google_merchant**: sync stock_status on `PB-BIRD-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-DRY-50-LB-KIT` (WC: 216.71 | channel: 91.78)
+- [ ] **google_merchant**: sync stock_status on `PB-DRY-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-DRY-20-LB-KIT` (WC: 91.78 | channel: 216.71)
+- [ ] **google_merchant**: sync stock_status on `PB-DRY-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-DRY-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-IR-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-IR-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-IR-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-CABIN-5-LB` (WC: outofstock | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-CABIN-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-CABIN-10-LB-KIT` (WC: 79.19 | channel: 103.44)
+- [ ] **google_merchant**: sync stock_status on `PB-CABIN-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-MUST-20-LB-KIT` (WC: 199.71 | channel: 274.39)
+- [ ] **google_merchant**: sync price on `PB-MUST-50-LB-KIT` (WC: 169.75 | channel: 233.96)
+- [ ] **google_merchant**: sync price on `PB-CLV-20-LB-KIT` (WC: 86.38 | channel: 111.87)
+- [ ] **google_merchant**: sync price on `PB-CLV-50-LB-KIT` (WC: 203.96 | channel: 280.54)
+- [ ] **google_merchant**: sync stock_status on `TURF-CLV-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-CLV-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `TURF-CLV-10-LB-KIT` (WC: 32.39 | channel: 48.55)
+- [ ] **google_merchant**: sync stock_status on `TURF-CLV-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `TURF-MLB-25-LB-KIT` (WC: 127.79 | channel: 176.27)
+- [ ] **google_merchant**: sync stock_status on `TURF-MLB-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `TURF-MLB-10-LB-KIT` (WC: 51.29 | channel: 70.53)
+- [ ] **google_merchant**: sync stock_status on `TURF-MLB-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-HLB-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-HLB-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-BUDA-6-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-BUDA-3-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-BUDA-15-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-SGPR-20-LB-KIT` (WC: 392.39 | channel: 1179.50)
+- [ ] **google_merchant**: sync stock_status on `PB-SGPR-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-SHPR-20-LB-KIT` (WC: 359.99 | channel: 304.99)
+- [ ] **google_merchant**: sync stock_status on `PB-SHPR-20-LB-KIT` (WC: outofstock | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-GRSC-50-LB-KIT` (WC: 152.99 | channel: 217.05)
+- [ ] **google_merchant**: sync stock_status on `PB-GRSC-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-GRSC-20-LB-KIT` (WC: 64.79 | channel: 86.55)
+- [ ] **google_merchant**: sync stock_status on `PB-GRSC-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-GRSC-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-FULL-50-LB-KIT` (WC: 475.99 | channel: 619.40)
+- [ ] **google_merchant**: sync price on `PB-FULL-20-LB-KIT` (WC: 201.59 | channel: 246.99)
+- [ ] **google_merchant**: sync stock_status on `PB-KRMU-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-KRMU-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-KRMU-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-SHADE-50-LB-KIT` (WC: 484.49 | channel: 629.99)
+- [ ] **google_merchant**: sync price on `PB-SHADE-20-LB-KIT` (WC: 205.19 | channel: 251.21)
+- [ ] **google_merchant**: sync stock_status on `PB-COSS-2-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `W-ENCA-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `W-ENCA-0.25-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `W-SAAP-0.25-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `W-NAPU-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `W-LUSU-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `W-LUSU-0.5-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `W-LUSU-0.25-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `W-ACLA-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `W-ACLA-0.25-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `TURF-W-BLUE-BUNDLE-5-LB` (WC: 199.99 | channel: 224.99)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-BLUE-BUNDLE-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `TURF-W-BLUE-BUNDLE-25-LB-KIT` (WC: 509.99 | channel: 606.41)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-BLUE-BUNDLE-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `TURF-W-BLUE-BUNDLE-10-LB-KIT` (WC: 269.99 | channel: 323.85)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-BLUE-BUNDLE-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `W-ENFA-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `W-ENFA-0.5-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `W-ENFA-0.25-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-TALL-BUNDLE-5-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-TALL-BUNDLE-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-TALL-BUNDLE-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PG-TRRE-50-LB-KIT` (WC: 296.99 | channel: 423.53)
+- [ ] **google_merchant**: sync stock_status on `PG-TRRE-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PG-TRRE-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PG-TRRE-10-LB-KIT` (WC: 62.99 | channel: 84.44)
+- [ ] **google_merchant**: sync stock_status on `PG-TRRE-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `S-RICE-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `S-RICE-45-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `S-RICE-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-SS-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-SS-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-SS-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `CV-CHM-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `CV-CHM-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `CV-CNEC-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `CV-CNEC-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `CV-CNEC-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `S-AGPA8-2-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `S-AGPA8-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `S-AGPA8-1-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-NFF-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-NFF-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-NFF-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `W-ESCA-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `WB-CALN-0.5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `WB-CALN-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `WB-CALN-5-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PG-BUCK-50-LB-KIT` (WC: 349.99 | channel: 476.47)
+- [ ] **google_merchant**: sync price on `PG-BUCK-25-LB-KIT` (WC: 179.99 | channel: 237.49)
+- [ ] **google_merchant**: sync stock_status on `PG-PANO-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PG-PANO-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PG-PAVI-50-LB-KIT` (WC: 799.99 | channel: 952.94)
+- [ ] **google_merchant**: sync price on `PG-PAVI-25-LB-KIT` (WC: 399.99 | channel: 474.95)
+- [ ] **google_merchant**: sync price on `PG-BOGR-25-LB-KIT` (WC: 1246.49 | channel: 949.99)
+- [ ] **google_merchant**: sync price on `PG-BOGR-5-LB` (WC: 276.99 | channel: 325.87)
+- [ ] **google_merchant**: sync price on `PG-LOPE-50-LB-KIT` (WC: 329.99 | channel: 423.53)
+- [ ] **google_merchant**: sync price on `PG-LOPE-5-LB` (WC: 42.21 | channel: 34.99)
+- [ ] **google_merchant**: sync stock_status on `PG-LOPE-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PG-LOPE-25-LB-KIT` (WC: 134.99 | channel: 89.99)
+- [ ] **google_merchant**: sync stock_status on `PG-LOPE-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PG-POPR-50-LB-KIT` (WC: 349.99 | channel: 476.47)
+- [ ] **google_merchant**: sync stock_status on `PG-POPR-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PG-POPR-25-LB-KIT` (WC: 149.99 | channel: 237.49)
+- [ ] **google_merchant**: sync price on `PG-MESA-5-LB` (WC: 47.49 | channel: 39.99)
+- [ ] **google_merchant**: sync stock_status on `PG-MESA-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PG-PHPR-25-LB-KIT` (WC: 159.99 | channel: 217.14)
+- [ ] **google_merchant**: sync stock_status on `PG-PHPR-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PG-PHPR-50-LB-KIT` (WC: 299.99 | channel: 423.53)
+- [ ] **google_merchant**: sync stock_status on `PG-PHPR-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PG-PHPR-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PG-DAGL-50-LB-KIT` (WC: 299.99 | channel: 423.53)
+- [ ] **google_merchant**: sync stock_status on `PG-DAGL-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PG-DAGL-25-LB-KIT` (WC: 159.99 | channel: 211.11)
+- [ ] **google_merchant**: sync stock_status on `PG-DAGL-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PG-DAGL-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `WB-DR-5-LB-KIT` (WC: 139.99 | channel: 185.24)
+- [ ] **google_merchant**: sync stock_status on `WB-DR-5-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `WB-DR-1-LB-KIT` (WC: 54.99 | channel: 73.88)
+- [ ] **google_merchant**: sync stock_status on `WB-DR-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `WB-DR-0.5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `S-DUTCH-25-LB-KIT` (WC: 199.99 | channel: 292.19)
+- [ ] **google_merchant**: sync price on `S-DUTCH-10-LB-KIT` (WC: 79.98 | channel: 116.52)
+- [ ] **google_merchant**: sync stock_status on `WB-AN-5-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `WB-AN-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `WB-AN-0.5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `WB-RM-5-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `WB-RM-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `WB-RM-0.5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-BR-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-BR-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-BR-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-SHEP-TR-20-LB-KIT` (WC: 69.99 | channel: 94.98)
+- [ ] **google_merchant**: sync stock_status on `PB-SHEP-TR-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-SHEP-TR-50-LB-KIT` (WC: 159.99 | channel: 238.18)
+- [ ] **google_merchant**: sync stock_status on `PB-SHEP-TR-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-SHEP-TR-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-SHEP-SO-20-LB-KIT` (WC: 119.99 | channel: 158.31)
+- [ ] **google_merchant**: sync stock_status on `PB-SHEP-SO-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-SHEP-SO-50-LB-KIT` (WC: 289.99 | channel: 397.01)
+- [ ] **google_merchant**: sync stock_status on `PB-SHEP-SO-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-SHEP-SO-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-SHEP-N-20-LB-KIT` (WC: 79.99 | channel: 116.09)
+- [ ] **google_merchant**: sync stock_status on `PB-SHEP-N-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-SHEP-N-50-LB-KIT` (WC: 209.99 | channel: 291.12)
+- [ ] **google_merchant**: sync stock_status on `PB-SHEP-N-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-SHEP-N-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-PIG-50-LB-KIT` (WC: 209.99 | channel: 291.12)
+- [ ] **google_merchant**: sync stock_status on `PB-PIG-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-PIG-20-LB-KIT` (WC: 79.99 | channel: 116.09)
+- [ ] **google_merchant**: sync stock_status on `PB-PIG-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-PIG-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-HRSE-TR-50-LB-KIT` (WC: 209.99 | channel: 291.12)
+- [ ] **google_merchant**: sync stock_status on `PB-HRSE-TR-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-HRSE-TR-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-HRSE-TR-20-LB-KIT` (WC: 89.99 | channel: 116.09)
+- [ ] **google_merchant**: sync stock_status on `PB-HRSE-TR-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-HRSE-SO-20-LB-KIT` (WC: 69.99 | channel: 94.98)
+- [ ] **google_merchant**: sync stock_status on `PB-HRSE-SO-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-HRSE-SO-50-LB-KIT` (WC: 159.99 | channel: 238.18)
+- [ ] **google_merchant**: sync stock_status on `PB-HRSE-SO-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-HRSE-SO-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-HRSE-N-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-HRSE-N-20-LB-KIT` (WC: 49.99 | channel: 73.87)
+- [ ] **google_merchant**: sync stock_status on `PB-HRSE-N-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-HRSE-N-50-LB-KIT` (WC: 119.99 | channel: 185.24)
+- [ ] **google_merchant**: sync stock_status on `PB-HRSE-N-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-GOAT-TR-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-GOAT-TR-20-LB-KIT` (WC: 79.99 | channel: 116.09)
+- [ ] **google_merchant**: sync stock_status on `PB-GOAT-TR-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-GOAT-TR-50-LB-KIT` (WC: 209.99 | channel: 291.12)
+- [ ] **google_merchant**: sync stock_status on `PB-GOAT-TR-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-GAME-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-GAME-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-GAME-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-COW-NTR-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-COW-NTR-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-COW-NTR-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-COW-SO-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-COW-SO-20-LB-KIT` (WC: 69.99 | channel: 94.98)
+- [ ] **google_merchant**: sync stock_status on `PB-COW-SO-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-COW-SO-50-LB-KIT` (WC: 159.99 | channel: 238.18)
+- [ ] **google_merchant**: sync stock_status on `PB-COW-SO-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-CHIX-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-CHIX-25-LB-KIT` (WC: 89.95 | channel: 131.89)
+- [ ] **google_merchant**: sync stock_status on `PB-CHIX-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `PB-CHIX-50-LB-KIT` (WC: 169.91 | channel: 264.60)
+- [ ] **google_merchant**: sync stock_status on `PB-CHIX-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-ALPACA-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-ALPACA-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PB-ALPACA-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `CV-BGEC-20-LB-KIT` (WC: 349.99 | channel: 432.77)
+- [ ] **google_merchant**: sync price on `CV-BGEC-50-LB-KIT` (WC: 899.99 | channel: 1085.28)
+- [ ] **google_merchant**: sync stock_status on `TURF-JBR-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-JBR-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-JBR-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-BLUE-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-BLUE-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-BLUE-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `SUSTANE-4-6-4` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `TURF-FINE-25-LB-KIT` (WC: 149.99 | channel: 238.18)
+- [ ] **google_merchant**: sync stock_status on `TURF-FINE-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `TURF-FINE-5-LB` (WC: 44.99 | channel: 94.98)
+- [ ] **google_merchant**: sync stock_status on `TURF-FINE-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-RYE-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-RYE-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-TALL-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-TALL-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `TURF-W-TALL-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `TURF-WSHD-5-LB` (WC: 44.99 | channel: 94.98)
+- [ ] **google_merchant**: sync stock_status on `TURF-WSHD-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `TURF-WSHD-25-LB-KIT` (WC: 169.99 | channel: 44.99)
+- [ ] **google_merchant**: sync stock_status on `TURF-WSHD-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync price on `TURF-WSHD-10-LB-KIT` (WC: 69.99 | channel: 238.18)
+- [ ] **google_merchant**: sync stock_status on `TURF-WSHD-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `W-ASTU-0.25-LB` (WC: outofstock | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `PG-TRIN-5-LB` (WC: outofstock | channel: instock)
+- [ ] **google_merchant**: sync price on `PG-TRPR-25-LB-KIT` (WC: 90.94 | channel: 139.04)
+- [ ] **google_merchant**: sync price on `PG-TRPR-10-LB-KIT` (WC: 38.69 | channel: 55.70)
+- [ ] **google_merchant**: sync stock_status on `WB-SD-0.5-LB` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: sync stock_status on `WB-SD-5-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **google_merchant**: 301 WC SKUs not listed — W-HEAN, W-HEAN-1-LB-KIT, W-HEAN-0.5-LB-KIT, W-HEAN-0.25-LB, PB-DOVE...
+- [ ] **google_merchant**: `gla_473476` missing fields: gtin
+- [ ] **google_merchant**: `gla_461689` missing fields: gtin
+- [ ] **google_merchant**: `gla_473057` missing fields: gtin
+- [ ] **google_merchant**: `gla_471500` missing fields: gtin
+- [ ] **google_merchant**: `gla_471485` missing fields: gtin
+- [ ] **klaviyo**: investigate error — 401 Client Error: Unauthorized for url: https://a.klaviyo.com/api/catalog-items?page%5Bsize%5D=100
+- [ ] **shopper_approved**: sync stock_status on `S-RICE-45-LB` (WC: onbackorder | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `S-MICRO-5000-F` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `S-MICRO-500-F` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `S-INNOC-10-LB` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `S-INNOC-1-LB` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `PG-PHPR-1-LB` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `S-FEOV-50-LB` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `S-FEOV-1-LB` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `S-TRRE-0.25-A` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `S-TRRE-5000-F` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `S-TRRE-1000-F` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `WB-AN-2000-F` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `WB-RM` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `WB-RM-500-F` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `SUSTANE-4-6-4` (WC: onbackorder | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `W-ASTU` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `PG-TRIN` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `WB-SD-2000-F` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `WB-SD-1000-F` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: sync stock_status on `WB-SD-500-F` (WC: outofstock | channel: instock)
+- [ ] **shopper_approved**: 574 WC SKUs not listed — W-HEAN, W-HEAN-1-LB-KIT, W-HEAN-0.5-LB-KIT, W-HEAN-0.25-LB, PB-DOVE...
+- [ ] **shopper_approved**: `W-ABVI-1-P` missing fields: name
+- [ ] **shopper_approved**: `WB-NW-2000-F` missing fields: name
+- [ ] **shopper_approved**: `W-PEPA2` missing fields: name
+- [ ] **shopper_approved**: `W-COSU-1-P` missing fields: name
+- [ ] **shopper_approved**: `PB-IWS-0.5-A` missing fields: name
+- [ ] **reddit**: sync price on `W-ASFA-N-1-LB` (WC: 603 | channel: 603.00)
+- [ ] **reddit**: 341 WC SKUs not listed — W-HEAN, PB-DOVE, WB-PERCUT, WB-COTTAGE, WB-SUNSET...
+- [ ] **facebook**: sync price on `PB-SOLS-10-LB` (WC: 61.99 | channel: 56.99)
+- [ ] **facebook**: sync price on `PB-BIRD-50-LB-KIT` (WC: 106.21 | channel: 124.95)
+- [ ] **facebook**: sync stock_status on `PB-BIRD-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-BIRD-20-LB-KIT` (WC: 44.98 | channel: 49.98)
+- [ ] **facebook**: sync stock_status on `PB-BIRD-20-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync stock_status on `PB-BIRD-10-LB` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-DRY-50-LB-KIT` (WC: 216.71 | channel: 101.98)
+- [ ] **facebook**: sync stock_status on `PB-DRY-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-DRY-20-LB-KIT` (WC: 91.78 | channel: 254.95)
+- [ ] **facebook**: sync stock_status on `PB-DRY-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync stock_status on `PB-DRY-10-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-IR-50-LB-KIT` (WC: 169.96 | channel: 199.95)
+- [ ] **facebook**: sync stock_status on `PB-IR-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-IR-20-LB-KIT` (WC: 71.98 | channel: 79.98)
+- [ ] **facebook**: sync stock_status on `PB-IR-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync stock_status on `PB-IR-10-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-CABIN-25-LB-KIT` (WC: 258.23 | channel: 218.99)
+- [ ] **facebook**: sync stock_status on `PB-CABIN-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-CABIN-10-LB-KIT` (WC: 79.19 | channel: 87.99)
+- [ ] **facebook**: sync stock_status on `PB-CABIN-10-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync stock_status on `PB-MUST-20-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-MUST-50-LB-KIT` (WC: 169.75 | channel: 234.95)
+- [ ] **facebook**: sync stock_status on `PB-MUST-50-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-MUST-10-LB` (WC: 51.99 | channel: 46.99)
+- [ ] **facebook**: sync stock_status on `PB-MUST-10-LB` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-CLV-20-LB-KIT` (WC: 86.38 | channel: 95.98)
+- [ ] **facebook**: sync stock_status on `PB-CLV-20-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-CLV-50-LB-KIT` (WC: 203.96 | channel: 239.95)
+- [ ] **facebook**: sync stock_status on `PB-CLV-50-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-CLV-10-LB` (WC: 52.99 | channel: 47.99)
+- [ ] **facebook**: sync stock_status on `PB-CLV-10-LB` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `TURF-CLV-5-LB` (WC: 22.99 | channel: 17.99)
+- [ ] **facebook**: sync stock_status on `TURF-CLV-5-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `TURF-CLV-25-LB-KIT` (WC: 121.77 | channel: 89.99)
+- [ ] **facebook**: sync stock_status on `TURF-CLV-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `TURF-CLV-10-LB-KIT` (WC: 32.39 | channel: 35.99)
+- [ ] **facebook**: sync stock_status on `TURF-CLV-10-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `TURF-MLB-5-LB` (WC: 33.99 | channel: 28.99)
+- [ ] **facebook**: sync stock_status on `TURF-MLB-5-LB` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `TURF-MLB-25-LB-KIT` (WC: 127.79 | channel: 141.99)
+- [ ] **facebook**: sync stock_status on `TURF-MLB-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `TURF-MLB-10-LB-KIT` (WC: 51.29 | channel: 56.99)
+- [ ] **facebook**: sync stock_status on `TURF-MLB-10-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync stock_status on `TURF-HLB-5-LB` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `TURF-HLB-25-LB-KIT` (WC: 199.79 | channel: 221.99)
+- [ ] **facebook**: sync stock_status on `TURF-HLB-25-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `TURF-HLB-10-LB-KIT` (WC: 79.99 | channel: 88.99)
+- [ ] **facebook**: sync stock_status on `TURF-HLB-10-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `TURF-BUDA-6-LB-KIT` (WC: 209.99 | channel: 233.98)
+- [ ] **facebook**: sync stock_status on `TURF-BUDA-6-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync stock_status on `TURF-BUDA-3-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `TURF-BUDA-15-LB-KIT` (WC: 496.99 | channel: 584.95)
+- [ ] **facebook**: sync stock_status on `TURF-BUDA-15-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-SGPR-20-LB-KIT` (WC: 392.39 | channel: 339.98)
+- [ ] **facebook**: sync stock_status on `PB-SGPR-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-GRSC-50-LB-KIT` (WC: 152.99 | channel: 179.99)
+- [ ] **facebook**: sync stock_status on `PB-GRSC-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-GRSC-20-LB-KIT` (WC: 64.79 | channel: 71.99)
+- [ ] **facebook**: sync stock_status on `PB-GRSC-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-GRSC-10-LB` (WC: 40.99 | channel: 35.99)
+- [ ] **facebook**: sync stock_status on `PB-GRSC-10-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-FULL-50-LB-KIT` (WC: 475.99 | channel: 559.99)
+- [ ] **facebook**: sync stock_status on `PB-FULL-50-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-FULL-20-LB-KIT` (WC: 201.59 | channel: 223.99)
+- [ ] **facebook**: sync stock_status on `PB-FULL-20-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-FULL-10-LB` (WC: 116.99 | channel: 111.99)
+- [ ] **facebook**: sync stock_status on `PB-FULL-10-LB` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync stock_status on `PB-KRMU-50-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync stock_status on `PB-KRMU-20-LB-KIT` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync stock_status on `PB-KRMU-10-LB` (WC: onbackorder | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-SHADE-50-LB-KIT` (WC: 484.49 | channel: 569.99)
+- [ ] **facebook**: sync stock_status on `PB-SHADE-50-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-SHADE-20-LB-KIT` (WC: 205.19 | channel: 227.99)
+- [ ] **facebook**: sync stock_status on `PB-SHADE-20-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-SHADE-10-LB` (WC: 118.99 | channel: 113.99)
+- [ ] **facebook**: sync stock_status on `PB-SHADE-10-LB` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync stock_status on `PB-PLPR-4-LBS` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-PLPR-16-LBS` (WC: 1104.99 | channel: 1299.99)
+- [ ] **facebook**: sync stock_status on `PB-PLPR-16-LBS` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-PLPR-8-LBS` (WC: 467.99 | channel: 519.99)
+- [ ] **facebook**: sync stock_status on `PB-PLPR-8-LBS` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `PB-CHSS-2-LB-KIT` (WC: 127.99 | channel: 150.58)
+- [ ] **facebook**: sync price on `PB-CHSS-1-LB-KIT` (WC: 67.74 | channel: 75.27)
+- [ ] **facebook**: sync price on `PB-COSS-2-LB-KIT` (WC: 131.99 | channel: 155.28)
+- [ ] **facebook**: sync stock_status on `PB-COSS-2-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-COSS-1-LB-KIT` (WC: 69.86 | channel: 77.62)
+- [ ] **facebook**: sync stock_status on `PB-COSS-0.5-LB` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `W-ENCA-1-LB-KIT` (WC: 71.99 | channel: 84.69)
+- [ ] **facebook**: sync stock_status on `W-ENCA-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `W-ENCA-0.5-LB-KIT` (WC: 38.10 | channel: 42.33)
+- [ ] **facebook**: sync stock_status on `W-ENCA-0.25-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `W-SAAP-1-LB-KIT` (WC: 111.99 | channel: 131.75)
+- [ ] **facebook**: sync price on `W-SAAP-0.5-LB-KIT` (WC: 59.27 | channel: 65.86)
+- [ ] **facebook**: sync stock_status on `W-SAAP-0.25-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `W-NAPU-1-LB-KIT` (WC: 67.99 | channel: 79.99)
+- [ ] **facebook**: sync stock_status on `W-NAPU-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `W-NAPU-0.5-LB-KIT` (WC: 35.98 | channel: 39.98)
+- [ ] **facebook**: sync price on `W-LUSU-1-LB-KIT` (WC: 51.99 | channel: 61.16)
+- [ ] **facebook**: sync stock_status on `W-LUSU-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `W-LUSU-0.5-LB-KIT` (WC: 27.51 | channel: 30.56)
+- [ ] **facebook**: sync stock_status on `W-LUSU-0.5-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync stock_status on `W-LUSU-0.25-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `W-ERCO-1-LB-KIT` (WC: 183.99 | channel: 216.46)
+- [ ] **facebook**: sync price on `W-ERCO-0.5-LB-KIT` (WC: 97.39 | channel: 108.21)
+- [ ] **facebook**: sync price on `WB-XCVP-2-LB-KIT` (WC: 199.99 | channel: 235.28)
+- [ ] **facebook**: sync price on `WB-XCVP-1-LB-KIT` (WC: 105.88 | channel: 117.65)
+- [ ] **facebook**: sync price on `W-LUMI-1-LB-KIT` (WC: 99.99 | channel: 117.64)
+- [ ] **facebook**: sync price on `W-LUMI-0.5-LB-KIT` (WC: 52.94 | channel: 58.82)
+- [ ] **facebook**: sync price on `W-ACLA-1-LB-KIT` (WC: 59.99 | channel: 70.58)
+- [ ] **facebook**: sync stock_status on `W-ACLA-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `W-ACLA-0.5-LB-KIT` (WC: 31.74 | channel: 35.27)
+- [ ] **facebook**: sync stock_status on `W-ACLA-0.25-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-W-BLUE-BUNDLE-5-LB` (WC: 199.99 | channel: 219.99)
+- [ ] **facebook**: sync stock_status on `TURF-W-BLUE-BUNDLE-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-W-BLUE-BUNDLE-25-LB-KIT` (WC: 509.99 | channel: 559.99)
+- [ ] **facebook**: sync stock_status on `TURF-W-BLUE-BUNDLE-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-W-BLUE-BUNDLE-10-LB-KIT` (WC: 269.99 | channel: 299.99)
+- [ ] **facebook**: sync stock_status on `TURF-W-BLUE-BUNDLE-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `W-ENFA-1-LB-KIT` (WC: 35.99 | channel: 42.34)
+- [ ] **facebook**: sync stock_status on `W-ENFA-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `W-ENFA-0.5-LB-KIT` (WC: 19.04 | channel: 21.15)
+- [ ] **facebook**: sync stock_status on `W-ENFA-0.5-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync stock_status on `W-ENFA-0.25-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `W-DIAUA-1-LB-KIT` (WC: 67.99 | channel: 79.99)
+- [ ] **facebook**: sync price on `W-DIAUA-0.5-LB-KIT` (WC: 35.98 | channel: 39.98)
+- [ ] **facebook**: sync price on `TURF-W-TALL-BUNDLE-5-LB-KIT` (WC: 159.99 | channel: 339.99)
+- [ ] **facebook**: sync stock_status on `TURF-W-TALL-BUNDLE-5-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-W-TALL-BUNDLE-25-LB-KIT` (WC: 309.99 | channel: 209.99)
+- [ ] **facebook**: sync stock_status on `TURF-W-TALL-BUNDLE-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-W-TALL-BUNDLE-10-LB-KIT` (WC: 189.99 | channel: 179.99)
+- [ ] **facebook**: sync stock_status on `TURF-W-TALL-BUNDLE-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `W-SIBE-1-LB-KIT` (WC: 171.99 | channel: 202.34)
+- [ ] **facebook**: sync price on `W-SIBE-0.5-LB-KIT` (WC: 91.04 | channel: 101.15)
+- [ ] **facebook**: sync stock_status on `W-LUBI-0.25-LB` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `W-LUBI-1-LB-KIT` (WC: 63.99 | channel: 75.28)
+- [ ] **facebook**: sync price on `PG-TRRE-50-LB-KIT` (WC: 296.99 | channel: 349.99)
+- [ ] **facebook**: sync stock_status on `PG-TRRE-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PG-TRRE-5-LB` (WC: 39.99 | channel: 69.99)
+- [ ] **facebook**: sync stock_status on `PG-TRRE-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PG-TRRE-10-LB-KIT` (WC: 62.99 | channel: 34.99)
+- [ ] **facebook**: sync stock_status on `PG-TRRE-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `S-RICE-5-LB` (WC: 17.99 | channel: 191.90)
+- [ ] **facebook**: sync stock_status on `S-RICE-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `S-RICE-45-LB` (WC: 104.99 | channel: 99.99)
+- [ ] **facebook**: sync stock_status on `S-RICE-45-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `S-RICE-10-LB-KIT` (WC: 32.99 | channel: 17.99)
+- [ ] **facebook**: sync stock_status on `S-RICE-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-W-SS-10-LB-KIT` (WC: 69.99 | channel: 199.99)
+- [ ] **facebook**: sync stock_status on `TURF-W-SS-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-W-SS-25-LB-KIT` (WC: 149.99 | channel: 79.99)
+- [ ] **facebook**: sync stock_status on `TURF-W-SS-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-W-SS-5-LB` (WC: 39.99 | channel: 34.99)
+- [ ] **facebook**: sync stock_status on `TURF-W-SS-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `CV-CHM-50-LB-KIT` (WC: 2749.99 | channel: 1617.65)
+- [ ] **facebook**: sync stock_status on `CV-CHM-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `CV-CHM-25-LB-KIT` (WC: 1455.88 | channel: 323.53)
+- [ ] **facebook**: sync stock_status on `CV-CHM-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `CV-CNEC-50-LB-KIT` (WC: 1749.99 | channel: 2048.81)
+- [ ] **facebook**: sync stock_status on `CV-CNEC-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `CV-CNEC-5-LB` (WC: 205.88 | channel: 1029.41)
+- [ ] **facebook**: sync stock_status on `CV-CNEC-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `CV-CNEC-25-LB-KIT` (WC: 926.47 | channel: 205.88)
+- [ ] **facebook**: sync stock_status on `CV-CNEC-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `S-AGPA8-2-LB-KIT` (WC: 192.68 | channel: 214.09)
+- [ ] **facebook**: sync stock_status on `S-AGPA8-2-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `S-AGPA8-10-LB-KIT` (WC: 909.99 | channel: 1070.58)
+- [ ] **facebook**: sync stock_status on `S-AGPA8-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync stock_status on `S-AGPA8-1-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-NFF-50-LB-KIT` (WC: 1959.99 | channel: 2305.87)
+- [ ] **facebook**: sync stock_status on `TURF-NFF-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-NFF-25-LB-KIT` (WC: 1037.59 | channel: 1152.88)
+- [ ] **facebook**: sync stock_status on `TURF-NFF-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync stock_status on `TURF-NFF-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `W-ESCA-1-LB-KIT` (WC: 27.89 | channel: 37.62)
+- [ ] **facebook**: sync stock_status on `W-ESCA-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `WB-CCN-0.5-LB` (WC: 37.63 | channel: 37.64)
+- [ ] **facebook**: sync price on `WB-CCN-1-LB-KIT` (WC: 67.74 | channel: 75.27)
+- [ ] **facebook**: sync price on `WB-CCN-5-LB-KIT` (WC: 319.99 | channel: 376.46)
+- [ ] **facebook**: sync stock_status on `WB-CALN-0.5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `WB-CALN-1-LB-KIT` (WC: 74.10 | channel: 82.33)
+- [ ] **facebook**: sync stock_status on `WB-CALN-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `WB-CALN-5-LB-KIT` (WC: 349.99 | channel: 411.75)
+- [ ] **facebook**: sync stock_status on `WB-CALN-5-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `W-ASFA-1-LB-KIT` (WC: 315.89 | channel: 414.09)
+- [ ] **facebook**: sync price on `S-MICRO-5-LB-KIT` (WC: 189.99 | channel: 224.95)
+- [ ] **facebook**: sync stock_status on `S-MICRO-5-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `S-MICRO-2-LB-KIT` (WC: 79.99 | channel: 89.99)
+- [ ] **facebook**: sync stock_status on `S-MICRO-2-LB-KIT` (WC: instock | channel: outofstock)
+- [ ] **facebook**: sync price on `PG-BUCK-50-LB-KIT` (WC: 349.99 | channel: 399.99)
+- [ ] **facebook**: sync price on `PG-BUCK-25-LB-KIT` (WC: 179.99 | channel: 199.99)
+- [ ] **facebook**: sync price on `PG-BUCK-5-LB` (WC: 44.99 | channel: 39.99)
+- [ ] **facebook**: sync price on `PG-SECE-25-LB-KIT` (WC: 117.99 | channel: 124.95)
+- [ ] **facebook**: sync price on `PG-SECE-50-LB-KIT` (WC: 210.99 | channel: 249.9)
+- [ ] **facebook**: sync price on `PG-PANO-50-LB-KIT` (WC: 849.99 | channel: 999.99)
+- [ ] **facebook**: sync price on `PG-PANO-25-LB-KIT` (WC: 444.99 | channel: 499.99)
+- [ ] **facebook**: sync stock_status on `PG-PANO-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync stock_status on `PG-PANO-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PG-PAVI-50-LB-KIT` (WC: 799.99 | channel: 849.99)
+- [ ] **facebook**: sync price on `PG-PAVI-5-LB` (WC: 89.99 | channel: 84.99)
+- [ ] **facebook**: sync price on `PG-PAVI-25-LB-KIT` (WC: 399.99 | channel: 424.95)
+- [ ] **facebook**: sync price on `PG-BOGR-25-LB-KIT` (WC: 1246.49 | channel: 1466.42)
+- [ ] **facebook**: sync price on `PG-BOGR-5-LB` (WC: 276.99 | channel: 325.87)
+- [ ] **facebook**: sync price on `PG-BUDA-50-LB-KIT` (WC: 2899.99 | channel: 2999.99)
+- [ ] **facebook**: sync price on `PG-BUDA-25-LB-KIT` (WC: 1449.99 | channel: 1499.99)
+- [ ] **facebook**: sync price on `PG-LOPE-50-LB-KIT` (WC: 329.99 | channel: 349.99)
+- [ ] **facebook**: sync price on `PG-LOPE-5-LB` (WC: 42.21 | channel: 34.99)
+- [ ] **facebook**: sync stock_status on `PG-LOPE-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PG-LOPE-25-LB-KIT` (WC: 134.99 | channel: 174.99)
+- [ ] **facebook**: sync stock_status on `PG-LOPE-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PG-POPR-50-LB-KIT` (WC: 349.99 | channel: 399.99)
+- [ ] **facebook**: sync price on `PG-POPR-5-LB` (WC: 44.99 | channel: 39.99)
+- [ ] **facebook**: sync stock_status on `PG-POPR-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PG-POPR-25-LB-KIT` (WC: 149.99 | channel: 199.99)
+- [ ] **facebook**: sync price on `PG-MESA-50-LB-KIT` (WC: 339.99 | channel: 399.99)
+- [ ] **facebook**: sync price on `PG-MESA-5-LB` (WC: 47.49 | channel: 39.99)
+- [ ] **facebook**: sync stock_status on `PG-MESA-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PG-MESA-25-LB-KIT` (WC: 179.99 | channel: 199.99)
+- [ ] **facebook**: sync price on `PG-PHPR-25-LB-KIT` (WC: 159.99 | channel: 179.99)
+- [ ] **facebook**: sync stock_status on `PG-PHPR-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PG-PHPR-50-LB-KIT` (WC: 299.99 | channel: 349.99)
+- [ ] **facebook**: sync stock_status on `PG-PHPR-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PG-PHPR-5-LB` (WC: 42.21 | channel: 34.99)
+- [ ] **facebook**: sync stock_status on `PG-PHPR-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PG-DAGL-50-LB-KIT` (WC: 299.99 | channel: 349.99)
+- [ ] **facebook**: sync stock_status on `PG-DAGL-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PG-DAGL-25-LB-KIT` (WC: 159.99 | channel: 174.99)
+- [ ] **facebook**: sync stock_status on `PG-DAGL-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PG-DAGL-5-LB` (WC: 39.99 | channel: 34.99)
+- [ ] **facebook**: sync stock_status on `PG-DAGL-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PG-FEAR2-50-LB-KIT` (WC: 309.99 | channel: 349.99)
+- [ ] **facebook**: sync price on `PG-FEAR2-25-LB-KIT` (WC: 164.99 | channel: 174.99)
+- [ ] **facebook**: sync price on `S-FEOV-5-LB` (WC: 39.99 | channel: 49.99)
+- [ ] **facebook**: sync price on `S-FEOV-25-LB-KIT` (WC: 149.99 | channel: 249.95)
+- [ ] **facebook**: sync price on `S-FEOV-10-LB-KIT` (WC: 69.99 | channel: 99.98)
+- [ ] **facebook**: sync price on `WB-DR-5-LB-KIT` (WC: 139.99 | channel: 149.95)
+- [ ] **facebook**: sync stock_status on `WB-DR-5-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `WB-DR-1-LB-KIT` (WC: 54.99 | channel: 59.99)
+- [ ] **facebook**: sync stock_status on `WB-DR-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `WB-DR-0.5-LB` (WC: 34.99 | channel: 29.99)
+- [ ] **facebook**: sync stock_status on `WB-DR-0.5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `S-DUTCH-5-LB` (WC: 58.26 | channel: 44.99)
+- [ ] **facebook**: sync price on `S-DUTCH-25-LB-KIT` (WC: 199.99 | channel: 224.95)
+- [ ] **facebook**: sync price on `S-DUTCH-10-LB-KIT` (WC: 79.98 | channel: 89.99)
+- [ ] **facebook**: sync price on `WB-AN-5-LB-KIT` (WC: 129.99 | channel: 149.95)
+- [ ] **facebook**: sync stock_status on `WB-AN-5-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `WB-AN-1-LB-KIT` (WC: 49.99 | channel: 59.98)
+- [ ] **facebook**: sync stock_status on `WB-AN-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync stock_status on `WB-AN-0.5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `WB-RM-5-LB-KIT` (WC: 129.99 | channel: 149.95)
+- [ ] **facebook**: sync stock_status on `WB-RM-5-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `WB-RM-1-LB-KIT` (WC: 49.99 | channel: 59.98)
+- [ ] **facebook**: sync stock_status on `WB-RM-1-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync stock_status on `WB-RM-0.5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-BERM-5-LB` (WC: 119.99 | channel: 199.99)
+- [ ] **facebook**: sync price on `TURF-BERM-10-LB-KIT` (WC: 225.99 | channel: 239.99)
+- [ ] **facebook**: sync price on `TURF-BERM-25-LB-KIT` (WC: 499.99 | channel: 599.95)
+- [ ] **facebook**: sync price on `TURF-W-BR-25-LB-KIT` (WC: 169.99 | channel: 79.99)
+- [ ] **facebook**: sync stock_status on `TURF-W-BR-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-W-BR-10-LB-KIT` (WC: 69.99 | channel: 39.99)
+- [ ] **facebook**: sync stock_status on `TURF-W-BR-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync stock_status on `TURF-W-BR-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-SHEP-TR-20-LB-KIT` (WC: 69.99 | channel: 79.98)
+- [ ] **facebook**: sync stock_status on `PB-SHEP-TR-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-SHEP-TR-50-LB-KIT` (WC: 159.99 | channel: 199.95)
+- [ ] **facebook**: sync stock_status on `PB-SHEP-TR-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-SHEP-TR-10-LB` (WC: 44.99 | channel: 39.99)
+- [ ] **facebook**: sync stock_status on `PB-SHEP-TR-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-SHEP-SO-20-LB-KIT` (WC: 119.99 | channel: 139.98)
+- [ ] **facebook**: sync stock_status on `PB-SHEP-SO-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-SHEP-SO-50-LB-KIT` (WC: 289.99 | channel: 349.95)
+- [ ] **facebook**: sync stock_status on `PB-SHEP-SO-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-SHEP-SO-10-LB` (WC: 74.99 | channel: 69.99)
+- [ ] **facebook**: sync stock_status on `PB-SHEP-SO-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-SHEP-N-20-LB-KIT` (WC: 79.99 | channel: 99.98)
+- [ ] **facebook**: sync stock_status on `PB-SHEP-N-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-SHEP-N-50-LB-KIT` (WC: 209.99 | channel: 249.95)
+- [ ] **facebook**: sync stock_status on `PB-SHEP-N-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-SHEP-N-10-LB` (WC: 54.99 | channel: 49.99)
+- [ ] **facebook**: sync stock_status on `PB-SHEP-N-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-PIG-50-LB-KIT` (WC: 209.99 | channel: 249.95)
+- [ ] **facebook**: sync stock_status on `PB-PIG-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-PIG-20-LB-KIT` (WC: 79.99 | channel: 99.98)
+- [ ] **facebook**: sync stock_status on `PB-PIG-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-PIG-10-LB` (WC: 54.99 | channel: 49.99)
+- [ ] **facebook**: sync stock_status on `PB-PIG-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-HRSE-TR-50-LB-KIT` (WC: 209.99 | channel: 249.95)
+- [ ] **facebook**: sync stock_status on `PB-HRSE-TR-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-HRSE-TR-10-LB` (WC: 54.99 | channel: 49.99)
+- [ ] **facebook**: sync stock_status on `PB-HRSE-TR-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-HRSE-TR-20-LB-KIT` (WC: 89.99 | channel: 99.98)
+- [ ] **facebook**: sync stock_status on `PB-HRSE-TR-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-HRSE-SO-20-LB-KIT` (WC: 69.99 | channel: 79.98)
+- [ ] **facebook**: sync stock_status on `PB-HRSE-SO-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-HRSE-SO-50-LB-KIT` (WC: 159.99 | channel: 199.95)
+- [ ] **facebook**: sync stock_status on `PB-HRSE-SO-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-HRSE-SO-10-LB` (WC: 44.99 | channel: 39.99)
+- [ ] **facebook**: sync stock_status on `PB-HRSE-SO-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-HRSE-N-10-LB` (WC: 34.99 | channel: 29.99)
+- [ ] **facebook**: sync stock_status on `PB-HRSE-N-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-HRSE-N-20-LB-KIT` (WC: 49.99 | channel: 59.98)
+- [ ] **facebook**: sync stock_status on `PB-HRSE-N-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-HRSE-N-50-LB-KIT` (WC: 119.99 | channel: 149.95)
+- [ ] **facebook**: sync stock_status on `PB-HRSE-N-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-HONEY-25-LB-KIT` (WC: 259.99 | channel: 299.95)
+- [ ] **facebook**: sync price on `PB-HONEY-50-LB-KIT` (WC: 499.99 | channel: 599.9)
+- [ ] **facebook**: sync price on `PB-GOAT-TR-10-LB` (WC: 54.99 | channel: 49.99)
+- [ ] **facebook**: sync stock_status on `PB-GOAT-TR-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-GOAT-TR-20-LB-KIT` (WC: 79.99 | channel: 99.98)
+- [ ] **facebook**: sync stock_status on `PB-GOAT-TR-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-GOAT-TR-50-LB-KIT` (WC: 209.99 | channel: 249.95)
+- [ ] **facebook**: sync stock_status on `PB-GOAT-TR-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync stock_status on `PB-GAME-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-GAME-20-LB-KIT` (WC: 49.99 | channel: 59.98)
+- [ ] **facebook**: sync stock_status on `PB-GAME-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-GAME-50-LB-KIT` (WC: 119.99 | channel: 149.95)
+- [ ] **facebook**: sync stock_status on `PB-GAME-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-COW-NTR-50-LB-KIT` (WC: 159.99 | channel: 199.95)
+- [ ] **facebook**: sync stock_status on `PB-COW-NTR-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-COW-NTR-20-LB-KIT` (WC: 69.99 | channel: 79.98)
+- [ ] **facebook**: sync stock_status on `PB-COW-NTR-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync stock_status on `PB-COW-NTR-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-COW-SO-10-LB` (WC: 44.99 | channel: 39.99)
+- [ ] **facebook**: sync stock_status on `PB-COW-SO-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-COW-SO-20-LB-KIT` (WC: 69.99 | channel: 79.98)
+- [ ] **facebook**: sync stock_status on `PB-COW-SO-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-COW-SO-50-LB-KIT` (WC: 159.99 | channel: 199.95)
+- [ ] **facebook**: sync stock_status on `PB-COW-SO-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-CHIX-5-LB` (WC: 24.99 | channel: 19.99)
+- [ ] **facebook**: sync stock_status on `PB-CHIX-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-CHIX-25-LB-KIT` (WC: 89.95 | channel: 99.95)
+- [ ] **facebook**: sync stock_status on `PB-CHIX-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-CHIX-50-LB-KIT` (WC: 169.91 | channel: 3235.28)
+- [ ] **facebook**: sync stock_status on `PB-CHIX-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync stock_status on `PB-ALPACA-10-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-ALPACA-20-LB-KIT` (WC: 49.99 | channel: 59.98)
+- [ ] **facebook**: sync stock_status on `PB-ALPACA-20-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `PB-ALPACA-50-LB-KIT` (WC: 119.99 | channel: 149.95)
+- [ ] **facebook**: sync stock_status on `PB-ALPACA-50-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `CV-CNFW-5-LB` (WC: 382.35 | channel: 382.85)
+- [ ] **facebook**: sync price on `CV-CNFW-20-LB-KIT` (WC: 1299.99 | channel: 1529.40)
+- [ ] **facebook**: sync price on `CV-CNFW-10-LB-KIT` (WC: 688.24 | channel: 764.71)
+- [ ] **facebook**: sync price on `CV-BGEC-10-LB` (WC: 204.99 | channel: 199.99)
+- [ ] **facebook**: sync price on `CV-BGEC-20-LB-KIT` (WC: 349.99 | channel: 399.99)
+- [ ] **facebook**: sync price on `CV-BGEC-50-LB-KIT` (WC: 899.99 | channel: 999.99)
+- [ ] **facebook**: sync stock_status on `TURF-JBR-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-JBR-10-LB-KIT` (WC: 170.99 | channel: 179.98)
+- [ ] **facebook**: sync stock_status on `TURF-JBR-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-JBR-25-LB-KIT` (WC: 382.99 | channel: 449.95)
+- [ ] **facebook**: sync stock_status on `TURF-JBR-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync stock_status on `TURF-W-BLUE-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-W-BLUE-10-LB-KIT` (WC: 149.99 | channel: 169.98)
+- [ ] **facebook**: sync stock_status on `TURF-W-BLUE-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-W-BLUE-25-LB-KIT` (WC: 359.99 | channel: 424.95)
+- [ ] **facebook**: sync stock_status on `TURF-W-BLUE-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync stock_status on `SUSTANE-4-6-4` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-FINE-10-LB-KIT` (WC: 69.99 | channel: 79.98)
+- [ ] **facebook**: sync stock_status on `TURF-FINE-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-FINE-25-LB-KIT` (WC: 149.99 | channel: 199.95)
+- [ ] **facebook**: sync stock_status on `TURF-FINE-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-FINE-5-LB` (WC: 44.99 | channel: 39.99)
+- [ ] **facebook**: sync stock_status on `TURF-FINE-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync stock_status on `TURF-W-RYE-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-W-RYE-10-LB-KIT` (WC: 89.99 | channel: 99.98)
+- [ ] **facebook**: sync stock_status on `TURF-W-RYE-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-W-RYE-25-LB-KIT` (WC: 199.99 | channel: 249.95)
+- [ ] **facebook**: sync stock_status on `TURF-W-RYE-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-W-TALL-10-LB-KIT` (WC: 59.99 | channel: 69.98)
+- [ ] **facebook**: sync stock_status on `TURF-W-TALL-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-W-TALL-25-LB-KIT` (WC: 139.99 | channel: 174.95)
+- [ ] **facebook**: sync stock_status on `TURF-W-TALL-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync stock_status on `TURF-W-TALL-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-WSHD-5-LB` (WC: 44.99 | channel: 199.95)
+- [ ] **facebook**: sync stock_status on `TURF-WSHD-5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-WSHD-25-LB-KIT` (WC: 169.99 | channel: 79.98)
+- [ ] **facebook**: sync stock_status on `TURF-WSHD-25-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `TURF-WSHD-10-LB-KIT` (WC: 69.99 | channel: 39.99)
+- [ ] **facebook**: sync stock_status on `TURF-WSHD-10-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync stock_status on `WB-SD-0.5-LB` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: sync price on `WB-SD-5-LB-KIT` (WC: 186.91 | channel: 249.90)
+- [ ] **facebook**: sync stock_status on `WB-SD-5-LB-KIT` (WC: onbackorder | channel: instock)
+- [ ] **facebook**: 345 WC SKUs not listed — W-HEAN, W-HEAN-1-LB-KIT, W-HEAN-0.5-LB-KIT, W-HEAN-0.25-LB, PB-DOVE...
+- [ ] **facebook**: `S-AGPA8-10-LB-KIT` missing fields: gtin
+- [ ] **facebook**: `TURF-W-BLUE-BUNDLE-5-LB` missing fields: gtin
+- [ ] **facebook**: `TURF-W-BLUE-BUNDLE-10-LB-KIT` missing fields: gtin
+- [ ] **facebook**: `TURF-W-BLUE-BUNDLE-25-LB-KIT` missing fields: gtin
+- [ ] **facebook**: `TURF-W-TALL-BUNDLE-10-LB-KIT` missing fields: gtin
+- [ ] **pinterest**: investigate error — not connected — Pinterest Catalog API not yet configured
+
+### walmart — Missing SKUs
+
+- W-HEAN
+- W-HEAN-1-LB-KIT
+- W-HEAN-0.5-LB-KIT
+- W-HEAN-0.25-LB
+- PB-DOVE
+- PB-DOVE-50-LB-KIT
+- PB-DOVE-20-LB-KIT
+- PB-DOVE-10-LB
+- WB-PERCUT
+- WB-PERCUT-5-LB-KIT
+- WB-PERCUT-1-LB-KIT
+- WB-PERCUT-0.5-LB
+- WB-COTTAGE
+- WB-COTTAGE-5-LB-KIT
+- WB-COTTAGE-1-LB-KIT
+- WB-COTTAGE-0.5-LB
+- WB-SUNSET
+- WB-SUNSET-5-LB-KIT
+- WB-SUNSET-1-LB-KIT
+- WB-SUNSET-0.5-LB
+- BDL-COOLXER
+- BDL-HOALAWN
+- BDL-FIREWISE
+- BDL-TXDRGHT
+- BDL-RMXERIC
+- BDL-CALNOLAWN
+- BDL-SONORAN
+- BDL-NOTILL
+- BDL-SILVO
+- BDL-TALLGRZ
+- BDL-CARBCOW
+- BDL-SWCLVR
+- BDL-CHICTURN
+- BDL-CARBGRZ
+- BDL-SUMMCC
+- BDL-8WAY
+- BDL-DENVER
+- BDL-PHOENIX
+- BDL-REBATE-SW
+- BDL-REBATE-UT
+- BDL-REBATE-NV
+- BDL-REBATE-AZ
+- BDL-NEWLAND
+- BDL-LIVMULCH
+- BDL-ROTGRZ
+- PG-TRCL
+- PG-TRCL-50-LB-KIT
+- PG-TRCL-20-LB-KIT
+- PG-TRCL-10-LB
+- PB-GRFD
+- PB-GRFD-50-LB-KIT
+- PB-GRFD-20-LB-KIT
+- PB-GRFD-10-LB
+- PG-ORHY
+- PG-ORHY-25-LB-KIT
+- PG-ORHY-10-LB-KIT
+- PG-ORHY-5-LB
+- W-PEEA
+- W-PEEA-0.25-LB
+- W-PEEA-1-LB-KIT
+- W-PEEA-0.5-LB-KIT
+- PG-ANGE
+- PG-ANGE-25-LB-KIT
+- PG-ANGE-10-LB-KIT
+- PG-ANGE-5-LB
+- PG-MEOF
+- PG-MEOF-25-LB-KIT
+- PG-MEOF-10-LB-KIT
+- PG-MEOF-5-LB
+- PG-CHIN
+- PG-CHIN-25-LB-KIT
+- PG-CHIN-10-LB-KIT
+- PG-CHIN-5-LB
+- PG-BRRA
+- PG-BRRA-25-LB-KIT
+- PG-BRRA-10-LB-KIT
+- PG-BRRA-5-LB
+- PG-VIUN
+- PG-VIUN-25-LB-KIT
+- PG-VIUN-10-LB-KIT
+- PG-VIUN-5-LB
+- PG-TRMI
+- PG-TRMI-25-LB-KIT
+- PG-TRMI-10-LB-KIT
+- PG-TRMI-5-LB
+- PG-TRAL
+- PG-TRAL-25-LB-KIT
+- PG-TRAL-10-LB-KIT
+- PG-TRAL-5-LB
+- PG-VIVI
+- PG-VIVI-25-LB-KIT
+- PG-VIVI-10-LB-KIT
+- PG-VIVI-5-LB
+- PB-PLPR
+- PB-PLPR-50-LB-KIT
+- PB-PLPR-20-LB-KIT
+- PB-PLPR-10-LB
+- PB-SOLS
+- PB-SOLS-50-LB-KIT
+- PB-SOLS-10-LB
+- CV-CNIR
+- CV-CNIR-25-LB-KIT
+- CV-CNIR-5-LB
+- W-TRDA
+- W-TRDA-1-LB-KIT
+- W-TRDA-0.5-LB-KIT
+- W-TRDA-0.25-LB
+- W-LUTE
+- W-LUTE-1-LB-KIT
+- W-LUTE-0.5-LB-KIT
+- W-LUTE-0.25-LB
+- WB-TEXN
+- WB-TEXN-5-LB-KIT
+- WB-TEXN-1-LB-KIT
+- WB-TEXN-0.5-LB
+- TURF-TXN
+- TURF-TXN-25-LB-KIT
+- TURF-TXN-10-LB-KIT
+- TURF-TXN-5-LB
+- WB-TXPB
+- WB-TXPB-5-LB-KIT
+- WB-TXPB-1-LB-KIT
+- WB-TXPB-0.5-LB
+- W-OESP
+- W-OESP-1-LB-KIT
+- W-OESP-0.5-LB-KIT
+- W-OESP-0.25-LB
+- PB-TXPR
+- PB-TXPR-50-LB-KIT
+- PB-TXPR-20-LB-KIT
+- PB-TXPR-10-LB
+- W-PHDR
+- W-PHDR-1-LB-KIT
+- W-PHDR-0.5-LB-KIT
+- W-PHDR-0.25-LB
+- W-COLA
+- W-COLA-1-LB-KIT
+- W-COLA-0.5-LB-KIT
+- W-COLA-0.25-LB
+- WB-FLCO
+- WB-FLCO-5-LB-KIT
+- WB-FLCO-1-LB-KIT
+- WB-FLCO-0.5-LB
+- TURF-FLN
+- TURF-FLN-25-LB-KIT
+- TURF-FLN-10-LB-KIT
+- TURF-FLN-5-LB
+- WB-FLPB
+- WB-FLPB-5-LB-KIT
+- WB-FLPB-1-LB-KIT
+- WB-FLPB-0.5-LB
+- WB-FLN
+- WB-FLN-5-LB-KIT
+- WB-FLN-1-LB-KIT
+- WB-FLN-0.5-LB
+- BDL-POL
+- BDL-FYC
+- BDL-WSC
+- BDL-SBC
+- BDL-ORL
+- BDL-TPF
+- PB-BIRD
+- PB-DRY
+- PB-DRY-50-LB-KIT
+- PB-DRY-10-LB
+- PB-IR
+- PB-IR-10-LB
+- PB-CABIN
+- PB-CABIN-5-LB
+- $197.09
+- PB-MUST
+- WB-JPW
+- WB-JPW-5-LB-KIT
+- WB-JPW-1-LB-KIT
+- WB-JPW-0.5-LB
+- PB-CLV
+- TURF-CLV
+- TURF-CLV-5-LB
+- TURF-CLV-25-LB-KIT
+- TURF-CLV-10-LB-KIT
+- TURF-MLB
+- TURF-HLB
+- LAWN-BUDA
+- TURF-BUDA-6-LB-KIT
+- TURF-BUDA-3-LB-KIT
+- TURF-BUDA-15-LB-KIT
+- PB-SGPR
+- PB-SGPR-10-LB
+- PB-SGPR-50-LB-KIT
+- PB-SGPR-20-LB-KIT
+- PB-SHPR
+- PB-SHPR-50-LB-KIT
+- PB-SHPR-10-LB
+- PB-GRSC
+- PB-GRSC-10-LB
+- PB-FULL
+- PB-KRMU
+- PB-KRMU-20-LB-KIT
+- PB-SHADE
+- PB-PLPR-4-LBS
+- PB-PLPR-8-LBS
+- PB-CHSS
+- PB-CHSS-1-LB-KIT
+- PB-COSS
+- W-ENCA
+- W-SAAP
+- W-SAAP-1-LB-KIT
+- W-SAAP-0.5-LB-KIT
+- W-SAAP-0.25-LB
+- W-NAPU
+- W-LUSU
+- W-ERCO
+- W-ERCO-1-LB-KIT
+- W-ERCO-0.5-LB-KIT
+- W-ERCO-0.25-LB
+- WB-XCVP
+- WB-XCVP-1-LB-KIT
+- W-LUMI
+- W-LUMI-1-LB-KIT
+- W-ACLA
+- TURF-W-BLUE-BUNDLE
+- W-ENFA
+- W-DIAUA
+- W-DIAUA-1-LB-KIT
+- W-DIAUA-0.5-LB-KIT
+- W-DIAUA-0.25-LB
+- TURF-W-TALL-BUNDLE
+- TURF-W-TALL-BUNDLE-5-LB-KIT
+- TURF-W-TALL-BUNDLE-25-LB-KIT
+- TURF-W-TALL-BUNDLE-10-LB-KIT
+- W-SIBE
+- W-SIBE-1-LB-KIT
+- W-SIBE-0.5-LB-KIT
+- W-SIBE-0.25-LB
+- W-LUBI
+- W-LUBI-0.25-LB
+- W-LUBI-1-LB-KIT
+- W-LUBI-0.5-LB-KIT
+- PG-TRRE
+- PG-TRRE-50-LB-KIT
+- PG-TRRE-5-LB
+- S-DUTCH-5-LB-ADDON
+- S-RICE
+- S-RICE-5-LB
+- S-RICE-45-LB
+- TURF-W-SS
+- CV-CHM
+- PB-CHM-50-LB
+- PB-CHM-10-LB
+- CV-CNEC
+- PB-CNEC-1-LB
+- PB-CNEC-50-LB
+- PB-CNEC-10-LB
+- S-AGPA8
+- TURF-NFF
+- TURF-NFF-25-LB-KIT
+- TURF-NFF-500-F
+- TURF-NFF-1500-F
+- W-ESCA
+- W-ESCA-0.5-LB-KIT
+- W-ESCA-0.25-LB
+- W-ESMA-1-LB
+- W-ESMA-0.25-LB
+- W-ESMA-0.5-LB
+- WB-CCN
+- WB-CCN-1-LB-KIT
+- WB-CCN-2000-F
+- WB-CCN-500-F
+- WB-CALN
+- W-ASFA
+- W-ASFA-N-1-LB
+- W-ASFA-N-0.25-LB
+- W-ASFA-N-0.5-LBS
+- S-MICRO
+- S-MICRO-1-LB
+- S-MICRO-5000-F
+- S-MICRO-500-F
+- S-INNOC
+- S-INNOC-50-LB
+- S-INNOC-25-LB
+- S-INNOC-10-LB
+- S-INNOC-1-LB
+- S-TACKI
+- PG-BUCK
+- PG-SECE
+- PG-PANO
+- PG-PANO-25-LB-KIT
+- PG-PAVI
+- PG-PAVI-50-LB-KIT
+- PG-PAVI-5-LB
+- PG-PAVI-25-LB-KIT
+- PG-BOGR
+- PG-BUDA
+- PG-BUDA-25-LB-KIT
+- PG-BUDA-50-LB-OLDS
+- PG-BUDA-25-LB-OLDS
+- PG-LOPE
+- PG-LOPE-25-LB-KIT
+- PG-LOPE-5-LB-OLDS
+- PG-POPR
+- PG-POPR-25-LB-OLDS
+- PG-MESA
+- PG-MESA-50-LB-OLDS
+- PG-MESA-5-LB-OLDS
+- PG-PHPR
+- PG-PHPR-1-LB
+- PG-DAGL
+- PG-FEAR2
+- PG-FEAR2-50-LB-OLDS
+- PG-FEAR2-10-LB
+- PG-FEAR2-5-LB
+- S-FEOV
+- S-FEOV-50-LB
+- S-FEOV-25-LB-OLDS
+- S-FEOV-10-LB-OLDS
+- S-FEOV-1-LB
+- WB-DR
+- WB-DR-5-LB-KIT
+- S-DUTCH
+- S-DUTCH-5-LB
+- S-DUTCH-10-LB-KIT
+- S-TRRE-0.25-A
+- S-TRRE-5000-F
+- S-TRRE-1000-F
+- WB-AN
+- WB-AN-5-LB-KIT
+- WB-AN-2000-F
+- WB-RM
+- WB-RM-500-F
+- TURF-BERM
+- TURF-W-BR
+- PB-SHEP-TR
+- PB-SHEP-TR-10-LB
+- PB-SHEP-SO
+- PB-SHEP-SO-50-LB-KIT
+- PB-SHEP-SO-10-LB
+- PB-SHEP-N
+- PB-SHEP-N-10-LB
+- PB-PIG
+- PB-PIG-10-LB
+- PB-HRSE-TR
+- PB-HRSE-SO
+- PB-HRSE-N
+- PB-HRSE-N-10-LB
+- PB-HRSE-N-50-LB-KIT
+- PB-HONEY
+- PB-GOAT-TR
+- PB-GOAT-TR-10-LB
+- PB-GAME
+- PB-GAME-10-LB
+- PB-GAME-50-LB-KIT
+- PB-COW-NTR
+- PB-COW-SO
+- PB-COW-SO-10-LB
+- PB-COW-SO-50-LB-KIT
+- PB-CHIX
+- PB-ALPACA
+- PB-ALPACA-10-LB
+- CV-CNFW
+- CV-BGEC
+- CV-BGEC-50-LB-KIT
+- TURF-JBR
+- TURF-W-BLUE
+- SUSTANE-18-1-8+FE
+- SUSTANE-4-6-4
+- TURF-FINE
+- TURF-FINE-10-LB-KIT
+- TURF-FINE-25-LB-KIT
+- TURF-FINE-5-LB
+- TURF-W-RYE
+- TURF-W-RYE-10-LB-KIT
+- TURF-W-TALL
+- TURF-W-TALL-10-LB-KIT
+- TURF-WSHD
+- PG-CRJU
+- PG-CRJU-25-LB-KIT
+- PG-CRJU-10-LB-KIT
+- PG-CRJU-5-LB
+- W-BAMU
+- W-BAMU-1-LB-KIT
+- W-BAMU-0.5-LB-KIT
+- W-BAMU-0.25-LB
+- PG-SCSC
+- PG-SCSC-25-LB-KIT
+- PG-SCSC-10-LB-KIT
+- PG-SCSC-5-LB
+- 2750AL-A
+- W-ASTU
+- W-ASTU-1-LB-KIT
+- W-ASTU-0.5-LB-KIT
+- W-ASTU-0.25-LB
+- PG-SOSU
+- PG-SOSU-50-LB-KIT
+- PG-SOSU-20-LB-KIT
+- PG-SOSU-5-LB
+- PG-SOSU-25-LB-KIT
+- PG-SOSU-10-LB-KIT
+- PG-SONU
+- PG-SONU-25-LB-KIT
+- PG-SONU-10-LB-KIT
+- PG-SONU-5-LB
+- PG-BOCU
+- PG-BOCU-25-LB-KIT
+- PG-BOCU-10-LB-KIT
+- PG-BOCU-5-LB
+- PG-TRIN
+- PG-TRIN-25-LB-KIT
+- PG-TRIN-10-LB-KIT
+- PG-TRIN-5-LB
+- PG-TRPR
+- PG-TRPR-25-LB-KIT
+- PG-TRPR-10-LB-KIT
+- PG-TRPR-5-LB
+- WB-SD
+- WB-SD-2000-F
+- WB-SD-1000-F
+- WB-SD-500-F
+
+### google_merchant — Missing SKUs
+
+- W-HEAN
+- W-HEAN-1-LB-KIT
+- W-HEAN-0.5-LB-KIT
+- W-HEAN-0.25-LB
+- PB-DOVE
+- PB-DOVE-50-LB-KIT
+- PB-DOVE-20-LB-KIT
+- PB-DOVE-10-LB
+- WB-PERCUT
+- WB-PERCUT-5-LB-KIT
+- WB-PERCUT-1-LB-KIT
+- WB-PERCUT-0.5-LB
+- WB-COTTAGE
+- WB-COTTAGE-5-LB-KIT
+- WB-COTTAGE-1-LB-KIT
+- WB-COTTAGE-0.5-LB
+- WB-SUNSET
+- WB-SUNSET-5-LB-KIT
+- WB-SUNSET-1-LB-KIT
+- WB-SUNSET-0.5-LB
+- BDL-COOLXER
+- BDL-HOALAWN
+- BDL-FIREWISE
+- BDL-TXDRGHT
+- BDL-RMXERIC
+- BDL-CALNOLAWN
+- BDL-SONORAN
+- BDL-NOTILL
+- BDL-SILVO
+- BDL-TALLGRZ
+- BDL-CARBCOW
+- BDL-SWCLVR
+- BDL-CHICTURN
+- BDL-CARBGRZ
+- BDL-SUMMCC
+- BDL-8WAY
+- BDL-DENVER
+- BDL-PHOENIX
+- BDL-REBATE-SW
+- BDL-REBATE-UT
+- BDL-REBATE-NV
+- BDL-REBATE-AZ
+- BDL-NEWLAND
+- BDL-LIVMULCH
+- BDL-ROTGRZ
+- PG-TRCL
+- PG-TRCL-50-LB-KIT
+- PG-TRCL-20-LB-KIT
+- PG-TRCL-10-LB
+- PB-GRFD
+- PB-GRFD-50-LB-KIT
+- PB-GRFD-20-LB-KIT
+- PB-GRFD-10-LB
+- PG-ORHY
+- PG-ORHY-25-LB-KIT
+- PG-ORHY-10-LB-KIT
+- PG-ORHY-5-LB
+- W-PEEA
+- W-PEEA-0.25-LB
+- W-PEEA-1-LB-KIT
+- W-PEEA-0.5-LB-KIT
+- PG-ANGE
+- PG-ANGE-25-LB-KIT
+- PG-ANGE-10-LB-KIT
+- PG-ANGE-5-LB
+- PG-MEOF
+- PG-MEOF-25-LB-KIT
+- PG-MEOF-10-LB-KIT
+- PG-MEOF-5-LB
+- PG-CHIN
+- PG-CHIN-25-LB-KIT
+- PG-CHIN-10-LB-KIT
+- PG-CHIN-5-LB
+- PG-BRRA
+- PG-BRRA-25-LB-KIT
+- PG-BRRA-10-LB-KIT
+- PG-BRRA-5-LB
+- PG-VIUN
+- PG-VIUN-25-LB-KIT
+- PG-VIUN-10-LB-KIT
+- PG-VIUN-5-LB
+- PG-TRMI
+- PG-TRMI-25-LB-KIT
+- PG-TRMI-10-LB-KIT
+- PG-TRMI-5-LB
+- PG-TRAL
+- PG-TRAL-25-LB-KIT
+- PG-TRAL-10-LB-KIT
+- PG-TRAL-5-LB
+- PG-VIVI
+- PG-VIVI-25-LB-KIT
+- PG-VIVI-10-LB-KIT
+- PG-VIVI-5-LB
+- PB-PLPR
+- PB-PLPR-50-LB-KIT
+- PB-PLPR-20-LB-KIT
+- PB-PLPR-10-LB
+- PB-SOLS
+- PB-SOLS-50-LB-KIT
+- PB-SOLS-20-LB-KIT
+- PB-SOLS-10-LB
+- CV-CNIR
+- CV-CNIR-25-LB-KIT
+- CV-CNIR-10-LB-KIT
+- CV-CNIR-5-LB
+- W-TRDA
+- W-LUTE
+- WB-TEXN
+- TURF-TXN
+- WB-TXPB
+- W-OESP
+- PB-TXPR
+- W-PHDR
+- W-COLA
+- WB-FLCO
+- TURF-FLN
+- WB-FLPB
+- WB-FLN
+- BDL-POL
+- BDL-FYC
+- BDL-WSC
+- BDL-SBC
+- BDL-ORL
+- BDL-TPF
+- PB-BIRD
+- PB-DRY
+- PB-IR
+- PB-CABIN
+- $197.09
+- PB-MUST
+- WB-JPW
+- WB-JPW-5-LB-KIT
+- WB-JPW-1-LB-KIT
+- WB-JPW-0.5-LB
+- PB-CLV
+- TURF-CLV
+- TURF-MLB
+- TURF-HLB
+- LAWN-BUDA
+- PB-SGPR
+- PB-SGPR-10-LB
+- PB-SGPR-50-LB-KIT
+- PB-SHPR
+- PB-SHPR-50-LB-KIT
+- PB-SHPR-10-LB
+- PB-GRSC
+- PB-FULL
+- PB-KRMU
+- PB-SHADE
+- PB-CHSS
+- PB-COSS
+- W-ENCA
+- W-SAAP
+- W-NAPU
+- W-LUSU
+- W-ERCO
+- WB-XCVP
+- W-LUMI
+- W-ACLA
+- TURF-W-BLUE-BUNDLE
+- W-ENFA
+- W-DIAUA
+- TURF-W-TALL-BUNDLE
+- W-SIBE
+- W-LUBI
+- W-LUBI-0.5-LB-KIT
+- PG-TRRE
+- S-DUTCH-5-LB-ADDON
+- S-RICE-25-LB-ADDON
+- S-RICE
+- TURF-W-SS
+- CV-CHM
+- PB-CHM-50-LB
+- PB-CHM-10-LB
+- CV-CNEC
+- PB-CNEC-1-LB
+- PB-CNEC-50-LB
+- PB-CNEC-10-LB
+- S-AGPA8
+- TURF-NFF
+- TURF-NFF-500-F
+- TURF-NFF-1500-F
+- W-ESCA
+- W-ESCA-0.5-LB-KIT
+- W-ESCA-0.25-LB
+- W-ESMA-1-LB
+- W-ESMA-0.25-LB
+- W-ESMA-0.5-LB
+- WB-CCN
+- WB-CCN-2000-F
+- WB-CCN-500-F
+- WB-CALN
+- W-ASFA
+- W-ASFA-0.5-LB-KIT
+- W-ASFA-N-1-LB
+- W-ASFA-N-0.25-LB
+- W-ASFA-N-0.5-LBS
+- S-MICRO
+- S-MICRO-5000-F
+- S-MICRO-500-F
+- S-INNOC
+- S-INNOC-50-LB
+- S-INNOC-25-LB
+- S-INNOC-10-LB
+- S-INNOC-1-LB
+- S-TACKI
+- PG-BUCK
+- PG-SECE
+- PG-PANO
+- PG-PAVI
+- PG-BOGR
+- PG-BUDA
+- PG-BUDA-50-LB-OLDS
+- PG-BUDA-25-LB-OLDS
+- PG-LOPE
+- PG-LOPE-5-LB-OLDS
+- PG-POPR
+- PG-POPR-25-LB-OLDS
+- PG-MESA
+- PG-MESA-50-LB-OLDS
+- PG-MESA-5-LB-OLDS
+- PG-PHPR
+- PG-PHPR-1-LB
+- PG-DAGL
+- PG-FEAR2
+- PG-FEAR2-50-LB-OLDS
+- PG-FEAR2-10-LB
+- S-FEOV
+- S-FEOV-50-LB
+- S-FEOV-25-LB-OLDS
+- S-FEOV-10-LB-OLDS
+- S-FEOV-1-LB
+- WB-DR
+- S-DUTCH
+- S-TRRE-0.25-A
+- S-TRRE-5000-F
+- S-TRRE-1000-F
+- WB-AN
+- WB-AN-2000-F
+- WB-RM
+- WB-RM-500-F
+- TURF-BERM
+- TURF-W-BR
+- PB-SHEP-TR
+- PB-SHEP-SO
+- PB-SHEP-N
+- PB-PIG
+- PB-HRSE-TR
+- PB-HRSE-SO
+- PB-HRSE-N
+- PB-HONEY
+- PB-GOAT-TR
+- PB-GAME
+- PB-COW-NTR
+- PB-COW-SO
+- PB-CHIX
+- PB-ALPACA
+- CV-CNFW
+- CV-BGEC
+- TURF-JBR
+- TURF-W-BLUE
+- TURF-FINE
+- TURF-FINE-10-LB-KIT
+- TURF-W-RYE
+- TURF-W-RYE-10-LB-KIT
+- TURF-W-TALL
+- TURF-WSHD
+- PG-CRJU
+- PG-CRJU-25-LB-KIT
+- PG-CRJU-10-LB-KIT
+- PG-CRJU-5-LB
+- W-BAMU
+- W-BAMU-1-LB-KIT
+- W-BAMU-0.5-LB-KIT
+- W-BAMU-0.25-LB
+- PG-SCSC
+- PG-SCSC-25-LB-KIT
+- PG-SCSC-10-LB-KIT
+- PG-SCSC-5-LB
+- W-ASTU
+- PG-SOSU
+- PG-SOSU-50-LB-KIT
+- PG-SOSU-20-LB-KIT
+- PG-SOSU-5-LB
+- PG-SOSU-25-LB-KIT
+- PG-SOSU-10-LB-KIT
+- PG-SONU
+- PG-SONU-25-LB-KIT
+- PG-SONU-10-LB-KIT
+- PG-SONU-5-LB
+- PG-BOCU
+- PG-BOCU-25-LB-KIT
+- PG-BOCU-10-LB-KIT
+- PG-BOCU-5-LB
+- PG-TRIN
+- PG-TRPR
+- WB-SD
+- WB-SD-1-LB-KIT
+- WB-SD-2000-F
+- WB-SD-1000-F
+- WB-SD-500-F
+
+### shopper_approved — Missing SKUs
+
+- W-HEAN
+- W-HEAN-1-LB-KIT
+- W-HEAN-0.5-LB-KIT
+- W-HEAN-0.25-LB
+- PB-DOVE
+- PB-DOVE-50-LB-KIT
+- PB-DOVE-20-LB-KIT
+- PB-DOVE-10-LB
+- WB-PERCUT
+- WB-PERCUT-5-LB-KIT
+- WB-PERCUT-1-LB-KIT
+- WB-PERCUT-0.5-LB
+- WB-COTTAGE
+- WB-COTTAGE-5-LB-KIT
+- WB-COTTAGE-1-LB-KIT
+- WB-COTTAGE-0.5-LB
+- WB-SUNSET
+- WB-SUNSET-5-LB-KIT
+- WB-SUNSET-1-LB-KIT
+- WB-SUNSET-0.5-LB
+- BDL-COOLXER
+- BDL-HOALAWN
+- BDL-FIREWISE
+- BDL-TXDRGHT
+- BDL-RMXERIC
+- BDL-CALNOLAWN
+- BDL-SONORAN
+- BDL-NOTILL
+- BDL-SILVO
+- BDL-TALLGRZ
+- BDL-CARBCOW
+- BDL-SWCLVR
+- BDL-CHICTURN
+- BDL-CARBGRZ
+- BDL-SUMMCC
+- BDL-8WAY
+- BDL-DENVER
+- BDL-PHOENIX
+- BDL-REBATE-SW
+- BDL-REBATE-UT
+- BDL-REBATE-NV
+- BDL-REBATE-AZ
+- BDL-NEWLAND
+- BDL-LIVMULCH
+- BDL-ROTGRZ
+- PG-TRCL
+- PG-TRCL-50-LB-KIT
+- PG-TRCL-20-LB-KIT
+- PG-TRCL-10-LB
+- PB-GRFD
+- PB-GRFD-50-LB-KIT
+- PB-GRFD-20-LB-KIT
+- PB-GRFD-10-LB
+- PG-ORHY
+- PG-ORHY-25-LB-KIT
+- PG-ORHY-10-LB-KIT
+- PG-ORHY-5-LB
+- W-PEEA
+- W-PEEA-0.25-LB
+- W-PEEA-1-LB-KIT
+- W-PEEA-0.5-LB-KIT
+- PG-ANGE
+- PG-ANGE-25-LB-KIT
+- PG-ANGE-10-LB-KIT
+- PG-ANGE-5-LB
+- PG-MEOF
+- PG-MEOF-25-LB-KIT
+- PG-MEOF-10-LB-KIT
+- PG-MEOF-5-LB
+- PG-CHIN
+- PG-CHIN-25-LB-KIT
+- PG-CHIN-10-LB-KIT
+- PG-CHIN-5-LB
+- PG-BRRA
+- PG-BRRA-25-LB-KIT
+- PG-BRRA-10-LB-KIT
+- PG-BRRA-5-LB
+- PG-VIUN
+- PG-VIUN-25-LB-KIT
+- PG-VIUN-10-LB-KIT
+- PG-VIUN-5-LB
+- PG-TRMI
+- PG-TRMI-25-LB-KIT
+- PG-TRMI-10-LB-KIT
+- PG-TRMI-5-LB
+- PG-TRAL
+- PG-TRAL-25-LB-KIT
+- PG-TRAL-10-LB-KIT
+- PG-TRAL-5-LB
+- PG-VIVI
+- PG-VIVI-25-LB-KIT
+- PG-VIVI-10-LB-KIT
+- PG-VIVI-5-LB
+- PB-PLPR
+- PB-PLPR-50-LB-KIT
+- PB-PLPR-20-LB-KIT
+- PB-PLPR-10-LB
+- PB-SOLS
+- PB-SOLS-50-LB-KIT
+- PB-SOLS-20-LB-KIT
+- PB-SOLS-10-LB
+- CV-CNIR
+- CV-CNIR-25-LB-KIT
+- CV-CNIR-10-LB-KIT
+- CV-CNIR-5-LB
+- W-TRDA
+- W-TRDA-1-LB-KIT
+- W-TRDA-0.5-LB-KIT
+- W-TRDA-0.25-LB
+- W-LUTE
+- W-LUTE-1-LB-KIT
+- W-LUTE-0.5-LB-KIT
+- W-LUTE-0.25-LB
+- WB-TEXN
+- WB-TEXN-5-LB-KIT
+- WB-TEXN-1-LB-KIT
+- WB-TEXN-0.5-LB
+- TURF-TXN
+- TURF-TXN-25-LB-KIT
+- TURF-TXN-10-LB-KIT
+- TURF-TXN-5-LB
+- WB-TXPB
+- WB-TXPB-5-LB-KIT
+- WB-TXPB-1-LB-KIT
+- WB-TXPB-0.5-LB
+- W-OESP
+- W-OESP-1-LB-KIT
+- W-OESP-0.5-LB-KIT
+- W-OESP-0.25-LB
+- PB-TXPR
+- PB-TXPR-50-LB-KIT
+- PB-TXPR-20-LB-KIT
+- PB-TXPR-10-LB
+- W-PHDR
+- W-PHDR-1-LB-KIT
+- W-PHDR-0.5-LB-KIT
+- W-PHDR-0.25-LB
+- W-COLA
+- W-COLA-1-LB-KIT
+- W-COLA-0.5-LB-KIT
+- W-COLA-0.25-LB
+- WB-FLCO
+- WB-FLCO-5-LB-KIT
+- WB-FLCO-1-LB-KIT
+- WB-FLCO-0.5-LB
+- TURF-FLN
+- TURF-FLN-25-LB-KIT
+- TURF-FLN-10-LB-KIT
+- TURF-FLN-5-LB
+- WB-FLPB
+- WB-FLPB-5-LB-KIT
+- WB-FLPB-1-LB-KIT
+- WB-FLPB-0.5-LB
+- WB-FLN
+- WB-FLN-5-LB-KIT
+- WB-FLN-1-LB-KIT
+- WB-FLN-0.5-LB
+- BDL-POL
+- BDL-FYC
+- BDL-WSC
+- BDL-SBC
+- BDL-ORL
+- BDL-TPF
+- PB-BIRD
+- PB-BIRD-50-LB-KIT
+- PB-BIRD-20-LB-KIT
+- PB-BIRD-10-LB
+- PB-DRY
+- PB-DRY-50-LB-KIT
+- PB-DRY-20-LB-KIT
+- PB-DRY-10-LB
+- PB-IR
+- PB-IR-50-LB-KIT
+- PB-IR-20-LB-KIT
+- PB-IR-10-LB
+- PB-CABIN
+- PB-CABIN-5-LB
+- $197.09
+- PB-CABIN-25-LB-KIT
+- PB-CABIN-10-LB-KIT
+- PB-MUST
+- PB-MUST-20-LB-KIT
+- PB-MUST-50-LB-KIT
+- PB-MUST-10-LB
+- WB-JPW
+- WB-JPW-5-LB-KIT
+- WB-JPW-1-LB-KIT
+- WB-JPW-0.5-LB
+- PB-CLV
+- PB-CLV-20-LB-KIT
+- PB-CLV-50-LB-KIT
+- PB-CLV-10-LB
+- TURF-CLV
+- TURF-CLV-5-LB
+- TURF-CLV-25-LB-KIT
+- TURF-CLV-10-LB-KIT
+- TURF-MLB
+- TURF-MLB-5-LB
+- TURF-MLB-25-LB-KIT
+- TURF-MLB-10-LB-KIT
+- TURF-HLB
+- TURF-HLB-5-LB
+- TURF-HLB-25-LB-KIT
+- TURF-HLB-10-LB-KIT
+- LAWN-BUDA
+- TURF-BUDA-6-LB-KIT
+- TURF-BUDA-3-LB-KIT
+- TURF-BUDA-15-LB-KIT
+- PB-SGPR
+- PB-SGPR-10-LB
+- PB-SGPR-50-LB-KIT
+- PB-SGPR-20-LB-KIT
+- PB-SHPR
+- PB-SHPR-50-LB-KIT
+- PB-SHPR-20-LB-KIT
+- PB-SHPR-10-LB
+- PB-GRSC
+- PB-GRSC-50-LB-KIT
+- PB-GRSC-20-LB-KIT
+- PB-GRSC-10-LB
+- PB-FULL
+- PB-FULL-50-LB-KIT
+- PB-FULL-20-LB-KIT
+- PB-FULL-10-LB
+- PB-KRMU
+- PB-KRMU-50-LB-KIT
+- PB-KRMU-20-LB-KIT
+- PB-KRMU-10-LB
+- PB-SHADE
+- PB-SHADE-50-LB-KIT
+- PB-SHADE-20-LB-KIT
+- PB-SHADE-10-LB
+- PB-PLPR-4-LBS
+- PB-PLPR-16-LBS
+- PB-PLPR-8-LBS
+- PB-CHSS
+- PB-CHSS-2-LB-KIT
+- PB-CHSS-1-LB-KIT
+- PB-CHSS-0.5-LB
+- PB-COSS
+- PB-COSS-2-LB-KIT
+- PB-COSS-1-LB-KIT
+- PB-COSS-0.5-LB
+- W-ENCA
+- W-ENCA-1-LB-KIT
+- W-ENCA-0.5-LB-KIT
+- W-ENCA-0.25-LB
+- W-SAAP
+- W-SAAP-1-LB-KIT
+- W-SAAP-0.5-LB-KIT
+- W-SAAP-0.25-LB
+- W-NAPU
+- W-NAPU-1-LB-KIT
+- W-NAPU-0.5-LB-KIT
+- W-NAPU-0.25-LB
+- W-LUSU
+- W-LUSU-1-LB-KIT
+- W-LUSU-0.5-LB-KIT
+- W-LUSU-0.25-LB
+- W-ERCO
+- W-ERCO-1-LB-KIT
+- W-ERCO-0.5-LB-KIT
+- W-ERCO-0.25-LB
+- WB-XCVP
+- WB-XCVP-2-LB-KIT
+- WB-XCVP-1-LB-KIT
+- WB-XCVP-0.5-LB
+- W-LUMI
+- W-LUMI-1-LB-KIT
+- W-LUMI-0.5-LB-KIT
+- W-LUMI-0.25-LB
+- W-ACLA
+- W-ACLA-1-LB-KIT
+- W-ACLA-0.5-LB-KIT
+- W-ACLA-0.25-LB
+- TURF-W-BLUE-BUNDLE
+- TURF-W-BLUE-BUNDLE-5-LB
+- TURF-W-BLUE-BUNDLE-25-LB-KIT
+- TURF-W-BLUE-BUNDLE-10-LB-KIT
+- W-ENFA
+- W-ENFA-1-LB-KIT
+- W-ENFA-0.5-LB-KIT
+- W-ENFA-0.25-LB
+- W-DIAUA
+- W-DIAUA-1-LB-KIT
+- W-DIAUA-0.5-LB-KIT
+- W-DIAUA-0.25-LB
+- TURF-W-TALL-BUNDLE
+- TURF-W-TALL-BUNDLE-5-LB-KIT
+- TURF-W-TALL-BUNDLE-25-LB-KIT
+- TURF-W-TALL-BUNDLE-10-LB-KIT
+- W-SIBE
+- W-SIBE-1-LB-KIT
+- W-SIBE-0.5-LB-KIT
+- W-SIBE-0.25-LB
+- W-LUBI
+- W-LUBI-0.25-LB
+- W-LUBI-1-LB-KIT
+- W-LUBI-0.5-LB-KIT
+- PG-TRRE-50-LB-KIT
+- PG-TRRE-5-LB
+- PG-TRRE-10-LB-KIT
+- S-DUTCH-5-LB-ADDON
+- S-RICE-25-LB-ADDON
+- S-RICE
+- S-RICE-5-LB
+- S-RICE-10-LB-KIT
+- TURF-W-SS
+- TURF-W-SS-10-LB-KIT
+- TURF-W-SS-25-LB-KIT
+- TURF-W-SS-5-LB
+- CV-CHM
+- CV-CHM-50-LB-KIT
+- CV-CHM-25-LB-KIT
+- PB-CHM-5-LB
+- PB-CHM-50-LB
+- PB-CHM-10-LB
+- CV-CNEC
+- CV-CNEC-50-LB-KIT
+- CV-CNEC-5-LB
+- CV-CNEC-25-LB-KIT
+- PB-CNEC-1-LB
+- PB-CNEC-50-LB
+- PB-CNEC-10-LB
+- S-AGPA8
+- S-AGPA8-2-LB-KIT
+- S-AGPA8-10-LB-KIT
+- S-AGPA8-1-LB
+- TURF-NFF
+- TURF-NFF-50-LB-KIT
+- TURF-NFF-25-LB-KIT
+- TURF-NFF-500-F
+- TURF-NFF-1500-F
+- TURF-NFF-5-LB
+- W-ESCA
+- W-ESCA-1-LB-KIT
+- W-ESCA-0.5-LB-KIT
+- W-ESCA-0.25-LB
+- W-ESMA-1-LB
+- W-ESMA-0.25-LB
+- W-ESMA-0.5-LB
+- WB-CCN
+- WB-CCN-0.5-LB
+- WB-CCN-1-LB-KIT
+- WB-CCN-5-LB-KIT
+- WB-CCN-2000-F
+- WB-CCN-500-F
+- WB-CALN
+- WB-CALN-0.5-LB
+- WB-CALN-1-LB-KIT
+- WB-CALN-5-LB-KIT
+- W-ASFA
+- W-ASFA-1-LB-KIT
+- W-ASFA-0.5-LB-KIT
+- W-ASFA-0.25-LB
+- W-ASFA-N-1-LB
+- W-ASFA-N-0.25-LB
+- W-ASFA-N-0.5-LBS
+- S-MICRO-5-LB-KIT
+- S-MICRO-2-LB-KIT
+- S-MICRO-1-LB
+- S-INNOC
+- S-INNOC-50-LB
+- S-INNOC-25-LB
+- S-INNOC-5-LB
+- S-TACKI
+- PG-BUCK
+- PG-BUCK-50-LB-KIT
+- PG-BUCK-25-LB-KIT
+- PG-BUCK-5-LB
+- PG-SECE
+- PG-SECE-5-LB
+- PG-SECE-25-LB-KIT
+- PG-SECE-50-LB-KIT
+- PG-PANO
+- PG-PANO-50-LB-KIT
+- PG-PANO-25-LB-KIT
+- PG-PANO-5-LB
+- PG-PAVI
+- PG-PAVI-50-LB-KIT
+- PG-PAVI-5-LB
+- PG-PAVI-25-LB-KIT
+- PG-BOGR-25-LB-KIT
+- PG-BOGR-5-LB
+- PG-BUDA
+- PG-BUDA-50-LB-KIT
+- PG-BUDA-25-LB-KIT
+- PG-BUDA-50-LB-OLDS
+- PG-BUDA-25-LB-OLDS
+- PG-BUDA-5-LB
+- PG-LOPE
+- PG-LOPE-50-LB-KIT
+- PG-LOPE-5-LB
+- PG-LOPE-25-LB-KIT
+- PG-LOPE-5-LB-OLDS
+- PG-POPR
+- PG-POPR-50-LB-KIT
+- PG-POPR-5-LB
+- PG-POPR-25-LB-KIT
+- PG-POPR-25-LB-OLDS
+- PG-MESA
+- PG-MESA-50-LB-KIT
+- PG-MESA-5-LB
+- PG-MESA-25-LB-KIT
+- PG-MESA-50-LB-OLDS
+- PG-MESA-5-LB-OLDS
+- PG-PHPR
+- PG-PHPR-25-LB-KIT
+- PG-PHPR-50-LB-KIT
+- PG-PHPR-5-LB
+- PG-DAGL
+- PG-DAGL-50-LB-KIT
+- PG-DAGL-25-LB-KIT
+- PG-DAGL-5-LB
+- PG-FEAR2-50-LB-KIT
+- PG-FEAR2-25-LB-KIT
+- PG-FEAR2-50-LB-OLDS
+- PG-FEAR2-10-LB
+- PG-FEAR2-5-LB
+- S-FEOV
+- S-FEOV-5-LB
+- S-FEOV-25-LB-KIT
+- S-FEOV-10-LB-KIT
+- S-FEOV-25-LB-OLDS
+- S-FEOV-10-LB-OLDS
+- WB-DR
+- WB-DR-5-LB-KIT
+- WB-DR-1-LB-KIT
+- WB-DR-0.5-LB
+- S-DUTCH
+- S-DUTCH-5-LB
+- S-DUTCH-25-LB-KIT
+- S-DUTCH-10-LB-KIT
+- WB-AN-5-LB-KIT
+- WB-AN-1-LB-KIT
+- WB-AN-0.5-LB
+- WB-RM-5-LB-KIT
+- WB-RM-1-LB-KIT
+- WB-RM-0.5-LB
+- TURF-BERM
+- TURF-BERM-5-LB
+- TURF-BERM-10-LB-KIT
+- TURF-BERM-25-LB-KIT
+- TURF-W-BR
+- TURF-W-BR-25-LB-KIT
+- TURF-W-BR-10-LB-KIT
+- TURF-W-BR-5-LB
+- PB-SHEP-TR
+- PB-SHEP-TR-20-LB-KIT
+- PB-SHEP-TR-50-LB-KIT
+- PB-SHEP-TR-10-LB
+- PB-SHEP-SO
+- PB-SHEP-SO-20-LB-KIT
+- PB-SHEP-SO-50-LB-KIT
+- PB-SHEP-SO-10-LB
+- PB-SHEP-N
+- PB-SHEP-N-20-LB-KIT
+- PB-SHEP-N-50-LB-KIT
+- PB-SHEP-N-10-LB
+- PB-PIG
+- PB-PIG-50-LB-KIT
+- PB-PIG-20-LB-KIT
+- PB-PIG-10-LB
+- PB-HRSE-TR
+- PB-HRSE-TR-50-LB-KIT
+- PB-HRSE-TR-10-LB
+- PB-HRSE-TR-20-LB-KIT
+- PB-HRSE-SO
+- PB-HRSE-SO-20-LB-KIT
+- PB-HRSE-SO-50-LB-KIT
+- PB-HRSE-SO-10-LB
+- PB-HRSE-N
+- PB-HRSE-N-10-LB
+- PB-HRSE-N-20-LB-KIT
+- PB-HRSE-N-50-LB-KIT
+- PB-HONEY
+- PB-HONEY-5-LB
+- PB-HONEY-25-LB-KIT
+- PB-HONEY-50-LB-KIT
+- PB-GOAT-TR
+- PB-GOAT-TR-10-LB
+- PB-GOAT-TR-20-LB-KIT
+- PB-GOAT-TR-50-LB-KIT
+- PB-GAME
+- PB-GAME-10-LB
+- PB-GAME-20-LB-KIT
+- PB-GAME-50-LB-KIT
+- PB-COW-NTR
+- PB-COW-NTR-50-LB-KIT
+- PB-COW-NTR-20-LB-KIT
+- PB-COW-NTR-10-LB
+- PB-COW-SO
+- PB-COW-SO-10-LB
+- PB-COW-SO-20-LB-KIT
+- PB-COW-SO-50-LB-KIT
+- PB-CHIX
+- PB-CHIX-5-LB
+- PB-CHIX-25-LB-KIT
+- PB-CHIX-50-LB-KIT
+- PB-ALPACA
+- PB-ALPACA-10-LB
+- PB-ALPACA-20-LB-KIT
+- PB-ALPACA-50-LB-KIT
+- CV-CNFW
+- CV-CNFW-5-LB
+- CV-CNFW-20-LB-KIT
+- CV-CNFW-10-LB-KIT
+- CV-BGEC
+- CV-BGEC-10-LB
+- CV-BGEC-20-LB-KIT
+- CV-BGEC-50-LB-KIT
+- TURF-JBR
+- TURF-JBR-5-LB
+- TURF-JBR-10-LB-KIT
+- TURF-JBR-25-LB-KIT
+- TURF-W-BLUE
+- TURF-W-BLUE-5-LB
+- TURF-W-BLUE-10-LB-KIT
+- TURF-W-BLUE-25-LB-KIT
+- TURF-FINE
+- TURF-FINE-10-LB-KIT
+- TURF-FINE-25-LB-KIT
+- TURF-FINE-5-LB
+- TURF-W-RYE
+- TURF-W-RYE-5-LB
+- TURF-W-RYE-10-LB-KIT
+- TURF-W-RYE-25-LB-KIT
+- TURF-W-TALL
+- TURF-W-TALL-10-LB-KIT
+- TURF-W-TALL-25-LB-KIT
+- TURF-W-TALL-5-LB
+- TURF-WSHD
+- TURF-WSHD-5-LB
+- TURF-WSHD-25-LB-KIT
+- TURF-WSHD-10-LB-KIT
+- PG-CRJU
+- PG-CRJU-25-LB-KIT
+- PG-CRJU-10-LB-KIT
+- PG-CRJU-5-LB
+- W-BAMU
+- W-BAMU-1-LB-KIT
+- W-BAMU-0.5-LB-KIT
+- W-BAMU-0.25-LB
+- PG-SCSC
+- PG-SCSC-25-LB-KIT
+- PG-SCSC-10-LB-KIT
+- PG-SCSC-5-LB
+- W-ASTU-1-LB-KIT
+- W-ASTU-0.5-LB-KIT
+- W-ASTU-0.25-LB
+- PG-SOSU
+- PG-SOSU-50-LB-KIT
+- PG-SOSU-20-LB-KIT
+- PG-SOSU-5-LB
+- PG-SOSU-25-LB-KIT
+- PG-SOSU-10-LB-KIT
+- PG-SONU
+- PG-SONU-25-LB-KIT
+- PG-SONU-10-LB-KIT
+- PG-SONU-5-LB
+- PG-BOCU
+- PG-BOCU-25-LB-KIT
+- PG-BOCU-10-LB-KIT
+- PG-BOCU-5-LB
+- PG-TRIN-25-LB-KIT
+- PG-TRIN-10-LB-KIT
+- PG-TRIN-5-LB
+- PG-TRPR
+- PG-TRPR-25-LB-KIT
+- PG-TRPR-10-LB-KIT
+- PG-TRPR-5-LB
+- WB-SD-0.5-LB
+- WB-SD-5-LB-KIT
+- WB-SD-1-LB-KIT
+
+### reddit — Missing SKUs
+
+- W-HEAN
+- PB-DOVE
+- WB-PERCUT
+- WB-COTTAGE
+- WB-SUNSET
+- PG-TRCL
+- PB-GRFD
+- PG-ORHY
+- W-PEEA
+- PG-ANGE
+- PG-MEOF
+- PG-CHIN
+- PG-BRRA
+- PG-VIUN
+- PG-TRMI
+- PG-TRAL
+- PG-VIVI
+- PB-PLPR
+- PB-SOLS
+- CV-CNIR
+- W-TRDA
+- W-LUTE
+- WB-TEXN
+- TURF-TXN
+- WB-TXPB
+- W-OESP
+- PB-TXPR
+- W-PHDR
+- W-COLA
+- WB-FLCO
+- TURF-FLN
+- WB-FLPB
+- WB-FLN
+- PB-BIRD
+- PB-BIRD-50-LB-KIT
+- PB-DRY
+- PB-DRY-50-LB-KIT
+- PB-DRY-20-LB-KIT
+- PB-DRY-10-LB
+- PB-IR
+- PB-IR-50-LB-KIT
+- PB-IR-20-LB-KIT
+- PB-IR-10-LB
+- PB-CABIN
+- PB-CABIN-5-LB
+- $197.09
+- PB-CABIN-25-LB-KIT
+- PB-CABIN-10-LB-KIT
+- PB-MUST
+- WB-JPW
+- PB-CLV
+- TURF-CLV
+- TURF-CLV-5-LB
+- TURF-CLV-25-LB-KIT
+- TURF-CLV-10-LB-KIT
+- TURF-MLB
+- TURF-MLB-25-LB-KIT
+- TURF-MLB-10-LB-KIT
+- TURF-HLB
+- TURF-HLB-25-LB-KIT
+- TURF-HLB-10-LB-KIT
+- LAWN-BUDA
+- TURF-BUDA-6-LB-KIT
+- TURF-BUDA-3-LB-KIT
+- TURF-BUDA-15-LB-KIT
+- PB-SGPR
+- PB-SGPR-10-LB
+- PB-SGPR-50-LB-KIT
+- PB-SGPR-20-LB-KIT
+- PB-SHPR
+- PB-SHPR-20-LB-KIT
+- PB-SHPR-10-LB
+- PB-GRSC
+- PB-GRSC-50-LB-KIT
+- PB-GRSC-20-LB-KIT
+- PB-GRSC-10-LB
+- PB-FULL
+- PB-KRMU
+- PB-KRMU-50-LB-KIT
+- PB-KRMU-20-LB-KIT
+- PB-KRMU-10-LB
+- PB-SHADE
+- PB-CHSS
+- PB-COSS
+- PB-COSS-2-LB-KIT
+- W-ENCA
+- W-ENCA-1-LB-KIT
+- W-ENCA-0.25-LB
+- W-SAAP
+- W-SAAP-0.25-LB
+- W-NAPU
+- W-NAPU-1-LB-KIT
+- W-LUSU
+- W-LUSU-1-LB-KIT
+- W-LUSU-0.5-LB-KIT
+- W-LUSU-0.25-LB
+- W-ERCO
+- WB-XCVP
+- W-LUMI
+- W-ACLA
+- W-ACLA-1-LB-KIT
+- W-ACLA-0.25-LB
+- TURF-W-BLUE-BUNDLE
+- TURF-W-BLUE-BUNDLE-5-LB
+- TURF-W-BLUE-BUNDLE-25-LB-KIT
+- TURF-W-BLUE-BUNDLE-10-LB-KIT
+- W-ENFA
+- W-ENFA-1-LB-KIT
+- W-ENFA-0.5-LB-KIT
+- W-ENFA-0.25-LB
+- W-DIAUA
+- TURF-W-TALL-BUNDLE
+- TURF-W-TALL-BUNDLE-5-LB-KIT
+- TURF-W-TALL-BUNDLE-25-LB-KIT
+- TURF-W-TALL-BUNDLE-10-LB-KIT
+- W-SIBE
+- W-LUBI
+- PG-TRRE
+- PG-TRRE-50-LB-KIT
+- PG-TRRE-5-LB
+- PG-TRRE-10-LB-KIT
+- S-RICE-25-LB-ADDON
+- S-RICE
+- S-RICE-5-LB
+- S-RICE-45-LB
+- S-RICE-10-LB-KIT
+- TURF-W-SS
+- TURF-W-SS-10-LB-KIT
+- TURF-W-SS-25-LB-KIT
+- TURF-W-SS-5-LB
+- CV-CHM
+- CV-CHM-50-LB-KIT
+- CV-CHM-25-LB-KIT
+- PB-CHM-50-LB
+- PB-CHM-10-LB
+- CV-CNEC
+- CV-CNEC-50-LB-KIT
+- CV-CNEC-5-LB
+- CV-CNEC-25-LB-KIT
+- PB-CNEC-1-LB
+- PB-CNEC-50-LB
+- PB-CNEC-10-LB
+- S-AGPA8
+- S-AGPA8-2-LB-KIT
+- S-AGPA8-10-LB-KIT
+- S-AGPA8-1-LB
+- TURF-NFF
+- TURF-NFF-50-LB-KIT
+- TURF-NFF-25-LB-KIT
+- TURF-NFF-500-F
+- TURF-NFF-1500-F
+- TURF-NFF-5-LB
+- W-ESCA
+- W-ESCA-1-LB-KIT
+- W-ESCA-0.5-LB-KIT
+- W-ESCA-0.25-LB
+- W-ESMA-1-LB
+- W-ESMA-0.25-LB
+- W-ESMA-0.5-LB
+- WB-CCN
+- WB-CCN-2000-F
+- WB-CCN-500-F
+- WB-CALN
+- WB-CALN-0.5-LB
+- WB-CALN-1-LB-KIT
+- WB-CALN-5-LB-KIT
+- W-ASFA
+- W-ASFA-0.5-LB-KIT
+- W-ASFA-N-0.5-LBS
+- S-MICRO
+- S-MICRO-5000-F
+- S-MICRO-500-F
+- S-INNOC
+- S-INNOC-50-LB
+- S-INNOC-25-LB
+- S-INNOC-10-LB
+- S-INNOC-1-LB
+- S-TACKI
+- PG-BUCK
+- PG-SECE
+- PG-PANO
+- PG-PANO-25-LB-KIT
+- PG-PANO-5-LB
+- PG-PAVI
+- PG-BOGR
+- PG-BUDA
+- PG-BUDA-50-LB-OLDS
+- PG-BUDA-25-LB-OLDS
+- PG-LOPE
+- PG-LOPE-5-LB
+- PG-LOPE-25-LB-KIT
+- PG-LOPE-5-LB-OLDS
+- PG-POPR
+- PG-POPR-5-LB
+- PG-POPR-25-LB-OLDS
+- PG-MESA
+- PG-MESA-5-LB
+- PG-MESA-50-LB-OLDS
+- PG-MESA-5-LB-OLDS
+- PG-PHPR
+- PG-PHPR-25-LB-KIT
+- PG-PHPR-50-LB-KIT
+- PG-PHPR-5-LB
+- PG-PHPR-1-LB
+- PG-DAGL
+- PG-DAGL-50-LB-KIT
+- PG-DAGL-25-LB-KIT
+- PG-DAGL-5-LB
+- PG-FEAR2
+- PG-FEAR2-50-LB-OLDS
+- PG-FEAR2-10-LB
+- S-FEOV
+- S-FEOV-50-LB
+- S-FEOV-25-LB-OLDS
+- S-FEOV-10-LB-OLDS
+- S-FEOV-1-LB
+- WB-DR
+- WB-DR-5-LB-KIT
+- WB-DR-1-LB-KIT
+- WB-DR-0.5-LB
+- S-DUTCH
+- S-TRRE-0.25-A
+- S-TRRE-5000-F
+- S-TRRE-1000-F
+- WB-AN
+- WB-AN-5-LB-KIT
+- WB-AN-1-LB-KIT
+- WB-AN-0.5-LB
+- WB-AN-2000-F
+- WB-RM
+- WB-RM-5-LB-KIT
+- WB-RM-1-LB-KIT
+- WB-RM-0.5-LB
+- WB-RM-500-F
+- TURF-BERM
+- TURF-W-BR
+- TURF-W-BR-25-LB-KIT
+- TURF-W-BR-10-LB-KIT
+- TURF-W-BR-5-LB
+- PB-SHEP-TR
+- PB-SHEP-TR-20-LB-KIT
+- PB-SHEP-TR-50-LB-KIT
+- PB-SHEP-TR-10-LB
+- PB-SHEP-SO
+- PB-SHEP-SO-20-LB-KIT
+- PB-SHEP-SO-50-LB-KIT
+- PB-SHEP-SO-10-LB
+- PB-SHEP-N
+- PB-SHEP-N-20-LB-KIT
+- PB-SHEP-N-50-LB-KIT
+- PB-SHEP-N-10-LB
+- PB-PIG
+- PB-PIG-50-LB-KIT
+- PB-PIG-20-LB-KIT
+- PB-PIG-10-LB
+- PB-HRSE-TR
+- PB-HRSE-TR-50-LB-KIT
+- PB-HRSE-TR-10-LB
+- PB-HRSE-TR-20-LB-KIT
+- PB-HRSE-SO
+- PB-HRSE-SO-20-LB-KIT
+- PB-HRSE-SO-50-LB-KIT
+- PB-HRSE-SO-10-LB
+- PB-HRSE-N
+- PB-HRSE-N-10-LB
+- PB-HRSE-N-20-LB-KIT
+- PB-HRSE-N-50-LB-KIT
+- PB-HONEY
+- PB-GOAT-TR
+- PB-GOAT-TR-10-LB
+- PB-GOAT-TR-20-LB-KIT
+- PB-GOAT-TR-50-LB-KIT
+- PB-GAME
+- PB-GAME-10-LB
+- PB-GAME-20-LB-KIT
+- PB-GAME-50-LB-KIT
+- PB-COW-NTR
+- PB-COW-NTR-50-LB-KIT
+- PB-COW-NTR-20-LB-KIT
+- PB-COW-NTR-10-LB
+- PB-COW-SO
+- PB-COW-SO-10-LB
+- PB-COW-SO-20-LB-KIT
+- PB-COW-SO-50-LB-KIT
+- PB-CHIX
+- PB-CHIX-5-LB
+- PB-CHIX-25-LB-KIT
+- PB-CHIX-50-LB-KIT
+- PB-ALPACA
+- PB-ALPACA-10-LB
+- PB-ALPACA-20-LB-KIT
+- PB-ALPACA-50-LB-KIT
+- CV-CNFW
+- CV-BGEC
+- TURF-JBR
+- TURF-JBR-5-LB
+- TURF-JBR-10-LB-KIT
+- TURF-JBR-25-LB-KIT
+- TURF-W-BLUE
+- TURF-W-BLUE-5-LB
+- TURF-W-BLUE-10-LB-KIT
+- TURF-W-BLUE-25-LB-KIT
+- SUSTANE-4-6-4
+- TURF-FINE
+- TURF-FINE-10-LB-KIT
+- TURF-FINE-25-LB-KIT
+- TURF-FINE-5-LB
+- TURF-W-RYE
+- TURF-W-RYE-5-LB
+- TURF-W-RYE-10-LB-KIT
+- TURF-W-RYE-25-LB-KIT
+- TURF-W-TALL
+- TURF-W-TALL-10-LB-KIT
+- TURF-W-TALL-25-LB-KIT
+- TURF-W-TALL-5-LB
+- TURF-WSHD
+- TURF-WSHD-5-LB
+- TURF-WSHD-25-LB-KIT
+- TURF-WSHD-10-LB-KIT
+- PG-CRJU
+- W-BAMU
+- PG-SCSC
+- W-ASTU
+- W-ASTU-1-LB-KIT
+- W-ASTU-0.5-LB-KIT
+- W-ASTU-0.25-LB
+- PG-SOSU
+- PG-SONU
+- PG-BOCU
+- PG-TRIN
+- PG-TRIN-25-LB-KIT
+- PG-TRIN-10-LB-KIT
+- PG-TRIN-5-LB
+- PG-TRPR
+- WB-SD
+- WB-SD-0.5-LB
+- WB-SD-5-LB-KIT
+- WB-SD-1-LB-KIT
+- WB-SD-2000-F
+- WB-SD-1000-F
+- WB-SD-500-F
+
+### facebook — Missing SKUs
+
+- W-HEAN
+- W-HEAN-1-LB-KIT
+- W-HEAN-0.5-LB-KIT
+- W-HEAN-0.25-LB
+- PB-DOVE
+- PB-DOVE-50-LB-KIT
+- PB-DOVE-20-LB-KIT
+- PB-DOVE-10-LB
+- WB-PERCUT
+- WB-PERCUT-5-LB-KIT
+- WB-PERCUT-1-LB-KIT
+- WB-PERCUT-0.5-LB
+- WB-COTTAGE
+- WB-COTTAGE-5-LB-KIT
+- WB-COTTAGE-1-LB-KIT
+- WB-COTTAGE-0.5-LB
+- WB-SUNSET
+- WB-SUNSET-5-LB-KIT
+- WB-SUNSET-1-LB-KIT
+- WB-SUNSET-0.5-LB
+- BDL-COOLXER
+- BDL-HOALAWN
+- BDL-FIREWISE
+- BDL-TXDRGHT
+- BDL-RMXERIC
+- BDL-CALNOLAWN
+- BDL-SONORAN
+- BDL-NOTILL
+- BDL-SILVO
+- BDL-TALLGRZ
+- BDL-CARBCOW
+- BDL-SWCLVR
+- BDL-CHICTURN
+- BDL-CARBGRZ
+- BDL-SUMMCC
+- BDL-8WAY
+- BDL-DENVER
+- BDL-PHOENIX
+- BDL-REBATE-SW
+- BDL-REBATE-UT
+- BDL-REBATE-NV
+- BDL-REBATE-AZ
+- BDL-NEWLAND
+- BDL-LIVMULCH
+- BDL-ROTGRZ
+- PG-TRCL
+- PG-TRCL-50-LB-KIT
+- PG-TRCL-20-LB-KIT
+- PG-TRCL-10-LB
+- PB-GRFD
+- PB-GRFD-50-LB-KIT
+- PB-GRFD-20-LB-KIT
+- PB-GRFD-10-LB
+- PG-ORHY
+- PG-ORHY-25-LB-KIT
+- PG-ORHY-10-LB-KIT
+- PG-ORHY-5-LB
+- W-PEEA
+- W-PEEA-0.25-LB
+- W-PEEA-1-LB-KIT
+- W-PEEA-0.5-LB-KIT
+- PG-ANGE
+- PG-ANGE-25-LB-KIT
+- PG-ANGE-10-LB-KIT
+- PG-ANGE-5-LB
+- PG-MEOF
+- PG-MEOF-25-LB-KIT
+- PG-MEOF-10-LB-KIT
+- PG-MEOF-5-LB
+- PG-CHIN
+- PG-CHIN-25-LB-KIT
+- PG-CHIN-10-LB-KIT
+- PG-CHIN-5-LB
+- PG-BRRA
+- PG-BRRA-25-LB-KIT
+- PG-BRRA-10-LB-KIT
+- PG-BRRA-5-LB
+- PG-VIUN
+- PG-VIUN-25-LB-KIT
+- PG-VIUN-10-LB-KIT
+- PG-VIUN-5-LB
+- PG-TRMI
+- PG-TRMI-25-LB-KIT
+- PG-TRMI-10-LB-KIT
+- PG-TRMI-5-LB
+- PG-TRAL
+- PG-TRAL-25-LB-KIT
+- PG-TRAL-10-LB-KIT
+- PG-TRAL-5-LB
+- PG-VIVI
+- PG-VIVI-25-LB-KIT
+- PG-VIVI-10-LB-KIT
+- PG-VIVI-5-LB
+- PB-PLPR
+- PB-PLPR-50-LB-KIT
+- PB-PLPR-20-LB-KIT
+- PB-SOLS
+- PB-SOLS-50-LB-KIT
+- PB-SOLS-20-LB-KIT
+- CV-CNIR
+- CV-CNIR-25-LB-KIT
+- CV-CNIR-10-LB-KIT
+- W-TRDA
+- W-TRDA-1-LB-KIT
+- W-TRDA-0.5-LB-KIT
+- W-TRDA-0.25-LB
+- W-LUTE
+- W-LUTE-1-LB-KIT
+- W-LUTE-0.5-LB-KIT
+- W-LUTE-0.25-LB
+- WB-TEXN
+- WB-TEXN-5-LB-KIT
+- WB-TEXN-1-LB-KIT
+- WB-TEXN-0.5-LB
+- TURF-TXN
+- TURF-TXN-25-LB-KIT
+- TURF-TXN-10-LB-KIT
+- TURF-TXN-5-LB
+- WB-TXPB
+- WB-TXPB-5-LB-KIT
+- WB-TXPB-1-LB-KIT
+- WB-TXPB-0.5-LB
+- W-OESP
+- W-OESP-1-LB-KIT
+- W-OESP-0.5-LB-KIT
+- W-OESP-0.25-LB
+- PB-TXPR
+- PB-TXPR-50-LB-KIT
+- PB-TXPR-20-LB-KIT
+- PB-TXPR-10-LB
+- W-PHDR
+- W-PHDR-1-LB-KIT
+- W-PHDR-0.5-LB-KIT
+- W-PHDR-0.25-LB
+- W-COLA
+- W-COLA-1-LB-KIT
+- W-COLA-0.5-LB-KIT
+- W-COLA-0.25-LB
+- WB-FLCO
+- WB-FLCO-5-LB-KIT
+- WB-FLCO-1-LB-KIT
+- WB-FLCO-0.5-LB
+- TURF-FLN
+- TURF-FLN-25-LB-KIT
+- TURF-FLN-10-LB-KIT
+- TURF-FLN-5-LB
+- WB-FLPB
+- WB-FLPB-5-LB-KIT
+- WB-FLPB-1-LB-KIT
+- WB-FLPB-0.5-LB
+- WB-FLN
+- WB-FLN-5-LB-KIT
+- WB-FLN-1-LB-KIT
+- WB-FLN-0.5-LB
+- BDL-POL
+- BDL-FYC
+- BDL-WSC
+- BDL-SBC
+- BDL-ORL
+- BDL-TPF
+- PB-BIRD
+- PB-DRY
+- PB-IR
+- PB-CABIN
+- PB-CABIN-5-LB
+- $197.09
+- PB-MUST
+- WB-JPW
+- WB-JPW-5-LB-KIT
+- WB-JPW-1-LB-KIT
+- WB-JPW-0.5-LB
+- PB-CLV
+- TURF-CLV
+- TURF-MLB
+- TURF-HLB
+- LAWN-BUDA
+- PB-SGPR
+- PB-SGPR-10-LB
+- PB-SGPR-50-LB-KIT
+- PB-SHPR
+- PB-SHPR-50-LB-KIT
+- PB-SHPR-10-LB
+- PB-GRSC
+- PB-FULL
+- PB-KRMU
+- PB-SHADE
+- PB-CHSS
+- PB-COSS
+- W-ENCA
+- W-SAAP
+- W-NAPU
+- W-LUSU
+- W-ERCO
+- WB-XCVP
+- W-LUMI
+- W-ACLA
+- TURF-W-BLUE-BUNDLE
+- W-ENFA
+- W-DIAUA
+- TURF-W-TALL-BUNDLE
+- W-SIBE
+- W-LUBI
+- W-LUBI-0.5-LB-KIT
+- PG-TRRE
+- S-DUTCH-5-LB-ADDON
+- S-RICE-25-LB-ADDON
+- S-RICE
+- TURF-W-SS
+- CV-CHM
+- PB-CHM-50-LB
+- PB-CHM-10-LB
+- CV-CNEC
+- PB-CNEC-1-LB
+- PB-CNEC-50-LB
+- PB-CNEC-10-LB
+- S-AGPA8
+- TURF-NFF
+- TURF-NFF-500-F
+- TURF-NFF-1500-F
+- W-ESCA
+- W-ESCA-0.5-LB-KIT
+- W-ESCA-0.25-LB
+- W-ESMA-1-LB
+- W-ESMA-0.25-LB
+- W-ESMA-0.5-LB
+- WB-CCN
+- WB-CCN-2000-F
+- WB-CCN-500-F
+- WB-CALN
+- W-ASFA
+- W-ASFA-0.5-LB-KIT
+- W-ASFA-N-1-LB
+- W-ASFA-N-0.25-LB
+- W-ASFA-N-0.5-LBS
+- S-MICRO
+- S-MICRO-5000-F
+- S-MICRO-500-F
+- S-INNOC
+- S-INNOC-50-LB
+- S-INNOC-25-LB
+- S-INNOC-10-LB
+- S-INNOC-1-LB
+- S-TACKI
+- PG-BUCK
+- PG-SECE
+- PG-PANO
+- PG-PAVI
+- PG-BOGR
+- PG-BUDA
+- PG-BUDA-50-LB-OLDS
+- PG-BUDA-25-LB-OLDS
+- PG-LOPE
+- PG-LOPE-5-LB-OLDS
+- PG-POPR
+- PG-POPR-25-LB-OLDS
+- PG-MESA
+- PG-MESA-50-LB-OLDS
+- PG-MESA-5-LB-OLDS
+- PG-PHPR
+- PG-PHPR-1-LB
+- PG-DAGL
+- PG-FEAR2
+- PG-FEAR2-50-LB-OLDS
+- PG-FEAR2-10-LB
+- S-FEOV
+- S-FEOV-50-LB
+- S-FEOV-25-LB-OLDS
+- S-FEOV-10-LB-OLDS
+- S-FEOV-1-LB
+- WB-DR
+- S-DUTCH
+- S-TRRE-0.25-A
+- S-TRRE-5000-F
+- S-TRRE-1000-F
+- WB-AN
+- WB-AN-2000-F
+- WB-RM
+- WB-RM-500-F
+- TURF-BERM
+- TURF-W-BR
+- PB-SHEP-TR
+- PB-SHEP-SO
+- PB-SHEP-N
+- PB-PIG
+- PB-HRSE-TR
+- PB-HRSE-SO
+- PB-HRSE-N
+- PB-HONEY
+- PB-GOAT-TR
+- PB-GAME
+- PB-COW-NTR
+- PB-COW-SO
+- PB-CHIX
+- PB-ALPACA
+- CV-CNFW
+- CV-BGEC
+- TURF-JBR
+- TURF-W-BLUE
+- TURF-FINE
+- TURF-W-RYE
+- TURF-W-TALL
+- TURF-WSHD
+- PG-CRJU
+- PG-CRJU-25-LB-KIT
+- PG-CRJU-10-LB-KIT
+- PG-CRJU-5-LB
+- W-BAMU
+- W-BAMU-1-LB-KIT
+- W-BAMU-0.5-LB-KIT
+- W-BAMU-0.25-LB
+- PG-SCSC
+- PG-SCSC-25-LB-KIT
+- PG-SCSC-10-LB-KIT
+- PG-SCSC-5-LB
+- W-ASTU
+- W-ASTU-1-LB-KIT
+- W-ASTU-0.5-LB-KIT
+- W-ASTU-0.25-LB
+- PG-SOSU
+- PG-SOSU-50-LB-KIT
+- PG-SOSU-20-LB-KIT
+- PG-SOSU-5-LB
+- PG-SOSU-25-LB-KIT
+- PG-SOSU-10-LB-KIT
+- PG-SONU
+- PG-SONU-25-LB-KIT
+- PG-SONU-10-LB-KIT
+- PG-SONU-5-LB
+- PG-BOCU
+- PG-BOCU-25-LB-KIT
+- PG-BOCU-10-LB-KIT
+- PG-BOCU-5-LB
+- PG-TRIN
+- PG-TRIN-25-LB-KIT
+- PG-TRIN-10-LB-KIT
+- PG-TRIN-5-LB
+- PG-TRPR
+- PG-TRPR-25-LB-KIT
+- PG-TRPR-10-LB-KIT
+- PG-TRPR-5-LB
+- WB-SD
+- WB-SD-1-LB-KIT
+- WB-SD-2000-F
+- WB-SD-1000-F
+- WB-SD-500-F
+
+## Feed Scorecard — Week 32 (Slow Period, index 0.39)
+
+| Channel | Coverage | Quality | Drift | Trend |
+|---------|----------|---------|-------|-------|
+| walmart | 100 🟢 | 0 🔴 | 0 🔴 | → |
+| amazon | — | — | — | ERROR |
+| google_merchant | 100 🟢 | 77 🔴 | 1 🔴 | → |
+| klaviyo | — | — | — | ERROR |
+| shopper_approved | 100 🟢 | 97 🟢 | 100 🟢 | → |
+| reddit | 100 🟢 | 100 🟢 | 100 🟢 | → |
+| facebook | 100 🟢 | 97 🟢 | 100 🟢 | → |
+| pinterest | — | — | — | ERROR |
+
+_Off-season (Slow Period): coverage expectations relaxed. Quality held to full standard._
