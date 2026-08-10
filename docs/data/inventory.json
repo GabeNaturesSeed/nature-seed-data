@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-08-09",
+  "as_of": "2026-08-10",
   "items": [
     {
       "sku": "2750AL-A",
@@ -1613,11 +1613,11 @@
       "sku": "CV-CNEC-5-LB",
       "name": "California Erosion Control Mix",
       "qty": 4.0,
-      "daily_velocity": 0.05,
-      "days_remaining": 80,
+      "daily_velocity": 0.06,
+      "days_remaining": 66,
       "q1_need": 0.0,
-      "q2_need": 5.5,
-      "surplus_gap": -1.5,
+      "q2_need": 6.6,
+      "surplus_gap": -2.6,
       "status": "ok"
     },
     {
@@ -1712,11 +1712,11 @@
       "sku": "PB-PIG-10-LB",
       "name": "Pasture Pig Mix",
       "qty": 54.0,
-      "daily_velocity": 0.74,
+      "daily_velocity": 0.75,
       "days_remaining": 72,
       "q1_need": 0.0,
-      "q2_need": 80.8,
-      "surplus_gap": -26.8,
+      "q2_need": 81.9,
+      "surplus_gap": -27.9,
       "status": "ok"
     },
     {
@@ -1800,11 +1800,11 @@
       "sku": "S-DUTCH-5-LB",
       "name": "White Dutch Clover Seeds - 5 lbs",
       "qty": 20.0,
-      "daily_velocity": 0.27,
-      "days_remaining": 74,
+      "daily_velocity": 0.28,
+      "days_remaining": 71,
       "q1_need": 0.0,
-      "q2_need": 29.5,
-      "surplus_gap": -9.5,
+      "q2_need": 30.6,
+      "surplus_gap": -10.6,
       "status": "ok"
     },
     {
@@ -1833,22 +1833,22 @@
       "sku": "S-MICRO-1-LB",
       "name": "Microclover",
       "qty": 89.0,
-      "daily_velocity": 1.22,
+      "daily_velocity": 1.23,
       "days_remaining": 72,
       "q1_need": 0.0,
-      "q2_need": 133.2,
-      "surplus_gap": -44.2,
+      "q2_need": 134.3,
+      "surplus_gap": -45.3,
       "status": "ok"
     },
     {
       "sku": "S-RICE-5-LB",
       "name": "Rice Hulls - 5lbs",
       "qty": 174.0,
-      "daily_velocity": 2.38,
-      "days_remaining": 73,
+      "daily_velocity": 2.4,
+      "days_remaining": 72,
       "q1_need": 0.0,
-      "q2_need": 259.9,
-      "surplus_gap": -85.9,
+      "q2_need": 262.1,
+      "surplus_gap": -88.1,
       "status": "ok"
     },
     {
@@ -1866,11 +1866,11 @@
       "sku": "TURF-BERM-5-LB",
       "name": "Bermuda grass Turf Blend",
       "qty": 36.0,
-      "daily_velocity": 0.49,
-      "days_remaining": 73,
+      "daily_velocity": 0.5,
+      "days_remaining": 72,
       "q1_need": 0.0,
-      "q2_need": 53.5,
-      "surplus_gap": -17.5,
+      "q2_need": 54.6,
+      "surplus_gap": -18.6,
       "status": "ok"
     },
     {
@@ -2041,17 +2041,17 @@
     "green_count": 39
   },
   "fba_velocity": {
-    "daily_orders": 10.5,
-    "daily_revenue": 317.27,
+    "daily_orders": 10.6,
+    "daily_revenue": 328.87,
     "period_days": 14
   },
   "order_tracking": {
-    "total_30d": 1014,
-    "fulfilled": 933,
+    "total_30d": 1019,
+    "fulfilled": 906,
     "backorders": 0,
-    "unfulfilled_lt_1d": 69,
-    "unfulfilled_lt_5d": 8,
-    "unfulfilled_5_to_10d": 4,
+    "unfulfilled_lt_1d": 65,
+    "unfulfilled_lt_5d": 42,
+    "unfulfilled_5_to_10d": 6,
     "unfulfilled_gt_10d": 0
   }
 }
