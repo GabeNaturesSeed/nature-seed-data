@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-08-10",
+  "as_of": "2026-08-11",
   "items": [
     {
       "sku": "2750AL-A",
@@ -114,12 +114,12 @@
     {
       "sku": "PB-CHIX-5-LB",
       "name": "Chicken Forage Mix",
-      "qty": 223.0,
+      "qty": 224.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 223.0,
+      "surplus_gap": 224.0,
       "status": "ok"
     },
     {
@@ -818,12 +818,12 @@
     {
       "sku": "S-AGPA8-1-LB",
       "name": "San Diego Bentgrass",
-      "qty": 5.0,
+      "qty": 3.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 5.0,
+      "surplus_gap": 3.0,
       "status": "ok"
     },
     {
@@ -917,12 +917,12 @@
     {
       "sku": "S-TACKI-50-LB",
       "name": "M-Binder Tackifier-Soil Stabilizer",
-      "qty": 32.0,
+      "qty": 31.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 32.0,
+      "surplus_gap": 31.0,
       "status": "ok"
     },
     {
@@ -1168,6 +1168,17 @@
       "status": "ok"
     },
     {
+      "sku": "TURF-W-TALL-5-LB",
+      "name": "TWCA Water-Wise Triple-Play Turf Blend",
+      "qty": 1.0,
+      "daily_velocity": 0.0,
+      "days_remaining": 9999,
+      "q1_need": 0.0,
+      "q2_need": 0.0,
+      "surplus_gap": 1.0,
+      "status": "ok"
+    },
+    {
       "sku": "TURF-WSHD-5-LB",
       "name": "TWCA Water-Wise Shade Mix",
       "qty": 32.0,
@@ -1181,12 +1192,12 @@
     {
       "sku": "W-ACLA-0.25-LB",
       "name": "Western Yarrow",
-      "qty": 13.0,
+      "qty": 11.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 13.0,
+      "surplus_gap": 11.0,
       "status": "ok"
     },
     {
@@ -1613,11 +1624,11 @@
       "sku": "CV-CNEC-5-LB",
       "name": "California Erosion Control Mix",
       "qty": 4.0,
-      "daily_velocity": 0.06,
-      "days_remaining": 66,
+      "daily_velocity": 0.05,
+      "days_remaining": 80,
       "q1_need": 0.0,
-      "q2_need": 6.6,
-      "surplus_gap": -2.6,
+      "q2_need": 5.5,
+      "surplus_gap": -1.5,
       "status": "ok"
     },
     {
@@ -1646,11 +1657,11 @@
       "sku": "PB-CHIX-5-LB",
       "name": "Chicken Forage Mix",
       "qty": 32.0,
-      "daily_velocity": 0.44,
-      "days_remaining": 72,
+      "daily_velocity": 0.42,
+      "days_remaining": 76,
       "q1_need": 0.0,
-      "q2_need": 48.0,
-      "surplus_gap": -16.0,
+      "q2_need": 45.9,
+      "surplus_gap": -13.9,
       "status": "ok"
     },
     {
@@ -1690,11 +1701,11 @@
       "sku": "PB-HRSE-N-10-LB",
       "name": "Northern Horse Forage Mix",
       "qty": 29.0,
-      "daily_velocity": 0.4,
-      "days_remaining": 72,
+      "daily_velocity": 0.39,
+      "days_remaining": 74,
       "q1_need": 0.0,
-      "q2_need": 43.7,
-      "surplus_gap": -14.7,
+      "q2_need": 42.6,
+      "surplus_gap": -13.6,
       "status": "ok"
     },
     {
@@ -1712,11 +1723,11 @@
       "sku": "PB-PIG-10-LB",
       "name": "Pasture Pig Mix",
       "qty": 54.0,
-      "daily_velocity": 0.75,
-      "days_remaining": 72,
+      "daily_velocity": 0.72,
+      "days_remaining": 75,
       "q1_need": 0.0,
-      "q2_need": 81.9,
-      "surplus_gap": -27.9,
+      "q2_need": 78.6,
+      "surplus_gap": -24.6,
       "status": "ok"
     },
     {
@@ -1734,11 +1745,11 @@
       "sku": "PG-DAGL-5-LB",
       "name": "Orchardgrass",
       "qty": 13.0,
-      "daily_velocity": 0.18,
-      "days_remaining": 72,
+      "daily_velocity": 0.17,
+      "days_remaining": 76,
       "q1_need": 0.0,
-      "q2_need": 19.7,
-      "surplus_gap": -6.7,
+      "q2_need": 18.6,
+      "surplus_gap": -5.6,
       "status": "ok"
     },
     {
@@ -1756,33 +1767,33 @@
       "sku": "PG-MESA-5-LB",
       "name": "Alfalfa",
       "qty": 22.0,
-      "daily_velocity": 0.3,
-      "days_remaining": 73,
+      "daily_velocity": 0.29,
+      "days_remaining": 75,
       "q1_need": 0.0,
-      "q2_need": 32.8,
-      "surplus_gap": -10.8,
+      "q2_need": 31.7,
+      "surplus_gap": -9.7,
       "status": "ok"
     },
     {
       "sku": "PG-PHPR-5-LB",
       "name": "Timothy",
       "qty": 18.0,
-      "daily_velocity": 0.25,
-      "days_remaining": 72,
+      "daily_velocity": 0.24,
+      "days_remaining": 75,
       "q1_need": 0.0,
-      "q2_need": 27.3,
-      "surplus_gap": -9.3,
+      "q2_need": 26.2,
+      "surplus_gap": -8.2,
       "status": "ok"
     },
     {
       "sku": "PG-POPR-5-LB",
       "name": "Kentucky Bluegrass (Pasture-Type)",
       "qty": 7.0,
-      "daily_velocity": 0.1,
-      "days_remaining": 70,
+      "daily_velocity": 0.09,
+      "days_remaining": 77,
       "q1_need": 0.0,
-      "q2_need": 10.9,
-      "surplus_gap": -3.9,
+      "q2_need": 9.8,
+      "surplus_gap": -2.8,
       "status": "ok"
     },
     {
@@ -1800,11 +1811,11 @@
       "sku": "S-DUTCH-5-LB",
       "name": "White Dutch Clover Seeds - 5 lbs",
       "qty": 20.0,
-      "daily_velocity": 0.28,
-      "days_remaining": 71,
+      "daily_velocity": 0.27,
+      "days_remaining": 74,
       "q1_need": 0.0,
-      "q2_need": 30.6,
-      "surplus_gap": -10.6,
+      "q2_need": 29.5,
+      "surplus_gap": -9.5,
       "status": "ok"
     },
     {
@@ -1822,33 +1833,33 @@
       "sku": "S-INNOC-5-LB",
       "name": "Am 120 Standard Mycorrhizal Inoculant",
       "qty": 7.0,
-      "daily_velocity": 0.1,
-      "days_remaining": 70,
+      "daily_velocity": 0.09,
+      "days_remaining": 77,
       "q1_need": 0.0,
-      "q2_need": 10.9,
-      "surplus_gap": -3.9,
+      "q2_need": 9.8,
+      "surplus_gap": -2.8,
       "status": "ok"
     },
     {
       "sku": "S-MICRO-1-LB",
       "name": "Microclover",
       "qty": 89.0,
-      "daily_velocity": 1.23,
-      "days_remaining": 72,
+      "daily_velocity": 1.18,
+      "days_remaining": 75,
       "q1_need": 0.0,
-      "q2_need": 134.3,
-      "surplus_gap": -45.3,
+      "q2_need": 128.9,
+      "surplus_gap": -39.9,
       "status": "ok"
     },
     {
       "sku": "S-RICE-5-LB",
       "name": "Rice Hulls - 5lbs",
       "qty": 174.0,
-      "daily_velocity": 2.4,
-      "days_remaining": 72,
+      "daily_velocity": 2.31,
+      "days_remaining": 75,
       "q1_need": 0.0,
-      "q2_need": 262.1,
-      "surplus_gap": -88.1,
+      "q2_need": 252.3,
+      "surplus_gap": -78.3,
       "status": "ok"
     },
     {
@@ -1866,11 +1877,11 @@
       "sku": "TURF-BERM-5-LB",
       "name": "Bermuda grass Turf Blend",
       "qty": 36.0,
-      "daily_velocity": 0.5,
-      "days_remaining": 72,
+      "daily_velocity": 0.48,
+      "days_remaining": 75,
       "q1_need": 0.0,
-      "q2_need": 54.6,
-      "surplus_gap": -18.6,
+      "q2_need": 52.4,
+      "surplus_gap": -16.4,
       "status": "ok"
     },
     {
@@ -1910,11 +1921,11 @@
       "sku": "TURF-W-TALL-5-LB",
       "name": "TWCA Water-Wise Triple-Play Turf Blend",
       "qty": 7.0,
-      "daily_velocity": 0.1,
-      "days_remaining": 70,
+      "daily_velocity": 0.09,
+      "days_remaining": 77,
       "q1_need": 0.0,
-      "q2_need": 10.9,
-      "surplus_gap": -3.9,
+      "q2_need": 9.8,
+      "surplus_gap": -2.8,
       "status": "ok"
     },
     {
@@ -1932,33 +1943,33 @@
       "sku": "W-ENFA-0.25-LB",
       "name": "Brittlebush",
       "qty": 22.0,
-      "daily_velocity": 0.3,
-      "days_remaining": 73,
+      "daily_velocity": 0.29,
+      "days_remaining": 75,
       "q1_need": 0.0,
-      "q2_need": 32.8,
-      "surplus_gap": -10.8,
+      "q2_need": 31.7,
+      "surplus_gap": -9.7,
       "status": "ok"
     },
     {
       "sku": "W-LUBI-0.25-LB",
       "name": "Miniature Lupine",
       "qty": 18.0,
-      "daily_velocity": 0.25,
-      "days_remaining": 72,
+      "daily_velocity": 0.24,
+      "days_remaining": 75,
       "q1_need": 0.0,
-      "q2_need": 27.3,
-      "surplus_gap": -9.3,
+      "q2_need": 26.2,
+      "surplus_gap": -8.2,
       "status": "ok"
     },
     {
       "sku": "W-LUMI-0.25-LB",
       "name": "Chick Lupine",
       "qty": 21.0,
-      "daily_velocity": 0.29,
-      "days_remaining": 72,
+      "daily_velocity": 0.28,
+      "days_remaining": 74,
       "q1_need": 0.0,
-      "q2_need": 31.7,
-      "surplus_gap": -10.7,
+      "q2_need": 30.6,
+      "surplus_gap": -9.6,
       "status": "ok"
     },
     {
@@ -1976,11 +1987,11 @@
       "sku": "W-NAPU-0.25-LB",
       "name": "Purple Needlegrass",
       "qty": 21.0,
-      "daily_velocity": 0.29,
-      "days_remaining": 72,
+      "daily_velocity": 0.28,
+      "days_remaining": 74,
       "q1_need": 0.0,
-      "q2_need": 31.7,
-      "surplus_gap": -10.7,
+      "q2_need": 30.6,
+      "surplus_gap": -9.6,
       "status": "ok"
     },
     {
@@ -1998,11 +2009,11 @@
       "sku": "WB-CALN-0.5-LB",
       "name": "California Native Wildflower Mix",
       "qty": 26.0,
-      "daily_velocity": 0.36,
-      "days_remaining": 72,
+      "daily_velocity": 0.35,
+      "days_remaining": 74,
       "q1_need": 0.0,
-      "q2_need": 39.3,
-      "surplus_gap": -13.3,
+      "q2_need": 38.2,
+      "surplus_gap": -12.2,
       "status": "ok"
     },
     {
@@ -2020,16 +2031,16 @@
       "sku": "WB-RM-0.5-LB",
       "name": "Rocky Mountain Wildflower Blend",
       "qty": 7.0,
-      "daily_velocity": 0.1,
-      "days_remaining": 70,
+      "daily_velocity": 0.09,
+      "days_remaining": 77,
       "q1_need": 0.0,
-      "q2_need": 10.9,
-      "surplus_gap": -3.9,
+      "q2_need": 9.8,
+      "surplus_gap": -2.8,
       "status": "ok"
     }
   ],
   "summary": {
-    "total_skus": 145,
+    "total_skus": 146,
     "red_count": 0,
     "yellow_count": 1,
     "green_count": 0
@@ -2041,17 +2052,17 @@
     "green_count": 39
   },
   "fba_velocity": {
-    "daily_orders": 10.6,
-    "daily_revenue": 328.87,
+    "daily_orders": 10.2,
+    "daily_revenue": 308.76,
     "period_days": 14
   },
   "order_tracking": {
-    "total_30d": 1019,
-    "fulfilled": 906,
+    "total_30d": 1024,
+    "fulfilled": 879,
     "backorders": 0,
-    "unfulfilled_lt_1d": 65,
-    "unfulfilled_lt_5d": 42,
-    "unfulfilled_5_to_10d": 6,
+    "unfulfilled_lt_1d": 58,
+    "unfulfilled_lt_5d": 79,
+    "unfulfilled_5_to_10d": 8,
     "unfulfilled_gt_10d": 0
   }
 }

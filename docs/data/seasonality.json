@@ -1,26 +1,26 @@
 {
-  "generated_at": "2026-08-10",
+  "generated_at": "2026-08-11",
   "current_week": 33,
   "index": {
-    "seasonality": 0.8242,
-    "demand": 0.6478,
-    "performance": 1.0006,
-    "label": "Average"
+    "seasonality": 0.7098,
+    "demand": 0.1077,
+    "performance": 1.312,
+    "label": "Slow Period"
   },
-  "index_week": 32,
+  "index_week": 33,
   "current_week_signals": {
-    "wc_revenue": 35097.83,
-    "wc_revenue_avg": 55351.59,
-    "orders": 258,
-    "orders_avg": 390.0,
-    "blended_mer": 8.9933,
-    "blended_mer_avg": 41.1083,
-    "is_rank": 0.3804,
-    "is_rank_avg": 0.3713,
-    "is_budget_lost": 0.1703,
-    "is_budget_lost_avg": 0.5282,
-    "ad_spend": 3902.66,
-    "ad_spend_avg": 1733.3
+    "wc_revenue": 9189.99,
+    "wc_revenue_avg": 63656.0,
+    "orders": 35,
+    "orders_avg": 493.0,
+    "blended_mer": 15.8681,
+    "blended_mer_avg": 36.5893,
+    "is_rank": 0.4086,
+    "is_rank_avg": 0.272,
+    "is_budget_lost": 0.1025,
+    "is_budget_lost_avg": 0.6251,
+    "ad_spend": 579.15,
+    "ad_spend_avg": 2318.63
   },
   "weekly_baselines": {
     "1": {
@@ -663,7 +663,7 @@
       "seasonality_avg": 1.0,
       "demand_avg": 1.0,
       "performance_avg": 1.0,
-      "current_year": 0.8242
+      "current_year": 0.8222
     },
     {
       "week": 33,
