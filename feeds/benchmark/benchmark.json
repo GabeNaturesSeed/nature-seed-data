@@ -9288,6 +9288,88 @@
           "error": "not connected \u2014 Pinterest Catalog API not yet configured"
         }
       }
+    },
+    {
+      "date": "2026-08-17",
+      "iso_week": 34,
+      "seasonality_index": 0.615,
+      "season_label": "Average",
+      "channels": {
+        "walmart": {
+          "coverage_score": 100,
+          "quality_score": 0,
+          "drift_score": 0,
+          "composite": 40,
+          "raw": {
+            "channel_total": 200,
+            "wc_total": 603,
+            "incomplete_count": 200,
+            "drift_price": 35,
+            "drift_stock": 186
+          }
+        },
+        "amazon": {
+          "error": "400 Client Error:  for url: https://sellingpartnerapi-na.amazon.com/catalog/2022-04-01/items?sellerId=A1L3JR5H0WXLZ&includedData=summaries%2Cattributes%2Coffers"
+        },
+        "google_merchant": {
+          "coverage_score": 100,
+          "quality_score": 77,
+          "drift_score": 1,
+          "composite": 67,
+          "raw": {
+            "channel_total": 418,
+            "wc_total": 603,
+            "incomplete_count": 96,
+            "drift_price": 86,
+            "drift_stock": 161
+          }
+        },
+        "klaviyo": {
+          "error": "401 Client Error: Unauthorized for url: https://a.klaviyo.com/api/catalog-items?page%5Bsize%5D=100"
+        },
+        "shopper_approved": {
+          "coverage_score": 100,
+          "quality_score": 97,
+          "drift_score": 100,
+          "composite": 99,
+          "raw": {
+            "channel_total": 474,
+            "wc_total": 603,
+            "incomplete_count": 13,
+            "drift_price": 0,
+            "drift_stock": 20
+          }
+        },
+        "reddit": {
+          "coverage_score": 70,
+          "quality_score": 100,
+          "drift_score": 100,
+          "composite": 88,
+          "raw": {
+            "channel_total": 258,
+            "wc_total": 603,
+            "incomplete_count": 0,
+            "drift_price": 1,
+            "drift_stock": 0
+          }
+        },
+        "facebook": {
+          "coverage_score": 100,
+          "quality_score": 97,
+          "drift_score": 100,
+          "composite": 99,
+          "raw": {
+            "channel_total": 289,
+            "wc_total": 603,
+            "incomplete_count": 9,
+            "drift_price": 204,
+            "drift_stock": 180
+          }
+        },
+        "pinterest": {
+          "error": "not connected \u2014 Pinterest Catalog API not yet configured"
+        }
+      }
     }
   ]
 }
