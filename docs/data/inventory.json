@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-08-16",
+  "as_of": "2026-08-17",
   "items": [
     {
       "sku": "2750AL-A",
@@ -929,11 +929,11 @@
       "sku": "SUSTANE-4-6-4",
       "name": "Organic Seed Starter Fertilizer 4-6-4",
       "qty": 17.0,
-      "daily_velocity": 0.8,
-      "days_remaining": 21,
+      "daily_velocity": 1.0,
+      "days_remaining": 17,
       "q1_need": 0.0,
-      "q2_need": 87.4,
-      "surplus_gap": -70.4,
+      "q2_need": 109.2,
+      "surplus_gap": -92.2,
       "status": "red"
     },
     {
@@ -1690,11 +1690,11 @@
       "sku": "PB-HRSE-N-10-LB",
       "name": "Northern Horse Forage Mix",
       "qty": 29.0,
-      "daily_velocity": 0.41,
-      "days_remaining": 70,
+      "daily_velocity": 0.4,
+      "days_remaining": 72,
       "q1_need": 0.0,
-      "q2_need": 44.8,
-      "surplus_gap": -15.8,
+      "q2_need": 43.7,
+      "surplus_gap": -14.7,
       "status": "ok"
     },
     {
@@ -1712,11 +1712,11 @@
       "sku": "PB-PIG-10-LB",
       "name": "Pasture Pig Mix",
       "qty": 54.0,
-      "daily_velocity": 0.76,
-      "days_remaining": 71,
+      "daily_velocity": 0.75,
+      "days_remaining": 72,
       "q1_need": 0.0,
-      "q2_need": 83.0,
-      "surplus_gap": -29.0,
+      "q2_need": 81.9,
+      "surplus_gap": -27.9,
       "status": "ok"
     },
     {
@@ -1833,22 +1833,22 @@
       "sku": "S-MICRO-1-LB",
       "name": "Microclover",
       "qty": 89.0,
-      "daily_velocity": 1.25,
+      "daily_velocity": 1.24,
       "days_remaining": 71,
       "q1_need": 0.0,
-      "q2_need": 136.5,
-      "surplus_gap": -47.5,
+      "q2_need": 135.4,
+      "surplus_gap": -46.4,
       "status": "ok"
     },
     {
       "sku": "S-RICE-5-LB",
       "name": "Rice Hulls - 5lbs",
       "qty": 174.0,
-      "daily_velocity": 2.45,
+      "daily_velocity": 2.42,
       "days_remaining": 71,
       "q1_need": 0.0,
-      "q2_need": 267.5,
-      "surplus_gap": -93.5,
+      "q2_need": 264.3,
+      "surplus_gap": -90.3,
       "status": "ok"
     },
     {
@@ -1866,11 +1866,11 @@
       "sku": "TURF-BERM-5-LB",
       "name": "Bermuda grass Turf Blend",
       "qty": 36.0,
-      "daily_velocity": 0.51,
-      "days_remaining": 70,
+      "daily_velocity": 0.5,
+      "days_remaining": 72,
       "q1_need": 0.0,
-      "q2_need": 55.7,
-      "surplus_gap": -19.7,
+      "q2_need": 54.6,
+      "surplus_gap": -18.6,
       "status": "ok"
     },
     {
@@ -1954,11 +1954,11 @@
       "sku": "W-LUMI-0.25-LB",
       "name": "Chick Lupine",
       "qty": 21.0,
-      "daily_velocity": 0.3,
-      "days_remaining": 70,
+      "daily_velocity": 0.29,
+      "days_remaining": 72,
       "q1_need": 0.0,
-      "q2_need": 32.8,
-      "surplus_gap": -11.8,
+      "q2_need": 31.7,
+      "surplus_gap": -10.7,
       "status": "ok"
     },
     {
@@ -1976,11 +1976,11 @@
       "sku": "W-NAPU-0.25-LB",
       "name": "Purple Needlegrass",
       "qty": 21.0,
-      "daily_velocity": 0.3,
-      "days_remaining": 70,
+      "daily_velocity": 0.29,
+      "days_remaining": 72,
       "q1_need": 0.0,
-      "q2_need": 32.8,
-      "surplus_gap": -11.8,
+      "q2_need": 31.7,
+      "surplus_gap": -10.7,
       "status": "ok"
     },
     {
@@ -1998,11 +1998,11 @@
       "sku": "WB-CALN-0.5-LB",
       "name": "California Native Wildflower Mix",
       "qty": 26.0,
-      "daily_velocity": 0.37,
-      "days_remaining": 70,
+      "daily_velocity": 0.36,
+      "days_remaining": 72,
       "q1_need": 0.0,
-      "q2_need": 40.4,
-      "surplus_gap": -14.4,
+      "q2_need": 39.3,
+      "surplus_gap": -13.3,
       "status": "ok"
     },
     {
@@ -2041,16 +2041,16 @@
     "green_count": 39
   },
   "fba_velocity": {
-    "daily_orders": 10.8,
-    "daily_revenue": 342.24,
+    "daily_orders": 10.7,
+    "daily_revenue": 340.4,
     "period_days": 14
   },
   "order_tracking": {
-    "total_30d": 1092,
-    "fulfilled": 986,
+    "total_30d": 1114,
+    "fulfilled": 962,
     "backorders": 0,
-    "unfulfilled_lt_1d": 97,
-    "unfulfilled_lt_5d": 8,
+    "unfulfilled_lt_1d": 85,
+    "unfulfilled_lt_5d": 66,
     "unfulfilled_5_to_10d": 1,
     "unfulfilled_gt_10d": 0
   }
