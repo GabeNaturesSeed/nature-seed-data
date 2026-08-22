@@ -1,8 +1,8 @@
 {
-  "generated": "2026-08-21T08:24:11.742856+00:00",
+  "generated": "2026-08-22T08:14:50.015587+00:00",
   "period_days": 14,
-  "total_revenue": 81613.32000000002,
-  "total_units": 1025,
+  "total_revenue": 82455.15000000005,
+  "total_units": 1013,
   "ranked_by": "velocity (revenue/active_days)",
   "skus": [
     {
@@ -10,46 +10,46 @@
       "name": "Kentucky Bluegrass and Perennial Ryegrass Mix",
       "product_id": 445307,
       "qty": 60,
-      "revenue": 5409.4,
-      "orders": 47,
+      "revenue": 5479.4,
+      "orders": 48,
       "active_days": 14,
-      "velocity": 386.39,
+      "velocity": 391.39,
       "variants": [
         {
           "sku": "TURF-W-BR-25-LB-KIT",
           "name": "Kentucky Bluegrass and Perennial Ryegrass Mix - 25 lb - Covers 5,000 Sq Ft",
-          "qty": 19,
-          "revenue": 3229.81,
-          "orders": 14
+          "qty": 20,
+          "revenue": 3399.8,
+          "orders": 15
         },
         {
           "sku": "TURF-W-BR-10-LB-KIT",
           "name": "Kentucky Bluegrass and Perennial Ryegrass Mix - 10 lb - Covers 2,000 Sq Ft",
-          "qty": 18,
-          "revenue": 1259.82,
-          "orders": 17
+          "qty": 16,
+          "revenue": 1119.84,
+          "orders": 16
         },
         {
           "sku": "TURF-W-BR-5-LB",
           "name": "Kentucky Bluegrass and Perennial Ryegrass Mix - 5 lb - Covers 1,000 Sq Ft",
-          "qty": 23,
-          "revenue": 919.77,
-          "orders": 16
+          "qty": 24,
+          "revenue": 959.76,
+          "orders": 17
         }
       ],
       "class": "A",
-      "rev_pct": 6.63,
+      "rev_pct": 6.65,
       "daily_qty": 4.3
     },
     {
       "sku": "TURF-JBR",
       "name": "Jimmy's Blue Ribbon Lawn Seed Mix",
       "product_id": 445158,
-      "qty": 22,
-      "revenue": 4257.18,
-      "orders": 20,
+      "qty": 21,
+      "revenue": 4005.19,
+      "orders": 19,
       "active_days": 14,
-      "velocity": 304.08,
+      "velocity": 286.08,
       "variants": [
         {
           "sku": "TURF-JBR-25-LB-KIT",
@@ -61,38 +61,74 @@
         {
           "sku": "TURF-JBR-5-LB",
           "name": "Jimmy's Blue Ribbon Lawn Seed Mix - 5 lb - Covers 1,000 Sq Ft",
-          "qty": 10,
-          "revenue": 863.9,
-          "orders": 10
+          "qty": 11,
+          "revenue": 953.89,
+          "orders": 11
         },
         {
           "sku": "TURF-JBR-10-LB-KIT",
           "name": "Jimmy's Blue Ribbon Lawn Seed Mix - 10 lb - Covers 2,000 Sq Ft",
-          "qty": 5,
-          "revenue": 846.4,
-          "orders": 5
+          "qty": 3,
+          "revenue": 504.42,
+          "orders": 3
         }
       ],
       "class": "A",
-      "rev_pct": 5.22,
-      "daily_qty": 1.6
+      "rev_pct": 4.86,
+      "daily_qty": 1.5
+    },
+    {
+      "sku": "S-DUTCH",
+      "name": "White Dutch Clover Seed",
+      "product_id": 445312,
+      "qty": 40,
+      "revenue": 3820.63,
+      "orders": 33,
+      "active_days": 14,
+      "velocity": 272.9,
+      "variants": [
+        {
+          "sku": "S-DUTCH-25-LB-KIT",
+          "name": "White Dutch Clover Seed - 25 lb - Covers 50,000 Sq Ft",
+          "qty": 8,
+          "revenue": 1579.92,
+          "orders": 5
+        },
+        {
+          "sku": "S-DUTCH-10-LB-KIT",
+          "name": "White Dutch Clover Seed - 10 lb - Covers 20,000 Sq Ft",
+          "qty": 18,
+          "revenue": 1439.64,
+          "orders": 14
+        },
+        {
+          "sku": "S-DUTCH-5-LB",
+          "name": "White Dutch Clover Seed - 5 lb - Covers 10,000 Sq Ft",
+          "qty": 14,
+          "revenue": 801.07,
+          "orders": 14
+        }
+      ],
+      "class": "A",
+      "rev_pct": 4.63,
+      "daily_qty": 2.9
     },
     {
       "sku": "TURF-FINE",
       "name": "Fine Fescue Grass Seed Mix",
       "product_id": 445119,
       "qty": 45,
-      "revenue": 3804.05,
+      "revenue": 3699.05,
       "orders": 43,
       "active_days": 14,
-      "velocity": 271.72,
+      "velocity": 264.22,
       "variants": [
         {
           "sku": "TURF-FINE-25-LB-KIT",
           "name": "Fine Fescue Grass Seed Mix - 25 lb - Covers 5,000 Sq Ft",
-          "qty": 13,
-          "revenue": 1949.87,
-          "orders": 12
+          "qty": 12,
+          "revenue": 1799.88,
+          "orders": 11
         },
         {
           "sku": "TURF-FINE-10-LB-KIT",
@@ -104,96 +140,60 @@
         {
           "sku": "TURF-FINE-5-LB",
           "name": "Fine Fescue Grass Seed Mix - 5 lb - Covers 1,000 Sq Ft",
-          "qty": 15,
-          "revenue": 674.85,
-          "orders": 14
+          "qty": 16,
+          "revenue": 719.84,
+          "orders": 15
         }
       ],
       "class": "A",
-      "rev_pct": 4.66,
+      "rev_pct": 4.49,
       "daily_qty": 3.2
-    },
-    {
-      "sku": "TURF-CLV",
-      "name": "Clover Lawn Alternative Mix",
-      "product_id": 458434,
-      "qty": 73,
-      "revenue": 3352.43,
-      "orders": 57,
-      "active_days": 14,
-      "velocity": 239.46,
-      "variants": [
-        {
-          "sku": "TURF-CLV-10-LB-KIT",
-          "name": "Clover Lawn Alternative Mix - 10 Lbs - 2,000 Sq Ft",
-          "qty": 52,
-          "revenue": 1684.28,
-          "orders": 38
-        },
-        {
-          "sku": "TURF-CLV-25-LB-KIT",
-          "name": "Clover Lawn Alternative Mix - 25 Lbs - 5,000 Sq Ft",
-          "qty": 12,
-          "revenue": 1461.24,
-          "orders": 10
-        },
-        {
-          "sku": "TURF-CLV-5-LB",
-          "name": "Clover Lawn Alternative Mix - 5 Lbs - 1,000 Sq Ft",
-          "qty": 9,
-          "revenue": 206.91,
-          "orders": 9
-        }
-      ],
-      "class": "A",
-      "rev_pct": 4.11,
-      "daily_qty": 5.2
     },
     {
       "sku": "TURF-WSHD",
       "name": "Grass Seed Mix for Shady Areas",
       "product_id": 444217,
-      "qty": 39,
-      "revenue": 3329.61,
-      "orders": 32,
+      "qty": 37,
+      "revenue": 3339.63,
+      "orders": 31,
       "active_days": 14,
-      "velocity": 237.83,
+      "velocity": 238.55,
       "variants": [
         {
           "sku": "TURF-WSHD-25-LB-KIT",
           "name": "Grass Seed Mix for Shady Areas - 25 lb - Covers 5,000 Sq Ft",
-          "qty": 10,
-          "revenue": 1699.9,
-          "orders": 7
+          "qty": 11,
+          "revenue": 1869.89,
+          "orders": 8
         },
         {
           "sku": "TURF-WSHD-10-LB-KIT",
           "name": "Grass Seed Mix for Shady Areas - 10 lb - Covers 2,000 Sq Ft",
-          "qty": 13,
-          "revenue": 909.87,
+          "qty": 12,
+          "revenue": 839.88,
           "orders": 11
         },
         {
           "sku": "TURF-WSHD-5-LB",
           "name": "Grass Seed Mix for Shady Areas - 5 lb - Covers 1,000 Sq Ft",
-          "qty": 16,
-          "revenue": 719.84,
-          "orders": 14
+          "qty": 14,
+          "revenue": 629.86,
+          "orders": 12
         }
       ],
       "class": "A",
-      "rev_pct": 4.08,
-      "daily_qty": 2.8
+      "rev_pct": 4.05,
+      "daily_qty": 2.6
     },
     {
       "sku": "TURF-W-TALL",
       "name": "Triblade Elite Tall Fescue Grass Seed Mix",
       "product_id": 445117,
       "qty": 42,
-      "revenue": 3199.58,
+      "revenue": 3203.58,
       "orders": 38,
       "active_days": 14,
-      "velocity": 228.54,
+      "velocity": 228.83,
       "variants": [
         {
           "sku": "TURF-W-TALL-25-LB-KIT",
@@ -213,49 +213,49 @@
           "sku": "TURF-W-TALL-5-LB",
           "name": "Triblade Elite Tall Fescue Grass Seed Mix - 5 lb - Covers 1,000 Sq Ft",
           "qty": 16,
-          "revenue": 627.84,
+          "revenue": 631.84,
           "orders": 16
         }
       ],
       "class": "A",
-      "rev_pct": 3.92,
+      "rev_pct": 3.89,
       "daily_qty": 3.0
     },
     {
-      "sku": "S-DUTCH",
-      "name": "White Dutch Clover Seed",
-      "product_id": 445312,
-      "qty": 37,
-      "revenue": 3100.65,
-      "orders": 33,
+      "sku": "TURF-CLV",
+      "name": "Clover Lawn Alternative Mix",
+      "product_id": 458434,
+      "qty": 68,
+      "revenue": 3002.32,
+      "orders": 56,
       "active_days": 14,
-      "velocity": 221.47,
+      "velocity": 214.45,
       "variants": [
         {
-          "sku": "S-DUTCH-10-LB-KIT",
-          "name": "White Dutch Clover Seed - 10 lb - Covers 20,000 Sq Ft",
-          "qty": 19,
-          "revenue": 1519.62,
-          "orders": 15
+          "sku": "TURF-CLV-10-LB-KIT",
+          "name": "Clover Lawn Alternative Mix - 10 Lbs - 2,000 Sq Ft",
+          "qty": 48,
+          "revenue": 1554.72,
+          "orders": 37
         },
         {
-          "sku": "S-DUTCH-5-LB",
-          "name": "White Dutch Clover Seed - 5 lb - Covers 10,000 Sq Ft",
-          "qty": 14,
-          "revenue": 801.07,
-          "orders": 14
+          "sku": "TURF-CLV-25-LB-KIT",
+          "name": "Clover Lawn Alternative Mix - 25 Lbs - 5,000 Sq Ft",
+          "qty": 10,
+          "revenue": 1217.7,
+          "orders": 9
         },
         {
-          "sku": "S-DUTCH-25-LB-KIT",
-          "name": "White Dutch Clover Seed - 25 lb - Covers 50,000 Sq Ft",
-          "qty": 4,
-          "revenue": 779.96,
-          "orders": 4
+          "sku": "TURF-CLV-5-LB",
+          "name": "Clover Lawn Alternative Mix - 5 Lbs - 1,000 Sq Ft",
+          "qty": 10,
+          "revenue": 229.9,
+          "orders": 10
         }
       ],
       "class": "A",
-      "rev_pct": 3.8,
-      "daily_qty": 2.6
+      "rev_pct": 3.64,
+      "daily_qty": 4.9
     },
     {
       "sku": "TURF-NFF",
@@ -283,7 +283,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 3.25,
+      "rev_pct": 3.22,
       "daily_qty": 0.6
     },
     {
@@ -305,18 +305,47 @@
         }
       ],
       "class": "A",
-      "rev_pct": 2.88,
+      "rev_pct": 2.85,
       "daily_qty": 1.4
+    },
+    {
+      "sku": "PG-LOPE",
+      "name": "Perennial Ryegrass",
+      "product_id": 445321,
+      "qty": 14,
+      "revenue": 2317.62,
+      "orders": 4,
+      "active_days": 14,
+      "velocity": 165.54,
+      "variants": [
+        {
+          "sku": "PG-LOPE-50-LB-KIT",
+          "name": "Perennial Ryegrass - 50 lb - Covers 100,000 Sq Ft",
+          "qty": 6,
+          "revenue": 1979.94,
+          "orders": 1
+        },
+        {
+          "sku": "PG-LOPE-5-LB",
+          "name": "Perennial Ryegrass - 5 lb - Covers 20,000 Sq Ft",
+          "qty": 8,
+          "revenue": 337.68,
+          "orders": 3
+        }
+      ],
+      "class": "A",
+      "rev_pct": 2.81,
+      "daily_qty": 1.0
     },
     {
       "sku": "TURF-W-BLUE",
       "name": "Kentucky Bluegrass Seed Mix",
       "product_id": 445142,
-      "qty": 17,
-      "revenue": 2337.33,
-      "orders": 15,
+      "qty": 16,
+      "revenue": 2252.34,
+      "orders": 14,
       "active_days": 14,
-      "velocity": 166.95,
+      "velocity": 160.88,
       "variants": [
         {
           "sku": "TURF-W-BLUE-10-LB-KIT",
@@ -326,33 +355,33 @@
           "orders": 7
         },
         {
-          "sku": "TURF-W-BLUE-5-LB",
-          "name": "Kentucky Bluegrass Seed Mix - 5 lb - Covers 1,000 Sq Ft",
-          "qty": 8,
-          "revenue": 654.42,
-          "orders": 7
-        },
-        {
           "sku": "TURF-W-BLUE-25-LB-KIT",
           "name": "Kentucky Bluegrass Seed Mix - 25 lb - Covers 5,000 Sq Ft",
           "qty": 2,
           "revenue": 647.97,
           "orders": 1
+        },
+        {
+          "sku": "TURF-W-BLUE-5-LB",
+          "name": "Kentucky Bluegrass Seed Mix - 5 lb - Covers 1,000 Sq Ft",
+          "qty": 7,
+          "revenue": 569.43,
+          "orders": 6
         }
       ],
       "class": "A",
-      "rev_pct": 2.86,
-      "daily_qty": 1.2
+      "rev_pct": 2.73,
+      "daily_qty": 1.1
     },
     {
       "sku": "PB-CHIX",
       "name": "Chicken Forage Seed Mix",
       "product_id": 445163,
       "qty": 32,
-      "revenue": 2058.96,
+      "revenue": 2123.92,
       "orders": 32,
       "active_days": 14,
-      "velocity": 147.07,
+      "velocity": 151.71,
       "variants": [
         {
           "sku": "PB-CHIX-50-LB-KIT",
@@ -364,31 +393,67 @@
         {
           "sku": "PB-CHIX-25-LB-KIT",
           "name": "Chicken Forage Seed Mix - 25 lb - Covers 50,000 Sq Ft",
-          "qty": 6,
-          "revenue": 539.7,
-          "orders": 6
+          "qty": 7,
+          "revenue": 629.65,
+          "orders": 7
         },
         {
           "sku": "PB-CHIX-5-LB",
           "name": "Chicken Forage Seed Mix - 5 lb - Covers 10,000 Sq Ft",
-          "qty": 20,
-          "revenue": 499.8,
-          "orders": 20
+          "qty": 19,
+          "revenue": 474.81,
+          "orders": 19
         }
       ],
       "class": "A",
-      "rev_pct": 2.52,
+      "rev_pct": 2.58,
       "daily_qty": 2.3
+    },
+    {
+      "sku": "WB-CALN",
+      "name": "California Native Wildflower Mix",
+      "product_id": 445348,
+      "qty": 16,
+      "revenue": 1822.4,
+      "orders": 16,
+      "active_days": 14,
+      "velocity": 130.17,
+      "variants": [
+        {
+          "sku": "WB-CALN-5-LB-KIT",
+          "name": "California Native Wildflower Mix - 5 lb - Covers 10,000 Sq Ft",
+          "qty": 3,
+          "revenue": 1049.97,
+          "orders": 3
+        },
+        {
+          "sku": "WB-CALN-1-LB-KIT",
+          "name": "California Native Wildflower Mix - 1 lb - Covers 2,000 Sq Ft",
+          "qty": 8,
+          "revenue": 572.8,
+          "orders": 8
+        },
+        {
+          "sku": "WB-CALN-0.5-LB",
+          "name": "California Native Wildflower Mix - 0.5 lb - Covers 1,000 Sq Ft",
+          "qty": 5,
+          "revenue": 199.63,
+          "orders": 5
+        }
+      ],
+      "class": "A",
+      "rev_pct": 2.21,
+      "daily_qty": 1.1
     },
     {
       "sku": "PB-GOAT-TR",
       "name": "Goat Pasture &amp; Forage Mix",
       "product_id": 445267,
-      "qty": 27,
-      "revenue": 1856.98,
-      "orders": 24,
+      "qty": 26,
+      "revenue": 1801.99,
+      "orders": 23,
       "active_days": 14,
-      "velocity": 132.64,
+      "velocity": 128.71,
       "variants": [
         {
           "sku": "PB-GOAT-TR-20-LB-KIT",
@@ -400,32 +465,25 @@
         {
           "sku": "PB-GOAT-TR-10-LB",
           "name": "Goat Pasture &amp; Forage Mix - 10 lb - Covers 20,000 Sq Ft",
-          "qty": 12,
-          "revenue": 657.13,
-          "orders": 12
+          "qty": 11,
+          "revenue": 602.14,
+          "orders": 11
         }
       ],
       "class": "A",
-      "rev_pct": 2.28,
+      "rev_pct": 2.19,
       "daily_qty": 1.9
     },
     {
       "sku": "S-RICE",
       "name": "Rice Hulls",
       "product_id": 450345,
-      "qty": 54,
-      "revenue": 1838.78,
-      "orders": 46,
+      "qty": 51,
+      "revenue": 1612.61,
+      "orders": 44,
       "active_days": 14,
-      "velocity": 131.34,
+      "velocity": 115.19,
       "variants": [
-        {
-          "sku": "S-RICE-45-LB",
-          "name": "Rice Hulls - 45 Lbs - 18,000 Sq Ft",
-          "qty": 7,
-          "revenue": 734.93,
-          "orders": 7
-        },
         {
           "sku": "S-RICE-10-LB-KIT",
           "name": "Rice Hulls - 10 Lbs - 4,000 Sq Ft",
@@ -434,117 +492,23 @@
           "orders": 15
         },
         {
+          "sku": "S-RICE-45-LB",
+          "name": "Rice Hulls - 45 Lbs - 18,000 Sq Ft",
+          "qty": 5,
+          "revenue": 524.95,
+          "orders": 5
+        },
+        {
           "sku": "S-RICE-5-LB",
           "name": "Rice Hulls - 5 Lbs - 2,000 Sq Ft",
-          "qty": 29,
-          "revenue": 510.03,
+          "qty": 28,
+          "revenue": 493.84,
           "orders": 24
         }
       ],
       "class": "A",
-      "rev_pct": 2.25,
-      "daily_qty": 3.9
-    },
-    {
-      "sku": "PB-SHEP-SO",
-      "name": "Warm Season Sheep Pasture Mix",
-      "product_id": 445274,
-      "qty": 8,
-      "revenue": 1834.93,
-      "orders": 4,
-      "active_days": 14,
-      "velocity": 131.07,
-      "variants": [
-        {
-          "sku": "PB-SHEP-SO-50-LB-KIT",
-          "name": "Warm Season Sheep Pasture Mix - 50 lb - Covers 100,000 Sq Ft",
-          "qty": 6,
-          "revenue": 1594.95,
-          "orders": 2
-        },
-        {
-          "sku": "PB-SHEP-SO-20-LB-KIT",
-          "name": "Warm Season Sheep Pasture Mix - 20 lb - Covers 40,000 Sq Ft",
-          "qty": 2,
-          "revenue": 239.98,
-          "orders": 2
-        }
-      ],
-      "class": "A",
-      "rev_pct": 2.25,
-      "daily_qty": 0.6
-    },
-    {
-      "sku": "PG-TRRE",
-      "name": "White Clover Seed",
-      "product_id": 452364,
-      "qty": 22,
-      "revenue": 1602.38,
-      "orders": 15,
-      "active_days": 14,
-      "velocity": 114.46,
-      "variants": [
-        {
-          "sku": "PG-TRRE-10-LB-KIT",
-          "name": "White Clover Seed - 10 lb - Covers 20,000 Sq Ft",
-          "qty": 12,
-          "revenue": 755.88,
-          "orders": 6
-        },
-        {
-          "sku": "PG-TRRE-50-LB-KIT",
-          "name": "White Clover Seed - 50 lb - Covers 100,000 Sq Ft",
-          "qty": 2,
-          "revenue": 534.58,
-          "orders": 1
-        },
-        {
-          "sku": "PG-TRRE-5-LB",
-          "name": "White Clover Seed - 5 lb - Covers 10,000 Sq Ft",
-          "qty": 8,
-          "revenue": 311.92,
-          "orders": 8
-        }
-      ],
-      "class": "A",
       "rev_pct": 1.96,
-      "daily_qty": 1.6
-    },
-    {
-      "sku": "WB-CALN",
-      "name": "California Native Wildflower Mix",
-      "product_id": 445348,
-      "qty": 15,
-      "revenue": 1459.47,
-      "orders": 15,
-      "active_days": 14,
-      "velocity": 104.25,
-      "variants": [
-        {
-          "sku": "WB-CALN-5-LB-KIT",
-          "name": "California Native Wildflower Mix - 5 lb - Covers 10,000 Sq Ft",
-          "qty": 2,
-          "revenue": 699.98,
-          "orders": 2
-        },
-        {
-          "sku": "WB-CALN-1-LB-KIT",
-          "name": "California Native Wildflower Mix - 1 lb - Covers 2,000 Sq Ft",
-          "qty": 7,
-          "revenue": 518.7,
-          "orders": 7
-        },
-        {
-          "sku": "WB-CALN-0.5-LB",
-          "name": "California Native Wildflower Mix - 0.5 lb - Covers 1,000 Sq Ft",
-          "qty": 6,
-          "revenue": 240.79,
-          "orders": 6
-        }
-      ],
-      "class": "A",
-      "rev_pct": 1.79,
-      "daily_qty": 1.1
+      "daily_qty": 3.6
     },
     {
       "sku": "PG-PANO",
@@ -572,7 +536,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.76,
+      "rev_pct": 1.74,
       "daily_qty": 0.3
     },
     {
@@ -608,18 +572,18 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.5,
+      "rev_pct": 1.48,
       "daily_qty": 0.9
     },
     {
       "sku": "PB-SHEP-N",
       "name": "Cool Season Sheep Pasture Mix",
       "product_id": 445273,
-      "qty": 10,
-      "revenue": 1118.9,
-      "orders": 8,
+      "qty": 11,
+      "revenue": 1173.89,
+      "orders": 9,
       "active_days": 14,
-      "velocity": 79.92,
+      "velocity": 83.85,
       "variants": [
         {
           "sku": "PB-SHEP-N-50-LB-KIT",
@@ -638,14 +602,14 @@
         {
           "sku": "PB-SHEP-N-10-LB",
           "name": "Cool Season Sheep Pasture Mix - 10 lb - Covers 20,000 Sq Ft",
-          "qty": 2,
-          "revenue": 109.98,
-          "orders": 2
+          "qty": 3,
+          "revenue": 164.97,
+          "orders": 3
         }
       ],
       "class": "A",
-      "rev_pct": 1.37,
-      "daily_qty": 0.7
+      "rev_pct": 1.42,
+      "daily_qty": 0.8
     },
     {
       "sku": "WB-CCN",
@@ -680,8 +644,66 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.36,
+      "rev_pct": 1.34,
       "daily_qty": 0.9
+    },
+    {
+      "sku": "PB-HRSE-N",
+      "name": "Cool Season Horse Pasture Mix",
+      "product_id": 445269,
+      "qty": 12,
+      "revenue": 1019.88,
+      "orders": 12,
+      "active_days": 14,
+      "velocity": 72.85,
+      "variants": [
+        {
+          "sku": "PB-HRSE-N-50-LB-KIT",
+          "name": "Cool Season Horse Pasture Mix - 50 lb - Covers 100,000 Sq Ft",
+          "qty": 6,
+          "revenue": 719.94,
+          "orders": 6
+        },
+        {
+          "sku": "PB-HRSE-N-20-LB-KIT",
+          "name": "Cool Season Horse Pasture Mix - 20 lb - Covers 40,000 Sq Ft",
+          "qty": 6,
+          "revenue": 299.94,
+          "orders": 6
+        }
+      ],
+      "class": "A",
+      "rev_pct": 1.24,
+      "daily_qty": 0.9
+    },
+    {
+      "sku": "PB-COW-SO",
+      "name": "Warm Season Cattle Pasture Seed Mix",
+      "product_id": 445164,
+      "qty": 7,
+      "revenue": 1004.93,
+      "orders": 5,
+      "active_days": 14,
+      "velocity": 71.78,
+      "variants": [
+        {
+          "sku": "PB-COW-SO-50-LB-KIT",
+          "name": "Warm Season Cattle Pasture Seed Mix - 50 lb - Covers 100,000 Sq Ft",
+          "qty": 6,
+          "revenue": 959.94,
+          "orders": 4
+        },
+        {
+          "sku": "PB-COW-SO-10-LB",
+          "name": "Warm Season Cattle Pasture Seed Mix - 10 lb - Covers 20,000 Sq Ft",
+          "qty": 1,
+          "revenue": 44.99,
+          "orders": 1
+        }
+      ],
+      "class": "A",
+      "rev_pct": 1.22,
+      "daily_qty": 0.5
     },
     {
       "sku": "PB-HRSE-TR",
@@ -716,94 +738,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.19,
-      "daily_qty": 0.6
-    },
-    {
-      "sku": "PB-HRSE-N",
-      "name": "Cool Season Horse Pasture Mix",
-      "product_id": 445269,
-      "qty": 11,
-      "revenue": 969.89,
-      "orders": 11,
-      "active_days": 14,
-      "velocity": 69.28,
-      "variants": [
-        {
-          "sku": "PB-HRSE-N-50-LB-KIT",
-          "name": "Cool Season Horse Pasture Mix - 50 lb - Covers 100,000 Sq Ft",
-          "qty": 6,
-          "revenue": 719.94,
-          "orders": 6
-        },
-        {
-          "sku": "PB-HRSE-N-20-LB-KIT",
-          "name": "Cool Season Horse Pasture Mix - 20 lb - Covers 40,000 Sq Ft",
-          "qty": 5,
-          "revenue": 249.95,
-          "orders": 5
-        }
-      ],
-      "class": "A",
-      "rev_pct": 1.19,
-      "daily_qty": 0.8
-    },
-    {
-      "sku": "S-FEOV",
-      "name": "Sheep Fescue Grass Seed",
-      "product_id": 445314,
-      "qty": 12,
-      "revenue": 959.88,
-      "orders": 11,
-      "active_days": 14,
-      "velocity": 68.56,
-      "variants": [
-        {
-          "sku": "S-FEOV-25-LB-KIT",
-          "name": "Sheep Fescue Grass Seed - 25 lb - Covers 5,000 Sq Ft",
-          "qty": 3,
-          "revenue": 449.97,
-          "orders": 2
-        },
-        {
-          "sku": "S-FEOV-10-LB-KIT",
-          "name": "Sheep Fescue Grass Seed - 10 lb - Covers 2,000 Sq Ft",
-          "qty": 5,
-          "revenue": 349.95,
-          "orders": 5
-        },
-        {
-          "sku": "S-FEOV-5-LB",
-          "name": "Sheep Fescue Grass Seed - 5 lb - Covers 1,000 Sq Ft",
-          "qty": 4,
-          "revenue": 159.96,
-          "orders": 4
-        }
-      ],
-      "class": "A",
       "rev_pct": 1.18,
-      "daily_qty": 0.9
-    },
-    {
-      "sku": "S-TACKI",
-      "name": "M-Binder Tackifier-Soil Stabilizer",
-      "product_id": 445329,
-      "qty": 8,
-      "revenue": 947.92,
-      "orders": 7,
-      "active_days": 14,
-      "velocity": 67.71,
-      "variants": [
-        {
-          "sku": "S-TACKI-50-LB",
-          "name": "M-Binder Tackifier-Soil Stabilizer - 50 Lbs",
-          "qty": 8,
-          "revenue": 947.92,
-          "orders": 7
-        }
-      ],
-      "class": "A",
-      "rev_pct": 1.16,
       "daily_qty": 0.6
     },
     {
@@ -825,7 +760,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.13,
+      "rev_pct": 1.12,
       "daily_qty": 0.2
     },
     {
@@ -833,10 +768,10 @@
       "name": "Microclover Seed (Micro Clover, Mini Clover)",
       "product_id": 445346,
       "qty": 15,
-      "revenue": 911.85,
+      "revenue": 915.85,
       "orders": 15,
       "active_days": 14,
-      "velocity": 65.13,
+      "velocity": 65.42,
       "variants": [
         {
           "sku": "S-MICRO-1-LB",
@@ -849,7 +784,7 @@
           "sku": "S-MICRO-2-LB-KIT",
           "name": "Microclover Seed (Micro Clover, Mini Clover) - 2 lb - Covers 2,000 Sq Ft",
           "qty": 3,
-          "revenue": 235.97,
+          "revenue": 239.97,
           "orders": 3
         },
         {
@@ -861,43 +796,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.12,
-      "daily_qty": 1.1
-    },
-    {
-      "sku": "WB-RM",
-      "name": "Rocky Mountain Wildflower Seed Mix",
-      "product_id": 445310,
-      "qty": 16,
-      "revenue": 899.84,
-      "orders": 16,
-      "active_days": 14,
-      "velocity": 64.27,
-      "variants": [
-        {
-          "sku": "WB-RM-5-LB-KIT",
-          "name": "Rocky Mountain Wildflower Seed Mix - 5 lb - Covers 10,000 Sq Ft",
-          "qty": 3,
-          "revenue": 389.97,
-          "orders": 3
-        },
-        {
-          "sku": "WB-RM-1-LB-KIT",
-          "name": "Rocky Mountain Wildflower Seed Mix - 1 lb - Covers 2,000 Sq Ft",
-          "qty": 6,
-          "revenue": 299.94,
-          "orders": 6
-        },
-        {
-          "sku": "WB-RM-0.5-LB",
-          "name": "Rocky Mountain Wildflower Seed Mix - 0.5 lb - Covers 1,000 Sq Ft",
-          "qty": 7,
-          "revenue": 209.93,
-          "orders": 7
-        }
-      ],
-      "class": "A",
-      "rev_pct": 1.1,
+      "rev_pct": 1.11,
       "daily_qty": 1.1
     },
     {
@@ -933,7 +832,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.09,
+      "rev_pct": 1.08,
       "daily_qty": 0.6
     },
     {
@@ -969,44 +868,167 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.09,
+      "rev_pct": 1.08,
       "daily_qty": 0.6
     },
     {
-      "sku": "PG-MESA",
-      "name": "Alfalfa Seed",
-      "product_id": 445319,
-      "qty": 5,
-      "revenue": 790.2,
-      "orders": 5,
+      "sku": "S-FEOV",
+      "name": "Sheep Fescue Grass Seed",
+      "product_id": 445314,
+      "qty": 12,
+      "revenue": 879.88,
+      "orders": 11,
       "active_days": 14,
-      "velocity": 56.44,
+      "velocity": 62.85,
       "variants": [
         {
-          "sku": "PG-MESA-25-LB-KIT",
-          "name": "Alfalfa Seed - 25 lb - Covers 50,000 Sq Ft",
-          "qty": 2,
-          "revenue": 359.98,
-          "orders": 2
+          "sku": "S-FEOV-10-LB-KIT",
+          "name": "Sheep Fescue Grass Seed - 10 lb - Covers 2,000 Sq Ft",
+          "qty": 6,
+          "revenue": 419.94,
+          "orders": 6
         },
         {
-          "sku": "PG-MESA-50-LB-KIT",
-          "name": "Alfalfa Seed - 50 lb - Covers 100,000 Sq Ft",
-          "qty": 1,
-          "revenue": 339.99,
+          "sku": "S-FEOV-25-LB-KIT",
+          "name": "Sheep Fescue Grass Seed - 25 lb - Covers 5,000 Sq Ft",
+          "qty": 2,
+          "revenue": 299.98,
           "orders": 1
         },
         {
-          "sku": "PG-MESA-5-LB",
-          "name": "Alfalfa Seed - 5 lb - Covers 10,000 Sq Ft",
+          "sku": "S-FEOV-5-LB",
+          "name": "Sheep Fescue Grass Seed - 5 lb - Covers 1,000 Sq Ft",
+          "qty": 4,
+          "revenue": 159.96,
+          "orders": 4
+        }
+      ],
+      "class": "A",
+      "rev_pct": 1.07,
+      "daily_qty": 0.9
+    },
+    {
+      "sku": "WB-RM",
+      "name": "Rocky Mountain Wildflower Seed Mix",
+      "product_id": 445310,
+      "qty": 15,
+      "revenue": 869.85,
+      "orders": 15,
+      "active_days": 14,
+      "velocity": 62.13,
+      "variants": [
+        {
+          "sku": "WB-RM-5-LB-KIT",
+          "name": "Rocky Mountain Wildflower Seed Mix - 5 lb - Covers 10,000 Sq Ft",
+          "qty": 3,
+          "revenue": 389.97,
+          "orders": 3
+        },
+        {
+          "sku": "WB-RM-1-LB-KIT",
+          "name": "Rocky Mountain Wildflower Seed Mix - 1 lb - Covers 2,000 Sq Ft",
+          "qty": 6,
+          "revenue": 299.94,
+          "orders": 6
+        },
+        {
+          "sku": "WB-RM-0.5-LB",
+          "name": "Rocky Mountain Wildflower Seed Mix - 0.5 lb - Covers 1,000 Sq Ft",
+          "qty": 6,
+          "revenue": 179.94,
+          "orders": 6
+        }
+      ],
+      "class": "A",
+      "rev_pct": 1.05,
+      "daily_qty": 1.1
+    },
+    {
+      "sku": "PG-TRRE",
+      "name": "White Clover Seed",
+      "product_id": 452364,
+      "qty": 15,
+      "revenue": 852.85,
+      "orders": 10,
+      "active_days": 14,
+      "velocity": 60.92,
+      "variants": [
+        {
+          "sku": "PG-TRRE-10-LB-KIT",
+          "name": "White Clover Seed - 10 lb - Covers 20,000 Sq Ft",
+          "qty": 11,
+          "revenue": 692.89,
+          "orders": 6
+        },
+        {
+          "sku": "PG-TRRE-5-LB",
+          "name": "White Clover Seed - 5 lb - Covers 10,000 Sq Ft",
+          "qty": 4,
+          "revenue": 159.96,
+          "orders": 4
+        }
+      ],
+      "class": "A",
+      "rev_pct": 1.03,
+      "daily_qty": 1.1
+    },
+    {
+      "sku": "WB-TXPB",
+      "name": "Texas Pollinator Wildflower Mix",
+      "product_id": 462221,
+      "qty": 8,
+      "revenue": 851.22,
+      "orders": 8,
+      "active_days": 14,
+      "velocity": 60.8,
+      "variants": [
+        {
+          "sku": "WB-TXPB-5-LB-KIT",
+          "name": "Texas Pollinator Wildflower Mix - 5 lb",
           "qty": 2,
-          "revenue": 90.23,
+          "revenue": 572.88,
+          "orders": 2
+        },
+        {
+          "sku": "WB-TXPB-0.5-LB",
+          "name": "Texas Pollinator Wildflower Mix - 0.5 lb",
+          "qty": 4,
+          "revenue": 155.96,
+          "orders": 4
+        },
+        {
+          "sku": "WB-TXPB-1-LB-KIT",
+          "name": "Texas Pollinator Wildflower Mix - 1 lb",
+          "qty": 2,
+          "revenue": 122.38,
           "orders": 2
         }
       ],
       "class": "A",
-      "rev_pct": 0.97,
-      "daily_qty": 0.4
+      "rev_pct": 1.03,
+      "daily_qty": 0.6
+    },
+    {
+      "sku": "S-TACKI",
+      "name": "M-Binder Tackifier-Soil Stabilizer",
+      "product_id": 445329,
+      "qty": 7,
+      "revenue": 827.93,
+      "orders": 6,
+      "active_days": 14,
+      "velocity": 59.14,
+      "variants": [
+        {
+          "sku": "S-TACKI-50-LB",
+          "name": "M-Binder Tackifier-Soil Stabilizer - 50 Lbs",
+          "qty": 7,
+          "revenue": 827.93,
+          "orders": 6
+        }
+      ],
+      "class": "A",
+      "rev_pct": 1.0,
+      "daily_qty": 0.5
     },
     {
       "sku": "PB-HRSE-SO",
@@ -1034,90 +1056,90 @@
         }
       ],
       "class": "A",
-      "rev_pct": 0.96,
-      "daily_qty": 0.4
-    },
-    {
-      "sku": "WB-TXPB",
-      "name": "Texas Pollinator Wildflower Mix",
-      "product_id": 462221,
-      "qty": 6,
-      "revenue": 773.24,
-      "orders": 6,
-      "active_days": 14,
-      "velocity": 55.23,
-      "variants": [
-        {
-          "sku": "WB-TXPB-5-LB-KIT",
-          "name": "Texas Pollinator Wildflower Mix - 5 lb",
-          "qty": 2,
-          "revenue": 572.88,
-          "orders": 2
-        },
-        {
-          "sku": "WB-TXPB-1-LB-KIT",
-          "name": "Texas Pollinator Wildflower Mix - 1 lb",
-          "qty": 2,
-          "revenue": 122.38,
-          "orders": 2
-        },
-        {
-          "sku": "WB-TXPB-0.5-LB",
-          "name": "Texas Pollinator Wildflower Mix - 0.5 lb",
-          "qty": 2,
-          "revenue": 77.98,
-          "orders": 2
-        }
-      ],
-      "class": "A",
       "rev_pct": 0.95,
       "daily_qty": 0.4
     },
     {
-      "sku": "PG-SECE",
-      "name": "Winter (Cereal) Rye Seed",
-      "product_id": 445327,
-      "qty": 15,
-      "revenue": 740.6,
-      "orders": 14,
+      "sku": "PG-MESA",
+      "name": "Alfalfa Seed",
+      "product_id": 445319,
+      "qty": 4,
+      "revenue": 747.46,
+      "orders": 4,
       "active_days": 14,
-      "velocity": 52.9,
+      "velocity": 53.39,
       "variants": [
         {
-          "sku": "PG-SECE-5-LB",
-          "name": "Winter (Cereal) Rye Seed - 5 lb - Covers 20,000 Sq Ft",
-          "qty": 12,
-          "revenue": 293.63,
-          "orders": 11
-        },
-        {
-          "sku": "PG-SECE-25-LB-KIT",
-          "name": "Winter (Cereal) Rye Seed - 25 lb - Covers 50,000 Sq Ft",
+          "sku": "PG-MESA-25-LB-KIT",
+          "name": "Alfalfa Seed - 25 lb - Covers 50,000 Sq Ft",
           "qty": 2,
-          "revenue": 235.98,
+          "revenue": 359.98,
           "orders": 2
         },
         {
-          "sku": "PG-SECE-50-LB-KIT",
-          "name": "Winter (Cereal) Rye Seed - 50 lb - Covers 100,000 Sq Ft",
+          "sku": "PG-MESA-50-LB-KIT",
+          "name": "Alfalfa Seed - 50 lb - Covers 100,000 Sq Ft",
           "qty": 1,
-          "revenue": 210.99,
+          "revenue": 339.99,
+          "orders": 1
+        },
+        {
+          "sku": "PG-MESA-5-LB",
+          "name": "Alfalfa Seed - 5 lb - Covers 10,000 Sq Ft",
+          "qty": 1,
+          "revenue": 47.49,
           "orders": 1
         }
       ],
       "class": "A",
       "rev_pct": 0.91,
-      "daily_qty": 1.1
+      "daily_qty": 0.3
+    },
+    {
+      "sku": "PB-ALPACA",
+      "name": "Llama & Alpaca Pasture Seed Mix",
+      "product_id": 445162,
+      "qty": 10,
+      "revenue": 739.9,
+      "orders": 10,
+      "active_days": 14,
+      "velocity": 52.85,
+      "variants": [
+        {
+          "sku": "PB-ALPACA-50-LB-KIT",
+          "name": "Llama & Alpaca Pasture Seed Mix - 50 lb - Covers 100,000 Sq Ft",
+          "qty": 4,
+          "revenue": 479.96,
+          "orders": 4
+        },
+        {
+          "sku": "PB-ALPACA-20-LB-KIT",
+          "name": "Llama & Alpaca Pasture Seed Mix - 20 lb - Covers 40,000 Sq Ft",
+          "qty": 4,
+          "revenue": 199.96,
+          "orders": 4
+        },
+        {
+          "sku": "PB-ALPACA-10-LB",
+          "name": "Llama & Alpaca Pasture Seed Mix - 10 lb - Covers 20,000 Sq Ft",
+          "qty": 2,
+          "revenue": 59.98,
+          "orders": 2
+        }
+      ],
+      "class": "A",
+      "rev_pct": 0.9,
+      "daily_qty": 0.7
     },
     {
       "sku": "W-ESCA",
       "name": "California Poppy",
       "product_id": 445350,
       "qty": 33,
-      "revenue": 729.99,
+      "revenue": 736.39,
       "orders": 22,
       "active_days": 14,
-      "velocity": 52.14,
+      "velocity": 52.6,
       "variants": [
         {
           "sku": "W-ESCA-1-LB-KIT",
@@ -1129,16 +1151,16 @@
         {
           "sku": "W-ESCA-0.25-LB",
           "name": "California Poppy - 0.25 lb - Covers 2,000 Sq Ft",
-          "qty": 8,
-          "revenue": 63.92,
-          "orders": 8
+          "qty": 7,
+          "revenue": 55.93,
+          "orders": 7
         },
         {
           "sku": "W-ESCA-0.5-LB-KIT",
           "name": "California Poppy - 0.5 lb - Covers 4,000 Sq Ft",
-          "qty": 2,
-          "revenue": 28.78,
-          "orders": 2
+          "qty": 3,
+          "revenue": 43.17,
+          "orders": 3
         }
       ],
       "class": "A",
@@ -1149,11 +1171,11 @@
       "sku": "PB-GAME",
       "name": "Big Game Food Plot &amp; Forage Mix",
       "product_id": 445166,
-      "qty": 12,
-      "revenue": 727.38,
-      "orders": 10,
+      "qty": 11,
+      "revenue": 697.39,
+      "orders": 9,
       "active_days": 14,
-      "velocity": 51.96,
+      "velocity": 49.81,
       "variants": [
         {
           "sku": "PB-GAME-50-LB-KIT",
@@ -1172,116 +1194,86 @@
         {
           "sku": "PB-GAME-10-LB",
           "name": "Big Game Food Plot &amp; Forage Mix - 10 lb - Covers 20,000 Sq Ft",
-          "qty": 4,
-          "revenue": 119.96,
-          "orders": 4
-        }
-      ],
-      "class": "A",
-      "rev_pct": 0.89,
-      "daily_qty": 0.9
-    },
-    {
-      "sku": "PB-ALPACA",
-      "name": "Llama & Alpaca Pasture Seed Mix",
-      "product_id": 445162,
-      "qty": 9,
-      "revenue": 689.91,
-      "orders": 9,
-      "active_days": 14,
-      "velocity": 49.28,
-      "variants": [
-        {
-          "sku": "PB-ALPACA-50-LB-KIT",
-          "name": "Llama & Alpaca Pasture Seed Mix - 50 lb - Covers 100,000 Sq Ft",
-          "qty": 4,
-          "revenue": 479.96,
-          "orders": 4
-        },
-        {
-          "sku": "PB-ALPACA-20-LB-KIT",
-          "name": "Llama & Alpaca Pasture Seed Mix - 20 lb - Covers 40,000 Sq Ft",
           "qty": 3,
-          "revenue": 149.97,
+          "revenue": 89.97,
           "orders": 3
-        },
-        {
-          "sku": "PB-ALPACA-10-LB",
-          "name": "Llama & Alpaca Pasture Seed Mix - 10 lb - Covers 20,000 Sq Ft",
-          "qty": 2,
-          "revenue": 59.98,
-          "orders": 2
         }
       ],
       "class": "A",
       "rev_pct": 0.85,
-      "daily_qty": 0.6
+      "daily_qty": 0.8
     },
     {
-      "sku": "LAWN-BUDA",
-      "name": "Sundancer Buffalograss Lawn Seed",
-      "product_id": 456233,
+      "sku": "PG-SECE",
+      "name": "Winter (Cereal) Rye Seed",
+      "product_id": 445327,
+      "qty": 13,
+      "revenue": 690.62,
+      "orders": 12,
+      "active_days": 14,
+      "velocity": 49.33,
+      "variants": [
+        {
+          "sku": "PG-SECE-5-LB",
+          "name": "Winter (Cereal) Rye Seed - 5 lb - Covers 20,000 Sq Ft",
+          "qty": 10,
+          "revenue": 243.65,
+          "orders": 9
+        },
+        {
+          "sku": "PG-SECE-25-LB-KIT",
+          "name": "Winter (Cereal) Rye Seed - 25 lb - Covers 50,000 Sq Ft",
+          "qty": 2,
+          "revenue": 235.98,
+          "orders": 2
+        },
+        {
+          "sku": "PG-SECE-50-LB-KIT",
+          "name": "Winter (Cereal) Rye Seed - 50 lb - Covers 100,000 Sq Ft",
+          "qty": 1,
+          "revenue": 210.99,
+          "orders": 1
+        }
+      ],
+      "class": "A",
+      "rev_pct": 0.84,
+      "daily_qty": 0.9
+    },
+    {
+      "sku": "TURF-HLB",
+      "name": "Hardy Grass Seed Mix for High Traffic Lawns",
+      "product_id": 458047,
       "qty": 6,
-      "revenue": 672.69,
-      "orders": 6,
-      "active_days": 14,
-      "velocity": 48.05,
-      "variants": [
-        {
-          "sku": "TURF-BUDA-3-LB-KIT",
-          "name": "Sundancer Buffalograss Lawn Seed - 3 lb - Covers 1,000 Sq Ft",
-          "qty": 6,
-          "revenue": 672.69,
-          "orders": 6
-        }
-      ],
-      "class": "A",
-      "rev_pct": 0.82,
-      "daily_qty": 0.4
-    },
-    {
-      "sku": "PB-COW-SO",
-      "name": "Warm Season Cattle Pasture Seed Mix",
-      "product_id": 445164,
-      "qty": 4,
-      "revenue": 639.96,
-      "orders": 3,
-      "active_days": 14,
-      "velocity": 45.71,
-      "variants": [
-        {
-          "sku": "PB-COW-SO-50-LB-KIT",
-          "name": "Warm Season Cattle Pasture Seed Mix - 50 lb - Covers 100,000 Sq Ft",
-          "qty": 4,
-          "revenue": 639.96,
-          "orders": 3
-        }
-      ],
-      "class": "A",
-      "rev_pct": 0.78,
-      "daily_qty": 0.3
-    },
-    {
-      "sku": "PB-CABIN",
-      "name": "Native Cabin Grass Seed Mix",
-      "product_id": 458470,
-      "qty": 8,
-      "revenue": 633.52,
+      "revenue": 649.54,
       "orders": 5,
       "active_days": 14,
-      "velocity": 45.25,
+      "velocity": 46.4,
       "variants": [
         {
-          "sku": "PB-CABIN-10-LB-KIT",
-          "name": "Native Cabin Grass Seed Mix - 10 Lbs - 20,000 Sq Ft",
-          "qty": 8,
-          "revenue": 633.52,
-          "orders": 5
+          "sku": "TURF-HLB-25-LB-KIT",
+          "name": "Hardy Grass Seed Mix for High Traffic Lawns - 25 Lbs - 5,000 Sq Ft",
+          "qty": 2,
+          "revenue": 399.58,
+          "orders": 2
+        },
+        {
+          "sku": "TURF-HLB-10-LB-KIT",
+          "name": "Hardy Grass Seed Mix for High Traffic Lawns - 10 Lbs - 2,000 Sq Ft",
+          "qty": 2,
+          "revenue": 159.98,
+          "orders": 1
+        },
+        {
+          "sku": "TURF-HLB-5-LB",
+          "name": "Hardy Grass Seed Mix for High Traffic Lawns - 5 Lbs - 1,000 Sq Ft",
+          "qty": 2,
+          "revenue": 89.98,
+          "orders": 2
         }
       ],
       "class": "A",
-      "rev_pct": 0.78,
-      "daily_qty": 0.6
+      "rev_pct": 0.79,
+      "daily_qty": 0.4
     },
     {
       "sku": "TURF-TXN",
@@ -1308,8 +1300,8 @@
           "orders": 1
         }
       ],
-      "class": "B",
-      "rev_pct": 0.77,
+      "class": "A",
+      "rev_pct": 0.76,
       "daily_qty": 0.2
     },
     {
@@ -1330,9 +1322,60 @@
           "orders": 1
         }
       ],
-      "class": "B",
-      "rev_pct": 0.76,
+      "class": "A",
+      "rev_pct": 0.75,
       "daily_qty": 0.3
+    },
+    {
+      "sku": "CV-CNEC",
+      "name": "California Native Erosion Control Mix",
+      "product_id": 445362,
+      "qty": 3,
+      "revenue": 617.64,
+      "orders": 3,
+      "active_days": 14,
+      "velocity": 44.12,
+      "variants": [
+        {
+          "sku": "CV-CNEC-5-LB",
+          "name": "California Native Erosion Control Mix - 5 Lbs - 20,000 Sq Ft",
+          "qty": 3,
+          "revenue": 617.64,
+          "orders": 3
+        }
+      ],
+      "class": "B",
+      "rev_pct": 0.75,
+      "daily_qty": 0.2
+    },
+    {
+      "sku": "PB-TXPR",
+      "name": "Texas Native Pasture Prairie Mix",
+      "product_id": 462223,
+      "qty": 2,
+      "revenue": 606.98,
+      "orders": 2,
+      "active_days": 14,
+      "velocity": 43.36,
+      "variants": [
+        {
+          "sku": "PB-TXPR-20-LB-KIT",
+          "name": "Texas Native Pasture Prairie Mix - 20 lb",
+          "qty": 1,
+          "revenue": 386.99,
+          "orders": 1
+        },
+        {
+          "sku": "PB-TXPR-10-LB",
+          "name": "Texas Native Pasture Prairie Mix - 10 lb",
+          "qty": 1,
+          "revenue": 219.99,
+          "orders": 1
+        }
+      ],
+      "class": "B",
+      "rev_pct": 0.74,
+      "daily_qty": 0.1
     },
     {
       "sku": "S-AGPA8",
@@ -1396,7 +1439,7 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.7,
+      "rev_pct": 0.69,
       "daily_qty": 0.7
     },
     {
@@ -1418,44 +1461,117 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.69,
+      "rev_pct": 0.68,
       "daily_qty": 0.1
     },
     {
-      "sku": "WB-TEXN",
-      "name": "Texas Native Wildflower Mix",
-      "product_id": 462220,
-      "qty": 7,
-      "revenue": 544.33,
-      "orders": 7,
+      "sku": "LAWN-BUDA",
+      "name": "Sundancer Buffalograss Lawn Seed",
+      "product_id": 456233,
+      "qty": 5,
+      "revenue": 555.7,
+      "orders": 5,
       "active_days": 14,
-      "velocity": 38.88,
+      "velocity": 39.69,
       "variants": [
         {
-          "sku": "WB-TEXN-5-LB-KIT",
-          "name": "Texas Native Wildflower Mix - 5 lb",
-          "qty": 1,
-          "revenue": 275.39,
-          "orders": 1
-        },
+          "sku": "TURF-BUDA-3-LB-KIT",
+          "name": "Sundancer Buffalograss Lawn Seed - 3 lb - Covers 1,000 Sq Ft",
+          "qty": 5,
+          "revenue": 555.7,
+          "orders": 5
+        }
+      ],
+      "class": "B",
+      "rev_pct": 0.67,
+      "daily_qty": 0.4
+    },
+    {
+      "sku": "PB-CABIN",
+      "name": "Native Cabin Grass Seed Mix",
+      "product_id": 458470,
+      "qty": 7,
+      "revenue": 554.33,
+      "orders": 4,
+      "active_days": 14,
+      "velocity": 39.6,
+      "variants": [
         {
-          "sku": "WB-TEXN-0.5-LB",
-          "name": "Texas Native Wildflower Mix - 0.5 lb",
-          "qty": 4,
-          "revenue": 151.96,
+          "sku": "PB-CABIN-10-LB-KIT",
+          "name": "Native Cabin Grass Seed Mix - 10 Lbs - 20,000 Sq Ft",
+          "qty": 7,
+          "revenue": 554.33,
           "orders": 4
-        },
-        {
-          "sku": "WB-TEXN-1-LB-KIT",
-          "name": "Texas Native Wildflower Mix - 1 lb",
-          "qty": 2,
-          "revenue": 116.98,
-          "orders": 2
         }
       ],
       "class": "B",
       "rev_pct": 0.67,
       "daily_qty": 0.5
+    },
+    {
+      "sku": "WB-FLN",
+      "name": "Florida Native Wildflower Seed Mix",
+      "product_id": 462276,
+      "qty": 21,
+      "revenue": 539.64,
+      "orders": 18,
+      "active_days": 14,
+      "velocity": 38.55,
+      "variants": [
+        {
+          "sku": "WB-FLN-1-LB-KIT",
+          "name": "Florida Native Wildflower Seed Mix - 1 lb - Covers 2,000 Sq Ft",
+          "qty": 13,
+          "revenue": 304.07,
+          "orders": 10
+        },
+        {
+          "sku": "WB-FLN-0.5-LB",
+          "name": "Florida Native Wildflower Seed Mix - 0.5 lb - Covers 1,000 Sq Ft",
+          "qty": 7,
+          "revenue": 125.93,
+          "orders": 7
+        },
+        {
+          "sku": "WB-FLN-5-LB-KIT",
+          "name": "Florida Native Wildflower Seed Mix - 5 lb - Covers 10,000 Sq Ft",
+          "qty": 1,
+          "revenue": 109.64,
+          "orders": 1
+        }
+      ],
+      "class": "B",
+      "rev_pct": 0.65,
+      "daily_qty": 1.5
+    },
+    {
+      "sku": "PB-SHEP-SO",
+      "name": "Warm Season Sheep Pasture Mix",
+      "product_id": 445274,
+      "qty": 3,
+      "revenue": 529.97,
+      "orders": 3,
+      "active_days": 14,
+      "velocity": 37.86,
+      "variants": [
+        {
+          "sku": "PB-SHEP-SO-50-LB-KIT",
+          "name": "Warm Season Sheep Pasture Mix - 50 lb - Covers 100,000 Sq Ft",
+          "qty": 1,
+          "revenue": 289.99,
+          "orders": 1
+        },
+        {
+          "sku": "PB-SHEP-SO-20-LB-KIT",
+          "name": "Warm Season Sheep Pasture Mix - 20 lb - Covers 40,000 Sq Ft",
+          "qty": 2,
+          "revenue": 239.98,
+          "orders": 2
+        }
+      ],
+      "class": "B",
+      "rev_pct": 0.64,
+      "daily_qty": 0.2
     },
     {
       "sku": "PB-SOLS",
@@ -1483,83 +1599,18 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.63,
+      "rev_pct": 0.62,
       "daily_qty": 0.2
-    },
-    {
-      "sku": "TURF-HLB",
-      "name": "Hardy Grass Seed Mix for High Traffic Lawns",
-      "product_id": 458047,
-      "qty": 4,
-      "revenue": 489.56,
-      "orders": 4,
-      "active_days": 14,
-      "velocity": 34.97,
-      "variants": [
-        {
-          "sku": "TURF-HLB-25-LB-KIT",
-          "name": "Hardy Grass Seed Mix for High Traffic Lawns - 25 Lbs - 5,000 Sq Ft",
-          "qty": 2,
-          "revenue": 399.58,
-          "orders": 2
-        },
-        {
-          "sku": "TURF-HLB-5-LB",
-          "name": "Hardy Grass Seed Mix for High Traffic Lawns - 5 Lbs - 1,000 Sq Ft",
-          "qty": 2,
-          "revenue": 89.98,
-          "orders": 2
-        }
-      ],
-      "class": "B",
-      "rev_pct": 0.6,
-      "daily_qty": 0.3
-    },
-    {
-      "sku": "WB-FLN",
-      "name": "Florida Native Wildflower Seed Mix",
-      "product_id": 462276,
-      "qty": 18,
-      "revenue": 474.87,
-      "orders": 15,
-      "active_days": 14,
-      "velocity": 33.92,
-      "variants": [
-        {
-          "sku": "WB-FLN-1-LB-KIT",
-          "name": "Florida Native Wildflower Seed Mix - 1 lb - Covers 2,000 Sq Ft",
-          "qty": 11,
-          "revenue": 257.29,
-          "orders": 8
-        },
-        {
-          "sku": "WB-FLN-5-LB-KIT",
-          "name": "Florida Native Wildflower Seed Mix - 5 lb - Covers 10,000 Sq Ft",
-          "qty": 1,
-          "revenue": 109.64,
-          "orders": 1
-        },
-        {
-          "sku": "WB-FLN-0.5-LB",
-          "name": "Florida Native Wildflower Seed Mix - 0.5 lb - Covers 1,000 Sq Ft",
-          "qty": 6,
-          "revenue": 107.94,
-          "orders": 6
-        }
-      ],
-      "class": "B",
-      "rev_pct": 0.58,
-      "daily_qty": 1.3
     },
     {
       "sku": "PB-PIG",
       "name": "Pig Pasture &amp; Forage Mix",
       "product_id": 445272,
-      "qty": 6,
-      "revenue": 454.94,
-      "orders": 4,
+      "qty": 7,
+      "revenue": 509.93,
+      "orders": 5,
       "active_days": 14,
-      "velocity": 32.5,
+      "velocity": 36.42,
       "variants": [
         {
           "sku": "PB-PIG-20-LB-KIT",
@@ -1571,14 +1622,14 @@
         {
           "sku": "PB-PIG-10-LB",
           "name": "Pig Pasture &amp; Forage Mix - 10 lb - Covers 20,000 Sq Ft",
-          "qty": 1,
-          "revenue": 54.99,
-          "orders": 1
+          "qty": 2,
+          "revenue": 109.98,
+          "orders": 2
         }
       ],
       "class": "B",
-      "rev_pct": 0.56,
-      "daily_qty": 0.4
+      "rev_pct": 0.62,
+      "daily_qty": 0.5
     },
     {
       "sku": "W-NAPU",
@@ -1613,30 +1664,8 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.53,
+      "rev_pct": 0.52,
       "daily_qty": 0.6
-    },
-    {
-      "sku": "CV-CNEC",
-      "name": "California Native Erosion Control Mix",
-      "product_id": 445362,
-      "qty": 2,
-      "revenue": 411.76,
-      "orders": 2,
-      "active_days": 14,
-      "velocity": 29.41,
-      "variants": [
-        {
-          "sku": "CV-CNEC-5-LB",
-          "name": "California Native Erosion Control Mix - 5 Lbs - 20,000 Sq Ft",
-          "qty": 2,
-          "revenue": 411.76,
-          "orders": 2
-        }
-      ],
-      "class": "B",
-      "rev_pct": 0.5,
-      "daily_qty": 0.1
     },
     {
       "sku": "PG-DAGL",
@@ -1668,6 +1697,35 @@
       "daily_qty": 0.5
     },
     {
+      "sku": "WB-XCVP",
+      "name": "Central Valley Pollinator Wildflower Mix",
+      "product_id": 452791,
+      "qty": 5,
+      "revenue": 388.22,
+      "orders": 5,
+      "active_days": 14,
+      "velocity": 27.73,
+      "variants": [
+        {
+          "sku": "WB-XCVP-1-LB-KIT",
+          "name": "Central Valley Pollinator Wildflower Mix - 1 lb - 5,000 Sq Ft",
+          "qty": 2,
+          "revenue": 211.76,
+          "orders": 2
+        },
+        {
+          "sku": "WB-XCVP-0.5-LB",
+          "name": "Central Valley Pollinator Wildflower Mix - 0.5 lb - 2,000 Sq Ft",
+          "qty": 3,
+          "revenue": 176.46,
+          "orders": 3
+        }
+      ],
+      "class": "B",
+      "rev_pct": 0.47,
+      "daily_qty": 0.4
+    },
+    {
       "sku": "CV-CNFW",
       "name": "California Native Fire-Resistant Seed Mix",
       "product_id": 445160,
@@ -1686,7 +1744,7 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.47,
+      "rev_pct": 0.46,
       "daily_qty": 0.1
     },
     {
@@ -1715,59 +1773,66 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.45,
+      "rev_pct": 0.44,
       "daily_qty": 0.4
     },
     {
-      "sku": "PG-LOPE",
-      "name": "Perennial Ryegrass",
-      "product_id": 445321,
-      "qty": 8,
-      "revenue": 337.68,
-      "orders": 3,
+      "sku": "PG-TRPR",
+      "name": "Red Clover Seed",
+      "product_id": 184488,
+      "qty": 6,
+      "revenue": 353.79,
+      "orders": 5,
       "active_days": 14,
-      "velocity": 24.12,
+      "velocity": 25.27,
       "variants": [
         {
-          "sku": "PG-LOPE-5-LB",
-          "name": "Perennial Ryegrass - 5 lb - Covers 20,000 Sq Ft",
-          "qty": 8,
-          "revenue": 337.68,
+          "sku": "PG-TRPR-25-LB-KIT",
+          "name": "Red Clover Seed - 25 Lbs - 50,000 Sq Ft",
+          "qty": 3,
+          "revenue": 272.82,
+          "orders": 2
+        },
+        {
+          "sku": "PG-TRPR-5-LB",
+          "name": "Red Clover Seed - 5 Lbs - 10,000 Sq Ft",
+          "qty": 3,
+          "revenue": 80.97,
           "orders": 3
         }
       ],
       "class": "B",
-      "rev_pct": 0.41,
-      "daily_qty": 0.6
+      "rev_pct": 0.43,
+      "daily_qty": 0.4
     },
     {
-      "sku": "PG-FEAR2",
-      "name": "Tall Fescue Grass Seed",
-      "product_id": 445316,
-      "qty": 6,
-      "revenue": 332.95,
-      "orders": 5,
+      "sku": "WB-SD",
+      "name": "Sonoran Desert Wildflower Mix",
+      "product_id": 182825,
+      "qty": 10,
+      "revenue": 334.9,
+      "orders": 10,
       "active_days": 14,
-      "velocity": 23.78,
+      "velocity": 23.92,
       "variants": [
         {
-          "sku": "PG-FEAR2-5-LB",
-          "name": "Tall Fescue Grass Seed - 5 lb - Covers 10,000 Sq Ft",
+          "sku": "WB-SD-1-LB-KIT",
+          "name": "Sonoran Desert Wildflower Mix - 1 Lbs - 2,000 Sq Ft",
           "qty": 5,
-          "revenue": 167.96,
-          "orders": 4
+          "revenue": 209.95,
+          "orders": 5
         },
         {
-          "sku": "PG-FEAR2-25-LB-KIT",
-          "name": "Tall Fescue Grass Seed - 25 lb - Covers 50,000 Sq Ft",
-          "qty": 1,
-          "revenue": 164.99,
-          "orders": 1
+          "sku": "WB-SD-0.5-LB",
+          "name": "Sonoran Desert Wildflower Mix - 0.5 lbs 1,000 Sq Ft",
+          "qty": 5,
+          "revenue": 124.95,
+          "orders": 5
         }
       ],
       "class": "B",
       "rev_pct": 0.41,
-      "daily_qty": 0.4
+      "daily_qty": 0.7
     },
     {
       "sku": "WB-DR",
@@ -1795,44 +1860,8 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.39,
-      "daily_qty": 0.2
-    },
-    {
-      "sku": "W-ACLA",
-      "name": "Western Yarrow Seed",
-      "product_id": 452749,
-      "qty": 8,
-      "revenue": 310.47,
-      "orders": 7,
-      "active_days": 14,
-      "velocity": 22.18,
-      "variants": [
-        {
-          "sku": "W-ACLA-1-LB-KIT",
-          "name": "Western Yarrow Seed - 1 lb - Covers 4,000 Sq Ft",
-          "qty": 3,
-          "revenue": 179.97,
-          "orders": 3
-        },
-        {
-          "sku": "W-ACLA-0.5-LB-KIT",
-          "name": "Western Yarrow Seed - 0.5 lb - Covers 2,000 Sq Ft",
-          "qty": 3,
-          "revenue": 95.22,
-          "orders": 2
-        },
-        {
-          "sku": "W-ACLA-0.25-LB",
-          "name": "Western Yarrow Seed - 0.25 lb - Covers 1,000 Sq Ft",
-          "qty": 2,
-          "revenue": 35.28,
-          "orders": 2
-        }
-      ],
-      "class": "B",
       "rev_pct": 0.38,
-      "daily_qty": 0.6
+      "daily_qty": 0.2
     },
     {
       "sku": "W-LUSU",
@@ -1918,88 +1947,73 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.37,
-      "daily_qty": 0.1
-    },
-    {
-      "sku": "PG-PHPR",
-      "name": "Timothy Grass Hay Seed",
-      "product_id": 445318,
-      "qty": 1,
-      "revenue": 299.99,
-      "orders": 1,
-      "active_days": 14,
-      "velocity": 21.43,
-      "variants": [
-        {
-          "sku": "PG-PHPR-50-LB-KIT",
-          "name": "Timothy Grass Hay Seed - 50 lb - Covers 100,000 Sq Ft",
-          "qty": 1,
-          "revenue": 299.99,
-          "orders": 1
-        }
-      ],
-      "class": "B",
-      "rev_pct": 0.37,
-      "daily_qty": 0.1
-    },
-    {
-      "sku": "WB-SD",
-      "name": "Sonoran Desert Wildflower Mix",
-      "product_id": 182825,
-      "qty": 9,
-      "revenue": 292.91,
-      "orders": 9,
-      "active_days": 14,
-      "velocity": 20.92,
-      "variants": [
-        {
-          "sku": "WB-SD-1-LB-KIT",
-          "name": "Sonoran Desert Wildflower Mix - 1 Lbs - 2,000 Sq Ft",
-          "qty": 4,
-          "revenue": 167.96,
-          "orders": 4
-        },
-        {
-          "sku": "WB-SD-0.5-LB",
-          "name": "Sonoran Desert Wildflower Mix - 0.5 lbs 1,000 Sq Ft",
-          "qty": 5,
-          "revenue": 124.95,
-          "orders": 5
-        }
-      ],
-      "class": "B",
       "rev_pct": 0.36,
-      "daily_qty": 0.6
+      "daily_qty": 0.1
     },
     {
-      "sku": "WB-XCVP",
-      "name": "Central Valley Pollinator Wildflower Mix",
-      "product_id": 452791,
-      "qty": 4,
-      "revenue": 282.34,
-      "orders": 4,
+      "sku": "W-ACLA",
+      "name": "Western Yarrow Seed",
+      "product_id": 452749,
+      "qty": 7,
+      "revenue": 278.73,
+      "orders": 6,
       "active_days": 14,
-      "velocity": 20.17,
+      "velocity": 19.91,
       "variants": [
         {
-          "sku": "WB-XCVP-0.5-LB",
-          "name": "Central Valley Pollinator Wildflower Mix - 0.5 lb - 2,000 Sq Ft",
+          "sku": "W-ACLA-1-LB-KIT",
+          "name": "Western Yarrow Seed - 1 lb - Covers 4,000 Sq Ft",
           "qty": 3,
-          "revenue": 176.46,
+          "revenue": 179.97,
           "orders": 3
         },
         {
-          "sku": "WB-XCVP-1-LB-KIT",
-          "name": "Central Valley Pollinator Wildflower Mix - 1 lb - 5,000 Sq Ft",
-          "qty": 1,
-          "revenue": 105.88,
+          "sku": "W-ACLA-0.5-LB-KIT",
+          "name": "Western Yarrow Seed - 0.5 lb - Covers 2,000 Sq Ft",
+          "qty": 2,
+          "revenue": 63.48,
           "orders": 1
+        },
+        {
+          "sku": "W-ACLA-0.25-LB",
+          "name": "Western Yarrow Seed - 0.25 lb - Covers 1,000 Sq Ft",
+          "qty": 2,
+          "revenue": 35.28,
+          "orders": 2
         }
       ],
       "class": "B",
-      "rev_pct": 0.35,
-      "daily_qty": 0.3
+      "rev_pct": 0.34,
+      "daily_qty": 0.5
+    },
+    {
+      "sku": "WB-TEXN",
+      "name": "Texas Native Wildflower Mix",
+      "product_id": 462220,
+      "qty": 6,
+      "revenue": 268.94,
+      "orders": 6,
+      "active_days": 14,
+      "velocity": 19.21,
+      "variants": [
+        {
+          "sku": "WB-TEXN-0.5-LB",
+          "name": "Texas Native Wildflower Mix - 0.5 lb",
+          "qty": 4,
+          "revenue": 151.96,
+          "orders": 4
+        },
+        {
+          "sku": "WB-TEXN-1-LB-KIT",
+          "name": "Texas Native Wildflower Mix - 1 lb",
+          "qty": 2,
+          "revenue": 116.98,
+          "orders": 2
+        }
+      ],
+      "class": "B",
+      "rev_pct": 0.33,
+      "daily_qty": 0.4
     },
     {
       "sku": "PB-COSS",
@@ -2096,6 +2110,28 @@
       "daily_qty": 0.3
     },
     {
+      "sku": "PB-HONEY",
+      "name": "Honey Bee Cover Crop &amp; Pasture Mix",
+      "product_id": 445268,
+      "qty": 4,
+      "revenue": 239.96,
+      "orders": 4,
+      "active_days": 14,
+      "velocity": 17.14,
+      "variants": [
+        {
+          "sku": "PB-HONEY-5-LB",
+          "name": "Honey Bee Cover Crop &amp; Pasture Mix - 5 lb - Covers 20,000 Sq Ft",
+          "qty": 4,
+          "revenue": 239.96,
+          "orders": 4
+        }
+      ],
+      "class": "B",
+      "rev_pct": 0.29,
+      "daily_qty": 0.3
+    },
+    {
       "sku": "PB-SHADE",
       "name": "Shade Tolerant Food Plot Mix",
       "product_id": 455407,
@@ -2118,6 +2154,35 @@
       "daily_qty": 0.1
     },
     {
+      "sku": "PG-FEAR2",
+      "name": "Tall Fescue Grass Seed",
+      "product_id": 445316,
+      "qty": 3,
+      "revenue": 234.97,
+      "orders": 3,
+      "active_days": 14,
+      "velocity": 16.78,
+      "variants": [
+        {
+          "sku": "PG-FEAR2-25-LB-KIT",
+          "name": "Tall Fescue Grass Seed - 25 lb - Covers 50,000 Sq Ft",
+          "qty": 1,
+          "revenue": 164.99,
+          "orders": 1
+        },
+        {
+          "sku": "PG-FEAR2-5-LB",
+          "name": "Tall Fescue Grass Seed - 5 lb - Covers 10,000 Sq Ft",
+          "qty": 2,
+          "revenue": 69.98,
+          "orders": 2
+        }
+      ],
+      "class": "B",
+      "rev_pct": 0.28,
+      "daily_qty": 0.2
+    },
+    {
       "sku": "S-INNOC",
       "name": "Am 120 Standard Mycorrhizal Inoculant",
       "product_id": 445330,
@@ -2136,7 +2201,7 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.28,
+      "rev_pct": 0.27,
       "daily_qty": 0.2
     },
     {
@@ -2180,7 +2245,7 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.25,
+      "rev_pct": 0.24,
       "daily_qty": 0.1
     },
     {
@@ -2201,7 +2266,7 @@
           "orders": 1
         }
       ],
-      "class": "B",
+      "class": "C",
       "rev_pct": 0.24,
       "daily_qty": 0.1
     },
@@ -2223,7 +2288,7 @@
           "orders": 1
         }
       ],
-      "class": "B",
+      "class": "C",
       "rev_pct": 0.24,
       "daily_qty": 0.1
     },
@@ -2318,7 +2383,7 @@
         }
       ],
       "class": "C",
-      "rev_pct": 0.23,
+      "rev_pct": 0.22,
       "daily_qty": 0.1
     },
     {
@@ -2344,28 +2409,6 @@
       "daily_qty": 0.1
     },
     {
-      "sku": "PB-HONEY",
-      "name": "Honey Bee Cover Crop &amp; Pasture Mix",
-      "product_id": 445268,
-      "qty": 3,
-      "revenue": 179.97,
-      "orders": 3,
-      "active_days": 14,
-      "velocity": 12.86,
-      "variants": [
-        {
-          "sku": "PB-HONEY-5-LB",
-          "name": "Honey Bee Cover Crop &amp; Pasture Mix - 5 lb - Covers 20,000 Sq Ft",
-          "qty": 3,
-          "revenue": 179.97,
-          "orders": 3
-        }
-      ],
-      "class": "C",
-      "rev_pct": 0.22,
-      "daily_qty": 0.2
-    },
-    {
       "sku": "PG-POPR",
       "name": "Kentucky Bluegrass",
       "product_id": 445320,
@@ -2385,71 +2428,6 @@
       ],
       "class": "C",
       "rev_pct": 0.22,
-      "daily_qty": 0.3
-    },
-    {
-      "sku": "PG-BRRA",
-      "name": "Forage Turnip Seed",
-      "product_id": 471434,
-      "qty": 10,
-      "revenue": 179.6,
-      "orders": 10,
-      "active_days": 14,
-      "velocity": 12.83,
-      "variants": [
-        {
-          "sku": "PG-BRRA-10-LB-KIT",
-          "name": "Forage Turnip Seed - 10 lb",
-          "qty": 4,
-          "revenue": 78.76,
-          "orders": 4
-        },
-        {
-          "sku": "PG-BRRA-5-LB",
-          "name": "Forage Turnip Seed - 5 lb",
-          "qty": 5,
-          "revenue": 54.95,
-          "orders": 5
-        },
-        {
-          "sku": "PG-BRRA-25-LB-KIT",
-          "name": "Forage Turnip Seed - 25 lb",
-          "qty": 1,
-          "revenue": 45.89,
-          "orders": 1
-        }
-      ],
-      "class": "C",
-      "rev_pct": 0.22,
-      "daily_qty": 0.7
-    },
-    {
-      "sku": "PG-TRPR",
-      "name": "Red Clover Seed",
-      "product_id": 184488,
-      "qty": 4,
-      "revenue": 171.91,
-      "orders": 4,
-      "active_days": 14,
-      "velocity": 12.28,
-      "variants": [
-        {
-          "sku": "PG-TRPR-25-LB-KIT",
-          "name": "Red Clover Seed - 25 Lbs - 50,000 Sq Ft",
-          "qty": 1,
-          "revenue": 90.94,
-          "orders": 1
-        },
-        {
-          "sku": "PG-TRPR-5-LB",
-          "name": "Red Clover Seed - 5 Lbs - 10,000 Sq Ft",
-          "qty": 3,
-          "revenue": 80.97,
-          "orders": 3
-        }
-      ],
-      "class": "C",
-      "rev_pct": 0.21,
       "daily_qty": 0.3
     },
     {
@@ -2548,35 +2526,6 @@
       "daily_qty": 0.4
     },
     {
-      "sku": "PB-DOVE",
-      "name": "Dove Magnet Sunflower \u2014 Peredovik Black Oil Food Plot Seed",
-      "product_id": 473469,
-      "qty": 6,
-      "revenue": 141.94,
-      "orders": 6,
-      "active_days": 14,
-      "velocity": 10.14,
-      "variants": [
-        {
-          "sku": "PB-DOVE-10-LB",
-          "name": "Dove Magnet Sunflower \u2014 Peredovik Black Oil Food Plot Seed - 10 Lbs - Plants ~2 Acres",
-          "qty": 4,
-          "revenue": 71.96,
-          "orders": 4
-        },
-        {
-          "sku": "PB-DOVE-20-LB-KIT",
-          "name": "Dove Magnet Sunflower \u2014 Peredovik Black Oil Food Plot Seed - 20 Lbs - Plants ~4 Acres",
-          "qty": 2,
-          "revenue": 69.98,
-          "orders": 2
-        }
-      ],
-      "class": "C",
-      "rev_pct": 0.17,
-      "daily_qty": 0.4
-    },
-    {
       "sku": "PG-BUCK",
       "name": "Buckwheat Seed",
       "product_id": 445328,
@@ -2595,7 +2544,7 @@
         }
       ],
       "class": "C",
-      "rev_pct": 0.17,
+      "rev_pct": 0.16,
       "daily_qty": 0.2
     },
     {
@@ -2643,6 +2592,35 @@
       "daily_qty": 0.4
     },
     {
+      "sku": "PG-BRRA",
+      "name": "Forage Turnip Seed",
+      "product_id": 471434,
+      "qty": 8,
+      "revenue": 122.72,
+      "orders": 8,
+      "active_days": 14,
+      "velocity": 8.77,
+      "variants": [
+        {
+          "sku": "PG-BRRA-10-LB-KIT",
+          "name": "Forage Turnip Seed - 10 lb",
+          "qty": 4,
+          "revenue": 78.76,
+          "orders": 4
+        },
+        {
+          "sku": "PG-BRRA-5-LB",
+          "name": "Forage Turnip Seed - 5 lb",
+          "qty": 4,
+          "revenue": 43.96,
+          "orders": 4
+        }
+      ],
+      "class": "C",
+      "rev_pct": 0.15,
+      "daily_qty": 0.6
+    },
+    {
       "sku": "W-SAAP",
       "name": "White Sage Seed",
       "product_id": 452899,
@@ -2665,33 +2643,33 @@
       "daily_qty": 0.1
     },
     {
-      "sku": "PG-SOSU",
-      "name": "Sorghum-Sudangrass Seed",
-      "product_id": 185328,
-      "qty": 7,
-      "revenue": 107.43,
+      "sku": "PB-DOVE",
+      "name": "Dove Magnet Sunflower \u2014 Peredovik Black Oil Food Plot Seed",
+      "product_id": 473469,
+      "qty": 5,
+      "revenue": 106.95,
       "orders": 5,
       "active_days": 14,
-      "velocity": 7.67,
+      "velocity": 7.64,
       "variants": [
         {
-          "sku": "PG-SOSU-20-LB-KIT",
-          "name": "Sorghum-Sudangrass Seed - 20 lb",
-          "qty": 3,
-          "revenue": 79.47,
-          "orders": 2
+          "sku": "PB-DOVE-10-LB",
+          "name": "Dove Magnet Sunflower \u2014 Peredovik Black Oil Food Plot Seed - 10 Lbs - Plants ~2 Acres",
+          "qty": 4,
+          "revenue": 71.96,
+          "orders": 4
         },
         {
-          "sku": "PG-SOSU-5-LB",
-          "name": "Sorghum-Sudangrass Seed - 5 lb",
-          "qty": 4,
-          "revenue": 27.96,
-          "orders": 3
+          "sku": "PB-DOVE-20-LB-KIT",
+          "name": "Dove Magnet Sunflower \u2014 Peredovik Black Oil Food Plot Seed - 20 Lbs - Plants ~4 Acres",
+          "qty": 1,
+          "revenue": 34.99,
+          "orders": 1
         }
       ],
       "class": "C",
       "rev_pct": 0.13,
-      "daily_qty": 0.5
+      "daily_qty": 0.4
     },
     {
       "sku": "PB-DRY",
@@ -2709,6 +2687,28 @@
           "qty": 2,
           "revenue": 101.98,
           "orders": 2
+        }
+      ],
+      "class": "C",
+      "rev_pct": 0.12,
+      "daily_qty": 0.1
+    },
+    {
+      "sku": "W-ASFA",
+      "name": "Narrowleaf Milkweed Seed",
+      "product_id": 445347,
+      "qty": 1,
+      "revenue": 100.99,
+      "orders": 1,
+      "active_days": 14,
+      "velocity": 7.21,
+      "variants": [
+        {
+          "sku": "W-ASFA-0.25-LB",
+          "name": "Narrowleaf Milkweed Seed - 0.25 lb - Covers 10,000 Sq Ft",
+          "qty": 1,
+          "revenue": 100.99,
+          "orders": 1
         }
       ],
       "class": "C",
@@ -2854,28 +2854,6 @@
       "daily_qty": 0.1
     },
     {
-      "sku": "WB-COTTAGE",
-      "name": "Cottage Garden Cut Flower Seed Mix",
-      "product_id": 473058,
-      "qty": 2,
-      "revenue": 69.98,
-      "orders": 1,
-      "active_days": 14,
-      "velocity": 5.0,
-      "variants": [
-        {
-          "sku": "WB-COTTAGE-0.5-LB",
-          "name": "Cottage Garden Cut Flower Seed Mix - 0.5 lb - Covers 1,000 Sq Ft",
-          "qty": 2,
-          "revenue": 69.98,
-          "orders": 1
-        }
-      ],
-      "class": "C",
-      "rev_pct": 0.09,
-      "daily_qty": 0.1
-    },
-    {
       "sku": "S-RICE-25-LB-ADDON",
       "name": "Rice Hulls: Improve Seed Contact, Germination & Hold Moisture",
       "product_id": 450588,
@@ -2894,31 +2872,24 @@
         }
       ],
       "class": "C",
-      "rev_pct": 0.09,
+      "rev_pct": 0.08,
       "daily_qty": 0.1
     },
     {
-      "sku": "PG-VIUN",
-      "name": "Cowpeas Seed",
-      "product_id": 471433,
+      "sku": "WB-COTTAGE",
+      "name": "Cottage Garden Cut Flower Seed Mix",
+      "product_id": 473058,
       "qty": 2,
-      "revenue": 61.98,
-      "orders": 2,
+      "revenue": 69.98,
+      "orders": 1,
       "active_days": 14,
-      "velocity": 4.43,
+      "velocity": 5.0,
       "variants": [
         {
-          "sku": "PG-VIUN-10-LB-KIT",
-          "name": "Cowpeas Seed - 10 lb",
-          "qty": 1,
-          "revenue": 40.99,
-          "orders": 1
-        },
-        {
-          "sku": "PG-VIUN-5-LB",
-          "name": "Cowpeas Seed - 5 lb",
-          "qty": 1,
-          "revenue": 20.99,
+          "sku": "WB-COTTAGE-0.5-LB",
+          "name": "Cottage Garden Cut Flower Seed Mix - 0.5 lb - Covers 1,000 Sq Ft",
+          "qty": 2,
+          "revenue": 69.98,
           "orders": 1
         }
       ],
@@ -2948,6 +2919,28 @@
           "name": "Florida Pollinator and Butterfly Seed Mix - 0.5 lb - Covers 1,000 Sq Ft",
           "qty": 1,
           "revenue": 24.99,
+          "orders": 1
+        }
+      ],
+      "class": "C",
+      "rev_pct": 0.07,
+      "daily_qty": 0.1
+    },
+    {
+      "sku": "PG-CHIN",
+      "name": "Forage Chicory Seed",
+      "product_id": 471435,
+      "qty": 1,
+      "revenue": 58.99,
+      "orders": 1,
+      "active_days": 14,
+      "velocity": 4.21,
+      "variants": [
+        {
+          "sku": "PG-CHIN-5-LB",
+          "name": "Forage Chicory Seed - 5 lb",
+          "qty": 1,
+          "revenue": 58.99,
           "orders": 1
         }
       ],
@@ -3007,6 +3000,35 @@
       "daily_qty": 0.1
     },
     {
+      "sku": "PG-SOSU",
+      "name": "Sorghum-Sudangrass Seed",
+      "product_id": 185328,
+      "qty": 5,
+      "revenue": 54.45,
+      "orders": 4,
+      "active_days": 14,
+      "velocity": 3.89,
+      "variants": [
+        {
+          "sku": "PG-SOSU-5-LB",
+          "name": "Sorghum-Sudangrass Seed - 5 lb",
+          "qty": 4,
+          "revenue": 27.96,
+          "orders": 3
+        },
+        {
+          "sku": "PG-SOSU-20-LB-KIT",
+          "name": "Sorghum-Sudangrass Seed - 20 lb",
+          "qty": 1,
+          "revenue": 26.49,
+          "orders": 1
+        }
+      ],
+      "class": "C",
+      "rev_pct": 0.07,
+      "daily_qty": 0.4
+    },
+    {
       "sku": "W-ERCO",
       "name": "Golden Yarrow Seed",
       "product_id": 452802,
@@ -3048,28 +3070,6 @@
       ],
       "class": "C",
       "rev_pct": 0.06,
-      "daily_qty": 0.1
-    },
-    {
-      "sku": "PG-CHIN",
-      "name": "Forage Chicory Seed",
-      "product_id": 471435,
-      "qty": 1,
-      "revenue": 53.09,
-      "orders": 1,
-      "active_days": 14,
-      "velocity": 3.79,
-      "variants": [
-        {
-          "sku": "PG-CHIN-5-LB",
-          "name": "Forage Chicory Seed - 5 lb",
-          "qty": 1,
-          "revenue": 53.09,
-          "orders": 1
-        }
-      ],
-      "class": "C",
-      "rev_pct": 0.07,
       "daily_qty": 0.1
     },
     {
@@ -3275,6 +3275,28 @@
         {
           "sku": "PG-VIVI-5-LB",
           "name": "Hairy Vetch Seed - 5 lb",
+          "qty": 1,
+          "revenue": 20.99,
+          "orders": 1
+        }
+      ],
+      "class": "C",
+      "rev_pct": 0.03,
+      "daily_qty": 0.1
+    },
+    {
+      "sku": "PG-VIUN",
+      "name": "Cowpeas Seed",
+      "product_id": 471433,
+      "qty": 1,
+      "revenue": 20.99,
+      "orders": 1,
+      "active_days": 14,
+      "velocity": 1.5,
+      "variants": [
+        {
+          "sku": "PG-VIUN-5-LB",
+          "name": "Cowpeas Seed - 5 lb",
           "qty": 1,
           "revenue": 20.99,
           "orders": 1
