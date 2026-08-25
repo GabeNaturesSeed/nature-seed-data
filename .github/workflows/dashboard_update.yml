@@ -92,8 +92,11 @@ jobs:
       - run: pip install requests
       - name: Create .env
         run: echo "$ENV_CONTENT" > .env
-      - name: Generate product reviews feed
-        run: python shopper-approved/generate_review_feed.py
+      # Reviews now live in WordPress (Shopper Approved retired, 2026-08-25).
+      # The site renders Google's XML itself; we fetch, validate, guard
+      # against shrinkage, and publish it to Pages. See reviews/fetch_review_feed.py.
+      - name: Fetch product reviews feed from WordPress
+        run: python reviews/fetch_review_feed.py
       - uses: actions/upload-artifact@v5
         with:
           name: review-feed
