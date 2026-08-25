@@ -114,12 +114,12 @@
     {
       "sku": "PB-CHIX-5-LB",
       "name": "Chicken Forage Mix",
-      "qty": 107.0,
+      "qty": 106.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 107.0,
+      "surplus_gap": 106.0,
       "status": "ok"
     },
     {
@@ -929,22 +929,22 @@
       "sku": "SUSTANE-18-1-8+FE",
       "name": "Organic Maintenance Fertilizer 18-1-8+fe",
       "qty": 26.0,
-      "daily_velocity": 0.3,
-      "days_remaining": 86,
+      "daily_velocity": 0.0,
+      "days_remaining": 9999,
       "q1_need": 0.0,
-      "q2_need": 32.8,
-      "surplus_gap": -6.8,
+      "q2_need": 0.0,
+      "surplus_gap": 26.0,
       "status": "ok"
     },
     {
       "sku": "SUSTANE-4-6-4",
       "name": "Organic Seed Starter Fertilizer 4-6-4",
       "qty": 2.0,
-      "daily_velocity": 1.7,
+      "daily_velocity": 1.4,
       "days_remaining": 1,
       "q1_need": 0.0,
-      "q2_need": 185.6,
-      "surplus_gap": -183.6,
+      "q2_need": 152.9,
+      "surplus_gap": -150.9,
       "status": "red"
     },
     {
@@ -994,12 +994,12 @@
     {
       "sku": "TURF-FINE-5-LB",
       "name": "Fine Fescue Turf Mix",
-      "qty": 27.0,
+      "qty": 25.0,
       "daily_velocity": 0.0,
       "days_remaining": 9999,
       "q1_need": 0.0,
       "q2_need": 0.0,
-      "surplus_gap": 27.0,
+      "surplus_gap": 25.0,
       "status": "ok"
     },
     {
@@ -2032,7 +2032,7 @@
     "total_skus": 145,
     "red_count": 1,
     "yellow_count": 0,
-    "green_count": 2
+    "green_count": 1
   },
   "fba_summary": {
     "total_skus": 39,
@@ -2046,11 +2046,11 @@
     "period_days": 14
   },
   "order_tracking": {
-    "total_30d": 1259,
-    "fulfilled": 1087,
+    "total_30d": 1289,
+    "fulfilled": 1088,
     "backorders": 0,
-    "unfulfilled_lt_1d": 116,
-    "unfulfilled_lt_5d": 54,
+    "unfulfilled_lt_1d": 104,
+    "unfulfilled_lt_5d": 95,
     "unfulfilled_5_to_10d": 2,
     "unfulfilled_gt_10d": 0
   }
