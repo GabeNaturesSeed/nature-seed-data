@@ -1,42 +1,42 @@
 {
-  "as_of": "2026-08-24",
+  "as_of": "2026-08-25",
   "mtd": {
-    "shipping_collected": 4160.0,
-    "shipping_paid": 19570.07,
-    "shipping_net": -15410.07,
-    "shipment_count": 940,
-    "avg_cost_per_order": 20.82,
-    "wc_order_count": 982
+    "shipping_collected": 3680.0,
+    "shipping_paid": 20906.76,
+    "shipping_net": -17226.76,
+    "shipment_count": 1019,
+    "avg_cost_per_order": 20.52,
+    "wc_order_count": 1052
   },
   "ytd": {
-    "shipping_collected": 26724.0,
-    "shipping_paid": 123613.07,
-    "shipping_net": -96889.07,
-    "shipment_count": 14709,
-    "avg_cost_per_order": 8.4,
-    "wc_order_count": 982
+    "shipping_collected": 26244.0,
+    "shipping_paid": 124949.76,
+    "shipping_net": -98705.76,
+    "shipment_count": 14788,
+    "avg_cost_per_order": 8.45,
+    "wc_order_count": 1052
   },
   "carriers": [
     {
       "carrier": "UPS",
       "total_paid": 611654.8,
       "shipment_count": 12356,
-      "pct_of_shipments": 84.1,
+      "pct_of_shipments": 83.6,
       "avg_cost_per_shipment": 49.5
     },
     {
       "carrier": "FEDEX",
-      "total_paid": 51000.48,
-      "shipment_count": 2183,
-      "pct_of_shipments": 14.9,
-      "avg_cost_per_shipment": 23.36
+      "total_paid": 52486.78,
+      "shipment_count": 2261,
+      "pct_of_shipments": 15.3,
+      "avg_cost_per_shipment": 23.21
     },
     {
       "carrier": "USPS",
-      "total_paid": 6496.31,
-      "shipment_count": 157,
+      "total_paid": 6515.36,
+      "shipment_count": 158,
       "pct_of_shipments": 1.1,
-      "avg_cost_per_shipment": 41.38
+      "avg_cost_per_shipment": 41.24
     }
   ],
   "weekly_cost_per_lb": {
@@ -58,7 +58,8 @@
         "2026-W31",
         "2026-W32",
         "2026-W33",
-        "2026-W34"
+        "2026-W34",
+        "2026-W35"
       ],
       "values": [
         64.93,
@@ -77,7 +78,8 @@
         24.41,
         24.95,
         25.86,
-        22.01
+        22.01,
+        19.06
       ]
     },
     "USPS": {
@@ -111,7 +113,8 @@
         "2026-W31",
         "2026-W32",
         "2026-W33",
-        "2026-W34"
+        "2026-W34",
+        "2026-W35"
       ],
       "values": [
         34.67,
@@ -143,7 +146,8 @@
         18.03,
         24.79,
         20.31,
-        19.94
+        19.94,
+        19.06
       ]
     },
     "UPS": {
