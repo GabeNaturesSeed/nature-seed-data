@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-09-05",
+  "as_of": "2026-09-06",
   "items": [
     {
       "sku": "2750AL-A",
@@ -951,12 +951,12 @@
       "sku": "SUSTANE-4-6-4",
       "name": "Organic Seed Starter Fertilizer 4-6-4",
       "qty": 50.0,
-      "daily_velocity": 1.4,
-      "days_remaining": 35,
+      "daily_velocity": 1.9,
+      "days_remaining": 26,
       "q1_need": 0.0,
-      "q2_need": 152.9,
-      "surplus_gap": -102.9,
-      "status": "yellow"
+      "q2_need": 207.5,
+      "surplus_gap": -157.5,
+      "status": "red"
     },
     {
       "sku": "test",
@@ -1668,11 +1668,11 @@
       "sku": "PB-PIG-10-LB",
       "name": "Pasture Pig Mix",
       "qty": 41.0,
-      "daily_velocity": 0.63,
-      "days_remaining": 65,
+      "daily_velocity": 0.64,
+      "days_remaining": 64,
       "q1_need": 0.0,
-      "q2_need": 68.8,
-      "surplus_gap": -27.8,
+      "q2_need": 69.9,
+      "surplus_gap": -28.9,
       "status": "ok"
     },
     {
@@ -1734,22 +1734,22 @@
       "sku": "S-MICRO-1-LB",
       "name": "Microclover",
       "qty": 89.0,
-      "daily_velocity": 1.37,
+      "daily_velocity": 1.39,
       "days_remaining": 64,
       "q1_need": 0.0,
-      "q2_need": 149.6,
-      "surplus_gap": -60.6,
+      "q2_need": 151.8,
+      "surplus_gap": -62.8,
       "status": "ok"
     },
     {
       "sku": "S-RICE-5-LB",
       "name": "Rice Hulls - 5lbs",
       "qty": 62.0,
-      "daily_velocity": 0.95,
-      "days_remaining": 65,
+      "daily_velocity": 0.97,
+      "days_remaining": 63,
       "q1_need": 0.0,
-      "q2_need": 103.7,
-      "surplus_gap": -41.7,
+      "q2_need": 105.9,
+      "surplus_gap": -43.9,
       "status": "ok"
     },
     {
@@ -1767,11 +1767,11 @@
       "sku": "TURF-BERM-5-LB",
       "name": "Bermuda grass Turf Blend",
       "qty": 36.0,
-      "daily_velocity": 0.55,
-      "days_remaining": 65,
+      "daily_velocity": 0.56,
+      "days_remaining": 64,
       "q1_need": 0.0,
-      "q2_need": 60.1,
-      "surplus_gap": -24.1,
+      "q2_need": 61.2,
+      "surplus_gap": -25.2,
       "status": "ok"
     },
     {
@@ -1844,11 +1844,11 @@
       "sku": "W-LUMI-0.25-LB",
       "name": "Chick Lupine",
       "qty": 21.0,
-      "daily_velocity": 0.32,
-      "days_remaining": 65,
+      "daily_velocity": 0.33,
+      "days_remaining": 63,
       "q1_need": 0.0,
-      "q2_need": 34.9,
-      "surplus_gap": -13.9,
+      "q2_need": 36.0,
+      "surplus_gap": -15.0,
       "status": "ok"
     },
     {
@@ -1866,33 +1866,33 @@
       "sku": "W-NAPU-0.25-LB",
       "name": "Purple Needlegrass",
       "qty": 21.0,
-      "daily_velocity": 0.32,
-      "days_remaining": 65,
+      "daily_velocity": 0.33,
+      "days_remaining": 63,
       "q1_need": 0.0,
-      "q2_need": 34.9,
-      "surplus_gap": -13.9,
+      "q2_need": 36.0,
+      "surplus_gap": -15.0,
       "status": "ok"
     },
     {
       "sku": "WB-AN-0.5-LB",
       "name": "Annual Wildflower Blend",
       "qty": 17.0,
-      "daily_velocity": 0.26,
-      "days_remaining": 65,
+      "daily_velocity": 0.27,
+      "days_remaining": 62,
       "q1_need": 0.0,
-      "q2_need": 28.4,
-      "surplus_gap": -11.4,
+      "q2_need": 29.5,
+      "surplus_gap": -12.5,
       "status": "ok"
     },
     {
       "sku": "WB-CALN-0.5-LB",
       "name": "California Native Wildflower Mix",
       "qty": 26.0,
-      "daily_velocity": 0.4,
-      "days_remaining": 65,
+      "daily_velocity": 0.41,
+      "days_remaining": 63,
       "q1_need": 0.0,
-      "q2_need": 43.7,
-      "surplus_gap": -17.7,
+      "q2_need": 44.8,
+      "surplus_gap": -18.8,
       "status": "ok"
     },
     {
@@ -1920,8 +1920,8 @@
   ],
   "summary": {
     "total_skus": 146,
-    "red_count": 0,
-    "yellow_count": 1,
+    "red_count": 1,
+    "yellow_count": 0,
     "green_count": 1
   },
   "fba_summary": {
@@ -1931,16 +1931,16 @@
     "green_count": 27
   },
   "fba_velocity": {
-    "daily_orders": 7.7,
-    "daily_revenue": 259.24,
+    "daily_orders": 7.8,
+    "daily_revenue": 260.97,
     "period_days": 14
   },
   "order_tracking": {
-    "total_30d": 1607,
-    "fulfilled": 1274,
+    "total_30d": 1650,
+    "fulfilled": 1243,
     "backorders": 0,
-    "unfulfilled_lt_1d": 118,
-    "unfulfilled_lt_5d": 202,
+    "unfulfilled_lt_1d": 103,
+    "unfulfilled_lt_5d": 291,
     "unfulfilled_5_to_10d": 11,
     "unfulfilled_gt_10d": 2
   }
