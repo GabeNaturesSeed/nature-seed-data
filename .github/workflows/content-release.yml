@@ -1,0 +1,73 @@
+name: Content release
+
+# Anything an editor marks Edited on the Content Calendar goes to HubSpot with
+# its scheduled time. Set by Gabe on 2026-09-16: Edited is the trigger, not the
+# clock. This runs every five minutes so "instantly" means within five minutes.
+#
+# The machine itself (code, configuration, release state) lives in the private
+# repository GabeNaturesSeed/nsg-content-machine. This public repository keeps
+# only this workflow, so the run is billed here (free) while nothing about the
+# content plan, the editorial rules or the HubSpot state is public.
+#
+# It is idempotent. A piece already with HubSpot and unchanged is skipped; one
+# edited again is replaced; one taken out of Edited is withdrawn; one that
+# fails a check is held and told why on its card.
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: content-release
+  cancel-in-progress: false
+
+env:
+  ENV_CONTENT: |
+    HUBSPOT_SERVICE_ACCOUNT=${{ secrets.HUBSPOT_SERVICE_ACCOUNT }}
+    NOTION_API_KEY=${{ secrets.NOTION_API_KEY }}
+    SMARTLEAD_API_KEY=${{ secrets.SMARTLEAD_API_KEY }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: GabeNaturesSeed/nsg-content-machine
+          ref: main
+          ssh-key: ${{ secrets.MACHINE_DEPLOY_KEY }}
+          persist-credentials: true
+
+      - uses: astral-sh/setup-uv@v3
+
+      - name: Write .env
+        run: printf '%s' "$ENV_CONTENT" > .env
+
+      - name: Release what editors have marked Edited
+        working-directory: naturesseed-content-pipeline
+        run: |
+          PYTHONPATH=src uv run --no-project --with pyyaml --with httpx --with pillow \
+            python -m naturesseed_pipeline.machine.release run --live
+
+      # The release records what it sent in two json files, and the feeds keep
+      # their ids in a third. They are the memory that stops the next run
+      # re-sending the same piece, so they go back to the private repository.
+      # This step must not fail quietly: a lost log is the one way the next run
+      # could send something twice, so a failed push turns the run red.
+      - name: Commit release state
+        if: always()
+        run: |
+          git config user.name "content-release"
+          git config user.email "content-release@users.noreply.github.com"
+          git add naturesseed-content-pipeline/data/hubspot_pushes.json \
+                  naturesseed-content-pipeline/data/hubspot_email_releases.json \
+                  naturesseed-content-pipeline/config/notion_ids.json
+          if git diff --cached --quiet; then
+            echo "no state change"
+            exit 0
+          fi
+          git commit -m "release: state after run $(date -u +%Y-%m-%dT%H:%MZ)"
+          git -c rebase.autoStash=true pull --rebase origin main
+          git push origin HEAD:main
