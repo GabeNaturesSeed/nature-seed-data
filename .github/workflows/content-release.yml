@@ -27,6 +27,7 @@ env:
     HUBSPOT_SERVICE_ACCOUNT=${{ secrets.HUBSPOT_SERVICE_ACCOUNT }}
     NOTION_API_KEY=${{ secrets.NOTION_API_KEY }}
     SMARTLEAD_API_KEY=${{ secrets.SMARTLEAD_API_KEY }}
+    ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }}
 
 jobs:
   release:
@@ -48,12 +49,15 @@ jobs:
       - name: Release what editors have marked Edited
         working-directory: naturesseed-content-pipeline
         run: |
-          PYTHONPATH=src uv run --no-project --with pyyaml --with httpx --with pillow \
+          PYTHONPATH=src uv run --no-project --with pyyaml --with httpx --with pillow --with anthropic \
             python -m naturesseed_pipeline.machine.release run --live
 
       # The release records what it sent in two json files, and the feeds keep
       # their ids in a third. They are the memory that stops the next run
       # re-sending the same piece, so they go back to the private repository.
+      # The rulebook maintains itself from the editors' lessons (adopt.py), so
+      # rules.yaml, the rendered rulebook, the word lists, the reviewer brief
+      # and the adoption state go back the same way.
       # This step must not fail quietly: a lost log is the one way the next run
       # could send something twice, so a failed push turns the run red.
       - name: Commit release state
@@ -63,7 +67,13 @@ jobs:
           git config user.email "content-release@users.noreply.github.com"
           git add naturesseed-content-pipeline/data/hubspot_pushes.json \
                   naturesseed-content-pipeline/data/hubspot_email_releases.json \
-                  naturesseed-content-pipeline/config/notion_ids.json
+                  naturesseed-content-pipeline/data/adopt_state.json \
+                  naturesseed-content-pipeline/data/approved_corpus.json \
+                  naturesseed-content-pipeline/config/notion_ids.json \
+                  naturesseed-content-pipeline/config/editorial/rules.yaml \
+                  naturesseed-content-pipeline/config/editorial/RULEBOOK.md \
+                  naturesseed-content-pipeline/config/editorial/reviewer-brief.md \
+                  naturesseed-content-pipeline/config/qa/ 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "no state change"
             exit 0
