@@ -69,6 +69,18 @@ def build_title(name, attributes):
     return title
 
 
+def availability(item):
+    """Reddit/Google availability for one product or variation. 'instock' -> 'in stock';
+    'onbackorder' -> 'backorder' (still sellable, ships when restocked); anything else ->
+    None, which the caller treats as a skip signal."""
+    status = (item or {}).get("stock_status")
+    if status == "instock":
+        return "in stock"
+    if status == "onbackorder":
+        return "backorder"
+    return None
+
+
 def should_skip_product(product):
     """Decide whether a parent WC product should be skipped before fetching
     variations. Returns a reason string (for logging) or None to keep.
@@ -82,7 +94,7 @@ def should_skip_product(product):
         return "no_image"
     if product.get("type") == "variable":
         return None
-    if product.get("stock_status") != "instock":
+    if availability(product) is None:
         return "out_of_stock"
     if format_price(product.get("price")) is None:
         return "zero_price"
@@ -92,7 +104,7 @@ def should_skip_product(product):
 def should_skip_variation(variation):
     """Decide whether a single variation should be skipped. Image is checked
     elsewhere (variation can fall back to parent image)."""
-    if variation.get("stock_status") != "instock":
+    if availability(variation) is None:
         return "out_of_stock"
     if format_price(variation.get("price")) is None:
         return "zero_price"
@@ -139,8 +151,24 @@ def _product_type(product):
 
 
 def _description(product):
-    text = product.get("short_description") or product.get("description") or ""
-    return truncate_description(text)
+    text = truncate_description(product.get("short_description") or product.get("description") or "")
+    if text:
+        return text
+    # Fallback 1: ACF product highlights (older PDPs often keep copy here, not in description)
+    highlights = [
+        strip_html(str(m.get("value")))
+        for m in (product.get("meta_data") or [])
+        if str(m.get("key", "")).startswith("product_highlight") and strip_html(str(m.get("value")))
+    ]
+    if highlights:
+        return truncate_description(". ".join(highlights))
+    # Fallback 2: generic but valid description — Reddit/Google reject rows with an empty description
+    name = html.unescape(product.get("name") or "").strip()
+    cats = product.get("categories") or []
+    category = html.unescape(cats[0].get("name", "")) if cats else "Seed"
+    return truncate_description(
+        f"{name} from Nature's Seed. {category}. No fillers, non-GMO seed, shipped within one business day."
+    )
 
 
 def _sale_price(regular, sale, current_price):
@@ -168,7 +196,7 @@ def transform_simple_product(product):
         "link": product.get("permalink", ""),
         "image_link": pick_image(product, None) or "",
         "additional_image_link": additional_images(product),
-        "availability": "in stock",
+        "availability": availability(product),
         "price": format_price(product.get("price")) or "",
         "sale_price": _sale_price(product.get("regular_price"), product.get("sale_price"), product.get("price")),
         "brand": BRAND,
@@ -204,7 +232,7 @@ def transform_variable_product(parent, variations):
             "link": parent.get("permalink", ""),
             "image_link": pick_image(parent, v) or "",
             "additional_image_link": additional_images(parent),
-            "availability": "in stock",
+            "availability": availability(v),
             "price": format_price(v.get("price")) or "",
             "sale_price": _sale_price(v.get("regular_price"), v.get("sale_price"), v.get("price")),
             "brand": BRAND,

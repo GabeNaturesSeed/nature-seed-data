@@ -357,3 +357,64 @@ def test_product_type_empty_when_no_categories():
 
 def test_build_title_decodes_html_entities():
     assert build_title("Honey Bee Cover Crop &amp; Pasture Mix", []) == "Honey Bee Cover Crop & Pasture Mix"
+
+
+from transform import _description
+
+
+def test_simple_product_empty_description_gets_generic_fallback():
+    product = {
+        "id": 42, "type": "simple", "status": "publish",
+        "name": "White Dutch Clover", "short_description": "", "description": "",
+        "permalink": "https://naturesseed.com/products/white-dutch-clover/",
+        "images": [{"src": "https://naturesseed.com/img/wdc.jpg"}],
+        "price": "9.99", "regular_price": "9.99", "sale_price": "",
+        "sku": "NS-WDC", "categories": [{"name": "Clover Seed"}], "meta_data": [],
+    }
+    row = transform_simple_product(product)
+    assert row["description"] == (
+        "White Dutch Clover from Nature's Seed. Clover Seed. "
+        "No fillers, non-GMO seed, shipped within one business day."
+    )
+
+
+def test_description_falls_back_to_acf_highlights():
+    product = {
+        "name": "Drought Mix", "short_description": "", "description": "",
+        "categories": [{"name": "Pasture Seed"}],
+        "meta_data": [
+            {"key": "product_highlight_1", "value": "<p>Drought tolerant</p>"},
+            {"key": "product_highlight_2", "value": "Deep roots"},
+        ],
+    }
+    assert _description(product) == "Drought tolerant. Deep roots"
+
+
+def test_real_description_still_wins_over_fallback():
+    product = {
+        "name": "X", "short_description": "Real copy here.", "description": "",
+        "categories": [{"name": "Cover Crop Seed"}], "meta_data": [],
+    }
+    assert _description(product) == "Real copy here."
+
+
+from transform import availability
+
+
+def test_availability_values():
+    assert availability({"stock_status": "instock"}) == "in stock"
+    assert availability({"stock_status": "onbackorder"}) == "backorder"
+    assert availability({"stock_status": "outofstock"}) is None
+    assert availability({}) is None
+
+
+def test_onbackorder_simple_not_skipped_and_marked_backorder():
+    p = _valid_simple_product()
+    p["stock_status"] = "onbackorder"
+    assert should_skip_product(p) is None
+    assert transform_simple_product(p)["availability"] == "backorder"
+
+
+def test_onbackorder_variation_not_skipped():
+    v = {"id": 10, "stock_status": "onbackorder", "price": "19.99"}
+    assert should_skip_variation(v) is None
