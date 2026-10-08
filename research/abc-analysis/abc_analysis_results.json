@@ -1,8 +1,8 @@
 {
-  "generated": "2026-10-08T15:00:54.029838+00:00",
+  "generated": "2026-10-08T15:44:52.997494+00:00",
   "period_days": 14,
-  "total_revenue": 135185.22999999995,
-  "total_units": 1641,
+  "total_revenue": 135931.12999999992,
+  "total_units": 1651,
   "ranked_by": "velocity (revenue/active_days)",
   "skus": [
     {
@@ -38,7 +38,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 5.26,
+      "rev_pct": 5.23,
       "daily_qty": 4.2
     },
     {
@@ -74,7 +74,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 4.07,
+      "rev_pct": 4.05,
       "daily_qty": 0.4
     },
     {
@@ -110,7 +110,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 3.45,
+      "rev_pct": 3.43,
       "daily_qty": 3.7
     },
     {
@@ -146,8 +146,44 @@
         }
       ],
       "class": "A",
-      "rev_pct": 3.4,
+      "rev_pct": 3.38,
       "daily_qty": 3.4
+    },
+    {
+      "sku": "W-ESCA",
+      "name": "California Poppy",
+      "product_id": 445350,
+      "qty": 142,
+      "revenue": 3613.01,
+      "orders": 69,
+      "active_days": 14,
+      "velocity": 258.07,
+      "variants": [
+        {
+          "sku": "W-ESCA-1-LB-KIT",
+          "name": "California Poppy - 1 lb - Covers 8,000 Sq Ft",
+          "qty": 120,
+          "revenue": 3341.23,
+          "orders": 47
+        },
+        {
+          "sku": "W-ESCA-0.5-LB-KIT",
+          "name": "California Poppy - 0.5 lb - Covers 4,000 Sq Ft",
+          "qty": 15,
+          "revenue": 215.85,
+          "orders": 15
+        },
+        {
+          "sku": "W-ESCA-0.25-LB",
+          "name": "California Poppy - 0.25 lb - Covers 2,000 Sq Ft",
+          "qty": 7,
+          "revenue": 55.93,
+          "orders": 7
+        }
+      ],
+      "class": "A",
+      "rev_pct": 2.66,
+      "daily_qty": 10.1
     },
     {
       "sku": "WB-CCN",
@@ -182,44 +218,8 @@
         }
       ],
       "class": "A",
-      "rev_pct": 2.61,
-      "daily_qty": 2.6
-    },
-    {
-      "sku": "W-ESCA",
-      "name": "California Poppy",
-      "product_id": 445350,
-      "qty": 138,
-      "revenue": 3501.45,
-      "orders": 68,
-      "active_days": 14,
-      "velocity": 250.1,
-      "variants": [
-        {
-          "sku": "W-ESCA-1-LB-KIT",
-          "name": "California Poppy - 1 lb - Covers 8,000 Sq Ft",
-          "qty": 116,
-          "revenue": 3229.67,
-          "orders": 46
-        },
-        {
-          "sku": "W-ESCA-0.5-LB-KIT",
-          "name": "California Poppy - 0.5 lb - Covers 4,000 Sq Ft",
-          "qty": 15,
-          "revenue": 215.85,
-          "orders": 15
-        },
-        {
-          "sku": "W-ESCA-0.25-LB",
-          "name": "California Poppy - 0.25 lb - Covers 2,000 Sq Ft",
-          "qty": 7,
-          "revenue": 55.93,
-          "orders": 7
-        }
-      ],
-      "class": "A",
       "rev_pct": 2.59,
-      "daily_qty": 9.9
+      "daily_qty": 2.6
     },
     {
       "sku": "S-DUTCH",
@@ -254,7 +254,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 2.48,
+      "rev_pct": 2.46,
       "daily_qty": 3.1
     },
     {
@@ -283,7 +283,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 2.47,
+      "rev_pct": 2.46,
       "daily_qty": 0.5
     },
     {
@@ -319,7 +319,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 2.44,
+      "rev_pct": 2.43,
       "daily_qty": 1.5
     },
     {
@@ -355,18 +355,18 @@
         }
       ],
       "class": "A",
-      "rev_pct": 2.41,
+      "rev_pct": 2.4,
       "daily_qty": 2.9
     },
     {
       "sku": "TURF-W-TALL",
       "name": "Triblade Elite Tall Fescue Grass Seed Mix",
       "product_id": 445117,
-      "qty": 41,
-      "revenue": 2889.59,
-      "orders": 36,
+      "qty": 42,
+      "revenue": 2929.58,
+      "orders": 37,
       "active_days": 14,
-      "velocity": 206.4,
+      "velocity": 209.26,
       "variants": [
         {
           "sku": "TURF-W-TALL-25-LB-KIT",
@@ -385,14 +385,14 @@
         {
           "sku": "TURF-W-TALL-5-LB",
           "name": "Triblade Elite Tall Fescue Grass Seed Mix - 5 lb - Covers 1,000 Sq Ft",
-          "qty": 14,
-          "revenue": 555.86,
-          "orders": 13
+          "qty": 15,
+          "revenue": 595.85,
+          "orders": 14
         }
       ],
       "class": "A",
-      "rev_pct": 2.14,
-      "daily_qty": 2.9
+      "rev_pct": 2.16,
+      "daily_qty": 3.0
     },
     {
       "sku": "PB-COW-NTR",
@@ -427,7 +427,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 2.13,
+      "rev_pct": 2.12,
       "daily_qty": 1.7
     },
     {
@@ -463,7 +463,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 2.12,
+      "rev_pct": 2.11,
       "daily_qty": 5.1
     },
     {
@@ -499,7 +499,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 2.07,
+      "rev_pct": 2.06,
       "daily_qty": 2.2
     },
     {
@@ -535,7 +535,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.89,
+      "rev_pct": 1.88,
       "daily_qty": 1.1
     },
     {
@@ -571,7 +571,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.71,
+      "rev_pct": 1.7,
       "daily_qty": 2.0
     },
     {
@@ -607,7 +607,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.68,
+      "rev_pct": 1.67,
       "daily_qty": 3.8
     },
     {
@@ -629,7 +629,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.68,
+      "rev_pct": 1.67,
       "daily_qty": 0.8
     },
     {
@@ -665,7 +665,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.55,
+      "rev_pct": 1.54,
       "daily_qty": 4.6
     },
     {
@@ -701,7 +701,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.52,
+      "rev_pct": 1.51,
       "daily_qty": 1.7
     },
     {
@@ -737,7 +737,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.45,
+      "rev_pct": 1.44,
       "daily_qty": 1.1
     },
     {
@@ -773,8 +773,37 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.45,
+      "rev_pct": 1.44,
       "daily_qty": 1.4
+    },
+    {
+      "sku": "PB-TXPR",
+      "name": "Texas Native Pasture Prairie Mix",
+      "product_id": 462223,
+      "qty": 7,
+      "revenue": 1873.93,
+      "orders": 7,
+      "active_days": 14,
+      "velocity": 133.85,
+      "variants": [
+        {
+          "sku": "PB-TXPR-10-LB",
+          "name": "Texas Native Pasture Prairie Mix - 10 lb",
+          "qty": 5,
+          "revenue": 1099.95,
+          "orders": 5
+        },
+        {
+          "sku": "PB-TXPR-20-LB-KIT",
+          "name": "Texas Native Pasture Prairie Mix - 20 lb",
+          "qty": 2,
+          "revenue": 773.98,
+          "orders": 2
+        }
+      ],
+      "class": "A",
+      "rev_pct": 1.38,
+      "daily_qty": 0.5
     },
     {
       "sku": "PB-HRSE-SO",
@@ -809,7 +838,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.38,
+      "rev_pct": 1.37,
       "daily_qty": 1.1
     },
     {
@@ -845,7 +874,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.37,
+      "rev_pct": 1.36,
       "daily_qty": 1.8
     },
     {
@@ -881,8 +910,44 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.36,
+      "rev_pct": 1.35,
       "daily_qty": 1.4
+    },
+    {
+      "sku": "WB-TXPB",
+      "name": "Texas Pollinator Wildflower Mix",
+      "product_id": 462221,
+      "qty": 27,
+      "revenue": 1804.02,
+      "orders": 22,
+      "active_days": 14,
+      "velocity": 128.86,
+      "variants": [
+        {
+          "sku": "WB-TXPB-1-LB-KIT",
+          "name": "Texas Pollinator Wildflower Mix - 1 lb",
+          "qty": 12,
+          "revenue": 728.17,
+          "orders": 7
+        },
+        {
+          "sku": "WB-TXPB-5-LB-KIT",
+          "name": "Texas Pollinator Wildflower Mix - 5 lb",
+          "qty": 2,
+          "revenue": 572.88,
+          "orders": 2
+        },
+        {
+          "sku": "WB-TXPB-0.5-LB",
+          "name": "Texas Pollinator Wildflower Mix - 0.5 lb",
+          "qty": 13,
+          "revenue": 502.97,
+          "orders": 13
+        }
+      ],
+      "class": "A",
+      "rev_pct": 1.33,
+      "daily_qty": 1.9
     },
     {
       "sku": "S-MICRO",
@@ -919,42 +984,6 @@
       "class": "A",
       "rev_pct": 1.32,
       "daily_qty": 1.6
-    },
-    {
-      "sku": "WB-TXPB",
-      "name": "Texas Pollinator Wildflower Mix",
-      "product_id": 462221,
-      "qty": 26,
-      "revenue": 1765.03,
-      "orders": 21,
-      "active_days": 14,
-      "velocity": 126.07,
-      "variants": [
-        {
-          "sku": "WB-TXPB-1-LB-KIT",
-          "name": "Texas Pollinator Wildflower Mix - 1 lb",
-          "qty": 12,
-          "revenue": 728.17,
-          "orders": 7
-        },
-        {
-          "sku": "WB-TXPB-5-LB-KIT",
-          "name": "Texas Pollinator Wildflower Mix - 5 lb",
-          "qty": 2,
-          "revenue": 572.88,
-          "orders": 2
-        },
-        {
-          "sku": "WB-TXPB-0.5-LB",
-          "name": "Texas Pollinator Wildflower Mix - 0.5 lb",
-          "qty": 12,
-          "revenue": 463.98,
-          "orders": 12
-        }
-      ],
-      "class": "A",
-      "rev_pct": 1.31,
-      "daily_qty": 1.9
     },
     {
       "sku": "TURF-JBR",
@@ -1025,7 +1054,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.29,
+      "rev_pct": 1.28,
       "daily_qty": 2.9
     },
     {
@@ -1061,7 +1090,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.28,
+      "rev_pct": 1.27,
       "daily_qty": 0.8
     },
     {
@@ -1097,7 +1126,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.28,
+      "rev_pct": 1.27,
       "daily_qty": 1.6
     },
     {
@@ -1133,7 +1162,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.25,
+      "rev_pct": 1.24,
       "daily_qty": 1.8
     },
     {
@@ -1169,47 +1198,18 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.25,
+      "rev_pct": 1.24,
       "daily_qty": 0.6
-    },
-    {
-      "sku": "PB-TXPR",
-      "name": "Texas Native Pasture Prairie Mix",
-      "product_id": 462223,
-      "qty": 6,
-      "revenue": 1653.94,
-      "orders": 6,
-      "active_days": 14,
-      "velocity": 118.14,
-      "variants": [
-        {
-          "sku": "PB-TXPR-10-LB",
-          "name": "Texas Native Pasture Prairie Mix - 10 lb",
-          "qty": 4,
-          "revenue": 879.96,
-          "orders": 4
-        },
-        {
-          "sku": "PB-TXPR-20-LB-KIT",
-          "name": "Texas Native Pasture Prairie Mix - 20 lb",
-          "qty": 2,
-          "revenue": 773.98,
-          "orders": 2
-        }
-      ],
-      "class": "A",
-      "rev_pct": 1.22,
-      "daily_qty": 0.4
     },
     {
       "sku": "PB-HONEY",
       "name": "Honey Bee Cover Crop &amp; Pasture Mix",
       "product_id": 445268,
-      "qty": 9,
-      "revenue": 1419.91,
-      "orders": 9,
+      "qty": 10,
+      "revenue": 1679.9,
+      "orders": 10,
       "active_days": 14,
-      "velocity": 101.42,
+      "velocity": 119.99,
       "variants": [
         {
           "sku": "PB-HONEY-50-LB-KIT",
@@ -1224,11 +1224,54 @@
           "qty": 7,
           "revenue": 419.93,
           "orders": 7
+        },
+        {
+          "sku": "PB-HONEY-25-LB-KIT",
+          "name": "Honey Bee Cover Crop &amp; Pasture Mix - 25 lb - Covers 50,000 Sq Ft",
+          "qty": 1,
+          "revenue": 259.99,
+          "orders": 1
         }
       ],
       "class": "A",
-      "rev_pct": 1.05,
-      "daily_qty": 0.6
+      "rev_pct": 1.24,
+      "daily_qty": 0.7
+    },
+    {
+      "sku": "WB-FLN",
+      "name": "Florida Native Wildflower Seed Mix",
+      "product_id": 462276,
+      "qty": 40,
+      "revenue": 1399.1,
+      "orders": 34,
+      "active_days": 14,
+      "velocity": 99.94,
+      "variants": [
+        {
+          "sku": "WB-FLN-5-LB-KIT",
+          "name": "Florida Native Wildflower Seed Mix - 5 lb - Covers 10,000 Sq Ft",
+          "qty": 6,
+          "revenue": 657.84,
+          "orders": 2
+        },
+        {
+          "sku": "WB-FLN-1-LB-KIT",
+          "name": "Florida Native Wildflower Seed Mix - 1 lb - Covers 2,000 Sq Ft",
+          "qty": 24,
+          "revenue": 561.36,
+          "orders": 22
+        },
+        {
+          "sku": "WB-FLN-0.5-LB",
+          "name": "Florida Native Wildflower Seed Mix - 0.5 lb - Covers 1,000 Sq Ft",
+          "qty": 10,
+          "revenue": 179.9,
+          "orders": 10
+        }
+      ],
+      "class": "A",
+      "rev_pct": 1.03,
+      "daily_qty": 2.9
     },
     {
       "sku": "PG-TRRE",
@@ -1285,44 +1328,8 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.02,
+      "rev_pct": 1.01,
       "daily_qty": 0.1
-    },
-    {
-      "sku": "WB-FLN",
-      "name": "Florida Native Wildflower Seed Mix",
-      "product_id": 462276,
-      "qty": 39,
-      "revenue": 1375.71,
-      "orders": 33,
-      "active_days": 14,
-      "velocity": 98.27,
-      "variants": [
-        {
-          "sku": "WB-FLN-5-LB-KIT",
-          "name": "Florida Native Wildflower Seed Mix - 5 lb - Covers 10,000 Sq Ft",
-          "qty": 6,
-          "revenue": 657.84,
-          "orders": 2
-        },
-        {
-          "sku": "WB-FLN-1-LB-KIT",
-          "name": "Florida Native Wildflower Seed Mix - 1 lb - Covers 2,000 Sq Ft",
-          "qty": 23,
-          "revenue": 537.97,
-          "orders": 21
-        },
-        {
-          "sku": "WB-FLN-0.5-LB",
-          "name": "Florida Native Wildflower Seed Mix - 0.5 lb - Covers 1,000 Sq Ft",
-          "qty": 10,
-          "revenue": 179.9,
-          "orders": 10
-        }
-      ],
-      "class": "A",
-      "rev_pct": 1.02,
-      "daily_qty": 2.8
     },
     {
       "sku": "PB-COSS",
@@ -1480,7 +1487,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 0.9,
+      "rev_pct": 0.89,
       "daily_qty": 0.7
     },
     {
@@ -1516,7 +1523,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 0.86,
+      "rev_pct": 0.85,
       "daily_qty": 0.4
     },
     {
@@ -1624,7 +1631,7 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.84,
+      "rev_pct": 0.83,
       "daily_qty": 0.6
     },
     {
@@ -1696,7 +1703,7 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.72,
+      "rev_pct": 0.71,
       "daily_qty": 0.6
     },
     {
@@ -1732,7 +1739,7 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.7,
+      "rev_pct": 0.69,
       "daily_qty": 1.5
     },
     {
@@ -1819,18 +1826,18 @@
       "sku": "W-LUSU",
       "name": "Arroyo Lupine Seed",
       "product_id": 452811,
-      "qty": 19,
-      "revenue": 828.72,
-      "orders": 12,
+      "qty": 20,
+      "revenue": 880.71,
+      "orders": 13,
       "active_days": 14,
-      "velocity": 59.19,
+      "velocity": 62.91,
       "variants": [
         {
           "sku": "W-LUSU-1-LB-KIT",
           "name": "Arroyo Lupine Seed - 1 lb - Covers 4,000 Sq Ft",
-          "qty": 14,
-          "revenue": 727.86,
-          "orders": 7
+          "qty": 15,
+          "revenue": 779.85,
+          "orders": 8
         },
         {
           "sku": "W-LUSU-0.5-LB-KIT",
@@ -1848,7 +1855,7 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.61,
+      "rev_pct": 0.65,
       "daily_qty": 1.4
     },
     {
@@ -1913,7 +1920,7 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.59,
+      "rev_pct": 0.58,
       "daily_qty": 0.1
     },
     {
@@ -1964,7 +1971,7 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.51,
+      "rev_pct": 0.5,
       "daily_qty": 0.3
     },
     {
@@ -2102,7 +2109,7 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.44,
+      "rev_pct": 0.43,
       "daily_qty": 0.2
     },
     {
@@ -2355,7 +2362,7 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.34,
+      "rev_pct": 0.33,
       "daily_qty": 0.4
     },
     {
@@ -2406,7 +2413,7 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.31,
+      "rev_pct": 0.3,
       "daily_qty": 0.4
     },
     {
@@ -2486,7 +2493,7 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.27,
+      "rev_pct": 0.26,
       "daily_qty": 0.1
     },
     {
@@ -3163,7 +3170,7 @@
         }
       ],
       "class": "C",
-      "rev_pct": 0.11,
+      "rev_pct": 0.1,
       "daily_qty": 0.1
     },
     {
@@ -3440,7 +3447,7 @@
         }
       ],
       "class": "C",
-      "rev_pct": 0.07,
+      "rev_pct": 0.06,
       "daily_qty": 0.2
     },
     {
