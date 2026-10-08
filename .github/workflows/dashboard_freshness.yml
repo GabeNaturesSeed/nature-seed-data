@@ -1,0 +1,66 @@
+name: Dashboard Freshness Check
+
+# Confirms the reporting page actually got today's data. On 2026-10-07 every
+# Dashboard Data Update job succeeded but GitHub never started commit-and-push,
+# so nothing published and the run looked like any other red run. A check
+# inside that job could not catch it, so this runs as its own workflow.
+
+on:
+  # Right after every dashboard run, including one that published nothing.
+  workflow_run:
+    workflows: ['Dashboard Data Update']
+    types: [completed]
+    branches: [main]
+  schedule:
+    # Backstop for a day when the dashboard never runs at all. GitHub starts
+    # this repo's scheduled runs hours late, so this lands mid-afternoon to
+    # evening Mountain time.
+    - cron: '0 17 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - name: Check docs/data/reporting.json is from today
+        id: fresh
+        run: |
+          as_of=$(python3 -c "import json; print(json.load(open('docs/data/reporting.json'))['as_of'])")
+          today=$(date -u +%Y-%m-%d)
+          yesterday=$(date -u -d yesterday +%Y-%m-%d)
+          hour=$(date -u +%H)
+          echo "as_of=$as_of today_utc=$today"
+          echo "as_of=$as_of" >> "$GITHUB_OUTPUT"
+          echo "today=$today" >> "$GITHUB_OUTPUT"
+          # A run that started just before midnight UTC stamps yesterday's date.
+          if [ "$as_of" = "$today" ] || { [ "$hour" -lt 6 ] && [ "$as_of" = "$yesterday" ]; }; then
+            echo "stale=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "stale=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Retry once. Skipped when the dashboard run being checked was itself a
+      # manual or retry dispatch, so a lasting failure cannot loop.
+      - name: Re-run Dashboard Data Update
+        if: steps.fresh.outputs.stale == 'true' && github.event.workflow_run.event != 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run dashboard_update.yml --ref main -R "$GITHUB_REPOSITORY"
+
+      - name: Fail when the reporting page is stale
+        if: steps.fresh.outputs.stale == 'true'
+        env:
+          AS_OF: ${{ steps.fresh.outputs.as_of }}
+          TODAY: ${{ steps.fresh.outputs.today }}
+        run: |
+          echo "::error title=Reporting page is stale::docs/data/reporting.json as_of is $AS_OF, expected $TODAY. The reporting page did not update today."
+          exit 1

@@ -1,8 +1,16 @@
 name: Dashboard Data Update
 
 on:
+  # Primary trigger: start as soon as the Daily Report Pull finishes, so the
+  # dashboard never waits on a second delayed cron slot. Since 2026-08-27
+  # GitHub has been starting this repo's scheduled runs 4-8 hours late.
+  workflow_run:
+    workflows: ['Daily Report Pull']
+    types: [completed]
+    branches: [main]
   schedule:
-    # Run at 8:00 AM UTC (1:00 AM MST) — after daily_pull finishes at 7 AM UTC
+    # Fallback only: 8:00 AM UTC (1:00 AM MST), in case the chain above
+    # does not fire.
     - cron: '0 8 * * *'
   workflow_dispatch: # Allow manual trigger
     inputs:
@@ -15,6 +23,12 @@ on:
       - 'dashboard/**'
       - 'research/2026-budget/**'
       - 'docs/notes.md'
+
+# The chained run and the fallback cron can land close together. Queue them
+# instead of letting two builds race each other to push docs/.
+concurrency:
+  group: dashboard-data-update
+  cancel-in-progress: false
 
 # ─── Shared env block for .env creation ───────────────────────
 env:
@@ -130,6 +144,11 @@ jobs:
           retention-days: 1
 
   algolia-enrich:
+    # Disabled: the Algolia application has been account-blocked since about
+    # 2026-09-18 (every call returns 400/403), so this job failed every day
+    # and marked every run red, hiding real failures. Re-enable (delete this
+    # line) once Algolia lifts the block.
+    if: false
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
