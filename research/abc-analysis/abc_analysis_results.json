@@ -1,8 +1,8 @@
 {
-  "generated": "2026-10-10T13:13:44.627357+00:00",
+  "generated": "2026-10-10T14:02:54.661065+00:00",
   "period_days": 14,
-  "total_revenue": 120349.72000000012,
-  "total_units": 1556,
+  "total_revenue": 120420.71000000012,
+  "total_units": 1557,
   "ranked_by": "velocity (revenue/active_days)",
   "skus": [
     {
@@ -38,7 +38,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 4.54,
+      "rev_pct": 4.53,
       "daily_qty": 4.2
     },
     {
@@ -74,7 +74,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 3.53,
+      "rev_pct": 3.52,
       "daily_qty": 3.4
     },
     {
@@ -146,7 +146,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 2.97,
+      "rev_pct": 2.96,
       "daily_qty": 3.3
     },
     {
@@ -355,7 +355,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 2.37,
+      "rev_pct": 2.36,
       "daily_qty": 1.4
     },
     {
@@ -1336,7 +1336,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 1.03,
+      "rev_pct": 1.02,
       "daily_qty": 0.4
     },
     {
@@ -1437,7 +1437,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 0.97,
+      "rev_pct": 0.96,
       "daily_qty": 0.4
     },
     {
@@ -1715,6 +1715,42 @@
       "daily_qty": 0.4
     },
     {
+      "sku": "TURF-FLN",
+      "name": "Grass Seed Mix for Florida Lawns",
+      "product_id": 462284,
+      "qty": 7,
+      "revenue": 844.58,
+      "orders": 7,
+      "active_days": 14,
+      "velocity": 60.33,
+      "variants": [
+        {
+          "sku": "TURF-FLN-10-LB-KIT",
+          "name": "Grass Seed Mix for Florida Lawns - 10 lb - Covers 2,000 Sq Ft",
+          "qty": 3,
+          "revenue": 353.67,
+          "orders": 3
+        },
+        {
+          "sku": "TURF-FLN-25-LB-KIT",
+          "name": "Grass Seed Mix for Florida Lawns - 25 lb - Covers 5,000 Sq Ft",
+          "qty": 1,
+          "revenue": 277.94,
+          "orders": 1
+        },
+        {
+          "sku": "TURF-FLN-5-LB",
+          "name": "Grass Seed Mix for Florida Lawns - 5 lb - Covers 1,000 Sq Ft",
+          "qty": 3,
+          "revenue": 212.97,
+          "orders": 3
+        }
+      ],
+      "class": "B",
+      "rev_pct": 0.7,
+      "daily_qty": 0.5
+    },
+    {
       "sku": "SUSTANE-4-6-4",
       "name": "Organic Seed Starter Fertilizer 4-6-4",
       "product_id": 445122,
@@ -1735,42 +1771,6 @@
       "class": "B",
       "rev_pct": 0.68,
       "daily_qty": 0.5
-    },
-    {
-      "sku": "TURF-FLN",
-      "name": "Grass Seed Mix for Florida Lawns",
-      "product_id": 462284,
-      "qty": 6,
-      "revenue": 773.59,
-      "orders": 6,
-      "active_days": 14,
-      "velocity": 55.26,
-      "variants": [
-        {
-          "sku": "TURF-FLN-10-LB-KIT",
-          "name": "Grass Seed Mix for Florida Lawns - 10 lb - Covers 2,000 Sq Ft",
-          "qty": 3,
-          "revenue": 353.67,
-          "orders": 3
-        },
-        {
-          "sku": "TURF-FLN-25-LB-KIT",
-          "name": "Grass Seed Mix for Florida Lawns - 25 lb - Covers 5,000 Sq Ft",
-          "qty": 1,
-          "revenue": 277.94,
-          "orders": 1
-        },
-        {
-          "sku": "TURF-FLN-5-LB",
-          "name": "Grass Seed Mix for Florida Lawns - 5 lb - Covers 1,000 Sq Ft",
-          "qty": 2,
-          "revenue": 141.98,
-          "orders": 2
-        }
-      ],
-      "class": "B",
-      "rev_pct": 0.64,
-      "daily_qty": 0.4
     },
     {
       "sku": "W-ASFA",
@@ -1798,7 +1798,7 @@
         }
       ],
       "class": "B",
-      "rev_pct": 0.64,
+      "rev_pct": 0.63,
       "daily_qty": 0.5
     },
     {

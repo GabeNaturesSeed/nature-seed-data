@@ -5,11 +5,11 @@
       "sku": "2750AL-A",
       "name": "Shoulder Strap Broadcast Seed Spreader",
       "qty": 55.0,
-      "daily_velocity": 0.1,
-      "days_remaining": 550,
+      "daily_velocity": 0.2,
+      "days_remaining": 275,
       "q1_need": 0.0,
-      "q2_need": 10.9,
-      "surplus_gap": 44.1,
+      "q2_need": 21.8,
+      "surplus_gap": 33.2,
       "status": "ok"
     },
     {
@@ -951,11 +951,11 @@
       "sku": "SUSTANE-4-6-4",
       "name": "Organic Seed Starter Fertilizer 4-6-4",
       "qty": 39.0,
-      "daily_velocity": 0.4,
-      "days_remaining": 97,
+      "daily_velocity": 0.5,
+      "days_remaining": 78,
       "q1_need": 0.0,
-      "q2_need": 43.7,
-      "surplus_gap": -4.7,
+      "q2_need": 54.6,
+      "surplus_gap": -15.6,
       "status": "ok"
     },
     {
@@ -1947,12 +1947,12 @@
     "period_days": 14
   },
   "order_tracking": {
-    "total_30d": 1988,
+    "total_30d": 1989,
     "fulfilled": 1680,
     "backorders": 0,
     "unfulfilled_lt_1d": 82,
     "unfulfilled_lt_5d": 203,
     "unfulfilled_5_to_10d": 20,
-    "unfulfilled_gt_10d": 3
+    "unfulfilled_gt_10d": 4
   }
 }
