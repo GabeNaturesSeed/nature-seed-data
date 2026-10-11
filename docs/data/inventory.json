@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-10-10",
+  "as_of": "2026-10-11",
   "items": [
     {
       "sku": "2750AL-A",
@@ -1657,22 +1657,22 @@
       "sku": "PB-HRSE-N-10-LB",
       "name": "Northern Horse Forage Mix",
       "qty": 29.0,
-      "daily_velocity": 0.1,
-      "days_remaining": 290,
+      "daily_velocity": 0.09,
+      "days_remaining": 322,
       "q1_need": 0.0,
-      "q2_need": 10.9,
-      "surplus_gap": 18.1,
+      "q2_need": 9.8,
+      "surplus_gap": 19.2,
       "status": "ok"
     },
     {
       "sku": "PB-PIG-10-LB",
       "name": "Pasture Pig Mix",
       "qty": 33.0,
-      "daily_velocity": 0.11,
-      "days_remaining": 300,
+      "daily_velocity": 0.1,
+      "days_remaining": 330,
       "q1_need": 0.0,
-      "q2_need": 12.0,
-      "surplus_gap": 21.0,
+      "q2_need": 10.9,
+      "surplus_gap": 22.1,
       "status": "ok"
     },
     {
@@ -1745,11 +1745,11 @@
       "sku": "S-MICRO-1-LB",
       "name": "Microclover",
       "qty": 89.0,
-      "daily_velocity": 0.3,
-      "days_remaining": 296,
+      "daily_velocity": 0.28,
+      "days_remaining": 317,
       "q1_need": 0.0,
-      "q2_need": 32.8,
-      "surplus_gap": 56.2,
+      "q2_need": 30.6,
+      "surplus_gap": 58.4,
       "status": "ok"
     },
     {
@@ -1778,11 +1778,11 @@
       "sku": "TURF-BERM-5-LB",
       "name": "Bermuda grass Turf Blend",
       "qty": 36.0,
-      "daily_velocity": 0.12,
-      "days_remaining": 300,
+      "daily_velocity": 0.11,
+      "days_remaining": 327,
       "q1_need": 0.0,
-      "q2_need": 13.1,
-      "surplus_gap": 22.9,
+      "q2_need": 12.0,
+      "surplus_gap": 24.0,
       "status": "ok"
     },
     {
@@ -1888,11 +1888,11 @@
       "sku": "WB-AN-0.5-LB",
       "name": "Annual Wildflower Blend",
       "qty": 14.0,
-      "daily_velocity": 0.05,
-      "days_remaining": 280,
+      "daily_velocity": 0.04,
+      "days_remaining": 350,
       "q1_need": 0.0,
-      "q2_need": 5.5,
-      "surplus_gap": 8.5,
+      "q2_need": 4.4,
+      "surplus_gap": 9.6,
       "status": "ok"
     },
     {
@@ -1910,11 +1910,11 @@
       "sku": "WB-DR-0.5-LB",
       "name": "Deer Resistant Wildflower Blend",
       "qty": 11.0,
-      "daily_velocity": 0.04,
-      "days_remaining": 275,
+      "daily_velocity": 0.03,
+      "days_remaining": 366,
       "q1_need": 0.0,
-      "q2_need": 4.4,
-      "surplus_gap": 6.6,
+      "q2_need": 3.3,
+      "surplus_gap": 7.7,
       "status": "ok"
     },
     {
@@ -1942,17 +1942,17 @@
     "green_count": 29
   },
   "fba_velocity": {
-    "daily_orders": 1.6,
-    "daily_revenue": 96.47,
+    "daily_orders": 1.5,
+    "daily_revenue": 92.68,
     "period_days": 14
   },
   "order_tracking": {
-    "total_30d": 1989,
-    "fulfilled": 1680,
+    "total_30d": 1993,
+    "fulfilled": 1630,
     "backorders": 0,
-    "unfulfilled_lt_1d": 82,
-    "unfulfilled_lt_5d": 203,
-    "unfulfilled_5_to_10d": 20,
+    "unfulfilled_lt_1d": 83,
+    "unfulfilled_lt_5d": 245,
+    "unfulfilled_5_to_10d": 31,
     "unfulfilled_gt_10d": 4
   }
 }
