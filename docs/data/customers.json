@@ -4,20 +4,20 @@
     {
       "state": "CA",
       "state_name": "California",
-      "orders": 2121,
-      "revenue": 349546.97
+      "orders": 2120,
+      "revenue": 349516.92
     },
     {
       "state": "TX",
       "state_name": "Texas",
-      "orders": 1056,
-      "revenue": 186958.87
+      "orders": 1057,
+      "revenue": 187245.31
     },
     {
       "state": "FL",
       "state_name": "Florida",
-      "orders": 886,
-      "revenue": 70682.98
+      "orders": 888,
+      "revenue": 70727.96
     },
     {
       "state": "CO",
@@ -58,8 +58,8 @@
     {
       "state": "IL",
       "state_name": "Illinois",
-      "orders": 477,
-      "revenue": 76157.79
+      "orders": 478,
+      "revenue": 76581.99
     },
     {
       "state": "PA",
@@ -354,14 +354,14 @@
     {
       "hour": 7,
       "label": "7 AM",
-      "orders": 832,
-      "revenue": 130126.05
+      "orders": 833,
+      "revenue": 130412.49
     },
     {
       "hour": 8,
       "label": "8 AM",
-      "orders": 997,
-      "revenue": 134329.87
+      "orders": 1000,
+      "revenue": 134799.05
     },
     {
       "hour": 9,
@@ -372,8 +372,8 @@
     {
       "hour": 10,
       "label": "10 AM",
-      "orders": 1229,
-      "revenue": 188468.11
+      "orders": 1228,
+      "revenue": 188438.06
     },
     {
       "hour": 11,
@@ -458,20 +458,20 @@
     "by_source_type": [
       {
         "source": "utm",
-        "orders": 8547,
-        "revenue": 1119337.94,
+        "orders": 8548,
+        "revenue": 1120018.53,
         "pct": 54.3
       },
       {
         "source": "typein",
-        "orders": 3834,
-        "revenue": 646829.38,
+        "orders": 3835,
+        "revenue": 646852.77,
         "pct": 24.3
       },
       {
         "source": "organic",
-        "orders": 2095,
-        "revenue": 265903.09,
+        "orders": 2096,
+        "revenue": 265924.68,
         "pct": 13.3
       },
       {
@@ -496,14 +496,14 @@
     "by_utm_source": [
       {
         "source": "google",
-        "orders": 9799,
-        "revenue": 1263566.64,
+        "orders": 9801,
+        "revenue": 1264268.82,
         "pct": 62.2
       },
       {
         "source": "(direct)",
-        "orders": 3834,
-        "revenue": 646829.38,
+        "orders": 3835,
+        "revenue": 646852.77,
         "pct": 24.3
       },
       {
@@ -979,7 +979,7 @@
   "sessions_before_buying": [
     {
       "bucket": "1",
-      "orders": 13638,
+      "orders": 13641,
       "pct": 86.8
     },
     {
@@ -1070,13 +1070,13 @@
       },
       {
         "month": "2026-10",
-        "new": 605,
+        "new": 608,
         "returning": 13,
-        "new_revenue": 93635.67,
+        "new_revenue": 94361.24,
         "returning_revenue": 2645.27
       }
     ],
-    "ytd_new": 15411,
+    "ytd_new": 15414,
     "ytd_returning": 342,
     "ytd_new_pct": 97.8
   },
