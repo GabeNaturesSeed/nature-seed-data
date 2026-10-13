@@ -4,8 +4,8 @@
     {
       "state": "CA",
       "state_name": "California",
-      "orders": 2150,
-      "revenue": 354342.93
+      "orders": 2151,
+      "revenue": 354663.33
     },
     {
       "state": "TX",
@@ -40,8 +40,8 @@
     {
       "state": "UT",
       "state_name": "Utah",
-      "orders": 512,
-      "revenue": 73045.03
+      "orders": 513,
+      "revenue": 73394.82
     },
     {
       "state": "NC",
@@ -94,8 +94,8 @@
     {
       "state": "AZ",
       "state_name": "Arizona",
-      "orders": 360,
-      "revenue": 43966.84
+      "orders": 361,
+      "revenue": 44009.51
     },
     {
       "state": "OH",
@@ -366,14 +366,14 @@
     {
       "hour": 9,
       "label": "9 AM",
-      "orders": 1126,
-      "revenue": 164032.45
+      "orders": 1128,
+      "revenue": 164395.52
     },
     {
       "hour": 10,
       "label": "10 AM",
-      "orders": 1244,
-      "revenue": 191457.68
+      "orders": 1245,
+      "revenue": 191807.47
     },
     {
       "hour": 11,
@@ -458,14 +458,14 @@
     "by_source_type": [
       {
         "source": "utm",
-        "orders": 8603,
-        "revenue": 1127242.71,
+        "orders": 8604,
+        "revenue": 1127285.38,
         "pct": 54.2
       },
       {
         "source": "typein",
-        "orders": 3874,
-        "revenue": 652191.04,
+        "orders": 3875,
+        "revenue": 652511.44,
         "pct": 24.4
       },
       {
@@ -476,8 +476,8 @@
       },
       {
         "source": "referral",
-        "orders": 1236,
-        "revenue": 205808.58,
+        "orders": 1237,
+        "revenue": 206158.37,
         "pct": 7.8
       },
       {
@@ -496,14 +496,14 @@
     "by_utm_source": [
       {
         "source": "google",
-        "orders": 9876,
-        "revenue": 1275161.2,
+        "orders": 9877,
+        "revenue": 1275203.87,
         "pct": 62.2
       },
       {
         "source": "(direct)",
-        "orders": 3874,
-        "revenue": 652191.04,
+        "orders": 3875,
+        "revenue": 652511.44,
         "pct": 24.4
       },
       {
@@ -609,15 +609,15 @@
         "pct": 0.1
       },
       {
-        "source": "simplycodes.com",
+        "source": "jimmylewismows.com",
         "orders": 11,
-        "revenue": 1278.95,
+        "revenue": 2105.51,
         "pct": 0.1
       },
       {
-        "source": "jimmylewismows.com",
-        "orders": 10,
-        "revenue": 1755.72,
+        "source": "simplycodes.com",
+        "orders": 11,
+        "revenue": 1278.95,
         "pct": 0.1
       },
       {
@@ -979,12 +979,12 @@
   "sessions_before_buying": [
     {
       "bucket": "1",
-      "orders": 13756,
+      "orders": 13758,
       "pct": 86.8
     },
     {
       "bucket": "2",
-      "orders": 1444,
+      "orders": 1445,
       "pct": 9.1
     },
     {
@@ -1063,20 +1063,20 @@
       },
       {
         "month": "2026-09",
-        "new": 2016,
+        "new": 2017,
         "returning": 65,
-        "new_revenue": 296531.8,
+        "new_revenue": 296881.59,
         "returning_revenue": 13210.79
       },
       {
         "month": "2026-10",
-        "new": 732,
+        "new": 734,
         "returning": 18,
-        "new_revenue": 111949.63,
+        "new_revenue": 112312.7,
         "returning_revenue": 3112.46
       }
     ],
-    "ytd_new": 15538,
+    "ytd_new": 15541,
     "ytd_returning": 347,
     "ytd_new_pct": 97.8
   },
