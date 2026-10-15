@@ -1,8 +1,8 @@
 {
-  "generated": "2026-10-15T12:23:39.374700+00:00",
+  "generated": "2026-10-15T12:55:00.396042+00:00",
   "period_days": 14,
-  "total_revenue": 123982.63000000015,
-  "total_units": 1516,
+  "total_revenue": 124051.61000000015,
+  "total_units": 1518,
   "ranked_by": "velocity (revenue/active_days)",
   "skus": [
     {
@@ -247,7 +247,7 @@
         }
       ],
       "class": "A",
-      "rev_pct": 2.5,
+      "rev_pct": 2.49,
       "daily_qty": 2.1
     },
     {
@@ -1318,6 +1318,42 @@
       "daily_qty": 1.4
     },
     {
+      "sku": "W-LUTE",
+      "name": "Texas Bluebonnet Seeds",
+      "product_id": 462219,
+      "qty": 19,
+      "revenue": 1299.01,
+      "orders": 18,
+      "active_days": 14,
+      "velocity": 92.79,
+      "variants": [
+        {
+          "sku": "W-LUTE-1-LB-KIT",
+          "name": "Texas Bluebonnet Seeds - 1 lb",
+          "qty": 4,
+          "revenue": 526.96,
+          "orders": 3
+        },
+        {
+          "sku": "W-LUTE-0.5-LB-KIT",
+          "name": "Texas Bluebonnet Seeds - 0.5 lb",
+          "qty": 6,
+          "revenue": 421.14,
+          "orders": 6
+        },
+        {
+          "sku": "W-LUTE-0.25-LB",
+          "name": "Texas Bluebonnet Seeds - 0.25 lb",
+          "qty": 9,
+          "revenue": 350.91,
+          "orders": 9
+        }
+      ],
+      "class": "A",
+      "rev_pct": 1.05,
+      "daily_qty": 1.4
+    },
+    {
       "sku": "S-FEOV",
       "name": "Sheep Fescue Grass Seed",
       "product_id": 445314,
@@ -1381,42 +1417,6 @@
       "class": "A",
       "rev_pct": 1.02,
       "daily_qty": 0.5
-    },
-    {
-      "sku": "W-LUTE",
-      "name": "Texas Bluebonnet Seeds",
-      "product_id": 462219,
-      "qty": 18,
-      "revenue": 1260.02,
-      "orders": 17,
-      "active_days": 14,
-      "velocity": 90.0,
-      "variants": [
-        {
-          "sku": "W-LUTE-1-LB-KIT",
-          "name": "Texas Bluebonnet Seeds - 1 lb",
-          "qty": 4,
-          "revenue": 526.96,
-          "orders": 3
-        },
-        {
-          "sku": "W-LUTE-0.5-LB-KIT",
-          "name": "Texas Bluebonnet Seeds - 0.5 lb",
-          "qty": 6,
-          "revenue": 421.14,
-          "orders": 6
-        },
-        {
-          "sku": "W-LUTE-0.25-LB",
-          "name": "Texas Bluebonnet Seeds - 0.25 lb",
-          "qty": 8,
-          "revenue": 311.92,
-          "orders": 8
-        }
-      ],
-      "class": "A",
-      "rev_pct": 1.02,
-      "daily_qty": 1.3
     },
     {
       "sku": "W-ASFA",
@@ -1686,6 +1686,42 @@
       "daily_qty": 1.1
     },
     {
+      "sku": "WB-AN",
+      "name": "Annual Wildflower Seed Mix",
+      "product_id": 445311,
+      "qty": 14,
+      "revenue": 811.86,
+      "orders": 12,
+      "active_days": 14,
+      "velocity": 57.99,
+      "variants": [
+        {
+          "sku": "WB-AN-5-LB-KIT",
+          "name": "Annual Wildflower Seed Mix - 5 lb - Covers 5,000 Sq Ft",
+          "qty": 3,
+          "revenue": 389.97,
+          "orders": 2
+        },
+        {
+          "sku": "WB-AN-1-LB-KIT",
+          "name": "Annual Wildflower Seed Mix - 1 lb - Covers 2,000 Sq Ft",
+          "qty": 5,
+          "revenue": 244.95,
+          "orders": 4
+        },
+        {
+          "sku": "WB-AN-0.5-LB",
+          "name": "Annual Wildflower Seed Mix - 0.5 lb - Covers 1,000 Sq Ft",
+          "qty": 6,
+          "revenue": 176.94,
+          "orders": 6
+        }
+      ],
+      "class": "B",
+      "rev_pct": 0.65,
+      "daily_qty": 1.0
+    },
+    {
       "sku": "W-NAPU",
       "name": "Purple Needlegrass Seed",
       "product_id": 452877,
@@ -1720,42 +1756,6 @@
       "class": "B",
       "rev_pct": 0.63,
       "daily_qty": 1.4
-    },
-    {
-      "sku": "WB-AN",
-      "name": "Annual Wildflower Seed Mix",
-      "product_id": 445311,
-      "qty": 13,
-      "revenue": 781.87,
-      "orders": 11,
-      "active_days": 14,
-      "velocity": 55.85,
-      "variants": [
-        {
-          "sku": "WB-AN-5-LB-KIT",
-          "name": "Annual Wildflower Seed Mix - 5 lb - Covers 5,000 Sq Ft",
-          "qty": 3,
-          "revenue": 389.97,
-          "orders": 2
-        },
-        {
-          "sku": "WB-AN-1-LB-KIT",
-          "name": "Annual Wildflower Seed Mix - 1 lb - Covers 2,000 Sq Ft",
-          "qty": 5,
-          "revenue": 244.95,
-          "orders": 4
-        },
-        {
-          "sku": "WB-AN-0.5-LB",
-          "name": "Annual Wildflower Seed Mix - 0.5 lb - Covers 1,000 Sq Ft",
-          "qty": 5,
-          "revenue": 146.95,
-          "orders": 5
-        }
-      ],
-      "class": "B",
-      "rev_pct": 0.63,
-      "daily_qty": 0.9
     },
     {
       "sku": "WB-XCVP",
@@ -3170,7 +3170,7 @@
         }
       ],
       "class": "C",
-      "rev_pct": 0.13,
+      "rev_pct": 0.12,
       "daily_qty": 0.1
     },
     {

@@ -10,8 +10,8 @@
     {
       "state": "TX",
       "state_name": "Texas",
-      "orders": 1091,
-      "revenue": 192573.25
+      "orders": 1092,
+      "revenue": 192642.23
     },
     {
       "state": "FL",
@@ -188,16 +188,16 @@
       "revenue": 25299.82
     },
     {
-      "state": "OK",
-      "state_name": "Oklahoma",
-      "orders": 154,
-      "revenue": 25087.44
-    },
-    {
       "state": "NH",
       "state_name": "New Hampshire",
       "orders": 153,
       "revenue": 18910.91
+    },
+    {
+      "state": "OK",
+      "state_name": "Oklahoma",
+      "orders": 153,
+      "revenue": 24967.45
     },
     {
       "state": "NV",
@@ -348,8 +348,8 @@
     {
       "hour": 6,
       "label": "6 AM",
-      "orders": 568,
-      "revenue": 90055.27
+      "orders": 569,
+      "revenue": 90124.25
     },
     {
       "hour": 7,
@@ -366,8 +366,8 @@
     {
       "hour": 9,
       "label": "9 AM",
-      "orders": 1137,
-      "revenue": 168847.64
+      "orders": 1136,
+      "revenue": 168727.65
     },
     {
       "hour": 10,
@@ -458,14 +458,14 @@
     "by_source_type": [
       {
         "source": "utm",
-        "orders": 8651,
-        "revenue": 1134342.6,
+        "orders": 8652,
+        "revenue": 1134411.58,
         "pct": 54.1
       },
       {
         "source": "typein",
-        "orders": 3901,
-        "revenue": 661141.23,
+        "orders": 3900,
+        "revenue": 661021.24,
         "pct": 24.4
       },
       {
@@ -496,14 +496,14 @@
     "by_utm_source": [
       {
         "source": "google",
-        "orders": 9935,
-        "revenue": 1284214.75,
+        "orders": 9936,
+        "revenue": 1284283.73,
         "pct": 62.2
       },
       {
         "source": "(direct)",
-        "orders": 3901,
-        "revenue": 661141.23,
+        "orders": 3900,
+        "revenue": 661021.24,
         "pct": 24.4
       },
       {
@@ -1029,9 +1029,9 @@
       {
         "month": "2026-04",
         "new": 3078,
-        "returning": 52,
+        "returning": 51,
         "new_revenue": 385762.15,
-        "returning_revenue": 9068.22
+        "returning_revenue": 8948.23
       },
       {
         "month": "2026-05",
@@ -1070,14 +1070,14 @@
       },
       {
         "month": "2026-10",
-        "new": 828,
+        "new": 829,
         "returning": 21,
-        "new_revenue": 131520.37,
+        "new_revenue": 131589.35,
         "returning_revenue": 3419.28
       }
     ],
-    "ytd_new": 15634,
-    "ytd_returning": 351,
+    "ytd_new": 15635,
+    "ytd_returning": 350,
     "ytd_new_pct": 97.8
   },
   "cohorts": [
